@@ -8,23 +8,43 @@
  * @license See license.txt
  */
 
-
 class content_layouttypesapi_column2headerPlugin extends contentLayoutBase
 {
-  var $contentAreaTitles = array(_CONTENT_LAYOUT_AREAHEADER, 
-                                 _CONTENT_LAYOUT_AREALEFT,
-                                 _CONTENT_LAYOUT_AREARIGHT, 
-                                 _CONTENT_LAYOUT_AREAFOOTER);
+    var $contentAreaTitles = array();
 
-  function getName() { return 'column2header'; }
-  function getTitle() { return _CONTENT_LAYOUT_COLUMN2HEADERTITLE; }
-  function getDescription() { return _CONTENT_LAYOUT_COLUMN2HEADERDESCR; }
-  function getNumberOfContentAreas() { return 4; }
-  function getContentAreaTitle($areaIndex) { return $this->contentAreaTitles[$areaIndex]; }
+    function __construct()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        $contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Right column', $dom), __('Footer', $dom));
+    }
+
+    function content_layouttypesapi_column2headerPlugin()
+    {
+        $this->__construct();
+    }
+    function getName()
+    {
+        return 'column2header';
+    }
+    function getTitle()
+    {
+        return __('2 columns', $dom);
+    }
+    function getDescription()
+    {
+        return __('Two columns + header + footer', $dom);
+    }
+    function getNumberOfContentAreas()
+    {
+        return 4;
+    }
+    function getContentAreaTitle($areaIndex)
+    {
+        return $this->contentAreaTitles[$areaIndex];
+    }
 }
-
 
 function content_layouttypesapi_column2header($args)
 {
-  return new content_layouttypesapi_column2headerPlugin();
+    return new content_layouttypesapi_column2headerPlugin();
 }

@@ -1,11 +1,11 @@
 <!--[pngetallusers assign="users"]-->
 <!--[pnusergetvar name="uid" assign="currentUID"]-->
 <!--[if $data.uid == 1]-->
-	<!--[ assign var="selectedUID" value=$currentUID ]-->
+	<!--[assign var="selectedUID" value=$currentUID]-->
 <!--[else]-->
-   <!--[ assign var="selectedUID" value=$data.uid ]-->
+   <!--[assign var="selectedUID" value=$data.uid]-->
 <!--[/if]-->
 <div class="crow">
-  <!--[pnformlabel for=uid text=_CONTENT_CONTENTENTTYPE_AUTHORLABEL]-->
-  <!--[pnformdropdownlist id="uid" items=$users group="data" selectedValue=$selectedUID ]-->
+  <!--[pnformlabel for='uid' __text='Author']-->
+  <!--[pnformdropdownlist id="uid" items=$users group="data" selectedvalue=$selectedUID]-->
 </div>

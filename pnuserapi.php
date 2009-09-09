@@ -10,21 +10,22 @@
 
 /**
  * form custom url string
- * 
+ *
  * @author Philipp Niethammer <webmaster@nochwer.de>
  * @return custom url string
  */
 function content_userapi_encodeurl($args) {
+    $dom = ZLanguage::getModuleDomain('content');
 	//check we have the required input
     if (!isset($args['modname']) || !isset($args['func']) || !isset($args['args'])) {
-        return LogUtil::registerError (_MODARGSERROR);
+        return LogUtil::registerError (__('Error! Could not do what you wanted. Please check your input.', $dom));
     }
-	
+
 	$supportedfunctions = array('list', 'view', 'subpages');
  	if (!in_array($args['func'], $supportedfunctions)) {
         return '';
     }
-    
+
     if (isset($args['args']['preview']) || isset($args['args']['editmode']))
         return false;
 
@@ -36,8 +37,8 @@ function content_userapi_encodeurl($args) {
     		return '';
     	return $args['modname'] . '/' . DataUtil::formatForURL($cat['name']);
     }
-    
-    if (isset($args['args']['pid']) && !empty($args['args']['pid'])) 
+
+    if (isset($args['args']['pid']) && !empty($args['args']['pid']))
     {
     	$url = pnModAPIFunc('content', 'page', 'getURLPath', array('pageId' => $args['args']['pid']));
     	if (strtolower($args['func']) == 'view') {
@@ -47,7 +48,7 @@ function content_userapi_encodeurl($args) {
 
     	return $args['modname'] . '/' . $url;
     }
-    
+
     return '';
 }
 
@@ -59,19 +60,19 @@ function content_userapi_encodeurl($args) {
  */
 function content_userapi_decodeurl($args) {
 	$suffix = pnModGetVar('content', 'shorturlsuffix');
-	
+
 	$supportedfunctions = array('list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
 	$argsnum = count($args['vars']);
 	if (!isset($args['vars'][2]) || empty($args['vars'][2])) {
 		pnQueryStringSetVar('func', 'main');
 		return true;
 	}
-	
+
 	if (in_array($args['vars'][2], $supportedfunctions))
 		return false;
-		
+
 	$lastarg = end($args['vars']);
-	
+
     $urlname = '';
 
 	if (substr($lastarg, strlen($lastarg)-strlen($suffix)) == $suffix) {
@@ -81,12 +82,12 @@ function content_userapi_decodeurl($args) {
 			$urlname .= $args['vars'][$i];
 		}
 		$urlname = substr($urlname, 0, -strlen($suffix));
-		
+
 		pnQueryStringSetVar('func', 'view');
 		pnQueryStringSetVar('name', $urlname);
 		return true;
 	}
-		
+
 	if (!isset($args['vars'][3]) || empty($args['vars'][3])) {
 		Loader::loadClass('CategoryRegistryUtil');
 		Loader::loadClass('CategoryUtil');
@@ -100,15 +101,15 @@ function content_userapi_decodeurl($args) {
 			}
 		}
 	}
-	
+
 	for ($i=2; $i<$argsnum; $i++) {
 		if (!empty($urlname))
 			$urlname .= '/';
 		$urlname .= $args['vars'][$i];
 	}
-	
+
 	pnQueryStringSetVar('func', 'subpages');
 	pnQueryStringSetVar('name', $urlname);
-	
+
 	return true;
 }

@@ -11,62 +11,57 @@
 Loader::requireOnce('modules/content/common.php');
 Loader::requireOnce('includes/pnForm.php');
 
-
 function content_admin_main()
 {
-  if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
-    return LogUtil::registerPermissionError();
+    if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
+        return LogUtil::registerPermissionError();
 
-  $render = pnRender::getInstance('content');
+    $render = pnRender::getInstance('content');
 
-  return $render->fetch('content_admin_main.html');
+    return $render->fetch('content_admin_main.html');
 }
-
 
 class content_admin_settingsHandler extends pnFormHandler
 {
-  function initialize(&$render)
-  {
-    if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
-      return $render->pnFormRegisterError(LogUtil::registerPermissionError());
-
-    //PageUtil::setVar('title', $page['title']);
-
-    // Assign all module vars
-    $render->assign('config', pnModGetVar('Content'));
-
-    return true;
-  }
-
-
-  function handleCommand(&$render, &$args)
-  {
-    if ($args['commandName'] == 'save')
+    function initialize(&$render)
     {
-      if (!$render->pnFormIsValid())
-        return false;
+        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
+            return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
-      $data = $render->pnFormGetValues();
+        //PageUtil::setVar('title', $page['title']);
 
-      if (!pnModSetVars('content', $data['config']))
-        return $render->pnFormSetErrorMsg('Failed to set configuration variables');
 
-      LogUtil::registerStatus(_CONTENT_ADMINUPDATED);
-    }
-    else if ($args['commandName'] == 'cancel')
-    {
+        // Assign all module vars
+        $render->assign('config', pnModGetVar('Content'));
+
+        return true;
     }
 
-    $url = pnModUrl('content', 'admin', 'main');
+    function handleCommand(&$render, &$args)
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        if ($args['commandName'] == 'save') {
+            if (!$render->pnFormIsValid())
+                return false;
 
-    return $render->pnFormRedirect($url);
-  }
+            $data = $render->pnFormGetValues();
+
+            if (!pnModSetVars('content', $data['config']))
+                return $render->pnFormSetErrorMsg('Failed to set configuration variables');
+
+            LogUtil::registerStatus(__('Updated', $dom));
+        } else if ($args['commandName'] == 'cancel') {
+        }
+
+        $url = pnModUrl('content', 'admin', 'main');
+
+        return $render->pnFormRedirect($url);
+    }
 }
-
 
 function content_admin_settings()
 {
-  $render = FormUtil::newpnForm('content');
-  return $render->pnFormExecute('content_admin_settings.html', new content_admin_settingsHandler($args));
+    $render = FormUtil::newpnForm('content');
+    return $render->pnFormExecute('content_admin_settings.html', new content_admin_settingsHandler($args));
 }
 

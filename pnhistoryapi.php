@@ -57,7 +57,7 @@ function contentHistoryActionTranslate($action)
       $parameters[$varAndValue[0]] = $varAndValue[1];
     }
   }
-  return pnMl($text, $parameters);
+  return pnML($text, $parameters);
 }
 
 

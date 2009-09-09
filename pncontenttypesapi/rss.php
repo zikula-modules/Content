@@ -8,85 +8,81 @@
  * @license See license.txt
  */
 
-
 Loader::requireOnce('modules/content/pnincludes/simplepie/simplepie.inc');
-
 
 class content_contenttypesapi_RSSPlugin extends contentTypeBase
 {
-  var $url;
-  var $includeContent;
-  var $refreshTime;
-  var $maxNoOfItems;
+    var $url;
+    var $includeContent;
+    var $refreshTime;
+    var $maxNoOfItems;
 
-  function getModule() { return 'content'; }
-  function getName() { return 'rss'; }
-  function getTitle() { return _CONTENT_CONTENTENTTYPE_RSSTITLE; }
-  function getDescription() { return _CONTENT_CONTENTENTTYPE_RSSDESCR; }
-
-  
-  function loadData($data)
-  {
-    $this->url = $data['url'];
-    $this->includeContent = $data['includeContent'];
-    $this->refreshTime = $data['refreshTime'];
-    $this->maxNoOfItems = $data['maxNoOfItems'];
-  }
-
-  
-  function display()
-  {
-    $this->feed = new SimplePie($this->url, pnConfigGetVar('temp'), $this->refreshTime*60);
-
-    $items = $this->feed->get_items();
-
-    $itemsData = array();
-    foreach ($items as $item)
+    function getModule()
     {
-      if (count($itemsData) < $this->maxNoOfItems)
-      {
-        $itemsData[] = array('title' => $this->decode($item->get_title()),
-                             'description' => $this->decode($item->get_description()),
-                             'permalink'   => $item->get_permalink());
-      }
+        return 'content';
     }
-    $this->feedData = array('title' =>  $this->decode($this->feed->get_title()),
-                            'description' =>  $this->decode($this->feed->get_description()),
-                            'permalink'   => $this->feed->get_permalink(),
-                            'items'       => $itemsData);
+    function getName()
+    {
+        return 'rss';
+    }
+    function getTitle()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        return __('RSS feed', $dom);
+    }
+    function getDescription()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        return __('Display list of items in an RSS feed.', $dom);
+    }
 
-    $render = pnRender::getInstance('content', false);
-    $render->assign('feed', $this->feedData);
-    $render->assign('includeContent', $this->includeContent);
+    function loadData($data)
+    {
+        $this->url = $data['url'];
+        $this->includeContent = $data['includeContent'];
+        $this->refreshTime = $data['refreshTime'];
+        $this->maxNoOfItems = $data['maxNoOfItems'];
+    }
 
-    return $render->fetch('contenttype/rss_view.html');
-  }
+    function display()
+    {
+        $this->feed = new SimplePie($this->url, pnConfigGetVar('temp'), $this->refreshTime * 60);
 
-  
-  function displayEditing()
-  {
-    return "<input value=\"" . DataUtil::formatForDisplay($this->url) . "\" style=\"width: 30em\" readonly=readonly/>";
-  }
+        $items = $this->feed->get_items();
 
-  
-  function getDefaultData()
-  { 
-    return array('url' => '',
-                 'includeContent' => false,
-                 'refreshTime' => 60,
-                 'maxNoOfItems' => 10);
-  }
+        $itemsData = array();
+        foreach ($items as $item) {
+            if (count($itemsData) < $this->maxNoOfItems) {
+                $itemsData[] = array('title' => $this->decode($item->get_title()), 'description' => $this->decode($item->get_description()), 'permalink' => $item->get_permalink());
+            }
+        }
+        $this->feedData = array('title' => $this->decode($this->feed->get_title()), 'description' => $this->decode($this->feed->get_description()), 'permalink' => $this->feed->get_permalink(), 'items' => $itemsData);
 
+        $render = pnRender::getInstance('content', false);
+        $render->assign('feed', $this->feedData);
+        $render->assign('includeContent', $this->includeContent);
 
-  function decode($s)
-  {
-    return mb_convert_encoding($s, _CHARSET, $this->feed->get_encoding());
-  }
+        return $render->fetch('contenttype/rss_view.html');
+    }
+
+    function displayEditing()
+    {
+        return "<input value=\"" . DataUtil::formatForDisplay($this->url) . "\" style=\"width: 30em\" readonly=readonly/>";
+    }
+
+    function getDefaultData()
+    {
+        return array('url' => '', 'includeContent' => false, 'refreshTime' => 60, 'maxNoOfItems' => 10);
+    }
+
+    function decode($s)
+    {
+        return mb_convert_encoding($s, mb_detect_encoding($s), $this->feed->get_encoding());
+    }
 }
-
 
 function content_contenttypesapi_RSS($args)
 {
-  return new content_contenttypesapi_RSSPlugin($args['data']);
+    return new content_contenttypesapi_RSSPlugin($args['data']);
 }
 

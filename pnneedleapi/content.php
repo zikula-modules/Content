@@ -16,37 +16,36 @@
  */
 function content_needleapi_content($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     // Get arguments from argument array
     $nid = $args['nid'];
     unset($args);
-    
+
     // cache the results
     static $cache;
-    if(!isset($cache)) {
+    if (!isset($cache)) {
         $cache = array();
-    } 
+    }
 
-    if(!empty($nid)) {
-        if(!isset($cache[$nid])) {
+    if (!empty($nid)) {
+        if (!isset($cache[$nid])) {
             // not in cache array
-            if(pnModAvailable('Content')) {
-                
-                $contentpage = pnModAPIFunc('content', 'page', 'getPage',
-                                            array('id'             => $nid,
-                                                  'includeContent' => false));
-                if ($contentpage <> false) {
-                    $cache[$nid] = '<a href="' . DataUtil::formatForDisplay(pnModURL('Content', 'user', 'view', array('pid' => $nid))) . '" title="' . DataUtil::formatForDisplay($contentpage['title']) . '">' . DataUtil::formatForDisplay($contentpage['title']) . '</a>'; 
+            if (pnModAvailable('Content')) {
+
+                $contentpage = pnModAPIFunc('content', 'page', 'getPage', array('id' => $nid, 'includeContent' => false));
+                if ($contentpage != false) {
+                    $cache[$nid] = '<a href="' . DataUtil::formatForDisplay(pnModURL('Content', 'user', 'view', array('pid' => $nid))) . '" title="' . DataUtil::formatForDisplay($contentpage['title']) . '">' . DataUtil::formatForDisplay($contentpage['title']) . '</a>';
                 } else {
-                    $cache[$nid] = '<em>' . DataUtil::formatForDisplay(_CONTENT_NEEDLE_UNKNOWNID) . '</em>';
+                    $cache[$nid] = '<em>' . DataUtil::formatForDisplay(__('unknown id', $dom)) . '</em>';
                 }
             } else {
-                $cache[$nid] = '<em>' . DataUtil::formatForDisplay(_CONTENT_NEEDLE_NOTAVAILABLE) . '</em>';
-            }    
+                $cache[$nid] = '<em>' . DataUtil::formatForDisplay(__('Content not available', $dom)) . '</em>';
+            }
         }
         $result = $cache[$nid];
     } else {
-        $result = '<em>' . DataUtil::formatForDisplay(_CONTENT_NEEDLE_NONEEDLEID) . '</em>';
+        $result = '<em>' . DataUtil::formatForDisplay(__('no needle id', $dom)) . '</em>';
     }
     return $result;
-    
+
 }

@@ -16,8 +16,8 @@
  */
 function content_needleapi_content_info()
 {
-    $info = array('module'  => 'content',      // module name
-                  'info'    => 'CONTENT{id}',   // possible needles  
-                  'inspect' => false);         //reverse lookpup possible, needs MultiHook_needleapi_content_inspect() function
+    $info = array('module' => 'content', // module name
+'info' => 'CONTENT{id}', // possible needles
+'inspect' => false); //reverse lookpup possible, needs MultiHook_needleapi_content_inspect() function
     return $info;
 }

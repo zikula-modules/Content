@@ -1,9 +1,9 @@
-<!--[pnml name="_CONTENT_ADMINMAIN" assign=templatetitle]-->
+<!--[gt text="Content administration" assign=templatetitle]-->
 <!--[admincategorymenu]-->
-<!--[ pnmodgetinfo module=content info=all assign=modinfo]-->
+<!--[pnmodgetinfo module=content info=all assign=modinfo]-->
 
 <div class="pn-adminbox">
-  <h2><!--[ $modinfo.name ]--></h2>
+  <h2><!--[$modinfo.name]--></h2>
   <div class="pn-menu"><!--[moduleadminlinks modname=content]--></div>
 </div>
 
@@ -11,19 +11,19 @@
   <div class="pn-adminpageicon"><!--[pnimg modname=core src=windowlist.gif set=icons/large alt=$templatetitle]--></div>
   <h3><!--[$templatetitle]--></h3>
 
-  <p><!--[pnml name=_CONTENT_ADMINMAININTRO]--></p>
+  <p><!--[gt text="Welcome to your content administration. We have split the editing and administrative setup into separate systems. So please select from the list below or the menu above."]--></p>
 
   <ul>
-    <li><a href="<!--[pnmodurl modname=content type=edit]-->"><!--[pnml name=_CONTENT_ADMINEDIT]--></a></li>
-    <li><a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[pnml name=_CONTENT_ADMINSETTINGS]--></a></li>
-    <li><a href="<!--[pnmodurl modname=content type=user func=sitemap]-->"><!--[pnml name=_CONTENT_SITEMAP]--></a></li>
-    <li><a href="<!--[pnmodurl modname=content type=user func=extlist]-->"><!--[pnml name=_CONTENT_ADMINEXTENDEDLIST]--></a></li>
-    <li><a href="<!--[pnmodurl modname=content type=user func=pagelist]-->"><!--[pnml name=_CONTENT_ADMINPAGELIST]--></a></li>
-    <li><a href="<!--[pnmodurl modname=content type=user func=categories]-->"><!--[pnml name=_CONTENT_CATEGORYLIST]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=edit]-->"><!--[gt text="Edit content"]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[gt text="Content configuration"]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=sitemap]-->"><!--[gt text="Sitemap"]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=extlist]-->"><!--[gt text="Extended page list (showing page headers)"]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=pagelist]-->"><!--[gt text="Complete page list (showing complete pages)"]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=categories]-->"><!--[gt text="Show content by category"]--></a></li>
   </ul>
 
   <p style="text-align:center;">
-      <a href="http://code.zikula.org/content/" title="content"><!--[ $modinfo.name ]--> v<!--[ $modinfo.version ]--></a>
+      <a href="http://code.zikula.org/content/" title="content"><!--[$modinfo.name]--> v<!--[$modinfo.version]--></a>
   </p> 
 
 </div>

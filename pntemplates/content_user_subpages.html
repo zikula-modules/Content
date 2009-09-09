@@ -1,8 +1,8 @@
-<h1><!--[pnml name=_CONTENT_SUBPAGELIST title=$title]--></h1>
+<h1><!--[gt text="Subpages of %s" tag1=$title]--></h1>
 <ul>
 <!--[foreach from=$subPages item=page]-->
 	<!--[include file="content_include_subpagelistitem.html page=$page]-->
 <!--[foreachelse]-->
-	<li><!--[pnml name=_CONTENT_NOSUBPAGES]--></li>
+	<li><!--[gt text="No subpages available"]--></li>
 <!--[/foreach]-->
 </ul>

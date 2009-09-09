@@ -16,13 +16,14 @@
  */
 function content_adminapi_getlinks()
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $links = array();
 
     pnModLangLoad('content', 'admin');
 
-    $links[] = array('url' => pnModURL('content', 'admin', 'main'), 'text' => _CONTENT_ADMINMAINLINK);
-    $links[] = array('url' => pnModURL('content', 'edit', 'main'), 'text' => _CONTENT_ADMINEDIT);
-    $links[] = array('url' => pnModURL('content', 'admin', 'settings'), 'text' => _CONTENT_ADMINSETTINGS);
+    $links[] = array('url' => pnModURL('content', 'admin', 'main'), 'text' => __('Main', $dom));
+    $links[] = array('url' => pnModURL('content', 'edit', 'main'), 'text' => __('Edit content', $dom));
+    $links[] = array('url' => pnModURL('content', 'admin', 'settings'), 'text' => __('Content configuration', $dom));
 
     return $links;
 }
@@ -33,7 +34,7 @@ function content_adminapi_getStyleClasses($args)
   $classes = array();
   $userClasses = pnModGetVar('content', 'styleClasses');
   $userClasses = explode("\n", $userClasses);
-  
+
   foreach ($userClasses as $class)
   {
     list($value,$text) = explode('|', $class);

@@ -1,15 +1,15 @@
-<!--[pnajaxheader ]-->
+<!--[pnajaxheader]-->
 <!--[pnform]-->
 
-<h1><!--[pnml name=_CONTENT_MAINHEADER]--></h1>
-<p><!--[pnml name=_CONTENT_MAINHELP]--></p>
+<h1><!--[gt text="Page list and Content Structure"]--></h1>
+<p><!--[gt text="This is where you manage all your pages. You can add/edit/delete pages as well as drag them around to get the content structure right."]--></p>
 
 <!--[if $access.pageEditAllowed]-->
 <div class="content-navigation">
  <div class="content-links">
-    <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[pnml name=_CONTENT_NEWPAGE]--></a> 
+    <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[gt text="Add new page"]--></a> 
     <!--[securityutil_checkpermission_block component='Content::' instance='::' level=ACCESS_ADMIN]-->
-      | <a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[pnml name=_MODIFYCONFIG]--></a> 
+      | <a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[gt text="Settings"]--></a> 
     <!--[/securityutil_checkpermission_block]-->
  </div>
 </div>
@@ -18,7 +18,7 @@
 <!--[include file=content_include_tocedit.html]-->
 
 <!--[if $access.pageEditAllowed]-->
-<div class="content-note"><!--[pnml name=_CONTENT_YOUCANDRAGNDROP]--></div>
+<div class="content-note"><!--[gt text="To drag and drop a page you must select the icon left of the title and drop it on the title of another page."]--></div>
 <!--[/if]-->
 
 
@@ -31,6 +31,6 @@
 <input type="hidden" name="contentTocDragDstId" id="contentTocDragDstId"/>
 </div>
 
-<!--[pnformpostbackfunction function="content.tocPageDrag" commandName=drag]-->
+<!--[pnformpostbackfunction function="content.tocPageDrag" commandname='drag']-->
 
 <!--[/pnform]-->

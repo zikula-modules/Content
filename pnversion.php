@@ -10,11 +10,12 @@
 
 // The following information is used by the Modules module
 // for display and upgrade purposes
+$dom = ZLanguage::getModuleDomain('content');
 $modversion['name']           = 'content';
 // the version string must not exceed 10 characters!
 $modversion['version']        = '3.0.3';
-$modversion['description']    = _CONTENT_DESCRIPTION;
-$modversion['displayname']    = _CONTENT_DISPLAYNAME;
+$modversion['description']    = __('Content editing module', $dom);
+$modversion['displayname']    = __('Content', $dom);
 
 // The following in formation is used by the credits module
 // to display the correct credits

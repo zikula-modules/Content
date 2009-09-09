@@ -1,4 +1,4 @@
-<!--[contentpageheading header=_CONTENT_TRANSLATECONTENTHEADER subheader=$page.title]-->
+<!--[contentpageheading header='Translate content item' subheader=$page.title]-->
 
 <!--[pnform]-->
 
@@ -6,30 +6,30 @@
 
     <!--[if $isTranslatable]-->
       <fieldset id="contentTranslateOriginal">
-        <legend><!--[pnml name=_CONTENT_TRANSLATEORIGINAL]--></legend>
+        <legend><!--[gt text="Original content"]--></legend>
         <!--[include file=$translateOriginalTemplate]-->
       </fieldset>
 
       <br />
       <fieldset id="contentTranslateNew">
-        <legend><!--[pnml name=_CONTENT_TRANSLATENEW]--> (<!--[$language]-->)</legend>
+        <legend><!--[gt text="Translated content"]--> (<!--[$language]-->)</legend>
         <!--[include file=$translateNewTemplate]-->
       </fieldset>
 
       <!--[contentbuttons]-->
-        <!--[pnformbutton commandName="prev" text="_PREVIOUS"]-->
-        <!--[pnformbutton commandName="next" text="_NEXT"]--> &mdash;
-        <!--[pnformbutton commandName="skip" text="_CONTENT_SKIP"]-->
-        <!--[pnformbutton commandName="quit" text="_SAVE"]-->
-        <!--[pnformbutton commandName="delete" text="_DELETE" confirmMessage=_DELETE]-->
-        <!--[pnformbutton commandName="cancel" text="_CANCEL"]-->
-        <!--[pnformdropdownlist id=translationStep items=$translationInfo.items autoPostBack=1 onSelectedIndexChanged=handleCommand]-->
+        <!--[pnformbutton commandname="prev" __text="Previous"]-->
+        <!--[pnformbutton commandname="next" __text="Next"]--> &mdash;
+        <!--[pnformbutton commandname="skip" __text="Skip"]-->
+        <!--[pnformbutton commandname="quit" __text="Save"]-->
+        <!--[pnformbutton commandname="delete" __text="Delete" confirmmessage='Delete']-->
+        <!--[pnformbutton commandname="cancel" __text="Cancel"]-->
+        <!--[pnformdropdownlist id='translationStep' items=$translationInfo.items autopostback='1' onselectedindexchanged='handleCommand']-->
       <!--[/contentbuttons]-->
     <!--[else]-->
-      <div class="pn-warningmsg"><!--[pnml name=_CONTENT_TRANSLATENOTPOSSIBLE]--></div>
+      <div class="pn-warningmsg"><!--[gt text="Sorry, but there is nothing to translate for this content type."]--></div>
 
       <!--[contentbuttons]-->
-        <!--[pnformbutton commandName="cancel" text="_BACK"]-->
+        <!--[pnformbutton commandname="cancel" __text="Back"]-->
       <!--[/contentbuttons]-->
     <!--[/if]-->
 

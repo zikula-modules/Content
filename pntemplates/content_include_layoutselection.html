@@ -1,6 +1,6 @@
 <dl>
 <!--[foreach from=$layouts item=layout]-->
-  <dt><!--[pnformradiobutton id=$layout.name dataField=layout mandatory=true]--> <!--[pnformlabel text=$layout.title for=$layout.name]--></dt>
+  <dt><!--[pnformradiobutton id=$layout.name datafield='layout' mandatory='true']--> <!--[pnformlabel __text=$layout.title for=$layout.name]--></dt>
   <dd><!--[$layout.description]--></dd>
 <!--[/foreach]-->
 </dl>

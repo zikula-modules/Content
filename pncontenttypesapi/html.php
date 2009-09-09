@@ -8,70 +8,80 @@
  * @license See license.txt
  */
 
-
 class content_contenttypesapi_htmlPlugin extends contentTypeBase
 {
-  var $text;
-  var $inputType;
+    var $text;
+    var $inputType;
 
-  function getModule() { return 'content'; }
-  function getName() { return 'html'; }
-  function getTitle() { return _CONTENT_CONTENTENTTYPE_HTMLTITLE; }
-  function getDescription() { return _CONTENT_CONTENTENTTYPE_HTMLDESCR; }
-  function isTranslatable() { return true; }
-  
-  function loadData(&$data)
-  {
-    if (!isset($data['inputType']))
-      $data['inputType'] = 'html';
-    if (!pnModAvailable('scribite') && $data['inputType'] == 'html')
-      $data['inputType'] = 'text';
-    $this->text = $data['text'];
-    $this->inputType = $data['inputType'];
-  }
+    function getModule()
+    {
+        return 'content';
+    }
+    function getName()
+    {
+        return 'html';
+    }
+    function getTitle()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        return __('HTML text', $dom);
+    }
+    function getDescription()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        return __('A rich HTML editor for adding text to your page.', $dom);
+    }
+    function isTranslatable()
+    {
+        return true;
+    }
 
+    function loadData(&$data)
+    {
+        if (!isset($data['inputType']))
+            $data['inputType'] = 'html';
+        if (!pnModAvailable('scribite') && $data['inputType'] == 'html')
+            $data['inputType'] = 'text';
+        $this->text = $data['text'];
+        $this->inputType = $data['inputType'];
+    }
 
-  function display()
-  {
-    $text = DataUtil::formatForDisplayHTML($this->text);
-    $text = pnModCallHooks('item', 'transform', '', array($text));
-    $text = $text[0];
-    $render = pnRender::getInstance('content', false);
-    $render->assign('inputType', $this->inputType);
-    $render->assign('text', $text);
-    
-    return $render->fetch('contenttype/paragraph_view.html');
-  }
+    function display()
+    {
+        $text = DataUtil::formatForDisplayHTML($this->text);
+        $text = pnModCallHooks('item', 'transform', '', array($text));
+        $text = $text[0];
+        $render = pnRender::getInstance('content', false);
+        $render->assign('inputType', $this->inputType);
+        $render->assign('text', $text);
 
-  
-  function displayEditing()
-  {
-   return $this->display();
-  } 
+        return $render->fetch('contenttype/paragraph_view.html');
+    }
 
-  
-  function getDefaultData()
-  { 
-    return array('text'       => _CONTENT_CONTENTENTTYPE_HTMLTEXTDEFAULT,
-                 'inputType'  => (pnModAvailable('scribite') ? 'html' : 'text'));
-  }
+    function displayEditing()
+    {
+        return $this->display();
+    }
 
-  
-  function startEditing(&$render)
-  {
-    $scripts = array('javascript/ajax/prototype.js', 'javascript/ajax/pnajax.js');
-    PageUtil::addVar('javascript', $scripts);
-  }
+    function getDefaultData()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        return array('text' => __('... add text here ...', $dom), 'inputType' => (pnModAvailable('scribite') ? 'html' : 'text'));
+    }
 
+    function startEditing(&$render)
+    {
+        $scripts = array('javascript/ajax/prototype.js', 'javascript/ajax/pnajax.js');
+        PageUtil::addVar('javascript', $scripts);
+    }
 
-  function getSearchableText()
-  {
-    return html_entity_decode(strip_tags($this->text));
-  }
+    function getSearchableText()
+    {
+        return html_entity_decode(strip_tags($this->text));
+    }
 }
-
 
 function content_contenttypesapi_html($args)
 {
-  return new content_contenttypesapi_htmlPlugin();
+    return new content_contenttypesapi_htmlPlugin();
 }

@@ -2,98 +2,92 @@
 
 class content_contenttypesapi_pagesetter_pubPlugin extends contentTypeBase
 {
-  var $tid;
-  var $pid;
-  var $tpl;
+    var $tid;
+    var $pid;
+    var $tpl;
 
-  function getModule() { return 'content'; }
-  function getName() { return 'pagesetter_pub'; }
-  function getTitle() { return _CONTENT_CONTENTENTTYPE_PAGESETTER_PUBTITLE; }
-  function getDescription() { return _CONTENT_CONTENTENTTYPE_PAGESETTER_PUBDESCR; }
-  function isTranslatable() { return false; }
+    function getModule()
+    {
+        return 'content';
+    }
+    function getName()
+    {
+        return 'pagesetter_pub';
+    }
+    function getTitle()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        return __('Pagesetter publication', $dom);
+    }
+    function getDescription()
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        return __('Display a Pagesetter publication.', $dom);
+    }
+    function isTranslatable()
+    {
+        return false;
+    }
 
+    function loadData($data)
+    {
+        $this->tid = $data['tid'];
+        $this->pid = $data['pid'];
+        $this->tpl = $data['tpl'];
+    }
 
-  function loadData($data)
-  {
-    $this->tid     = $data['tid'];
-    $this->pid     = $data['pid'];
-    $this->tpl     = $data['tpl'];
-  }
+    function display()
+    {
 
+        $tid = DataUtil::formatForDisplayHTML($this->tid);
+        $pid = DataUtil::formatForDisplayHTML($this->pid);
+        $tpl = DataUtil::formatForDisplayHTML($this->tpl);
 
-  function display()
-  {
+        $url = pnModURL('pagesetter', 'user', 'view', array('tid' => $tid, 'pid' => $pid));
+        $url = htmlspecialchars($url);
 
-    $tid     = DataUtil::formatForDisplayHTML($this->tid);
-    $pid     = DataUtil::formatForDisplayHTML($this->pid);
-    $tpl     = DataUtil::formatForDisplayHTML($this->tpl);
+        // get the formatted publication
+        $publication = pnModAPIFunc('pagesetter', 'user', 'getPubFormatted', array('tid' => $tid, 'pid' => $pid, 'format' => $tpl, 'useTransformHooks' => false,
+            'coreExtra' => array('page' => 0, 'baseURL' => $url, 'format' => $tpl)));
 
-    $url = pnModURL('pagesetter', 'user', 'view', array('tid' => $tid, 'pid' => $pid));
-    $url = htmlspecialchars($url);
+        // render instance - assign publication
+        $render = pnRender::getInstance('content', false);
+        $render->assign('publication', $publication);
 
-    // get the formatted publication
-    $publication = pnModAPIFunc( 'pagesetter',
-                                  'user',
-                                  'getPubFormatted',
-                                  array('tid'      => $tid,
-                                        'pid'      => $pid,
-                                        'format'   => $tpl,
-                                        'useTransformHooks' => false,
-                                        'coreExtra'       => array( 'page'    => 0,
-                                                                    'baseURL' => $url,
-                                                                    'format'  => $tpl) ));
+        return $render->fetch('contenttype/pagesetter_pub_view.html');
+    }
 
-    // render instance - assign publication
-    $render = pnRender::getInstance('content', false);
-    $render->assign('publication', $publication);
+    function displayEditing()
+    {
+        $tid = DataUtil::formatForDisplayHTML($this->tid);
+        $pid = DataUtil::formatForDisplayHTML($this->pid);
+        $tpl = DataUtil::formatForDisplayHTML($this->tpl);
 
-    return $render->fetch('contenttype/pagesetter_pub_view.html');
-  }
+        $url = pnModURL('pagesetter', 'user', 'view', array('tid' => $tid, 'pid' => $pid));
+        $url = htmlspecialchars($url);
 
+        // get the formatted publication
+        $publication = pnModAPIFunc('pagesetter', 'user', 'getPubFormatted', array('tid' => $tid, 'pid' => $pid, 'format' => $tpl, 'useTransformHooks' => false,
+            'coreExtra' => array('page' => 0, 'baseURL' => $url, 'format' => $tpl)));
 
-  function displayEditing()
-  {
-    $tid     = DataUtil::formatForDisplayHTML($this->tid);
-    $pid     = DataUtil::formatForDisplayHTML($this->pid);
-    $tpl     = DataUtil::formatForDisplayHTML($this->tpl);
+        // render instance - assign publication
+        $render = pnRender::getInstance('content', false);
+        $render->assign('publication', $publication);
 
-    $url = pnModURL('pagesetter', 'user', 'view', array('tid' => $tid, 'pid' => $pid));
-    $url = htmlspecialchars($url);
+        return $render->fetch('contenttype/pagesetter_pub_view.html');
 
-    // get the formatted publication
-    $publication = pnModAPIFunc( 'pagesetter',
-                                  'user',
-                                  'getPubFormatted',
-                                  array('tid'      => $tid,
-                                        'pid'      => $pid,
-                                        'format'   => $tpl,
-                                        'useTransformHooks' => false,
-                                        'coreExtra'       => array( 'page'    => 0,
-                                                                    'baseURL' => $url,
-                                                                    'format'  => $tpl) ));
+    }
 
-    // render instance - assign publication
-    $render = pnRender::getInstance('content', false);
-    $render->assign('publication', $publication);
-
-    return $render->fetch('contenttype/pagesetter_pub_view.html');
-
-  }
-
-
-  function getDefaultData()
-  {
-    // deault values
-    return array('tid'     => pnModGetVar('pagesetter', 'frontpagePubType'),
-    'pid'     => '',
-    'tpl'     => 'full');
-  }
+    function getDefaultData()
+    {
+        // deault values
+        return array('tid' => pnModGetVar('pagesetter', 'frontpagePubType'), 'pid' => '', 'tpl' => 'full');
+    }
 }
-
 
 function content_contenttypesapi_pagesetter_pub($args)
 {
-  return new content_contenttypesapi_pagesetter_pubPlugin($args['data']);
+    return new content_contenttypesapi_pagesetter_pubPlugin($args['data']);
 }
 
 ?>
