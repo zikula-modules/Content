@@ -1,0 +1,33 @@
+<!--[if $access.pageEditAllowed && !$preview]-->
+<!--[pnajaxheader]-->
+<!--[pnusergetvar name=uname uid=$page.cr_uid assign=authorName]-->
+<!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
+<!--[pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo]-->
+<div class="content-pageinfo">
+  <a href="#" onclick="return content.pageInfo.toggle()" class="info" ><!--[pnimg src=utilities.gif modname=core set=icons/extrasmall alt=_PROPERTIES altml=true]--></a>
+  <div class="content" id="contentPageInfo" style="display: none" onmouseover="content.pageInfo.mouseover()" onmouseout="content.pageInfo.mouseout()">
+    <h4><!--[$page.title]--></h4>
+
+    <ul>
+      <!--[if $editmode]-->
+      <li><a class="image editoff" href="<!--[pnmodurl modname=content type=user func=view pid=$page.id editmode="0"]-->"><!--[pnml name=_CONTENT_EDITMODEOFF]--></a></li>
+      <!--[else]-->
+      <li><a class="image editon" href="<!--[pnmodurl modname=content type=user func=view pid=$page.id editmode="1"]-->"><!--[pnml name=_CONTENT_EDITMODEON]--></a></li>
+      <!--[/if]-->
+      <li><a class="image edit" href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id back=1]-->"><!--[pnml name=_CONTENT_EDITTHISPAGE]--></a></li>
+      <!--[if $multilingual==1 ]-->
+      <li><a class="image translate" href="<!--[pnmodurl modname=content type=edit func=translatepage pid=$page.id back=1]-->"><!--[pnml name=_CONTENT_TRANSLATETHISPAGE]--></a></li>
+      <!--[/if]-->
+      <li><a class="image insertsub" href="<!--[pnmodurl modname=content type=edit func=newpage pid=$page.id loc=sub]-->"><!--[pnml name=_CONTENT_NEWSUBPAGE]--></a></li>
+      <li><a class="image insertpage" href="<!--[pnmodurl modname=content type=edit func=newpage pid=$page.id]-->"><!--[pnml name=_CONTENT_NEWPAGE]--></a></li>
+      <li><a class="image pagelist" href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[pnml name=_CONTENT_PAGELIST]--></a></li>
+      
+    </ul>
+    <hr />
+    <!--[pnml name=_CREATEDBYON date=$page.cr_date|pndate_format:"datebrief" username=$authorName]--><br/>
+    <!--[pnml name=_UPDATEDBYON date=$page.lu_date|pndate_format:"datebrief" username=$updaterName]--><br/>
+    <!--[pnml name=_VERSION]--> #<!--[$versionNo]--><br/>
+    <!--[pnml name=_LANGUAGE]-->: <!--[$page.language]--><br/>
+  </div>
+</div>
+<!--[/if]-->

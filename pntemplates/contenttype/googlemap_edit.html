@@ -1,0 +1,38 @@
+<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<!--[$googlemapApiKey]-->"></script>
+
+<div class="googlemap">
+ <div id="googlemap" class="map" style="width: 100%; height: 200px"></div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+function googlemapInit() { googlemap.editMap("<!--[$data.latitude]-->", "<!--[$data.longitude]-->", "<!--[$data.zoom]-->"); }
+Event.observe(window, 'load', googlemapInit, false);
+//]]>
+</script>
+
+<p><!--[pnml name=_CONTENT_CONTENTENTTYPE_GOOGLEMAPHELP]--></p>
+
+<!--[if empty($googlemapApiKey)]-->
+<div class="pn-errormsg"><p><!--[pnml name=_CONTENT_CONTENTENTTYPE_GOOGLEMAPNOKEY html=1]--></p></div>
+<!--[/if]-->
+
+<div class="crow">
+  <!--[pnformlabel for=longitude text=_CONTENT_CONTENTENTTYPE_GOOGLEMAPLONGITUDELABEL]-->
+  <!--[pnformtextinput id=longitude group=data mandatory=1 maxLength=30]-->
+</div>
+
+<div class="crow">
+  <!--[pnformlabel for=latitude text=_CONTENT_CONTENTENTTYPE_GOOGLEMAPLATITUDELABEL]-->
+  <!--[pnformtextinput id=latitude group=data mandatory=1 maxLength=30]-->
+</div>
+
+<div class="crow">
+  <!--[pnformlabel for=zoom text=_CONTENT_CONTENTENTTYPE_GOOGLEMAPZOOMLABEL]-->
+  <!--[pnformtextinput id=zoom group=data mandatory=1 maxLength=30]-->
+</div>
+
+<div class="crow">
+  <!--[pnformlabel for=text text=_CONTENT_CONTENTENTTYPE_GOOGLEMAPTEXTLABEL]-->
+  <!--[pnformtextinput id=text group=data maxLength=255]-->
+</div>

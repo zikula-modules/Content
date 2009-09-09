@@ -1,0 +1,28 @@
+<?php
+/**
+ * Content
+ *
+ * @copyright (C) 2007-2009, Jorn Wildt
+ * @link http://www.elfisk.dk
+ * @version $Id$
+ * @license See license.txt
+ */
+
+function smarty_function_contentinsertlink($params, &$render) 
+{
+  $pageId = $params['pageId'];
+  $contentAreaIndex = $params['contentAreaIndex'];
+  $position = isset($params['position']) ? $params['position'] : 0;
+  $url = pnModURL('content', 'edit', 'newcontent', 
+                  array('pid' => $pageId,
+                        'cai' => $contentAreaIndex,
+                        'position' => $position));
+  $url = DataUtil::formatForDisplay($url);
+  $html = "<a href=\"$url\" class=\"content-action\">" . _CONTENT_NEWCONTENTLINK . "</a>";
+
+  if (isset($params['assign']))
+    $smarty->assign($params['assign'], $html);
+  else
+    return $html;
+}
+

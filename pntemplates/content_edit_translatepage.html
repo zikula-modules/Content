@@ -1,0 +1,34 @@
+<!--[contentpageheading header=_CONTENT_TRANSLATEPAGEHEADER]-->
+
+<div class="pn-informationmsg"><!--[pnml name=_CONTENT_TRANSLATEPAGEHELP]--></div>
+
+<!--[pnform]-->
+  <!--[pnformsetinitialfocus inputId=title]-->
+
+  <!--[contentformframe]-->
+
+    <fieldset id="contentTranslateOriginal">
+      <legend><!--[pnml name=_CONTENT_TRANSLATEORIGINAL]--></legend>
+      <!--[pnml name=_CONTENT_TITLELABEL]-->: <!--[$page.title]-->
+    </fieldset>
+
+    <br />
+    <fieldset id="contentTranslateNew">
+      <legend><!--[pnml name=_CONTENT_TRANSLATENEW]--> (<!--[$language]-->)</legend>
+      <div class="crow">
+        <!--[pnformlabel for=title text=_CONTENT_TITLELABEL]-->
+        <!--[pnformtextinput id=title mandatory=1 maxLength=255 width=20em group=translated]-->
+      </div>
+    </fieldset>
+
+    <!--[contentbuttons]-->
+      <!--[pnformbutton commandName="next" text="_NEXT"]--> &mdash;
+      <!--[pnformbutton commandName="skip" text="_CONTENT_SKIP"]-->
+      <!--[pnformbutton commandName="quit" text="_SAVE"]-->
+      <!--[pnformbutton commandName="delete" text="_DELETE" confirmMessage=_CONTENT_TRANSLATEDELPAGE]-->
+      <!--[pnformbutton commandName="cancel" text="_CANCEL"]-->
+    <!--[/contentbuttons]-->
+
+  <!--[/contentformframe]-->
+
+<!--[/pnform]-->

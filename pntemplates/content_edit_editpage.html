@@ -1,0 +1,131 @@
+<!--[pnajaxheader modname=content dragdrop=1 builder=1 noscriptaculous=1]-->
+<!--[contentpagepath pageId=$page.id language=$page.language assign=subheader]-->
+<!--[contentpageheading header=_CONTENT_EDITPAGEHEADER subheader=$subheader]-->
+
+<script type="text/javascript" src="modules/content/pnjavascript/portal.js"></script>
+<script type="text/javascript" >
+//<![CDATA[ 
+content.pageId = <!--[$page.id]-->;
+Event.observe(window, 'load', content.editPageOnLoad);
+//]]>
+</script>
+<!--[pnmodurl modname=content type=edit func=editcontent cid="{commandArgument}" assign=editUrl]-->
+<!--[pnmodurl modname=content type=edit func=newcontent above=1 cid="{commandArgument}" assign=aboveUrl]-->
+<!--[pnmodurl modname=content type=edit func=newcontent above=0 cid="{commandArgument}" assign=belowUrl]-->
+<!--[pnmodurl modname=content type=edit func=translatecontent cid="{commandArgument}" assign=translateUrl]-->
+
+<!--[pngetstatusmsg]-->
+
+<!--[pnform]-->
+
+  <!--[pnformcontextmenu id="contentEditMenu" width="auto"]-->
+    <!--[pnformcontextmenuitem title=_EDIT imageURL="images/icons/extrasmall/edit.gif" commandRedirect=$editUrl]-->
+    <!--[pnformcontextmenuitem title=_CONTENT_ADDCONTENTABOVE imageURL="images/icons/extrasmall/insert_table_row_above.gif" commandRedirect=$aboveUrl]-->
+    <!--[pnformcontextmenuitem title=_CONTENT_ADDCONTENTBELOW imageURL="images/icons/extrasmall/insert_table_row.gif" commandRedirect=$belowUrl]-->
+    <!--[pnformcontextmenuitem title=_DELETE imageURL="images/icons/extrasmall/delete_table_row.gif" commandName=deleteContent confirmMessage=_DELETE]-->
+    <!--[if $multilingual==1]-->
+    	<!--[pnformcontextmenuitem title=_CONTENT_TRANSLATE imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl]-->
+    <!--[/if]-->
+  <!--[/pnformcontextmenu]-->
+
+  <!--[pnmodurl modname=content type=edit func=editcontent cid="{commandArgument}" assign=editUrl]-->
+
+
+  <!--[pnformerrormessage id=error]-->
+
+  <!--[contentformframe]-->
+
+    <!--[pnformtabbedpanelset]-->
+
+      <!--[pnmodgetvar module="Content" name="enableVersioning" assign=enableVersioning]-->
+      <!--[if !empty($enableVersioning)]-->
+       <ul class="content-subtabs">
+        <li><a href="<!--[pnmodurl modname=content type=edit func=history pid=$page.id]-->"><!--[pnml name=_CONTENT_HISTORY]--></a></li>
+       </ul>
+      <!--[/if]-->
+
+      <!--[pnformtabbedpanel title=_CONTENT_PAGECONTENTTAB]-->
+        <!--[include file=$layoutTemplate]-->
+      <!--[/pnformtabbedpanel]-->
+
+      <!--[pnformtabbedpanel title=_CONTENT_PAGEOPTIONSTAB]-->
+        <fieldset>
+        <legend><!--[pnml name=_CONTENT_OPTIONSGENERAL]--></legend>
+        <div class="crow">
+          <!--[pnformlabel for=title text=_CONTENT_TITLELABEL]-->
+          <!--[pnformtextinput id=title mandatory=1 maxLength=255 width=20em group=page]-->
+        </div>
+        
+        <div class="crow">
+          <!--[pnformlabel for=urlname text=_CONTENT_URLNAMELABEL]-->
+          <!--[pnformtextinput id=urlname maxLength=255 width=20em group=page]-->
+          <!--[contentlabelhelp text=_CONTENT_URLNAMELABELHELP]-->
+        </div>
+        <hr />
+        <div class="crow">
+          <!--[pnformlabel for=active text=_CONTENT_ONLINE]-->
+          <!--[pnformcheckbox id=active group=page]-->
+          <!--[contentlabelhelp text=_CONTENT_ONLINEHELP]-->          
+        </div> 
+         <div class="crow">
+          <!--[pnformlabel for=activeFrom text=_CONTENT_ACTIVEPERIODEFROM]-->
+          <!--[pnformdateinput id=activeFrom group=page]--> 
+         </div> 
+         <div class="crow">
+          <!--[pnformlabel for=activeTo text=_CONTENT_ACTIVEPERIODETO]-->
+          <!--[pnformdateinput id=activeTo group=page]-->
+        </div>
+        <hr />
+        <div class="crow">
+          <!--[pnformlabel for=inMenu text=_CONTENT_PAGELANGUAGE]-->
+          <!--[pnformlanguageselector id=language group=page addAllOption=0]-->
+        </div>
+        <div class="crow">
+          <!--[pnformlabel for=inMenu text=_CONTENT_INMENU]-->
+          <!--[pnformcheckbox id=inMenu group=page]-->
+        </div>
+        </fieldset>
+        
+        <fieldset>
+        <legend><!--[pnml name=_CATEGORIES]--></legend>
+        <div class="crow">
+          <!--[pnformlabel for=categoryId text=_CONTENT_CATEGORYPRIMARYLABEL]-->
+          <!--[pnformcategoryselector id=categoryId group=page category=$mainCategory includeEmptyElement=1]-->
+        </div>
+        <hr />
+        <div class="crow">
+          <label><!--[pnml name=_CONTENT_CATEGORYSECONDARYLABEL]--></label>
+          <!--[pnformcategorycheckboxlist id=categories group=page category=$mainCategory repeatColumns=1]-->
+        </div>
+        </fieldset>
+        
+
+      <!--[/pnformtabbedpanel]-->
+
+      <!--[pnformtabbedpanel title=_CONTENT_PAGELAYOUTTAB]-->
+		  <fieldset>
+        <legend><!--[pnml name=_CONTENT_LAYOUTLABEL]--></legend>
+        <div class="crow">
+          <!--[pnformlabel for=layout text=_CONTENT_LAYOUTLABEL]-->
+          <!--[contentlayoutselector id=layout group=page]-->
+        </div>
+        </fieldset>
+      
+      <!--[/pnformtabbedpanel]-->
+
+    <!--[/pnformtabbedpanelset]-->
+        
+    <!--[contentbuttons]-->
+      <!--[pnformbutton commandName="save" text="_SAVE"]-->
+      <!--[pnformbutton commandName="deletePage" text="_DELETE" confirmMessage=_DELETE]-->
+      <button type="button" onclick="window.open('<!--[pnmodurl modname=content type=user func=view preview=1 pid=$page.id]-->')"><!--[pnml name=_CONTENT_PREVIEW]--></button>
+      <!--[pnformbutton commandName="saveAndView" text="_CONTENT_SAVEANDVIEW"]-->
+      <!--[if $multilingual==1]-->
+    	<!--[pnformbutton commandName="translate" text="_CONTENT_TRANSLATE"]-->
+      <!--[/if]-->
+      <!--[pnformbutton commandName="cancel" text="_CANCEL"]-->
+    <!--[/contentbuttons]-->
+
+  <!--[/contentformframe]-->
+
+<!--[/pnform]-->

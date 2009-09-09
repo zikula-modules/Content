@@ -1,0 +1,5 @@
+<!--[pnusergetvar name="_YOURAVATAR" uid=$uid assign="avatar"]-->
+<!--[pnusergetvar name="_EXTRAINFO" uid=$uid assign="extrainfo"]-->
+<!--[pnusergetvar name="_UREALNAME" uid=$uid assign="realname"]-->
+<h3><!--[pnml name=_BY]--> <!--[if $realname]--><!--[$realname]--><!--[else]--><!--[pnusergetvar name="uname" uid=$uid]--><!--[/if]--></h3>
+<!--[if $extrainfo]--><p><!--[if $avatar!="blank.gif"]--><img src="images/avatar/<!--[$avatar]-->" alt="<!--[pnusergetvar name="_UREALNAME" uid=$uid]-->" class="left" /><!--[/if]--><!--[pnusergetvar name="_EXTRAINFO" uid=$uid]--></p><!--[/if]-->

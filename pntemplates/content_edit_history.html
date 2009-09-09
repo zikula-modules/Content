@@ -1,0 +1,48 @@
+<!--[contentpagepath pageId=$page.id language=$page.language assign=subheader]-->
+<!--[contentpageheading header=_CONTENT_HISTORYHEADER subheader=$subheader]-->
+<!--[pnpageaddvar name="stylesheet" value="system/Admin/pnstyle/admin.css"]-->
+<div class="content-navigation">
+ <div class="content-links">
+  <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->"><!--[pnml name=_CONTENT_HISTORYBACK]--></a>
+  |
+  <a href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[pnml name=_CONTENT_HISTORYMAIN]--></a>
+ </div>
+</div>
+
+<!--[pnmodgetvar module="Content" name="enableVersioning" assign=enableVersioning]-->
+<!--[if empty($enableVersioning)]-->
+  <div class="pn-warningmsg"><!--[pnml name=_CONTENT_HISTORYDISABLED]--></div>
+<!--[/if]-->
+
+<!--[pnform]-->
+
+  <!--[if count($versions) > 0]-->
+  <table class="pn-admintable">
+   <thead>
+    <tr>
+     <th><!--[pnml name=_CONTENT_HISTORYVERSION ]--></th>
+     <th><!--[pnml name=_CONTENT_HISTORYDATE ]--></th>
+     <th><!--[pnml name=_CONTENT_HISTORYPROTOCOL ]--></th>
+     <th><!--[pnml name=_CONTENT_HISTORYUSER ]--></th>
+     <th><!--[pnml name=_CONTENT_HISTORYIP ]--></th>
+     <th><!--[pnml name=_CONTENT_HISTORYACTION]--></th>
+    </tr>
+   </thead>
+   <tbody>
+   <!--[foreach from=$versions item=version]-->
+    <tr class="<!--[cycle values="pn-odd,pn-even"]-->">
+      <td><!--[$version.revisionNo]--></td> 
+      <td><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->" target="_blank"><!--[$version.date]--></a></td> 
+      <td><!--[$version.action]--></td> 
+      <td><!--[$version.userName]--></td> 
+      <td><!--[$version.ipno]--></td>
+      <td><!--[pnformbutton text="_CONTENT_RESTORE" commandName="restore" commandArgument=$version.id confirmMessage=_CONTENT_RESTORE]--></td>
+    </tr>
+   <!--[/foreach]-->
+   </tbody>
+  </table>
+  <!--[else]-->
+  <em><!--[pnml name=_CONTENT_HISTORYNODATA]--></em>
+  <!--[/if]-->
+
+<!--[/pnform]-->

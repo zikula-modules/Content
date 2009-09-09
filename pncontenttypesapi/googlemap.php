@@ -1,0 +1,96 @@
+<?php
+/**
+ * Content google map plugin
+ *
+ * @copyright (C) 2007-2009, Content Development Team
+ * @link http://code.zikula.org/content
+ * @version $Id$
+ * @license See license.txt
+ */
+
+
+class content_contenttypesapi_googlemapPlugin extends contentTypeBase
+{
+  var $longitude;
+  var $latitude;
+  var $zoom;
+  var $text;
+
+  function getModule() { return 'content'; }
+  function getName() { return 'googlemap'; }
+  function getTitle() { return _CONTENT_CONTENTENTTYPE_GOOGLEMAPTITLE; }
+  function getDescription() { return _CONTENT_CONTENTENTTYPE_GOOGLEMAPDESCR; }
+  function getAdminInfo() { return _CONTENT_GOOGLEMAPAPIKEYLABELHELP; }
+  function isTranslatable() { return true; }
+
+  
+  function isActive()
+  { 
+    $apiKey = pnModGetVar('content', 'googlemapApiKey');
+    if (!empty($apiKey))
+      return true; 
+    return false;
+  }
+  
+  
+  function loadData($data)
+  {
+    $this->longitude = $data['longitude'];
+    $this->latitude = $data['latitude'];
+    $this->zoom = $data['zoom'];
+    $this->text = $data['text'];
+  }
+
+  
+  function display()
+  {
+    $scripts = array('javascript/ajax/prototype.js', 'modules/content/pnjavascript/googlemap.js');
+    PageUtil::addVar('javascript', $scripts);
+
+    $render = pnRender::getInstance('content', false);
+    $render->assign('longitude', $this->longitude);
+    $render->assign('latitude', $this->latitude);
+    $render->assign('zoom', $this->zoom);
+    $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
+    $render->assign('googlemapApiKey', DataUtil::formatForDisplayHTML(pnModGetVar('content', 'googlemapApiKey')));
+    $render->assign('contentId', $this->contentId);
+    
+    return $render->fetch('contenttype/googlemap_view.html');
+  }
+
+  
+  function displayEditing()
+  {
+    return DataUtil::formatForDisplay($this->text);
+  }
+
+  
+  function getDefaultData()
+  { 
+    return array('longitude' => '12.36185073852539',
+                 'latitude' => '55.8756960390043',
+                 'zoom' => 4,
+                 'text' => '');
+  }
+
+  
+  function startEditing(&$render)
+  {
+    $scripts = array('javascript/ajax/prototype.js', 'modules/content/pnjavascript/googlemap.js');
+    PageUtil::addVar('javascript', $scripts);
+    $render->assign('googlemapApiKey', pnModGetVar('content', 'googlemapApiKey'));
+  }
+
+
+  function getSearchableText()
+  {
+    return html_entity_decode(strip_tags($this->text));
+  }
+}
+
+
+function content_contenttypesapi_googlemap($args)
+{
+  return new content_contenttypesapi_googlemapPlugin($args['data']);
+}
+

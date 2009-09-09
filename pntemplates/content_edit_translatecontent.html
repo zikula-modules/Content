@@ -1,0 +1,38 @@
+<!--[contentpageheading header=_CONTENT_TRANSLATECONTENTHEADER subheader=$page.title]-->
+
+<!--[pnform]-->
+
+  <!--[contentformframe]-->
+
+    <!--[if $isTranslatable]-->
+      <fieldset id="contentTranslateOriginal">
+        <legend><!--[pnml name=_CONTENT_TRANSLATEORIGINAL]--></legend>
+        <!--[include file=$translateOriginalTemplate]-->
+      </fieldset>
+
+      <br />
+      <fieldset id="contentTranslateNew">
+        <legend><!--[pnml name=_CONTENT_TRANSLATENEW]--> (<!--[$language]-->)</legend>
+        <!--[include file=$translateNewTemplate]-->
+      </fieldset>
+
+      <!--[contentbuttons]-->
+        <!--[pnformbutton commandName="prev" text="_PREVIOUS"]-->
+        <!--[pnformbutton commandName="next" text="_NEXT"]--> &mdash;
+        <!--[pnformbutton commandName="skip" text="_CONTENT_SKIP"]-->
+        <!--[pnformbutton commandName="quit" text="_SAVE"]-->
+        <!--[pnformbutton commandName="delete" text="_DELETE" confirmMessage=_DELETE]-->
+        <!--[pnformbutton commandName="cancel" text="_CANCEL"]-->
+        <!--[pnformdropdownlist id=translationStep items=$translationInfo.items autoPostBack=1 onSelectedIndexChanged=handleCommand]-->
+      <!--[/contentbuttons]-->
+    <!--[else]-->
+      <div class="pn-warningmsg"><!--[pnml name=_CONTENT_TRANSLATENOTPOSSIBLE]--></div>
+
+      <!--[contentbuttons]-->
+        <!--[pnformbutton commandName="cancel" text="_BACK"]-->
+      <!--[/contentbuttons]-->
+    <!--[/if]-->
+
+  <!--[/contentformframe]-->
+
+<!--[/pnform]-->

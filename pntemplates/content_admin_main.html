@@ -1,0 +1,29 @@
+<!--[pnml name="_CONTENT_ADMINMAIN" assign=templatetitle]-->
+<!--[admincategorymenu]-->
+<!--[ pnmodgetinfo module=content info=all assign=modinfo]-->
+
+<div class="pn-adminbox">
+  <h2><!--[ $modinfo.name ]--></h2>
+  <div class="pn-menu"><!--[moduleadminlinks modname=content]--></div>
+</div>
+
+<div class="pn-admincontainer">
+  <div class="pn-adminpageicon"><!--[pnimg modname=core src=windowlist.gif set=icons/large alt=$templatetitle]--></div>
+  <h3><!--[$templatetitle]--></h3>
+
+  <p><!--[pnml name=_CONTENT_ADMINMAININTRO]--></p>
+
+  <ul>
+    <li><a href="<!--[pnmodurl modname=content type=edit]-->"><!--[pnml name=_CONTENT_ADMINEDIT]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[pnml name=_CONTENT_ADMINSETTINGS]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=sitemap]-->"><!--[pnml name=_CONTENT_SITEMAP]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=extlist]-->"><!--[pnml name=_CONTENT_ADMINEXTENDEDLIST]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=pagelist]-->"><!--[pnml name=_CONTENT_ADMINPAGELIST]--></a></li>
+    <li><a href="<!--[pnmodurl modname=content type=user func=categories]-->"><!--[pnml name=_CONTENT_CATEGORYLIST]--></a></li>
+  </ul>
+
+  <p style="text-align:center;">
+      <a href="http://code.zikula.org/content/" title="content"><!--[ $modinfo.name ]--> v<!--[ $modinfo.version ]--></a>
+  </p> 
+
+</div>

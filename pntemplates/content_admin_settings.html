@@ -1,0 +1,151 @@
+<!--[pnml name="_CONTENT_ADMINSETTINGS" assign=templatetitle]-->
+<!--[admincategorymenu]-->
+<!--[ pnmodgetinfo module=content info=all assign=modinfo]-->
+
+<div class="pn-adminbox">
+  <h2><!--[ $modinfo.name ]--></h2>
+  <div class="pn-menu"><!--[moduleadminlinks modname=content]--></div>
+</div>
+
+<div class="pn-admincontainer pn-clearfix">
+<div class="pn-adminpageicon"><!--[pnimg modname=core src=windowlist.gif set=icons/large alt=$templatetitle]--></div>
+<h3><!--[$templatetitle]--></h3>
+
+<p><!--[pnml name=_CONTENT_ADMINSETTINGSINTRO]--></p>
+
+<!--[pnform]-->
+
+  <!--[pnformsetinitialfocus inputId=shorturlsuffix]-->
+
+  <!--[contentformframe]-->
+   <!--[pnformtabbedpanelset]-->    
+    <!--[pnformtabbedpanel title=_CONTENT_CONFIG]-->    
+     <div class="crow">
+      <!--[pnformlabel for=shorturlsuffix text=_CONTENT_SHORTURLSUFFIXLABEL]-->
+      <!--[pnformtextinput id=shorturlsuffix group="config" maxLength=255 width=20em]-->
+      <!--[contentlabelhelp text=_CONTENT_SHORTURLSUFFIXLABELHELP html=1]-->
+     </div>
+     <div class="crow">
+      <!--[pnformlabel for=googlemapApiKey text=_CONTENT_GOOGLEMAPAPIKEYLABEL]-->
+      <!--[pnformtextinput id=googlemapApiKey group="config" maxLength=255 width=20em]-->
+      <!--[contentlabelhelp text=_CONTENT_GOOGLEMAPAPIKEYLABELHELP html=1]-->
+     </div>
+     <div class="crow">
+      <!--[pnformlabel for=flickrApiKey text=_CONTENT_FLICKRAPIKEYLABEL]-->
+      <!--[pnformtextinput id=flickrApiKey group="config" maxLength=255 width=20em]-->
+      <!--[contentlabelhelp text=_CONTENT_FLICKRAPIKEYLABELHELP html=1]-->
+     </div>
+     <div class="crow">
+      <!--[pnformlabel for=styleClasses text=_CONTENT_STYLECLASSESLABEL]-->
+      <!--[pnformtextinput id=styleClasses group="config" width=20em textMode=multiline rows=6 cols=40]-->
+      <!--[contentlabelhelp text=_CONTENT_STYLECLASSESLABELHELP]-->
+     </div>
+     <div class="crow">
+      <!--[pnformlabel for=enableVersioning text=_CONTENT_VERSIONINGENABLE]-->
+      <!--[pnformcheckbox id=enableVersioning group="config"]-->
+     </div>
+    <!--[/pnformtabbedpanel]-->
+
+    <!--[pnformtabbedpanel title=_CONTENT_DEPENDENCIES]-->
+     <p><!--[pnml name="_CONTENT_DEPENDENCIES_INTRO"]--></p>
+    
+     <table id="modules" class="pn-admintable">
+      <thead>
+       <tr>
+        <th><!--[pnml name="_CONTENT_INSTALLED"]--></th>
+        <th><!--[pnml name="_CONTENT_ACTIVE"]--></th>
+        <th><!--[pnml name="_CONTENT_MODULE"]--></th>
+        <th><!--[pnml name="_CONTENT_PLUGIN"]--></th>
+        <th><!--[pnml name="_DESCRIPTION"]--></th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr class="pn-odd">
+        <td>
+         <!--[pnmodavailable modname="scribite" assign="scribite"]-->
+         <!--[if !$scribite]-->
+          <!--[pnimg src=redled.gif modname=core set=icons/extrasmall alt=_CONTENT_UNINSTALLED altml=true]-->
+         <!--[else]-->
+          <!--[pnimg src=greenled.gif modname=core set=icons/extrasmall alt=_CONTENT_INSTALLED altml=true]-->
+         <!--[/if]-->
+        </td>
+        <td>
+         <!--[pnmodapifunc modname="scribite" type="user" func="getModuleConfig" modulename="content" assign="scribite_config" ]-->
+         <!--[if !isset($scribite_config)]-->
+          <!--[if !$scribite]-->
+           <!--[pnimg src=redled.gif modname=core set=icons/extrasmall alt=_CONTENT_INACTIVE altml=true]-->
+          <!--[else]-->
+           <a href="<!--[pnmodurl modname="scribite" type="admin" func="newmodule"]-->"><!--[pnimg src=redled.gif modname=core set=icons/extrasmall alt=_CONTENT_INACTIVE altml=true]--></a>
+          <!--[/if]-->
+         <!--[else]-->
+          <!--[pnimg src=greenled.gif modname=core set=icons/extrasmall alt=_CONTENT_ACTIVE altml=true]-->
+         <!--[/if]-->   
+        </td>
+        <td><strong><!--[pnml name="_CONTENT_SCRIBITE"]--></strong></td>
+        <td><strong><!--[pnml name="_CONTENT_SCRIBITE_WYSIWYG"]--></strong></td>
+        <td><!--[pnml name="_CONTENT_SCRIBITE_DESC" html=true]--></td>
+       </tr>
+       <tr class="pn-even">
+        <td>
+         <!--[pnmodavailable modname="bbcode" assign="bbcode"]-->
+         <!--[if !$bbcode]-->
+          <!--[pnimg src=redled.gif modname=core set=icons/extrasmall alt=_CONTENT_UNINSTALLED altml=true]-->
+         <!--[else]-->
+          <!--[pnimg src=greenled.gif modname=core set=icons/extrasmall alt=_CONTENT_INSTALLED altml=true]-->
+         <!--[/if]-->    
+        </td>
+        <td>
+         <!--[pnmodishooked tmodname="bbcode" smodname="content" assign="bbcode_config"]-->
+         <!--[if !$bbcode_config]-->
+          <!--[if !$bbcode]-->
+           <!--[pnimg src=redled.gif modname=core set=icons/extrasmall alt=_CONTENT_INACTIVE altml=true]-->
+          <!--[else]-->
+           <!--[pnmodgetinfo modname=content info=all assign=module]-->
+           <a href="<!--[pnmodurl modname="modules" type="admin" func="hooks" id=$module.id]-->"><!--[pnimg src=redled.gif modname=core set=icons/extrasmall alt=_CONTENT_INACTIVE altml=true]--></a>        
+          <!--[/if]-->        
+         <!--[else]-->
+          <!--[pnimg src=greenled.gif modname=core set=icons/extrasmall alt=_CONTENT_ACTIVE altml=true]-->
+         <!--[/if]-->    
+        </td>
+        <td><strong><!--[pnml name="_CONTENT_BBCODE"]--></strong></td>
+        <td><strong><!--[pnml name="_CONTENT_BBCODE_BUTTONS"]--></strong></td>
+        <td><!--[pnml name="_CONTENT_BBCODE_DESC" html=true]--></td>
+       </tr>
+       <!--[ pnmodapifunc modname="content" type="content" func="getContentTypes" includeInactive=1 assign="plugins" ]-->
+       <!--[foreach from=$plugins item=plugin]-->
+       <tr class="<!--[cycle values="pn-odd,pn-even"]-->">
+        <td><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall alt=_CONTENT_INSTALLED altml=true]--></td>
+        <td>
+         <!--[if $plugin.isActive]-->
+          <!--[pnimg src=greenled.gif modname=core set=icons/extrasmall alt=_CONTENT_ACTIVE altml=true]-->
+         <!--[else]-->
+          <!--[pnimg src=redled.gif modname=core set=icons/extrasmall alt=_CONTENT_INACTIVE altml=true]-->
+         <!--[/if]-->
+        </td>
+        <td><strong><!--[$plugin.module]--></strong></td>
+        <td><strong><!--[$plugin.title]--></strong></td>
+        <td>
+         <!--[$plugin.description]-->
+         <!--[if !empty($plugin.adminInfo)]--><br/><!--[$plugin.adminInfo]--><!--[/if]-->
+        </td>
+       </tr>
+       <!--[/foreach]-->
+      </tbody>    
+     </table>
+    <!--[/pnformtabbedpanel]-->
+   <!--[/pnformtabbedpanelset]-->
+
+   <!--[contentbuttons]--> 
+    <!--[pnformbutton commandName="save" text="_SAVE"]-->
+    <!--[pnformbutton commandName="cancel" text="_CANCEL"]-->
+   <!--[/contentbuttons]-->
+
+  <!--[/contentformframe]-->
+
+<!--[/pnform]-->
+
+  <p style="text-align:center;">
+      <a href="http://code.zikula.org/content/" title="content"><!--[ $modinfo.name ]--> v<!--[ $modinfo.version ]--></a>
+  </p> 
+    
+</div>

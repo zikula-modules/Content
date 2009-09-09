@@ -1,0 +1,21 @@
+<!--[pnformsetinitialfocus inputId=userName]-->
+
+<!--[if empty($flickrApiKey)]-->
+<div class="pn-errormsg"><p><!--[pnml name=_CONTENT_CONTENTENTTYPE_FLICKRNOKEY html=1]--></p></div>
+<!--[/if]-->
+
+<div class="crow">
+  <!--[pnformlabel for=userName text=_CONTENT_CONTENTENTTYPE_FLICKRUSERNAME]-->
+  <!--[pnformtextinput id=userName group=data maxLength=50]-->
+</div>
+
+<div class="crow">
+  <!--[pnformlabel for=tags text=_CONTENT_CONTENTENTTYPE_FLICKRTAGS]-->
+  <!--[pnformtextinput id=tags group=data maxLength=1000]-->
+</div>
+
+<div class="crow">
+  <!--[pnformlabel for=photoCount text=_CONTENT_CONTENTENTTYPE_FLICKRPHOTOCOUNT]-->
+  <!--[pnformintinput id=photoCount group=data]-->
+</div>
+

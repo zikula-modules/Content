@@ -1,0 +1,36 @@
+<!--[pnajaxheader ]-->
+<!--[pnform]-->
+
+<h1><!--[pnml name=_CONTENT_MAINHEADER]--></h1>
+<p><!--[pnml name=_CONTENT_MAINHELP]--></p>
+
+<!--[if $access.pageEditAllowed]-->
+<div class="content-navigation">
+ <div class="content-links">
+    <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[pnml name=_CONTENT_NEWPAGE]--></a> 
+    <!--[securityutil_checkpermission_block component='Content::' instance='::' level=ACCESS_ADMIN]-->
+      | <a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[pnml name=_MODIFYCONFIG]--></a> 
+    <!--[/securityutil_checkpermission_block]-->
+ </div>
+</div>
+<!--[/if]-->
+
+<!--[include file=content_include_tocedit.html]-->
+
+<!--[if $access.pageEditAllowed]-->
+<div class="content-note"><!--[pnml name=_CONTENT_YOUCANDRAGNDROP]--></div>
+<!--[/if]-->
+
+
+<script type="text/javascript">
+  <!--[include file=content_include_tocedit3.html pages=$pages]-->
+</script>
+
+<div>
+<input type="hidden" name="contentTocDragSrcId" id="contentTocDragSrcId"/>
+<input type="hidden" name="contentTocDragDstId" id="contentTocDragDstId"/>
+</div>
+
+<!--[pnformpostbackfunction function="content.tocPageDrag" commandName=drag]-->
+
+<!--[/pnform]-->

@@ -1,0 +1,15 @@
+<h3><a href="<!--[$feed.permalink]-->"><!--[$feed.title]--></a></h3>
+<!--[if count($feed.items) > 0]-->
+<!--[if $includeContent]-->
+  <!--[foreach from=$feed.items item=item]-->
+  <h4><a href="<!--[$item.permalink]-->"><!--[$item.title]--></a></h4>
+  <!--[if $item.description]--><p><!--[$item.description]--></p><!--[/if]-->
+  <!--[/foreach]-->
+<!--[else]-->
+ <ul>
+  <!--[foreach from=$feed.items item=item]-->
+   <li><a href="<!--[$item.permalink]-->"><!--[$item.title]--></a></li>
+  <!--[/foreach]-->
+ </ul>
+<!--[/if]-->
+<!--[/if]-->

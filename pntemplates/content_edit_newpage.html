@@ -1,0 +1,38 @@
+<!--[contentpageheading header=_CONTENT_NEWPAGEHEADER subheader="&nbsp;"]-->
+<!--[if isset($page)]--><div class="content-page-path"><!--[$locationLabel]--><!--[contentpagepath pageId=$page.id]--></div><!--[/if]-->
+
+<!--[pngetstatusmsg]-->
+
+<!--[pnform]-->
+
+  <!--[pnformsetinitialfocus inputId=title]-->
+
+  <!--[pnformerrormessage id=error]-->
+
+  <!--[contentformframe]-->
+    <fieldset>
+    <div class="crow">
+      <!--[pnformlabel for=title text=_CONTENT_TITLELABEL]-->
+      <!--[pnformtextinput id=title mandatory=1 maxLength=255 width=20em]-->
+    </div>
+    
+    <div class="crow">
+      <!--[pnformlabel for=urlname text=_CONTENT_URLNAMELABEL]-->
+      <!--[pnformtextinput id=urlname maxLength=255 width=20em]-->
+      <!--[contentlabelhelp text=_CONTENT_URLNAMELABELHELP]-->
+    </div>
+
+    <h3><!--[pnml name=_CONTENT_LAYOUTSELECTION]--></h3>
+    <p><!--[pnml name=_CONTENT_LAYOUTSELECTIONHELP]--></p>
+
+    <!--[include file=content_include_layoutselection.html]-->
+    </fieldset>
+
+    <!--[contentbuttons]-->
+      <!--[pnformbutton commandName="create" text="_CREATE"]-->
+      <!--[pnformbutton commandName="cancel" text="_CANCEL"]-->
+    <!--[/contentbuttons]-->
+
+  <!--[/contentformframe]-->
+
+<!--[/pnform]-->

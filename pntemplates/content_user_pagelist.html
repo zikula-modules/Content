@@ -1,0 +1,12 @@
+<!--[if !empty($pages)]-->
+  <div class="content-pagelist">
+  <!--[foreach from=$pages item=page]-->
+    <!--[include file=$page.layoutTemplate inlist=1]-->
+    <a class="content-pagemore" href="<!--[pnmodurl modname=Content func=view pid=$page.id]-->"><!--[pnml name=_CONTENT_PAGEMORE]--></a>
+  <!--[/foreach]-->
+  </div>
+<!--[else]-->
+  <!--[pnml name=_CONTENT_NOPAGES]-->
+<!--[/if]-->
+
+<!--[pager show="page" rowcount=$pageCount limit=$pageSize posvar=page display=page]-->

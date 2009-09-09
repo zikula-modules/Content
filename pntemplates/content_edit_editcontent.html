@@ -1,0 +1,53 @@
+<!--[contentpageheading header=_CONTENT_EDITCONTENTHEADER subheader=$contentType.title]-->
+
+<p class="content-page-help"><!--[$contentType.description]--></p>
+
+<!--[pnformerrormessage id=error]-->
+
+<!--[pnform enctype="multipart/form-data"]--> <!--[* Always allow plugins to use upload *]-->
+
+  <!--[contentformframe]-->
+   <!--[pnformtabbedpanelset]-->
+
+    <!--[pnformtabbedpanel title=_CONTENT_CONTENTTABCONTENT]-->
+     <fieldset>
+      <legend><!--[pnml name=_CONTENT_CONTENTTABCONTENT]--></legend>
+      <!--[include file=$contentTypeTemplate]-->
+     </fieldset>
+    <!--[/pnformtabbedpanel]-->
+
+    <!--[pnformtabbedpanel title=_CONTENT_CONTENTTABLAYOUT]-->
+     <fieldset>
+      <div class="crow">
+       <!--[contentlabelhelp text=_CONTENT_POSITIONLABELHELP]-->
+      </div>
+      <legend><!--[pnml name=_CONTENT_CONTENTTABLAYOUT]--></legend>
+      <div class="crow">
+       <!--[pnformlabel for=stylePosition text=_CONTENT_POSITIONLABEL]-->
+       <!--[contentpositionselector id=stylePosition group=content]-->
+      </div>
+      <div class="crow">
+       <!--[pnformlabel for=stylePosition text=_CONTENT_WIDTHLABEL]-->
+       <!--[contentwidthselector id=styleWidth group=content]-->
+      </div>
+      <div class="crow">
+       <!--[pnformlabel for=styleClass text=_CONTENT_CLASSLABEL]-->
+       <!--[contentclassselector id=styleClass group=content]-->
+      </div>
+     </fieldset>
+    <!--[/pnformtabbedpanel]-->
+
+   <!--[/pnformtabbedpanelset]-->
+   
+   <!--[contentbuttons]-->
+     <!--[pnformbutton commandName="save" text="_SAVE"]-->
+     <!--[pnformbutton commandName="delete" text="_DELETE" confirmMessage=_DELETE]-->
+     <!--[if $content.isTranslatable && $multilingual==1]-->
+      <!--[pnformbutton commandName="translate" text="_CONTENT_TRANSLATE"]-->
+     <!--[/if]-->
+     <!--[pnformbutton commandName="cancel" text="_CANCEL"]-->
+   <!--[/contentbuttons]-->
+
+  <!--[/contentformframe]-->
+
+<!--[/pnform]-->
