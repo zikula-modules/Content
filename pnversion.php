@@ -13,9 +13,11 @@
 $dom = ZLanguage::getModuleDomain('content');
 $modversion['name']           = 'content';
 // the version string must not exceed 10 characters!
-$modversion['version']        = '3.0.3';
+$modversion['version']        = '3.0.4';
 $modversion['description']    = __('Content editing module', $dom);
 $modversion['displayname']    = __('Content', $dom);
+//! module url should be different to displayname and in lowercase without space
+$modversion['url']    = __('content', $dom);
 
 // The following in formation is used by the credits module
 // to display the correct credits
