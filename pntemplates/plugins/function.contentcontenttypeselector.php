@@ -48,7 +48,7 @@ class ContentContentTypeSelector extends pnFormDropdownList
 
     $descr0 = (count($contentTypes) > 0 ? $contentTypes[0]['description'] : '');
     $descr0 = htmlspecialchars($descr0);
-    $output .= "<div id=\"{$this->id}_descr\">$descr0</div>";
+    $output .= "<p class=\"z-formrow\" id=\"{$this->id}_descr\">$descr0</p>";
     $output .= $descr;
 
     return $output;

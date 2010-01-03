@@ -1,6 +1,5 @@
 <!--[contentpagepath pageId=$page.id language=$page.language assign='subheader']-->
-<!--[contentpageheading header='Page history' subheader=$subheader]-->
-<!--[pnpageaddvar name="stylesheet" value="system/Admin/pnstyle/admin.css"]-->
+<!--[contentpageheading __header='Page history' subheader=$subheader]-->
 <div class="content-navigation">
     <div class="content-links">
         <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->"><!--[gt text="Back to page"]--></a>
@@ -14,10 +13,10 @@
 <p class="z-warningmsg"><!--[gt text="Version history is currently disabled and no new entries will be recorded."]--></p>
 <!--[/if]-->
 
-<!--[pnform]-->
+<!--[pnform cssClass='z-form']-->
 
 <!--[if count($versions) > 0]-->
-<table class="z-admintable">
+<table class="z-datatable">
     <thead>
         <tr>
             <th><!--[gt text="#"]--></th>

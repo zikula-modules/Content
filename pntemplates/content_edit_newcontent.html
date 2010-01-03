@@ -1,23 +1,27 @@
 <!--[contentpagepath pageId=$page.id language=$page.language assign='subheader']-->
-<!--[contentpageheading header='Add new content to page' subheader=$subheader]-->
+<!--[contentpageheading __header='Add new content to page' subheader=$subheader]-->
 
-<!--[pnform]-->
+<!--[pnform cssClass='z-form z-linear']-->
 
-  <!--[pnformsetinitialfocus inputId='contentType']-->
-  <!--[pnformerrormessage id='error']-->
+<!--[pnformsetinitialfocus inputId='contentType']-->
+<!--[pnformerrormessage id='error']-->
 
-  <!--[contentformframe]-->
+<!--[contentformframe]-->
 
-    <h3><!--[gt text="Select content type"]--></h3>
-    <p><!--[gt text="Please select the type of content you want to add to your page."]--></p>
+<p><!--[gt text="Please select the type of content you want to add to your page."]--></p>
 
-    <!--[contentcontenttypeselector id='contentType']-->
+<fieldset>
+    <legend><!--[gt text="Select content type"]--></legend>
+    <div class="z-formrow">
+        <!--[contentcontenttypeselector id='contentType']-->
+    </div>
+</fieldset>
 
-    <!--[contentbuttons]-->
-      <!--[pnformbutton commandName="create" __text="Create"]-->
-      <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
-    <!--[/contentbuttons]-->
+<!--[contentbuttons]-->
+<!--[pnformbutton commandName="create" __text="Create"]-->
+<!--[pnformbutton commandName="cancel" __text="Cancel"]-->
+<!--[/contentbuttons]-->
 
-  <!--[/contentformframe]-->
+<!--[/contentformframe]-->
 
 <!--[/pnform]-->

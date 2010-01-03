@@ -12,7 +12,7 @@
 </script>
 
 <!--[pnformpostbackfunction function='contentPost' commandName='toggleExpand']-->
-<input type="hidden" id="contentTogglePageId" name="contentTogglePageId"/>
+<input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
 <!--[pnmodurl modname=content type=edit func=translatepage pid="{commandArgument}" assign=translateUrl]-->
 
 <!--[pnformcontextmenu id="contentTocMenu" width="auto"]-->
@@ -29,7 +29,7 @@
 <!--[/pnformcontextmenu]-->
 
 <div class="content-toc">
-    <table class="z-admintable">
+    <table class="z-datatable">
         <thead>
             <tr>
                 <th><!--[gt text="Page title"]--></th>
@@ -48,7 +48,7 @@
                         <!--[if $page.setRight - $page.setLeft != 1]-->
                         <!--[if $page.isExpanded]--><img src="modules/content/pnimages/page-expanded.gif" onclick="contentToggle(<!--[$page.id]-->)" class="clickable"/><!--[else]--><img src="modules/content/pnimages/page-collapsed.gif" onclick="contentToggle(<!--[$page.id]-->)" class="clickable"/><!--[/if]-->
                         <!--[else]-->
-                        <img src="modules/content/pnimages/page-none.gif"/>
+                        <img src="modules/content/pnimages/page-none.gif" alt="" />
                         <!--[/if]-->
 
                         <!--[if $access.pageEditAllowed]-->

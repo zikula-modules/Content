@@ -12,10 +12,8 @@ function smarty_block_contentbuttons($params, $content, &$render)
 {
   if ($content)
   {
-    echo "<div class=\"buttons\">\n";
+    echo "<div class=\"content_buttons\">\n";
     echo $content;
     echo "</div>\n";
   }
 }
-
-?>

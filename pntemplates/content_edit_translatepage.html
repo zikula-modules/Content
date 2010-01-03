@@ -1,34 +1,34 @@
-<!--[contentpageheading header='Translate page']-->
+<!--[contentpageheading __header='Translate page']-->
 
 <p class="z-informationmsg"><!--[gt text="You can only translate the actual page data here. The content items must be translated one by one."]--></p>
 
-<!--[pnform]-->
-  <!--[pnformsetinitialfocus inputId='title']-->
+<!--[pnform cssClass='z-form']-->
+<!--[pnformsetinitialfocus inputId='title']-->
 
-  <!--[contentformframe]-->
+<!--[contentformframe]-->
 
-    <fieldset id="contentTranslateOriginal">
-      <legend><!--[gt text="Original content"]--></legend>
-      <!--[gt text="Page title"]-->: <!--[$page.title]-->
-    </fieldset>
+<fieldset id="contentTranslateOriginal">
+    <legend><!--[gt text="Original content"]--></legend>
+    <!--[gt text="Page title"]-->: <!--[$page.title]-->
+</fieldset>
 
-    <br />
-    <fieldset id="contentTranslateNew">
-      <legend><!--[gt text="Translated content"]--> (<!--[$language]-->)</legend>
-      <div class="crow">
+<br />
+<fieldset id="contentTranslateNew">
+    <legend><!--[gt text="Translated content"]--> (<!--[$language]-->)</legend>
+    <div class="z-formrow">
         <!--[pnformlabel for='title' __text='Page title']-->
-        <!--[pnformtextinput id='title' mandatory='1' maxLength='255' width='20em' group='translated']-->
-      </div>
-    </fieldset>
+        <!--[pnformtextinput id='title' mandatory='1' maxLength='255' group='translated']-->
+    </div>
+</fieldset>
 
-    <!--[contentbuttons]-->
-      <!--[pnformbutton commandName="next" __text="Next"]--> &mdash;
-      <!--[pnformbutton commandName="skip" __text="Skip"]-->
-      <!--[pnformbutton commandName="quit" __text="Save"]-->
-      <!--[pnformbutton commandName="delete" __text="Delete" confirmMessage='Delete page translation AND all content translations']-->
-      <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
-    <!--[/contentbuttons]-->
+<!--[contentbuttons]-->
+<!--[pnformbutton commandName="next" __text="Next"]--> &mdash;
+<!--[pnformbutton commandName="skip" __text="Skip"]-->
+<!--[pnformbutton commandName="quit" __text="Save"]-->
+<!--[pnformbutton commandName="delete" __text="Delete" confirmMessage='Delete page translation AND all content translations']-->
+<!--[pnformbutton commandName="cancel" __text="Cancel"]-->
+<!--[/contentbuttons]-->
 
-  <!--[/contentformframe]-->
+<!--[/contentformframe]-->
 
 <!--[/pnform]-->

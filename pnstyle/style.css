@@ -109,11 +109,11 @@ div.content-form fieldset {
   padding: 2px 10px 2px 10px;
 }
 
-div.content-form div.buttons {
+div.content-form div.content_buttons {
   margin: 10px 0px 10px 0px;
 }
 
-div.content-form div.buttons * {
+div.content-form div.content_buttons * {
   vertical-align: middle;
 }
 

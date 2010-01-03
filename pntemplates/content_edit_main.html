@@ -1,17 +1,17 @@
 <!--[pnajaxheader]-->
-<!--[pnform]-->
+<!--[pnform cssClass='z-form']-->
 
-<h1><!--[gt text="Page list and Content Structure"]--></h1>
+<h2><!--[gt text="Page list and Content Structure"]--></h2>
 <p><!--[gt text="This is where you manage all your pages. You can add/edit/delete pages as well as drag them around to get the content structure right."]--></p>
 
 <!--[if $access.pageEditAllowed]-->
 <div class="content-navigation">
- <div class="content-links">
-    <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[gt text="Add new page"]--></a> 
-    <!--[securityutil_checkpermission_block component='Content::' instance='::' level=ACCESS_ADMIN]-->
-      | <a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[gt text="Settings"]--></a> 
-    <!--[/securityutil_checkpermission_block]-->
- </div>
+    <div class="content-links">
+        <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[gt text="Add new page"]--></a>
+        <!--[securityutil_checkpermission_block component='Content::' instance='::' level=ACCESS_ADMIN]-->
+        | <a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[gt text="Settings"]--></a>
+        <!--[/securityutil_checkpermission_block]-->
+    </div>
 </div>
 <!--[/if]-->
 
@@ -23,12 +23,12 @@
 
 
 <script type="text/javascript">
-  <!--[include file=content_include_tocedit3.html pages=$pages]-->
+    <!--[include file=content_include_tocedit3.html pages=$pages]-->
 </script>
 
 <div>
-<input type="hidden" name="contentTocDragSrcId" id="contentTocDragSrcId"/>
-<input type="hidden" name="contentTocDragDstId" id="contentTocDragDstId"/>
+    <input type="hidden" name="contentTocDragSrcId" id="contentTocDragSrcId"/>
+    <input type="hidden" name="contentTocDragDstId" id="contentTocDragDstId"/>
 </div>
 
 <!--[pnformpostbackfunction function="content.tocPageDrag" commandName='drag']-->

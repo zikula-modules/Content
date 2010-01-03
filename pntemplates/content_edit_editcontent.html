@@ -1,53 +1,51 @@
-<!--[contentpageheading header='Edit content item' subheader=$contentType.title]-->
+<!--[contentpageheading __header='Edit content item' subheader=$contentType.title]-->
 
 <p class="content-page-help"><!--[$contentType.description]--></p>
 
 <!--[pnformerrormessage id='error']-->
 
-<!--[pnform enctype="multipart/form-data"]--> <!--[* Always allow plugins to use upload *]-->
+<!--[pnform enctype="multipart/form-data" cssClass='z-form']--> <!--[* Always allow plugins to use upload *]-->
 
-  <!--[contentformframe]-->
-   <!--[pnformtabbedpanelset]-->
+<!--[contentformframe]-->
+<!--[pnformtabbedpanelset]-->
 
-    <!--[pnformtabbedpanel __title='Content']-->
-     <fieldset>
-      <legend><!--[gt text="Content"]--></legend>
-      <!--[include file=$contentTypeTemplate]-->
-     </fieldset>
-    <!--[/pnformtabbedpanel]-->
+<!--[pnformtabbedpanel __title='Content']-->
+<fieldset class="z-linear">
+    <legend><!--[gt text="Content"]--></legend>
+    <!--[include file=$contentTypeTemplate]-->
+</fieldset>
+<!--[/pnformtabbedpanel]-->
 
-    <!--[pnformtabbedpanel __title='Layout']-->
-     <fieldset>
-      <div class="crow">
-       <!--[contentlabelhelp __text='Positioning works only with fixed width!']-->
-      </div>
-      <legend><!--[gt text="Layout"]--></legend>
-      <div class="crow">
-       <!--[pnformlabel for='stylePosition' __text='Position']-->
-       <!--[contentpositionselector id='stylePosition' group='content']-->
-      </div>
-      <div class="crow">
-       <!--[pnformlabel for='styleWidth' __text='Width']-->
-       <!--[contentwidthselector id='styleWidth' group='content']-->
-      </div>
-      <div class="crow">
-       <!--[pnformlabel for='styleClass' __text='Styling']-->
-       <!--[contentclassselector id='styleClass' group='content']-->
-      </div>
-     </fieldset>
-    <!--[/pnformtabbedpanel]-->
+<!--[pnformtabbedpanel __title='Layout']-->
+<fieldset>
+    <legend><!--[gt text="Layout"]--></legend>
+    <!--[contentlabelhelp __text='Positioning works only with fixed width!']-->
+    <div class="z-formrow">
+        <!--[pnformlabel for='stylePosition' __text='Position']-->
+        <!--[contentpositionselector id='stylePosition' group='content']-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='styleWidth' __text='Width']-->
+        <!--[contentwidthselector id='styleWidth' group='content']-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='styleClass' __text='Styling']-->
+        <!--[contentclassselector id='styleClass' group='content']-->
+    </div>
+</fieldset>
+<!--[/pnformtabbedpanel]-->
 
-   <!--[/pnformtabbedpanelset]-->
-   
-   <!--[contentbuttons]-->
-     <!--[pnformbutton commandName="save" __text="Save"]-->
-     <!--[pnformbutton commandName="delete" __text="Delete" confirmMessage='Delete']-->
-     <!--[if $content.isTranslatable && $multilingual==1]-->
-      <!--[pnformbutton commandName="translate" __text="Translate"]-->
-     <!--[/if]-->
-     <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
-   <!--[/contentbuttons]-->
+<!--[/pnformtabbedpanelset]-->
 
-  <!--[/contentformframe]-->
+<!--[contentbuttons]-->
+<!--[pnformbutton commandName="save" __text="Save"]-->
+<!--[pnformbutton commandName="delete" __text="Delete" confirmMessage='Delete']-->
+<!--[if $content.isTranslatable && $multilingual==1]-->
+<!--[pnformbutton commandName="translate" __text="Translate"]-->
+<!--[/if]-->
+<!--[pnformbutton commandName="cancel" __text="Cancel"]-->
+<!--[/contentbuttons]-->
+
+<!--[/contentformframe]-->
 
 <!--[/pnform]-->
