@@ -96,7 +96,7 @@ function content_user_view($args)
     if ($pageId !== null && $versionId === null) {
         $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true));
     } else if ($versionId === null)
-        return LogUtil::registerError('Missing either vid or pid in parameters');
+        return LogUtil::registerArgsError();
 
     if ($page === false)
         return false;
