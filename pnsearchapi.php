@@ -17,7 +17,7 @@ function content_searchapi_info()
  **/
 function content_searchapi_options($args)
 {
-    if (SecurityUtil::checkPermission('Content::', '::', ACCESS_READ)) {
+    if (SecurityUtil::checkPermission('content::', '::', ACCESS_READ)) {
         $render = pnRender::getInstance('content');
         $render->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
         return $render->fetch('content_search_options.html');

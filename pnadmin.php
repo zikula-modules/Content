@@ -13,7 +13,7 @@ Loader::requireOnce('includes/pnForm.php');
 
 function content_admin_main()
 {
-    if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
+    if (!SecurityUtil::checkPermission('content::', '::', ACCESS_ADMIN))
         return LogUtil::registerPermissionError();
 
     $render = pnRender::getInstance('content');
@@ -25,7 +25,7 @@ class content_admin_settingsHandler extends pnFormHandler
 {
     function initialize(&$render)
     {
-        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
+        if (!SecurityUtil::checkPermission('content::', '::', ACCESS_ADMIN))
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
         //PageUtil::setVar('title', $page['title']);

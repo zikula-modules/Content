@@ -895,7 +895,7 @@ function &content_contentapi_getContentPlugins($args)
                     if (preg_match('/^([-a-zA-Z0-9_]+).php$/', $filename, $matches)) {
                         $contentTypeName = $matches[1];
                         // check permissions for this contentType plugin
-                        if (SecurityUtil::checkPermission('Content:plugins:content', $contentTypeName . '::', ACCESS_READ)) {
+                        if (SecurityUtil::checkPermission('content:plugins:content', $contentTypeName . '::', ACCESS_READ)) {
                             $plugins[] = pnModAPIFunc($module['name'], 'contenttypes', $contentTypeName, null);
                         }
                     }

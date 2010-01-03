@@ -45,7 +45,7 @@ function &content_layoutapi_getLayoutPlugins($args)
                 while (($filename = readdir($dh)) !== false) {
                     if (preg_match('/^([-a-zA-Z0-9_]+).php$/', $filename, $matches)) {
                         $layoutName = $matches[1];
-                        if (SecurityUtil::checkPermission('Content:plugins:layout', $layoutName . '::', ACCESS_READ))
+                        if (SecurityUtil::checkPermission('content:plugins:layout', $layoutName . '::', ACCESS_READ))
                             $plugins[] = pnModAPIFunc($module['name'], 'layouttypes', $layoutName);
                     }
                 }

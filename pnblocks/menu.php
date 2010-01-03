@@ -24,7 +24,7 @@ function content_menublock_info()
 function content_menublock_display($blockinfo)
 {
     // security check
-    if (!SecurityUtil::checkPermission('Content:menublock:', "$blockinfo[title]::", ACCESS_READ))
+    if (!SecurityUtil::checkPermission('content:menublock:', "$blockinfo[title]::", ACCESS_READ))
         return;
 
     $cacheId = 'menu|' . pnUserGetLang();

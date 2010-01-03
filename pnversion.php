@@ -17,7 +17,7 @@ $modversion['version']        = '3.1';
 $modversion['description']    = __('Content editing module', $dom);
 $modversion['displayname']    = __('Content', $dom);
 //! module url should be different to displayname and in lowercase without space
-$modversion['url']    = __('content', $dom);
+$modversion['url']            = __('content', $dom);
 
 // The following in formation is used by the credits module
 // to display the correct credits
@@ -32,4 +32,4 @@ $modversion['admin']          = 1;
 
 // This one adds the info to the DB, so that users can click on the
 // headings in the permission module
-$modversion['securityschema'] = array('Content::' => '::', 'Content:plugins:layout' => 'Layout name::', 'Content:plugins:content' => 'Content type name::');
+$modversion['securityschema'] = array('content::' => '::', 'content:plugins:layout' => 'Layout name::', 'content:plugins:content' => 'content type name::');

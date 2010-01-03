@@ -10,17 +10,17 @@
 
 function contentHasPageViewAccess($pageId = null)
 {
-    return SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ);
+    return SecurityUtil::checkPermission('content:page:', $pageId . '::', ACCESS_READ);
 }
 
 function contentHasPageCreateAccess()
 {
-    return SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD);
+    return SecurityUtil::checkPermission('content:page:', '::', ACCESS_ADD);
 }
 
 function contentHasPageEditAccess($pageId = null)
 {
-    return SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_EDIT);
+    return SecurityUtil::checkPermission('content:page:', $pageId . '::', ACCESS_EDIT);
 }
 
 function contentAddAccess(&$render, $pageId)
