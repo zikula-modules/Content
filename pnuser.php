@@ -101,11 +101,11 @@ function content_user_view($args)
     if ($page === false)
         return false;
 
-    $multilingual = pnModGetVar(PN_CONFIG__('Module', $dom), 'multilingual');
+    $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
     if ($page['language'] == pnUserGetLang())
         $multilingual = false;
 
-    PageUtil::setVar('title', ($preview ? _CONTENT_PREVIEW . ' - ' . $page['title'] : $page['title']));
+    PageUtil::setVar('title', ($preview ? __("Preview", $dom) . ' - ' . $page['title'] : $page['title']));
 
     //$layoutTemplate = 'layout/' . $page['layoutData']['name'] . '.html';
     $render = pnRender::getInstance('content');

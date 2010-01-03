@@ -1,5 +1,5 @@
 <!--[pnajaxheader modname=content dragdrop=1 builder=1 noscriptaculous=1]-->
-<!--[contentpagepath pageid=$page.id language=$page.language assign='subheader']-->
+<!--[contentpagepath pageId=$page.id language=$page.language assign='subheader']-->
 <!--[contentpageheading header='Edit page' subheader=$subheader]-->
 
 <script type="text/javascript" src="modules/content/pnjavascript/portal.js"></script>
@@ -19,12 +19,12 @@ Event.observe(window, 'load', content.editPageOnLoad);
 <!--[pnform]-->
 
   <!--[pnformcontextmenu id="contentEditMenu" width="auto"]-->
-    <!--[pnformcontextmenuitem __title='Edit' imageurl="images/icons/extrasmall/edit.gif" commandredirect=$editUrl]-->
-    <!--[pnformcontextmenuitem __title='Add new content above' imageurl="images/icons/extrasmall/insert_table_row_above.gif" commandredirect=$aboveUrl]-->
-    <!--[pnformcontextmenuitem __title='Add new content below' imageurl="images/icons/extrasmall/insert_table_row.gif" commandredirect=$belowUrl]-->
-    <!--[pnformcontextmenuitem __title='Delete' imageurl="images/icons/extrasmall/delete_table_row.gif" commandname='deleteContent' confirmmessage='Delete']-->
+    <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandRedirect=$editUrl]-->
+    <!--[pnformcontextmenuitem __title='Add new content above' imageURL="images/icons/extrasmall/insert_table_row_above.gif" commandRedirect=$aboveUrl]-->
+    <!--[pnformcontextmenuitem __title='Add new content below' imageURL="images/icons/extrasmall/insert_table_row.gif" commandRedirect=$belowUrl]-->
+    <!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deleteContent' confirmMessage='Delete']-->
     <!--[if $multilingual==1]-->
-    	<!--[pnformcontextmenuitem __title='Translate' imageurl="images/icons/extrasmall/voice-support.gif" commandredirect=$translateUrl]-->
+    	<!--[pnformcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl]-->
     <!--[/if]-->
   <!--[/pnformcontextmenu]-->
 
@@ -53,12 +53,12 @@ Event.observe(window, 'load', content.editPageOnLoad);
         <legend><!--[gt text="General Settings"]--></legend>
         <div class="crow">
           <!--[pnformlabel for='title' __text='Page title']-->
-          <!--[pnformtextinput id='title' mandatory='1' maxlength='255' width='20em' group='page']-->
+          <!--[pnformtextinput id='title' mandatory='1' maxLength='255' width='20em' group='page']-->
         </div>
         
         <div class="crow">
           <!--[pnformlabel for='urlname' __text='Permalink URL name']-->
-          <!--[pnformtextinput id='urlname' maxlength='255' width='20em' group='page']-->
+          <!--[pnformtextinput id='urlname' maxLength='255' width='20em' group='page']-->
           <!--[contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.']-->
         </div>
         <hr />
@@ -78,7 +78,7 @@ Event.observe(window, 'load', content.editPageOnLoad);
         <hr />
         <div class="crow">
           <!--[pnformlabel for='inMenu' __text='Page language']-->
-          <!--[pnformlanguageselector id='language' group='page' addalloption='0']-->
+          <!--[pnformlanguageselector id='language' group='page' addAllOption='0']-->
         </div>
         <div class="crow">
           <!--[pnformlabel for='inMenu' __text='Include page in menu']-->
@@ -90,7 +90,7 @@ Event.observe(window, 'load', content.editPageOnLoad);
         <legend><!--[gt text="Categories"]--></legend>
         <div class="crow">
           <!--[pnformlabel for='categoryId' __text='Primary category']-->
-          <!--[pnformcategoryselector id='categoryId' group='page' category=$mainCategory includeemptyelement='1']-->
+          <!--[pnformcategoryselector id='categoryId' group='page' category=$mainCategory includeEmptyElement='1']-->
         </div>
         <hr />
         <div class="crow">
@@ -116,14 +116,14 @@ Event.observe(window, 'load', content.editPageOnLoad);
     <!--[/pnformtabbedpanelset]-->
         
     <!--[contentbuttons]-->
-      <!--[pnformbutton commandname="save" __text="Save"]-->
-      <!--[pnformbutton commandname="deletePage" __text="Delete" confirmmessage='Delete']-->
+      <!--[pnformbutton commandName="save" __text="Save"]-->
+      <!--[pnformbutton commandName="deletePage" __text="Delete" confirmMessage='Delete']-->
       <button type="button" onclick="window.open('<!--[pnmodurl modname=content type=user func=view preview=1 pid=$page.id]-->')"><!--[gt text="Preview"]--></button>
-      <!--[pnformbutton commandname="saveAndView" __text="Save & View"]-->
+      <!--[pnformbutton commandName="saveAndView" __text="Save & View"]-->
       <!--[if $multilingual==1]-->
-    	<!--[pnformbutton commandname="translate" __text="Translate"]-->
+    	<!--[pnformbutton commandName="translate" __text="Translate"]-->
       <!--[/if]-->
-      <!--[pnformbutton commandname="cancel" __text="Cancel"]-->
+      <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
     <!--[/contentbuttons]-->
 
   <!--[/contentformframe]-->

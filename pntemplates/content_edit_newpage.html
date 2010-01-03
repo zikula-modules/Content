@@ -1,11 +1,11 @@
 <!--[contentpageheading header='Add new page' subheader="&nbsp;"]-->
-<!--[if isset($page)]--><div class="content-page-path"><!--[$locationLabel]--><!--[contentpagepath pageid=$page.id]--></div><!--[/if]-->
+<!--[if isset($page)]--><div class="content-page-path"><!--[$locationLabel]--><!--[contentpagepath pageId=$page.id]--></div><!--[/if]-->
 
 <!--[pngetstatusmsg]-->
 
 <!--[pnform]-->
 
-  <!--[pnformsetinitialfocus inputid='title']-->
+  <!--[pnformsetinitialfocus inputId='title']-->
 
   <!--[pnformerrormessage id='error']-->
 
@@ -13,12 +13,12 @@
     <fieldset>
     <div class="crow">
       <!--[pnformlabel for='title' __text='Page title']-->
-      <!--[pnformtextinput id='title' mandatory='1' maxlength='255' width='20em']-->
+      <!--[pnformtextinput id='title' mandatory='1' maxLength='255' width='20em']-->
     </div>
     
     <div class="crow">
       <!--[pnformlabel for='urlname' __text='Permalink URL name']-->
-      <!--[pnformtextinput id='urlname' maxlength='255' width='20em']-->
+      <!--[pnformtextinput id='urlname' maxLength='255' width='20em']-->
       <!--[contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.']-->
     </div>
 
@@ -29,8 +29,8 @@
     </fieldset>
 
     <!--[contentbuttons]-->
-      <!--[pnformbutton commandname="create" __text="Create"]-->
-      <!--[pnformbutton commandname="cancel" __text="Cancel"]-->
+      <!--[pnformbutton commandName="create" __text="Create"]-->
+      <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
     <!--[/contentbuttons]-->
 
   <!--[/contentformframe]-->

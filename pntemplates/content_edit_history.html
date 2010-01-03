@@ -1,48 +1,48 @@
-<!--[contentpagepath pageid=$page.id language=$page.language assign='subheader']-->
+<!--[contentpagepath pageId=$page.id language=$page.language assign='subheader']-->
 <!--[contentpageheading header='Page history' subheader=$subheader]-->
 <!--[pnpageaddvar name="stylesheet" value="system/Admin/pnstyle/admin.css"]-->
 <div class="content-navigation">
- <div class="content-links">
-  <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->"><!--[gt text="Back to page"]--></a>
-  |
-  <a href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[gt text="Page list"]--></a>
- </div>
+    <div class="content-links">
+        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->"><!--[gt text="Back to page"]--></a>
+        |
+        <a href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[gt text="Page list"]--></a>
+    </div>
 </div>
 
 <!--[pnmodgetvar module="Content" name="enableVersioning" assign=enableVersioning]-->
 <!--[if empty($enableVersioning)]-->
-  <div class="pn-warningmsg"><!--[gt text="Version history is currently disabled and no new entries will be recorded."]--></div>
+<p class="z-warningmsg"><!--[gt text="Version history is currently disabled and no new entries will be recorded."]--></p>
 <!--[/if]-->
 
 <!--[pnform]-->
 
-  <!--[if count($versions) > 0]-->
-  <table class="pn-admintable">
-   <thead>
-    <tr>
-     <th><!--[gt text="#"]--></th>
-     <th><!--[gt text="Date"]--></th>
-     <th><!--[gt text="Event"]--></th>
-     <th><!--[gt text="User"]--></th>
-     <th><!--[gt text="IP.No."]--></th>
-     <th><!--[gt text="Action"]--></th>
-    </tr>
-   </thead>
-   <tbody>
-   <!--[foreach from=$versions item=version]-->
-    <tr class="<!--[cycle values="pn-odd,pn-even"]-->">
-      <td><!--[$version.revisionNo]--></td> 
-      <td><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->" target="_blank"><!--[$version.date]--></a></td> 
-      <td><!--[$version.action]--></td> 
-      <td><!--[$version.userName]--></td> 
-      <td><!--[$version.ipno]--></td>
-      <td><!--[pnformbutton __text="Restore" commandname="restore" commandargument=$version.id confirmmessage='Restore']--></td>
-    </tr>
-   <!--[/foreach]-->
-   </tbody>
-  </table>
-  <!--[else]-->
-  <em><!--[gt text="No history data recorded."]--></em>
-  <!--[/if]-->
+<!--[if count($versions) > 0]-->
+<table class="z-admintable">
+    <thead>
+        <tr>
+            <th><!--[gt text="#"]--></th>
+            <th><!--[gt text="Date"]--></th>
+            <th><!--[gt text="Event"]--></th>
+            <th><!--[gt text="User"]--></th>
+            <th><!--[gt text="IP.No."]--></th>
+            <th><!--[gt text="Action"]--></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--[foreach from=$versions item=version]-->
+        <tr class="<!--[cycle values="z-odd,z-even"]-->">
+            <td><!--[$version.revisionNo]--></td>
+            <td><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->" target="_blank"><!--[$version.date]--></a></td>
+            <td><!--[$version.action]--></td>
+            <td><!--[$version.userName]--></td>
+            <td><!--[$version.ipno]--></td>
+            <td><!--[pnformbutton __text="Restore" commandName="restore" commandArgument=$version.id confirmMessage='Restore']--></td>
+        </tr>
+        <!--[/foreach]-->
+    </tbody>
+</table>
+<!--[else]-->
+<em><!--[gt text="No history data recorded."]--></em>
+<!--[/if]-->
 
 <!--[/pnform]-->

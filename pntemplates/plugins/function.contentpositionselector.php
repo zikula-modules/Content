@@ -33,6 +33,7 @@ class ContentPositionSelector extends pnFormPlugin
 
   function render(&$render)
   {
+    $dom = ZLanguage::getModuleDomain('content');
     $nameHtml = " name=\"{$this->inputName}\"";
 
     $nnChecked = ($this->value == 'none' ? ' checked="checked"' : '');
@@ -45,35 +46,35 @@ class ContentPositionSelector extends pnFormPlugin
     if (empty($nnChecked) && empty($abChecked) && empty($tlChecked) && empty($trChecked) && empty($alChecked) && empty($arChecked))
       $nnChecked = ' checked="checked"';
 
-    $html = "<ul class=\"contentPositionSelector\">";
+    $html = "<ul id=\"{$this->id}\" class=\"contentPositionSelector\">";
     $html .= "
 <li>
-<label for=\"{$this->id}_nn\"><img src=\"modules/content/pnimages/box-none.gif\" alt=\"" . _CONTENT_POSNONE . "\"/></label>
+<label for=\"{$this->id}_nn\"><img src=\"modules/content/pnimages/box-none.gif\" alt=\"" . __("No box", $dom) . "\"/></label>
 <input type=\"radio\"{$nameHtml} value=\"none\" id=\"{$this->id}_nn\"{$nnChecked}/>
 </li>";
     $html .= "
 <li>
-<label for=\"{$this->id}_ab\"><img src=\"modules/content/pnimages/box-above.gif\" alt=\"" . _CONTENT_POSABOVE . "\"/></label>
+<label for=\"{$this->id}_ab\"><img src=\"modules/content/pnimages/box-above.gif\" alt=\"" . __("Above", $dom) . "\"/></label>
 <input type=\"radio\"{$nameHtml} value=\"above\" id=\"{$this->id}_ab\"{$abChecked}/>
 </li>";
     $html .= "
 <li>
-<label for=\"{$this->id}_tl\"><img src=\"modules/content/pnimages/box-topLeft.gif\" alt=\"" . _CONTENT_POSTOPLEFT . "\"/></label>
+<label for=\"{$this->id}_tl\"><img src=\"modules/content/pnimages/box-topLeft.gif\" alt=\"" . __("Float, left", $dom) . "\"/></label>
 <input type=\"radio\"{$nameHtml} value=\"topLeft\" id=\"{$this->id}_tl\"{$tlChecked}/>
 </li>";
     $html .= "
 <li>
-<label for=\"{$this->id}_tr\"><img src=\"modules/content/pnimages/box-topRight.gif\" alt=\"" . _CONTENT_POSTOPRIGHT . "\"/></label>
+<label for=\"{$this->id}_tr\"><img src=\"modules/content/pnimages/box-topRight.gif\" alt=\"" . __("Float, right", $dom) . "\"/></label>
 <input type=\"radio\"{$nameHtml} value=\"topRight\" id=\"{$this->id}_tr\"{$trChecked}/>
 </li>";
     $html .= "
 <li>
-<label for=\"{$this->id}_al\"><img src=\"modules/content/pnimages/box-aboveLeft.gif\" alt=\"" . _CONTENT_POSABOVELEFT . "\"/></label>
+<label for=\"{$this->id}_al\"><img src=\"modules/content/pnimages/box-aboveLeft.gif\" alt=\"" . __("Above, left", $dom) . "\"/></label>
 <input type=\"radio\"{$nameHtml} value=\"aboveLeft\" id=\"{$this->id}_al\"{$alChecked}/>
 </li>";
     $html .= "
 <li>
-<label for=\"{$this->id}_ar\"><img src=\"modules/content/pnimages/box-aboveRight.gif\" alt=\"" . _CONTENT_POSABOVERIGHT . "\"/></label>
+<label for=\"{$this->id}_ar\"><img src=\"modules/content/pnimages/box-aboveRight.gif\" alt=\"" . __("Above, right", $dom) . "\"/></label>
 <input type=\"radio\"{$nameHtml} value=\"aboveRight\" id=\"{$this->id}_ar\"{$arChecked}/>
 </li>";
     $html .= "</ul>";

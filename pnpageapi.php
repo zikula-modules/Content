@@ -396,7 +396,7 @@ function content_pageapi_newPage($args)
     if ($ok === false)
         return false;
 
-    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '_CONTENT_HISTORYPAGEADDED' /* delayed translation */));
+    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '__("Page added", $dom)' /* delayed translation */));
     if ($ok === false)
         return false;
 
@@ -411,7 +411,7 @@ function content_pageapi_updatePage($args)
     $dom = ZLanguage::getModuleDomain('content');
     $pageData = $args['page'];
     $pageId = (int) $args['pageId'];
-    $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : '_CONTENT_HISTORYPAGEUPDATED' /* delayed translation */);
+    $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : '__("Page updated", $dom)' /* delayed translation */);
 
     if (!isset($pageData['urlname']) || empty($pageData['urlname']))
         $pageData['urlname'] = $pageData['title'];
@@ -566,7 +566,7 @@ function content_pageapi_updateTranslation($args)
     DBUtil::insertObject($translatedData, 'content_translatedpage');
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYTRANSLATED' /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '__("Translated", $dom)' /* delayed translation */));
         if ($ok === false)
             return false;
     }
@@ -597,7 +597,7 @@ function content_pageapi_deleteTranslation($args)
         return false;
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYTRANSLATIONDEL' /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '__("Translation deleted", $dom)' /* delayed translation */));
         if ($ok === false)
             return false;
     }

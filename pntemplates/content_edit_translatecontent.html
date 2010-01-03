@@ -2,37 +2,37 @@
 
 <!--[pnform]-->
 
-  <!--[contentformframe]-->
+<!--[contentformframe]-->
 
-    <!--[if $isTranslatable]-->
-      <fieldset id="contentTranslateOriginal">
-        <legend><!--[gt text="Original content"]--></legend>
-        <!--[include file=$translateOriginalTemplate]-->
-      </fieldset>
+<!--[if $isTranslatable]-->
+<fieldset id="contentTranslateOriginal">
+    <legend><!--[gt text="Original content"]--></legend>
+    <!--[include file=$translateOriginalTemplate]-->
+</fieldset>
 
-      <br />
-      <fieldset id="contentTranslateNew">
-        <legend><!--[gt text="Translated content"]--> (<!--[$language]-->)</legend>
-        <!--[include file=$translateNewTemplate]-->
-      </fieldset>
+<br />
+<fieldset id="contentTranslateNew">
+    <legend><!--[gt text="Translated content"]--> (<!--[$language]-->)</legend>
+    <!--[include file=$translateNewTemplate]-->
+</fieldset>
 
-      <!--[contentbuttons]-->
-        <!--[pnformbutton commandname="prev" __text="Previous"]-->
-        <!--[pnformbutton commandname="next" __text="Next"]--> &mdash;
-        <!--[pnformbutton commandname="skip" __text="Skip"]-->
-        <!--[pnformbutton commandname="quit" __text="Save"]-->
-        <!--[pnformbutton commandname="delete" __text="Delete" confirmmessage='Delete']-->
-        <!--[pnformbutton commandname="cancel" __text="Cancel"]-->
-        <!--[pnformdropdownlist id='translationStep' items=$translationInfo.items autopostback='1' onselectedindexchanged='handleCommand']-->
-      <!--[/contentbuttons]-->
-    <!--[else]-->
-      <div class="pn-warningmsg"><!--[gt text="Sorry, but there is nothing to translate for this content type."]--></div>
+<!--[contentbuttons]-->
+<!--[pnformbutton commandName="prev" __text="Previous"]-->
+<!--[pnformbutton commandName="next" __text="Next"]--> &mdash;
+<!--[pnformbutton commandName="skip" __text="Skip"]-->
+<!--[pnformbutton commandName="quit" __text="Save"]-->
+<!--[pnformbutton commandName="delete" __text="Delete" confirmMessage='Delete']-->
+<!--[pnformbutton commandName="cancel" __text="Cancel"]-->
+<!--[pnformdropdownlist id='translationStep' items=$translationInfo.items autoPostBack='1' onselectedindexchanged='handleCommand']-->
+<!--[/contentbuttons]-->
+<!--[else]-->
+<p class="z-warningmsg"><!--[gt text="Sorry, but there is nothing to translate for this content type."]--></p>
 
-      <!--[contentbuttons]-->
-        <!--[pnformbutton commandname="cancel" __text="Back"]-->
-      <!--[/contentbuttons]-->
-    <!--[/if]-->
+<!--[contentbuttons]-->
+<!--[pnformbutton commandName="cancel" __text="Back"]-->
+<!--[/contentbuttons]-->
+<!--[/if]-->
 
-  <!--[/contentformframe]-->
+<!--[/contentformframe]-->
 
 <!--[/pnform]-->

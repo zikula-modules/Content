@@ -10,6 +10,7 @@
 
 function smarty_function_contenteditthis($params, &$render) 
 {
+  $dom = ZLanguage::getModuleDomain('content');
   $data = $params['data'];
   $type = $params['type'];
   $access = $params['access'];  
@@ -33,11 +34,11 @@ function smarty_function_contenteditthis($params, &$render)
                                                array('pid' => $data['id'], 'back' => 1)));
     $translateurl = DataUtil::formatForDisplay(pnModURL('content', 'edit', 'translatepage', 
                                                         array('pid' => $data['id'], 'back' => 1)));
-    $html .= "<a href=\"$url\">" .  _CONTENT_EDITTHISPAGE . "</a>";
+    $html .= "<a href=\"$url\">" .  __("Edit this page", $dom) . "</a>";
     if ($vars['multilingual'] == 1) {
-        $html .= "| <a href=\"$translateurl\">". _CONTENT_TRANSLATETHISPAGE ."</a>";
+        $html .= "| <a href=\"$translateurl\">". __("Translate this page", $dom) ."</a>";
     }
-    $html .= '</div>';                                      
+    $html .= '</div>';
   } 
   elseif ($type == 'content' && $editmode) 
   {
@@ -46,9 +47,9 @@ function smarty_function_contenteditthis($params, &$render)
                                                array('cid' => $data['id'], 'back' => 1)));
     $translateurl = DataUtil::formatForDisplay(pnModURL('content', 'edit', 'translatecontent', 
                                                array('cid' => $data['id'], 'back' => 1)));                       
-    $html .= "[<a href=\"$url\">" .  _CONTENT_EDITTHIS . "</a>] ";
+    $html .= "[<a href=\"$url\">" .  __("Edit", $dom) . "</a>] ";
     if ($vars['multilingual'] == 1) {
-        $html .= "[<a href=\"$translateurl\">". _CONTENT_TRANSLATETHIS ."</a>]";
+        $html .= "[<a href=\"$translateurl\">". __("Translate", $dom) ."</a>]";
     }                    
     $html .= '</div>';                
   }

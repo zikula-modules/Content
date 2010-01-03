@@ -10,6 +10,7 @@
 
 function smarty_function_contentinsertlink($params, &$render) 
 {
+  $dom = ZLanguage::getModuleDomain('content');
   $pageId = $params['pageId'];
   $contentAreaIndex = $params['contentAreaIndex'];
   $position = isset($params['position']) ? $params['position'] : 0;
@@ -18,7 +19,7 @@ function smarty_function_contentinsertlink($params, &$render)
                         'cai' => $contentAreaIndex,
                         'position' => $position));
   $url = DataUtil::formatForDisplay($url);
-  $html = "<a href=\"$url\" class=\"content-action\">" . _CONTENT_NEWCONTENTLINK . "</a>";
+  $html = "<a href=\"$url\" class=\"content-action\">" . __("Add new content here", $dom) . "</a>";
 
   if (isset($params['assign']))
     $smarty->assign($params['assign'], $html);

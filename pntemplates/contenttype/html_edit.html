@@ -1,19 +1,19 @@
 <div class="row">
-  <!--[pnformlabel for='text' __text='Text']--><br/>
-  <!--[pnformtextinput id='text' textmode='multiline' group='data' cols='60' rows='20']-->
+  <!--[pnformlabel for='text' __text='Text']--><br />
+  <!--[pnformtextinput id='text' textMode='multiline' group='data' cols='60' rows='20']-->
 </div>
 
 <!--[pnmodavailable modname=scribite assign=scribite]-->
 
 <div class="row">
   <!--[if $scribite]-->
-   <!--[pnformradiobutton id='htmlButton' value='html' datafield='inputType' group='data' mandatory='1' autopostback='1']--> 
+   <!--[pnformradiobutton id='htmlButton' value='html' dataField='inputType' group='data' mandatory='1' autoPostBack='1']--> 
    <!--[pnformlabel for='htmlButton' __text='HTML']-->
   <!--[/if]-->
-  <!--[pnformradiobutton id='textButton' value='text' datafield='inputType' group='data' mandatory='1' autopostback='1' checked='true']--> 
+  <!--[pnformradiobutton id='textButton' value='text' dataField='inputType' group='data' mandatory='1' autoPostBack='1' checked='true']--> 
   <!--[pnformlabel for='textButton' __text='Formatted text']-->
-  <!--[pnformradiobutton id='rawButton' value='raw' datafield='inputType' group='data' mandatory='1' autopostback='1']--> 
+  <!--[pnformradiobutton id='rawButton' value='raw' dataField='inputType' group='data' mandatory='1' autoPostBack='1']--> 
   <!--[pnformlabel for='rawButton' __text='Unformatted text']-->
 </div>
 
-<!--[contenthtmleditor inputid='text' htmlradioid='htmlButton' textradioid='textButton' inputtype=$contentType.plugin->inputType]-->
+<!--[contenthtmleditor inputId='text' htmlradioid='htmlButton' textradioid='textButton' inputtype=$contentType.plugin->inputType]-->

@@ -22,6 +22,7 @@ class content_edit_mainHandler extends pnFormHandler
 
     function initialize(&$render)
     {
+        $dom = ZLanguage::getModuleDomain('content');
         if (!contentHasPageEditAccess())
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
@@ -35,7 +36,7 @@ class content_edit_mainHandler extends pnFormHandler
         PageUtil::addVar('stylesheet', $csssrc);
 
         $render->assign('pages', $pages);
-        $render->assign('multilingual', pnModGetVar(PN_CONFIG__('Module', $dom), 'multilingual'));
+        $render->assign('multilingual', pnModGetVar(PN_CONFIG_MODULE, 'multilingual'));
         contentAddAccess($render, null);
 
         return true;
@@ -162,7 +163,7 @@ class content_edit_newPageHandler extends pnFormHandler
     function handleCommand(&$render, &$args)
     {
         if (!contentHasPageCreateAccess())
-            return $render->pnFormSetErrorMsg(_CONTENT_NOTAUTHORIZED);
+            return $render->pnFormSetErrorMsg(__('Sorry! You have not been granted access to this page.', $dom));
 
         if ($args['commandName'] == 'create') {
             if (!$render->pnFormIsValid())
@@ -221,11 +222,11 @@ class content_edit_editPageHandler extends pnFormHandler
         $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
 
 
-        $multilingual = pnModGetVar(PN_CONFIG__('Module', $dom), 'multilingual');
+        $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
         if ($page['language'] == pnUserGetLang())
             $multilingual = false;
 
-        PageUtil::setVar('title', _CONTENT_EDITPAGEHEADER . ' : ' . $page['title']);
+        PageUtil::setVar('title', __("Edit page", $dom) . ' : ' . $page['title']);
 
         $layoutTemplate = 'layout/' . $page['layoutData']['name'] . '_edit.html';
         $render->assign('layoutTemplate', $layoutTemplate);
@@ -356,7 +357,7 @@ class content_edit_newContentHandler extends pnFormHandler
         if ($page === false)
             return $render->pnFormRegisterError(null);
 
-        PageUtil::setVar('title', _CONTENT_NEWCONTENTHEADER . ' : ' . $page['title']);
+        PageUtil::setVar('title', __("Add new content to page", $dom) . ' : ' . $page['title']);
 
         $render->assign('page', $page);
         $render->assign('htmlBody', 'content_edit_newcontent.html');
@@ -437,11 +438,11 @@ class content_edit_editContentHandler extends pnFormHandler
         if ($page === false)
             return $render->pnFormRegisterError(null);
 
-        $multilingual = pnModGetVar(PN_CONFIG__('Module', $dom), 'multilingual');
+        $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
         if ($page['language'] == pnUserGetLang())
             $multilingual = false;
 
-        PageUtil::setVar('title', _CONTENT_EDITCONTENTHEADER . ' : ' . $page['title']);
+        PageUtil::setVar('title', __("Edit content item", $dom) . ' : ' . $page['title']);
 
         $template = 'file:' . getcwd() . "/modules/$content[module]/pntemplates/contenttype/" . $content['type'] . '_edit.html';
         $render->assign('contentTypeTemplate', $template);
@@ -542,7 +543,7 @@ class content_edit_translatePageHandler extends pnFormHandler
         if ($this->language == $page['language'])
             return $render->pnFormRegisterError(LogUtil::registerError(__("You should not translate item to same language as it's default language.", $dom)));
 
-    PageUtil::setVar('title', _CONTENT_TRANSLATEPAGEHEADER . ' : ' . $page['title']);
+    PageUtil::setVar('title', __("Translate page", $dom) . ' : ' . $page['title']);
 
     $render->assign('page', $page);
     $render->assign('translated', $page['translated']);
@@ -680,7 +681,7 @@ class content_edit_translateContentHandler extends pnFormHandler
         if ($translationInfo === false)
             return $render->pnFormRegisterError(null);
 
-        PageUtil::setVar('title', _CONTENT_TRANSLATECONTENTHEADER . ' : ' . $page['title']);
+        PageUtil::setVar('title', __("Translate content item", $dom) . ' : ' . $page['title']);
 
         $templateOriginal = 'file:' . getcwd() . "/modules/$content[module]/pntemplates/contenttype/" . $content['type'] . '_translate_original.html';
         $templateNew = 'file:' . getcwd() . "/modules/$content[module]/pntemplates/contenttype/" . $content['type'] . '_translate_new.html';
@@ -794,7 +795,7 @@ class content_edit_historyContentHandler extends pnFormHandler
         $render->assign('versions', $versions);
         contentAddAccess($render, $this->pageId);
 
-        PageUtil::setVar('title', _CONTENT_HISTORYHEADER . ' : ' . $page['title']);
+        PageUtil::setVar('title', __("Page history", $dom) . ' : ' . $page['title']);
 
         if (!$render->pnFormIsPostBack() && FormUtil::getPassedValue('back', 0))
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;

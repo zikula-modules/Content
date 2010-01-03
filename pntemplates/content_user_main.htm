@@ -1,12 +1,13 @@
 <!--[sitename assign=sitename]-->
-<h1><!--[pnml name=_CONTENT_WELCOME sitename=$sitename]--></h1>
-<p><!--[pnml name=_CONTENT_AVAILABLESECTIONS]--></p>
+<h1><!--[gt text='Welcome to the sections page for %s' tag1=$sitename]--></h1>
+<p><!--[gt text="The available sections are as follows:"]--></p>
 <ul>
-  <!--[foreach from=$categories item=category]-->
+    <!--[foreach from=$categories item=category]-->
     <!--[if $shorturls and $shorturlstype==0 and 0]-->
-      <li><a href="<!--[pnmodurl modname=Content func=view cat=$category.path|replace:$rootCategory.path:'']-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
+    <li><a href="<!--[pnmodurl modname=Content func=view cat=$category.path|replace:$rootCategory.path:'']-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
     <!--[else]-->
-      <li><a href="<!--[pnmodurl modname=Content func=list cat=$category.id]-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
-    <!--[/if]-->		
-  <!--[/foreach]-->
+    <li><a href="<!--[pnmodurl modname=Content func=list cat=$category.id]-->" title="<!--[$category.display_desc.$lang]-->"><!--[$category.display_name.$lang]--></a></li>
+    <!--[/if]-->
+    <!--[/foreach]-->
 </ul>
+

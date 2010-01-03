@@ -10,6 +10,7 @@
 
 function smarty_function_contenthtmleditor($params, &$render) 
 {
+  $dom = ZLanguage::getModuleDomain('content');
   $inputId = $params['inputId'];
   $inputType = isset($params['inputType']) ? $params['inputType'] : null;
 
@@ -36,7 +37,7 @@ function smarty_function_contenthtmleditor($params, &$render)
   }
   else if ($useWysiwyg && !pnModAvailable('scribite'))
   {
-    $html = '(' . _COTYPE_INSTALLSCRIBITE . ')';
+    $html = '(' . __("Please install Scribite to get a real HTML editor.", $dom) . ')';
   }
   else if ($useBBCode && pnModAvailable('bbcode'))
   {
@@ -44,7 +45,7 @@ function smarty_function_contenthtmleditor($params, &$render)
   }
   else if ($useBBCode && !pnModAvailable('bbcode'))
   {
-    $html = '(' . _COTYPE_INSTALLBBCODE . ')';
+    $html = '(' . __("Please install the hook BBCode to enable bbcode filtering.", $dom) . ')';
   }
 
   return $html;
