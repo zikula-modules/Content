@@ -3,12 +3,14 @@
  * Content RSS plugin
  *
  * @copyright (C) 2007, Content Development Team
- * @link http://noc.postnuke.com/projects/content/
+ * @link http://code.zikula.org/content
  * @version $Id$
  * @license See license.txt
  */
 
-Loader::requireOnce('modules/content/pnincludes/simplepie/simplepie.inc');
+if (class_exists('SimplePie')) {
+    Loader::requireOnce('includes/classes/SimplePie/simplepie.inc');
+}
 
 class content_contenttypesapi_RSSPlugin extends contentTypeBase
 {

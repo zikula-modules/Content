@@ -13,7 +13,7 @@
 $dom = ZLanguage::getModuleDomain('content');
 $modversion['name']           = 'content';
 // the version string must not exceed 10 characters!
-$modversion['version']        = '3.1.0';
+$modversion['version']        = '3.1';
 $modversion['description']    = __('Content editing module', $dom);
 $modversion['displayname']    = __('Content', $dom);
 //! module url should be different to displayname and in lowercase without space
