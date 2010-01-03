@@ -19,7 +19,7 @@
  * @param string
  * @return string|void
  */
-function smarty_modifier_paragraph($string,$br = 1) {
+function smarty_modifier_paragraph($string,$br = 0) {
 	
     if($string != '') {
         $string = $string . "\n"; // just to make things a little easier, pad the end
