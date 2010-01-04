@@ -31,8 +31,7 @@ function smarty_function_contenthtmleditor($params, &$render)
 
   if ($useWysiwyg && pnModAvailable('scribite'))
   {
-    $scribite = pnModFunc('scribite','user','loader', array('modulename' => 'content',
-                                                            'areas' => array($inputId)));
+    $scribite = pnModFunc('scribite','user','loader', array('modulename' => 'content', 'areas' => array($inputId)));
     PageUtil::AddVar('rawtext', $scribite);
   }
   else if ($useWysiwyg && !pnModAvailable('scribite'))
@@ -50,5 +49,3 @@ function smarty_function_contenthtmleditor($params, &$render)
 
   return $html;
 }
-
-?>

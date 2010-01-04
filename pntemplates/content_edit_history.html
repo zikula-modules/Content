@@ -1,11 +1,12 @@
 <!--[contentpagepath pageId=$page.id language=$page.language assign='subheader']-->
 <!--[contentpageheading __header='Page history' subheader=$subheader]-->
-<div class="content-navigation">
-    <div class="content-links">
-        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->"><!--[gt text="Back to page"]--></a>
+<div class="z-menu">
+    <span class="z-menuitem-title">
+        [ <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->"><!--[gt text="Back to page"]--></a>
         |
         <a href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[gt text="Page list"]--></a>
-    </div>
+        ]
+    </span>
 </div>
 
 <!--[pnmodgetvar module="Content" name="enableVersioning" assign=enableVersioning]-->
@@ -31,7 +32,7 @@
         <!--[foreach from=$versions item=version]-->
         <tr class="<!--[cycle values="z-odd,z-even"]-->">
             <td><!--[$version.revisionNo]--></td>
-            <td><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->" target="_blank"><!--[$version.date]--></a></td>
+            <td><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->"><!--[$version.date|pndate_format:datetimebrief]--></a></td>
             <td><!--[$version.action]--></td>
             <td><!--[$version.userName]--></td>
             <td><!--[$version.ipno]--></td>
@@ -41,7 +42,7 @@
     </tbody>
 </table>
 <!--[else]-->
-<em><!--[gt text="No history data recorded."]--></em>
+<p><em><!--[gt text="No history data recorded."]--></em></p>
 <!--[/if]-->
 
 <!--[/pnform]-->

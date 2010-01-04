@@ -14,7 +14,7 @@
 <!--[pnmodurl modname=content type=edit func=newcontent above=0 cid="{commandArgument}" assign=belowUrl]-->
 <!--[pnmodurl modname=content type=edit func=translatecontent cid="{commandArgument}" assign=translateUrl]-->
 
-<!--[pngetstatusmsg]-->
+<!--[insert name="getstatusmsg"]-->
 
 <!--[pnform cssClass='z-form']-->
 
@@ -50,18 +50,27 @@
 
 <!--[pnformtabbedpanel __title='Options']-->
 <fieldset>
-    <legend><!--[gt text="General Settings"]--></legend>
+    <legend><!--[gt text="Page settings"]--></legend>
     <div class="z-formrow">
         <!--[pnformlabel for='title' __text='Page title']-->
         <!--[pnformtextinput id='title' mandatory='1' maxLength='255' group='page']-->
     </div>
-
     <div class="z-formrow">
         <!--[pnformlabel for='urlname' __text='Permalink URL name']-->
         <!--[pnformtextinput id='urlname' maxLength='255' group='page']-->
         <!--[contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.']-->
     </div>
-    <hr />
+    <div class="z-formrow">
+        <!--[pnformlabel for='inMenu' __text='Page language']-->
+        <!--[pnformlanguageselector id='language' group='page' addAllOption='0']-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='inMenu' __text='Include page in menu']-->
+        <!--[pnformcheckbox id='inMenu' group='page']-->
+    </div>
+</fieldset>
+<fieldset>
+    <legend><!--[gt text="Page state"]--></legend>
     <div class="z-formrow">
         <!--[pnformlabel for='active' __text='Online']-->
         <!--[pnformcheckbox id='active' group='page']-->
@@ -74,15 +83,6 @@
     <div class="z-formrow">
         <!--[pnformlabel for='activeTo' __text='to (YYYY-MM-DD)']-->
         <!--[pnformdateinput id='activeTo' group='page']-->
-    </div>
-    <hr />
-    <div class="z-formrow">
-        <!--[pnformlabel for='inMenu' __text='Page language']-->
-        <!--[pnformlanguageselector id='language' group='page' addAllOption='0']-->
-    </div>
-    <div class="z-formrow">
-        <!--[pnformlabel for='inMenu' __text='Include page in menu']-->
-        <!--[pnformcheckbox id='inMenu' group='page']-->
     </div>
 </fieldset>
 

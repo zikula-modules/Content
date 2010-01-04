@@ -10,6 +10,9 @@ Version 3.1.0
 * Fix #24/#60 - module not showing in admin-panel
 * Fix #53/#61/#72 - removed SimplePie and backend errors
 * Fix #85 - Replaced lightboxXL and greybox with Lightwindow
+* Fix #77 - Page title gets sanitized twice
+* Removed Circavie.com plugin
+* Added more classes to each contenttype
 
 Version 3.0.0
 -------------

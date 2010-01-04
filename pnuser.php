@@ -84,7 +84,7 @@ function content_user_view($args)
         //var_dump($version);
         $translatable = array('revisionNo' => $version['revisionNo'], 'date' => $version['date'], 'action' => constant($version['action']), 'userName' => $version['userName'], 'ipno' => $version['ipno']);
         $iconSrc = 'images/icons/extrasmall/clock.gif';
-        $versionHtml = "<p class=\"content-versionpreview\"><img src=\"$iconSrc\"/> " . __f('Version #%1$s - %2$s - %3$s by %4$s from %5$s', $translatable, $dom) . "</p>";
+        $versionHtml = "<p class=\"content-versionpreview\"><img alt=\"\" src=\"$iconSrc\"/> " . __f('Version #%1$s - %2$s - %3$s by %4$s from %5$s', $translatable, $dom) . "</p>";
     } else if ($pageId === null && !empty($urlname)) {
         $pageId = pnModAPIFunc('content', 'page', 'solveURLPath', compact('urlname'));
         pnQueryStringSetVar('pid', $pageId);

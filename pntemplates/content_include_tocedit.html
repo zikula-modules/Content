@@ -34,7 +34,7 @@
             <tr>
                 <th><!--[gt text="Page title"]--></th>
                 <th><!--[gt text="Last updated"]--></th>
-                <th><!--[gt text="By"]--></th>
+                <th><!--[gt text="Created By"]--></th>
                 <!--[if $multilingual]--><th><!--[gt text="Language"]--></th><!--[/if]-->
                 <!--[if $multilingual]--><th><!--[gt text="Translated"]--></th><!--[/if]-->
             </tr>
@@ -46,7 +46,7 @@
                 <td style="padding-left: <!--[$page.level]-->em">
                     <div id="page_<!--[$page.id]-->">
                         <!--[if $page.setRight - $page.setLeft != 1]-->
-                        <!--[if $page.isExpanded]--><img src="modules/content/pnimages/page-expanded.gif" onclick="contentToggle(<!--[$page.id]-->)" class="clickable"/><!--[else]--><img src="modules/content/pnimages/page-collapsed.gif" onclick="contentToggle(<!--[$page.id]-->)" class="clickable"/><!--[/if]-->
+                        <!--[if $page.isExpanded]--><img src="modules/content/pnimages/page-expanded.gif" onclick="contentToggle(<!--[$page.id]-->)" class="clickable"/><!--[else]--><img src="modules/content/pnimages/page-collapsed.gif" onclick="contentToggle(<!--[$page.id]-->)" alt="" class="clickable"/><!--[/if]-->
                         <!--[else]-->
                         <img src="modules/content/pnimages/page-none.gif" alt="" />
                         <!--[/if]-->

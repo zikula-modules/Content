@@ -111,7 +111,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     {
         $dom = ZLanguage::getModuleDomain('content');
         $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false));
-        return "<h3>" . pnML(__("Table of contents of %title%", $dom), array("title" => $page['title'])) . "</h3>";
+        return "<h3>" . __f('Table of contents of %1$s', array("title" => $page['title']), $dom) . "</h3>";
     }
 
     function getDefaultData()

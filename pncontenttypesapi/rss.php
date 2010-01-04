@@ -8,9 +8,11 @@
  * @license See license.txt
  */
 
-if (class_exists('SimplePie')) {
-    Loader::requireOnce('includes/classes/SimplePie/simplepie.inc');
-}
+//if (class_exists('SimplePie')) {
+//    Loader::requireOnce('includes/classes/SimplePie/simplepie.inc');
+//}
+
+require_once 'includes/classes/SimplePie/simplepie.inc';
 
 class content_contenttypesapi_RSSPlugin extends contentTypeBase
 {

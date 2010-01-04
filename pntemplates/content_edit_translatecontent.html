@@ -5,13 +5,14 @@
 <!--[contentformframe]-->
 
 <!--[if $isTranslatable]-->
-<fieldset id="contentTranslateOriginal">
+<fieldset id="contentTranslateOriginal" class="z-linear">
     <legend><!--[gt text="Original content"]--></legend>
-    <!--[include file=$translateOriginalTemplate]-->
+    <div class="z-formrow">
+        <!--[include file=$translateOriginalTemplate]-->
+    </div>
 </fieldset>
 
-<br />
-<fieldset id="contentTranslateNew">
+<fieldset id="contentTranslateNew" class="z-linear">
     <legend><!--[gt text="Translated content"]--> (<!--[$language]-->)</legend>
     <!--[include file=$translateNewTemplate]-->
 </fieldset>
@@ -23,7 +24,7 @@
 <!--[pnformbutton commandName="quit" __text="Save"]-->
 <!--[pnformbutton commandName="delete" __text="Delete" confirmMessage='Delete']-->
 <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
-<!--[pnformdropdownlist id='translationStep' items=$translationInfo.items autoPostBack='1' onselectedindexchanged='handleCommand']-->
+<!--[pnformdropdownlist id='translationStep' items=$translationInfo.items autoPostBack='1' onSelectedIndexChanged='handleCommand']-->
 <!--[/contentbuttons]-->
 <!--[else]-->
 <p class="z-warningmsg"><!--[gt text="Error! There is nothing to translate for this content type."]--></p>

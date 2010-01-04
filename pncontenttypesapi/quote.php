@@ -69,7 +69,7 @@ class content_contenttypesapi_quotePlugin extends contentTypeBase
         $text = pnModCallHooks('item', 'transform', '', array($text));
         $text = trim($text[0]);
 
-        $text = '<blockquote>' . $text . '</blockquote><p>-- ' . $desc . '</p>';
+        $text = '<div class="content-quote"><blockquote>' . $text . '</blockquote><p>-- ' . $desc . '</p></div>';
 
         return $text;
     }

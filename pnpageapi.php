@@ -24,6 +24,7 @@ Loader::requireOnce('modules/content/common.php');
  */
 function content_pageapi_getPage($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     if (!isset($args['filter']) || !is_array($args['filter']))
         $args['filter'] = array();
     $args['filter']['pageId'] = $args['id'];
@@ -32,7 +33,7 @@ function content_pageapi_getPage($args)
     if ($pages === false)
         return false;
     if (count($pages) == 0)
-        return LogUtil::registerError("Unknown page", 404);
+        return LogUtil::registerError(__('Unknown page.', $dom), 404);
 
     $page = $pages[0];
 
@@ -396,7 +397,7 @@ function content_pageapi_newPage($args)
     if ($ok === false)
         return false;
 
-    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '__("Page added", $dom)' /* delayed translation */));
+    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => __("Page added", $dom) /* delayed translation */));
     if ($ok === false)
         return false;
 
@@ -411,7 +412,7 @@ function content_pageapi_updatePage($args)
     $dom = ZLanguage::getModuleDomain('content');
     $pageData = $args['page'];
     $pageId = (int) $args['pageId'];
-    $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : '__("Page updated", $dom)' /* delayed translation */);
+    $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : __("Page updated", $dom) /* delayed translation */);
 
     if (!isset($pageData['urlname']) || empty($pageData['urlname']))
         $pageData['urlname'] = $pageData['title'];
@@ -566,7 +567,7 @@ function content_pageapi_updateTranslation($args)
     DBUtil::insertObject($translatedData, 'content_translatedpage');
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '__("Translated", $dom)' /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => __("Translated", $dom) /* delayed translation */));
         if ($ok === false)
             return false;
     }
@@ -597,7 +598,7 @@ function content_pageapi_deleteTranslation($args)
         return false;
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '__("Translation deleted", $dom)' /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => __("Translation deleted", $dom) /* delayed translation */));
         if ($ok === false)
             return false;
     }

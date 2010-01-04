@@ -18,16 +18,6 @@ input.date {
     float: none;
 }
 
-div.content-navigation {
-    border: 1px solid #888;
-    margin-bottom: 6px;
-}
-
-div.content-navigation div.content-links {
-    padding: 4px 6px;
-    text-align: center;
-}
-
 #pnFormForm ul.content-subtabs {
     list-style: none;
     display: block;
@@ -60,11 +50,6 @@ div.content-toc img.dragable {
 div.content-toc a.hover {
     background-color: #AAA;
     border: 1px solid #888;
-}
-
-div.content-note {
-    font-size: 80%;
-    font-style: italic;
 }
 
 div.content-label-help {
@@ -362,19 +347,19 @@ div.content-item p.content-description {
     padding: 2px 0 2px 19px;
 }
 
-.content-quote * blockquote {
+.content-quote blockquote {
     font-size: 1.4em;
     font-weight: bold;
     margin: 0 2em;
 }
 
-.content-quote * blockquote p {
+.content-quote blockquote p {
     margin: 0;
     padding: 0;
     text-align: left ! important;
 }
 
-.content-quote * p.source {
+.content-quote p.source {
     text-align: right ! important;
 }
 

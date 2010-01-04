@@ -49,7 +49,7 @@ class content_admin_settingsHandler extends pnFormHandler
             if (!pnModSetVars('content', $data['config']))
                 return $render->pnFormSetErrorMsg('Failed to set configuration variables');
 
-            LogUtil::registerStatus(__('Updated', $dom));
+            LogUtil::registerStatus(__('Done! Saved module configuration.', $dom));
         } else if ($args['commandName'] == 'cancel') {
         }
 

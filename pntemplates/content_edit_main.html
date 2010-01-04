@@ -5,20 +5,21 @@
 <p><!--[gt text="This is where you manage all your pages. You can add/edit/delete pages as well as drag them around to get the content structure right."]--></p>
 
 <!--[if $access.pageEditAllowed]-->
-<div class="content-navigation">
-    <div class="content-links">
-        <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[gt text="Add new page"]--></a>
+<div class="z-menu">
+    <span class="z-menuitem-title">
+        [ <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[gt text="Add new page"]--></a>
         <!--[securityutil_checkpermission_block component='content::' instance='::' level=ACCESS_ADMIN]-->
         | <a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[gt text="Settings"]--></a>
         <!--[/securityutil_checkpermission_block]-->
-    </div>
+        ]
+    </span>
 </div>
 <!--[/if]-->
 
 <!--[include file=content_include_tocedit.html]-->
 
 <!--[if $access.pageEditAllowed]-->
-<div class="content-note"><!--[gt text="To drag and drop a page you must select the icon left of the title and drop it on the title of another page."]--></div>
+<em class="z-sub"><!--[gt text="To drag and drop a page you must select the icon left of the title and drop it on the title of another page."]--></em>
 <!--[/if]-->
 
 

@@ -66,7 +66,7 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
     function getDefaultData()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return array('text' => __('... add text here ...', $dom), 'inputType' => (pnModAvailable('scribite') ? 'html' : 'text'));
+        return array('text' => __('... Add text here ...', $dom), 'inputType' => (pnModAvailable('scribite') ? 'html' : 'text'));
     }
 
     function startEditing(&$render)
