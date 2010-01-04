@@ -31,7 +31,7 @@ class content_edit_mainHandler extends pnFormHandler
         if ($pages === false)
             return $render->pnFormRegisterError(null);
 
-        PageUtil::setVar('title', __('Page list and Content Structure', $dom));
+        PageUtil::setVar('title', __('Page list and content structure', $dom));
         $csssrc = ThemeUtil::getModuleStylesheet('admin', 'admin.css');
         PageUtil::addVar('stylesheet', $csssrc);
 
