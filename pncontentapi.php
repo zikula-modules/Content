@@ -271,6 +271,7 @@ class contentTypeBase
 
 function content_contentapi_getContent($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $id = (int) $args['id'];
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
@@ -279,7 +280,7 @@ function content_contentapi_getContent($args)
     if ($content === false)
         return false;
     if (count($content) == 0)
-        return LogUtil::registerError("Unknown content ($id)");
+        return LogUtil::registerError(__("Error! Unknown content ($id)", $dom));
 
     return $content[0];
 }
@@ -330,6 +331,7 @@ function content_contentapi_GetSimplePageContent($args)
 
 function contentGetContent($mode, $id, $language, $translate, $orderBy = null)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $id = (int) $id;
 
     $pntable = pnDBGetTables();
@@ -378,7 +380,7 @@ WHERE $restriction";
 
         $contentPlugin = pnModAPIFunc('content', 'content', 'getContentPlugin', $c);
         if ($contentPlugin === false)
-            return LogUtil::registerError("Can't load content plugin");
+            return LogUtil::registerError(__("Error! Can't load content plugin", $dom));
         $content[$i]['plugin'] = $contentPlugin;
         $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable();
     }
@@ -390,6 +392,7 @@ WHERE $restriction";
 
 function content_contentapi_getPageAndSubPageContent($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $pageId = (int) $args['pageId'];
 
     $pntable = pnDBGetTables();
@@ -419,7 +422,7 @@ WHERE page.$pageColumn[id] = $pageId";
         $c['data'] = (empty($c['data']) ? null : unserialize($c['data']));
         $contentPlugin = pnModAPIFunc('content', 'content', 'getContentPlugin', $c);
         if ($contentPlugin === false)
-            return LogUtil::registerError("Can't load content plugin");
+            return LogUtil::registerError(__("Error! Can't load content plugin", $dom));
         $content[$i]['plugin'] = $contentPlugin;
     }
 
@@ -792,7 +795,7 @@ function content_contentapi_dragContent($args)
 {
     $dom = ZLanguage::getModuleDomain('content');
     if (!isset($args['pageId']) || !isset($args['contentId']) || !isset($args['contentAreaIndex']) || !isset($args['position']))
-        return LogUtil::registerError(__('Error! Could not do what you wanted. Please check your input.', $dom));
+        return LogUtil::registerArgsError();
 
     $pageId = (int) $args['pageId'];
     $contentId = (int) $args['contentId'];
@@ -934,11 +937,12 @@ function content_contentapi_getContentTypes($args)
 
 function content_contentapi_getContentPlugin(&$args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $plugin = pnModAPIFunc($args['module'], 'contenttypes', $args['type'], $args);
     if (empty($plugin)) {
         if (!pnModAvailable($args['module']))
-            return LogUtil::registerError("Unable to load plugin '$args[type]' in module '$args[module]' since the module is not available.");
-        return LogUtil::registerError("Unable to load plugin '$args[type]' in module '$args[module]' for some unknown reason.");
+            return LogUtil::registerError(__("Error! Unable to load plugin '$args[type]' in module '$args[module]' since the module is not available.", $dom));
+        return LogUtil::registerError(__("Error! Unable to load plugin '$args[type]' in module '$args[module]' for some unknown reason.", $dom));
     }
     $plugin->contentId = $args['id'];
     $plugin->pageId = $args['pageId'];

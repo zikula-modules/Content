@@ -357,7 +357,7 @@ function content_pageapi_newPage($args)
     $location = $args['location'];
 
     if ($location == 'sub' && $pageId <= 0)
-        return LogUtil::registerError("Cannot create sub-page without parent page ID");
+        return LogUtil::registerError(__("Error! Cannot create sub-page without parent page ID", $dom));
 
     if ($pageId > 0) {
         $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'enableEscape' => false, 'includeContent' => false));
@@ -1003,7 +1003,7 @@ function content_pageapi_isUniqueUrlnameByParentID($args)
 {
     $dom = ZLanguage::getModuleDomain('content');
     if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['parentId']))
-        return LogUtil::registerError(__('Error! Could not do what you wanted. Please check your input.', $dom));
+        return LogUtil::registerArgsError();
 
     $currentPageId = isset($args['currentPageId']) ? (int) $args['currentPageId'] : -1;
     $url = $args['urlname'];
@@ -1034,7 +1034,7 @@ function content_pageapi_isUniqueUrlnameByPageId($args)
     $dom = ZLanguage::getModuleDomain('content');
     // Argument check
     if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId']))
-        return LogUtil::registerError(__('Error! Could not do what you wanted. Please check your input.', $dom));
+        return LogUtil::registerArgsError();
 
     $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false));
 
@@ -1063,7 +1063,7 @@ function content_pageapi_getURLPath($args)
     $dom = ZLanguage::getModuleDomain('content');
     // Argument check
     if (!isset($args['pageId']))
-        return LogUtil::registerError(__('Error! Could not do what you wanted. Please check your input.', $dom));
+        return LogUtil::registerArgsError();
 
     $pageId = (int) $args['pageId'];
 
@@ -1115,7 +1115,7 @@ function content_pageapi_solveURLPath($args)
     $dom = ZLanguage::getModuleDomain('content');
     // Argument check
     if (!isset($args['urlname']))
-        return LogUtil::registerError(__('Error! Could not do what you wanted. Please check your input.', $dom));
+        return LogUtil::registerArgsError();
 
     $urlname = $args['urlname'];
 
@@ -1150,9 +1150,6 @@ function content_pageapi_solveURLPath($args)
           WHERE     tbl0.$pageColumn[parentPageId] = 0
                 AND $parentsql";
 
-    //LogUtil::registerError("Debug: $sql");
-
-
     $result = DBUtil::executeSQL($sql);
 
     $pageId = null;
@@ -1168,7 +1165,7 @@ function content_pageapi_getPagePath($args)
     $dom = ZLanguage::getModuleDomain('content');
     // Argument check
     if (!isset($args['pageId']))
-        return LogUtil::registerError(__('Error! Could not do what you wanted. Please check your input.', $dom));
+        return LogUtil::registerArgsError();
 
     $pageId = (int) $args['pageId'];
 

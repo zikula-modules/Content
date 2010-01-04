@@ -66,7 +66,7 @@ class content_contenttypesapi_computerCodePlugin extends contentTypeBase
     function transformCode($code, $usePre)
     {
         $lines = explode("\n", $code);
-        $html = "<div class=\"computercode\"><ol class=\"codelisting\">\n";
+        $html = "<div class=\"content-computercode\"><ol class=\"codelisting\">\n";
 
         for ($i = 1, $cou = count($lines); $i <= $cou; ++$i) {
             if ($usePre) {

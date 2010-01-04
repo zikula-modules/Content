@@ -135,13 +135,14 @@ function content_historyapi_getPageVersionNo($args)
 
 function content_historyapi_getPageVersion($args)
 {
+  $dom = ZLanguage::getModuleDomain('content');
   $versionId = $args['id'];
   $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
   $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
 
   $version = DBUtil::selectObjectByID('content_history', $versionId);
   if (empty($version))
-    return LogUtil::registerError("Unknown version ID '$versionId'");
+    return LogUtil::registerError(__("Error! Unknown version ID '$versionId'", $dom));
   
   Loader::includeOnce('includes/UserUtil.class.php');
   Loader::includeOnce('includes/pnobjlib/UserUtil.class.php');
@@ -233,11 +234,12 @@ function content_historyapi_getPageVersion($args)
 
 function content_historyapi_restoreVersion($args)
 {
+  $dom = ZLanguage::getModuleDomain('content');
   $versionId = $args['id'];
 
   $version = DBUtil::selectObjectByID('content_history', $versionId);
   if (empty($version))
-    return LogUtil::registerError("Unknown version ID '$versionId'");
+    return LogUtil::registerError(__("Error! Unknown version ID '$versionId'", $dom));
   
   $version['data'] = unserialize($version['data']);
   //var_dump($version);
@@ -327,7 +329,7 @@ function content_historyapi_restoreVersion($args)
         if ($id === false)
           return false;
         if ($id != $contentItem['id'])
-          return LogUtil::registerError("Re-created old content item but did not restore old ID (was $contentItem[id], got $id)");
+          return LogUtil::registerError(__("Error! Re-created old content item but did not restore old ID (was $contentItem[id], got $id)", $dom));
         unset($currentContentItemsIdMap[$contentItem['id']]);
       }
     }

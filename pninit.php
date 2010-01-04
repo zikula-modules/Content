@@ -10,6 +10,8 @@
 
 function content_init()
 {
+    $dom = ZLanguage::getModuleDomain('content');
+
     if (!DBUtil::createTable('content_page')) {
         return false;
     }
@@ -37,7 +39,11 @@ function content_init()
     }
 
     if (!pnModSetVar('content', 'shorturlsuffix', '.html')) {
-        return LogUtil::registerError("Failed to set shorturlsuffix");
+        return LogUtil::registerError("Error! Failed to set shorturlsuffix", $dom);
+    }
+    
+    if (!pnModSetVar('content', 'styleClasses', "greybox|Grey box\nredbox|Red box")) {
+        return LogUtil::registerError("Error! Failed to set style classes", $dom);
     }
 
     return true;

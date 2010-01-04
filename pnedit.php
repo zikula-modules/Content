@@ -163,7 +163,7 @@ class content_edit_newPageHandler extends pnFormHandler
     function handleCommand(&$render, &$args)
     {
         if (!contentHasPageCreateAccess())
-            return $render->pnFormSetErrorMsg(__('Sorry! You have not been granted access to this page.', $dom));
+            return $render->pnFormSetErrorMsg(__('Error! You have not been granted access to this page.', $dom));
 
         if ($args['commandName'] == 'create') {
             if (!$render->pnFormIsValid())
@@ -173,9 +173,7 @@ class content_edit_newPageHandler extends pnFormHandler
 
             $id = pnModAPIFunc('content', 'page', 'newPage', array('page' => $pageData, 'pageId' => $this->pageId, 'location' => $this->location));
             if ($id === false)
-                return false; //LogUtil::registerStatus(__('Updated', $dom));
-            //  return $render->pnFormSetErrorMsg(LogUtil::getErrorMessages(true, true, false));
-
+                return false;
 
             $url = pnModUrl('content', 'edit', 'editpage', array('pid' => $id));
         } else if ($args['commandName'] == 'cancel') {

@@ -1,178 +1,169 @@
 input.date {
-  width: 8em;
+    width: 8em;
 }
 
 #pnFormForm ul.contentPositionSelector {
-  list-style: none;
-  margin: 0px 0px 10px 0px;
-  padding: 0px;
-  float: left;
+    list-style: none;
+    margin: 0px 0px 10px 0px;
+    padding: 0px;
+    float: left;
 }
 
 #pnFormForm ul.contentPositionSelector li {
-  float: left;
+    float: left;
 }
 
 #pnFormForm ul.contentPositionSelector label {
-  display: block;
-  float: none;
+    display: block;
+    float: none;
 }
 
 div.content-navigation {
-  border: 1px solid #888;
-  margin-bottom: 6px;
+    border: 1px solid #888;
+    margin-bottom: 6px;
 }
 
 div.content-navigation div.content-links {
-  padding: 4px 6px;
-  text-align: center;
+    padding: 4px 6px;
+    text-align: center;
 }
 
-#pnFormForm ul.content-subtabs
-{
-  list-style: none;
-  display: block;
-  margin: -30px 0px 0px 0px; /* -30 = move above pnForms tabs */
-  padding: 0px;
-  float: right;
+#pnFormForm ul.content-subtabs {
+    list-style: none;
+    display: block;
+    margin: -30px 0px 0px 0px; /* -30 = move above pnForms tabs */
+    padding: 0px;
+    float: right;
 }
 
-#pnFormForm ul.content-subtabs li
-{
-  display: inline;
+#pnFormForm ul.content-subtabs li {
+    display: inline;
 }
 
 div.content-page-heading h2 {
-  border-bottom: 1px solid #777;
-  margin-bottom: 0px !important;
-  padding-bottom: 0px;
+    border-bottom: 1px solid #777;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px;
 }
 
 div.content-page-heading h3 {
-  text-align: right;
-  margin-top: 0px;
-  padding-top: 0px;
+    text-align: right;
+    margin-top: 0px;
+    padding-top: 0px;
 }
 
 div.content-toc img.dragable {
-  cursor: move;
-  vertical-align: middle;
+    cursor: move;
+    vertical-align: middle;
 }
 
 div.content-toc a.hover {
-  background-color: #AAA;
-  border: 1px solid #888;
+    background-color: #AAA;
+    border: 1px solid #888;
 }
 
 div.content-note {
-  font-size: 80%;
-  font-style: italic;
+    font-size: 80%;
+    font-style: italic;
 }
 
 div.content-label-help {
-  font-size: 0.9em;
-  margin-left:30%;
-  padding-left: 0.7em;
+    font-size: 0.9em;
+    margin-left:30%;
+    padding-left: 0.7em;
 }
 
 div.content-form {
-  float: left;
-  width: 100%;
+    float: left;
+    width: 100%;
 }
 
 div.content-form fieldset {
-  padding: 2px 10px 2px 10px;
+    padding: 2px 10px 2px 10px;
 }
 
 div.content-form div.content_buttons {
-  margin: 10px 0px 10px 0px;
+    margin: 10px 0px 10px 0px;
 }
 
 div.content-form div.content_buttons * {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 div.content-actionbar {
-  background-color: #666;
-  color: #FFF;
-  padding: 2px 4px;
+    background-color: #666;
+    color: #FFF;
+    padding: 2px 4px;
 }
 
 a.content-action {
-  text-decoration: none;
-  font-size: 80%;
-  font-weight: normal;
+    text-decoration: none;
+    font-size: 80%;
+    font-weight: normal;
 }
 
 div.content-actionbar a.content-action {
-  color: #FFF;
+    color: #FFF;
 }
 
 div.content-page-path {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 div.content-editthis {
-  font-size: 90%;
+    font-size: 90%;
 }
 
 div.pn-pager * {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 div.content-sitemap ul {
-  margin-bottom: 0px !important; /* Andreas08 theme modifier */
+    margin-bottom: 0px !important; /* Andreas08 theme modifier */
 }
 
-p.content-versionpreview
-{
-  background-color: #D0D0D0;
-  border: 1px solid #404040;
-  color: #808080;
-  margin: 0px 0px 6px 0px;
-  padding: 4px;
+p.content-versionpreview {
+    background-color: #D0D0D0;
+    border: 1px solid #404040;
+    color: #808080;
+    margin: 0px 0px 6px 0px;
+    padding: 4px;
 }
 
-p.content-versionpreview *
-{
-  vertical-align: middle;
+p.content-versionpreview * {
+    vertical-align: middle;
 }
 
 div.content-pageinfo
 {
-  position: relative;
+    position: relative;
 }
 
-div.content-pageinfo .content
-{
-  border: 2px solid #000;
-  background-color: #FFF;
-  padding: 6px;
-  display: block;
-  position: absolute;
-  z-index: 100;
+div.content-pageinfo .content {
+    border: 2px solid #000;
+    background-color: #FFF;
+    padding: 6px;
+    display: block;
+    position: absolute;
+    z-index: 100;
 }
 
-div.content-pageinfo .content td
-{
-  padding-right: 8px;
+div.content-pageinfo .content td {
+    padding-right: 8px;
 }
 
-div.content-pageinfo .content ul
-{
-  list-style: none;
-  margin: 0px !important;
-  padding: 0px;
+div.content-pageinfo .content ul {
+    list-style: none;
+    margin: 0px !important;
+    padding: 0px;
 }
 
-div.content-pageinfo .content li
-{
-  margin-top: 3px;
+div.content-pageinfo .content li {
+    margin-top: 3px;
 }
 
-div.content-pageinfo .content li *
-{
-  vertical-align: middle;
+div.content-pageinfo .content li * {
+    vertical-align: middle;
 }
 
 /* ----------------------------------------------------------------------------
@@ -184,70 +175,69 @@ Layouts
 
 div.content-layout.column2 p,
 div.content-layout.column3 p {
-  text-align:justify;
+    text-align:justify;
 }
 
 div.content-layout.column2 div.content-area-left {
-  width: 45%;
-  float: left;
+    width: 45%;
+    float: left;
 }
 
 div.content-layout.column2 div.content-area-right {
-  width: 45%;
-  float: right;
+    width: 45%;
+    float: right;
 }
 
 div.content-layout.column3 div.content-area-left {
-  width: 30%;
-  float: left;
+    width: 30%;
+    float: left;
 }
 
 div.content-layout.column3 div.content-area-center {
-  width: 30%;
-  float: left;
-  margin-left: 5%;
+    width: 30%;
+    float: left;
+    margin-left: 5%;
 }
 
 div.content-layout.column3 div.content-area-right {
-  width: 30%;
-  float: right;
+    width: 30%;
+    float: right;
 }
 
 div.content-layout.column3 div.content-area-bottom,
 div.content-layout.column2 div.content-area-bottom {
-  clear: both;
+    clear: both;
 }
 
 /* ----------------------------------------------------------------------------
 Content editing
 ---------------------------------------------------------------------------- */
 
-.clickable
-{
-  cursor: pointer;
+.clickable {
+    cursor: pointer;
 }
 
 table.content-layout-edit {
-  width: 100%;
-  border-collapse: separate;
+    width: 100%;
+    border-collapse: separate;
 }
 
 table.content-layout-edit td.content-area {
-  border: 1px dashed #777;
-  vertical-align: top;
+    border: 1px dashed #777;
+    vertical-align: top;
 }
 
 /* Portal widget specific */
 
 .widget {
-  border: 1px solid #000;
-  margin-bottom: 10px;
+    border: 1px solid #000;
+    margin-bottom: 10px;
 }
 
 .widget_nw {
-  height: 15px;
-  background-color: #999;
-  padding: 2px;
+    height: 15px;
+    background-color: #999;
+    padding: 2px;
 }
 
 .widget_w {
@@ -257,24 +247,24 @@ table.content-layout-edit td.content-area {
 }
 
 .widget_title {
-  font-weight: bold;
-  text-align: left;
+    font-weight: bold;
+    text-align: left;
 }
 
 .widget_content {
-  padding: 2px;
+    padding: 2px;
 }
 
 .widget_draggable {
-  cursor: move;
+    cursor: move;
 }
 
 .widget_ghost {
-  background: #AAA;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  position: relative;
-  border: 1px dashed #700;
+    background: #AAA;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    position: relative;
+    border: 1px dashed #700;
 }
 
 /* ----------------------------------------------------------------------------
@@ -282,11 +272,11 @@ Content styling
 ---------------------------------------------------------------------------- */
 
 div.figure-topLeft {
-  margin: 0px 15px 5px 0px;
+    margin: 0px 15px 5px 0px;
 }
 
 div.figure-topRight {
-  margin: 0px 0px 5px 15px;
+    margin: 0px 0px 5px 15px;
 }
 
 div.w25 { width: 20%; }
@@ -299,16 +289,16 @@ div.wauto { width: auto; }
 
 div.greybox
 {
-  border: 2px solid #A0A0A0;
-  background-color: #C0C0C0;
-  padding: 0px;
+    border: 2px solid #A0A0A0;
+    background-color: #C0C0C0;
+    padding: 0px;
 }
 
 div.redbox
 {
-  border: 2px solid #F74238;
-  background-color: #F47770;
-  padding: 0px;
+    border: 2px solid #F74238;
+    background-color: #F47770;
+    padding: 0px;
 }
 
 /* ----------------------------------------------------------------------------
@@ -316,117 +306,125 @@ Various content plugins
 ---------------------------------------------------------------------------- */
 
 div.content-item p.content-description {
-  font-style: italic;
-  margin-bottom: 0px;
+    font-style: italic;
+    margin-bottom: 0px;
 }
 
-.googlemap {
-  border: 1px solid #000;
-  background-color:#c0c0c0;
-  width:100%;
-  margin:0 0 10px 0 !important;
-  padding:0 !important;
+.content-googlemap {
+    border: 1px solid #000;
+    background-color:#c0c0c0;
+    width:100%;
+    margin:0 0 10px 0 !important;
+    padding:0 !important;
 }
 .map {
-  height:200px;
+    height:200px;
 }
-.googlemap dd,
-.googlemap dt {
-  margin:0 !important;
-  padding:0 !important;
+.content-googlemap dd,
+.content-googlemap dt {
+    margin:0 !important;
+    padding:0 !important;
 }
+
 .content-description {
-  font-style:italic;
+    font-style:italic;
 }
 
-div.computercode {
-  overflow: auto;
-  border: 1px solid #000;
+.content-computercode {
+    overflow: auto;
+    border: 1px solid #000;
 }
 
-table.content-layout-edit div.computercode {
-  border: none;
+.content-layout-edit .content-computercode {
+    border: none;
 }
 
-div.computercode li {
-  font: 100% monospace;
+.content-computercode li {
+    font: 100% monospace;
 }
 
-div.computercode li pre {
-  margin: 0px;
+.content-computercode li pre {
+    margin: 0px;
 }
 
-.pn-module-content * .youtube {
-  margin:0!important;
-  text-align:center;
-}
-.pn-module-content * blockquote {
-  font-size:1.4em;
-  font-weight:bold;
-  margin:0 2em;
-}
-.pn-module-content * blockquote p {
-  margin:0;
-  padding:0;
-  text-align:left!important;
-}
-.pn-module-content * p.source {
-  text-align:right!important;
+.content-youtube dl,
+.content-youtube dt,
+.content-youtube dd {
+    text-align: center;
+    margin:0 ! important;
+    padding:0 ! important;
 }
 
-.pn-module-content * .itemleft { /* used by MediaAttach */
-  float:left;
-  padding-right:5px;
+.content-youtube .play-icon {
+    background: url(../../../images/icons/extrasmall/agt_forward.gif) no-repeat 0 50%;
+    margin: 0 0.5em;
+    font-size: 1em;
+    padding: 2px 0 2px 19px;
 }
 
-.pn-module-content * .itemright { /* used by MediaAttach */
-  float:right;
-  padding-left:5px;
+.content-quote * blockquote {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0 2em;
 }
 
-.pn-module-content .pn-admincontainer table#modules td,
-.pn-module-content .pn-admincontainer table#modules th {
-  padding:4px;
+.content-quote * blockquote p {
+    margin: 0;
+    padding: 0;
+    text-align: left ! important;
+}
+
+.content-quote * p.source {
+    text-align: right ! important;
+}
+
+.itemleft { /* used by MediaAttach */
+    float:left;
+    padding-right:5px;
+}
+.itemright { /* used by MediaAttach */
+    float:right;
+    padding-left:5px;
 }
 
 /*******************************************************************************/
-/* Styling of links and buttons with images 
+/* Styling of links and buttons with images
 /*******************************************************************************/
 /*
- * Note: When use a CSS3 feature to highlight external the following image 
- *       normally would not be visisble. The ! important fixes this.
- * a[href^="http:"],
- * a[href^="https:"] {
- *     padding-left: 1.5em;
- *     background: url('images/internet.gif') no-repeat bottom left;
- * }
- *
+* Note: When use a CSS3 feature to highlight external the following image
+*       normally would not be visisble. The ! important fixes this.
+* a[href^="http:"],
+* a[href^="https:"] {
+*     padding-left: 1.5em;
+*     background: url('images/internet.gif') no-repeat bottom left;
+* }
+*
 /*******************************************************************************/
 
-#contentPageInfo a.image, 
+#contentPageInfo a.image,
 #contentPageInfo button.image {
-  margin: 0 0.5em;
-  font-size: 1em;
-  padding: 2px 0 2px 19px; /* 16px image + spacer */
+    margin: 0 0.5em;
+    font-size: 1em;
+    padding: 2px 0 2px 19px; /* 16px image + spacer */
 }
 #contentPageInfo a.translate {
-  background: url(../../../images/icons/extrasmall/voice-support.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/voice-support.gif) no-repeat 0 50%;
 }
 #contentPageInfo a.edit {
-  background: url(../../../images/icons/extrasmall/edit.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/edit.gif) no-repeat 0 50%;
 }
 #contentPageInfo a.insertsub {
-  background: url(../../../images/icons/extrasmall/insertcell.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/insertcell.gif) no-repeat 0 50%;
 }
 #contentPageInfo a.insertpage {
-  background: url(../../../images/icons/extrasmall/insert_table_row.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/insert_table_row.gif) no-repeat 0 50%;
 }
 #contentPageInfo a.pagelist {
-  background: url(../../../images/icons/extrasmall/enumList.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/enumList.gif) no-repeat 0 50%;
 }
 #contentPageInfo a.editoff {
-  background: url(../../../images/icons/extrasmall/redled.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/redled.gif) no-repeat 0 50%;
 }
 #contentPageInfo a.editon {
-  background: url(../../../images/icons/extrasmall/greenled.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/greenled.gif) no-repeat 0 50%;
 }
