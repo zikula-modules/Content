@@ -105,7 +105,8 @@ function content_user_view($args)
     if ($page['language'] == ZLanguage::getLanguageCode())
         $multilingual = false;
 
-    PageUtil::setVar('title', ($preview ? __("Preview", $dom) . ' - ' . $page['title'] : $page['title']));
+    $pageTitle = html_entity_decode($page['title']);
+    PageUtil::setVar('title', ($preview ? __("Preview", $dom) . ' - ' . $pageTitle : $pageTitle));
 
     //$layoutTemplate = 'layout/' . $page['layoutData']['name'] . '.html';
     $render = & pnRender::getInstance('content');
