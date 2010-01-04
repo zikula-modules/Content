@@ -1,0 +1,1082 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: content 3.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-04 16:20+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
+"Language-Team: Carsten Volmer <carsten@zikula.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: Germany\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: pnpageapi.php:36
+msgid "Unknown page."
+msgstr "Unbekannte Seite."
+
+#: pnpageapi.php:361
+msgid "Error! Cannot create sub-page without parent page ID"
+msgstr "Fehler! Es konnte keine Unterseite ohne Angabe der Haupt-ID angelegt werden."
+
+#: pnpageapi.php:388
+#: pnpageapi.php:422
+#: pnpageapi.php:433
+#: pnpageapi.php:785
+#: pnpageapi.php:824
+msgid "There is already another page registered with the supplied permalink URL."
+msgstr "Es ist bereits eine andere Seite mit der angegebenen Permalink-URL vorhanden."
+
+#: pnpageapi.php:400
+msgid "Page added"
+msgstr "Seite hinzugefügt"
+
+#: pnpageapi.php:415
+msgid "Page updated"
+msgstr "Seite aktualisiert"
+
+#: pnpageapi.php:570
+#: pncontentapi.php:628
+#: pntemplates/content_include_tocedit.html:39
+msgid "Translated"
+msgstr "Übersetzt"
+
+#: pnpageapi.php:601
+#: pncontentapi.php:660
+msgid "Translation deleted"
+msgstr "Übersetzung gelöscht"
+
+#: pnpageapi.php:770
+msgid "It is not possible to move a parent page beneath one of its descendants."
+msgstr ""
+
+#: pnpageapi.php:1088
+#: pnpageapi.php:1191
+#: pnsearchapi.php:72
+msgid "Error! Could not load items."
+msgstr "Fehler! Einträge konnte nicht geladen werden."
+
+#: pnadmin.php:52
+msgid "Done! Saved module configuration."
+msgstr "Erledigt! Die Modulkonfiguration wurde gespeichert."
+
+#: pnajax.php:22
+msgid "OK"
+msgstr "OK"
+
+#: pncontentapi.php:383
+#: pncontentapi.php:425
+msgid "Error! Can't load content plugin"
+msgstr "Fehler! Content-Plugin konnte nicht geladen werden"
+
+#: pncontentapi.php:460
+msgid "Content added"
+msgstr "Inhalt hinzugefügt"
+
+#: pncontentapi.php:510
+msgid "Content updated"
+msgstr "Inhalt aktualisiert"
+
+#: pncontentapi.php:572
+msgid "Content deleted"
+msgstr "Inhalt gelöscht"
+
+#: pncontentapi.php:811
+msgid "Content moved"
+msgstr "Inhalt verschoben"
+
+#: pnversion.php:17
+msgid "Content editing"
+msgstr "Inhalt bearbeitet"
+
+#: pnversion.php:18
+msgid "Content is a page editing module. With it you can insert and edit various content items, such as HTML texts, videos, Google maps and much more."
+msgstr ""
+
+#. ! module url should be different to displayname and in lowercase without space
+#: pnversion.php:20
+msgid "content"
+msgstr "inhalt"
+
+#: pntemplates/plugins/function.contenteditthis.php:37
+msgid "Edit this page"
+msgstr "Seite bearbeiten"
+
+#: pntemplates/plugins/function.contenteditthis.php:39
+msgid "Translate this page"
+msgstr "Seite übersetzen"
+
+#: pntemplates/plugins/function.contenteditthis.php:50
+#: pntemplates/content_edit_editpage.html:22
+#: pntemplates/content_include_tocedit.html:19
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: pntemplates/plugins/function.contenteditthis.php:52
+#: pntemplates/content_edit_editpage.html:27
+#: pntemplates/content_edit_editpage.html:125
+#: pntemplates/content_include_tocedit.html:26
+#: pntemplates/content_edit_editcontent.html:44
+msgid "Translate"
+msgstr "Übersetzen"
+
+#: pntemplates/plugins/function.contenthtmleditor.php:39
+msgid "Please install Scribite to get a real HTML editor."
+msgstr "Bitte das Modul scribite! installieren, wenn ein echter HTML-Editor benötigt wird."
+
+#: pntemplates/plugins/function.contenthtmleditor.php:47
+msgid "Please install the hook BBCode to enable bbcode filtering."
+msgstr "Bitte den BBCode-Hook für das Content-Modul aktivieren, wenn der BBCode-Ausgabefilter genutzt werden soll."
+
+#: pntemplates/plugins/function.contentinsertlink.php:22
+msgid "Add new content here"
+msgstr "Inhalt hinzufügen"
+
+#: pntemplates/plugins/function.contentpositionselector.php:52
+msgid "No box"
+msgstr ""
+
+#: pntemplates/plugins/function.contentpositionselector.php:57
+msgid "Above"
+msgstr ""
+
+#: pntemplates/plugins/function.contentpositionselector.php:62
+msgid "Float, left"
+msgstr ""
+
+#: pntemplates/plugins/function.contentpositionselector.php:67
+msgid "Float, right"
+msgstr ""
+
+#: pntemplates/plugins/function.contentpositionselector.php:72
+msgid "Above, left"
+msgstr ""
+
+#: pntemplates/plugins/function.contentpositionselector.php:77
+msgid "Above, right"
+msgstr ""
+
+#: pnlayouttypesapi/column1.php:18
+#: pnlayouttypesapi/column2header.php:18
+#: pnlayouttypesapi/column3header.php:18
+msgid "Header"
+msgstr ""
+
+#: pnlayouttypesapi/column1.php:18
+#: pnlayouttypesapi/column1woheader.php:18
+#: pnlayouttypesapi/column3header.php:18
+#: pnlayouttypesapi/column3header.php:51
+msgid "Centre column"
+msgstr ""
+
+#: pnlayouttypesapi/column1.php:18
+#: pnlayouttypesapi/column1woheader.php:18
+#: pnlayouttypesapi/column2header.php:18
+#: pnlayouttypesapi/column3header.php:18
+msgid "Footer"
+msgstr ""
+
+#: pnlayouttypesapi/column1.php:34
+msgid "1 column"
+msgstr ""
+
+#: pnlayouttypesapi/column1.php:40
+msgid "Single 100% wide column"
+msgstr ""
+
+#: pnlayouttypesapi/column1woheader.php:34
+msgid "1 column w/o header"
+msgstr ""
+
+#: pnlayouttypesapi/column1woheader.php:40
+msgid "Single 100% wide column without header"
+msgstr ""
+
+#: pnlayouttypesapi/column2header.php:18
+#: pnlayouttypesapi/column3header.php:18
+msgid "Left column"
+msgstr ""
+
+#: pnlayouttypesapi/column2header.php:18
+#: pnlayouttypesapi/column3header.php:18
+msgid "Right column"
+msgstr ""
+
+#: pnlayouttypesapi/column2header.php:31
+msgid "2 columns"
+msgstr ""
+
+#: pnlayouttypesapi/column2header.php:35
+msgid "Two columns + header + footer"
+msgstr ""
+
+#: pnlayouttypesapi/column3header.php:34
+msgid "3 columns"
+msgstr ""
+
+#: pnlayouttypesapi/column3header.php:40
+msgid "Three columns + header + footer"
+msgstr ""
+
+#: pnblocks/menu.php:66
+#: pncontenttypesapi/directory.php:128
+msgid "All pages"
+msgstr ""
+
+#: pnneedleapi/content.php:39
+msgid "Unknown id"
+msgstr ""
+
+#: pnneedleapi/content.php:42
+msgid "Content not available"
+msgstr ""
+
+#: pnneedleapi/content.php:47
+msgid "No needle id"
+msgstr ""
+
+#: pncontenttypesapi/heading.php:26
+#: pntemplates/contenttype/heading_translate_original.html:2
+msgid "Heading"
+msgstr ""
+
+#: pncontenttypesapi/heading.php:31
+msgid "Section heading for structuring larger amounts of text."
+msgstr ""
+
+#: pncontenttypesapi/heading.php:59
+msgid "Sub-Heading"
+msgstr ""
+
+#: pncontenttypesapi/quote.php:27
+msgid "Quote"
+msgstr ""
+
+#: pncontenttypesapi/quote.php:32
+msgid "A highlighted quote with source."
+msgstr ""
+
+#: pncontenttypesapi/quote.php:80
+msgid "... add text here ..."
+msgstr ""
+
+#: pncontenttypesapi/quote.php:80
+msgid "http://"
+msgstr ""
+
+#: pncontenttypesapi/quote.php:80
+msgid "Name of the Source"
+msgstr ""
+
+#: pncontenttypesapi/pagesetter_publist.php:32
+msgid "Pagesetter publist"
+msgstr ""
+
+#: pncontenttypesapi/pagesetter_publist.php:37
+msgid "Pagesetter list of filtered, ordered, and/or formatted publications."
+msgstr ""
+
+#: pncontenttypesapi/slideshare.php:28
+msgid "Slideshare"
+msgstr ""
+
+#: pncontenttypesapi/slideshare.php:33
+msgid "Display slides from slideshare.com"
+msgstr ""
+
+#: pncontenttypesapi/slideshare.php:78
+msgid "Not valid Slideshare Wordpress embed code"
+msgstr ""
+
+#: pncontenttypesapi/googlemap.php:29
+msgid "Google map"
+msgstr ""
+
+#: pncontenttypesapi/googlemap.php:34
+msgid "Display Google map position."
+msgstr ""
+
+#: pncontenttypesapi/googlemap.php:39
+#: pntemplates/content_admin_settings.html:33
+msgid "If you want to add Google maps to your content then you need a Google maps API key. You can get this from <a href=\"http://www.google.com/apis/maps/signup.html\">google.com</a>."
+msgstr ""
+
+#: pncontenttypesapi/author.php:26
+msgid "Author Infobox"
+msgstr ""
+
+#: pncontenttypesapi/author.php:31
+msgid "Various information about the author of the page."
+msgstr ""
+
+#: pncontenttypesapi/flickr.php:30
+msgid "Photos from Flickr.com"
+msgstr ""
+
+#: pncontenttypesapi/flickr.php:35
+msgid "Display thumbnails from specific Flickr user or tags."
+msgstr ""
+
+#: pncontenttypesapi/flickr.php:40
+#: pntemplates/content_admin_settings.html:38
+msgid "If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href=\"http://www.flickr.com/api\">flickr.com</a>."
+msgstr ""
+
+#: pncontenttypesapi/flickr.php:85
+#, php-format
+msgid "Flickr photos from user %1$s associated with tags %2$s"
+msgstr ""
+
+#: pncontenttypesapi/pagesetter_pub.php:20
+msgid "Pagesetter publication"
+msgstr ""
+
+#: pncontenttypesapi/pagesetter_pub.php:25
+msgid "Display a Pagesetter publication."
+msgstr ""
+
+#: pncontenttypesapi/html.php:27
+msgid "HTML text"
+msgstr ""
+
+#: pncontenttypesapi/html.php:32
+msgid "A rich HTML editor for adding text to your page."
+msgstr ""
+
+#: pncontenttypesapi/html.php:69
+msgid "... Add text here ..."
+msgstr ""
+
+#: pncontenttypesapi/block.php:25
+msgid "Zikula Block"
+msgstr ""
+
+#: pncontenttypesapi/block.php:30
+msgid "Show Zikula-block in Content"
+msgstr ""
+
+#: pncontenttypesapi/modulefunc.php:29
+msgid "Module display"
+msgstr ""
+
+#: pncontenttypesapi/modulefunc.php:34
+msgid "Display output from any installed module."
+msgstr ""
+
+#: pncontenttypesapi/modulefunc.php:55
+msgid "Maximum number of pages-in-pages reached! You probably included this page in itself."
+msgstr ""
+
+#: pncontenttypesapi/directory.php:28
+msgid "Table of contents"
+msgstr ""
+
+#: pncontenttypesapi/directory.php:33
+msgid "A table of contents of headings and subpages (build from this module's pages)."
+msgstr ""
+
+#: pncontenttypesapi/directory.php:114
+#, php-format
+msgid "Table of contents of %1$s"
+msgstr ""
+
+#: pncontenttypesapi/computercode.php:26
+msgid "Computer Code"
+msgstr ""
+
+#: pncontenttypesapi/computercode.php:31
+msgid "A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font."
+msgstr ""
+
+#: pncontenttypesapi/youtube.php:29
+msgid "YouTube embedded video clip"
+msgstr ""
+
+#: pncontenttypesapi/youtube.php:34
+msgid "Display YouTube video clip."
+msgstr ""
+
+#: pncontenttypesapi/youtube.php:79
+msgid "Unrecognized YouTube URL"
+msgstr ""
+
+#: pncontenttypesapi/rss.php:35
+msgid "RSS feed"
+msgstr ""
+
+#: pncontenttypesapi/rss.php:40
+msgid "Display list of items in an RSS feed."
+msgstr ""
+
+#: pnuser.php:87
+#, php-format
+msgid "Version #%1$s - %2$s - %3$s by %4$s from %5$s"
+msgstr ""
+
+#: pnuser.php:109
+#: pntemplates/content_edit_editpage.html:122
+#: pntemplates/content_include_tocedit.html:20
+msgid "Preview"
+msgstr ""
+
+#: pnuser.php:240
+#: pntemplates/content_admin_main.html:19
+msgid "Sitemap"
+msgstr ""
+
+#: pnhistoryapi.php:276
+#, php-format
+msgid "Page restored from version %s"
+msgstr ""
+
+#: pnadminapi.php:22
+msgid "Administration"
+msgstr ""
+
+#: pnadminapi.php:23
+#: pntemplates/content_admin_main.html:17
+msgid "Edit content"
+msgstr ""
+
+#: pnadminapi.php:24
+#: pntemplates/content_admin_main.html:18
+#: pntemplates/content_admin_settings.html:22
+#: pntemplates/content_admin_settings.html:24
+#: pntemplates/content_edit_main.html:11
+msgid "Settings"
+msgstr ""
+
+#: pnedit.php:34
+#: pntemplates/content_edit_main.html:4
+msgid "Page list and content structure"
+msgstr ""
+
+#: pnedit.php:149
+#: pntemplates/content_edit_newpage.html:1
+#: pntemplates/content_include_pageinfo.html:22
+#: pntemplates/content_include_tocedit.html:23
+#: pntemplates/content_edit_main.html:9
+msgid "Add new page"
+msgstr ""
+
+#: pnedit.php:155
+msgid "Located below: "
+msgstr ""
+
+#: pnedit.php:157
+msgid "Located after: "
+msgstr ""
+
+#: pnedit.php:166
+msgid "Error! You have not been granted access to this page."
+msgstr ""
+
+#: pnedit.php:227
+#: pntemplates/content_edit_editpage.html:3
+msgid "Edit page"
+msgstr ""
+
+#: pnedit.php:274
+msgid "Layout changed"
+msgstr ""
+
+#: pnedit.php:358
+#: pntemplates/content_edit_newcontent.html:2
+msgid "Add new content to page"
+msgstr ""
+
+#: pnedit.php:443
+#: pntemplates/content_edit_editcontent.html:1
+msgid "Edit content item"
+msgstr ""
+
+#: pnedit.php:542
+#: pnedit.php:675
+msgid "You should not translate item to same language as it's default language."
+msgstr ""
+
+#: pnedit.php:544
+#: pntemplates/content_edit_translatepage.html:1
+msgid "Translate page"
+msgstr ""
+
+#: pnedit.php:682
+#: pntemplates/content_edit_translatecontent.html:1
+msgid "Translate content item"
+msgstr ""
+
+#: pnedit.php:796
+#: pntemplates/content_edit_history.html:2
+msgid "Page history"
+msgstr ""
+
+#: pntemplates/content_edit_newpage.html:1
+msgid "Select layout"
+msgstr ""
+
+#: pntemplates/content_edit_newpage.html:12
+#: pntemplates/content_edit_editpage.html:55
+#: pntemplates/content_edit_translatepage.html:13
+#: pntemplates/content_edit_translatepage.html:21
+#: pntemplates/content_include_tocedit.html:35
+msgid "Page title"
+msgstr ""
+
+#: pntemplates/content_edit_newpage.html:16
+#: pntemplates/content_edit_editpage.html:59
+msgid "Permalink URL name"
+msgstr ""
+
+#: pntemplates/content_edit_newpage.html:18
+#: pntemplates/content_edit_editpage.html:61
+msgid "Used to refer this page in short URLs mode. Leave as blank for default value."
+msgstr ""
+
+#: pntemplates/content_edit_newpage.html:23
+msgid "Please select a specific layout for your page"
+msgstr ""
+
+#: pntemplates/content_edit_newpage.html:28
+#: pntemplates/content_edit_newcontent.html:21
+msgid "Create"
+msgstr ""
+
+#: pntemplates/content_edit_newpage.html:29
+#: pntemplates/content_edit_editpage.html:127
+#: pntemplates/content_edit_translatepage.html:31
+#: pntemplates/content_admin_settings.html:143
+#: pntemplates/content_edit_editcontent.html:46
+#: pntemplates/content_edit_translatecontent.html:26
+#: pntemplates/content_edit_newcontent.html:22
+msgid "Cancel"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:23
+msgid "Add new content above"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:24
+msgid "Add new content below"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:25
+#: pntemplates/content_edit_editpage.html:121
+#: pntemplates/content_edit_translatepage.html:30
+#: pntemplates/content_include_tocedit.html:27
+#: pntemplates/content_edit_editcontent.html:42
+#: pntemplates/content_edit_translatecontent.html:25
+msgid "Delete"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:43
+#: pntemplates/content_include_tocedit.html:28
+msgid "History"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:47
+#: pntemplates/content_edit_editcontent.html:12
+#: pntemplates/content_edit_editcontent.html:14
+#: pntemplates/content_search_options.html:3
+msgid "Content"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:51
+msgid "Options"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:53
+msgid "Page settings"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:64
+msgid "Page language"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:68
+msgid "Include page in menu"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:73
+msgid "Page state"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:75
+msgid "Online"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:77
+msgid "You can set the page online/offline as well as supply a date interval for the page to be online. The checkbox overrides the dates."
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:80
+msgid "From (YYYY-MM-DD)"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:84
+msgid "to (YYYY-MM-DD)"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:90
+msgid "Categories"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:92
+msgid "Primary category"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:98
+msgid "Secondary categories"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:106
+#: pntemplates/content_edit_editcontent.html:19
+#: pntemplates/content_edit_editcontent.html:21
+msgid "Layout"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:108
+#: pntemplates/content_edit_editpage.html:110
+msgid "Page layout"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:120
+#: pntemplates/content_edit_translatepage.html:29
+#: pntemplates/content_admin_settings.html:142
+#: pntemplates/content_edit_editcontent.html:41
+#: pntemplates/content_edit_translatecontent.html:24
+msgid "Save"
+msgstr ""
+
+#: pntemplates/content_edit_editpage.html:123
+msgid "Save & View"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:13
+msgid "Edit-mode off"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:15
+msgid "Edit-mode on"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:17
+msgid "edit page"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:19
+msgid "translate page"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:21
+#: pntemplates/content_include_tocedit.html:22
+msgid "New sub-page"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:23
+msgid "Pages"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:27
+#, php-format
+msgid "Created by %1$s on %2$s"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:28
+#, php-format
+msgid "Last updated by %1$s on %2$s"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:29
+msgid "Version"
+msgstr ""
+
+#: pntemplates/content_include_pageinfo.html:30
+#: pntemplates/content_include_tocedit.html:38
+msgid "Language"
+msgstr ""
+
+#: pntemplates/content_user_list.html:8
+#: pntemplates/content_user_extlist.html:13
+#: pntemplates/content_user_pagelist.html:9
+msgid "There are no pages to display."
+msgstr ""
+
+#: pntemplates/content_edit_translatepage.html:3
+msgid "You can only translate the actual page data here. The content items must be translated one by one."
+msgstr ""
+
+#: pntemplates/content_edit_translatepage.html:11
+#: pntemplates/content_edit_translatecontent.html:9
+msgid "Original content"
+msgstr ""
+
+#: pntemplates/content_edit_translatepage.html:19
+#: pntemplates/content_edit_translatecontent.html:16
+msgid "Translated content"
+msgstr ""
+
+#: pntemplates/content_edit_translatepage.html:27
+#: pntemplates/content_edit_translatecontent.html:22
+msgid "Next"
+msgstr ""
+
+#: pntemplates/content_edit_translatepage.html:28
+#: pntemplates/content_edit_translatecontent.html:23
+msgid "Skip"
+msgstr ""
+
+#: pntemplates/content_admin_main.html:1
+msgid "Content administration"
+msgstr ""
+
+#: pntemplates/content_admin_main.html:14
+msgid "Welcome to your content administration. We have split the editing and administrative setup into separate systems. So please select from the list below or the menu above."
+msgstr ""
+
+#: pntemplates/content_admin_main.html:20
+msgid "Extended page list (showing page headers)"
+msgstr ""
+
+#: pntemplates/content_admin_main.html:21
+msgid "Complete page list (showing complete pages)"
+msgstr ""
+
+#: pntemplates/content_admin_main.html:22
+msgid "Show content by category"
+msgstr ""
+
+#: pntemplates/content_include_tocedit.html:24
+msgid "Decrease indent"
+msgstr ""
+
+#: pntemplates/content_include_tocedit.html:25
+msgid "Increase indent"
+msgstr ""
+
+#: pntemplates/content_include_tocedit.html:36
+msgid "Last updated"
+msgstr ""
+
+#: pntemplates/content_include_tocedit.html:37
+msgid "Created By"
+msgstr ""
+
+#: pntemplates/content_include_tocedit.html:56
+msgid "Page online and in menu"
+msgstr ""
+
+#: pntemplates/content_include_tocedit.html:58
+msgid "Page offline or not in menu"
+msgstr ""
+
+#: pntemplates/content_user_extlist.html:9
+msgid "more"
+msgstr ""
+
+#: pntemplates/content_user_pagelist.html:5
+msgid "View full page"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:1
+msgid "Content configuration"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:14
+msgid "This is where you configure various parts of the content module."
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:26
+msgid "Short URL suffix"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:28
+msgid "File suffix of short URLs (including a dot - for instance \".html\"). This is only used if you enable short URLs in Zikula's admin section."
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:31
+msgid "Google maps API key"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:36
+msgid "Flickr API key"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:41
+#: pntemplates/content_edit_editcontent.html:32
+msgid "Styling"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:43
+msgid "A list of CSS class names available for styling of content elements. The end user can select one class for each element on a page - for instance \"note\" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. \"note | Memo\"."
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:46
+msgid "Enable version history"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:52
+msgid "Module Dependencies"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:53
+msgid "Content includes an API that other modules can use to provide their content. Moreover some modules introduce extra functions to plugins delivered with Content."
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:58
+#: pntemplates/content_admin_settings.html:72
+#: pntemplates/content_admin_settings.html:97
+#: pntemplates/content_admin_settings.html:120
+msgid "Installed"
+msgstr "Installiert"
+
+#: pntemplates/content_admin_settings.html:59
+#: pntemplates/content_admin_settings.html:84
+#: pntemplates/content_admin_settings.html:110
+#: pntemplates/content_admin_settings.html:123
+msgid "Active"
+msgstr "Aktiv"
+
+#: pntemplates/content_admin_settings.html:60
+msgid "Module"
+msgstr "Modul"
+
+#: pntemplates/content_admin_settings.html:61
+msgid "Plugin"
+msgstr "Plugin"
+
+#: pntemplates/content_admin_settings.html:62
+#: pntemplates/contenttype/googlemap_translate_original.html:2
+#: pntemplates/contenttype/googlemap_edit.html:36
+msgid "Description"
+msgstr "Beschreibung"
+
+#: pntemplates/content_admin_settings.html:70
+#: pntemplates/content_admin_settings.html:95
+msgid "Not installed"
+msgstr "Nicht instaliert"
+
+#: pntemplates/content_admin_settings.html:79
+#: pntemplates/content_admin_settings.html:81
+#: pntemplates/content_admin_settings.html:104
+#: pntemplates/content_admin_settings.html:107
+#: pntemplates/content_admin_settings.html:125
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#: pntemplates/content_admin_settings.html:87
+msgid "Scribite"
+msgstr "scribite!"
+
+#: pntemplates/content_admin_settings.html:88
+msgid "WYSIWYG"
+msgstr "WYSIWYG"
+
+#: pntemplates/content_admin_settings.html:89
+msgid "Scribite integrated WYSIWYG JavaScript editors like Xinha, TinyMCE, FCKeditor, openWYSIWYG or NicEdit into Zikula.<br /><a href=\"http://code.zikula.org/scribite\\\">Download</a>"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:113
+msgid "BBCode"
+msgstr "BBCode"
+
+#: pntemplates/content_admin_settings.html:114
+msgid "Buttons"
+msgstr "Buttons"
+
+#: pntemplates/content_admin_settings.html:115
+msgid "BBCode is an abbreviation for Bulletin Board Code, the lightweight markup language used to format posts in many message boards. (<a href=\"http://en.wikipedia.org/wiki/Bbcode\">Wikipedia</a>)<br /><a href=\"http://code.zikula.org/bbcode\">Download</a>"
+msgstr ""
+
+#: pntemplates/content_edit_main.html:18
+msgid "This is where you manage all your pages. You can add/edit/delete pages as well as drag them around to get the content structure right."
+msgstr ""
+
+#: pntemplates/content_edit_main.html:23
+msgid "To drag and drop a page you must select the icon left of the title and drop it on the title of another page."
+msgstr ""
+
+#: pntemplates/contenttype/author_view.html:5
+msgid "By"
+msgstr ""
+
+#: pntemplates/contenttype/flickr_edit.html:4
+msgid "No Flickr API key available! You must specify a Flickr API key to use this feature. You can get a key from <a href="
+msgstr ""
+
+#: pntemplates/contenttype/flickr_edit.html:8
+msgid "Display photos from this user"
+msgstr ""
+
+#: pntemplates/contenttype/flickr_edit.html:13
+msgid "Display photos tagged with these tags (comma separated)"
+msgstr ""
+
+#: pntemplates/contenttype/flickr_edit.html:18
+msgid "Number of photos to show"
+msgstr ""
+
+#: pntemplates/contenttype/googlemap_edit.html:14
+msgid "Select geographic position either by point and click or writing the position directly. You can drag the map with your mouse, and double-click to zoom and select position."
+msgstr ""
+
+#: pntemplates/contenttype/googlemap_edit.html:17
+msgid "No Google API key available! You must specify a Google maps API key to use this feature. Get a key from <a href="
+msgstr ""
+
+#: pntemplates/contenttype/googlemap_edit.html:21
+msgid "Longitude"
+msgstr ""
+
+#: pntemplates/contenttype/googlemap_edit.html:26
+msgid "Latitude"
+msgstr ""
+
+#: pntemplates/contenttype/googlemap_edit.html:31
+msgid "Zoom level"
+msgstr ""
+
+#: pntemplates/contenttype/modulefunc_edit.html:2
+msgid "Use this feature carefully! Some modules do not work when displayed together with other modules. DO NOT create circular module references, e.g., adding a Content page that displays itself ..."
+msgstr ""
+
+#: pntemplates/contenttype/modulefunc_edit.html:4
+msgid "Module name"
+msgstr ""
+
+#: pntemplates/contenttype/modulefunc_edit.html:9
+msgid "Function type"
+msgstr ""
+
+#: pntemplates/contenttype/modulefunc_edit.html:14
+msgid "Function name"
+msgstr ""
+
+#: pntemplates/contenttype/modulefunc_edit.html:19
+msgid "Function parameters"
+msgstr ""
+
+#: pntemplates/contenttype/modulefunc_edit.html:21
+msgid "Separate by commas, e.g., x=5,y=2"
+msgstr ""
+
+#: pntemplates/contenttype/youtube_view.html:21
+msgid "Play Video"
+msgstr ""
+
+#: pntemplates/contenttype/youtube_translate_original.html:2
+msgid "URL to the video clip"
+msgstr ""
+
+#: pntemplates/contenttype/youtube_translate_original.html:7
+msgid "Video description"
+msgstr ""
+
+#: pntemplates/contenttype/computercode_edit.html:3
+msgid "Computer code lines"
+msgstr ""
+
+#: pntemplates/contenttype/computercode_edit.html:8
+msgid "If you register the module BBCode as a hook for Content then you can get your computer code better formatted."
+msgstr ""
+
+#: pntemplates/content_edit_editcontent.html:22
+msgid "Positioning works only with fixed width!"
+msgstr ""
+
+#: pntemplates/content_edit_editcontent.html:24
+msgid "Position"
+msgstr ""
+
+#: pntemplates/content_edit_editcontent.html:28
+msgid "Width"
+msgstr ""
+
+#: pntemplates/content_block_menu_modify.html:2
+msgid "Include subpages into table"
+msgstr ""
+
+#: pntemplates/content_edit_translatecontent.html:21
+msgid "Previous"
+msgstr ""
+
+#: pntemplates/content_edit_translatecontent.html:30
+msgid "Error! There is nothing to translate for this content type."
+msgstr ""
+
+#: pntemplates/content_edit_translatecontent.html:33
+msgid "Back"
+msgstr "Zurück"
+
+#: pntemplates/content_user_main.htm:2
+#, php-format
+msgid "Welcome to the sections page for %s"
+msgstr ""
+
+#: pntemplates/content_user_main.htm:3
+msgid "The available sections are as follows:"
+msgstr ""
+
+#: pntemplates/content_edit_newcontent.html:11
+msgid "Please select the type of content you want to add to your page."
+msgstr ""
+
+#: pntemplates/content_edit_newcontent.html:14
+msgid "Select content type"
+msgstr ""
+
+#: pntemplates/content_user_subpages.html:1
+#, php-format
+msgid "Subpages of %s"
+msgstr ""
+
+#: pntemplates/content_user_subpages.html:6
+msgid "No subpages available"
+msgstr ""
+
+#: pntemplates/content_edit_history.html:5
+msgid "Back to page"
+msgstr "Zurück zur Seite"
+
+#: pntemplates/content_edit_history.html:7
+msgid "Page list"
+msgstr "Seitenliste"
+
+#: pntemplates/content_edit_history.html:14
+msgid "Version history is currently disabled and no new entries will be recorded."
+msgstr ""
+
+#: pntemplates/content_edit_history.html:22
+msgid "#"
+msgstr "#"
+
+#: pntemplates/content_edit_history.html:23
+msgid "Date"
+msgstr "Datum"
+
+#: pntemplates/content_edit_history.html:24
+msgid "Event"
+msgstr "Ereignis"
+
+#: pntemplates/content_edit_history.html:25
+msgid "User"
+msgstr "Benutzer"
+
+#: pntemplates/content_edit_history.html:26
+msgid "IP.No."
+msgstr "IP-Nr."
+
+#: pntemplates/content_edit_history.html:27
+msgid "Action"
+msgstr "Aktion"
+
+#: pntemplates/content_edit_history.html:38
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: pntemplates/content_edit_history.html:41
+msgid "No history data recorded."
+msgstr "Keine Historie aufgezeichnet."
+
