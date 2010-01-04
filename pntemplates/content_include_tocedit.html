@@ -42,7 +42,7 @@
         <!--[if $pages]-->
         <tbody>
             <!--[foreach from=$pages item=page]-->
-            <tr>
+            <tr class="<!--[cycle values="z-odd,z-even"]-->">
                 <td style="padding-left: <!--[$page.level]-->em">
                     <div id="page_<!--[$page.id]-->">
                         <!--[if $page.setRight - $page.setLeft != 1]-->

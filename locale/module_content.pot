@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-04 15:34+0000\n"
+"POT-Creation-Date: 2010-01-04 16:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -432,7 +432,7 @@ msgid "Page restored from version %s"
 msgstr ""
 
 #: pnadminapi.php:22
-msgid "Main"
+msgid "Administration"
 msgstr ""
 
 #: pnadminapi.php:23 pntemplates/content_admin_main.html:17
@@ -440,8 +440,10 @@ msgid "Edit content"
 msgstr ""
 
 #: pnadminapi.php:24 pntemplates/content_admin_main.html:18
-#: pntemplates/content_admin_settings.html:1
-msgid "Content configuration"
+#: pntemplates/content_admin_settings.html:22
+#: pntemplates/content_admin_settings.html:24
+#: pntemplates/content_edit_main.html:11
+msgid "Settings"
 msgstr ""
 
 #: pnedit.php:34 pntemplates/content_edit_main.html:4
@@ -451,7 +453,7 @@ msgstr ""
 #: pnedit.php:149 pntemplates/content_edit_newpage.html:1
 #: pntemplates/content_include_pageinfo.html:22
 #: pntemplates/content_include_tocedit.html:23
-#: pntemplates/content_edit_main.html:10
+#: pntemplates/content_edit_main.html:9
 msgid "Add new page"
 msgstr ""
 
@@ -775,14 +777,12 @@ msgstr ""
 msgid "View full page"
 msgstr ""
 
-#: pntemplates/content_admin_settings.html:14
-msgid "This is where you configure various parts of the content module."
+#: pntemplates/content_admin_settings.html:1
+msgid "Content configuration"
 msgstr ""
 
-#: pntemplates/content_admin_settings.html:22
-#: pntemplates/content_admin_settings.html:24
-#: pntemplates/content_edit_main.html:12
-msgid "Settings"
+#: pntemplates/content_admin_settings.html:14
+msgid "This is where you configure various parts of the content module."
 msgstr ""
 
 #: pntemplates/content_admin_settings.html:26
@@ -832,10 +832,16 @@ msgid ""
 msgstr ""
 
 #: pntemplates/content_admin_settings.html:58
+#: pntemplates/content_admin_settings.html:72
+#: pntemplates/content_admin_settings.html:97
+#: pntemplates/content_admin_settings.html:120
 msgid "Installed"
 msgstr ""
 
 #: pntemplates/content_admin_settings.html:59
+#: pntemplates/content_admin_settings.html:84
+#: pntemplates/content_admin_settings.html:110
+#: pntemplates/content_admin_settings.html:123
 msgid "Active"
 msgstr ""
 
@@ -853,6 +859,19 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
+#: pntemplates/content_admin_settings.html:70
+#: pntemplates/content_admin_settings.html:95
+msgid "Not installed"
+msgstr ""
+
+#: pntemplates/content_admin_settings.html:79
+#: pntemplates/content_admin_settings.html:81
+#: pntemplates/content_admin_settings.html:104
+#: pntemplates/content_admin_settings.html:107
+#: pntemplates/content_admin_settings.html:125
+msgid "Inactive"
+msgstr ""
+
 #: pntemplates/content_admin_settings.html:87
 msgid "Scribite"
 msgstr ""
@@ -864,7 +883,7 @@ msgstr ""
 #: pntemplates/content_admin_settings.html:89
 msgid ""
 "Scribite integrated WYSIWYG JavaScript editors like Xinha, TinyMCE, "
-"FCKeditor, openWYSIWYG or NicEdit into Zikula.<br /><a href=\\\"http://code."
+"FCKeditor, openWYSIWYG or NicEdit into Zikula.<br /><a href=\"http://code."
 "zikula.org/scribite\\\">Download</a>"
 msgstr ""
 
@@ -879,25 +898,25 @@ msgstr ""
 #: pntemplates/content_admin_settings.html:115
 msgid ""
 "BBCode is an abbreviation for Bulletin Board Code, the lightweight markup "
-"language used to format posts in many message boards. (<a href=\\\"http://en."
-"wikipedia.org/wiki/Bbcode\\\">Wikipedia</a>)<br /><a href=\\\"http://code."
-"zikula.org/bbcode\\\">Download</a>"
+"language used to format posts in many message boards. (<a href=\"http://en."
+"wikipedia.org/wiki/Bbcode\">Wikipedia</a>)<br /><a href=\"http://code.zikula."
+"org/bbcode\">Download</a>"
 msgstr ""
 
-#: pntemplates/content_edit_main.html:5
+#: pntemplates/content_edit_main.html:18
 msgid ""
 "This is where you manage all your pages. You can add/edit/delete pages as "
 "well as drag them around to get the content structure right."
 msgstr ""
 
-#: pntemplates/content_edit_main.html:22
+#: pntemplates/content_edit_main.html:23
 msgid ""
 "To drag and drop a page you must select the icon left of the title and drop "
 "it on the title of another page."
 msgstr ""
 
-#: pntemplates/contenttype/author_view.html:4
-msgid "by"
+#: pntemplates/contenttype/author_view.html:5
+msgid "By"
 msgstr ""
 
 #: pntemplates/contenttype/flickr_edit.html:4
@@ -1059,34 +1078,34 @@ msgid ""
 "Version history is currently disabled and no new entries will be recorded."
 msgstr ""
 
-#: pntemplates/content_edit_history.html:23
+#: pntemplates/content_edit_history.html:22
 msgid "#"
 msgstr ""
 
-#: pntemplates/content_edit_history.html:24
+#: pntemplates/content_edit_history.html:23
 msgid "Date"
 msgstr ""
 
-#: pntemplates/content_edit_history.html:25
+#: pntemplates/content_edit_history.html:24
 msgid "Event"
 msgstr ""
 
-#: pntemplates/content_edit_history.html:26
+#: pntemplates/content_edit_history.html:25
 msgid "User"
 msgstr ""
 
-#: pntemplates/content_edit_history.html:27
+#: pntemplates/content_edit_history.html:26
 msgid "IP.No."
 msgstr ""
 
-#: pntemplates/content_edit_history.html:28
+#: pntemplates/content_edit_history.html:27
 msgid "Action"
 msgstr ""
 
-#: pntemplates/content_edit_history.html:39
+#: pntemplates/content_edit_history.html:38
 msgid "Restore"
 msgstr ""
 
-#: pntemplates/content_edit_history.html:45
+#: pntemplates/content_edit_history.html:41
 msgid "No history data recorded."
 msgstr ""

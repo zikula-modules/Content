@@ -16,7 +16,6 @@
 
 <!--[pnform cssClass='z-form']-->
 
-<!--[if count($versions) > 0]-->
 <table class="z-datatable">
     <thead>
         <tr>
@@ -38,11 +37,10 @@
             <td><!--[$version.ipno]--></td>
             <td><!--[pnformbutton __text="Restore" commandName="restore" commandArgument=$version.id confirmMessage='Restore']--></td>
         </tr>
+        <!--[foreachelse]-->
+        <tr class="z-datatableempty"><td colspan="6"><!--[gt text="No history data recorded."]--></td></tr>
         <!--[/foreach]-->
     </tbody>
 </table>
-<!--[else]-->
-<p><em><!--[gt text="No history data recorded."]--></em></p>
-<!--[/if]-->
 
 <!--[/pnform]-->

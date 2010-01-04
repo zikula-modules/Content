@@ -334,6 +334,16 @@ div.content-item p.content-description {
     margin: 0px;
 }
 
+.content-author .authoravatar {
+    background:#FFFFFF none repeat scroll 0 0;
+    border-color:#D9E0E6 #C8CDD2 #C8CDD2 #D9E0E6;
+    border-style:solid;
+    border-width:1px;
+    float:left;
+    margin:0 5px 5px 0;
+    padding:5px;
+}
+
 .content-youtube dl,
 .content-youtube dt,
 .content-youtube dd {
