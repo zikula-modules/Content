@@ -73,7 +73,7 @@ class content_contenttypesapi_FlickrPlugin extends contentTypeBase
             $photoData[] = array('title' => DataUtil::formatForDisplayHTML($this->decode($photo['title'])), 'src' => $this->flickr->buildPhotoURL($photo, "Square"), 'url' => "http://www.flickr.com/photos/$photo[owner]/$photo[id]");
         }
 
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('photos', $photoData);
 
         return $render->fetch('contenttype/flickr_view.html');

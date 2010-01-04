@@ -60,7 +60,7 @@ class content_contenttypesapi_RSSPlugin extends contentTypeBase
         }
         $this->feedData = array('title' => $this->decode($this->feed->get_title()), 'description' => $this->decode($this->feed->get_description()), 'permalink' => $this->feed->get_permalink(), 'items' => $itemsData);
 
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('feed', $this->feedData);
         $render->assign('includeContent', $this->includeContent);
 

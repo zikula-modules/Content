@@ -136,7 +136,7 @@ function content_historyapi_getPageVersionNo($args)
 function content_historyapi_getPageVersion($args)
 {
   $versionId = $args['id'];
-  $language = (array_key_exists('language', $args) ? $args['language'] : pnUserGetLang());
+  $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
   $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
 
   $version = DBUtil::selectObjectByID('content_history', $versionId);

@@ -92,6 +92,10 @@ function content_upgrade($oldVersion)
             $ok = $ok && contentUpgrade_2_1_2($oldVersion);
         case '2.1.2':
         case '3.0.0':
+        case '3.0.1':
+        case '3.0.2':
+        case '3.0.3':
+            $ok = $ok && contentUpgrade_3_1_0($oldVersion);
         // future
     }
 
@@ -150,7 +154,7 @@ function contentUpgrade_2_1_2($oldVersion)
 
     $dbconn = DBConnectionStack::getConnection();
     $pntables = pnDBGetTables();
-    $language = pnUserGetLang();
+    $language = ZLanguage::getLanguageCode();
 
     // Assume language of created pages is same as current lang
     $table = $pntables['content_page'];
@@ -159,6 +163,41 @@ function contentUpgrade_2_1_2($oldVersion)
     DBUtil::executeSQL($sql);
 
     return true;
+}
+
+function contentUpgrade_3_1_0($oldVersion)
+{
+    $tables = pnDBGetTables();
+
+    // fix serialisations
+    foreach (array('content' => 'id', 'translatedcontent' => 'contentId') as $table => $idField) {
+        $obj = DBUtil::selectObjectArray('content_' . $table);
+        foreach ($obj as $contentItem) {
+            $data = DataUtil::mb_unserialize($contentItem['data']);
+            $contentItem['data'] = serialize($data);
+            DBUtil::updateObject($contentItem, 'content_' . $table, '', $idField, true);
+        }
+    }
+
+    // fix language codes
+    foreach (array('page' => 'id', 'translatedcontent' => 'contentId', 'translatedpage' => 'pageId') as $table => $idField) {
+        $obj = DBUtil::selectObjectArray('content_' . $table);
+        if (!count($obj)) {
+            continue;
+        }
+        foreach ($obj as $contentItem) {
+            // translate l3 -> l2
+           $l2 = ZLanguage::translateLegacyCode($contentItem['language']);
+            if (!$l2) {
+                continue;
+            }
+            $sql = 'UPDATE ' . $tables['content_' . $table] . ' a SET a.' . $tables['content_' . $table . '_column']['language'] . ' = \'' . $l2 . '\' WHERE a.' . $tables['content_' . $table . '_column'][$idField] . ' = \'' . $contentItem[$idField] . '\'';
+            DBUtil::executeSQL($sql);
+        }
+    }
+    
+    return true;
+
 }
 
 // -----------------------------------------------------------------------
@@ -182,3 +221,4 @@ function content_delete()
     return true;
 }
 // -----------------------------------------------------------------------
+

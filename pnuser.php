@@ -30,7 +30,7 @@ function content_user_categories($args)
     if (!contentHasPageViewAccess())
         return LogUtil::registerPermissionError();
 
-    $render = pnRender::getInstance('content');
+    $render = & pnRender::getInstance('content');
 
     Loader::loadClass('CategoryUtil');
     Loader::loadClass('CategoryRegistryUtil');
@@ -40,7 +40,7 @@ function content_user_categories($args)
 
     $render->assign('rootCategory', $rootCategory);
     $render->assign('categories', $categories);
-    $render->assign('lang', pnUserGetLang());
+    $render->assign('lang', ZLanguage::getLanguageCode());
     //$render->assign(pnModGetVar('Pages'));
     $render->assign('shorturls', pnConfigGetVar('shorturls'));
     $render->assign('shorturlstype', pnConfigGetVar('shorturlstype'));
@@ -102,13 +102,13 @@ function content_user_view($args)
         return false;
 
     $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
-    if ($page['language'] == pnUserGetLang())
+    if ($page['language'] == ZLanguage::getLanguageCode())
         $multilingual = false;
 
     PageUtil::setVar('title', ($preview ? __("Preview", $dom) . ' - ' . $page['title'] : $page['title']));
 
     //$layoutTemplate = 'layout/' . $page['layoutData']['name'] . '.html';
-    $render = pnRender::getInstance('content');
+    $render = & pnRender::getInstance('content');
     $render->assign('page', $page);
     $render->assign('preview', $preview);
     $render->assign('editmode', $editmode);
@@ -181,7 +181,7 @@ function contentCommonList($args, $template, $includeContent)
     if ($pageCount === false)
         return false;
 
-    $render = pnRender::getInstance('content');
+    $render = & pnRender::getInstance('content');
     $render->assign('pages', $pages);
     $render->assign('pageIndex', $pageIndex);
     $render->assign('pageSize', $pageSize);
@@ -216,7 +216,7 @@ function content_user_subpages($args)
     if ($topPage === false)
         return false;
 
-    $render = pnRender::getInstance('content');
+    $render = & pnRender::getInstance('content');
     $render->assign(reset($topPage));
     return $render->fetch('content_user_subpages.html');
 }
@@ -238,7 +238,7 @@ function content_user_sitemap($args)
 
     PageUtil::setVar('title', __('Sitemap', $dom));
 
-    $render = pnRender::getInstance('content');
+    $render = & pnRender::getInstance('content');
     $render->assign('pages', $pages);
     return $render->fetch('content_user_sitemap.html');
 }

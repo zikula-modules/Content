@@ -27,9 +27,9 @@ function content_menublock_display($blockinfo)
     if (!SecurityUtil::checkPermission('content:menublock:', "$blockinfo[title]::", ACCESS_READ))
         return;
 
-    $cacheId = 'menu|' . pnUserGetLang();
+    $cacheId = 'menu|' . ZLanguage::getLanguageCode();
 
-    $render = pnRender::getInstance('content', true);
+    $render = & pnRender::getInstance('content', true);
     if (!$render->is_cached('content_block_menu.html', $cacheId)) {
         $vars = pnBlockVarsFromContent($blockinfo['content']);
         if (!isset($vars['root']))
@@ -58,9 +58,9 @@ function content_menublock_modify($blockinfo)
     $dom = ZLanguage::getModuleDomain('content');
     $vars = pnBlockVarsFromContent($blockinfo['content']);
 
-    $render = pnRender::getInstance('content', false);
+    $render = & pnRender::getInstance('content', false);
     $render->assign($vars);
-    pnModLangLoad('content', 'contenttypes', true);
+
     $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
     $pidItems = array();
     $pidItems[] = array('text' => __('All pages', $dom), 'value' => 0);
@@ -83,7 +83,7 @@ function content_menublock_update($blockinfo)
     $blockinfo['content'] = pnBlockVarsToContent($vars);
 
     // clear the block cache
-    //$pnRender = pnRender::getInstance('News');
+    //$pnRender = & pnRender::getInstance('News');
     //$pnRender->clear_cache('news_block_stories.htm');
 
 

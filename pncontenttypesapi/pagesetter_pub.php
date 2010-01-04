@@ -51,7 +51,7 @@ class content_contenttypesapi_pagesetter_pubPlugin extends contentTypeBase
             'coreExtra' => array('page' => 0, 'baseURL' => $url, 'format' => $tpl)));
 
         // render instance - assign publication
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('publication', $publication);
 
         return $render->fetch('contenttype/pagesetter_pub_view.html');
@@ -71,7 +71,7 @@ class content_contenttypesapi_pagesetter_pubPlugin extends contentTypeBase
             'coreExtra' => array('page' => 0, 'baseURL' => $url, 'format' => $tpl)));
 
         // render instance - assign publication
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('publication', $publication);
 
         return $render->fetch('contenttype/pagesetter_pub_view.html');

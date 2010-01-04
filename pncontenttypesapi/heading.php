@@ -42,7 +42,7 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
 
     function display()
     {
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $render->assign('contentId', $this->contentId);
         return $render->fetch('contenttype/heading_view.html');

@@ -53,7 +53,7 @@ function contentRegisterGreyBox()
 // If you add other caching schemes then remember to clear them here
 function contentClearCaches()
 {
-    $render = pnRender::getInstance('content', true);
+    $render = & pnRender::getInstance('content', true);
 
     // Menu blocks
     $cacheId = 'menu'; // No language: clear all versions

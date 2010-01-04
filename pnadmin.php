@@ -16,7 +16,7 @@ function content_admin_main()
     if (!SecurityUtil::checkPermission('content::', '::', ACCESS_ADMIN))
         return LogUtil::registerPermissionError();
 
-    $render = pnRender::getInstance('content');
+    $render = & pnRender::getInstance('content');
 
     return $render->fetch('content_admin_main.html');
 }

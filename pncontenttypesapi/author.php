@@ -42,7 +42,7 @@ class content_contenttypesapi_authorPlugin extends contentTypeBase
 
     function display()
     {
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('uid', DataUtil::formatForDisplayHTML($this->uid));
         $render->assign('contentId', $this->contentId);
         return $render->fetch('contenttype/author_view.html');

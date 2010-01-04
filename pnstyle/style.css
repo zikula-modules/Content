@@ -2,31 +2,6 @@ input.date {
   width: 8em;
 }
 
-label {
-  font-weight: bold;
-}
-
-div.row,
-div.crow {
-  margin-bottom: 4px;
-  clear: both;
-}
-
-div.crow label {
-  display:block;
-  float:left;
-  margin-right:1em;
-  padding-top: 2px; /* Adjust to most right-hand input elements */
-  text-align:right;
-  width:30%;
-  clear: both;
-}
-
-div.crow .checkboxlist label {
-  display: inline;
-  float: none;
-}
-
 #pnFormForm ul.contentPositionSelector {
   list-style: none;
   margin: 0px 0px 10px 0px;

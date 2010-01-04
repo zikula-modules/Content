@@ -48,7 +48,7 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
 
     function display()
     {
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('url', $this->url);
         $render->assign('text', $this->text);
         $render->assign('videoId', $this->videoId);

@@ -64,7 +64,7 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
         $scripts = array('javascript/ajax/prototype.js', 'modules/content/pnjavascript/googlemap.js');
         PageUtil::addVar('javascript', $scripts);
 
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('longitude', $this->longitude);
         $render->assign('latitude', $this->latitude);
         $render->assign('zoom', $this->zoom);

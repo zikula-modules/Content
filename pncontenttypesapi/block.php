@@ -48,7 +48,7 @@ class content_contenttypesapi_blockPlugin extends contentTypeBase
 
         $text = pnBlockShow($modinfo['name'], $blockinfo['bkey'], $blockinfo);
 
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('content', $text);
         return $render->fetch('contenttype/block_view.html');
 

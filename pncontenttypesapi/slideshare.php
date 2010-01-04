@@ -46,7 +46,7 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
 
     function display()
     {
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('url', $this->url);
         $render->assign('text', $this->text);
         $render->assign('slideId', $this->slideId);

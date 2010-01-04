@@ -272,7 +272,7 @@ class contentTypeBase
 function content_contentapi_getContent($args)
 {
     $id = (int) $args['id'];
-    $language = (array_key_exists('language', $args) ? $args['language'] : pnUserGetLang());
+    $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
     $content = contentGetContent('content', $id, $language, $translate);
@@ -288,7 +288,7 @@ function content_contentapi_getPageContent($args)
 {
     $pageId = (int) $args['pageId'];
     $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
-    $language = (array_key_exists('language', $args) ? $args['language'] : pnUserGetLang());
+    $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
     $contentList = contentGetContent('page', $pageId, $language, $translate);

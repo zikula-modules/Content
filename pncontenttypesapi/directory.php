@@ -77,7 +77,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             $directory = $this->_genDirectoryRecursive($pages[0]);
         }
 
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('directory', $directory);
         $render->assign('contentId', $this->contentId);
         return $render->fetch('contenttype/directory_view.html');

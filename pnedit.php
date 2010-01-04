@@ -223,7 +223,7 @@ class content_edit_editPageHandler extends pnFormHandler
 
 
         $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
-        if ($page['language'] == pnUserGetLang())
+        if ($page['language'] == ZLanguage::getLanguageCode())
             $multilingual = false;
 
         PageUtil::setVar('title', __("Edit page", $dom) . ' : ' . $page['title']);
@@ -439,7 +439,7 @@ class content_edit_editContentHandler extends pnFormHandler
             return $render->pnFormRegisterError(null);
 
         $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
-        if ($page['language'] == pnUserGetLang())
+        if ($page['language'] == ZLanguage::getLanguageCode())
             $multilingual = false;
 
         PageUtil::setVar('title', __("Edit content item", $dom) . ' : ' . $page['title']);
@@ -531,7 +531,7 @@ class content_edit_translatePageHandler extends pnFormHandler
     {
         $dom = ZLanguage::getModuleDomain('content');
         $this->pageId = (int) FormUtil::getPassedValue('pid', -1);
-        $this->language = pnUserGetLang();
+        $this->language = ZLanguage::getLanguageCode();
 
         if (!contentHasPageEditAccess($this->pageId))
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
@@ -648,7 +648,7 @@ class content_edit_translateContentHandler extends pnFormHandler
   function initialize(&$render)
   {
     $this->contentId = (int)FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
-    $this->language = pnUserGetLang();
+    $this->language = ZLanguage::getLanguageCode();
 
     $content = pnModAPIFunc('content', 'content', 'getContent',
                             array('id' => $this->contentId,

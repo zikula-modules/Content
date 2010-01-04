@@ -46,7 +46,7 @@ class content_contenttypesapi_circaviePlugin extends contentTypeBase
 
     function display()
     {
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('url', $this->url);
         $render->assign('text', $this->text);
         $url = parse_url($this->url);

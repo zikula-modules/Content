@@ -54,7 +54,7 @@ class content_contenttypesapi_pagesetter_publistPlugin extends contentTypeBase
     function display()
     {
         // retrieve filtered and ordered publication list
-        $plargs = array('tid' => $this->tid, 'noOfItems' => $this->numpubs, 'offsetItems' => $this->offset, 'language' => pnUserGetLang(), 'orderByStr' => $this->order);
+        $plargs = array('tid' => $this->tid, 'noOfItems' => $this->numpubs, 'offsetItems' => $this->offset, 'language' => ZLanguage::getLanguageCode(), 'orderByStr' => $this->order);
 
         $filters = preg_split("/\s*&\s*/", $this->filter);
         if (is_array($filters) && strlen(trim($filters[0])))
@@ -73,7 +73,7 @@ class content_contenttypesapi_pagesetter_publistPlugin extends contentTypeBase
         }
 
         // render instance - assign publications
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('publications', $publications);
 
         return $render->fetch('contenttype/pagesetter_publist_view.html');

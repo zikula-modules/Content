@@ -51,7 +51,7 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
         $text = DataUtil::formatForDisplayHTML($this->text);
         $text = pnModCallHooks('item', 'transform', '', array($text));
         $text = $text[0];
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('inputType', $this->inputType);
         $render->assign('text', $text);
 

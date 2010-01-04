@@ -52,7 +52,7 @@ class content_contenttypesapi_quotePlugin extends contentTypeBase
         $text = pnModCallHooks('item', 'transform', '', array($text));
         $text = $text[0];
 
-        $render = pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('content', false);
         $render->assign('source', $source);
         $render->assign('text', $text);
         $render->assign('desc', $desc);

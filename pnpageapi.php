@@ -73,7 +73,7 @@ function content_pageapi_getPages($args)
     $pageIndex = isset($args['pageIndex']) ? $args['pageIndex'] : 0;
     $pageSize = isset($args['pageSize']) ? $args['pageSize'] : 0;
     $enableEscape = (array_key_exists('enableEscape', $args) ? $args['enableEscape'] : true);
-    $language = (array_key_exists('language', $args) ? $args['language'] : pnUserGetLang());
+    $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
     $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
     $includeContent = (array_key_exists('includeContent', $args) ? $args['includeContent'] : false);
@@ -366,7 +366,7 @@ function content_pageapi_newPage($args)
     } else
         $sourcePageData = null;
 
-    $pageData['language'] = pnUserGetLang();
+    $pageData['language'] = ZLanguage::getLanguageCode();
 
     if ($location == 'sub' || $pageId == 0) {
         $pageData['position'] = contentGetLastSubPagePosition($pageId) + 1;
