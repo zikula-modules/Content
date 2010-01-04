@@ -2,7 +2,7 @@
 /**
  * Content
  *
- * @copyright (C) 2007-2009, Content Development Team
+ * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
  * @version $Id$
  * @license See license.txt
@@ -81,4 +81,3 @@ function content_layoutapi_getLayout($args)
     $plugin = content_layoutapi_getLayoutPlugin($args);
     return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas());
 }
-

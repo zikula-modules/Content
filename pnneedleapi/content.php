@@ -4,7 +4,7 @@
  *
  * @copyright (c) 2001-now, Frank Schummertz
  * @link http://code.zikula.org/content
- * @version $Id:  $
+ * @version $Id$
  * @license GNU/GPL - http://www.gnu.org/copyleft/gpl.html
  * @package Content
  */
@@ -36,7 +36,7 @@ function content_needleapi_content($args)
                 if ($contentpage != false) {
                     $cache[$nid] = '<a href="' . DataUtil::formatForDisplay(pnModURL('Content', 'user', 'view', array('pid' => $nid))) . '" title="' . DataUtil::formatForDisplay($contentpage['title']) . '">' . DataUtil::formatForDisplay($contentpage['title']) . '</a>';
                 } else {
-                    $cache[$nid] = '<em>' . DataUtil::formatForDisplay(__('unknown id', $dom)) . '</em>';
+                    $cache[$nid] = '<em>' . DataUtil::formatForDisplay(__('Unknown id', $dom)) . '</em>';
                 }
             } else {
                 $cache[$nid] = '<em>' . DataUtil::formatForDisplay(__('Content not available', $dom)) . '</em>';
@@ -44,7 +44,7 @@ function content_needleapi_content($args)
         }
         $result = $cache[$nid];
     } else {
-        $result = '<em>' . DataUtil::formatForDisplay(__('no needle id', $dom)) . '</em>';
+        $result = '<em>' . DataUtil::formatForDisplay(__('No needle id', $dom)) . '</em>';
     }
     return $result;
 

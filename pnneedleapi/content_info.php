@@ -4,7 +4,7 @@
  *
  * @copyright (c) 2001-now, Frank Schummertz
  * @link http://code.zikula.org/content
- * @version $Id:  $
+ * @version $Id$
  * @license GNU/GPL - http://www.gnu.org/copyleft/gpl.html
  * @package Content
  */

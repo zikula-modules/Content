@@ -47,5 +47,3 @@ function smarty_modifier_paragraph($string,$br = 0) {
 }
 
 /* vim: set expandtab: */
-
-?>

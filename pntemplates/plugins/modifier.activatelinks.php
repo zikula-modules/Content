@@ -16,4 +16,3 @@ function smarty_modifier_activatelinks($text)
 
     return $text;
 }
-?>

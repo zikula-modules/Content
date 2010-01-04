@@ -2,7 +2,7 @@
 /**
  * Content
  *
- * @copyright (C) 2007-2009, Content Development Team
+ * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
  * @version $Id$
  * @license See license.txt
@@ -825,4 +825,3 @@ function content_edit_history($args)
     $render = FormUtil::newpnForm('content');
     return $render->pnFormExecute('content_edit_history.html', new content_edit_historyContentHandler($args));
 }
-
