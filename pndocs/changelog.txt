@@ -15,6 +15,7 @@ Version 3.1.0
 * Added more classes to each contenttype
 * Fix #51 - Added vimeo contenttype
 * Fix #57 - support for Google Sitemaps
+* Fix #80 - If short URL suffix was empty, short URL didn't work
 
 Version 3.0.0
 -------------

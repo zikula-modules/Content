@@ -81,7 +81,8 @@ function content_userapi_decodeurl($args) {
             $urlname .= '/';
             $urlname .= $args['vars'][$i];
         }
-        $urlname = substr($urlname, 0, -strlen($suffix));
+        if (($suffixLen = strlen($suffix)) > 0)
+            $urlname = substr($urlname, 0, -$suffixLen);
 
         pnQueryStringSetVar('func', 'view');
         pnQueryStringSetVar('name', $urlname);
