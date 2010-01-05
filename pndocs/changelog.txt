@@ -4,21 +4,23 @@ http://code.zikula.org/content
 
 Version 3.1.0
 -------------
-* Fix #78 - converted module to gettext
-* Fix #49 - fixed bug in paragraph-modifier
-* Fix #76 - Drag&Drop not working in MSIE
-* Fix #65 - missed translation
-* Fix #24/#60 - module not showing in admin-panel
-* Fix #53/#61/#72 - removed SimplePie and backend errors
-* Fix #85 - Replaced lightboxXL and greybox with Lightwindow
-* Fix #77 - Page title gets sanitized twice
-* Removed Circavie.com plugin
-* Added more classes to each contenttype
-* Fix #51 - Added vimeo contenttype
-* Fix #57 - support for Google Sitemaps
-* Fix #80 - If short URL suffix was empty, short URL didn't work
-* Fix #71 - Problems with directory-based shorturls
-* Fix #59 - Caching bug in menu blocks
+* IMPORTANT       - Security schema has now been changed to lowercase "content::"  !!!
+* Add #15         - MultiHook Needle support
+* Add #57         - Support for Google Sitemaps
+* Add #51         - Vimeo contenttype
+* Add #86         - More css-classes for each contenttype
+* Fix #78         - Converted module to gettext
+* Fix #49         - Fixed bug in paragraph-modifier
+* Fix #76         - Drag&Drop not working in MSIE
+* Fix #65         - Missed translation
+* Fix #24/#60     - Module not showing in admin-panel
+* Fix #53/#61/#72 - Removed SimplePie and backend errors
+* Fix #85         - Replaced lightboxXL and greybox with Lightwindow
+* Fix #77         - Page title gets sanitized twice
+* Fix #80         - If short URL suffix was empty, short URL didn't work
+* Fix #71         - Problems with directory-based shorturls
+* Fix #59         - Caching bug in menu blocks
+* Fix #87         - Removed Circavie.com plugin
 
 Version 3.0.0
 -------------

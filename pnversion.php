@@ -32,4 +32,7 @@ $modversion['admin']          = 1;
 
 // This one adds the info to the DB, so that users can click on the
 // headings in the permission module
-$modversion['securityschema'] = array('content::' => '::', 'content:plugins:layout' => 'Layout name::', 'content:plugins:content' => 'content type name::');
+$modversion['securityschema'] = array('content::' => '::',
+                                      'content:plugins:layout' => 'Layout name::',
+                                      'content:plugins:content' => 'content type name::',
+                                      'content:page:' => '::');
