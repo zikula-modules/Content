@@ -14,6 +14,7 @@ Version 3.1.0
 * Removed Circavie.com plugin
 * Added more classes to each contenttype
 * Fix #51 - Added vimeo contenttype
+* Fix #57 - support for Google Sitemaps
 
 Version 3.0.0
 -------------
