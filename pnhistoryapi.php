@@ -142,12 +142,12 @@ function content_historyapi_getPageVersion($args)
 
   $version = DBUtil::selectObjectByID('content_history', $versionId);
   if (empty($version))
-    return LogUtil::registerError(__("Error! Unknown version ID '$versionId'", $dom));
+    return LogUtil::registerError(__f('Error! Unknown version ID [%s]', $versionId, $dom));
   
   Loader::includeOnce('includes/UserUtil.class.php');
   Loader::includeOnce('includes/pnobjlib/UserUtil.class.php');
 
-  $version['userName'] = $version['userId'] == 0 ? _UNKNOWNUSER : UserUtil::getPNUserField($version['userId'], 'uname');
+  $version['userName'] = $version['userId'] == 0 ? __("Unknown user", $dom) : UserUtil::getPNUserField($version['userId'], 'uname');
   $version['data'] = unserialize($version['data']);
   $versionData = & $version['data'];
   $page = & $versionData['page'];
@@ -239,11 +239,9 @@ function content_historyapi_restoreVersion($args)
 
   $version = DBUtil::selectObjectByID('content_history', $versionId);
   if (empty($version))
-    return LogUtil::registerError(__("Error! Unknown version ID '$versionId'", $dom));
+    return LogUtil::registerError(__f('Error! Unknown version ID [%s]', $versionId, $dom));
   
   $version['data'] = unserialize($version['data']);
-  //var_dump($version);
-  //exit(0);
 
   $versionData = $version['data'];
   $page = $versionData['page'];
@@ -273,7 +271,7 @@ function content_historyapi_restoreVersion($args)
   $ok = pnModAPIFunc('content', 'page', 'updatePage',
                      array('page' => $page,
                            'pageId' => $pageId,
-                           'revisionText' => __f('Page restored from version %s', $version[revisionNo], $dom) /* delayed translation */));
+                           'revisionText' => __f('Page restored from version [%s]', $version[revisionNo], $dom) /* delayed translation */));
   if ($ok === false)
     return false;
 
@@ -329,7 +327,7 @@ function content_historyapi_restoreVersion($args)
         if ($id === false)
           return false;
         if ($id != $contentItem['id'])
-          return LogUtil::registerError(__("Error! Re-created old content item but did not restore old ID (was $contentItem[id], got $id)", $dom));
+          return LogUtil::registerError(__("Error! Re-created old content item but did not restore old ID.", $dom));
         unset($currentContentItemsIdMap[$contentItem['id']]);
       }
     }

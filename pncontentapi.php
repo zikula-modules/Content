@@ -280,7 +280,7 @@ function content_contentapi_getContent($args)
     if ($content === false)
         return false;
     if (count($content) == 0)
-        return LogUtil::registerError(__("Error! Unknown content ($id)", $dom));
+        return LogUtil::registerError(__("Error! Unknown content-ID", $dom));
 
     return $content[0];
 }
@@ -488,6 +488,7 @@ WHERE $contentColumn[pageId] = $pageId";
 
 function content_contentapi_updateContent($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $contentData = $args['content'];
     $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
@@ -539,6 +540,7 @@ VALUES
 
 function content_contentapi_deleteContent($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $contentId = (int) $args['contentId'];
     $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
@@ -603,6 +605,7 @@ function content_contentapi_deletePageAndSubPageContent($args)
 
 function content_contentapi_updateTranslation($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $contentId = (int) $args['contentId'];
     $language = DataUtil::formatForStore($args['language']);
     $translated = $args['translated'];
@@ -636,6 +639,7 @@ function content_contentapi_updateTranslation($args)
 
 function content_contentapi_deleteTranslation($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $contentId = (int) $args['contentId'];
     $language = isset($args['language']) ? $args['language'] : null;
     $includeHistory = isset($args['includeHistory']) ? $args['includeHistory'] : true;
@@ -941,8 +945,8 @@ function content_contentapi_getContentPlugin(&$args)
     $plugin = pnModAPIFunc($args['module'], 'contenttypes', $args['type'], $args);
     if (empty($plugin)) {
         if (!pnModAvailable($args['module']))
-            return LogUtil::registerError(__("Error! Unable to load plugin '$args[type]' in module '$args[module]' since the module is not available.", $dom));
-        return LogUtil::registerError(__("Error! Unable to load plugin '$args[type]' in module '$args[module]' for some unknown reason.", $dom));
+            return LogUtil::registerError(__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args[type], $args[module]), $dom));
+        return LogUtil::registerError(__f('Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason.', array($args[type], $args[module]), $dom));
     }
     $plugin->contentId = $args['id'];
     $plugin->pageId = $args['pageId'];

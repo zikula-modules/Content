@@ -28,10 +28,12 @@ class content_layouttypesapi_column2headerPlugin extends contentLayoutBase
     }
     function getTitle()
     {
+        $dom = ZLanguage::getModuleDomain('content');
         return __('2 columns', $dom);
     }
     function getDescription()
     {
+        $dom = ZLanguage::getModuleDomain('content');
         return __('Two columns + header + footer', $dom);
     }
     function getNumberOfContentAreas()

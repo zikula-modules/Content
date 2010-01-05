@@ -33,7 +33,7 @@ function content_pageapi_getPage($args)
     if ($pages === false)
         return false;
     if (count($pages) == 0)
-        return LogUtil::registerError(__('Unknown page.', $dom), 404);
+        return LogUtil::registerError(__('Error! Unknown page.', $dom), 404);
 
     $page = $pages[0];
 
@@ -385,7 +385,7 @@ function content_pageapi_newPage($args)
 
     $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
     if (!$ok)
-        return LogUtil::registerError(__('There is already another page registered with the supplied permalink URL.', $dom));
+        return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
@@ -419,7 +419,7 @@ function content_pageapi_updatePage($args)
     $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
 
     if (!pnModApiFunc('content', 'page', 'isUniqueUrlnameByPageId', array('urlname' => $pageData['urlname'], 'pageId' => $pageId)))
-        return LogUtil::registerError(__('There is already another page registered with the supplied permalink URL.', $dom));
+        return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
 
     $oldPageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'enableEscape' => false));
     if ($oldPageData === false)
@@ -430,7 +430,7 @@ function content_pageapi_updatePage($args)
             return false;
 
     if (!contentUpdatePageRelations($pageId, $pageData))
-        return LogUtil::registerError(__('There is already another page registered with the supplied permalink URL.', $dom));
+        return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
 
     $pageData['id'] = $pageId;
 
@@ -549,6 +549,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
 
 function content_pageapi_updateTranslation($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $pageId = (int) $args['pageId'];
     $language = DataUtil::formatForStore($args['language']);
     $translated = $args['translated'];
@@ -578,6 +579,7 @@ function content_pageapi_updateTranslation($args)
 
 function content_pageapi_deleteTranslation($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
     $pageId = (int) $args['pageId'];
     $language = isset($args['language']) ? $args['language'] : null;
     $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
@@ -767,7 +769,7 @@ function content_pageapi_drag($args)
 
     // Is $src a parent of $dst? This is not allowed
     if ($srcPage['setLeft'] < $dstPage['setLeft'] && $srcPage['setRight'] > $dstPage['setRight'])
-        return LogUtil::registerError(__('It is not possible to move a parent page beneath one of its descendants.', $dom));
+        return LogUtil::registerError(__('Error! It is not possible to move a parent page beneath one of its descendants.', $dom));
 
     $ok = pnModAPIFunc('content', 'page', 'removePage', array('id' => $srcId));
     if ($ok === false)
@@ -782,7 +784,7 @@ function content_pageapi_drag($args)
     if (!$test) {
         pnModAPIFunc('content', 'page', 'insertPage', array('pageId' => $srcId, 'position' => $srcPage['position'], 'parentPageId' => $srcPage['parentPageId']));
         // FIXME: This causes a "page not found". But I don't know why. Pls help ;)
-        return LogUtil::registerError(__('There is already another page registered with the supplied permalink URL.', $dom));
+        return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
     }
     $ok = pnModAPIFunc('content', 'page', 'insertPage', array('pageId' => $srcId, 'position' => $dstPage['position'] + 1, 'parentPageId' => $dstPage['parentPageId']));
     if ($ok === false)
@@ -821,7 +823,7 @@ AND $pageColumn[position] = $position-1";
     $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $thisPage['urlname'], 'parentId' => $previousPage['id']));
     // FIXME: This causes a "page not found" if $ok == false. But I don't know why. Pls help ;)
     if (!$ok)
-        return LogUtil::registerError(__('There is already another page registered with the supplied permalink URL.', $dom));
+        return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
 
     $ok = pnModAPIFunc('content', 'page', 'removePage', array('id' => $pageId));
     if ($ok === false)
@@ -1002,7 +1004,6 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
  */
 function content_pageapi_isUniqueUrlnameByParentID($args)
 {
-    $dom = ZLanguage::getModuleDomain('content');
     if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['parentId']))
         return LogUtil::registerArgsError();
 
@@ -1032,7 +1033,6 @@ function content_pageapi_isUniqueUrlnameByParentID($args)
  */
 function content_pageapi_isUniqueUrlnameByPageId($args)
 {
-    $dom = ZLanguage::getModuleDomain('content');
     // Argument check
     if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId']))
         return LogUtil::registerArgsError();
@@ -1113,7 +1113,6 @@ function content_pageapi_getURLPath($args)
  */
 function content_pageapi_solveURLPath($args)
 {
-    $dom = ZLanguage::getModuleDomain('content');
     // Argument check
     if (!isset($args['urlname']))
         return LogUtil::registerArgsError();
@@ -1163,7 +1162,6 @@ function content_pageapi_solveURLPath($args)
 
 function content_pageapi_getPagePath($args)
 {
-    $dom = ZLanguage::getModuleDomain('content');
     // Argument check
     if (!isset($args['pageId']))
         return LogUtil::registerArgsError();

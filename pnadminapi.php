@@ -20,7 +20,7 @@ function content_adminapi_getlinks()
     $links = array();
 
     $links[] = array('url' => pnModURL('content', 'admin', 'main'), 'text' => __('Administration', $dom));
-    $links[] = array('url' => pnModURL('content', 'edit', 'main'), 'text' => __('Edit content', $dom));
+    $links[] = array('url' => pnModURL('content', 'edit', 'main'), 'text' => __('Edit contents', $dom));
     $links[] = array('url' => pnModURL('content', 'admin', 'settings'), 'text' => __('Settings', $dom));
 
     return $links;

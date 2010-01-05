@@ -211,7 +211,7 @@ function content_user_subpages($args)
     }
 
     if ($pageId === null)
-        return LogUtil::registerError(__('Unknown page.', $dom), 404);
+        return LogUtil::registerError(__('Error! Unknown page.', $dom), 404);
 
     if (!contentHasPageViewAccess($pageId))
         return LogUtil::registerPermissionError();

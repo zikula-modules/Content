@@ -29,7 +29,7 @@ class content_contenttypesapi_pagesetter_publistPlugin extends contentTypeBase
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Pagesetter publist', $dom);
+        return __('Pagesetter publication list', $dom);
     }
     function getDescription()
     {

@@ -152,9 +152,9 @@ class content_edit_newPageHandler extends pnFormHandler
         $render->assign('page', $page);
         $render->assign('location', $this->location);
         if ($this->location == 'sub')
-            $render->assign('locationLabel', __('Located below: ', $dom));
+            $render->assign('locationLabel', __('Located below:', $dom));
         else
-            $render->assign('locationLabel', __('Located after: ', $dom));
+            $render->assign('locationLabel', __('Located after:', $dom));
         contentAddAccess($render, $this->pageId);
 
         return true;
@@ -205,6 +205,7 @@ class content_edit_editPageHandler extends pnFormHandler
 
     function initialize(&$render)
     {
+        $dom = ZLanguage::getModuleDomain('content');
         $this->pageId = (int) FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : -1);
 
         if (!contentHasPageEditAccess($this->pageId))
@@ -326,6 +327,7 @@ class content_edit_newContentHandler extends pnFormHandler
 
     function initialize(&$render)
     {
+        $dom = ZLanguage::getModuleDomain('content');
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $this->contentAreaIndex = FormUtil::getPassedValue('cai', isset($this->args['cai']) ? $this->args['cai'] : null);
         $this->position = FormUtil::getPassedValue('pos', isset($this->args['pos']) ? $this->args['pos'] : 0);
