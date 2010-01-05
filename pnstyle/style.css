@@ -344,15 +344,15 @@ div.content-item p.content-description {
     padding:5px;
 }
 
-.content-youtube dl,
-.content-youtube dt,
-.content-youtube dd {
+.content-video dl,
+.content-video dt,
+.content-video dd {
     text-align: center;
     margin:0 ! important;
     padding:0 ! important;
 }
 
-.content-youtube .play-icon {
+.content-video .play-icon {
     background: url(../../../images/icons/extrasmall/agt_forward.gif) no-repeat 0 50%;
     margin: 0 0.5em;
     font-size: 1em;

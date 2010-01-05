@@ -13,6 +13,7 @@ Version 3.1.0
 * Fix #77 - Page title gets sanitized twice
 * Removed Circavie.com plugin
 * Added more classes to each contenttype
+* Fix #51 - Added vimeo contenttype
 
 Version 3.0.0
 -------------
