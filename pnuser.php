@@ -210,6 +210,9 @@ function content_user_subpages($args)
         $pageId = pnModAPIFunc('content', 'page', 'solveURLPath', compact('urlname'));
     }
 
+    if ($pageId === null)
+        return LogUtil::registerError(__('Unknown page.', $dom), 404);
+
     if (!contentHasPageViewAccess($pageId))
         return LogUtil::registerPermissionError();
 

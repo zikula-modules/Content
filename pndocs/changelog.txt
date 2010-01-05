@@ -16,6 +16,7 @@ Version 3.1.0
 * Fix #51 - Added vimeo contenttype
 * Fix #57 - support for Google Sitemaps
 * Fix #80 - If short URL suffix was empty, short URL didn't work
+* Fix #71 - Problems with directory-based shorturls
 
 Version 3.0.0
 -------------
