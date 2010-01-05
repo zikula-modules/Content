@@ -26,7 +26,7 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('YouTube embedded video clip', $dom);
+        return __('YouTube video clip', $dom);
     }
     function getDescription()
     {

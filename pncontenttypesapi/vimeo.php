@@ -21,7 +21,7 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Vimeo embedded video clip', $dom);
+        return __('Vimeo video clip', $dom);
     }
     function getDescription()
     {
@@ -79,7 +79,7 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
             return true;
         }
        
-        message = __('Error! Unrecognized Vimeo URL', $dom);
+        $message = __('Error! Unrecognized Vimeo URL', $dom);
         return false;
     }
 }
