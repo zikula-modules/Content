@@ -348,8 +348,8 @@ div.content-item p.content-description {
 .content-video dt,
 .content-video dd {
     text-align: center;
-    margin:0 ! important;
-    padding:0 ! important;
+    margin:0 !important;
+    padding:0 !important;
 }
 
 .content-video .play-icon {
@@ -368,11 +368,11 @@ div.content-item p.content-description {
 .content-quote blockquote p {
     margin: 0;
     padding: 0;
-    text-align: left ! important;
+    text-align: left !important;
 }
 
 .content-quote p.source {
-    text-align: right ! important;
+    text-align: right !important;
 }
 
 .itemleft { /* used by MediaAttach */
@@ -389,7 +389,7 @@ div.content-item p.content-description {
 /*******************************************************************************/
 /*
 * Note: When use a CSS3 feature to highlight external the following image
-*       normally would not be visisble. The ! important fixes this.
+*       normally would not be visisble. The !important fixes this.
 * a[href^="http:"],
 * a[href^="https:"] {
 *     padding-left: 1.5em;

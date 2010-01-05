@@ -9,6 +9,7 @@ Version 3.1.0
 * Add #57         - Support for Google Sitemaps
 * Add #51         - Vimeo contenttype
 * Add #86         - More css-classes for each contenttype
+* Add #68         - Add second and third level of Sub-Headings
 * Fix #78         - Converted module to gettext
 * Fix #49         - Fixed bug in paragraph-modifier
 * Fix #76         - Drag&Drop not working in MSIE

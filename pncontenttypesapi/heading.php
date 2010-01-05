@@ -11,6 +11,7 @@
 class content_contenttypesapi_headingPlugin extends contentTypeBase
 {
     var $text;
+    var $headerSize;
 
     function getModule()
     {
@@ -37,26 +38,34 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
 
     function loadData($data)
     {
+        if (!isset($data['headerSize']))
+            $data['headerSize'] = 'h3';
         $this->text = $data['text'];
+        $this->headerSize = $data['headerSize'];
     }
 
     function display()
     {
         $render = & pnRender::getInstance('content', false);
         $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $render->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
         $render->assign('contentId', $this->contentId);
         return $render->fetch('contenttype/heading_view.html');
     }
 
     function displayEditing()
     {
-        return "<h3>" . DataUtil::formatForDisplayHTML($this->text) . "</h3>";
+        $render = & pnRender::getInstance('content', false);
+        $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $render->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
+        $render->assign('contentId', $this->contentId);
+        return $render->fetch('contenttype/heading_view.html');
     }
 
     function getDefaultData()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return array('text' => __('Sub-Heading', $dom));
+        return array('text' => __('Heading', $dom), 'headerSize' => 'h3');
     }
 
     function startEditing(&$render)
