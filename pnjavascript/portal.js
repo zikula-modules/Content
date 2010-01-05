@@ -265,7 +265,7 @@ Object.extend(Xilinus.Portal.prototype, {
     if (Prototype.Browser.Opera)     
       widget.setStyle({top: 0, left: 0, width: "100%", height: widget._originalHeight, zIndex: null, opacity: null, position: "relative"})
     else
-      widget.setStyle({top: null, left: null, width: null, height: widget._originalHeight, zIndex: null, opacity: null, position: "relative"})
+      widget.setStyle({top: null, left: null, width: null, height: widget._originalHeight, zIndex: 'auto', opacity: null, position: "relative"})
     
     widget.ghost = null;    
     widget.widget.updateHeight();

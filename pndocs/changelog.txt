@@ -6,6 +6,7 @@ Version 3.1.0
 -------------
 * Fix #78 - converted module to gettext
 * Fix #49 - fixed bug in paragraph-modifier
+* Fix #76 - Drag&Drop not working in MSIE
 * Fix #65 - missed translation
 * Fix #24/#60 - module not showing in admin-panel
 * Fix #53/#61/#72 - removed SimplePie and backend errors
