@@ -27,7 +27,7 @@ function content_menublock_display($blockinfo)
     if (!SecurityUtil::checkPermission('content:menublock:', "$blockinfo[title]::", ACCESS_READ))
         return;
 
-    $cacheId = 'menu|' . ZLanguage::getLanguageCode();
+    $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
 
     $render = & pnRender::getInstance('content', true);
     if (!$render->is_cached('content_block_menu.html', $cacheId)) {
