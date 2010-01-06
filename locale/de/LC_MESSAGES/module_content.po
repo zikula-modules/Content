@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: content 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-05 16:24+0000\n"
+"POT-Creation-Date: 2010-01-06 08:29+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
 "Language-Team: Carsten Volmer <carsten@zikula.org>\n"
@@ -26,8 +26,8 @@ msgstr "Fehler! Es konnte keine Unterseite ohne Angabe der Haupt-ID angelegt wer
 #: pnpageapi.php:388
 #: pnpageapi.php:422
 #: pnpageapi.php:433
-#: pnpageapi.php:785
-#: pnpageapi.php:824
+#: pnpageapi.php:787
+#: pnpageapi.php:826
 msgid "Error! There is already another page registered with the supplied permalink URL."
 msgstr "Es ist bereits eine andere Seite mit der angegebenen Permalink-URL vorhanden."
 
@@ -39,23 +39,23 @@ msgstr "Seite hinzugefügt"
 msgid "Page updated"
 msgstr "Seite aktualisiert"
 
-#: pnpageapi.php:570
-#: pncontentapi.php:628
+#: pnpageapi.php:571
+#: pncontentapi.php:631
 #: pntemplates/content_include_tocedit.html:39
 msgid "Translated"
 msgstr "Übersetzt"
 
-#: pnpageapi.php:601
-#: pncontentapi.php:660
+#: pnpageapi.php:603
+#: pncontentapi.php:664
 msgid "Translation deleted"
 msgstr "Übersetzung gelöscht"
 
-#: pnpageapi.php:770
+#: pnpageapi.php:772
 msgid "Error! It is not possible to move a parent page beneath one of its descendants."
 msgstr "Fehler! Es ist nicht möglich eine Elternseite unterhalb seiner Nachkommen zu platzieren."
 
 #: pnpageapi.php:1088
-#: pnpageapi.php:1191
+#: pnpageapi.php:1189
 #: pnsearchapi.php:72
 msgid "Error! Could not load items."
 msgstr "Fehler! Einträge konnte nicht geladen werden."
@@ -81,24 +81,24 @@ msgstr "Fehler! Content-Plugin konnte nicht geladen werden"
 msgid "Content added"
 msgstr "Inhalt hinzugefügt"
 
-#: pncontentapi.php:510
+#: pncontentapi.php:511
 msgid "Content updated"
 msgstr "Inhalt aktualisiert"
 
-#: pncontentapi.php:572
+#: pncontentapi.php:574
 msgid "Content deleted"
 msgstr "Inhalt gelöscht"
 
-#: pncontentapi.php:811
+#: pncontentapi.php:815
 msgid "Content moved"
 msgstr "Inhalt verschoben"
 
-#: pncontentapi.php:944
+#: pncontentapi.php:948
 #, php-format
 msgid "Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available."
 msgstr "Fehler! Plugin [%1$s] in Modul [%2$s] konnte nicht geladen werden, da das Modul nicht verfügbar ist."
 
-#: pncontentapi.php:945
+#: pncontentapi.php:949
 #, php-format
 msgid "Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason."
 msgstr "Fehler! Plugin [%1$s] in Modul [%2$s] konnte aus unbekannten Gründen nicht geladen werden."
@@ -502,7 +502,7 @@ msgstr "Seitenliste und Inhaltsstruktur"
 
 #: pnedit.php:149
 #: pntemplates/content_edit_newpage.html:1
-#: pntemplates/content_include_pageinfo.html:22
+#: pntemplates/content_include_pageinfo.html:21
 #: pntemplates/content_edit_main.html:9
 msgid "Add new page"
 msgstr "Neue Seite hinzufügen"
@@ -519,43 +519,43 @@ msgstr "Platziert hinter:"
 msgid "Error! You have not been granted access to this page."
 msgstr "Fehler! Es ist kein Zugriffsrecht auf diese Seite vorhanden."
 
-#: pnedit.php:227
+#: pnedit.php:228
 #: pntemplates/content_edit_editpage.html:3
-#: pntemplates/content_include_pageinfo.html:17
+#: pntemplates/content_include_pageinfo.html:16
 msgid "Edit page"
 msgstr "Seite bearbeiten"
 
-#: pnedit.php:274
+#: pnedit.php:275
 msgid "Layout changed"
 msgstr "Layout geändert"
 
-#: pnedit.php:358
+#: pnedit.php:360
 #: pntemplates/content_edit_newcontent.html:2
 msgid "Add new content to page"
 msgstr "Neuen Inhalt zur Seite hinzufügen"
 
-#: pnedit.php:443
+#: pnedit.php:445
 #: pntemplates/content_edit_editcontent.html:1
 msgid "Edit content item"
 msgstr "Inhalt bearbeiten"
 
-#: pnedit.php:542
-#: pnedit.php:675
+#: pnedit.php:544
+#: pnedit.php:677
 msgid "You should not translate item to same language as it's default language."
 msgstr "Inhalte können nicht in die gleiche Sprache, wie die Standardsprache übersetzt werden."
 
-#: pnedit.php:544
-#: pntemplates/content_include_pageinfo.html:19
+#: pnedit.php:546
+#: pntemplates/content_include_pageinfo.html:18
 #: pntemplates/content_edit_translatepage.html:1
 msgid "Translate page"
 msgstr "Seite übersetzen"
 
-#: pnedit.php:682
+#: pnedit.php:684
 #: pntemplates/content_edit_translatecontent.html:1
 msgid "Translate content item"
 msgstr "Inhalt übersetzen"
 
-#: pnedit.php:796
+#: pnedit.php:798
 #: pntemplates/content_edit_history.html:2
 msgid "Page history"
 msgstr "Seitenhistorie"
@@ -701,39 +701,39 @@ msgstr "Speichern"
 msgid "Save & View"
 msgstr "Speichern & Anzeigen"
 
-#: pntemplates/content_include_pageinfo.html:13
+#: pntemplates/content_include_pageinfo.html:12
 msgid "Edit-mode off"
 msgstr "Bearbeitungsmodus deaktivieren"
 
-#: pntemplates/content_include_pageinfo.html:15
+#: pntemplates/content_include_pageinfo.html:14
 msgid "Edit-mode on"
 msgstr "Bearbeitungsmodus aktivieren"
 
-#: pntemplates/content_include_pageinfo.html:21
+#: pntemplates/content_include_pageinfo.html:20
 #: pntemplates/content_include_tocedit.html:23
 msgid "New sub-page"
 msgstr "Neue Unterseite"
 
-#: pntemplates/content_include_pageinfo.html:23
-#: pntemplates/content_edit_history.html:7
+#: pntemplates/content_include_pageinfo.html:22
+#: pntemplates/content_edit_history.html:6
 msgid "Page list"
 msgstr "Seitenliste"
 
-#: pntemplates/content_include_pageinfo.html:27
+#: pntemplates/content_include_pageinfo.html:25
 #, php-format
 msgid "Created by %1$s on %2$s"
 msgstr "Erstellt von %1$s am %2$s"
 
-#: pntemplates/content_include_pageinfo.html:28
+#: pntemplates/content_include_pageinfo.html:26
 #, php-format
 msgid "Last updated by %1$s on %2$s"
 msgstr "Zuletzt aktualisiert von %1$s am %2$s"
 
-#: pntemplates/content_include_pageinfo.html:29
+#: pntemplates/content_include_pageinfo.html:27
 msgid "Version"
 msgstr "Version"
 
-#: pntemplates/content_include_pageinfo.html:30
+#: pntemplates/content_include_pageinfo.html:27
 #: pntemplates/content_include_tocedit.html:38
 msgid "Language"
 msgstr "Sprache"
@@ -769,8 +769,7 @@ msgid "Skip"
 msgstr "Überspringen"
 
 #: pntemplates/content_admin_main.html:1
-#: pntemplates/content_admin_settings.html:1
-msgid "Content administration"
+msgid "Module administration"
 msgstr "Moduladministration"
 
 #: pntemplates/content_admin_main.html:14
@@ -824,6 +823,10 @@ msgstr "mehr"
 #: pntemplates/content_user_pagelist.html:5
 msgid "View full page"
 msgstr "Ganze Seite anzeigen"
+
+#: pntemplates/content_admin_settings.html:1
+msgid "Module settings"
+msgstr "Modulkonfiguration"
 
 #: pntemplates/content_admin_settings.html:14
 msgid "This is where you configure various parts of the content module."
@@ -1084,39 +1087,39 @@ msgstr "Keine Unterseiten verfügbar"
 msgid "Back to page"
 msgstr "Zurück zur Seite"
 
-#: pntemplates/content_edit_history.html:14
+#: pntemplates/content_edit_history.html:12
 msgid "Version history is currently disabled and no new entries will be recorded."
 msgstr "Die Versionierung ist momentan deaktiviert. Daher werden keinen neuen Einträge aufgezeichnet."
 
-#: pntemplates/content_edit_history.html:22
+#: pntemplates/content_edit_history.html:20
 msgid "#"
 msgstr "#"
 
-#: pntemplates/content_edit_history.html:23
+#: pntemplates/content_edit_history.html:21
 msgid "Date"
 msgstr "Datum"
 
-#: pntemplates/content_edit_history.html:24
+#: pntemplates/content_edit_history.html:22
 msgid "Event"
 msgstr "Ereignis"
 
-#: pntemplates/content_edit_history.html:25
+#: pntemplates/content_edit_history.html:23
 msgid "User"
 msgstr "Benutzer"
 
-#: pntemplates/content_edit_history.html:26
+#: pntemplates/content_edit_history.html:24
 msgid "IP.No."
 msgstr "IP-Nr."
 
-#: pntemplates/content_edit_history.html:27
+#: pntemplates/content_edit_history.html:25
 msgid "Action"
 msgstr "Aktion"
 
-#: pntemplates/content_edit_history.html:38
+#: pntemplates/content_edit_history.html:36
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: pntemplates/content_edit_history.html:41
+#: pntemplates/content_edit_history.html:39
 msgid "No history data recorded."
 msgstr "Keine Historie aufgezeichnet."
 
