@@ -70,7 +70,7 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
     {
         $dom = ZLanguage::getModuleDomain('content');
         // [slideshare id=525876&doc=oscon2008voicemashups-1216853182252884-9&w=425]
-        $r = '/^[slideshare id=[0-9]+\&doc=([^&]+)/';
+        $r = '/^[slideshare id=[0-9]+\&doc=([^&]+?)\]/';
         if (preg_match($r, $data['url'], $matches)) {
             $this->slideId = $data['slideId'] = $matches[1];
             return true;
