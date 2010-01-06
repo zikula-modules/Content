@@ -18,7 +18,15 @@ function content_menublock_init()
 
 function content_menublock_info()
 {
-    return array('text_type' => 'Menu', 'module' => 'Content', 'text_type_long' => 'Content menu', 'allow_multiple' => true, 'form_content' => false, 'form_refresh' => false, 'show_preview' => true, 'admin_tableless' => true);
+    $dom = ZLanguage::getModuleDomain('content');
+    return array('module'          => 'content',
+                 'text_type'       => __('Content menu', $dom),
+                 'text_type_long'  => __('Content menu block', $dom),
+                 'allow_multiple'  => true, 
+                 'form_content'    => false,
+                 'form_refresh'    => false,
+                 'show_preview'    => true,
+                 'admin_tableless' => true);
 }
 
 function content_menublock_display($blockinfo)
@@ -63,7 +71,7 @@ function content_menublock_modify($blockinfo)
 
     $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
     $pidItems = array();
-    $pidItems[] = array('text' => __('All pages', $dom), 'value' => 0);
+    $pidItems[] = array('text' => __('All pages', $dom), 'value' => "0");
 
     foreach ($pages as $page) {
         $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
