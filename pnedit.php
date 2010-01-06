@@ -778,6 +778,8 @@ class content_edit_historyContentHandler extends pnFormHandler
 
     function initialize(&$render)
     {
+        $dom = ZLanguage::getModuleDomain('content');
+
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
 
         if (!contentHasPageEditAccess($this->pageId))
