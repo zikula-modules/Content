@@ -3,9 +3,7 @@
 <div class="z-menu">
     <span class="z-menuitem-title">
         [ <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->"><!--[gt text="Back to page"]--></a>
-        |
-        <a href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[gt text="Page list"]--></a>
-        ]
+        | <a href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[gt text="Page list"]--></a> ]
     </span>
 </div>
 
@@ -33,7 +31,7 @@
             <td><!--[$version.revisionNo]--></td>
             <td><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->"><!--[$version.date|pndate_format:datetimebrief]--></a></td>
             <td><!--[$version.action]--></td>
-            <td><!--[$version.userName]--></td>
+            <td><!--[$version.userName|userprofilelink]--></td>
             <td><!--[$version.ipno]--></td>
             <td><!--[pnformbutton __text="Restore" commandName="restore" commandArgument=$version.id confirmMessage='Restore']--></td>
         </tr>
