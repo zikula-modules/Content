@@ -22,6 +22,7 @@ Version 3.1.0
 * Fix #71         - Problems with directory-based shorturls
 * Fix #59         - Caching bug in menu blocks
 * Fix #87         - Removed Circavie.com plugin
+* Fix #89         - wrong slideshare regex
 
 Version 3.0.0
 -------------

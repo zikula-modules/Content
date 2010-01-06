@@ -1,7 +1,7 @@
 <!--[contentpageheading __header='Edit content item' subheader=$contentType.title]-->
 
 <p class="content-page-help"><!--[$contentType.description]--></p>
-
+ 
 <!--[pnformerrormessage id='error']-->
 
 <!--[pnform enctype="multipart/form-data" cssClass='z-form']--> <!--[* Always allow plugins to use upload *]-->
@@ -11,7 +11,7 @@
 
 <!--[pnformtabbedpanel __title='Content']-->
 <fieldset>
-    <legend><!--[gt text="Content"]--></legend>
+    <legend><!--[$contentType.title]--></legend>
     <!--[include file=$contentTypeTemplate]-->
 </fieldset>
 <!--[/pnformtabbedpanel]-->

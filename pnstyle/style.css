@@ -339,9 +339,9 @@ div.content-item p.content-description {
     padding:5px;
 }
 
-.content-video dl,
-.content-video dt,
-.content-video dd {
+dl.content-video,
+dl.content-video dt,
+dl.content-video dd {
     text-align: center;
     margin:0 !important;
     padding:0 !important;
