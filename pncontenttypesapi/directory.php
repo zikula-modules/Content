@@ -125,13 +125,12 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
 
         $pidItems = array();
-        $pidItems[] = array('text' => __('All pages', $dom), 'value' => 0);
+        $pidItems[] = array('text' => __('All pages', $dom), 'value' => "0");
         foreach ($pages as $page) {
             $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
         }
 
-        $render->assign('pidItems
-        ', $pidItems);
+        $render->assign('pidItems', $pidItems);
     }
 
     function getSearchableText()

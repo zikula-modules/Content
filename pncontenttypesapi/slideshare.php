@@ -56,8 +56,8 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
 
     function displayEditing()
     {
-        $output = '<div style="background-color:grey; height:160px; width:200px; margin:0 auto;"></div>';
-        $output .= '<p style="width:200px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
+        $output = '<div style="background-color:grey; width:320px; height:200px; margin:0 auto;"></div>';
+        $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
 

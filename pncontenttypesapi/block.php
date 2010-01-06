@@ -22,12 +22,12 @@ class content_contenttypesapi_blockPlugin extends contentTypeBase
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Zikula Block', $dom);
+        return __('Blocks', $dom);
     }
     function getDescription()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Show Zikula-block in Content', $dom);
+        return __('Display Zikula blocks.', $dom);
     }
     function isTranslatable()
     {
