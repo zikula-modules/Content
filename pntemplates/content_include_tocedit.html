@@ -39,7 +39,6 @@
                 <!--[if $multilingual]--><th><!--[gt text="Translated"]--></th><!--[/if]-->
             </tr>
         </thead>
-        <!--[if $pages]-->
         <tbody>
             <!--[foreach from=$pages item=page]-->
             <tr class="<!--[cycle values="z-odd,z-even"]-->">
@@ -67,8 +66,9 @@
                 <!--[if $multilingual]--><td><!--[$page.language]--></td><!--[/if]-->
                 <!--[if $multilingual]--><td><!--[if $page.isTranslated]-->x<!--[/if]--></td><!--[/if]-->
             </tr>
+            <!--[foreachelse]-->
+            <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->5<!--[else]-->3<!--[/if]-->"><!--[gt text="No page available."]--></td></tr>
             <!--[/foreach]-->
         </tbody>
-        <!--[/if]-->
     </table>
 </div>
