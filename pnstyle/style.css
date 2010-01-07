@@ -269,18 +269,32 @@ div.w75 { width: 70%; }
 div.w100 { width: 100%; }
 div.wauto { width: auto; }
 
-div.greybox
-{
-    border: 2px solid #A0A0A0;
-    background-color: #C0C0C0;
-    padding: 0px;
+div.greybox {
+    border:solid 1px #DEDEDE;
+    background:#EFEFEF;
+    color:#222222;
+    padding:0.5em;
 }
 
-div.redbox
-{
-    border: 2px solid #F74238;
-    background-color: #F47770;
-    padding: 0px;
+div.redbox {
+    border:solid 1px #CC0000;
+    background:#F7CBCA;
+    color:#CC0000;
+    padding:0.5em;
+}
+
+div.yellowbox {
+    border:solid 1px #DEDEDE;
+    background:#FFFFCC;
+    color:#222222;
+    padding:0.5em;
+}
+
+div.greenbox {
+    border:solid 1px #349534;
+    background:#C9FFCA;
+    color:#008000;
+    padding:0.5em;
 }
 
 /* ----------------------------------------------------------------------------

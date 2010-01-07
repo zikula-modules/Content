@@ -42,7 +42,7 @@ function content_init()
         return LogUtil::registerError(__("Error! Failed to set shorturlsuffix.", $dom));
     }
     
-    if (!pnModSetVar('content', 'styleClasses', "greybox|Grey box\nredbox|Red box")) {
+    if (!pnModSetVar('content', 'styleClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box")) {
         return LogUtil::registerError(__("Error! Failed to set style classes.", $dom));
     }
 

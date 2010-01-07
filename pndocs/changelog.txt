@@ -1,4 +1,4 @@
-Content (C) Jorn Wildt 2007
+Content (C) 2007-2010, Content Development Team
 ---------------------------
 http://code.zikula.org/content
 
@@ -23,6 +23,16 @@ Version 3.1.0
 * Fix #59         - Caching bug in menu blocks
 * Fix #87         - Removed Circavie.com plugin
 * Fix #89         - wrong slideshare regex
+
+UPGRADE INSTRUCTIONS:
+  If you want to use the new additional CSS classes, you must add them
+  manually into the module settings. Current module defaults:
+  ---------------------------
+  greybox|Grey box
+  redbox|Red box
+  yellowbox|Yellow box
+  greenbox|Green box
+  ---------------------------
 
 Version 3.0.0
 -------------

@@ -594,7 +594,7 @@ msgstr "Wird benutzt, um diese Seite in bei den Short-URLS zu referenzieren. Lee
 
 #: pntemplates/content_edit_newpage.html:23
 msgid "Please select a specific layout for your page"
-msgstr "Bitte wähle das Seitenlayout für die Seite aus."
+msgstr "Bitte das Seitenlayout für die Seite auswählen"
 
 #: pntemplates/content_edit_newpage.html:28
 #: pntemplates/content_edit_newcontent.html:21
