@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 11:51+0000\n"
+"POT-Creation-Date: 2010-01-07 13:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -722,6 +722,7 @@ msgid "New sub-page"
 msgstr ""
 
 #: pntemplates/content_include_pageinfo.html:22
+#: pntemplates/content_user_list.html:1
 #: pntemplates/content_edit_history.html:6
 msgid "Page list"
 msgstr ""
@@ -745,9 +746,10 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: pntemplates/content_user_list.html:9
-#: pntemplates/content_user_extlist.html:13
-#: pntemplates/content_user_pagelist.html:9
+#: pntemplates/content_user_list.html:11
+#: pntemplates/content_user_extlist.html:16
+#: pntemplates/content_user_pagelist.html:12
+#: pntemplates/content_user_main.htm:18
 msgid "There are no pages to display."
 msgstr ""
 
@@ -832,11 +834,19 @@ msgstr ""
 msgid "No page available."
 msgstr ""
 
-#: pntemplates/content_user_extlist.html:9
+#: pntemplates/content_user_extlist.html:1
+msgid "Extended page list"
+msgstr ""
+
+#: pntemplates/content_user_extlist.html:12
 msgid "more"
 msgstr ""
 
-#: pntemplates/content_user_pagelist.html:5
+#: pntemplates/content_user_pagelist.html:1
+msgid "Complete page list"
+msgstr ""
+
+#: pntemplates/content_user_pagelist.html:8
 msgid "View full page"
 msgstr ""
 
@@ -1259,12 +1269,16 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: pntemplates/content_user_main.htm:2
-#, php-format
-msgid "Welcome to the sections page for %s"
+#: pntemplates/content_user_main.htm:1
+msgid "Contents"
 msgstr ""
 
-#: pntemplates/content_user_main.htm:3
+#: pntemplates/content_user_main.htm:4
+#, php-format
+msgid "Welcome to the contents for %s"
+msgstr ""
+
+#: pntemplates/content_user_main.htm:7
 msgid "The available sections are as follows:"
 msgstr ""
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: content 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 11:51+0000\n"
+"POT-Creation-Date: 2010-01-07 13:49+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
 "Language-Team: Carsten Volmer <carsten@zikula.org>\n"
@@ -105,7 +105,7 @@ msgstr "Fehler! Plugin [%1$s] in Modul [%2$s] konnte aus unbekannten Gründen ni
 
 #: pnversion.php:17
 msgid "Content editing"
-msgstr "Inhalte bearbeiten"
+msgstr "Inhaltsverwaltung"
 
 #: pnversion.php:18
 msgid "Content is a page editing module. With it you can insert and edit various content items, such as HTML texts, videos, Google maps and much more."
@@ -458,7 +458,7 @@ msgstr "Vorschau"
 #: pnuser.php:243
 #: pntemplates/content_admin_main.html:19
 msgid "Sitemap"
-msgstr "Sitemap"
+msgstr "Seitenübersicht"
 
 #: pnhistoryapi.php:145
 #: pnhistoryapi.php:242
@@ -728,6 +728,7 @@ msgid "New sub-page"
 msgstr "Neue Unterseite"
 
 #: pntemplates/content_include_pageinfo.html:22
+#: pntemplates/content_user_list.html:1
 #: pntemplates/content_edit_history.html:6
 msgid "Page list"
 msgstr "Seitenliste"
@@ -751,9 +752,10 @@ msgstr "Version"
 msgid "Language"
 msgstr "Sprache"
 
-#: pntemplates/content_user_list.html:9
-#: pntemplates/content_user_extlist.html:13
-#: pntemplates/content_user_pagelist.html:9
+#: pntemplates/content_user_list.html:11
+#: pntemplates/content_user_extlist.html:16
+#: pntemplates/content_user_pagelist.html:12
+#: pntemplates/content_user_main.htm:18
 msgid "There are no pages to display."
 msgstr "Es sind keine Seiten zur Anzeige vorhanden."
 
@@ -833,13 +835,21 @@ msgstr "Seite offline und nicht im Menü"
 msgid "No page available."
 msgstr "Keine Seiten verfügbar."
 
-#: pntemplates/content_user_extlist.html:9
+#: pntemplates/content_user_extlist.html:1
+msgid "Extended page list"
+msgstr "Erweiterte Seitenliste"
+
+#: pntemplates/content_user_extlist.html:12
 msgid "more"
 msgstr "mehr"
 
-#: pntemplates/content_user_pagelist.html:5
+#: pntemplates/content_user_pagelist.html:1
+msgid "Complete page list"
+msgstr "Vollständige Seitenliste"
+
+#: pntemplates/content_user_pagelist.html:8
 msgid "View full page"
-msgstr "Ganze Seite anzeigen"
+msgstr "Seite vollständig anzeigen"
 
 #: pntemplates/content_admin_settings.html:1
 msgid "Module settings"
@@ -1221,12 +1231,16 @@ msgstr "Fehler! In diesem Inhaltstypen sind keine übersetzbaren Inhalte vorhand
 msgid "Back"
 msgstr "Zurück"
 
-#: pntemplates/content_user_main.htm:2
-#, php-format
-msgid "Welcome to the sections page for %s"
-msgstr "Willkommen zur Kategorienseite von  %s"
+#: pntemplates/content_user_main.htm:1
+msgid "Contents"
+msgstr "Inhalte"
 
-#: pntemplates/content_user_main.htm:3
+#: pntemplates/content_user_main.htm:4
+#, php-format
+msgid "Welcome to the contents for %s"
+msgstr "Willkommen zu den Inhalten von %s"
+
+#: pntemplates/content_user_main.htm:7
 msgid "The available sections are as follows:"
 msgstr "Folgende Kategorien stehen zur Verfügung:"
 
