@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 07:38+0000\n"
+"POT-Creation-Date: 2010-01-07 11:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,21 +118,20 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: pntemplates/plugins/function.contenteditthis.php:37
+#: pntemplates/plugins/function.contenteditthis.php:35
 msgid "Edit this page"
 msgstr ""
 
-#: pntemplates/plugins/function.contenteditthis.php:39
+#: pntemplates/plugins/function.contenteditthis.php:37
 msgid "Translate this page"
 msgstr ""
 
-#: pntemplates/plugins/function.contenteditthis.php:50
-#: pntemplates/content_edit_editpage.html:22
-#: pntemplates/content_include_tocedit.html:19
-msgid "Edit"
+#: pntemplates/plugins/function.contenteditthis.php:46
+#, php-format
+msgid "Edit this: %1$s (ID%2$s)"
 msgstr ""
 
-#: pntemplates/plugins/function.contenteditthis.php:52
+#: pntemplates/plugins/function.contenteditthis.php:49
 #: pntemplates/content_edit_editpage.html:27
 #: pntemplates/content_edit_editpage.html:125
 #: pntemplates/content_include_tocedit.html:26
@@ -603,6 +602,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: pntemplates/content_edit_editpage.html:22
+#: pntemplates/content_include_tocedit.html:19
+msgid "Edit"
+msgstr ""
+
 #: pntemplates/content_edit_editpage.html:23
 msgid "Add new content above"
 msgstr ""
@@ -816,12 +820,16 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: pntemplates/content_include_tocedit.html:56
+#: pntemplates/content_include_tocedit.html:55
 msgid "Page online and in menu"
 msgstr ""
 
-#: pntemplates/content_include_tocedit.html:58
+#: pntemplates/content_include_tocedit.html:57
 msgid "Page offline or not in menu"
+msgstr ""
+
+#: pntemplates/content_include_tocedit.html:70
+msgid "No page available."
 msgstr ""
 
 #: pntemplates/content_user_extlist.html:9

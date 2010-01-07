@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: content 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 07:38+0000\n"
+"POT-Creation-Date: 2010-01-07 11:51+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
 "Language-Team: Carsten Volmer <carsten@zikula.org>\n"
@@ -105,7 +105,7 @@ msgstr "Fehler! Plugin [%1$s] in Modul [%2$s] konnte aus unbekannten Gründen ni
 
 #: pnversion.php:17
 msgid "Content editing"
-msgstr "Inhalt bearbeitet"
+msgstr "Inhalte bearbeiten"
 
 #: pnversion.php:18
 msgid "Content is a page editing module. With it you can insert and edit various content items, such as HTML texts, videos, Google maps and much more."
@@ -116,21 +116,20 @@ msgstr "Mit dem Content-Modul können die unterschiedlichsten Inhaltstypen (HTML
 msgid "content"
 msgstr "inhalt"
 
-#: pntemplates/plugins/function.contenteditthis.php:37
+#: pntemplates/plugins/function.contenteditthis.php:35
 msgid "Edit this page"
 msgstr "Seite bearbeiten"
 
-#: pntemplates/plugins/function.contenteditthis.php:39
+#: pntemplates/plugins/function.contenteditthis.php:37
 msgid "Translate this page"
 msgstr "Seite übersetzen"
 
-#: pntemplates/plugins/function.contenteditthis.php:50
-#: pntemplates/content_edit_editpage.html:22
-#: pntemplates/content_include_tocedit.html:19
-msgid "Edit"
-msgstr "Bearbeiten"
+#: pntemplates/plugins/function.contenteditthis.php:46
+#, php-format
+msgid "Edit this: %1$s (ID%2$s)"
+msgstr "Bearbeiten: %1$s (ID%2$s)"
 
-#: pntemplates/plugins/function.contenteditthis.php:52
+#: pntemplates/plugins/function.contenteditthis.php:49
 #: pntemplates/content_edit_editpage.html:27
 #: pntemplates/content_edit_editpage.html:125
 #: pntemplates/content_include_tocedit.html:26
@@ -611,6 +610,11 @@ msgstr "Erstellen"
 msgid "Cancel"
 msgstr "Abbrechen"
 
+#: pntemplates/content_edit_editpage.html:22
+#: pntemplates/content_include_tocedit.html:19
+msgid "Edit"
+msgstr "Bearbeiten"
+
 #: pntemplates/content_edit_editpage.html:23
 msgid "Add new content above"
 msgstr "Inhalt oberhalb einfügen"
@@ -817,13 +821,17 @@ msgstr "Zuletzt aktualisiert"
 msgid "Created By"
 msgstr "Erstellt von"
 
-#: pntemplates/content_include_tocedit.html:56
+#: pntemplates/content_include_tocedit.html:55
 msgid "Page online and in menu"
 msgstr "Seite online und im Menü"
 
-#: pntemplates/content_include_tocedit.html:58
+#: pntemplates/content_include_tocedit.html:57
 msgid "Page offline or not in menu"
 msgstr "Seite offline und nicht im Menü"
+
+#: pntemplates/content_include_tocedit.html:70
+msgid "No page available."
+msgstr "Keine Seiten verfügbar."
 
 #: pntemplates/content_user_extlist.html:9
 msgid "more"
@@ -1278,9 +1286,4 @@ msgstr "Wiederherstellen"
 #: pntemplates/content_edit_history.html:39
 msgid "No history data recorded."
 msgstr "Keine Historie aufgezeichnet."
-
-#~ msgid "Show Zikula-block in Content"
-#~ msgstr "Anzeige von Zikula Modulblöcken"
-#~ msgid "Copy Slideshare"
-#~ msgstr "Slideshare kopieren"
 

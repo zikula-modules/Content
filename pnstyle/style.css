@@ -97,8 +97,19 @@ div.content-page-path {
     font-weight: bold;
 }
 
-div.content-editthis {
-    font-size: 90%;
+div.content-editthis a {
+    display:block;
+    font-size: 0.9em;
+    color:#444;
+    padding:1px;
+    margin:1px 0;
+    border: 1px #ddd solid;
+    background: #fafafa;
+}
+
+div.content-editthis a:hover {
+    color:#000;
+    border:1px solid #AAAAAA;
 }
 
 div.pn-pager * {
@@ -161,12 +172,12 @@ div.content-layout.column3 p {
 }
 
 div.content-layout.column2 div.content-area-left {
-    width: 45%;
+    width: 48%;
     float: left;
 }
 
 div.content-layout.column2 div.content-area-right {
-    width: 45%;
+    width: 48%;
     float: right;
 }
 
