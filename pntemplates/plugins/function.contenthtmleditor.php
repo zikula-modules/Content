@@ -36,15 +36,21 @@ function smarty_function_contenthtmleditor($params, &$render)
   }
   else if ($useWysiwyg && !pnModAvailable('scribite'))
   {
-    $html = '(' . __("Please install Scribite to get a real HTML editor.", $dom) . ')';
+    $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
+    $html .= '(' . __("Please install Scribite to get a real HTML editor.", $dom) . ')';
+    $html .= "</em></div>";
   }
   else if ($useBBCode && pnModAvailable('bbcode'))
   {
-    $html = pnModFunc('bbcode', 'user', 'bbcodes', array('textfieldid' => $inputId, 'images' => 0));
+    $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
+    $html .= pnModFunc('bbcode', 'user', 'bbcodes', array('textfieldid' => $inputId, 'images' => 0));
+    $html .= "</em></div>";
   }
   else if ($useBBCode && !pnModAvailable('bbcode'))
   {
-    $html = '(' . __("Please install the hook BBCode to enable bbcode filtering.", $dom) . ')';
+    $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
+    $html .= '(' . __("Please install the hook BBCode to enable bbcode filtering.", $dom) . ')';
+    $html .= "</em></div>";
   }
 
   return $html;

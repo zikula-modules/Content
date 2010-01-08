@@ -420,10 +420,10 @@ dl.content-video dd {
 
 #contentPageInfo a.con_image,
 #contentPageInfo button.con_image {
-    margin: 0;
-    font-size: 1em;
-    padding: 2px 0 2px 22px; /* 16px image + spacer */
-    display: block;
+    margin: 0 !important;
+    font-size: 1em !important;
+    padding: 2px 0 2px 22px !important; /* 16px image + spacer */
+    display: block !important;
 }
 #contentPageInfo a.translate {
     background: url(../../../images/icons/extrasmall/voice-support.gif) no-repeat 0 50%;

@@ -33,7 +33,9 @@ class ContentContentTypeSelector extends pnFormDropdownList
     $scripts = array('javascript/ajax/prototype.js', 'modules/content/pnjavascript/ajax.js');
     PageUtil::addVar('javascript', $scripts);
 
-    $output = parent::render($render);
+    $output = "<div class=\"z-formrow\">";
+    $output .= parent::render($render);
+    $output .= "</div>";
 
     $descr = array();
 
