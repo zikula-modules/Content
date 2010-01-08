@@ -29,7 +29,7 @@
         <!--[foreach from=$versions item=version]-->
         <tr class="<!--[cycle values="z-odd,z-even"]-->">
             <td><!--[$version.revisionNo]--></td>
-            <td><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->"><!--[$version.date|pndate_format:datetimebrief]--></a></td>
+            <td class="z-nowrap"><a href="<!--[pnmodurl modname=content type=user func=view vid=$version.id]-->"><!--[$version.date|pndate_format:datetimebrief]--></a></td>
             <td><!--[$version.action]--></td>
             <td><!--[$version.userName|userprofilelink]--></td>
             <td><!--[$version.ipno]--></td>

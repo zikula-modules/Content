@@ -5,6 +5,8 @@ http://code.zikula.org/content
 Version 3.1.0
 -------------
 * IMPORTANT       - Security schema has now been changed to lowercase "content::"  !!!
+                  - Minimum requirements: Core 1.2.1
+
 * Add #15         - MultiHook Needle support
 * Add #57         - Support for Google Sitemaps
 * Add #51         - Vimeo contenttype
