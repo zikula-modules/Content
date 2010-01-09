@@ -22,7 +22,7 @@
 <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandRedirect=$editUrl]-->
 <!--[pnformcontextmenuitem __title='Add new content above' imageURL="images/icons/extrasmall/insert_table_row_above.gif" commandRedirect=$aboveUrl]-->
 <!--[pnformcontextmenuitem __title='Add new content below' imageURL="images/icons/extrasmall/insert_table_row.gif" commandRedirect=$belowUrl]-->
-<!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deleteContent' confirmMessage='Delete']-->
+<!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deleteContent' __confirmMessage='Delete']-->
 <!--[if $multilingual==1]-->
 <!--[pnformcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl]-->
 <!--[/if]-->
@@ -118,7 +118,7 @@
 
 <!--[contentbuttons]-->
 <!--[pnformbutton commandName="save" __text="Save"]-->
-<!--[pnformbutton commandName="deletePage" __text="Delete" confirmMessage='Delete']-->
+<!--[pnformbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete']-->
 <input type="submit" value="<!--[gt text="Preview"]-->" onclick="window.open('<!--[pnmodurl modname=content type=user func=view preview=1 pid=$page.id]-->')" />
 <!--[pnformbutton commandName="saveAndView" __text="Save & View"]-->
 <!--[if $multilingual==1]-->
