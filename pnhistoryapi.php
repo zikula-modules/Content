@@ -304,7 +304,7 @@ function content_historyapi_restoreVersion($args)
   $ok = pnModAPIFunc('content', 'page', 'updatePage',
                      array('page' => $page,
                            'pageId' => $pageId,
-                           'revisionText' => '_CONTENT_HISTORYPAGERESTORED' . "|$version[revisionNo]" /* delayed translation */));
+                           'revisionText' => '_CONTENT_HISTORYPAGERESTORED' . "|revisionNo=$version[revisionNo]" /* delayed translation */));
   if ($ok === false)
     return false;
 
