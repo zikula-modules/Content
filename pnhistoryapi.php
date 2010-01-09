@@ -13,6 +13,7 @@ Loader::requireOnce('modules/content/common.php');
 
 function content_historyapi_getPageVersions($args)
 {
+  $dom = ZLanguage::getModuleDomain('content');
   $pageId = (int)$args['pageId'];
   $enableEscape = (array_key_exists('enableEscape', $args) ? $args['enableEscape'] : true);
   $offset = (array_key_exists('offset', $args) ? $args['offset'] : 0);
@@ -35,7 +36,7 @@ function content_historyapi_getPageVersions($args)
     $version =& $versions[$i];
       
     $version['action'] = contentHistoryActionTranslate($version['action']);
-    $version['userName'] = $version['userId'] == 0 ? _UNKNOWNUSER : UserUtil::getPNUserField($version['userId'], 'uname');
+    $version['userName'] = $version['userId'] == 0 ? __("Unknown user", $dom) : UserUtil::getPNUserField($version['userId'], 'uname');
   }
 
   return $versions;
@@ -44,6 +45,7 @@ function content_historyapi_getPageVersions($args)
 
 function contentHistoryActionTranslate($action)
 {
+  $dom = ZLanguage::getModuleDomain('content');
   $textAndParam = explode('|', $action);
   $text = $textAndParam[0];
   $parametersStr = (count($textAndParam) > 1 ? $textAndParam[1] : '');
@@ -57,7 +59,38 @@ function contentHistoryActionTranslate($action)
       $parameters[$varAndValue[0]] = $varAndValue[1];
     }
   }
-  return pnML($text, $parameters);
+  
+  switch ($text) {
+      case '_CONTENT_HISTORYCONTENTUPDATED':
+          $ActionTranslated = __("Content updated", $dom);
+          break;
+      case '_CONTENT_HISTORYCONTENTDELETED':
+          $ActionTranslated = __("Content deleted", $dom);
+          break;
+      case '_CONTENT_HISTORYTRANSLATED':
+          $ActionTranslated = __("Translated", $dom);
+          break;
+      case '_CONTENT_HISTORYTRANSLATIONDEL':
+          $ActionTranslated = __("Translation deleted", $dom);
+          break;
+      case '_CONTENT_HISTORYCONTENTMOVED':
+          $ActionTranslated = __("Content moved", $dom);
+          break;
+      case '_CONTENT_HISTORYCONTENTADDED':
+          $ActionTranslated = __("Content added", $dom);
+          break;
+      case '_CONTENT_HISTORYPAGEADDED':
+          $ActionTranslated = __("Page added", $dom);
+          break;
+      case '_CONTENT_HISTORYPAGEUPDATED':
+          $ActionTranslated = __("Page updated", $dom);
+          break;
+      case '_CONTENT_HISTORYPAGERESTORED':
+          $ActionTranslated = __f('Page restored from version [%s]', $parameters, $dom);
+          break;
+  }
+
+  return $ActionTranslated;
 }
 
 
@@ -271,7 +304,7 @@ function content_historyapi_restoreVersion($args)
   $ok = pnModAPIFunc('content', 'page', 'updatePage',
                      array('page' => $page,
                            'pageId' => $pageId,
-                           'revisionText' => __f('Page restored from version [%s]', $version[revisionNo], $dom) /* delayed translation */));
+                           'revisionText' => '_CONTENT_HISTORYPAGERESTORED' . "|$version[revisionNo]" /* delayed translation */));
   if ($ok === false)
     return false;
 

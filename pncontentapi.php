@@ -457,7 +457,7 @@ function content_contentapi_newContent($args)
 
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => __("Content added", $dom) /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
         if ($ok === false)
             return false;
     }
@@ -508,7 +508,7 @@ function content_contentapi_updateContent($args)
         return false;
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => __("Content updated", $dom) /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYCONTENTUPDATED' /* delayed translation */));
         if ($ok === false)
             return false;
     }
@@ -571,7 +571,7 @@ function content_contentapi_deleteContent($args)
         return false;
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => __("Content deleted", $dom) /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYCONTENTDELETED' /* delayed translation */));
         if ($ok === false)
             return false;
     }
@@ -628,7 +628,7 @@ function content_contentapi_updateTranslation($args)
         return false;
 
     if ($addVersion) {
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => __("Translated", $dom) /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYTRANSLATED' /* delayed translation */));
         if ($ok === false)
             return false;
     }
@@ -661,7 +661,7 @@ function content_contentapi_deleteTranslation($args)
         if ($content === false)
             return false;
 
-        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => __("Translation deleted", $dom) /* delayed translation */));
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYTRANSLATIONDEL' /* delayed translation */));
         if ($ok === false)
             return false;
     }
@@ -812,7 +812,7 @@ function content_contentapi_dragContent($args)
     if (!contentInsertContent($contentId, $position, $contentAreaIndex, $pageId))
         return false;
 
-    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => __("Content moved", $dom) /* delayed translation */));
+    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTMOVED' /* delayed translation */));
     if ($ok === false)
         return false;
 

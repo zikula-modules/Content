@@ -397,7 +397,7 @@ function content_pageapi_newPage($args)
     if ($ok === false)
         return false;
 
-    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => __("Page added", $dom) /* delayed translation */));
+    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '_CONTENT_HISTORYPAGEADDED' /* delayed translation */));
     if ($ok === false)
         return false;
 
@@ -412,7 +412,7 @@ function content_pageapi_updatePage($args)
     $dom = ZLanguage::getModuleDomain('content');
     $pageData = $args['page'];
     $pageId = (int) $args['pageId'];
-    $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : __("Page updated", $dom) /* delayed translation */);
+    $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : '_CONTENT_HISTORYPAGEUPDATED' /* delayed translation */);
 
     if (!isset($pageData['urlname']) || empty($pageData['urlname']))
         $pageData['urlname'] = $pageData['title'];
