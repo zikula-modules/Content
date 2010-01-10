@@ -995,7 +995,7 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
 /*=[ Utility functions ]=========================================================*/
 
 /**
- * Test if the permalink url is allready exists by urlname and the page ID of its parent
+ * Test if the permalink url is already exists by urlname and the page ID of its parent
  *
  * @author Philipp Niethammer <webmaster@nochwer.de>
  * @param string 	urlname

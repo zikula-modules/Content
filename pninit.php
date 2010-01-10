@@ -176,7 +176,7 @@ function contentUpgrade_3_1_0($oldVersion)
     $tables = pnDBGetTables();
 
     // fix serialisations
-    foreach (array('content' => 'id', 'translatedcontent' => 'contentId') as $table => $idField) {
+    foreach (array('content' => 'id', 'history' => 'id', 'translatedcontent' => 'contentId') as $table => $idField) {
         $obj = DBUtil::selectObjectArray('content_' . $table);
         foreach ($obj as $contentItem) {
             $data = DataUtil::mb_unserialize($contentItem['data']);

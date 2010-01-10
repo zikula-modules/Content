@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-07 13:49+0000\n"
+"POT-Creation-Date: 2010-01-10 15:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,20 +31,12 @@ msgid ""
 "URL."
 msgstr ""
 
-#: pnpageapi.php:400
-msgid "Page added"
-msgstr ""
-
-#: pnpageapi.php:415
-msgid "Page updated"
-msgstr ""
-
-#: pnpageapi.php:571 pncontentapi.php:631
+#: pnpageapi.php:571 pnhistoryapi.php:71
 #: pntemplates/content_include_tocedit.html:39
 msgid "Translated"
 msgstr ""
 
-#: pnpageapi.php:603 pncontentapi.php:664
+#: pnpageapi.php:603 pnhistoryapi.php:74
 msgid "Translation deleted"
 msgstr ""
 
@@ -72,22 +64,6 @@ msgstr ""
 
 #: pncontentapi.php:383 pncontentapi.php:425
 msgid "Error! Can't load content plugin"
-msgstr ""
-
-#: pncontentapi.php:460
-msgid "Content added"
-msgstr ""
-
-#: pncontentapi.php:511
-msgid "Content updated"
-msgstr ""
-
-#: pncontentapi.php:574
-msgid "Content deleted"
-msgstr ""
-
-#: pncontentapi.php:815
-msgid "Content moved"
 msgstr ""
 
 #: pncontentapi.php:948
@@ -128,7 +104,7 @@ msgstr ""
 
 #: pntemplates/plugins/function.contenteditthis.php:46
 #, php-format
-msgid "Edit this: %1$s (ID%2$s)"
+msgid "Edit this: %1$s [ID%2$s]"
 msgstr ""
 
 #: pntemplates/plugins/function.contenteditthis.php:49
@@ -139,11 +115,11 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-#: pntemplates/plugins/function.contenthtmleditor.php:39
+#: pntemplates/plugins/function.contenthtmleditor.php:40
 msgid "Please install Scribite to get a real HTML editor."
 msgstr ""
 
-#: pntemplates/plugins/function.contenthtmleditor.php:47
+#: pntemplates/plugins/function.contenthtmleditor.php:52
 msgid "Please install the hook BBCode to enable bbcode filtering."
 msgstr ""
 
@@ -238,7 +214,7 @@ msgstr ""
 msgid "Content menu block"
 msgstr ""
 
-#: pnblocks/menu.php:74 pncontenttypesapi/directory.php:128
+#: pnblocks/menu.php:74 pncontenttypesapi/directory.php:129
 msgid "All pages"
 msgstr ""
 
@@ -462,21 +438,45 @@ msgstr ""
 msgid "Sitemap"
 msgstr ""
 
-#: pnhistoryapi.php:145 pnhistoryapi.php:242
-#, php-format
-msgid "Error! Unknown version ID [%s]"
-msgstr ""
-
-#: pnhistoryapi.php:150
+#: pnhistoryapi.php:39 pnhistoryapi.php:183
 msgid "Unknown user"
 msgstr ""
 
-#: pnhistoryapi.php:274
+#: pnhistoryapi.php:65
+msgid "Content updated"
+msgstr ""
+
+#: pnhistoryapi.php:68
+msgid "Content deleted"
+msgstr ""
+
+#: pnhistoryapi.php:77
+msgid "Content moved"
+msgstr ""
+
+#: pnhistoryapi.php:80
+msgid "Content added"
+msgstr ""
+
+#: pnhistoryapi.php:83
+msgid "Page added"
+msgstr ""
+
+#: pnhistoryapi.php:86
+msgid "Page updated"
+msgstr ""
+
+#: pnhistoryapi.php:89
 #, php-format
 msgid "Page restored from version [%s]"
 msgstr ""
 
-#: pnhistoryapi.php:330
+#: pnhistoryapi.php:178 pnhistoryapi.php:275
+#, php-format
+msgid "Error! Unknown version ID [%s]"
+msgstr ""
+
+#: pnhistoryapi.php:363
 msgid "Error! Re-created old content item but did not restore old ID."
 msgstr ""
 
@@ -588,7 +588,7 @@ msgid "Please select a specific layout for your page"
 msgstr ""
 
 #: pntemplates/content_edit_newpage.html:28
-#: pntemplates/content_edit_newcontent.html:21
+#: pntemplates/content_edit_newcontent.html:19
 msgid "Create"
 msgstr ""
 
@@ -598,7 +598,7 @@ msgstr ""
 #: pntemplates/content_admin_settings.html:143
 #: pntemplates/content_edit_editcontent.html:46
 #: pntemplates/content_edit_translatecontent.html:26
-#: pntemplates/content_edit_newcontent.html:22
+#: pntemplates/content_edit_newcontent.html:20
 msgid "Cancel"
 msgstr ""
 
@@ -777,6 +777,10 @@ msgstr ""
 #: pntemplates/content_edit_translatepage.html:28
 #: pntemplates/content_edit_translatecontent.html:23
 msgid "Skip"
+msgstr ""
+
+#: pntemplates/content_edit_translatepage.html:30
+msgid "Delete page translation AND all content translations"
 msgstr ""
 
 #: pntemplates/content_admin_main.html:1
@@ -1194,7 +1198,7 @@ msgstr ""
 msgid "Computer code lines"
 msgstr ""
 
-#: pntemplates/contenttype/computercode_edit.html:8
+#: pntemplates/contenttype/computercode_edit.html:9
 msgid ""
 "If you register the module BBCode as a hook for Content then you can get "
 "your computer code better formatted."
@@ -1239,6 +1243,11 @@ msgstr ""
 
 #: pntemplates/contenttype/author_edit.html:10
 msgid "Author"
+msgstr ""
+
+#: pntemplates/content_edit_editcontent.html:14
+#: pntemplates/content_include_contentedit.html:10
+msgid "ID"
 msgstr ""
 
 #: pntemplates/content_edit_editcontent.html:22

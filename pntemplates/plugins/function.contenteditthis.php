@@ -43,7 +43,7 @@ function smarty_function_contenteditthis($params, &$render)
         $html = '<div class="content-editthis">';
         $url = DataUtil::formatForDisplay(pnModURL('content', 'edit', 'editcontent', array('cid' => $data['id'], 'back' => 1)));
         $translateurl = DataUtil::formatForDisplay(pnModURL('content', 'edit', 'translatecontent', array('cid' => $data['id'], 'back' => 1)));
-        $edittext = __f('Edit this: %1$s (ID%2$s)', array($data['title'], $data['id']), $dom);
+        $edittext = __f('Edit this: %1$s [ID%2$s]', array($data['title'], $data['id']), $dom);
         $html .= "<a href=\"$url\">" . $edittext . "</a> ";
         if ($vars['multilingual'] == 1) {
             $html .= "<a href=\"$translateurl\">". __("Translate", $dom) ."</a>";
