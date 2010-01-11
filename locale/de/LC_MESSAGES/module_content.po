@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: content 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-10 15:08+0000\n"
+"POT-Creation-Date: 2010-01-11 09:05+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
 "Language-Team: Carsten Volmer <carsten@zikula.org>\n"
@@ -673,12 +673,12 @@ msgid "You can set the page online/offline as well as supply a date interval for
 msgstr "Die Seite kann durch Setzen eines Intervalls oder der Checkbox offline bzw. online gestellt werden. Die Checkbox überschreibt das Datum."
 
 #: pntemplates/content_edit_editpage.html:80
-msgid "From (YYYY-MM-DD)"
-msgstr "Startdatum (YYYY-MM-DD)"
+msgid "Start date"
+msgstr "Anfangsdatum"
 
 #: pntemplates/content_edit_editpage.html:84
-msgid "to (YYYY-MM-DD)"
-msgstr "Enddatum (YYYY-MM-DD)"
+msgid "End date"
+msgstr "Enddatum"
 
 #: pntemplates/content_edit_editpage.html:90
 msgid "Categories"
@@ -1310,4 +1310,9 @@ msgstr "Wiederherstellen"
 #: pntemplates/content_edit_history.html:39
 msgid "No history data recorded."
 msgstr "Keine Historie aufgezeichnet."
+
+#~ msgid "From (YYYY-MM-DD)"
+#~ msgstr "Startdatum (YYYY-MM-DD)"
+#~ msgid "to (YYYY-MM-DD)"
+#~ msgstr "Enddatum (YYYY-MM-DD)"
 

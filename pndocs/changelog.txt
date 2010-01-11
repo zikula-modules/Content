@@ -25,6 +25,7 @@ Version 3.1.0
 * Fix #59         - Caching bug in menu blocks
 * Fix #87         - Removed Circavie.com plugin
 * Fix #89         - wrong slideshare regex
+* Fix #92         - Not possible to restore old revisions and actions not translated
 
 UPGRADE INSTRUCTIONS:
   If you want to use the new additional CSS classes, you must add them
