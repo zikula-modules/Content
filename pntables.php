@@ -49,12 +49,14 @@ function content_pntables()
                'active'       => "I1 NOTNULL DEFAULT 1",
                'activeFrom'   => "T",
                'activeTo'     => "T",
+               'isActive'     => "I1 NOTNULL DEFAULT 1",
                'inMenu'       => "I1 NOTNULL DEFAULT 1",
+               'isInMenu'     => "I1 NOTNULL DEFAULT 1",
                'position'     => 'I NOTNULL',
                'level'        => 'I NOTNULL',
                'setLeft'      => 'I NOTNULL',
                'setRight'     => 'I NOTNULL',
-               'language'      => 'C(10)');
+               'language'     => 'C(10)');
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'page_');
   $pntable['content_page_column_def'] = $def;
