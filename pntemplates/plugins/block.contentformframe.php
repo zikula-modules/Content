@@ -8,7 +8,8 @@
  * @license See license.txt
  */
 
-require_once 'system/pnForm/plugins/function.pnformvalidationsummary.php';
+//require_once 'system/pnForm/plugins/function.pnformvalidationsummary.php';
+require_once 'lib/Form/renderplugins/function.formvalidationsummary.php';
 
 class contentFormFrame extends pnFormPlugin
 {

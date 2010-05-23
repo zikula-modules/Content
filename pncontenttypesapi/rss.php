@@ -12,7 +12,8 @@
 //    Loader::requireOnce('includes/classes/SimplePie/simplepie.inc');
 //}
 
-require_once 'includes/classes/SimplePie/simplepie.inc';
+//require_once 'includes/classes/SimplePie/simplepie.inc';
+require_once 'lib/vendor/SimplePie/simplepie.inc';
 
 class content_contenttypesapi_RSSPlugin extends contentTypeBase
 {

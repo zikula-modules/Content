@@ -9,7 +9,7 @@
  */
 
 Loader::requireOnce('modules/content/common.php');
-Loader::requireOnce('includes/pnForm.php');
+//Loader::requireOnce('includes/pnForm.php');
 
 function content_admin_main()
 {
