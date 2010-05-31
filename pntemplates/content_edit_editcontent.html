@@ -1,51 +1,51 @@
-<!--[contentpageheading __header='Edit content item' subheader=$contentType.title]-->
+{contentpageheading __header='Edit content item' subheader=$contentType.title}
 
-<p class="content-page-help"><!--[$contentType.description]--></p>
+<p class="content-page-help">{$contentType.description}</p>
 
-<!--[pnformerrormessage id='error']-->
+{formerrormessage id='error'}
 
-<!--[pnform enctype="multipart/form-data" cssClass='z-form']--> <!--[* Always allow plugins to use upload *]-->
+{form enctype="multipart/form-data" cssClass='z-form'} {* Always allow plugins to use upload *}
 
-<!--[contentformframe]-->
-<!--[pnformtabbedpanelset]-->
+{contentformframe}
+{formtabbedpanelset}
 
-<!--[pnformtabbedpanel __title='Content']-->
+{formtabbedpanel __title='Content'}
 <fieldset>
-    <legend><!--[$contentType.title]--> [<!--[gt text="ID"]--><!--[$content.id]-->]</legend>
-    <!--[include file=$contentTypeTemplate]-->
+    <legend>{$contentType.title} [{gt text="ID"}{$content.id}]</legend>
+    {include file=$contentTypeTemplate}
 </fieldset>
-<!--[/pnformtabbedpanel]-->
+{/formtabbedpanel}
 
-<!--[pnformtabbedpanel __title='Layout']-->
+{formtabbedpanel __title='Layout'}
 <fieldset>
-    <legend><!--[gt text="Layout"]--></legend>
-    <!--[contentlabelhelp __text='Positioning works only with fixed width!']-->
+    <legend>{gt text="Layout"}</legend>
+    {contentlabelhelp __text='Positioning works only with fixed width!'}
     <div class="z-formrow">
-        <!--[pnformlabel for='stylePosition' __text='Position']-->
-        <!--[contentpositionselector id='stylePosition' group='content']-->
+        {formlabel for='stylePosition' __text='Position'}
+        {contentpositionselector id='stylePosition' group='content'}
     </div>
     <div class="z-formrow">
-        <!--[pnformlabel for='styleWidth' __text='Width']-->
-        <!--[contentwidthselector id='styleWidth' group='content']-->
+        {formlabel for='styleWidth' __text='Width'}
+        {contentwidthselector id='styleWidth' group='content'}
     </div>
     <div class="z-formrow">
-        <!--[pnformlabel for='styleClass' __text='Styling']-->
-        <!--[contentclassselector id='styleClass' group='content']-->
+        {formlabel for='styleClass' __text='Styling'}
+        {contentclassselector id='styleClass' group='content'}
     </div>
 </fieldset>
-<!--[/pnformtabbedpanel]-->
+{/formtabbedpanel}
 
-<!--[/pnformtabbedpanelset]-->
+{/formtabbedpanelset}
 
-<!--[contentbuttons]-->
-<!--[pnformbutton commandName="save" __text="Save"]-->
-<!--[pnformbutton commandName="delete" __text="Delete" __confirmMessage='Delete']-->
-<!--[if $content.isTranslatable && $multilingual==1]-->
-<!--[pnformbutton commandName="translate" __text="Translate"]-->
-<!--[/if]-->
-<!--[pnformbutton commandName="cancel" __text="Cancel"]-->
-<!--[/contentbuttons]-->
+{contentbuttons}
+{formbutton commandName="save" __text="Save"}
+{formbutton commandName="delete" __text="Delete" __confirmMessage='Delete'}
+{if $content.isTranslatable && $multilingual==1}
+{formbutton commandName="translate" __text="Translate"}
+{/if}
+{formbutton commandName="cancel" __text="Cancel"}
+{/contentbuttons}
 
-<!--[/contentformframe]-->
+{/contentformframe}
 
-<!--[/pnform]-->
+{/form}

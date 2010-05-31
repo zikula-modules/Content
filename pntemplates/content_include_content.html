@@ -1,7 +1,7 @@
-<!--[if !empty($content[$contentAreaIndex])]-->
-<!--[foreach from=$content[$contentAreaIndex] item=c]-->
+{if !empty($content[$contentAreaIndex])}
+{foreach from=$content[$contentAreaIndex] item=c}
 <div class="content-item">
-    <!--[$c.output]-->
+    {$c.output}
 </div>
-<!--[/foreach]-->
-<!--[/if]-->
+{/foreach}
+{/if}

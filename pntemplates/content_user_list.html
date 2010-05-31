@@ -1,12 +1,12 @@
-<!--[gt text="Page list" assign=title]-->
-<!--[pnpagesetvar name='title' value=$title]-->
+{gt text="Page list" assign=title}
+{pagesetvar name='title' value=$title}
 
-<!--[if !empty($pages)]-->
+{if !empty($pages)}
     <ul>
-        <!--[foreach from=$pages item=page]-->
-        <li><a href="<!--[pnmodurl modname=content func=view pid=$page.id]-->"><!--[$page.title]--></a></li>
-        <!--[/foreach]-->
+        {foreach from=$pages item=page}
+        <li><a href="{modurl modname=content func=view pid=$page.id}">{$page.title}</a></li>
+        {/foreach}
     </ul>
-<!--[else]-->
-    <!--[gt text="There are no pages to display."]-->
-<!--[/if]-->
+{else}
+    {gt text="There are no pages to display."}
+{/if}
