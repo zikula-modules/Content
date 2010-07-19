@@ -58,6 +58,8 @@ function content_pntables()
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'page_');
   $pntable['content_page_column_def'] = $def;
+  //indexes
+  $pntable['content_page_column_idx'] = array('parentPageId' => 'parentPageId', 'active' => 'active' , 'inMenu' => 'inMenu', 'position' => 'position', 'categoryId' => 'categoryId');
 
 
     // Content setup (multiple content items on each page)
@@ -93,6 +95,8 @@ function content_pntables()
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'con_');
   $pntable['content_content_column_def'] = $def;
+  //indexes
+  $pntable['content_content_column_idx'] = array('pageId' => 'pageId', 'areaIndex' => 'areaIndex');
 
 
     // Multiple category relation
@@ -146,6 +150,8 @@ function content_pntables()
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'transp_');
   $pntable['content_translatedpage_column_def'] = $def;
+  //indexes
+  $pntable['content_translatedpage_column_idx'] = array('entry' => array('pageId', 'language'));
 
 
     // Translated content plugins
@@ -167,6 +173,8 @@ function content_pntables()
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'trans_');
   $pntable['content_translatedcontent_column_def'] = $def;
+  //indexes
+  $pntable['content_translatedcontent_column_idx'] = array('entry' => array('contentId', 'language'));
 
 
     // History
@@ -195,6 +203,8 @@ function content_pntables()
           'userId'       => "I NOTNULL");
 
   $pntable['content_history_column_def'] = $def;
+  //indexes
+  $pntable['content_history_column_idx'] = array('entry' => array('pageId', 'revisionNo'));
 
   return $pntable;
 }

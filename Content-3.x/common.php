@@ -13,7 +13,7 @@ function contentHasPageViewAccess($pageId = null)
     return SecurityUtil::checkPermission('content:page:', $pageId . '::', ACCESS_READ);
 }
 
-function contentHasPageCreateAccess()
+function contentHasPageCreateAccess($pageId = null)
 {
     return SecurityUtil::checkPermission('content:page:', '::', ACCESS_ADD);
 }
@@ -23,10 +23,16 @@ function contentHasPageEditAccess($pageId = null)
     return SecurityUtil::checkPermission('content:page:', $pageId . '::', ACCESS_EDIT);
 }
 
+function contentHasPageDeleteAccess($pageId = null)
+{
+    return SecurityUtil::checkPermission('content:page:', $pageId . '::', ACCESS_DELETE);
+}
+
 function contentAddAccess(&$render, $pageId)
 {
-    $access = array('pageCreateAllowed' => contentHasPageCreateAccess($pageId), 'pageEditAllowed' => contentHasPageEditAccess($pageId));
-
+    $access = array('pageCreateAllowed' => contentHasPageCreateAccess($pageId), 
+                    'pageEditAllowed'   => contentHasPageEditAccess($pageId),
+                    'pageDeleteAllowed' => contentHasPageDeleteAccess($pageId));
     $render->assign('access', $access);
 }
 

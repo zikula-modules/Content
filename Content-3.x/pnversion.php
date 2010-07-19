@@ -13,7 +13,7 @@
 $dom = ZLanguage::getModuleDomain('content');
 $modversion['name']           = 'content';
 // the version string must not exceed 10 characters!
-$modversion['version']        = '3.1.0';
+$modversion['version']        = '3.2.0';
 $modversion['displayname']    = __('Content editing', $dom);
 $modversion['description']    = __('Content is a page editing module. With it you can insert and edit various content items, such as HTML texts, videos, Google maps and much more.', $dom);
 //! module url should be different to displayname and in lowercase without space
@@ -34,5 +34,5 @@ $modversion['admin']          = 1;
 // headings in the permission module
 $modversion['securityschema'] = array('content::' => '::',
                                       'content:plugins:layout' => 'Layout name::',
-                                      'content:plugins:content' => 'content type name::',
-                                      'content:page:' => '::');
+                                      'content:plugins:content' => 'Content type name::',
+                                      'content:page:' => 'Page id::');

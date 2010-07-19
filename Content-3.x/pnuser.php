@@ -60,7 +60,6 @@ function content_user_categories($args)
 function content_user_view($args)
 {
     $dom = ZLanguage::getModuleDomain('content');
-    $editmode = SessionUtil::getVar('ContentEditMode', null);
 
     $pageId = isset($args['pid']) ? $args['pid'] : FormUtil::getPassedValue('pid');
     $versionId = isset($args['vid']) ? $args['vid'] : FormUtil::getPassedValue('vid');
@@ -68,8 +67,11 @@ function content_user_view($args)
     $preview = isset($args['preview']) ? $args['preview'] : FormUtil::getPassedValue('preview');
     $editmode = isset($args['editmode']) ? $args['editmode'] : FormUtil::getPassedValue('editmode');
 
-    if ($editmode !== null)
+    if ($editmode !== null) {
         SessionUtil::setVar('ContentEditMode', $editmode);
+    } else {
+        $editmode = SessionUtil::getVar('ContentEditMode', null);
+    }
 
     $versionHtml = '';
     $hasEditAccess = contentHasPageEditAccess($pageId);
