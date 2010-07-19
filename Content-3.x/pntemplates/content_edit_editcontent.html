@@ -39,7 +39,7 @@
 
 <!--[contentbuttons]-->
 <!--[pnformbutton commandName="save" __text="Save"]-->
-<!--[pnformbutton commandName="delete" __text="Delete" __confirmMessage='Delete']-->
+<!--[if $access.pageDeleteAllowed]--><!--[pnformbutton commandName="delete" __text="Delete" __confirmMessage='Delete']--><!--[/if]-->
 <!--[if $content.isTranslatable && $multilingual==1]-->
 <!--[pnformbutton commandName="translate" __text="Translate"]-->
 <!--[/if]-->

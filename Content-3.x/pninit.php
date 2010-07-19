@@ -102,6 +102,8 @@ function content_upgrade($oldVersion)
         case '3.0.2':
         case '3.0.3':
             $ok = $ok && contentUpgrade_3_1_0($oldVersion);
+        case '3.1.0':
+            $ok = $ok && contentUpgrade_3_2_0($oldVersion);
         // future
     }
 
@@ -132,9 +134,7 @@ function contentUpgrade_1_2_0_1($oldVersion)
     $dict = NewDataDictionary($dbconn);
     $table = $pntables['content_content'];
     $sqlarray = $dict->DropColumnSQL($table, array('con_language'));
-
     $dict->ExecuteSQLArray($sqlarray);
-
     return true;
 }
 
@@ -201,9 +201,18 @@ function contentUpgrade_3_1_0($oldVersion)
             DBUtil::executeSQL($sql);
         }
     }
-    
     return true;
+}
 
+function contentUpgrade_3_2_0($oldVersion)
+{
+    // add indexes
+    DBUtil::changeTable('content_page');
+    DBUtil::changeTable('content_content');
+    DBUtil::changeTable('content_translatedpage');
+    DBUtil::changeTable('content_translatedcontent');
+    DBUtil::changeTable('content_history');
+    return true;
 }
 
 // -----------------------------------------------------------------------

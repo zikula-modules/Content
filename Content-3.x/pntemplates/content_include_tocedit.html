@@ -19,13 +19,15 @@
 <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"]-->
 <!--[pnformcontextmenuitem __title='Preview' imageURL="images/icons/extrasmall/demo.gif" commandScript="content.popupPreviewWindow(commandArgument)"]-->
 <!--[pnformcontextmenuseparator]-->
+<!--[if $access.pageCreateAllowed]-->
 <!--[pnformcontextmenuitem __title='New page' imageURL="images/icons/extrasmall/insert_table_row.gif" commandName="newPage"]-->
 <!--[pnformcontextmenuitem __title='New sub-page' imageURL="images/icons/extrasmall/insertcell.gif" commandName="newSubPage"]-->
+<!--[/if]-->
 <!--[pnformcontextmenuitem __title='Decrease indent' imageURL="images/icons/extrasmall/format_decreaseindent.gif" commandName="decIndent"]-->
 <!--[pnformcontextmenuitem __title='Increase indent' imageURL="images/icons/extrasmall/format_increaseindent.gif" commandName="incIndent"]-->
-<!--[pnformcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl]-->
-<!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deletePage' __confirmMessage='Delete']-->
-<!--[pnformcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history']-->
+<!--[if $multilingual]--><!--[pnformcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl]--><!--[/if]-->
+<!--[if $access.pageDeleteAllowed]--><!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deletePage' __confirmMessage='Delete']--><!--[/if]-->
+<!--[if $enableVersioning]--><!--[pnformcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history']--><!--[/if]-->
 <!--[/pnformcontextmenu]-->
 
 <div class="content-toc">

@@ -20,10 +20,12 @@
 
 <!--[pnformcontextmenu id="contentEditMenu" width="auto"]-->
 <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandRedirect=$editUrl]-->
+<!--[if $access.pageCreateAllowed]-->
 <!--[pnformcontextmenuitem __title='Add new content above' imageURL="images/icons/extrasmall/insert_table_row_above.gif" commandRedirect=$aboveUrl]-->
 <!--[pnformcontextmenuitem __title='Add new content below' imageURL="images/icons/extrasmall/insert_table_row.gif" commandRedirect=$belowUrl]-->
-<!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deleteContent' __confirmMessage='Delete']-->
-<!--[if $multilingual==1]-->
+<!--[/if]-->
+<!--[if $access.pageDeleteAllowed]--><!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deleteContent' __confirmMessage='Delete']--><!--[/if]-->
+<!--[if $multilingual]-->
 <!--[pnformcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl]-->
 <!--[/if]-->
 <!--[/pnformcontextmenu]-->
@@ -118,7 +120,7 @@
 
 <!--[contentbuttons]-->
 <!--[pnformbutton commandName="save" __text="Save"]-->
-<!--[pnformbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete']-->
+<!--[if $access.pageDeleteAllowed]--><!--[pnformbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete']--><!--[/if]-->
 <input type="submit" value="<!--[gt text="Preview"]-->" onclick="window.open('<!--[pnmodurl modname=content type=user func=view preview=1 pid=$page.id]-->')" />
 <!--[pnformbutton commandName="saveAndView" __text="Save & View"]-->
 <!--[if $multilingual==1]-->

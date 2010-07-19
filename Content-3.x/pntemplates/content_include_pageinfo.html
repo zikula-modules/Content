@@ -14,17 +14,20 @@
             <li><a class="con_image editon" href="<!--[pnmodurl modname=content type=user func=view pid=$page.id editmode="1"]-->"><!--[gt text="Edit-mode on" domain="module_content"]--></a></li>
             <!--[/if]-->
             <li><a class="con_image edit" href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id back=1]-->"><!--[gt text="Edit page" domain="module_content"]--></a></li>
-            <!--[if $multilingual==1]-->
+            <!--[if $multilingual]-->
             <li><a class="con_image translate" href="<!--[pnmodurl modname=content type=edit func=translatepage pid=$page.id back=1]-->"><!--[gt text="Translate page" domain="module_content"]--></a></li>
             <!--[/if]-->
+            <!--[if $access.pageCreateAllowed]-->
             <li><a class="con_image insertsub" href="<!--[pnmodurl modname=content type=edit func=newpage pid=$page.id loc=sub]-->"><!--[gt text="New sub-page" domain="module_content"]--></a></li>
             <li><a class="con_image insertpage" href="<!--[pnmodurl modname=content type=edit func=newpage pid=$page.id]-->"><!--[gt text="Add new page" domain="module_content"]--></a></li>
+            <!--[/if]-->
             <li><a class="con_image pagelist" href="<!--[pnmodurl modname=content type=edit func=main]-->"><!--[gt text="Page list" domain="module_content"]--></a></li>
         </ul>
         <ul>
-            <li><!--[gt text='Created by %1$s on %2$s' tag1=$page.cr_date|pndate_format:"datebrief" tag2=$authorName|userprofilelink domain="module_content"]--></li>
-            <li><!--[gt text='Last updated by %1$s on %2$s' tag1=$page.lu_date|pndate_format:"datebrief" tag2=$updaterName|userprofilelink domain="module_content"]--></li>
-            <li><!--[gt text="Version" domain="module_content"]--> #<!--[$versionNo]--> | <!--[gt text="Language" domain="module_content"]-->: <!--[$page.language]--></li>
+            <li><!--[gt text='Created by %1$s on %2$s' tag1=$authorName|userprofilelink tag2=$page.cr_date|pndate_format:"datebrief" domain="module_content"]--></li>
+            <li><!--[gt text='Last updated by %1$s on %2$s' tag1=$updaterName|userprofilelink tag2=$page.lu_date|pndate_format:"datebrief" domain="module_content"]--></li>
+            <!--[if $enableVersioning]--><li><!--[gt text="Version" domain="module_content"]--> #<!--[$versionNo]--></li><!--[/if]-->
+            <!--[if $multilingual]--><li><!--[gt text="Language" domain="module_content"]-->: <!--[$page.language]--></li><!--[/if]-->
         </ul>
     </div>
 </div>

@@ -37,6 +37,7 @@ class content_edit_mainHandler extends pnFormHandler
 
         $render->assign('pages', $pages);
         $render->assign('multilingual', pnModGetVar(PN_CONFIG_MODULE, 'multilingual'));
+        $render->assign('enableVersioning', pnModGetVar('content', 'enableVersioning'));
         contentAddAccess($render, null);
 
         return true;
@@ -232,6 +233,7 @@ class content_edit_editPageHandler extends pnFormHandler
         $render->assign('mainCategory', $mainCategory);
         $render->assign('page', $page);
         $render->assign('multilingual', $multilingual);
+        $render->assign('enableVersioning', pnModGetVar('content', 'enableVersioning'));
         contentAddAccess($render, $this->pageId);
 
         if (!$render->pnFormIsPostBack() && FormUtil::getPassedValue('back', 0))
@@ -451,6 +453,7 @@ class content_edit_editContentHandler extends pnFormHandler
         $render->assign('data', $content['data']);
         $render->assign('contentType', $this->contentType);
         $render->assign('multilingual', $multilingual);
+        $render->assign('enableVersioning', pnModGetVar('content', 'enableVersioning'));
         contentAddAccess($render, $this->pageId);
 
         if (!$render->pnFormIsPostBack() && FormUtil::getPassedValue('back', 0))

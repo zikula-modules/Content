@@ -116,6 +116,7 @@ function content_user_view($args)
     $render->assign('preview', $preview);
     $render->assign('editmode', $editmode);
     $render->assign('multilingual', $multilingual);
+    $render->assign('enableVersioning', pnModGetVar('content', 'enableVersioning'));
 
     contentAddAccess($render, $pageId);
 

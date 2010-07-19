@@ -3,7 +3,7 @@
 
 <h2><!--[gt text="Page list and content structure"]--></h2>
 
-<!--[if $access.pageEditAllowed]-->
+<!--[if $access.pageCreateAllowed]-->
 <div class="z-menu">
     <span class="z-menuitem-title">
         [ <a href="<!--[pnmodurl modname=content type=edit func=newpage]-->"><!--[gt text="Add new page"]--></a>
@@ -15,7 +15,7 @@
 </div>
 <!--[/if]-->
 
-<p><!--[gt text="This is where you manage all your pages. You can add/edit/delete pages as well as drag them around to get the content structure right."]--></p>
+<p><!--[gt text="This is where you manage all your pages. You can add/edit/delete pages (depending on permission rights) as well as drag them around to get the content structure right."]--></p>
 
 <!--[include file=content_include_tocedit.html]-->
 

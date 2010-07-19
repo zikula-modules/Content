@@ -22,7 +22,7 @@
 <!--[pnformbutton commandName="next" __text="Next"]--> &mdash;
 <!--[pnformbutton commandName="skip" __text="Skip"]-->
 <!--[pnformbutton commandName="quit" __text="Save"]-->
-<!--[pnformbutton commandName="delete" __text="Delete" __confirmMessage='Delete']-->
+<!--[if $access.pageDeleteAllowed]--><!--[pnformbutton commandName="delete" __text="Delete" __confirmMessage='Delete']--><!--[/if]-->
 <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
 <!--[pnformdropdownlist id='translationStep' items=$translationInfo.items autoPostBack='1' onSelectedIndexChanged='handleCommand']-->
 <!--[/contentbuttons]-->
