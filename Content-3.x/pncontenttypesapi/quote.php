@@ -77,7 +77,7 @@ class content_contenttypesapi_quotePlugin extends contentTypeBase
     function getDefaultData()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return array('text' => __('Add quote text here...', $dom), 'source' => __('http://', $dom), 'desc' => __('Name of the Source', $dom));
+        return array('text' => __('Add quote text here...', $dom), 'source' => 'http://', 'desc' => __('Name of the Source', $dom));
     }
 
     function startEditing(&$render)
