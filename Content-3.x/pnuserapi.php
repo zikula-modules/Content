@@ -114,3 +114,39 @@ function content_userapi_decodeurl($args) {
 
     return true;
 }
+
+/** 
+ * get a specific item 
+ * @param $args['pid'] id of example item to get 
+ * @return mixed item array, or false on failure 
+ */ 
+function content_userapi_get($args) 
+{ 
+    if ((!isset($args['pid']) || !is_numeric($args['pid']))) { 
+        return LogUtil::registerArgsError(); 
+    } 
+ 
+    $pageId = $args['pid']; 
+ 
+    Loader::requireOnce('modules/content/common.php'); 
+ 
+    if (!contentHasPageViewAccess($pageId)) 
+        return false; 
+ 
+    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => false)); 
+ 
+    if ($page === false) 
+        return false; 
+ 
+    return $page; 
+} 
+ 
+/** 
+ * get meta data for the module 
+ */ 
+function content_userapi_getmodulemeta() 
+{ 
+   return array('displayfunc' => 'view', 
+                'titlefield'  => 'title', 
+                'itemid'      => 'pid'); 
+}

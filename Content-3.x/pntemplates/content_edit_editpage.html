@@ -71,6 +71,9 @@
         <!--[pnformcheckbox id='inMenu' group='page']-->
     </div>
 </fieldset>
+
+<!--[pnmodcallhooks hookobject='item' hookaction='modify' hookid=$page.id module='content']-->
+
 <fieldset>
     <legend><!--[gt text="Page state"]--></legend>
     <div class="z-formrow">
@@ -118,7 +121,7 @@
 
 <!--[/pnformtabbedpanelset]-->
 
-<!--[contentbuttons]-->
+<div class="z-buttons z-formbuttons">
 <!--[pnformbutton commandName="save" __text="Save"]-->
 <!--[if $access.pageDeleteAllowed]--><!--[pnformbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete']--><!--[/if]-->
 <input type="submit" value="<!--[gt text="Preview"]-->" onclick="window.open('<!--[pnmodurl modname=content type=user func=view preview=1 pid=$page.id]-->')" />
@@ -127,7 +130,7 @@
 <!--[pnformbutton commandName="translate" __text="Translate"]-->
 <!--[/if]-->
 <!--[pnformbutton commandName="cancel" __text="Cancel"]-->
-<!--[/contentbuttons]-->
+</div>
 
 <!--[/contentformframe]-->
 <!--[/pnform]-->

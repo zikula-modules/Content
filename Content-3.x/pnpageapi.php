@@ -401,6 +401,8 @@ function content_pageapi_newPage($args)
     if ($ok === false)
         return false;
 
+    pnModCallHooks('item', 'create', $pageData['id'], array ('module' => 'content')); 
+
     contentClearCaches();
     return $pageData['id'];
 }
@@ -440,6 +442,8 @@ function content_pageapi_updatePage($args)
     if ($ok === false)
         return false;
 
+    pnModCallHooks('item', 'update', $pageData['id'], array ('module' => 'content'));
+    
     contentClearCaches();
     return true;
 }
@@ -666,6 +670,8 @@ WHERE     $pageColumn[setLeft] > $pageData[setLeft]
 
     contentDeletePageRelations($pageId);
 
+    pnModCallHooks('item', 'delete', $pageId, array ('module' => 'content')); 
+    
     contentClearCaches();
     return true;
 }
