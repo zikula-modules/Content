@@ -425,31 +425,31 @@ dl.content-video dd {
 *
 /*******************************************************************************/
 
-#contentPageInfo a.con_image,
-#contentPageInfo button.con_image {
+div.content-pageinfo .content a.con_image,
+div.content-pageinfo .content button.con_image {
     margin: 0 !important;
     font-size: 1em !important;
     padding: 2px 0 2px 22px !important; /* 16px image + spacer */
     display: block !important;
 }
-#contentPageInfo a.translate {
+div.content-pageinfo .content a.translate {
     background: url(../../../images/icons/extrasmall/voice-support.gif) no-repeat 0 50%;
 }
-#contentPageInfo a.edit {
+div.content-pageinfo .content a.edit {
     background: url(../../../images/icons/extrasmall/edit.gif) no-repeat 0 50%;
 }
-#contentPageInfo a.insertsub {
+div.content-pageinfo .content a.insertsub {
     background: url(../../../images/icons/extrasmall/insertcell.gif) no-repeat 0 50%;
 }
-#contentPageInfo a.insertpage {
+div.content-pageinfo .content a.insertpage {
     background: url(../../../images/icons/extrasmall/insert_table_row.gif) no-repeat 0 50%;
 }
-#contentPageInfo a.pagelist {
+div.content-pageinfo .content a.pagelist {
     background: url(../../../images/icons/extrasmall/enumList.gif) no-repeat 0 50%;
 }
-#contentPageInfo a.editoff {
+div.content-pageinfo .content a.editoff {
     background: url(../../../images/icons/extrasmall/redled.gif) no-repeat 0 50%;
 }
-#contentPageInfo a.editon {
+div.content-pageinfo .content a.editon {
     background: url(../../../images/icons/extrasmall/greenled.gif) no-repeat 0 50%;
 }

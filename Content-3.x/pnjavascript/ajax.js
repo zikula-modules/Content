@@ -135,9 +135,9 @@ content.pageInfo = {};
 
 content.pageInfo.clearTimer = null;
 
-content.pageInfo.toggle = function()
+content.pageInfo.toggle = function(id)
 {
-  $('contentPageInfo').toggle();
+  $('contentPageInfo-'+id).toggle();
   return false;
 }
 
