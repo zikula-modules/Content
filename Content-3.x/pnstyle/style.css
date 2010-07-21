@@ -229,14 +229,14 @@ table.content-layout-edit td.content-area {
 /* Portal widget specific */
 
 .widget {
-    border: 1px solid #000;
+    border: 1px solid #bbb;
     margin-bottom: 10px;
 }
 
 .widget_nw {
-    height: 15px;
-    background-color: #ccc;
-    padding: 2px;
+    height: 18px;
+    background-color: #dde;
+    padding: 2px 5px;
 }
 
 .widget_w {

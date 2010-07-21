@@ -32,7 +32,6 @@
 
 <!--[pnmodurl modname=content type=edit func=editcontent cid="{commandArgument}" assign=editUrl]-->
 
-
 <!--[pnformerrormessage id='error']-->
 
 <!--[contentformframe]-->
@@ -47,6 +46,7 @@
 <!--[/if]-->
 
 <!--[pnformtabbedpanel __title='Content']-->
+<!--[gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."]-->
 <!--[include file=$layoutTemplate]-->
 <!--[/pnformtabbedpanel]-->
 
@@ -63,7 +63,7 @@
         <!--[contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.']-->
     </div>
     <div class="z-formrow">
-        <!--[pnformlabel for='inMenu' __text='Page language']-->
+        <!--[pnformlabel for='language' __text='Page language']-->
         <!--[pnformlanguageselector id='language' group='page' addAllOption='0']-->
     </div>
     <div class="z-formrow">
@@ -130,5 +130,4 @@
 <!--[/contentbuttons]-->
 
 <!--[/contentformframe]-->
-
 <!--[/pnform]-->

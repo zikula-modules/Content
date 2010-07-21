@@ -16,7 +16,7 @@ function smarty_function_contenteditthis($params, &$render)
     $access = $params['access'];
 
     if (!$access['pageEditAllowed'])
-    return '';
+        return '';
 
     $editmode = SessionUtil::getVar('ContentEditMode');
 

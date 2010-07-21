@@ -61,7 +61,7 @@
                         <!--[/if]-->
                         <!--[/if]-->
 
-                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title]--> [<!--[$page.id]--><!--( <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->)-->]</a>&nbsp;<!--[if $access.pageEditAllowed]--><!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL='images/icons/extrasmall/utilities.gif']--><!--[/if]-->
+                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title]--> [<!--[$page.id]--><!--( <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->)-->]</a>&nbsp;<!--[if $access.pageEditAllowed]--><!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="images/icons/extrasmall/next.gif"]--><!--[/if]-->
                     </div>
                 </td>
                 <td><!--[$page.lu_date|pndate_format:datetimebrief]--> <!--[gt text="by %s" tag1=$updaterName|userprofilelink]--></td>
