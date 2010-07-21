@@ -14,6 +14,7 @@
 <!--[pnformpostbackfunction function='contentPost' commandName='toggleExpand']-->
 <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
 <!--[pnmodurl modname=content type=edit func=translatepage pid="{commandArgument}" assign=translateUrl]-->
+<!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
 
 <!--[pnformcontextmenu id="contentTocMenu" width="auto"]-->
 <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"]-->
@@ -34,7 +35,7 @@
     <table class="z-datatable">
         <thead>
             <tr>
-                <th><!--[gt text="Page title"]--></th>
+                <th><!--[gt text="Page title [id]"]--></th>
                 <th><!--[gt text="Last updated"]--></th>
                 <th><!--[gt text="Created By"]--></th>
                 <!--[if $multilingual]--><th><!--[gt text="Language"]--></th><!--[/if]-->
@@ -63,13 +64,13 @@
                         <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title]--> [<!--[$page.id]--><!--( <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->)-->]</a>&nbsp;<!--[if $access.pageEditAllowed]--><!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id]--><!--[/if]-->
                     </div>
                 </td>
-                <td><!--[$page.lu_date|pndate_format:datetimebrief]--></td>
+                <td><!--[$page.lu_date|pndate_format:datetimebrief]--> <!--[gt text="by %s" tag1=$updaterName|userprofilelink]--></td>
                 <td><!--[$page.uname|userprofilelink]--></td>
                 <!--[if $multilingual]--><td><!--[$page.language]--></td><!--[/if]-->
-                <!--[if $multilingual]--><td><!--[if $page.isTranslated]-->x<!--[/if]--></td><!--[/if]-->
+                <!--[if $multilingual]--><td><!--[if $page.isTranslated]--><!--[gt text="yes"]--><!--[else]--><!--[gt text="no"]--><!--[/if]--></td><!--[/if]-->
             </tr>
             <!--[foreachelse]-->
-            <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->5<!--[else]-->3<!--[/if]-->"><!--[gt text="No page available."]--></td></tr>
+            <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->5<!--[else]-->3<!--[/if]-->"><!--[gt text="No pages available."]--></td></tr>
             <!--[/foreach]-->
         </tbody>
     </table>

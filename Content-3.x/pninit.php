@@ -46,6 +46,9 @@ function content_init()
         return LogUtil::registerError(__("Error! Failed to set style classes.", $dom));
     }
 
+    // create the default data for the Content module
+    content_defaultdata();        
+
     return true;
 }
 
@@ -218,8 +221,6 @@ function contentUpgrade_3_2_0($oldVersion)
 // -----------------------------------------------------------------------
 // Module delete
 // -----------------------------------------------------------------------
-
-
 function content_delete()
 {
     DBUtil::dropTable('content_page');
@@ -234,6 +235,79 @@ function content_delete()
 
     // Deletion successful
     return true;
+}
+
+// -----------------------------------------------------------------------
+// Module default data (intro page)
+// -----------------------------------------------------------------------
+function content_defaultdata() 
+{
+    $dom = ZLanguage::getModuleDomain('content');
+
+    // create one page with 2 columns and some content
+    $page = array('title'   => __('Content introduction page', $dom),
+            'urlname'       => __('content-introduction-page', $dom),
+            'layout'        => 'column2header',
+            'setLeft'       => '0',
+            'setRight'      => '1',
+            'language'      => ZLanguage::getLanguageCode());
+    
+    // Insert the default page
+    if (!($obj = DBUtil::insertObject($page, 'content_page'))) {
+        LogUtil::registerStatus(__('Warning! Could not create the default Content introductory page.', $dom));
+    } else {
+        // create the contentitems for this page
+        $content = array();
+        $content[] = array('pageId' => $obj['id'],
+                'areaIndex'         => '0',
+                'position'          => '0',
+                'module'            => 'content',
+                'type'              => 'heading',
+                'data'              => serialize(array('text' => __('A Content page consists of various content items in a chosen layout', $dom),
+                                            'headerSize' => 'h3')));
+        $content[] = array('pageId' => $obj['id'],
+                'areaIndex'         => '1',
+                'position'          => '0',
+                'module'            => 'content',
+                'type'              => 'html',
+                'data'              => serialize(array('text' => __('<p>Each created page has a specific layout, like 1 column with and without a header, 2 columns, 3 columns. The chosen layout contains various content areas. In each area you can place 1 or more content items of various kinds like: <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> <li>the output of another Zikula module.</li> </ul> Within these content areas you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>', $dom),
+                                            'inputType' => 'text')));
+        $content[] = array('pageId' => $obj['id'],
+                'areaIndex'         => '1',
+                'position'          => '1',
+                'module'            => 'content',
+                'type'              => 'html',
+                'data'              => serialize(array('text' => __('<p><strong>This is a second HTML text content item in the left column</strong><br /> Content is an extendible module. You can create your own content plugins and layouts and other Zikula modules can also offer content items. The News published module for instance has a Content plugin for a list of the latest articles.</p>', $dom),
+                                            'inputType' => 'text')));
+        $content[] = array('pageId' => $obj['id'],
+                'areaIndex'         => '2',
+                'position'          => '0',
+                'module'            => 'content',
+                'type'              => 'computercode',
+                'data'              => serialize(array('text' => __('// A bit of computer code
+if ($content == \'example\') {
+$this->show_this_code(\'example\');
+}', $dom))));
+        $content[] = array('pageId' => $obj['id'],
+                'areaIndex'         => '2',
+                'position'          => '1',
+                'module'            => 'content',
+                'type'              => 'html',
+                'data'              => serialize(array('text' => __('<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column layout</strong> which has a header, 2 colums with 50% width on the left and 50% width on the right and a footer</p>', $dom),
+                                            'inputType' => 'text')));
+        $content[] = array('pageId' => $obj['id'],
+                'areaIndex'         => '3',
+                'position'          => '0',
+                'module'            => 'content',
+                'type'              => 'html',
+                'data'              => serialize(array('text' => __('This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href="index.php?module=content&type=edit">Edit Contents</a> interface lets you edit or delete this introduction page. In the <a href="index.php?module=content&type=admin">administration</a> interface you can further control the Content module.', $dom),
+                                            'inputType' => 'text')));
+
+        // write the items to the dbase
+        foreach ($content as $contentitem) {
+            DBUtil::insertObject($contentitem, 'content_content');
+        }
+    }
 }
 // -----------------------------------------------------------------------
 
