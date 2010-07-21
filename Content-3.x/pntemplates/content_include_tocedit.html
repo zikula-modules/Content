@@ -18,7 +18,7 @@
 
 <!--[pnformcontextmenu id="contentTocMenu" width="auto"]-->
 <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"]-->
-<!--[pnformcontextmenuitem __title='Preview' imageURL="images/icons/extrasmall/demo.gif" commandScript="content.popupPreviewWindow(commandArgument)"]-->
+<!--[pnformcontextmenuitem __title='Preview' imageURL="images/icons/extrasmall/14_layer_visible.gif" commandScript="content.popupPreviewWindow(commandArgument)"]-->
 <!--[pnformcontextmenuseparator]-->
 <!--[if $access.pageCreateAllowed]-->
 <!--[pnformcontextmenuitem __title='New page' imageURL="images/icons/extrasmall/insert_table_row.gif" commandName="newPage"]-->
@@ -61,7 +61,7 @@
                         <!--[/if]-->
                         <!--[/if]-->
 
-                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title]--> [<!--[$page.id]--><!--( <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->)-->]</a>&nbsp;<!--[if $access.pageEditAllowed]--><!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id]--><!--[/if]-->
+                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title]--> [<!--[$page.id]--><!--( <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->)-->]</a>&nbsp;<!--[if $access.pageEditAllowed]--><!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL='images/icons/extrasmall/utilities.gif']--><!--[/if]-->
                     </div>
                 </td>
                 <td><!--[$page.lu_date|pndate_format:datetimebrief]--> <!--[gt text="by %s" tag1=$updaterName|userprofilelink]--></td>

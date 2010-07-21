@@ -166,6 +166,12 @@ Layouts
 .content-area-top {
 }
 
+div.content-area-top h4,
+div.content-area-top h3,
+div.content-area-top h2 {
+    margin-bottom: 10px;
+}
+
 div.content-layout.column2 p,
 div.content-layout.column3 p {
     text-align:justify;
@@ -229,7 +235,7 @@ table.content-layout-edit td.content-area {
 
 .widget_nw {
     height: 15px;
-    background-color: #999;
+    background-color: #ccc;
     padding: 2px;
 }
 
@@ -340,6 +346,7 @@ div.content-item p.content-description {
 .content-computercode {
     overflow: auto;
     border: 1px solid #000;
+    margin: 10px 0px;
 }
 
 .content-layout-edit .content-computercode {
