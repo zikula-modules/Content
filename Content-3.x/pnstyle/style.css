@@ -269,6 +269,12 @@ table.content-layout-edit td.content-area {
     border: 1px dashed #700;
 }
 
+#layout_preview img {
+    padding: 5px;
+    background: #dde;
+    border: 1px solid #bbb;
+}
+
 /* ----------------------------------------------------------------------------
 Content styling
 ---------------------------------------------------------------------------- */
