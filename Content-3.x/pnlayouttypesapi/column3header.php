@@ -17,38 +17,35 @@ class content_layouttypesapi_column3headerPlugin extends contentLayoutBase
         $dom = ZLanguage::getModuleDomain('content');
         $this->contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Centre column', $dom), __('Right column', $dom), __('Footer', $dom));
     }
-
     function content_layouttypesapi_column3headerPlugin()
     {
         $this->__construct();
     }
-
     function getName()
     {
         return 'column3header';
     }
-
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('3 columns', $dom);
+        return __('3 columns (33|33|33)', $dom);
     }
-
     function getDescription()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Three columns + header + footer', $dom);
+        return __('Header + three columns (33|33|33) + footer', $dom);
     }
-
     function getNumberOfContentAreas()
     {
         return 5;
     }
-
     function getContentAreaTitle($areaIndex)
     {
-        $dom = ZLanguage::getModuleDomain('content');
-        return __('Centre column', $dom);
+        return $this->contentAreaTitles[$areaIndex];
+    }
+    function getImage()
+    {
+    	return pngetBaseUrl().'/modules/Content/pnimages/layout/column3header.png';
     }
 }
 

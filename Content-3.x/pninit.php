@@ -247,7 +247,7 @@ function content_defaultdata()
     // create one page with 2 columns and some content
     $page = array('title'   => __('Content introduction page', $dom),
             'urlname'       => __('content-introduction-page', $dom),
-            'layout'        => 'column2header',
+            'layout'        => 'column2_6238_header',
             'setLeft'       => '0',
             'setRight'      => '1',
             'language'      => ZLanguage::getLanguageCode());
@@ -293,7 +293,7 @@ $this->show_this_code(\'example\');
                 'position'          => '1',
                 'module'            => 'content',
                 'type'              => 'html',
-                'data'              => serialize(array('text' => __('<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column layout</strong> which has a header, 2 colums with 50% width on the left and 50% width on the right and a footer</p>', $dom),
+                'data'              => serialize(array('text' => __('<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column (62|38) layout</strong> which has a header, 2 colums with 62% width on the left and 38% width on the right and a footer</p>', $dom),
                                             'inputType' => 'text')));
         $content[] = array('pageId' => $obj['id'],
                 'areaIndex'         => '3',

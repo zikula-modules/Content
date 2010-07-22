@@ -15,39 +15,37 @@ class content_layouttypesapi_column1Plugin extends contentLayoutBase
     function __construct()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        $contentAreaTitles = array(__('Header', $dom), __('Centre column', $dom), __('Footer', $dom));
+        $contentAreaTitles = array(__('Header', $dom), __('Centre column', $dom));
     }
-
     function content_layouttypesapi_column1Plugin()
     {
         $this->__construct();
     }
-
     function getName()
     {
         return 'column1';
     }
-
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
         return __('1 column', $dom);
     }
-
     function getDescription()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Single 100% wide column', $dom);
+        return __('Header + single 100% wide column', $dom);
     }
-
     function getNumberOfContentAreas()
     {
         return 2;
     }
-
     function getContentAreaTitle($areaIndex)
     {
         return $this->contentAreaTitles[$areaIndex];
+    }
+    function getImage()
+    {
+    	return pngetBaseUrl().'/modules/Content/pnimages/layout/column1.png';
     }
 }
 

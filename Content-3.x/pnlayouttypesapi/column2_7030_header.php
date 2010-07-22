@@ -8,7 +8,7 @@
  * @license See license.txt
  */
 
-class content_layouttypesapi_column2headerPlugin extends contentLayoutBase
+class content_layouttypesapi_column2_7030_headerPlugin extends contentLayoutBase
 {
     var $contentAreaTitles = array();
 
@@ -17,24 +17,23 @@ class content_layouttypesapi_column2headerPlugin extends contentLayoutBase
         $dom = ZLanguage::getModuleDomain('content');
         $contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Right column', $dom), __('Footer', $dom));
     }
-
-    function content_layouttypesapi_column2headerPlugin()
+    function content_layouttypesapi_column2_7030_headerPlugin()
     {
         $this->__construct();
     }
     function getName()
     {
-        return 'column2header';
+        return 'column2_7030_header';
     }
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('2 columns (50|50)', $dom);
+        return __('2 columns (70|30)', $dom);
     }
     function getDescription()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Header + two columns (50|50) + footer', $dom);
+        return __('Header + two columns (70|30) + footer', $dom);
     }
     function getNumberOfContentAreas()
     {
@@ -46,11 +45,11 @@ class content_layouttypesapi_column2headerPlugin extends contentLayoutBase
     }
     function getImage()
     {
-    	return pngetBaseUrl().'/modules/Content/pnimages/layout/column2header.png';
+    	return pngetBaseUrl().'/modules/Content/pnimages/layout/column2_7030_header.png';
     }
 }
 
-function content_layouttypesapi_column2header($args)
+function content_layouttypesapi_column2_7030_header($args)
 {
-    return new content_layouttypesapi_column2headerPlugin();
+    return new content_layouttypesapi_column2_7030_headerPlugin();
 }

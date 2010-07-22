@@ -1,3 +1,5 @@
+<!--[pnajaxheader modname='content' noscriptaculous=1]-->
+<!--[pnpageaddvar name="javascript" value="modules/content/pnjavascript/pagelayout.js"]-->
 <!--[contentpageheading __header='Add new page' __subheader="Select layout"]-->
 <!--[if isset($page)]--><div class="content-page-path"><!--[$locationLabel]--><!--[contentpagepath pageId=$page.id]--></div><!--[/if]-->
 
@@ -5,6 +7,18 @@
 <!--[pnform cssClass='z-form']-->
 <!--[pnformsetinitialfocus inputId='title']-->
 <!--[pnformerrormessage id='error']-->
+
+<script type="text/javascript" >
+    //<![CDATA[
+    // store the image location and description in a JS array
+    var images = [];
+    var descs = [];
+    <!--[foreach from=$layouts item=layout]-->
+        images.push('<!--[$layout.image]-->');
+        descs.push('<!--[$layout.description]-->');
+    <!--[/foreach]-->
+    //]]>
+</script>
 
 <!--[contentformframe]-->
 <fieldset>
@@ -23,7 +37,14 @@
     <legend><!--[gt text="Please select a specific layout for your page"]--></legend>
     <div class="z-formrow">
         <!--[pnformlabel for='layout' __text='Page layout']-->
-        <!--[contentlayoutselector id='layout']-->
+        <!--[contentlayoutselector id='layout' layouts=$layouts]-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel __text='Layout preview and description']-->
+        <div id="layout_preview">
+            <img id="layout_preview_img" src="<!--[$layouts.0.image]-->" />
+            <span class="z-sub" id="layout_preview_desc"><!--[$layouts.0.description]--></span>
+        </div>
     </div>
 </fieldset>
 

@@ -32,6 +32,10 @@ class contentLayoutBase
     {
         return $areaIndex;
     }
+    function getImage()
+    {
+    	return pngetBaseUrl().'/modules/Content/pnimages/layout_nopreview.png';
+    }
 }
 
 function &content_layoutapi_getLayoutPlugins($args)
@@ -62,12 +66,10 @@ function content_layoutapi_getLayouts($args)
 {
     $plugins = content_layoutapi_getLayoutPlugins(array());
     $layouts = array();
-
     for ($i = 0, $cou = count($plugins); $i < $cou; ++$i) {
         $plugin = &$plugins[$i];
-        $layouts[] = array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas());
+        $layouts[] = array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage());
     }
-
     return $layouts;
 }
 
@@ -79,5 +81,5 @@ function content_layoutapi_getLayoutPlugin($args)
 function content_layoutapi_getLayout($args)
 {
     $plugin = content_layoutapi_getLayoutPlugin($args);
-    return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas());
+    return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage());
 }

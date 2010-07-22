@@ -177,34 +177,37 @@ div.content-layout.column3 p {
     text-align:justify;
 }
 
+/* widths are located in the templates for easier adjustment */
 div.content-layout.column2 div.content-area-left {
-    width: 48%;
+/*    width: 48%;*/
     float: left;
 }
 
 div.content-layout.column2 div.content-area-right {
-    width: 48%;
+/*    width: 48%;*/
     float: right;
+    padding-left: 2%;
 }
 
 div.content-layout.column3 div.content-area-left {
-    width: 30%;
+/*    width: 30%;*/
     float: left;
 }
 
 div.content-layout.column3 div.content-area-center {
-    width: 30%;
+/*    width: 30%;*/
     float: left;
-    margin-left: 5%;
+    padding: 0 2%;
 }
 
 div.content-layout.column3 div.content-area-right {
-    width: 30%;
+/*    width: 30%;*/
     float: right;
 }
 
 div.content-layout.column3 div.content-area-bottom,
-div.content-layout.column2 div.content-area-bottom {
+div.content-layout.column2 div.content-area-bottom,
+div.content-layout.column2 div.content-area-middle  {
     clear: both;
 }
 
@@ -278,13 +281,33 @@ div.figure-topRight {
     margin: 0px 0px 5px 15px;
 }
 
-div.w25 { width: 20%; }
-div.w33 { width: 30%; }
-div.w50 { width: 45%; }
-div.w66 { width: 60%; }
-div.w75 { width: 70%; }
+div.w25 { width: 23%; }
+div.w30 { width: 28%; }
+div.w33 { width: 31%; }
+div.w38 { width: 36%; }
+div.w40 { width: 38%; }
+div.w50 { width: 48%; }
+div.w60 { width: 58%; }
+div.w62 { width: 60%; }
+div.w66 { width: 64%; }
+div.w70 { width: 68%; }
+div.w75 { width: 73%; }
 div.w100 { width: 100%; }
 div.wauto { width: auto; }
+
+/* IE6 hacks */
+* html div.w25 { width: 21%; }
+* html div.w30 { width: 26%; }
+* html div.w33 { width: 29%; }
+* html div.w38 { width: 32%; }
+* html div.w40 { width: 36%; }
+* html div.w50 { width: 46%; }
+* html div.w60 { width: 54%; }
+* html div.w62 { width: 58%; }
+* html div.w66 { width: 62%; }
+* html div.w70 { width: 66%; }
+* html div.w75 { width: 71%; }
+* html div.w100 { width: 96%; }
 
 div.greybox {
     border:solid 1px #DEDEDE;

@@ -226,6 +226,13 @@ class content_edit_editPageHandler extends pnFormHandler
         if ($page['language'] == ZLanguage::getLanguageCode())
             $multilingual = false;
 
+        $pagelayout = pnModAPIFunc('content', 'layout', 'getLayout', array('layout' => $page['layout']));
+        if ($pagelayout === false)
+            return $render->pnFormRegisterError(null);
+        $layouts = pnModAPIFunc('content', 'layout', 'getLayouts');
+        if ($layouts === false)
+            return $render->pnFormRegisterError(null);
+
         PageUtil::setVar('title', __("Edit page", $dom) . ' : ' . $page['title']);
 
         $layoutTemplate = 'layout/' . $page['layoutData']['name'] . '_edit.html';
@@ -233,6 +240,8 @@ class content_edit_editPageHandler extends pnFormHandler
         $render->assign('mainCategory', $mainCategory);
         $render->assign('page', $page);
         $render->assign('multilingual', $multilingual);
+        $render->assign('layouts', $layouts);
+        $render->assign('pagelayout', $pagelayout);
         $render->assign('enableVersioning', pnModGetVar('content', 'enableVersioning'));
         contentAddAccess($render, $this->pageId);
 

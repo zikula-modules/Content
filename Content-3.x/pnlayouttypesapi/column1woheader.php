@@ -15,39 +15,37 @@ class content_layouttypesapi_column1woheaderPlugin extends contentLayoutBase
     function __construct()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        $contentAreaTitles = array(__('Centre column', $dom), __('Footer', $dom));
+        $contentAreaTitles = array(__('Centre column', $dom));
     }
-
     function content_layouttypesapi_column1woheaderPlugin()
     {
         $this->__construct();
     }
-
     function getName()
     {
         return 'column1woheader';
     }
-
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('1 column w/o header', $dom);
+        return __('1 column no header', $dom);
     }
-
     function getDescription()
     {
         $dom = ZLanguage::getModuleDomain('content');
         return __('Single 100% wide column without header', $dom);
     }
-
     function getNumberOfContentAreas()
     {
         return 1;
     }
-
     function getContentAreaTitle($areaIndex)
     {
         return $this->contentAreaTitles[$areaIndex];
+    }
+    function getImage()
+    {
+    	return pngetBaseUrl().'/modules/Content/pnimages/layout/column1woheader.png';
     }
 }
 
