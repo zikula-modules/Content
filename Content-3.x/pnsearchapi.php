@@ -26,6 +26,9 @@ function content_searchapi_options($args)
     return '';
 }
 
+/**
+ * Search plugin main function
+ **/
 function content_searchapi_search($args)
 {
     $dom = ZLanguage::getModuleDomain('content');
@@ -74,6 +77,9 @@ WHERE $where";
     return true;
 }
 
+/**
+ * Do last minute access checking if needed and assign URL to items
+ **/
 function content_searchapi_search_check(&$args)
 {
     $datarow = &$args['datarow'];
