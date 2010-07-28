@@ -17,10 +17,10 @@
     {{/foreach}}
     //]]>
 </script>
-{modurl modname='Content' type=edit func=editcontent cid="commandArgument" assign=editUrl}
-{modurl modname='Content' type=edit func=newcontent above=1 cid="commandArgument" assign=aboveUrl}
-{modurl modname='Content' type=edit func=newcontent above=0 cid="commandArgument" assign=belowUrl}
-{modurl modname='Content' type=edit func=translatecontent cid="commandArgument" assign=translateUrl}
+{modurl modname='Content' type=edit func=editcontent cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=editUrl}
+{modurl modname='Content' type=edit func=newcontent above=1 cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=aboveUrl}
+{modurl modname='Content' type=edit func=newcontent above=0 cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=belowUrl}
+{modurl modname='Content' type=edit func=translatecontent cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
 
 {insert name="getstatusmsg"}
 
@@ -38,15 +38,13 @@
 
 {modurl modname='Content' type=edit func=editcontent cid="commandArgument" assign=editUrl}
 
-
 {formerrormessage id='error'}
 
 {contentformframe}
 
 {formtabbedpanelset}
 
-{modgetvar module="Content" name="enableVersioning" assign=enableVersioning}
-{if !empty($enableVersioning)}
+{if $enableVersioning}
 <ul class="content-subtabs">
     <li><a href="{modurl modname='Content' type=edit func=history pid=$page.id}">{gt text="History"}</a></li>
 </ul>
