@@ -1,0 +1,19 @@
+{if count($pages) > 0}
+<ul>
+    {foreach from=$pages item=page}
+
+    <li id="page_{$page.id}">
+        {if $access.pageEditAllowed}
+        <img src="modules/Content/images/drag.gif" alt="" class="dragable"/>
+        {/if}
+        <a href="{modurl modname='Content' func=page pid=$page.id}" id="anchor_{$page.id}">{$page.title}</a>
+        {if $access.pageEditAllowed}
+        {formcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="images/icons/extrasmall/next.gif"}
+        {/if}
+
+        {include file=cotype_include_toc2.html pages=$page.subpages}
+    </li>
+
+    {/foreach}
+</ul>
+{/if}

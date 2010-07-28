@@ -1,0 +1,35 @@
+{ajaxheader modname=Content filename='ajax.js' dragdrop=true nobehaviour=1}
+{form cssClass='z-form'}
+
+<h2>{gt text="Page list and content structure"}</h2>
+
+{if $access.pageCreateAllowed}
+<ul class="z-menulinks">
+    <li><a class="z-icon-es-new" href="{modurl modname=Content type=edit func=newpage}">{gt text="Add new page"}</a></li>
+    {securityutil_checkpermission_block component='Content::' instance='::' level=ACCESS_ADMIN}
+    <li><a class="z-icon-es-cubes" href="{modurl modname=Content type=admin func=main}">{gt text="Administration"}</a></li>
+    <li><a class="z-icon-es-config" href="{modurl modname=Content type=admin func=settings}">{gt text="Settings"}</a></li>
+    {/securityutil_checkpermission_block}
+</ul>
+{/if}
+
+<p>{gt text="This is where you manage all your pages. You can add/edit/delete pages (depending on permission rights) as well as drag them around to get the content structure right."}</p>
+
+{include file=content_include_tocedit.html}
+
+{if $access.pageEditAllowed}
+<p class="z-sub">{gt text="Click on the icon right of a page title for the options of that page. To drag and drop a page you must select the icon left of the title and drop it on the title of another page."}</p>
+{/if}
+
+<script type="text/javascript">
+    {{include file=content_include_tocedit3.html pages=$pages}}
+</script>
+
+<div>
+    <input type="hidden" name="contentTocDragSrcId" id="contentTocDragSrcId"/>
+    <input type="hidden" name="contentTocDragDstId" id="contentTocDragDstId"/>
+</div>
+
+{formpostbackfunction function="content.tocPageDrag" commandName='drag'}
+
+{/form}

@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    //<![CDATA[
+    {{modurl modname='Content' type=user func=view preview=1 pid=__PID__ assign=previewUrl}}
+    content.previewUrl = "{{$previewUrl}}";
+
+    function contentToggle(id)
+    {
+        $('contentTogglePageId').value = id;
+        contentPost();
+    }
+    //]]>
+</script>
+
+{formpostbackfunction function='contentPost' commandName='toggleExpand'}
+<input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
+{modurl modname='Content' type=edit func=translatepage pid="commandArgument" assign=translateUrl}
+
+{formcontextmenu id="contentTocMenu" width="auto"}
+{formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"}
+{formcontextmenuitem __title='Preview' imageURL="images/icons/extrasmall/14_layer_visible.gif" commandScript="content.popupPreviewWindow(commandArgument)"}
+{formcontextmenuseparator}
+{if $access.pageCreateAllowed}
+{formcontextmenuitem __title='New page' imageURL="images/icons/extrasmall/insert_table_row.gif" commandName="newPage"}
+{formcontextmenuitem __title='New sub-page' imageURL="images/icons/extrasmall/insertcell.gif" commandName="newSubPage"}
+{/if}
+{formcontextmenuitem __title='Decrease indent' imageURL="images/icons/extrasmall/format_decreaseindent.gif" commandName="decIndent"}
+{formcontextmenuitem __title='Increase indent' imageURL="images/icons/extrasmall/format_increaseindent.gif" commandName="incIndent"}
+{if $multilingual}{formcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl}{/if}
+{if $access.pageDeleteAllowed}{formcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deletePage' __confirmMessage='Delete'}{/if}
+{if $enableVersioning}{formcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history'}{/if}
+{/formcontextmenu}
+
+<div class="content-toc">
+    <table class="z-datatable">
+        <thead>
+            <tr>
+                <th>{gt text="Page title [id]"}</th>
+                <th>{gt text="Last updated"}</th>
+                <th>{gt text="Created By"}</th>
+                {if $multilingual}<th>{gt text="Language"}</th>{/if}
+                {if $multilingual}<th>{gt text="Translated"}</th>{/if}
+            </tr>
+        </thead>
+        <tbody>
+            {foreach from=$pages item=page}
+            <tr class="{cycle values="z-odd,z-even"}">
+                <td style="padding-left: {$page.level}em">
+                    <div id="page_{$page.id}">
+                        {if $page.setRight - $page.setLeft != 1}
+                        {if $page.isExpanded}<img src="modules/Content/images/page-expanded.gif" onclick="contentToggle({$page.id})" alt="" class="clickable" />{else}<img src="modules/Content/images/page-collapsed.gif" onclick="contentToggle({$page.id})" alt="" class="clickable" />{/if}
+                        {else}
+                        <img src="modules/Content/images/page-none.gif" alt="" />
+                        {/if}
+                        {if $access.pageEditAllowed}
+                        {if $page.isInMenu}
+                        <img src="modules/Content/images/menupageactive.gif" alt="{gt text="Page online and in menu"}" title="{gt text="Page online and in menu"}" class="dragable"/>
+                        {else}
+                        <img src="modules/Content/images/menupageinactive.gif" alt="{gt text="Page offline or not in menu"}" title="{gt text="Page offline or not in menu"}" class="dragable"/>
+                        {/if}
+                        {/if}
+                        <a href="{modurl modname='Content' type=edit func=editpage pid=$page.id}" id="anchor_{$page.id}">{$page.title} [{$page.id}<!--( {$page.position}|{$page.setLeft}/{$page.setRight})-->]</a>&nbsp;{if $access.pageEditAllowed}{formcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL='images/icons/extrasmall/next.gif'}{/if}
+                    </div>
+                </td>
+                <td>{$page.lu_date|dateformat:'datetimebrief'} {gt text="by %s" tag1=$page.lu_uid|userprofilelink}</td>
+                <td>{$page.uname|userprofilelink}</td>
+                {if $multilingual}<td>{$page.language}</td>{/if}
+                {if $multilingual}<td>{if $page.isTranslated}{gt text="yes"}{else}{gt text="no"}{/if}</td>{/if}
+            </tr>
+            {foreachelse}
+            <tr class="z-datatableempty"><td colspan="{if $multilingual}5{else}3{/if}">{gt text="No page available."}</td></tr>
+            {/foreach}
+        </tbody>
+    </table>
+</div>
