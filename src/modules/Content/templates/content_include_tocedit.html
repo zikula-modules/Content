@@ -13,7 +13,7 @@
 
 {formpostbackfunction function='contentPost' commandName='toggleExpand'}
 <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
-{modurl modname='Content' type=edit func=translatepage pid="commandArgument" assign=translateUrl}
+{modurl modname='Content' type=edit func=translatepage pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
 
 {formcontextmenu id="contentTocMenu" width="auto"}
 {formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"}
