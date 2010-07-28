@@ -28,17 +28,14 @@ class content_contenttypesapi_pagesetter_pubPlugin extends contentTypeBase
     {
         return false;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->tid = $data['tid'];
         $this->pid = $data['pid'];
         $this->tpl = $data['tpl'];
     }
-
     function display()
     {
-
         $tid = DataUtil::formatForDisplayHTML($this->tid);
         $pid = DataUtil::formatForDisplayHTML($this->pid);
         $tpl = DataUtil::formatForDisplayHTML($this->tpl);
@@ -51,12 +48,11 @@ class content_contenttypesapi_pagesetter_pubPlugin extends contentTypeBase
             'coreExtra' => array('page' => 0, 'baseURL' => $url, 'format' => $tpl)));
 
         // render instance - assign publication
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('publication', $publication);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('publication', $publication);
 
-        return $render->fetch('contenttype/pagesetter_pub_view.html');
+        return $view->fetch('contenttype/pagesetter_pub_view.html');
     }
-
     function displayEditing()
     {
         $tid = DataUtil::formatForDisplayHTML($this->tid);
@@ -71,13 +67,11 @@ class content_contenttypesapi_pagesetter_pubPlugin extends contentTypeBase
             'coreExtra' => array('page' => 0, 'baseURL' => $url, 'format' => $tpl)));
 
         // render instance - assign publication
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('publication', $publication);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('publication', $publication);
 
-        return $render->fetch('contenttype/pagesetter_pub_view.html');
-
+        return $view->fetch('contenttype/pagesetter_pub_view.html');
     }
-
     function getDefaultData()
     {
         // deault values

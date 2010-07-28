@@ -1,36 +1,38 @@
 <?php
 
-class Content_Form_Handler_Edit_Main extends pnFormHandler
+class Content_Form_Handler_Edit_Main extends Form_Handler
 {
     function __construct($args)
     {
         $this->args = $args;
     }
 
-    function initialize(&$render)
+    function initialize($view)
     {
         $dom = ZLanguage::getModuleDomain('Content');
-        if (!contentHasPageEditAccess())
-            return $render->pnFormRegisterError(LogUtil::registerPermissionError());
+        if (!contentHasPageEditAccess()) {
+            return $view->registerError(LogUtil::registerPermissionError());
+        }
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('editing' => true, 'filter' => array('checkActive' => false, 'expandedPageIds' => contentMainEditExpandGet()), 'enableEscape' => true, 'translate' => false, 'includeLanguages' => true,
             'orderBy' => 'setLeft'));
-        if ($pages === false)
-            return $render->pnFormRegisterError(null);
+        if ($pages === false) {
+            return $view->registerError(null);
+        }
 
         PageUtil::setVar('title', __('Page list and content structure', $dom));
         $csssrc = ThemeUtil::getModuleStylesheet('admin', 'admin.css');
         PageUtil::addVar('stylesheet', $csssrc);
 
-        $render->assign('pages', $pages);
-        $render->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
-        $render->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
-        contentAddAccess($render, null);
+        $view->assign('pages', $pages);
+        $view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
+        $view->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
+        contentAddAccess($view, null);
 
         return true;
     }
 
-    function handleCommand(&$render, &$args)
+    function handleCommand($view, &$args)
     {
         $url = ModUtil::url('Content', 'edit', 'main');
 
@@ -47,37 +49,36 @@ class Content_Form_Handler_Edit_Main extends pnFormHandler
             list ($dummy, $dstId) = explode('_', $dstId);
 
             $ok = ModUtil::apiFunc('Content', 'Page', 'drag', array('srcId' => $srcId, 'dstId' => $dstId));
-            if (!$ok)
-                return $render->pnFormRegisterError(null);
+            if (!$ok) {
+                return $view->registerError(null);
+            }
         } else if ($args['commandName'] == 'decIndent') {
             // Decreasing indent is the same as dragging it onto parent page
 
-
             $srcId = (int) $args['commandArgument'];
-
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $srcId));
-            if ($page === false)
-                return $render->pnFormRegisterError(null);
-
+            if ($page === false) {
+                return $view->registerError(null);
+            }
             $dstId = (int) $page['parentPageId'];
-
             if ($dstId != 0) {
                 $ok = ModUtil::apiFunc('Content', 'Page', 'drag', array('srcId' => $srcId, 'dstId' => $dstId));
-                if (!$ok)
-                    return $render->pnFormRegisterError(null);
+                if (!$ok) {
+                    return $view->registerError(null);
+                }
             }
         } else if ($args['commandName'] == 'incIndent') {
             $pageId = (int) $args['commandArgument'];
-
             $ok = ModUtil::apiFunc('Content', 'Page', 'increaseIndent', array('pageId' => $pageId));
-            if (!$ok)
-                return $render->pnFormRegisterError(null);
+            if (!$ok) {
+                return $view->registerError(null);
+            }
         } else if ($args['commandName'] == 'deletePage') {
             $pageId = (int) $args['commandArgument'];
-
             $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $pageId));
-            if ($ok === false)
-                return $render->pnFormRegisterError(null);
+            if ($ok === false) {
+                return $view->registerError(null);
+            }
         } else if ($args['commandName'] == 'history') {
             $pageId = (int) $args['commandArgument'];
             $url = ModUtil::url('Content', 'edit', 'history', array('pid' => $pageId));
@@ -85,8 +86,7 @@ class Content_Form_Handler_Edit_Main extends pnFormHandler
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             contentMainEditExpandToggle($pageId);
         }
-
-        $render->pnFormRedirect($url);
+        $view->redirect($url);
         return true;
     }
 }

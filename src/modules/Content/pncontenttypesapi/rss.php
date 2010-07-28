@@ -40,17 +40,15 @@ class content_contenttypesapi_RSSPlugin extends contentTypeBase
         }
         return false;
     }
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->url = $data['url'];
         $this->includeContent = $data['includeContent'];
         $this->refreshTime = $data['refreshTime'];
         $this->maxNoOfItems = $data['maxNoOfItems'];
     }
-
     function display()
     {
-//        $this->feed = new SimplePie($this->url, System::getVar('temp'), $this->refreshTime * 60);
         // call ZFeed that provides SimplePie
         $this->feed = new ZFeed($this->url, System::getVar('temp'), $this->refreshTime * 60);
         $items = $this->feed->get_items();
@@ -64,23 +62,20 @@ class content_contenttypesapi_RSSPlugin extends contentTypeBase
         }
         $this->feedData = array('title' => $this->decode($this->feed->get_title()), 'description' => $this->decode($this->feed->get_description()), 'permalink' => $this->feed->get_permalink(), 'items' => $itemsData);
 
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('feed', $this->feedData);
-        $render->assign('includeContent', $this->includeContent);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('feed', $this->feedData);
+        $view->assign('includeContent', $this->includeContent);
 
-        return $render->fetch('contenttype/rss_view.html');
+        return $view->fetch('contenttype/rss_view.html');
     }
-
     function displayEditing()
     {
         return "<input value=\"" . DataUtil::formatForDisplay($this->url) . "\" style=\"width: 30em\" readonly=readonly/>";
     }
-
     function getDefaultData()
     {
         return array('url' => '', 'includeContent' => false, 'refreshTime' => 60, 'maxNoOfItems' => 10);
     }
-
     function decode($s)
     {
         return mb_convert_encoding($s, mb_detect_encoding($s), $this->feed->get_encoding());

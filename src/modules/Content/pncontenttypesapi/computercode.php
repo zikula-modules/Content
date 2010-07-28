@@ -30,12 +30,10 @@ class content_contenttypesapi_computerCodePlugin extends contentTypeBase
         $dom = ZLanguage::getModuleDomain('Content');
         return __('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.', $dom);
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->text = $data['text'];
     }
-
     function display()
     {
         if (ModUtil::isHooked('bbcode', 'Content')) {
@@ -47,22 +45,19 @@ class content_contenttypesapi_computerCodePlugin extends contentTypeBase
             return $this->transformCode($this->text, true);
         }
     }
-
     function displayEditing()
     {
-        return $this->transformCode($this->text, false); // <pre> does not work in IE 7 with the portal javascript
+        // <pre> does not work in IE 7 with the portal javascript
+        return $this->transformCode($this->text, false); 
     }
-
     function getDefaultData()
     {
         return array('text' => '');
     }
-
     function getSearchableText()
     {
         return html_entity_decode(strip_tags($this->text));
     }
-
     function transformCode($code, $usePre)
     {
         $lines = explode("\n", $code);

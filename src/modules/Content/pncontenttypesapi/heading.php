@@ -35,45 +35,40 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
     {
         return true;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
-        if (!isset($data['headerSize']))
+        if (!isset($data['headerSize'])) {
             $data['headerSize'] = 'h3';
+        }
         $this->text = $data['text'];
         $this->headerSize = $data['headerSize'];
     }
-
     function display()
     {
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $render->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
-        $render->assign('contentId', $this->contentId);
-        return $render->fetch('contenttype/heading_view.html');
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
+        $view->assign('contentId', $this->contentId);
+        return $view->fetch('contenttype/heading_view.html');
     }
-
     function displayEditing()
     {
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $render->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
-        $render->assign('contentId', $this->contentId);
-        return $render->fetch('contenttype/heading_view.html');
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
+        $view->assign('contentId', $this->contentId);
+        return $view->fetch('contenttype/heading_view.html');
     }
-
     function getDefaultData()
     {
         $dom = ZLanguage::getModuleDomain('Content');
         return array('text' => __('Heading', $dom), 'headerSize' => 'h3');
     }
-
-    function startEditing(&$render)
+    function startEditing(&$view)
     {
         $scripts = array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js');
         PageUtil::addVar('javascript', $scripts);
     }
-
     function getSearchableText()
     {
         return html_entity_decode(strip_tags($this->text));

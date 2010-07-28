@@ -37,8 +37,7 @@ class content_contenttypesapi_ModuleFuncPlugin extends contentTypeBase
     {
         return false;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         // "mf" prefix is to avoid conflict with Zikula's own module/func/type parameters
         $this->module = $data['mfmodule'];
@@ -46,7 +45,6 @@ class content_contenttypesapi_ModuleFuncPlugin extends contentTypeBase
         $this->func = $data['mffunc'];
         $this->query = $data['mfquery'];
     }
-
     function display()
     {
         $dom = ZLanguage::getModuleDomain('Content');
@@ -68,13 +66,11 @@ class content_contenttypesapi_ModuleFuncPlugin extends contentTypeBase
         return ModUtil::func($this->module, $this->type, $this->func, $arguments);
         --$recursionLevel;
     }
-
     function displayEditing()
     {
         $output = "module=$this->module, type=$this->type, func=$this->func, query=$this->query";
         return $output;
     }
-
     function getDefaultData()
     {
         return array('mfmodule' => '', 'mftype' => 'user', 'mffunc' => 'view', 'mfquery' => '');

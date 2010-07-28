@@ -42,7 +42,6 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     {
         return true;
     }
-
     function isActive()
     {
         $apiKey = ModUtil::getVar('Content', 'googlemapApiKey');
@@ -51,48 +50,42 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
         }
         return false;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->longitude = $data['longitude'];
         $this->latitude = $data['latitude'];
         $this->zoom = $data['zoom'];
         $this->text = $data['text'];
     }
-
     function display()
     {
         $scripts = array('javascript/ajax/prototype.js', 'modules/Content/javascript/googlemap.js');
         PageUtil::addVar('javascript', $scripts);
 
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('longitude', $this->longitude);
-        $render->assign('latitude', $this->latitude);
-        $render->assign('zoom', $this->zoom);
-        $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $render->assign('googlemapApiKey', DataUtil::formatForDisplayHTML(ModUtil::getVar('Content', 'googlemapApiKey')));
-        $render->assign('contentId', $this->contentId);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('longitude', $this->longitude);
+        $view->assign('latitude', $this->latitude);
+        $view->assign('zoom', $this->zoom);
+        $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $view->assign('googlemapApiKey', DataUtil::formatForDisplayHTML(ModUtil::getVar('Content', 'googlemapApiKey')));
+        $view->assign('contentId', $this->contentId);
 
-        return $render->fetch('contenttype/googlemap_view.html');
+        return $view->fetch('contenttype/googlemap_view.html');
     }
-
     function displayEditing()
     {
         return DataUtil::formatForDisplay($this->text);
     }
-
     function getDefaultData()
     {
         return array('longitude' => '12.36185073852539', 'latitude' => '55.8756960390043', 'zoom' => 4, 'text' => '');
     }
-
-    function startEditing(&$render)
+    function startEditing(&$view)
     {
         $scripts = array('javascript/ajax/prototype.js', 'modules/Content/javascript/googlemap.js');
         PageUtil::addVar('javascript', $scripts);
-        $render->assign('googlemapApiKey', ModUtil::getVar('Content', 'googlemapApiKey'));
+        $view->assign('googlemapApiKey', ModUtil::getVar('Content', 'googlemapApiKey'));
     }
-
     function getSearchableText()
     {
         return html_entity_decode(strip_tags($this->text));

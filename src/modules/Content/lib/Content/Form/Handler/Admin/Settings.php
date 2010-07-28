@@ -1,37 +1,38 @@
 <?php
 
-class Content_Form_Handler_Admin_Settings extends pnFormHandler
+class Content_Form_Handler_Admin_Settings extends Form_Handler
 {
-    function initialize(&$render)
+    function initialize($view)
     {
-        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
-            return $render->pnFormRegisterError(LogUtil::registerPermissionError());
-
+        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
+            return $view->registerError(LogUtil::registerPermissionError());
+        }
         // Assign all module vars
-        $render->assign('config', ModUtil::getVar('Content'));
+        $view->assign('config', ModUtil::getVar('Content'));
 
         return true;
     }
 
-    function handleCommand(&$render, &$args)
+    function handleCommand($view, &$args)
     {
         $dom = ZLanguage::getModuleDomain('Content');
         if ($args['commandName'] == 'save') {
-            if (!$render->pnFormIsValid())
+            if (!$view->isValid()) {
                 return false;
+            }
 
-            $data = $render->pnFormGetValues();
+            $data = $view->getValues();
 
-            if (!ModUtil::setVars('Content', $data['config']))
-                return $render->pnFormSetErrorMsg('Failed to set configuration variables');
-
-            LogUtil::registerStatus(__('Done! Saved module configuration.', $dom));
+            if (!ModUtil::setVars('Content', $data['config'])) {
+                return $view->setErrorMsg($this->__('Failed to set configuration variables'));
+            }
+            LogUtil::registerStatus($this->__('Done! Saved module configuration.'));
         } else if ($args['commandName'] == 'cancel') {
         }
 
         $url = ModUtil::url('Content', 'admin', 'main');
 
-        return $render->pnFormRedirect($url);
+        return $view->redirect($url);
     }
 }
 

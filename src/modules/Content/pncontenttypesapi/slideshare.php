@@ -39,8 +39,7 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
     {
         return true;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->url = $data['url'];
         $this->text = $data['text'];
@@ -49,32 +48,28 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
         $this->width = $data['width'];
         $this->height = $data['height'];
     }
-
     function display()
     {
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('url', $this->url);
-        $render->assign('text', $this->text);
-        $render->assign('slideId', $this->slideId);
-        $render->assign('playerType', $this->playerType);
-        $render->assign('width', $this->width);
-        $render->assign('height', $this->height);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('url', $this->url);
+        $view->assign('text', $this->text);
+        $view->assign('slideId', $this->slideId);
+        $view->assign('playerType', $this->playerType);
+        $view->assign('width', $this->width);
+        $view->assign('height', $this->height);
 
-        return $render->fetch('contenttype/slideshare_view.html');
+        return $view->fetch('contenttype/slideshare_view.html');
     }
-
     function displayEditing()
     {
         $output = '<div style="background-color:#ddd; width:320px; height:200px; margin:0 auto; padding:15px;">' . __f('Slideshare: %s', $this->slideId, $dom) . '</div>';
         $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
-
     function getDefaultData()
     {
         return array('url' => '', 'text' => '', 'slideId' => '', 'playerType' => '0', 'width' => 425, 'height' => 355);
     }
-
     function isValid(&$data, &$message)
     {
         $dom = ZLanguage::getModuleDomain('Content');

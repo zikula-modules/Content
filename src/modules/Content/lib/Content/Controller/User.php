@@ -31,20 +31,20 @@ class Content_Controller_User extends Zikula_Controller
         if (!contentHasPageViewAccess())
             return LogUtil::registerPermissionError();
 
-        $render = & Zikula_View::getInstance('Content');
+        $view = Zikula_View::getInstance('Content');
 
         $mainCategoryId = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
         $categories = CategoryUtil::getCategoriesByParentID($mainCategoryId);
         $rootCategory = CategoryUtil::getCategoryByID($mainCategoryId);
 
-        $render->assign('rootCategory', $rootCategory);
-        $render->assign('categories', $categories);
-        $render->assign('lang', ZLanguage::getLanguageCode());
-        //$render->assign(ModUtil::getVar('Pages'));
-        $render->assign('shorturls', System::getVar('shorturls'));
-        $render->assign('shorturlstype', System::getVar('shorturlstype'));
+        $view->assign('rootCategory', $rootCategory);
+        $view->assign('categories', $categories);
+        $view->assign('lang', ZLanguage::getLanguageCode());
+        //$view->assign(ModUtil::getVar('Pages'));
+        $view->assign('shorturls', System::getVar('shorturls'));
+        $view->assign('shorturlstype', System::getVar('shorturlstype'));
 
-        return $render->fetch('content_user_main.htm');
+        return $view->fetch('content_user_main.htm');
     }
 
     /**
@@ -110,16 +110,16 @@ class Content_Controller_User extends Zikula_Controller
         PageUtil::setVar('title', ($preview ? __("Preview", $dom) . ' - ' . $pageTitle : $pageTitle));
 
         //$layoutTemplate = 'layout/' . $page['layoutData']['name'] . '.html';
-        $render = & Zikula_View::getInstance('Content');
-        $render->assign('page', $page);
-        $render->assign('preview', $preview);
-        $render->assign('editmode', $editmode);
-        $render->assign('multilingual', $multilingual);
-        $render->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
+        $view = Zikula_View::getInstance('Content');
+        $view->assign('page', $page);
+        $view->assign('preview', $preview);
+        $view->assign('editmode', $editmode);
+        $view->assign('multilingual', $multilingual);
+        $view->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
 
-        contentAddAccess($render, $pageId);
+        contentAddAccess($view, $pageId);
 
-        return $versionHtml . $render->fetch('content_user_page.html');
+        return $versionHtml . $view->fetch('content_user_page.html');
     }
 
     /**
@@ -184,14 +184,14 @@ class Content_Controller_User extends Zikula_Controller
         if ($pageCount === false)
             return false;
 
-        $render = & Zikula_View::getInstance('Content');
-        $render->assign('pages', $pages);
-        $render->assign('pageIndex', $pageIndex);
-        $render->assign('pageSize', $pageSize);
-        $render->assign('pageCount', $pageCount);
-        $render->assign('preview', false);
-        contentAddAccess($render, null);
-        return $render->fetch($template);
+        $view = Zikula_View::getInstance('Content');
+        $view->assign('pages', $pages);
+        $view->assign('pageIndex', $pageIndex);
+        $view->assign('pageSize', $pageSize);
+        $view->assign('pageCount', $pageCount);
+        $view->assign('preview', false);
+        contentAddAccess($view, null);
+        return $view->fetch($template);
     }
 
     /**
@@ -222,9 +222,9 @@ class Content_Controller_User extends Zikula_Controller
         if ($topPage === false)
             return false;
 
-        $render = & Zikula_View::getInstance('Content');
-        $render->assign(reset($topPage));
-        return $render->fetch('content_user_subpages.html');
+        $view = Zikula_View::getInstance('Content');
+        $view->assign(reset($topPage));
+        return $view->fetch('content_user_subpages.html');
     }
 
     /**
@@ -244,15 +244,15 @@ class Content_Controller_User extends Zikula_Controller
 
         PageUtil::setVar('title', __('Sitemap', $dom));
 
-        $render = & Zikula_View::getInstance('Content');
-        $render->assign('pages', $pages);
+        $view = Zikula_View::getInstance('Content');
+        $view->assign('pages', $pages);
 
         $tpl = FormUtil::getPassedValue('tpl', '', 'GET');
         if ($tpl == 'xml') {
-            $render->display('content_user_sitemap.xml');
+            $view->display('content_user_sitemap.xml');
             return true;
         }
 
-        return $render->fetch('content_user_sitemap.html');
+        return $view->fetch('content_user_sitemap.html');
     }
 }

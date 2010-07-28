@@ -9,10 +9,10 @@
  */
 
 
-function smarty_block_contentFormFrame($params, $content, &$render)
+function smarty_block_contentFormFrame($params, $content, &$view)
 {
-    $result = $render->pnFormRegisterPlugin('pnFormValidationSummary', $params);
-    $result .= $render->pnFormRegisterBlock('Content_Form_Plugin_FormFrame', $params, $content);
+    $result = $view->registerPlugin('Form_Plugin_ValidationSummary', $params);
+    $result .= $view->registerBlock('Content_Form_Plugin_FormFrame', $params, $content);
 
     return $result;
 }

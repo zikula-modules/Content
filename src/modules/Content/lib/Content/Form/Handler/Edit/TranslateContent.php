@@ -1,101 +1,104 @@
 <?php
-class Content_Form_Handler_Edit_TranslateContent extends pnFormHandler
+class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
 {
-  var $contentId;
-  var $pageId;
-  var $language;
-  var $backref;
+    var $contentId;
+    var $pageId;
+    var $language;
+    var $backref;
 
+    function __construct($args)
+    {
+        $this->args = $args;
+    }
 
-  function __construct($args)
-  {
-    $this->args = $args;
-  }
+    function initialize($view)
+    {
+        $this->contentId = (int)FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
+        $this->language = ZLanguage::getLanguageCode();
 
+        $content = ModUtil::apiFunc('Content', 'Content', 'getContent',
+                                array('id' => $this->contentId,
+                                      'language' => $this->language,
+                                      'translate' => false));
+        if ($content === false) {
+            return $view->registerError(null);
+        }
 
-  function initialize(&$render)
-  {
-    $this->contentId = (int)FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
-    $this->language = ZLanguage::getLanguageCode();
+        $this->contentType = ModUtil::apiFunc('Content', 'Content', 'getContentType', $content);
+        if ($this->contentType === false) {
+            return $view->registerError(null);
+        }
+        $this->pageId = $content['pageId'];
 
-    $content = ModUtil::apiFunc('Content', 'Content', 'getContent',
-                            array('id' => $this->contentId,
-                                  'language' => $this->language,
-                                  'translate' => false));
-    if ($content === false)
-      return $render->pnFormRegisterError(null);
+        if (!contentHasPageEditAccess($this->pageId)) {
+            return $view->registerError(LogUtil::registerPermissionError());
+        }
 
-    $this->contentType = ModUtil::apiFunc('Content', 'Content', 'getContentType', $content);
-    if ($this->contentType === false)
-      return $render->pnFormRegisterError(null);
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage',
+                             array('id' => $this->pageId,
+                                   'includeContent' => false,
+                                   'checkActive' => false));
+        if ($page === false) {
+            return $view->registerError(null);
+        }
 
-    $this->pageId = $content['pageId'];
-
-    if (!contentHasPageEditAccess($this->pageId))
-      return $render->pnFormRegisterError(LogUtil::registerPermissionError());
-
-    $page = ModUtil::apiFunc('Content', 'Page', 'getPage',
-                         array('id' => $this->pageId,
-                               'includeContent' => false,
-                               'checkActive' => false));
-    if ($page === false)
-      return $render->pnFormRegisterError(null);
-
-    if ($this->language == $page['language'])
-      return $render->pnFormRegisterError(LogUtil::registerError(__("You should not translate item to same language as it's default language.", $dom)))
-        ;
+        if ($this->language == $page['language']) {
+            return $this->view->registerError(LogUtil::registerError(__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%s"). Change the current site language ("%s") to some other language on the <a href="%s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual')), $dom)));
+        }
 
         $translationInfo = ModUtil::apiFunc('Content', 'Content', 'getTranslationInfo', array('contentId' => $this->contentId));
-        if ($translationInfo === false)
-            return $render->pnFormRegisterError(null);
+        if ($translationInfo === false) {
+            return $view->registerError(null);
+        }
 
         PageUtil::setVar('title', __("Translate content item", $dom) . ' : ' . $page['title']);
 
         $templateOriginal = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_translate_original.html';
         $templateNew = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_translate_new.html';
-        $render->assign('translateOriginalTemplate', $templateOriginal);
-        $render->assign('translateNewTemplate', $templateNew);
-        $render->assign('page', $page);
-        $render->assign('data', $content['data']);
-        $render->assign('isTranslatable', $content['isTranslatable']);
-        $render->assign('translated', $content['translated']);
-        $render->assign('translationInfo', $translationInfo);
-        $render->assign('translationStep', $this->contentId);
-        $render->assign('language', $this->language);
-        $render->assign('contentType', $this->contentType);
-        contentAddAccess($render, $this->pageId);
+        $view->assign('translateOriginalTemplate', $templateOriginal);
+        $view->assign('translateNewTemplate', $templateNew);
+        $view->assign('page', $page);
+        $view->assign('data', $content['data']);
+        $view->assign('isTranslatable', $content['isTranslatable']);
+        $view->assign('translated', $content['translated']);
+        $view->assign('translationInfo', $translationInfo);
+        $view->assign('translationStep', $this->contentId);
+        $view->assign('language', $this->language);
+        $view->assign('contentType', $this->contentType);
+        contentAddAccess($view, $this->pageId);
 
-        if (!$render->pnFormIsPostBack() && FormUtil::getPassedValue('back', 0))
+        if (!$view->pnFormIsPostBack() && FormUtil::getPassedValue('back', 0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
-
-        if ($this->backref != null)
+        }
+        if ($this->backref != null) {
             $returnUrl = $this->backref;
-        else
+        } else {
             $returnUrl = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+        }
         ModUtil::apiFunc('PageLock', 'user', 'pageLock', array('lockName' => "contentTranslateContent{$this->contentId}", 'returnUrl' => $returnUrl));
 
         return true;
     }
 
-    function handleCommand(&$render, &$args)
+    function handleCommand($view, &$args)
     {
         $url = null;
 
         $translationInfo = ModUtil::apiFunc('Content', 'Content', 'getTranslationInfo', array('contentId' => $this->contentId));
-        if ($translationInfo === false)
-            return $render->pnFormRegisterError(null);
+        if ($translationInfo === false) {
+            return $view->registerError(null);
+        }
 
-        if ($args['commandName'] == 'next' || $args['commandName'] == 'prev' || $args['commandName'] == 'quit' || $args['commandName'] == null /* Auto postback */)
-    {
-            if (!$render->pnFormIsValid())
+        if ($args['commandName'] == 'next' || $args['commandName'] == 'prev' || $args['commandName'] == 'quit' || $args['commandName'] == null /* Auto postback */) {
+            if (!$view->isValid()) {
                 return false;
-
-            $contentData = $render->pnFormGetValues();
+            }
+            $contentData = $view->getValues();
 
             $ok = ModUtil::apiFunc('Content', 'Content', 'updateTranslation', array('translated' => $contentData['translated'], 'contentId' => $this->contentId, 'language' => $this->language));
-            if ($ok === false)
-                return $render->pnFormRegisterError(null);
-
+            if ($ok === false) {
+                return $view->registerError(null);
+            }
             if ($args['commandName'] == null) {
                 $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $contentData['translationStep']));
             } else if ($args['commandName'] == 'next' && $translationInfo['nextContentId'] != null) {
@@ -112,16 +115,17 @@ class Content_Form_Handler_Edit_TranslateContent extends pnFormHandler
         } else if ($args['commandName'] == 'delete') {
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteTranslation', array('contentId' => $this->contentId, 'language' => $this->language));
             if ($ok === false)
-                return $render->pnFormRegisterError(null);
+                return $view->registerError(null);
         }
 
-        if ($url == null)
+        if ($url == null) {
             $url = $this->backref;
-        if (empty($url))
+        }
+        if (empty($url)) {
             $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
-
+        }
         ModUtil::apiFunc('PageLock', 'user', 'releaseLock', array('lockName' => "contentTranslateContent{$this->contentId}"));
 
-        return $render->pnFormRedirect($url);
+        return $view->redirect($url);
     }
 }

@@ -33,34 +33,26 @@ class content_contenttypesapi_blockPlugin extends contentTypeBase
     {
         return false;
     }
-
     function loadData(&$data)
     {
         $this->blockid = $data['blockid'];
     }
-
     function display()
     {
-
         $id = $this->blockid;
         $blockinfo = BlockUtil::getBlockInfo($id);
         $modinfo = ModUtil::getInfo($blockinfo['mid']);
-
         $text = BlockUtil::show($modinfo['name'], $blockinfo['bkey'], $blockinfo);
-
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('content', $text);
-        return $render->fetch('contenttype/block_view.html');
-
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('content', $text);
+        return $view->fetch('contenttype/block_view.html');
     }
-
     function displayEditing()
     {
         $output = "Block-Id=$this->blockid";
         return $output;
     }
-
-    function getDefaultData($data)
+    function getDefaultData()
     {
         return array('blockid' => "0");
     }

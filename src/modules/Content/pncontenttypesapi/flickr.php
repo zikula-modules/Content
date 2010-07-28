@@ -39,26 +39,23 @@ class content_contenttypesapi_FlickrPlugin extends contentTypeBase
         $dom = ZLanguage::getModuleDomain('Content');
         return __('If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href="http://www.flickr.com/api">flickr.com</a>.', $dom);
     }
-
     function isActive()
     {
         $apiKey = ModUtil::getVar('Content', 'flickrApiKey');
-        if (!empty($apiKey))
+        if (!empty($apiKey)) {
             return true;
+        }
         return false;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->userName = $data['userName'];
         $this->tags = $data['tags'];
         $this->photoCount = $data['photoCount'];
     }
-
     function display()
     {
         $this->flickr = new phpFlickr(ModUtil::getVar('Content', 'flickrApiKey'));
-
         $this->flickr->enableCache("fs", System::getVar('temp'));
 
         // Find the NSID of the username
@@ -73,31 +70,26 @@ class content_contenttypesapi_FlickrPlugin extends contentTypeBase
             $photoData[] = array('title' => DataUtil::formatForDisplayHTML($this->decode($photo['title'])), 'src' => $this->flickr->buildPhotoURL($photo, "Square"), 'url' => "http://www.flickr.com/photos/$photo[owner]/$photo[id]");
         }
 
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('photos', $photoData);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('photos', $photoData);
 
-        return $render->fetch('contenttype/flickr_view.html');
+        return $view->fetch('contenttype/flickr_view.html');
     }
-
     function displayEditing()
     {
         $dom = ZLanguage::getModuleDomain('Content');
         return __f('Flickr photos from user %1$s associated with tags %2$s', array($this->userName, $this->tags), $dom);
     }
-
     function getDefaultData()
     {
         return array('userName' => '', 'tags' => '', 'photoCount' => 8);
     }
-
-    function startEditing(&$render)
+    function startEditing(&$view)
     {
-        $render->assign('flickrApiKey', ModUtil::getVar('Content', 'flickrApiKey'));
+        $view->assign('flickrApiKey', ModUtil::getVar('Content', 'flickrApiKey'));
     }
-
     function decode($s)
     {
-
         return mb_convert_encoding($s, mb_detect_encoding($s), 'UTF-8');
     }
 }

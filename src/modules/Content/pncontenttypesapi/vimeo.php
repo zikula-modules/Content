@@ -16,8 +16,14 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
     var $clipId;
     var $displayMode;
 
-    function getModule() { return 'Content'; }
-    function getName() { return 'vimeo'; }
+    function getModule()
+    { 
+        return 'Content';
+    }
+    function getName()
+    {
+        return 'vimeo';
+    }
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('Content');
@@ -27,39 +33,34 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
     {
         $dom = ZLanguage::getModuleDomain('Content');
         return __('Display Vimeo video clip.', $dom);
-    }    
-    function isTranslatable() { return true; }
-
-
-    function loadData($data)
+    }
+    function isTranslatable() 
+    { 
+        return true;
+    }
+    function loadData(&$data)
     {
         $this->url = $data['url'];
         $this->text = $data['text'];
         $this->clipId = $data['clipId'];
         $this->displayMode = isset($data['displayMode']) ? $data['displayMode'] : 'inline';
     }
-
-
     function display()
     {
-        $render = Zikula_View::getInstance('Content', false);
-        $render->assign('url', $this->url);
-        $render->assign('text', $this->text);
-        $render->assign('clipId', $this->clipId);
-        $render->assign('displayMode', $this->displayMode);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('url', $this->url);
+        $view->assign('text', $this->text);
+        $view->assign('clipId', $this->clipId);
+        $view->assign('displayMode', $this->displayMode);
 
-        return $render->fetch('contenttype/vimeo_view.html');
+        return $view->fetch('contenttype/vimeo_view.html');
     }
-
-
     function displayEditing()
     {
         $output = '<div style="background-color:grey; width:320px; height:200px; margin:0 auto; padding:10px;">Video-ID : ' . $this->clipId . '</div>';
         $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
-
-
     function getDefaultData()
     {
         return array('url' => '',
@@ -67,8 +68,6 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
         'clipId' => '',
         'displayMode' => 'inline');
     }
-
-
     function isValid(&$data, &$message)
     {
         $dom = ZLanguage::getModuleDomain('Content');
@@ -78,12 +77,10 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
             $this->clipId = $data['clipId'] = $matches[1];
             return true;
         }
-       
         $message = __('Error! Unrecognized Vimeo URL', $dom);
         return false;
     }
 }
-
 
 function content_contenttypesapi_Vimeo($args)
 {

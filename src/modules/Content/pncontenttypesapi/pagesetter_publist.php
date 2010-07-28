@@ -40,8 +40,7 @@ class content_contenttypesapi_pagesetter_publistPlugin extends contentTypeBase
     {
         return false;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->tid = $data['tid'];
         $this->numpubs = $data['numpubs'];
@@ -50,15 +49,15 @@ class content_contenttypesapi_pagesetter_publistPlugin extends contentTypeBase
         $this->order = $data['order'];
         $this->tpl = $data['tpl'];
     }
-
     function display()
     {
         // retrieve filtered and ordered publication list
         $plargs = array('tid' => $this->tid, 'noOfItems' => $this->numpubs, 'offsetItems' => $this->offset, 'language' => ZLanguage::getLanguageCode(), 'orderByStr' => $this->order);
 
         $filters = preg_split("/\s*&\s*/", $this->filter);
-        if (is_array($filters) && strlen(trim($filters[0])))
+        if (is_array($filters) && strlen(trim($filters[0]))) {
             $plargs['filterSet'] = $filters;
+        }
 
         $publist = ModUtil::apiFunc('pagesetter', 'user', 'getPubList', $plargs);
 
@@ -73,12 +72,11 @@ class content_contenttypesapi_pagesetter_publistPlugin extends contentTypeBase
         }
 
         // render instance - assign publications
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('publications', $publications);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('publications', $publications);
 
-        return $render->fetch('contenttype/pagesetter_publist_view.html');
+        return $view->fetch('contenttype/pagesetter_publist_view.html');
     }
-
     function displayEditing()
     {
         $tid = DataUtil::formatForDisplayHTML($this->tid);
@@ -88,7 +86,6 @@ class content_contenttypesapi_pagesetter_publistPlugin extends contentTypeBase
         $order = DataUtil::formatForDisplayHTML($this->order);
         $tpl = DataUtil::formatForDisplayHTML($this->tpl);
     }
-
     function getDefaultData()
     {
         // deault values

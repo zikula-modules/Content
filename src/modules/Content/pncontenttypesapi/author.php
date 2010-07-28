@@ -34,30 +34,25 @@ class content_contenttypesapi_authorPlugin extends contentTypeBase
     {
         return false;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->uid = $data['uid'];
     }
-
     function display()
     {
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('uid', DataUtil::formatForDisplayHTML($this->uid));
-        $render->assign('contentId', $this->contentId);
-        return $render->fetch('contenttype/author_view.html');
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('uid', DataUtil::formatForDisplayHTML($this->uid));
+        $view->assign('contentId', $this->contentId);
+        return $view->fetch('contenttype/author_view.html');
     }
-
     function displayEditing()
     {
         return "<h3>" . UserUtil::getVar('uname', $this->uid) . "</h3>";
     }
-
     function getDefaultData()
     {
         return array('uid' => '1');
     }
-
     function getSearchableText()
     {
         return html_entity_decode(strip_tags(UserUtil::getVar($this->uid, 'uname')));

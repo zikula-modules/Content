@@ -3,5 +3,5 @@
 
 function smarty_function_contentwidthselector($params, &$render)
 {
-    return $render->pnFormRegisterPlugin('Content_Form_Plugin_WidthSelector', $params);
+    return $render->registerPlugin('Content_Form_Plugin_WidthSelector', $params);
 }

@@ -16,5 +16,5 @@
 function smarty_function_pagesetter_pubtypeselector($params, &$render)
 {
     // Let the pnFormPlugin class do all the hard work
-    return $render->pnFormRegisterPlugin('Content_Form_Plugin_PagesetterPubTypeSelector', $params);
+    return $render->registerPlugin('Content_Form_Plugin_PagesetterPubTypeSelector', $params);
 }

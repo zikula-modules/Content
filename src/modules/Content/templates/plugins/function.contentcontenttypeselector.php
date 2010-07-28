@@ -2,5 +2,5 @@
 
 function smarty_function_contentcontenttypeselector($params, &$render)
 {
-    return $render->pnFormRegisterPlugin('Content_Form_Plugin_TypeSelector', $params);
+    return $render->registerPlugin('Content_Form_Plugin_TypeSelector', $params);
 }

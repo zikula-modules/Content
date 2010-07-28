@@ -32,19 +32,16 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $dom = ZLanguage::getModuleDomain('Content');
         return __("A table of contents of headings and subpages (build from this module's pages).", $dom);
     }
-
     function isTranslatable()
     {
         return false;
     }
-
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->pid = $data['pid'];
         $this->includeHeading = (bool) $data['includeHeading'];
         $this->includeSubpage = (bool) $data['includeSubpage'];
     }
-
     function display()
     {
         $work = SessionUtil::getVar('directory_yournotthefirst', false);
@@ -62,11 +59,13 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         } elseif (!$this->includeSubpage && $this->pid != 0)
             $options['filter']['pageId'] = $this->pid;
 
-        if ($this->includeHeading)
+        if ($this->includeHeading) {
             $options['includeContent'] = true;
+        }
         $pages = ModUtil::apiFunc('Content', 'page', 'getPages', $options);
-        if (!$work)
+        if (!$work) {
             SessionUtil::delVar('directory_yournotthefirst');
+        }
 
         if ($this->pid == 0) {
             $directory = array();
@@ -77,12 +76,11 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             $directory = $this->_genDirectoryRecursive($pages[0]);
         }
 
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign('directory', $directory);
-        $render->assign('contentId', $this->contentId);
-        return $render->fetch('contenttype/directory_view.html');
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('directory', $directory);
+        $view->assign('contentId', $this->contentId);
+        return $view->fetch('contenttype/directory_view.html');
     }
-
     function _genDirectoryRecursive(&$pages)
     {
         $directory = array();
@@ -106,21 +104,18 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
         return array('title' => $pages['title'], 'url' => $pageurl, 'directory' => $directory);
     }
-
     function displayEditing()
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false));
         return "<h3>" . __f('Table of contents of %1$s', array("title" => $page['title']), $dom) . "</h3>";
     }
-
     function getDefaultData()
     {
         return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false);
 
     }
-
-    function startEditing(&$render)
+    function startEditing(&$view)
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $pages = ModUtil::apiFunc('Content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
@@ -131,9 +126,8 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
         }
 
-        $render->assign('pidItems', $pidItems);
+        $view->assign('pidItems', $pidItems);
     }
-
     function getSearchableText()
     {
         return;

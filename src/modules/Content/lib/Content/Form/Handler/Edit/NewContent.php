@@ -1,24 +1,22 @@
 <?php
 
-class Content_Form_Handler_Edit_NewContent extends pnFormHandler
+class Content_Form_Handler_Edit_NewContent extends Form_Handler
 {
     // Set these three for new content in empty area (or always first position)
     var $pageId; // ID of page to insert content on
     var $contentAreaIndex; // Index of the content are where new content is to be inserted
     var $position; // Position of new content inside above area (insert at this position)
 
-
     // Set these two for content relatively positioned to exiting content
     var $contentId; // ID of content we are creating new item relative to
     var $above; // Position relative to $contentid (above=0 => below)
-
 
     function __construct($args)
     {
         $this->args = $args;
     }
 
-    function initialize(&$render)
+    function initialize($view)
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
@@ -29,43 +27,47 @@ class Content_Form_Handler_Edit_NewContent extends pnFormHandler
 
         if ($this->contentId != null) {
             $content = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $this->contentId));
-            if ($content === false)
-                return $render->pnFormRegisterError(null);
-
+            if ($content === false) {
+                return $view->registerError(null);
+            }
             $this->pageId = $content['pageId'];
             $this->contentAreaIndex = $content['areaIndex'];
             $this->position = ($this->above ? $content['position'] : $content['position'] + 1);
         }
 
-        if (!contentHasPageEditAccess($this->pageId))
-            return $render->pnFormRegisterError(LogUtil::registerPermissionError());
+        if (!contentHasPageEditAccess($this->pageId)) {
+            return $view->registerError(LogUtil::registerPermissionError());
+        }
+        if ($this->pageId == null) {
+            return $view->setErrorMsg($this->__("Missing page ID (pid) in URL"));
+        }
 
-        if ($this->pageId == null)
-            return $render->pnFormSetErrorMsg("Missing page ID (pid) in URL");
-
-        if ($this->contentAreaIndex == null)
-            return $render->pnFormSetErrorMsg("Missing content area index (cai) in URL");
+        if ($this->contentAreaIndex == null) {
+            return $view->setErrorMsg($this->__("Missing content area index (cai) in URL"));
+        }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'checkActive' => false));
-        if ($page === false)
-            return $render->pnFormRegisterError(null);
+        if ($page === false) {
+            return $view->registerError(null);
+        }
 
         PageUtil::setVar('title', __("Add new content to page", $dom) . ' : ' . $page['title']);
 
-        $render->assign('page', $page);
-        $render->assign('htmlBody', 'content_edit_newcontent.html');
-        contentAddAccess($render, $this->pageId);
+        $view->assign('page', $page);
+        $view->assign('htmlBody', 'content_edit_newcontent.html');
+        contentAddAccess($view, $this->pageId);
 
         return true;
     }
 
-    function handleCommand(&$render, &$args)
+    function handleCommand($view, &$args)
     {
         if ($args['commandName'] == 'create') {
-            if (!$render->pnFormIsValid())
+            if (!$view->isValid()) {
                 return false;
+            }
 
-            $contentData = $render->pnFormGetValues();
+            $contentData = $view->getValues();
             list ($module, $type) = explode(':', $contentData['contentType']);
             $contentData['module'] = $module;
             $contentData['type'] = $type;
@@ -73,8 +75,9 @@ class Content_Form_Handler_Edit_NewContent extends pnFormHandler
             $contentData['language'] = null;
 
             $id = ModUtil::apiFunc('Content', 'Content', 'newContent', array('content' => $contentData, 'pageId' => $this->pageId, 'contentAreaIndex' => $this->contentAreaIndex, 'position' => $this->position));
-            if ($id === false)
-                return $render->pnFormRegisterError(null);
+            if ($id === false) {
+                return $view->registerError(null);
+            }
 
             $url = ModUtil::url('Content', 'edit', 'editcontent', array('cid' => $id));
         } else if ($args['commandName'] == 'cancel') {
@@ -82,6 +85,6 @@ class Content_Form_Handler_Edit_NewContent extends pnFormHandler
             $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
         }
 
-        return $render->pnFormRedirect($url);
+        return $view->redirect($url);
     }
 }

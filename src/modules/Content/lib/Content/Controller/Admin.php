@@ -17,15 +17,14 @@ class Content_Controller_Admin extends Zikula_Controller
             return LogUtil::registerPermissionError();
 
         $dom = ZLanguage::getModuleDomain('Content');
+        $view = Zikula_View::getInstance('Content');
 
-        $render = Zikula_View::getInstance('Content');
-
-        return $render->fetch('content_admin_main.html');
+        return $view->fetch('content_admin_main.html');
     }
 
     public function settings()
     {
-        $render = FormUtil::newpnForm('Content');
-        return $render->pnFormExecute('content_admin_settings.html', new Content_Form_Handler_Admin_Settings(array()));
+        $view = FormUtil::newForm('Content');
+        return $view->execute('content_admin_settings.html', new Content_Form_Handler_Admin_Settings(array()));
     }
 }
