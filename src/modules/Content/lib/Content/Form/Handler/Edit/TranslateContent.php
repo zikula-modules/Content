@@ -67,7 +67,7 @@ class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
         $view->assign('contentType', $this->contentType);
         contentAddAccess($view, $this->pageId);
 
-        if (!$view->pnFormIsPostBack() && FormUtil::getPassedValue('back', 0)) {
+        if (!$view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
         }
         if ($this->backref != null) {

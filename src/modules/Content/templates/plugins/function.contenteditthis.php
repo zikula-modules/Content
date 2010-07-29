@@ -8,26 +8,25 @@
 * @license See license.txt
 */
 
-function smarty_function_contenteditthis($params, &$render)
+function smarty_function_contenteditthis($params, &$view)
 {
     $dom = ZLanguage::getModuleDomain('Content');
     $data = $params['data'];
     $type = $params['type'];
     $access = $params['access'];
 
-    if (!$access['pageEditAllowed'])
-    return '';
-
+    if (!$access['pageEditAllowed']) {
+        return '';
+    }
     $editmode = SessionUtil::getVar('ContentEditMode');
-
-    $vars = $render->get_template_vars();
-    if ($vars['preview'])
-    return '';
+    $vars = $view->get_template_vars();
+    if ($vars['preview']) {
+        return '';
+    }
 
     $html = '';
 
-    if ($type == 'page')
-    {
+    if ($type == 'page') {
         // Unused ...
         $html = '<div class="content-editthis">';
         $url = DataUtil::formatForDisplay(ModUtil::url('Content', 'edit', 'editpage', array('pid' => $data['id'], 'back' => 1)));
@@ -37,9 +36,7 @@ function smarty_function_contenteditthis($params, &$render)
             $html .= "| <a href=\"$translateurl\">". __("Translate this page", $dom) ."</a>";
         }
         $html .= '</div>';
-    }
-    elseif ($type == 'content' && $editmode)
-    {
+    } elseif ($type == 'content' && $editmode) {
         $html = '<div class="content-editthis">';
         $url = DataUtil::formatForDisplay(ModUtil::url('Content', 'edit', 'editcontent', array('cid' => $data['id'], 'back' => 1)));
         $translateurl = DataUtil::formatForDisplay(ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $data['id'], 'back' => 1)));
@@ -51,8 +48,9 @@ function smarty_function_contenteditthis($params, &$render)
         $html .= '</div>';
     }
 
-    if (isset($params['assign']))
-    $smarty->assign($params['assign'], $html);
-    else
-    return $html;
+    if (isset($params['assign'])) {
+        $smarty->assign($params['assign'], $html);
+    } else {
+        return $html;
+    }
 }

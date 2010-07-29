@@ -28,42 +28,43 @@ function contentHasPageDeleteAccess($pageId = null)
     return SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_DELETE);
 }
 
-function contentAddAccess(&$render, $pageId)
+function contentAddAccess(&$view, $pageId)
 {
     $access = array('pageCreateAllowed'    => contentHasPageCreateAccess($pageId),
                     'pageEditAllowed'      => contentHasPageEditAccess($pageId),
                     'pageDeleteAllowed'    => contentHasPageDeleteAccess($pageId));
-    $render->assign('access', $access);
+    $view->assign('access', $access);
 }
 
 // Clear all Content caches. Call this function whenever something has been changed.
 // If you add other caching schemes then remember to clear them here
 function contentClearCaches()
 {
-    $render = & Zikula_View::getInstance('Content', true);
-
+    $view = Zikula_View::getInstance('Content', true);
     // Menu blocks
     $cacheId = 'menu'; // No language: clear all versions
-    $render->clear_cache(null, $cacheId);
+    $view->clear_cache(null, $cacheId);
 }
 
 function contentMainEditExpandToggle($pageId)
 {
     $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
-    if (isset($expandedPageIds[$pageId]))
+    if (isset($expandedPageIds[$pageId])) {
         unset($expandedPageIds[$pageId]);
-    else
+    } else {
         $expandedPageIds[$pageId] = 1;
+    }
     SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
 }
 
 function contentMainEditExpandSet($pageId, $value)
 {
     $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
-    if ($value)
+    if ($value) {
         $expandedPageIds[$pageId] = 1;
-    else
+    } else {
         unset($expandedPageIds[$pageId]);
+    }
     SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
 }
 

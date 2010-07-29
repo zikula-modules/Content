@@ -8,7 +8,7 @@
  * @license See license.txt
  */
 
-function smarty_function_contentinsertlink($params, &$render)
+function smarty_function_contentinsertlink($params, &$view)
 {
     $dom = ZLanguage::getModuleDomain('Content');
     $pageId = $params['pageId'];
@@ -21,9 +21,10 @@ function smarty_function_contentinsertlink($params, &$render)
     $url = DataUtil::formatForDisplay($url);
     $html = "<a href=\"$url\" class=\"content-action\">" . __("Add new content here", $dom) . "</a>";
 
-    if (isset($params['assign']))
+    if (isset($params['assign'])) {
         $smarty->assign($params['assign'], $html);
-    else
+    } else {
         return $html;
+    }
 }
 

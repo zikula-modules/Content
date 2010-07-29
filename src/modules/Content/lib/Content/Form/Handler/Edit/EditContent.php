@@ -79,7 +79,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
 
             $message = null;
             if (!$this->contentType['plugin']->isValid($contentData['data'], $message)) {
-                $errorPlugin = &$view->pnFormGetPluginById('error');
+                $errorPlugin = &$view->getPluginById('error');
                 $errorPlugin->message = $message;
                 return false;
             }

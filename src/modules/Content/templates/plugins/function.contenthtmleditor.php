@@ -17,8 +17,8 @@ function smarty_function_contenthtmleditor($params, &$view)
     // Get reference to optional radio button that enables the editor (a hack for the HTML plugin).
     // It would have been easier just to read a $var in the template, but this won't work with a
     // pnForms plugin - you would just get the initial value from when the page was loaded
-    $htmlRadioButton = (isset($params['htmlRadioId']) ? $view->pnFormGetPluginById($params['htmlRadioId']) : null);
-    $textRadioButton = (isset($params['textRadioId']) ? $view->pnFormGetPluginById($params['textRadioId']) : null);
+    $htmlRadioButton = (isset($params['htmlRadioId']) ? $view->getPluginById($params['htmlRadioId']) : null);
+    $textRadioButton = (isset($params['textRadioId']) ? $view->getPluginById($params['textRadioId']) : null);
 
     $html = '';
 

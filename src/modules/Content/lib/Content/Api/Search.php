@@ -22,9 +22,9 @@ class Content_Api_Search extends Zikula_Api
     public function options($args)
     {
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_READ)) {
-            $render = & Zikula_View::getInstance('Content');
-            $render->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
-            return $render->fetch('content_search_options.html');
+            $view = Zikula_View::getInstance('Content');
+            $view->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
+            return $view->fetch('content_search_options.html');
         }
 
         return '';

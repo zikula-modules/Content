@@ -34,32 +34,36 @@ class Content_Block_Menu extends Zikula_Block
     public function display($blockinfo)
     {
         // security check
-        if (!SecurityUtil::checkPermission('Content:menublock:', "$blockinfo[title]::", ACCESS_READ))
+        if (!SecurityUtil::checkPermission('Content:menublock:', "$blockinfo[title]::", ACCESS_READ)) {
             return;
+        }
 
         $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
 
-        $render = & Zikula_View::getInstance('Content', true);
-        if (!$render->is_cached('content_block_menu.html', $cacheId)) {
+        $view = Zikula_View::getInstance('Content', true);
+        if (!$view->is_cached('content_block_menu.html', $cacheId)) {
             $vars = BlockUtil::varsFromContent($blockinfo['content']);
-            if (!isset($vars['root']))
+            if (!isset($vars['root'])) {
                 $vars['root'] = 0;
+            }
 
             $options = array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array());
-            if ($vars['root'] > 0)
+            if ($vars['root'] > 0) {
                 $options['filter']['superParentId'] = $vars['root'];
+            }
 
             $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
-
-            if ($pages === false)
+            if ($pages === false) {
                 return false;
+            }
 
-            if ($vars['root'] > 0)
-                $render->assign(reset($pages));
-            else
-                $render->assign('subPages', $pages);
+            if ($vars['root'] > 0) {
+                $view->assign(reset($pages));
+            } else {
+                $view->assign('subPages', $pages);
+            }
         }
-        $blockinfo['content'] = $render->fetch('content_block_menu.html', $cacheId);
+        $blockinfo['content'] = $view->fetch('content_block_menu.html', $cacheId);
         return BlockUtil::themeBlock($blockinfo);
     }
 
@@ -68,8 +72,8 @@ class Content_Block_Menu extends Zikula_Block
         $dom = ZLanguage::getModuleDomain('Content');
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
 
-        $render = & Zikula_View::getInstance('Content', false);
-        $render->assign($vars);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign($vars);
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
         $pidItems = array();
@@ -80,16 +84,15 @@ class Content_Block_Menu extends Zikula_Block
 
         }
 
-        $render->assign('pidItems', $pidItems);
+        $view->assign('pidItems', $pidItems);
 
-        return $render->fetch('content_block_menu_modify.html');
+        return $view->fetch('content_block_menu_modify.html');
     }
 
     public function update($blockinfo)
     {
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
         $vars['root'] = FormUtil::getPassedValue('root', 0, 'POST');
-
         $blockinfo['content'] = BlockUtil::varsToContent($vars);
 
         return $blockinfo;

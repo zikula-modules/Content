@@ -4,7 +4,7 @@
  * Base class for content plugins
  *
  * You must add a constructor taking an array of the plugin's data. This array
- * corresponds to what is return by pnFormRender::pnFormGetValues() when user
+ * corresponds to what is return by Form_View::getValues() when user
  * has submitted data after editing plugin. The constructor should initialize
  * object data based on the input.
  */
@@ -196,7 +196,7 @@ class contentTypeBase
     }
 
     /**
-     * Get array containing default data similar to what is returned by pnFormRender::pnFormGetValues()
+     * Get array containing default data similar to what is returned by Form_View::getValues()
      * @return array
      */
     public function getDefaultData()
@@ -208,15 +208,15 @@ class contentTypeBase
      * Event handler called when plugin is loaded for use in editing window
      *
      * Can be used to include JavaScript using PageUtil::addVar() or assign
-     * values to the render using $render->assign().
+     * values to the render using $view->assign().
      * @return nothing
      */
-    public function startEditing(&$render)
+    public function startEditing(&$view)
     {
     }
 
     /* UNUSED ??? */
-    public function handleSomethingChanged(&$render, $data)
+    public function handleSomethingChanged(&$view, $data)
     {
     }
 

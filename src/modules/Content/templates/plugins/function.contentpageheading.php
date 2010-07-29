@@ -8,19 +8,21 @@
  * @license See license.txt
  */
 
-function smarty_function_contentpageheading($params, &$render) 
+function smarty_function_contentpageheading($params, &$view) 
 {
     $html = '<div class="content-page-heading"><h2>' . ($params['header']) . "</h2>\n";
 
-    if (array_key_exists('subheader', $params))
+    if (array_key_exists('subheader', $params)) {
         $html .= "<h3>$params[subheader]</h3>\n";
-    else
+    } else {
         $html .= "<h3>&nbsp;</h3>\n";
+    }
 
     $html .= "</div>\n";
 
-    if (array_key_exists('assign', $params))
+    if (array_key_exists('assign', $params)) {
         $smarty->assign($params['assign'], $html);
-    else
+    } else {
         return $html;
+    }
 }

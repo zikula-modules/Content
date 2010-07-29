@@ -8,38 +8,35 @@
  * @license See license.txt
  */
 
-function smarty_function_contentmenu($params, &$render)
+function smarty_function_contentmenu($params, &$view)
 {
-  $pages = $params['pages'];
+    $pages = $params['pages'];
+    $html = smarty_function_contentmenurec($pages);
 
-  $html = smarty_function_contentmenurec($pages);
-
-  if (isset($params['assign']))
-    $smarty->assign($params['assign'], $html);
-  else
-    return $html;
+    if (isset($params['assign'])) {
+        $smarty->assign($params['assign'], $html);
+    } else {
+        return $html;
+    }
 }
-
 
 function smarty_function_contentmenurec(&$pages)
 {
-  $html = '';
+    $html = '';
 
-  if (count($pages) > 0)
-  {
-    $html .= '<ul>';
-    foreach ($pages as $page)
-    {
-      $html .= '<li>';
-      $url = ModUtil::url('Content', 'user', 'view',
-                      array('pid' => $page['id']));
-      $url = DataUtil::formatForDisplay($url);
-      $html .= "<a href=\"$url\">$page[title]</a>";
-      $html .= smarty_function_contentmenurec($page['subPages']);
-      $html .= '</li>';
+    if (count($pages) > 0) {
+        $html .= '<ul>';
+        foreach ($pages as $page) {
+            $html .= '<li>';
+            $url = ModUtil::url('Content', 'user', 'view',
+            array('pid' => $page['id']));
+            $url = DataUtil::formatForDisplay($url);
+            $html .= "<a href=\"$url\">$page[title]</a>";
+            $html .= smarty_function_contentmenurec($page['subPages']);
+            $html .= '</li>';
+        }
+        $html .= '</ul>';
     }
-    $html .= '</ul>';
-  }
 
-  return $html;
+    return $html;
 }

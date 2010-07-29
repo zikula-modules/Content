@@ -26,7 +26,6 @@ class Content_Api_Page extends Zikula_Api
      */
     public function getPage($args)
     {
-
         if (!isset($args['filter']) || !is_array($args['filter']))
             $args['filter'] = array();
         $args['filter']['pageId'] = $args['id'];
@@ -84,15 +83,15 @@ class Content_Api_Page extends Zikula_Api
         $includeVersionNo = (array_key_exists('includeVersionNo', $args) ? $args['includeVersionNo'] : false);
         $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
-        $pageCategoryTable = $pntable['content_pagecategory'];
-        $pageCategoryColumn = $pntable['content_pagecategory_column'];
-        $translatedTable = $pntable['content_translatedpage'];
-        $translatedColumn = $pntable['content_translatedpage_column'];
-        $userTable = $pntable['users'];
-        $userColumn = $pntable['users_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
+        $pageCategoryTable = $dbtables['content_pagecategory'];
+        $pageCategoryColumn = $dbtables['content_pagecategory_column'];
+        $translatedTable = $dbtables['content_translatedpage'];
+        $translatedColumn = $dbtables['content_translatedpage_column'];
+        $userTable = $dbtables['users'];
+        $userColumn = $dbtables['users_column'];
 
         $restrictions = array();
         $join = '';
@@ -132,7 +131,6 @@ LEFT JOIN $userTable usr
                 $orderBy";
 
         //echo "<pre>$sql</pre>";
-
 
         if ($pageSize > 0)
             $dbresult = DBUtil::executeSQL($sql, $pageSize * $pageIndex, $pageSize);
@@ -203,11 +201,11 @@ LEFT JOIN $userTable usr
     {
         $filter = isset($args['filter']) ? $args['filter'] : array();
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
-        $pageCategoryTable = $pntable['content_pagecategory'];
-        $pageCategoryColumn = $pntable['content_pagecategory_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
+        $pageCategoryTable = $dbtables['content_pagecategory'];
+        $pageCategoryColumn = $dbtables['content_pagecategory_column'];
 
         $restrictions = array();
         $join = '';
@@ -246,11 +244,11 @@ FROM $pageTable
      */
     protected function contentGetPageListRestrictions($filter, &$restrictions, &$join)
     {
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
-        $pageCategoryTable = $pntable['content_pagecategory'];
-        $pageCategoryColumn = $pntable['content_pagecategory_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
+        $pageCategoryTable = $dbtables['content_pagecategory'];
+        $pageCategoryColumn = $dbtables['content_pagecategory_column'];
 
         if (!empty($filter['category'])) {
             $c = (int) $filter['category'];
@@ -313,7 +311,6 @@ NOT EXISTS (SELECT 1 FROM $pageTable parentPage
             $page = $pages[$i];
             //echo "($page[id]: $level, $i, $page[level]) ";
 
-
             if ($page['level'] == $level) {
                 //echo "Append ";
                 $page['subPages'] = array();
@@ -354,7 +351,6 @@ function dumpTree($pages)
 
     public function newPage($args)
     {
-
         $pageData = $args['page'];
         $pageId = (int) $args['pageId'];
         $location = $args['location'];
@@ -413,7 +409,6 @@ function dumpTree($pages)
 
     public function updatePage($args)
     {
-
         $pageData = $args['page'];
         $pageId = (int) $args['pageId'];
         $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : '_CONTENT_HISTORYPAGEUPDATED' /* delayed translation */);
@@ -456,9 +451,9 @@ function dumpTree($pages)
         $oldLayout = ModUtil::apiFunc('Content', 'layout', 'getLayoutPlugin', array('layout' => $oldLayoutName));
         $newLayout = ModUtil::apiFunc('Content', 'layout', 'getLayoutPlugin', array('layout' => $newLayoutName));
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $dbtables = DBUtil::getTables();
+        $contentTable = $dbtables['content_content'];
+        $contentColumn = $dbtables['content_content_column'];
 
         for ($i = $newLayout->getNumberOfContentAreas(); $i < $oldLayout->getNumberOfContentAreas(); ++$i) {
             $sql = "
@@ -490,9 +485,9 @@ WHERE $contentColumn[pageId] = $pageId
     protected function contentUpdatePageRelations($pageId, $pageData)
     {
         if (isset($pageData['categories'])) {
-            $pntable = DBUtil::getTables();
-            $pageCategoryTable = $pntable['content_pagecategory'];
-            $pageCategoryColumn = $pntable['content_pagecategory_column'];
+            $dbtables = DBUtil::getTables();
+            $pageCategoryTable = $dbtables['content_pagecategory'];
+            $pageCategoryColumn = $dbtables['content_pagecategory_column'];
             $pageId = (int) $pageId;
 
             $this->contentDeletePageRelations($pageId);
@@ -513,9 +508,9 @@ VALUES
 
     protected function contentDeletePageRelations($pageId)
     {
-        $pntable = DBUtil::getTables();
-        $pageCategoryTable = $pntable['content_pagecategory'];
-        $pageCategoryColumn = $pntable['content_pagecategory_column'];
+        $dbtables = DBUtil::getTables();
+        $pageCategoryTable = $dbtables['content_pagecategory'];
+        $pageCategoryColumn = $dbtables['content_pagecategory_column'];
         $pageId = (int) $pageId;
 
         $sql = "
@@ -529,9 +524,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
 
     protected function contentGetPageCategories($pageId)
     {
-        $pntable = DBUtil::getTables();
-        $pageCategoryTable = $pntable['content_pagecategory'];
-        $pageCategoryColumn = $pntable['content_pagecategory_column'];
+        $dbtables = DBUtil::getTables();
+        $pageCategoryTable = $dbtables['content_pagecategory'];
+        $pageCategoryColumn = $dbtables['content_pagecategory_column'];
         $pageId = (int) $pageId;
 
         $sql = "
@@ -560,9 +555,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $translated = $args['translated'];
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
-        $pntable = DBUtil::getTables();
-        $translatedTable = $pntable['content_translatedpage'];
-        $translatedColumn = $pntable['content_translatedpage_column'];
+        $dbtables = DBUtil::getTables();
+        $translatedTable = $dbtables['content_translatedpage'];
+        $translatedColumn = $dbtables['content_translatedpage_column'];
 
         // Delete optional existing translation
         $where = "$translatedColumn[pageId] = $pageId AND $translatedColumn[language] = '$language'";
@@ -584,13 +579,12 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
 
     public function deleteTranslation($args)
     {
-
         $pageId = (int) $args['pageId'];
         $language = isset($args['language']) ? $args['language'] : null;
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
-        $pntable = DBUtil::getTables();
-        $translatedColumn = $pntable['content_translatedpage_column'];
+        $dbtables = DBUtil::getTables();
+        $translatedColumn = $dbtables['content_translatedpage_column'];
 
         // Delete existing translation
         if ($language != null)
@@ -618,9 +612,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     {
         $pageId = (int) $args['pageId'];
 
-        $pntable = DBUtil::getTables();
-        $translatedTable = $pntable['content_translatedpage'];
-        $translatedColumn = $pntable['content_translatedpage_column'];
+        $dbtables = DBUtil::getTables();
+        $translatedTable = $dbtables['content_translatedpage'];
+        $translatedColumn = $dbtables['content_translatedpage_column'];
 
         $where = "$translatedColumn[pageId] = $pageId";
         $translations = DBUtil::selectObjectArray('content_translatedpage', $where);
@@ -646,9 +640,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
 
         $pageData = DBUtil::selectObjectByID('content_page', $pageId);
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         // Delete by left/right before updating left/right for remaining pages
         // Do not delete "this" in order to "removePage" to work
@@ -683,9 +677,9 @@ WHERE     $pageColumn[setLeft] > $pageData[setLeft]
     {
         $pageId = (int) $pageId;
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
 SELECT MAX($pageColumn[position])
@@ -700,9 +694,9 @@ WHERE $pageColumn[parentPageId] = $pageId";
     {
         $pageId = (int) $pageId;
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
 SELECT MAX(page.$pageColumn[position])
@@ -721,19 +715,19 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         $level = -1;
 
         $dbconn = DBConnectionStack::getConnection();
-        $pntable = DBUtil::getTables();
+        $dbtables = DBUtil::getTables();
 
-        $ok = $this->contentUpdateNestedSetValues_Rec(0, $level, $count, $dbconn, $pntable);
+        $ok = $this->contentUpdateNestedSetValues_Rec(0, $level, $count, $dbconn, $dbtables);
 
         return $ok;
     }
 
-    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count, &$dbconn, &$pntable)
+    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count, &$dbconn, &$dbtables)
     {
         $pageId = (int) $pageId;
 
-        $pageTable = $pntable['content_page'];
-        $pageColumn = &$pntable['content_page_column'];
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = &$dbtables['content_page_column'];
 
         $left = $count++;
 
@@ -747,7 +741,7 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         for (; !$dbresult->EOF; $dbresult->MoveNext()) {
             $subPageId = $dbresult->fields[0];
 
-            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count, $dbconn, $pntable);
+            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count, $dbconn, $dbtables);
         }
 
         $right = $count++;
@@ -765,7 +759,6 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
 
     public function drag($args)
     {
-
         $srcId = (int) $args['srcId'];
         $dstId = (int) $args['dstId'];
 
@@ -802,7 +795,6 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
 
     public function increaseIndent($args)
     {
-
         $pageId = (int) $args['pageId'];
 
         $page = DBUtil::selectObjectByID('content_page', $pageId);
@@ -814,9 +806,9 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         $parentPageId = $page['parentPageId'];
         $position = $page['position'];
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $where = "
                 $pageColumn[parentPageId] = $parentPageId
@@ -866,9 +858,9 @@ WHERE $pageColumn[parentPageId] = $previousPage[id]";
 
         $pageData = DBUtil::selectObjectByID('content_page', $id);
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
 UPDATE $pageTable
@@ -917,9 +909,9 @@ WHERE $pageColumn[setRight] > $pageData[setRight]";
         $position = (int) $args['position'];
         $parentPageId = (int) $args['parentPageId'];
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
 UPDATE $pageTable
@@ -1067,17 +1059,16 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
      */
     public function getURLPath($args)
     {
-
         // Argument check
         if (!isset($args['pageId']))
             return LogUtil::registerArgsError();
 
         $pageId = (int) $args['pageId'];
 
-        $pntable = DBUtil::getTables();
+        $dbtables = DBUtil::getTables();
 
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $sql = "SELECT parentPage.$pageColumn[urlname]
           FROM $pageTable parentPage
@@ -1127,10 +1118,10 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
             $urlname = substr($urlname, 0, -1);
         $parts = explode('/', $urlname);
 
-        $pntable = DBUtil::getTables();
+        $dbtables = DBUtil::getTables();
 
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $tables = array();
         $parent = array();
@@ -1147,18 +1138,24 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $parentsql = implode("\nAND ", $parent);
 
         $lastelement = $count - 1;
-        $sql = "SELECT    tbl$lastelement.$pageColumn[id]
-          FROM      $tablesql
-          WHERE     tbl0.$pageColumn[parentPageId] = 0
-                AND $parentsql";
+        $sql = "SELECT tbl$lastelement.$pageColumn[id]
+          FROM $tablesql
+          WHERE tbl0.$pageColumn[parentPageId] = 0
+          AND $parentsql";
 
         $result = DBUtil::executeSQL($sql);
-
         $pageId = null;
         for (; !$result->EOF; $result->MoveNext()) {
             $pageId = reset($result->fields);
         }
-
+/*
+        $result = DBUtil::executeSQL($sql);
+        $objectArray = DBUtil::marshallObjects($result);
+        $pageId = null;
+        foreach ($objectArray as $object) {
+            $pageId = reset($object);
+        }
+*/        
         return $pageId;
     }
 
@@ -1170,10 +1167,10 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
 
         $pageId = (int) $args['pageId'];
 
-        $pntable = DBUtil::getTables();
+        $dbtables = DBUtil::getTables();
 
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
 
         $sql = "SELECT parentPage.$pageColumn[id],
                  parentPage.$pageColumn[title]
@@ -1185,16 +1182,25 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
           ORDER BY parentPage.$pageColumn[setLeft]";
 
         $result = DBUtil::executeSQL($sql);
-
-        if (!$result)
+        if (!$result) {
             return LogUtil::registerError($this->__('Error! Could not load items.'));
-
+        }
         $path = array();
         for (; !$result->EOF; $result->MoveNext()) {
             $path[] = array('id' => $result->fields[0], 'title' => DataUtil::formatForDisplay($result->fields[1]));
         }
 
-
+/*
+        $result = DBUtil::executeSQL($sql);
+        if (!$result) {
+            return LogUtil::registerError($this->__('Error! Could not load items.'));
+        }
+        $objectArray = DBUtil::marshallObjects($result);
+        $path = array();
+        foreach ($objectArray as $object) {
+            $path[] = array('id' => $object[0], 'title' => DataUtil::formatForDisplay($object[1]));
+        }
+*/        
         return $path;
     }
 }

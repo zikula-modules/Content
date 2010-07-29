@@ -1,8 +1,6 @@
 <?php
 
-
-
-function smarty_function_contentmoduleselector($params, &$render)
+function smarty_function_contentmoduleselector($params, &$view)
 {
-    return $render->registerPlugin('Content_Form_Plugin_ModuleSelector', $params);
+    return $view->registerPlugin('Content_Form_Plugin_ModuleSelector', $params);
 }

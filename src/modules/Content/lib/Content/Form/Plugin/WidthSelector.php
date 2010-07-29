@@ -1,14 +1,13 @@
 <?php
 
-class Content_Form_Plugin_WidthSelector extends pnFormDropdownList
+class Content_Form_Plugin_WidthSelector extends Form_Plugin_DropdownList
 {
     function getFilename()
     {
         return __FILE__;
     }
 
-
-    function load(&$render, $params)
+    function load($view, &$params)
     {
         $this->addItem('auto', 'wauto');
         $this->addItem('1/1', 'w100');
@@ -17,6 +16,6 @@ class Content_Form_Plugin_WidthSelector extends pnFormDropdownList
         $this->addItem('1/2', 'w50');
         $this->addItem('1/3', 'w33');
         $this->addItem('1/4', 'w25');
-        parent::load($render, $params);
+        parent::load($view, $params);
     }
 }

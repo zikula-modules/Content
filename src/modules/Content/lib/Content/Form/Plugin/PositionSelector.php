@@ -1,41 +1,34 @@
 <?php
 
-class Content_Form_Plugin_PositionSelector extends pnFormPlugin
+class Content_Form_Plugin_PositionSelector extends Form_Plugin
 {
     var $inputName;
-
     var $dataBased;
     var $dataField;
     var $group;
     var $value;
-
 
     function getFilename()
     {
         return __FILE__;
     }
 
-
-    function create(&$render, $params)
+    function create($view, &$params)
     {
         $this->inputName = $this->id;
-
         $this->dataBased = (array_key_exists('dataBased', $params) ? $params['dataBased'] : true);
         $this->dataField = (array_key_exists('dataField', $params) ? $params['dataField'] : $this->id);
     }
 
-
-    function load(&$render, &$params)
+    function load($view, &$params)
     {
-        $this->loadValue($render, $render->get_template_vars());
+        $this->loadValue($view, $view->get_template_vars());
     }
 
-
-    function render(&$render)
+    function render($view)
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $nameHtml = " name=\"{$this->inputName}\"";
-
         $nnChecked = ($this->value == 'none' ? ' checked="checked"' : '');
         $abChecked = ($this->value == 'above' ? ' checked="checked"' : '');
         $tlChecked = ($this->value == 'topLeft' ? ' checked="checked"' : '');
@@ -43,8 +36,9 @@ class Content_Form_Plugin_PositionSelector extends pnFormPlugin
         $alChecked = ($this->value == 'aboveLeft' ? ' checked="checked"' : '');
         $arChecked = ($this->value == 'aboveRight' ? ' checked="checked"' : '');
 
-        if (empty($nnChecked) && empty($abChecked) && empty($tlChecked) && empty($trChecked) && empty($alChecked) && empty($arChecked))
+        if (empty($nnChecked) && empty($abChecked) && empty($tlChecked) && empty($trChecked) && empty($alChecked) && empty($arChecked)) {
             $nnChecked = ' checked="checked"';
+        }
 
         $html = "<ul id=\"{$this->id}\" class=\"contentPositionSelector\">";
         $html .= "
@@ -82,49 +76,39 @@ class Content_Form_Plugin_PositionSelector extends pnFormPlugin
         return $html;
     }
 
-
-    function decode(&$render)
+    function decode($view)
     {
         $this->value = FormUtil::getPassedValue($this->inputName, null, 'POST');
-        if (get_magic_quotes_gpc())
+        if (get_magic_quotes_gpc()) {
             $this->value = stripslashes($this->value);
+        }
     }
 
-
-    function saveValue(&$render, &$data)
+    function saveValue($view, &$data)
     {
-        if ($this->dataBased)
-        {
-            if ($this->group == null)
-            {
+        if ($this->dataBased) {
+            if ($this->group == null) {
                 $data[$this->dataField] = $this->value;
-            }
-            else
-            {
-                if (!array_key_exists($this->group, $data))
+            } else {
+                if (!array_key_exists($this->group, $data)) {
                     $data[$this->group] = array();
+                }
                 $data[$this->group][$this->dataField] = $this->value;
             }
         }
     }
 
-
-    function loadValue(&$render, &$values)
+    function loadValue($view, &$values)
     {
-        if ($this->dataBased)
-        {
-            if ($this->group == null)
-            {
-                if ($this->dataField != null  &&  isset($values[$this->dataField]))
+        if ($this->dataBased) {
+            if ($this->group == null) {
+                if ($this->dataField != null  &&  isset($values[$this->dataField])) {
                     $this->value = $values[$this->dataField];
-            }
-            else
-            {
-                if (isset($values[$this->group]))
-                {
+                }
+            } else {
+                if (isset($values[$this->group])) {
                     $data = $values[$this->group];
-                    if (isset($data[$this->dataField]))
-                    {
+                    if (isset($data[$this->dataField])) {
                         $this->value = $data[$this->dataField];
                     }
                 }

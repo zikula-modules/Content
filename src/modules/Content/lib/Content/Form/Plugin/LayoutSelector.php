@@ -1,7 +1,8 @@
 <?php
-class Content_Form_Plugin_LayoutSelector extends pnFormDropdownList
+
+class Content_Form_Plugin_LayoutSelector extends Form_Plugin_DropdownList
 {
-    function load(&$render, $params)
+    function load($view, &$params)
     {
         // get all layouts if needed
         if (array_key_exists('layouts', $params)) {
@@ -12,11 +13,10 @@ class Content_Form_Plugin_LayoutSelector extends pnFormDropdownList
                 return false;
             }
         }
-        foreach ($layouts as $layout)
-        {
+        foreach ($layouts as $layout) {
             $this->addItem($layout['title'], $layout['name'], $layout['image']);
         }
-        parent::load($render, $params);
+        parent::load($view, $params);
     }
     
     /**

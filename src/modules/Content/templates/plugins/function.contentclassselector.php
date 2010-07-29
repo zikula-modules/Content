@@ -1,7 +1,7 @@
 <?php
 
 
-function smarty_function_contentclassselector($params, &$render)
+function smarty_function_contentclassselector($params, &$view)
 {
-    return $render->registerPlugin('Content_Form_Plugin_ClassSelector', $params);
+    return $view->registerPlugin('Content_Form_Plugin_ClassSelector', $params);
 }
