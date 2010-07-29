@@ -32,30 +32,41 @@ function content_menublock_info()
 function content_menublock_display($blockinfo)
 {
     // security check
-    if (!SecurityUtil::checkPermission('content:menublock:', "$blockinfo[title]::", ACCESS_READ))
+    if (!SecurityUtil::checkPermission('content:menublock:', "$blockinfo[title]::", ACCESS_READ)) {
         return;
+    }
 
-    $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
+    // Break out options from our content field
+    $vars = pnBlockVarsFromContent($blockinfo['content']);
+    // --- Setting of the Defaults
+    if (!isset($vars['usecaching'])) {
+        $vars['usecaching'] = true;
+    }
+    if (!isset($vars['root'])) {
+        $vars['root'] = 0;
+    }
 
-    $render = & pnRender::getInstance('content', true);
-    if (!$render->is_cached('content_block_menu.html', $cacheId)) {
-        $vars = pnBlockVarsFromContent($blockinfo['content']);
-        if (!isset($vars['root']))
-            $vars['root'] = 0;
-
+    if ($vars['usecaching']) {
+        $render = & pnRender::getInstance('content', true);
+        $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
+    } else {
+        $render = & pnRender::getInstance('content', false);
+        $cacheId = null;
+    }
+    if (!$vars['usecaching'] || ($vars['usecaching'] && !$render->is_cached('content_block_menu.html', $cacheId))) {
         $options = array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array());
-        if ($vars['root'] > 0)
+        if ($vars['root'] > 0) {
             $options['filter']['superParentId'] = $vars['root'];
-
+        }
         $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
-
-        if ($pages === false)
+        if ($pages === false) {
             return false;
-
-        if ($vars['root'] > 0)
+        }
+        if ($vars['root'] > 0) {
             $render->assign(reset($pages));
-        else
+        } else {
             $render->assign('subPages', $pages);
+        }
     }
     $blockinfo['content'] = $render->fetch('content_block_menu.html', $cacheId);
     return pnBlockThemeBlock($blockinfo);
@@ -65,9 +76,13 @@ function content_menublock_modify($blockinfo)
 {
     $dom = ZLanguage::getModuleDomain('content');
     $vars = pnBlockVarsFromContent($blockinfo['content']);
+    if (!isset($vars['usecaching'])) {
+        $vars['usecaching'] = true;
+    }
 
     $render = & pnRender::getInstance('content', false);
     $render->assign($vars);
+    $render->assign('dom', $dom);
 
     $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
     $pidItems = array();
@@ -75,9 +90,7 @@ function content_menublock_modify($blockinfo)
 
     foreach ($pages as $page) {
         $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
-
     }
-
     $render->assign('pidItems', $pidItems);
 
     return $render->fetch('content_block_menu_modify.html');
@@ -87,13 +100,13 @@ function content_menublock_update($blockinfo)
 {
     $vars = pnBlockVarsFromContent($blockinfo['content']);
     $vars['root'] = FormUtil::getPassedValue('root', 0, 'POST');
+    $vars['usecaching'] = (bool)FormUtil::getPassedValue('usecaching', false, 'POST');
 
     $blockinfo['content'] = pnBlockVarsToContent($vars);
 
     // clear the block cache
-    //$pnRender = & pnRender::getInstance('News');
-    //$pnRender->clear_cache('news_block_stories.htm');
-
+    $render = & pnRender::getInstance('content', false);
+    $render->clear_cache('content_block_menu.html');
 
     return $blockinfo;
 }
