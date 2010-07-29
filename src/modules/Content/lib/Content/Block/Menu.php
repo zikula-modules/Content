@@ -37,16 +37,25 @@ class Content_Block_Menu extends Zikula_Block
         if (!SecurityUtil::checkPermission('Content:menublock:', "$blockinfo[title]::", ACCESS_READ)) {
             return;
         }
-
-        $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
-
-        $view = Zikula_View::getInstance('Content', true);
-        if (!$view->is_cached('content_block_menu.html', $cacheId)) {
-            $vars = BlockUtil::varsFromContent($blockinfo['content']);
-            if (!isset($vars['root'])) {
-                $vars['root'] = 0;
-            }
-
+        
+        // Break out options from our content field
+        $vars = BlockUtil::varsFromContent($blockinfo['content']);
+        // --- Setting of the Defaults
+        if (!isset($vars['usecaching'])) {
+            $vars['usecaching'] = true;
+        }
+        if (!isset($vars['root'])) {
+            $vars['root'] = 0;
+        }
+        
+        if ($vars['usecaching']) {
+            $view = Zikula_View::getInstance('Content', true);
+            $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
+        } else {
+            $view = Zikula_View::getInstance('Content', false);
+            $cacheId = null;
+        }
+        if (!$vars['usecaching'] || ($vars['usecaching'] && !$view->is_cached('content_block_menu.html', $cacheId))) {
             $options = array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array());
             if ($vars['root'] > 0) {
                 $options['filter']['superParentId'] = $vars['root'];
@@ -71,9 +80,13 @@ class Content_Block_Menu extends Zikula_Block
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
+        if (!isset($vars['usecaching'])) {
+            $vars['usecaching'] = true;
+        }
 
         $view = Zikula_View::getInstance('Content', false);
         $view->assign($vars);
+        $view->assign('dom', $dom);
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
         $pidItems = array();
@@ -83,7 +96,6 @@ class Content_Block_Menu extends Zikula_Block
             $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
 
         }
-
         $view->assign('pidItems', $pidItems);
 
         return $view->fetch('content_block_menu_modify.html');
@@ -93,7 +105,12 @@ class Content_Block_Menu extends Zikula_Block
     {
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
         $vars['root'] = FormUtil::getPassedValue('root', 0, 'POST');
+        $vars['usecaching'] = (bool)FormUtil::getPassedValue('usecaching', false, 'POST');
         $blockinfo['content'] = BlockUtil::varsToContent($vars);
+
+        // clear the block cache
+        $view = Zikula_View::getInstance('Content', false);
+        $view->clear_cache('content_block_menu.html');
 
         return $blockinfo;
     }

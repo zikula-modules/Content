@@ -1,5 +1,5 @@
 <div class="z-formrow">
-    <label for="Content_root">{gt text="Include the following subpages" domain='module_content'}</label>
+    <label for="Content_root">{gt text="Include the following subpages" domain=$dom}</label>
     <select id="Content_root" name="root">
         {foreach from=$pidItems item=item}
         <option value="{$item.value}"{if $item.value eq $root} selected="selected"{/if}>
@@ -7,4 +7,9 @@
         </option>
         {/foreach}
     </select>
+</div>
+
+<div class="z-formrow">
+    <label for="Content_usecaching">{gt text="Use caching in the menu block" domain=$dom}</label>
+    <input id="Content_usecaching" type="checkbox" value="1" name="usecaching"{if $usecaching} checked="checked"{/if} />
 </div>
