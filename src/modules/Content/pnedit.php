@@ -4,7 +4,7 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id$
+ * @version $Id: pnedit.php 473 2010-07-22 15:30:00Z espaan $
  * @license See license.txt
  */
 
@@ -38,6 +38,7 @@ class content_edit_mainHandler extends pnFormHandler
         $render->assign('pages', $pages);
         $render->assign('multilingual', pnModGetVar(PN_CONFIG_MODULE, 'multilingual'));
         $render->assign('enableVersioning', pnModGetVar('content', 'enableVersioning'));
+        $render->assign('language', ZLanguage::getLanguageCode());
         contentAddAccess($render, null);
 
         return true;
@@ -152,6 +153,7 @@ class content_edit_newPageHandler extends pnFormHandler
         $render->assign('layouts', $layouts);
         $render->assign('page', $page);
         $render->assign('location', $this->location);
+
         if ($this->location == 'sub')
             $render->assign('locationLabel', __('Located below:', $dom));
         else
@@ -553,7 +555,7 @@ class content_edit_translatePageHandler extends pnFormHandler
             return $render->pnFormRegisterError(null);
 
         if ($this->language == $page['language'])
-            return $render->pnFormRegisterError(LogUtil::registerError(__("You should not translate item to same language as it's default language.", $dom)));
+            return $render->pnFormRegisterError(LogUtil::registerError(__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%s"). Change the current site language ("%s") to some other language on the <a href="%s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, pnModUrl('Settings', 'admin', 'multilingual')), $dom)));
 
     PageUtil::setVar('title', __("Translate page", $dom) . ' : ' . $page['title']);
 
@@ -645,49 +647,46 @@ function content_edit_translatepage($args)
 
 class content_edit_translateContentHandler extends pnFormHandler
 {
-  var $contentId;
-  var $pageId;
-  var $language;
-  var $backref;
+    var $contentId;
+    var $pageId;
+    var $language;
+    var $backref;
 
+    function content_edit_translateContentHandler($args)
+    {
+        $this->args = $args;
+    }
 
-  function content_edit_translateContentHandler($args)
-  {
-    $this->args = $args;
-  }
+    function initialize(&$render)
+    {
+        $this->contentId = (int)FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
+        $this->language = ZLanguage::getLanguageCode();
 
+        $content = pnModAPIFunc('content', 'content', 'getContent',
+                                array('id' => $this->contentId,
+                                      'language' => $this->language,
+                                      'translate' => false));
+        if ($content === false)
+          return $render->pnFormRegisterError(null);
 
-  function initialize(&$render)
-  {
-    $this->contentId = (int)FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
-    $this->language = ZLanguage::getLanguageCode();
+        $this->contentType = pnModAPIFunc('content', 'content', 'getContentType', $content);
+        if ($this->contentType === false)
+          return $render->pnFormRegisterError(null);
 
-    $content = pnModAPIFunc('content', 'content', 'getContent',
-                            array('id' => $this->contentId,
-                                  'language' => $this->language,
-                                  'translate' => false));
-    if ($content === false)
-      return $render->pnFormRegisterError(null);
+        $this->pageId = $content['pageId'];
 
-    $this->contentType = pnModAPIFunc('content', 'content', 'getContentType', $content);
-    if ($this->contentType === false)
-      return $render->pnFormRegisterError(null);
+        if (!contentHasPageEditAccess($this->pageId))
+          return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
-    $this->pageId = $content['pageId'];
+        $page = pnModAPIFunc('content', 'page', 'getPage',
+                             array('id' => $this->pageId,
+                                   'includeContent' => false,
+                                   'checkActive' => false));
+        if ($page === false)
+          return $render->pnFormRegisterError(null);
 
-    if (!contentHasPageEditAccess($this->pageId))
-      return $render->pnFormRegisterError(LogUtil::registerPermissionError());
-
-    $page = pnModAPIFunc('content', 'page', 'getPage',
-                         array('id' => $this->pageId,
-                               'includeContent' => false,
-                               'checkActive' => false));
-    if ($page === false)
-      return $render->pnFormRegisterError(null);
-
-    if ($this->language == $page['language'])
-      return $render->pnFormRegisterError(LogUtil::registerError(__("You should not translate item to same language as it's default language.", $dom)))
-        ;
+        if ($this->language == $page['language'])
+            return $render->pnFormRegisterError(LogUtil::registerError(__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%s"). Change the current site language ("%s") to some other language on the <a href="%s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, pnModUrl('Settings', 'admin', 'multilingual')), $dom)));
 
         $translationInfo = pnModAPIFunc('content', 'content', 'getTranslationInfo', array('contentId' => $this->contentId));
         if ($translationInfo === false)

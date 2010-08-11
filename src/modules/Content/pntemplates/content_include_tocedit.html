@@ -36,10 +36,9 @@
         <thead>
             <tr>
                 <th><!--[gt text="Page title [id]"]--></th>
-                <th><!--[gt text="Last updated"]--></th>
-                <th><!--[gt text="Created By"]--></th>
+                <th><!--[if $enableVersioning]--><!--[gt text="Last updated (revision)"]--><!--[else]--><!--[gt text="Last updated"]--><!--[/if]--></th>
+                <th><!--[gt text="Created"]--></th>
                 <!--[if $multilingual]--><th><!--[gt text="Language"]--></th><!--[/if]-->
-                <!--[if $multilingual]--><th><!--[gt text="Translated"]--></th><!--[/if]-->
             </tr>
         </thead>
         <tbody>
@@ -51,7 +50,7 @@
                         <!--[if $page.isExpanded]--><img src="modules/content/pnimages/page-expanded.gif" onclick="contentToggle(<!--[$page.id]-->)" alt="" class="clickable" /><!--[else]--><img src="modules/content/pnimages/page-collapsed.gif" onclick="contentToggle(<!--[$page.id]-->)" alt="" class="clickable" /><!--[/if]-->
                         <!--[else]-->
                         <img src="modules/content/pnimages/page-none.gif" alt="" />
-                        <!--[/if]-->
+                        <!--[/if]-->    
 
                         <!--[if $access.pageEditAllowed]-->
                         <!--[if $page.isInMenu]-->
@@ -61,16 +60,22 @@
                         <!--[/if]-->
                         <!--[/if]-->
 
-                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title]--> [<!--[$page.id]--><!--( <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->)-->]</a>&nbsp;<!--[if $access.pageEditAllowed]--><!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="images/icons/extrasmall/next.gif"]--><!--[/if]-->
+                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->">
+                            <!--[$page.title]--> [<!--[$page.id]--><!--[* <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->  *]-->]
+                        </a><!--[if $access.pageEditAllowed]-->&nbsp;<!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="images/icons/extrasmall/next.gif"]--><!--[/if]-->
                     </div>
                 </td>
-                <td><!--[$page.lu_date|pndate_format:datetimebrief]--> <!--[gt text="by %s" tag1=$updaterName|userprofilelink]--></td>
-                <td><!--[$page.uname|userprofilelink]--></td>
-                <!--[if $multilingual]--><td><!--[$page.language]--></td><!--[/if]-->
-                <!--[if $multilingual]--><td><!--[if $page.isTranslated]--><!--[gt text="yes"]--><!--[else]--><!--[gt text="no"]--><!--[/if]--></td><!--[/if]-->
+                <td><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datebrief tag2=$updaterName|userprofilelink]-->
+                    <!--[if $enableVersioning]-->
+                      <!--[pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo]-->
+                      (#<!--[$versionNo]-->)
+                    <!--[/if]-->
+                </td>
+                <td><!--[gt text="on $1%s by $2%s" tag1=$page.cr_date|pndate_format:datebrief tag2=$page.uname|userprofilelink]--></td>
+                <!--[if $multilingual]--><td><!--[if $page.isTranslated]--><!--[gt text="$1%s ($2%s original)" tag1=$language|getlanguagename tag2=$page.language|getlanguagename]--><!--[elseif $language neq $page.language]--><!--[gt text="%s original used" tag1=$page.language|getlanguagename]--><!--[else]--><!--[gt text="%s" tag1=$page.language|getlanguagename]--><!--[/if]--></td><!--[/if]-->
             </tr>
             <!--[foreachelse]-->
-            <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->5<!--[else]-->3<!--[/if]-->"><!--[gt text="No pages available."]--></td></tr>
+            <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->4<!--[else]-->3<!--[/if]-->"><!--[gt text="No pages available."]--></td></tr>
             <!--[/foreach]-->
         </tbody>
     </table>
