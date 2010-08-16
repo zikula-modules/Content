@@ -1,0 +1,73 @@
+
+<div class="content-openstreetmap">
+
+    <script type='text/javascript'>
+    /* <![CDATA[ */
+    var map;
+    var showPopupOnHover = false;
+    text = new Array("Informationen zur Karte anzeigen","Informationen zur Karte verstecken");
+
+
+    function drawmap() {
+        OpenLayers.Lang.setCode('de');
+
+        map = new OpenLayers.Map('map', {
+            projection: new OpenLayers.Projection("EPSG:900913"),
+            displayProjection: new OpenLayers.Projection("EPSG:4326"),
+            controls: [
+                new OpenLayers.Control.MousePosition(),
+                new OpenLayers.Control.Attribution(),
+                new OpenLayers.Control.ZoomPanel(),
+                new OpenLayers.Control.Navigation({'zoomWheelEnabled': false})
+            ],
+            maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34, 20037508.34, 20037508.34),
+            numZoomLevels: 18,
+            maxResolution: 156543,
+            units: 'meters'
+        });
+
+    // Position und Zoomstufe der Karte
+    var lat=<!--[$latitude|pnvarprephtmldisplay]-->;
+    var lon=<!--[$longitude|pnvarprephtmldisplay]-->;
+    var zoom=17;
+
+    checkForPermalink();
+
+    // Layer hinzufügen
+    layer_markers = new OpenLayers.Layer.Markers("Marker", { projection: new OpenLayers.Projection("EPSG:4326"),visibility: true, displayInLayerSwitcher: false });
+    layer_vectors = new OpenLayers.Layer.Vector("Zeichnungen", { displayInLayerSwitcher: false } );map.addLayer(layer_vectors);map.addLayer(layer_markers)
+    layers = new Array();
+
+    layer_layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
+    map.addLayer(layer_layerMapnik);
+
+    layers.push(new Array(layer_layerMapnik,'layer_layerMapnik'));
+    setLayer(0);
+
+    // An die richtige Stelle springen..
+    jumpTo(lon,lat,zoom);
+
+    // Benutzte Marker Icons hinzufügen..
+    icons = new Array();
+    icons[0] = new Array('http://openlayers.org/api/img/marker.png','21','25','0.5','1');
+
+    // Marker hinzufügen
+    addMarker(layer_markers,lon,lat,"<div><h4><!--[$text|pnvarprephtmldisplay]--></h4></div>",false,0);
+
+    geometries = new Array();
+
+    // Nochmal was..
+    jumpTo(lon, lat, zoom);
+
+    checkUtilVersion(4);
+    }
+
+    // draw map after page
+    Event.observe(window, 'load', drawmap);
+
+    /* ]]> */
+    </script>
+
+    <div class="openstreetmap<!--[$contentId]-->" id="map" style="width: 100%; height: 200px"></div>
+
+</div>
