@@ -1,16 +1,13 @@
 
 <div class="content-openstreetmap">
-
     <script type='text/javascript'>
-    /* <![CDATA[ */
+    //<![CDATA[
     var map;
     var showPopupOnHover = false;
-    text = new Array("Informationen zur Karte anzeigen","Informationen zur Karte verstecken");
-
+    text = new Array('<!--[gt text="Show information on the map"]-->','<!--[gt text="Hide information on the map"]-->');
 
     function drawmap() {
-        OpenLayers.Lang.setCode('de');
-
+        OpenLayers.Lang.setCode('<!--[$language]-->');
         map = new OpenLayers.Map('map', {
             projection: new OpenLayers.Projection("EPSG:900913"),
             displayProjection: new OpenLayers.Projection("EPSG:4326"),
@@ -26,16 +23,16 @@
             units: 'meters'
         });
 
-    // Position und Zoomstufe der Karte
-    var lat=<!--[$latitude|pnvarprephtmldisplay]-->;
-    var lon=<!--[$longitude|pnvarprephtmldisplay]-->;
+    // position and zoomlevel on the map
+    var lat=<!--[$latitude|pnvarprepfordisplay]-->;
+    var lon=<!--[$longitude|pnvarprepfordisplay]-->;
     var zoom=17;
 
     checkForPermalink();
 
-    // Layer hinzufügen
+    // add overlay layers
     layer_markers = new OpenLayers.Layer.Markers("Marker", { projection: new OpenLayers.Projection("EPSG:4326"),visibility: true, displayInLayerSwitcher: false });
-    layer_vectors = new OpenLayers.Layer.Vector("Zeichnungen", { displayInLayerSwitcher: false } );map.addLayer(layer_vectors);map.addLayer(layer_markers)
+    layer_vectors = new OpenLayers.Layer.Vector("Drawings", { displayInLayerSwitcher: false } );map.addLayer(layer_vectors);map.addLayer(layer_markers)
     layers = new Array();
 
     layer_layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
@@ -44,30 +41,27 @@
     layers.push(new Array(layer_layerMapnik,'layer_layerMapnik'));
     setLayer(0);
 
-    // An die richtige Stelle springen..
+    // jump to the correct location...
     jumpTo(lon,lat,zoom);
 
-    // Benutzte Marker Icons hinzufügen..
+    // add the used markers icons...
     icons = new Array();
     icons[0] = new Array('http://openlayers.org/api/img/marker.png','21','25','0.5','1');
 
-    // Marker hinzufügen
+    // add the marker
     addMarker(layer_markers,lon,lat,"<div><h4><!--[$text|pnvarprephtmldisplay]--></h4></div>",false,0);
 
     geometries = new Array();
-
-    // Nochmal was..
+    
+    // again a jump to location
     jumpTo(lon, lat, zoom);
-
     checkUtilVersion(4);
     }
 
     // draw map after page
     Event.observe(window, 'load', drawmap);
-
-    /* ]]> */
+    //]]>
     </script>
 
-    <div class="openstreetmap<!--[$contentId]-->" id="map" style="width: 100%; height: 200px"></div>
-
+    <div class="openstreetmap<!--[$contentId]-->" id="map" style="width: 100%; height: <!--[$height]-->px"></div>
 </div>

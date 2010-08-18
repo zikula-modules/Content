@@ -1,9 +1,8 @@
 <script type='text/javascript'>
-/* <![CDATA[ */
-
+    //<![CDATA[
     var map;
     function drawmap() {
-        OpenLayers.Lang.setCode('de');
+        OpenLayers.Lang.setCode('<!--[$language]-->');
         map = new OpenLayers.Map('map', {
             projection: new OpenLayers.Projection("EPSG:900913"),
             displayProjection: new OpenLayers.Projection("EPSG:4326"),
@@ -29,7 +28,6 @@
         zoom = 6;
         jumpTo(lon,lat,zoom);
 
-
         // add click events
         var click = new OpenLayers.Control.Click();
         map.addControl(click);
@@ -37,76 +35,79 @@
     }
 
     OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
-                defaultHandlerOptions: {
-                    'single': true,
-                    'double': false,
-                    'pixelTolerance': 0,
-                    'stopSingle': false,
-                    'stopDouble': false
-                },
+        defaultHandlerOptions: {
+            'single': true,
+            'double': false,
+            'pixelTolerance': 0,
+            'stopSingle': false,
+            'stopDouble': false
+        },
 
-                initialize: function(options) {
-                    this.handlerOptions = OpenLayers.Util.extend(
-                        {}, this.defaultHandlerOptions
-                    );
-                    OpenLayers.Control.prototype.initialize.apply(
-                        this, arguments
-                    ); 
-                    this.handler = new OpenLayers.Handler.Click(
-                        this, {
-                            'click': this.trigger
-                        }, this.handlerOptions
-                    );
-                }, 
+        initialize: function(options) {
+            this.handlerOptions = OpenLayers.Util.extend(
+                {}, this.defaultHandlerOptions
+            );
+            OpenLayers.Control.prototype.initialize.apply(
+                this, arguments
+            ); 
+            this.handler = new OpenLayers.Handler.Click(
+                this, {
+                    'click': this.trigger
+                }, this.handlerOptions
+            );
+        }, 
 
-                trigger: function(e) {
-                    // get coordinates and zoom level
-                    var lonlat = map.getLonLatFromViewPortPx(e.xy).transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-                    var zoom = map.getZoom();
+        trigger: function(e) {
+            // get coordinates and zoom level
+            var lonlat = map.getLonLatFromViewPortPx(e.xy).transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
+            var zoom = map.getZoom();
 
-                    // set form values
-                    document.getElementById('latitude').value = lonlat.lat;
-                    document.getElementById('longitude').value = lonlat.lon;
-                    document.getElementById('zoom').value = zoom;
+            // set form values
+            document.getElementById('latitude').value = lonlat.lat;
+            document.getElementById('longitude').value = lonlat.lon;
+            document.getElementById('zoom').value = zoom;
 
-                    // set marker
-                    addMarker(layer_markers,lonlat.lon,lonlat.lat,"<div><h4>Click</h4></div>",false,0);
+            // set marker
+            addMarker(layer_markers,lonlat.lon,lonlat.lat,"<div><h4>Click</h4></div>",false,0);
 
-                    // jump to click position
-                    jumpTo(lonlat.lon,lonlat.lat,zoom);
-
-                }
-
-        });
-
-
-
-Event.observe(window, 'load', drawmap);
-
-/* ]]> */
+            // jump to click position
+            jumpTo(lonlat.lon,lonlat.lat,zoom);
+        }
+    });
+    Event.observe(window, 'load', drawmap);
+    //]]>
 </script>
 <div class="content-openstreetmap">
     <div class="openstreetmap" id="map" style="width: 100%; height: 350px"></div>
 </div>
 
-<p><!--[gt text="Select geographic position either by point and click or writing the position directly. You can drag the map with your mouse, and double-click to zoom and select position."]--></p>
-
-<div class="z-formrow">
-    <!--[pnformlabel for='longitude' __text='Longitude']-->
-    <!--[pnformtextinput id='longitude' group='data' mandatory='1' maxLength='30']-->
-</div>
+<p><!--[gt text="Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position."]--></p>
 
 <div class="z-formrow">
     <!--[pnformlabel for='latitude' __text='Latitude']-->
     <!--[pnformtextinput id='latitude' group='data' mandatory='1' maxLength='30']-->
+    <!--[contentlabelhelp __text='(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)']-->
+</div>
+
+<div class="z-formrow">
+    <!--[pnformlabel for='longitude' __text='Longitude']-->
+    <!--[pnformtextinput id='longitude' group='data' mandatory='1' maxLength='30']-->
+    <!--[contentlabelhelp __text='(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)']-->
 </div>
 
 <div class="z-formrow">
     <!--[pnformlabel for='zoom' __text='Zoom level']-->
     <!--[pnformtextinput id='zoom' group='data' mandatory='1' maxLength='2']-->
+    <!--[contentlabelhelp __text='(from 0 for the entire world to 21 for individual buildings)']-->
 </div>
 
 <div class="z-formrow">
-    <!--[pnformlabel for='text' __text='Description']-->
+    <!--[pnformlabel for='height' __text='Height of the displayed map in pixels']-->
+    <!--[pnformtextinput id='height' group='data' mandatory='1' maxLength='30']-->
+    <!--[contentlabelhelp __text='(below 350 pixels the navigation controls will be small)']-->
+</div>
+
+<div class="z-formrow">
+    <!--[pnformlabel for='text' __text='Description to be shown below the map']-->
     <!--[pnformtextinput id='text' group='data' maxLength='255']-->
 </div>
