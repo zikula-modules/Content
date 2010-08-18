@@ -13,7 +13,11 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     var $longitude;
     var $latitude;
     var $zoom;
+    var $height;
     var $text;
+    var $infotext;
+    var $streetviewcontrol;
+    var $directionslink;
 
     function getModule()
     {
@@ -36,7 +40,7 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     function getAdminInfo()
     {
         $dom = ZLanguage::getModuleDomain('Content');
-        return __('If you want to add Google maps to your content then you need a Google maps API key. You can get this from <a href="http://www.google.com/apis/maps/signup.html">google.com</a>.', $dom);
+        return __('If you want to add Google maps to your content then you need a Google maps API key. You can get this from <a href="http://code.google.com/apis/maps/signup.html">google.com</a>.', $dom);
     }
     function isTranslatable()
     {
@@ -55,20 +59,27 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
         $this->longitude = $data['longitude'];
         $this->latitude = $data['latitude'];
         $this->zoom = $data['zoom'];
+        $this->height = $data['height'];
         $this->text = $data['text'];
+        $this->infotext = $data['infotext'];
+        $this->streetviewcontrol = $data['streetviewcontrol'];
+        $this->directionslink = $data['directionslink'];
     }
     function display()
     {
-        $scripts = array('javascript/ajax/prototype.js', 'modules/Content/javascript/googlemap.js');
-        PageUtil::addVar('javascript', $scripts);
-
         $view = Zikula_View::getInstance('Content', false);
-        $view->assign('longitude', $this->longitude);
         $view->assign('latitude', $this->latitude);
+        $view->assign('longitude', $this->longitude);
         $view->assign('zoom', $this->zoom);
         $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $view->assign('googlemapApiKey', DataUtil::formatForDisplayHTML(ModUtil::getVar('Content', 'googlemapApiKey')));
+        $view->assign('text', $this->text);
+        $view->assign('height', $this->height);
+        $view->assign('infotext', $this->infotext);
+        $view->assign('streetviewcontrol', $this->streetviewcontrol);
+        $view->assign('directionslink', $this->directionslink);
+        $view->assign('googlemapApiKey', ModUtil::getVar('Content', 'googlemapApiKey'));
         $view->assign('contentId', $this->contentId);
+        $view->assign('language', ZLanguage::getLanguageCode());
 
         return $view->fetch('contenttype/googlemap_view.html');
     }
@@ -78,13 +89,23 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     }
     function getDefaultData()
     {
-        return array('longitude' => '12.36185073852539', 'latitude' => '55.8756960390043', 'zoom' => 4, 'text' => '');
+        return array(
+            'longitude' => '12.36185073852539',
+            'latitude' => '55.8756960390043',
+            'zoom' => 5,
+            'height' => '400',
+            'text' => '',
+            'infotext' => '',
+            'streetviewcontrol' => false,
+            'directionslink' => false);
     }
     function startEditing(&$view)
     {
-        $scripts = array('javascript/ajax/prototype.js', 'modules/Content/javascript/googlemap.js');
-        PageUtil::addVar('javascript', $scripts);
         $view->assign('googlemapApiKey', ModUtil::getVar('Content', 'googlemapApiKey'));
+        $view->assign('language', ZLanguage::getLanguageCode());
+        $view->assign('latitude', $this->latitude);
+        $view->assign('longitude', $this->longitude);
+        $view->assign('zoom', $this->zoom);
     }
     function getSearchableText()
     {
