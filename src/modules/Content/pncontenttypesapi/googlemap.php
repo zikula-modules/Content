@@ -4,7 +4,7 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id$
+ * @version $Id: googlemap.php 356 2010-01-04 14:43:31Z herr.vorragend $
  * @license See license.txt
  */
 
@@ -13,7 +13,11 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     var $longitude;
     var $latitude;
     var $zoom;
+    var $height;
     var $text;
+    var $infotext;
+    var $streetviewcontrol;
+    var $directionslink;
 
     function getModule()
     {
@@ -42,56 +46,63 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     {
         return true;
     }
-
     function isActive()
     {
         $apiKey = pnModGetVar('content', 'googlemapApiKey');
-        if (!empty($apiKey))
+        if (!empty($apiKey)) {
             return true;
+        }
         return false;
     }
-
     function loadData($data)
     {
         $this->longitude = $data['longitude'];
         $this->latitude = $data['latitude'];
         $this->zoom = $data['zoom'];
+        $this->height = $data['height'];
         $this->text = $data['text'];
+        $this->infotext = $data['infotext'];
+        $this->streetviewcontrol = $data['streetviewcontrol'];
+        $this->directionslink = $data['directionslink'];
     }
-
     function display()
     {
-        $scripts = array('javascript/ajax/prototype.js', 'modules/content/pnjavascript/googlemap.js');
-        PageUtil::addVar('javascript', $scripts);
-
         $render = & pnRender::getInstance('content', false);
         $render->assign('longitude', $this->longitude);
         $render->assign('latitude', $this->latitude);
         $render->assign('zoom', $this->zoom);
-        $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $render->assign('googlemapApiKey', DataUtil::formatForDisplayHTML(pnModGetVar('content', 'googlemapApiKey')));
+        $render->assign('height', $this->height);
+        $render->assign('text', $this->text);
+        $render->assign('infotext', $this->infotext);
+        $render->assign('streetviewcontrol', $this->streetviewcontrol);
+        $render->assign('directionslink', $this->directionslink);
+        $render->assign('googlemapApiKey', pnModGetVar('content', 'googlemapApiKey'));
         $render->assign('contentId', $this->contentId);
+        $render->assign('language', ZLanguage::getLanguageCode());
 
         return $render->fetch('contenttype/googlemap_view.html');
     }
-
     function displayEditing()
     {
         return DataUtil::formatForDisplay($this->text);
     }
-
     function getDefaultData()
     {
-        return array('longitude' => '12.36185073852539', 'latitude' => '55.8756960390043', 'zoom' => 4, 'text' => '');
+        return array(
+            'longitude' => '12.36185073852539',
+            'latitude' => '55.8756960390043',
+            'zoom' => 5,
+            'height' => '400',
+            'text' => '',
+            'infotext' => '',
+            'streetviewcontrol' => false,
+            'directionslink' => false);
     }
-
     function startEditing(&$render)
     {
-        $scripts = array('javascript/ajax/prototype.js', 'modules/content/pnjavascript/googlemap.js');
-        PageUtil::addVar('javascript', $scripts);
         $render->assign('googlemapApiKey', pnModGetVar('content', 'googlemapApiKey'));
+        $render->assign('language', ZLanguage::getLanguageCode());
     }
-
     function getSearchableText()
     {
         return html_entity_decode(strip_tags($this->text));
