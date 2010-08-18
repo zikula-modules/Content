@@ -246,6 +246,7 @@ class Content_Controller_User extends Zikula_Controller
 
         $view = Zikula_View::getInstance('Content');
         $view->assign('pages', $pages);
+        contentAddAccess($view, null);
 
         $tpl = FormUtil::getPassedValue('tpl', '', 'GET');
         if ($tpl == 'xml') {
