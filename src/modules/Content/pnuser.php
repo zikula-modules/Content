@@ -247,6 +247,7 @@ function content_user_sitemap($args)
 
     $render = & pnRender::getInstance('content');
     $render->assign('pages', $pages);
+    contentAddAccess($render, null);
 
     $tpl = FormUtil::getPassedValue('tpl', '', 'GET');
         if ($tpl == 'xml') {
