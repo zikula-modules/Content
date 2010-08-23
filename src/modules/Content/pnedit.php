@@ -219,10 +219,11 @@ class content_edit_editPageHandler extends pnFormHandler
             return $render->pnFormRegisterError(null);
 
         // load the category registry util
-        if (!Loader::loadClass('CategoryRegistryUtil'))
-            pn_exit('Unable to load class [CategoryRegistryUtil] ...');
-        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
-
+        Loader::loadClass('CategoryRegistryUtil');
+        //$mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+        // fallback to 30 == /__SYSTEM__/Modules/Global if property is not present
+        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', pnModGetVar('content', 'categoryPropPrimary'), 30);
+        $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', pnModGetVar('content', 'categoryPropSecondary'));
 
         $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
         if ($page['language'] == ZLanguage::getLanguageCode())
@@ -240,11 +241,13 @@ class content_edit_editPageHandler extends pnFormHandler
         $layoutTemplate = 'layout/' . $page['layoutData']['name'] . '_edit.html';
         $render->assign('layoutTemplate', $layoutTemplate);
         $render->assign('mainCategory', $mainCategory);
+        $render->assign('secondCategory', $secondCategory);
         $render->assign('page', $page);
         $render->assign('multilingual', $multilingual);
         $render->assign('layouts', $layouts);
         $render->assign('pagelayout', $pagelayout);
         $render->assign('enableVersioning', pnModGetVar('content', 'enableVersioning'));
+        $render->assign('categoryUsage', pnModGetVar('content', 'categoryUsage'));
         contentAddAccess($render, $this->pageId);
 
         if (!$render->pnFormIsPostBack() && FormUtil::getPassedValue('back', 0))

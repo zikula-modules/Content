@@ -66,9 +66,9 @@
         <!--[pnformtextinput id='title' mandatory='1' maxLength='255' group='page']-->
     </div>
     <div class="z-formrow">
-        <!--[pnformlabel for='urlname' __text='Permalink URL name']-->
+        <!--[pnformlabel for='urlname' __text='Permalink URL']-->
         <!--[pnformtextinput id='urlname' maxLength='255' group='page']-->
-        <!--[contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.']-->
+        <!--[contentlabelhelp __text='(Used in shorturl mode and generated automatically if left blank)']-->
     </div>
     <div class="z-formrow">
         <!--[pnformlabel for='language' __text='Page language']-->
@@ -99,7 +99,17 @@
     </div>
 </fieldset>
 
+<!--[if $categoryUsage lt 4]-->
 <fieldset>
+    <!--[if $categoryUsage eq 3]-->
+    <legend><!--[gt text="Category"]--></legend>
+    <div class="z-formrow">
+        <!--[pnformlabel for='categoryId' __text='Category']-->
+        <div>
+            <!--[pnformcategoryselector id='categoryId' group='page' category=$mainCategory includeEmptyElement='1']-->
+        </div>
+    </div>
+    <!--[else]-->
     <legend><!--[gt text="Categories"]--></legend>
     <div class="z-formrow">
         <!--[pnformlabel for='categoryId' __text='Primary category']-->
@@ -108,10 +118,19 @@
         </div>
     </div>
     <div class="z-formrow">
+        <!--[if $categoryUsage eq 2]-->
+        <label><!--[gt text="Secondary category"]--></label>
+        <div>
+        <!--[pnformcategoryselector id='categories' group='page' category=$secondCategory selectedValue=$page.categories.0 includeEmptyElement='1']-->
+        </div>
+        <!--[else]-->
         <label><!--[gt text="Secondary categories"]--></label>
-        <!--[pnformcategorycheckboxlist id='categories' group='page' category=$mainCategory repeatcolumns='1']-->
+        <!--[pnformcategorycheckboxlist id='categories' group='page' category=$secondCategory repeatColumns='0']-->
+        <!--[/if]-->
     </div>
+    <!--[/if]-->
 </fieldset>
+<!--[/if]-->
 
 
 <!--[/pnformtabbedpanel]-->

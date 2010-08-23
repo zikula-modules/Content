@@ -488,6 +488,10 @@ WHERE $contentColumn[pageId] = $pageId
 function contentUpdatePageRelations($pageId, $pageData)
 {
     if (isset($pageData['categories'])) {
+        // check for single selection secondary category
+        if (!is_array($pageData['categories'])) {
+            $pageData['categories'] = array($pageData['categories']);
+        }
         $pntable = pnDBGetTables();
         $pageCategoryTable = $pntable['content_pagecategory'];
         $pageCategoryColumn = $pntable['content_pagecategory_column'];

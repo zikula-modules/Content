@@ -176,7 +176,6 @@ function contentCommonList($args, $template, $includeContent)
         $pageIndex = 1;
     --$pageIndex; // API is zero-based
 
-
     $pages = pnModAPIFunc('content', 'page', 'getPages', array('filter' => array('category' => $category), 'pageIndex' => $pageIndex, 'pageSize' => $pageSize, 'orderBy' => $orderBy, 'orderDir' => $orderDir, 'includeContent' => $includeContent));
     if ($pages === false)
         return false;

@@ -46,6 +46,20 @@
             <!--[pnformlabel for='enableVersioning' __text='Enable version history']-->
             <!--[pnformcheckbox id='enableVersioning' group="config"]-->
         </div>
+        <div class="z-formrow">
+            <!--[pnformlabel for='categoryUsage' __text='Category usage']-->
+            <!--[pnformdropdownlist id='categoryUsage' items=$catoptions group="config"]-->
+        </div>
+        <div class="z-formrow">
+            <!--[pnformlabel for='categoryPropPrimary' __text='Category Property for the first category selection']-->
+            <!--[pnformtextinput id='categoryPropPrimary' group="config" maxLength='255']-->
+            <em class="z-sub z-formnote"><!--[gt text='(In the <a href="%s">category registry</a> you can set the property to use for the first category)' tag1='index.php?module=categories&type=admin&func=editregistry']--></em>
+        </div>
+        <div class="z-formrow">
+            <!--[pnformlabel for='categoryPropSecondary' __text='Category Property for the second category selection']-->
+            <!--[pnformtextinput id='categoryPropSecondary' group="config" maxLength='255']-->
+            <em class="z-sub z-formnote"><!--[gt text='(In the <a href="%s">category registry</a> you can set the property to use for the second category if being used)' tag1='index.php?module=categories&type=admin&func=editregistry']--></em>
+        </div>
     </fieldset>
     <!--[/pnformtabbedpanel]-->
 
