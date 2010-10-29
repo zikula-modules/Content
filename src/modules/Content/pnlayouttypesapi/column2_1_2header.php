@@ -15,14 +15,14 @@ class content_layouttypesapi_column2_1_2headerPlugin extends contentLayoutBase
     function __construct()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        $contentAreaTitles = array(	__('Header', $dom), 
-									__('Left column1', $dom), 
-									__('Right column1', $dom), 
-									__('center1', $dom),
-									__('Left column2', $dom),
-									__('Right column2', $dom),
-									__('Footer', $dom)
-									);
+        $this->contentAreaTitles = array(__('Header', $dom), 
+									     __('Left column1', $dom), 
+                                         __('Right column1', $dom), 
+                                         __('center1', $dom),
+                                         __('Left column2', $dom),
+                                         __('Right column2', $dom),
+                                         __('Footer', $dom)
+                                        );
     }
     function content_layouttypesapi_column2_1_2headerPlugin()
     {
