@@ -12,6 +12,8 @@
 class content_contenttypesapi_VimeoPlugin extends contentTypeBase
 {
     var $url;
+    var $width;
+    var $height;
     var $text;
     var $clipId;
     var $displayMode;
@@ -28,47 +30,46 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
         $dom = ZLanguage::getModuleDomain('content');
         return __('Display Vimeo video clip.', $dom);
     }    
-    function isTranslatable() { return true; }
-
-
+    function isTranslatable()
+    { 
+        return true;
+    }
     function loadData($data)
     {
         $this->url = $data['url'];
+        $this->width = $data['width'];
+        $this->height = $data['height'];
         $this->text = $data['text'];
         $this->clipId = $data['clipId'];
         $this->displayMode = isset($data['displayMode']) ? $data['displayMode'] : 'inline';
     }
-
-
     function display()
     {
         $render = pnRender::getInstance('content', false);
         $render->assign('url', $this->url);
+        $render->assign('width', $this->width);
+        $render->assign('height', $this->height);
         $render->assign('text', $this->text);
         $render->assign('clipId', $this->clipId);
         $render->assign('displayMode', $this->displayMode);
 
         return $render->fetch('contenttype/vimeo_view.html');
     }
-
-
     function displayEditing()
     {
-        $output = '<div style="background-color:grey; width:320px; height:200px; margin:0 auto; padding:10px;">Video-ID : ' . $this->clipId . '</div>';
-        $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
+        $output = '<div style="background-color:grey; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->clipId . '</div>';
+        $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
-
-
     function getDefaultData()
     {
         return array('url' => '',
+        'width' => '425',
+        'height' => '340',
         'text' => '',
         'clipId' => '',
         'displayMode' => 'inline');
     }
-
-
     function isValid(&$data, &$message)
     {
         $dom = ZLanguage::getModuleDomain('content');
@@ -83,7 +84,6 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
         return false;
     }
 }
-
 
 function content_contenttypesapi_Vimeo($args)
 {
