@@ -63,7 +63,7 @@ function _content_setCategoryRoot()
     if ($rootcat) {
         // create an entry in the categories registry
         $registry = new PNCategoryRegistry();
-        $registry->setDataField('modname', 'Content');
+        $registry->setDataField('modname', 'content');
         $registry->setDataField('table', 'content_page');
         $registry->setDataField('property', 'primary');
         $registry->setDataField('category_id', $rootcat['id']);
