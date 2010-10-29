@@ -15,9 +15,8 @@ class content_layouttypesapi_column2headerPlugin extends contentLayoutBase
     function __construct()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        $contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Right column', $dom), __('Footer', $dom));
+        $this->contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Right column', $dom), __('Footer', $dom));
     }
-
     function content_layouttypesapi_column2headerPlugin()
     {
         $this->__construct();
