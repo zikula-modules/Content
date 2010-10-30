@@ -847,3 +847,56 @@ function content_edit_history($args)
     $render = FormUtil::newpnForm('content');
     return $render->pnFormExecute('content_edit_history.html', new content_edit_historyContentHandler($args));
 }
+
+class content_edit_deletedpagesContentHandler extends pnFormHandler
+{
+    function content_edit_deletedpagesContentHandler($args)
+    {
+        $this->args = $args;
+    }
+
+    function initialize(&$render)
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+
+        $offset = (int)FormUtil::getPassedValue('offset');
+
+        $versionscnt = pnModAPIFunc('content', 'history', 'getDeletedPagesCount');
+
+        $versions = pnModAPIFunc('content', 'history', 'getDeletedPages', array('offset' => $offset));
+        if ($versions === false)
+            return $render->pnFormRegisterError(null);
+
+        // Assign the values for the smarty plugin to produce a pager
+        $render->assign('numitems', $versionscnt);
+        $render->assign('versions', $versions);
+
+        PageUtil::setVar('title', __("Deleted pages", $dom));
+
+        return true;
+    }
+
+    function handleCommand(&$render, &$args)
+    {
+        $url = null;
+
+        if ($args['commandName'] == 'restore') {
+            $ok = pnModAPIFunc('content', 'history', 'restoreVersion', array('id' => $args['commandArgument']));
+            if ($ok === false)
+                return $render->pnFormRegisterError(null);
+        }
+
+        if ($url == null)
+            $url = pnModUrl('content', 'edit');
+
+        return $render->pnFormRedirect($url);
+    }
+}
+
+function content_edit_deletedpages($args)
+{
+    if (!contentHasPageEditAccess())
+        return LogUtil::registerPermissionError();
+    $render = FormUtil::newpnForm('content');
+    return $render->pnFormExecute('content_edit_deletedpages.html', new content_edit_deletedpagesContentHandler($args));
+}
