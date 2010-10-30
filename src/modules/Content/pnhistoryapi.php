@@ -42,7 +42,6 @@ function content_historyapi_getPageVersions($args)
   return $versions;
 }
 
-
 function content_historyapi_getPageVersionsCount($args)
 {
     $pageId = (int)$args['pageId'];
@@ -91,6 +90,9 @@ function contentHistoryActionTranslate($action)
           break;
       case '_CONTENT_HISTORYPAGEADDED':
           $ActionTranslated = __("Page added", $dom);
+          break;
+      case '_CONTENT_HISTORYPAGECLONED':
+          $ActionTranslated = __f('Page cloned from page [%s]', $parameters, $dom);
           break;
       case '_CONTENT_HISTORYPAGEUPDATED':
           $ActionTranslated = __("Page updated", $dom);
