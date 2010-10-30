@@ -276,7 +276,7 @@ function content_contentapi_getContent($args)
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
-    $content = contentGetContent('content', $id, $language, $translate);
+    $content = contentGetContent('content', $id, true, $language, $translate);
     if ($content === false)
         return false;
     if (count($content) == 0)
@@ -292,7 +292,7 @@ function content_contentapi_getPageContent($args)
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
-    $contentList = contentGetContent('page', $pageId, $language, $translate);
+    $contentList = contentGetContent('page', $pageId, $editing, $language, $translate);
 
     $content = array();
     foreach ($contentList as $c) {
@@ -329,7 +329,7 @@ function content_contentapi_GetSimplePageContent($args)
     return $content;
 }
 
-function contentGetContent($mode, $id, $language, $translate, $orderBy = null)
+function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy = null)
 {
     $dom = ZLanguage::getModuleDomain('content');
     $id = (int) $id;
@@ -344,6 +344,9 @@ function contentGetContent($mode, $id, $language, $translate, $orderBy = null)
         $restriction = "$contentColumn[id] = $id";
     else
         $restriction = "$contentColumn[pageId] = $id";
+
+    if (!$editing)
+        $restriction .= " and c.$contentColumn[active]=1";
 
     $language = DataUtil::formatForStore($language);
 
@@ -727,7 +730,7 @@ function content_contentapi_getTranslationInfo($args)
     if ($layout === false)
         return false;
 
-    $contentItems = contentGetContent('page', $pageId, null, false);
+    $contentItems = contentGetContent('page', $pageId, $editing, null, false);
     if ($contentItems === false)
         return false;
 

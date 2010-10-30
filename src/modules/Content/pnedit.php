@@ -4,7 +4,7 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id: pnedit.php 473 2010-07-22 15:30:00Z espaan $
+ * @version $Id$
  * @license See license.txt
  */
 

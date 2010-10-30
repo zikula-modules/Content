@@ -33,12 +33,9 @@ function content_pageapi_getPage($args)
     if ($pages === false) {
         return false;
     } elseif (count($pages) == 0) {
-        if (!$args['noerror']) {
-            return LogUtil::registerError(__('Error! Unknown page.', $dom), 404);
-        } else {
-            return false;
-        }
+        return false;
     }
+
     $page = $pages[0];
 
     return $page;

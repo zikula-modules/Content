@@ -230,8 +230,9 @@ table.content-layout-edit td.content-area {
 }
 
 /* Portal widget specific */
+
 .widget {
-    border: 1px solid #bbb;
+    border: 1px solid #000;
     margin-bottom: 10px;
     display: table;
     width: 100%;
@@ -247,6 +248,10 @@ table.content-layout-edit td.content-area {
 }
 
 .widget_sw {
+}
+
+.inactive {
+    background-color: orange;
 }
 
 .widget_title {

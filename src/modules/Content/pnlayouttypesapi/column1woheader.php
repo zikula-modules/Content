@@ -15,7 +15,7 @@ class content_layouttypesapi_column1woheaderPlugin extends contentLayoutBase
     function __construct()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        $this->contentAreaTitles = array(__('Centre column', $dom));
+        $this->contentAreaTitles = array(__('Centre column', $dom), __('Footer', $dom));
     }
     function content_layouttypesapi_column1woheaderPlugin()
     {
