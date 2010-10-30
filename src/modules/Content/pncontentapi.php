@@ -536,6 +536,41 @@ VALUES
     return true;
 }
 
+/*=[ Copy content ]====================================================*/
+
+function content_contentapi_copyContentOfPageToPage($args)
+{
+    $dom = ZLanguage::getModuleDomain('content');
+
+    $fromPage = (int)$args['fromPageId'];
+    $toPage = (int)$args['toPageId'];
+    if ($fromPage <= 0 || $toPage <= 0) { return false; }
+    $cloneTranslation = isset($args['cloneTranslation']) ? $args['cloneTranslation'] : true;
+
+    $content = pnModAPIFunc('content', 'content', 'GetSimplePageContent', array('pageId' => $fromPage));
+    for ($i = 0; $i < count($content); $i++) {
+        $contentData = $content[$i];
+        $contentData['id'] = null;
+        $contentData['pageId'] = $toPage;
+        DBUtil::insertObject($contentData, 'content_content', 'id');
+        if ($cloneTranslation) {
+            $translatedData = DBUtil::selectObjectByID('content_translatedcontent', $contentData['id'], 'contentId');
+            if ($translatedData) {
+                $translatedData['contentId'] = $contentData['id'];
+                DBUtil::insertObject($translatedData, 'content_translatedcontent');
+            }
+        }
+        $searchData = DBUtil::selectObjectByID('content_searchable', $contentData['id'], 'contentId');
+        if ($searchData) {
+            $searchData['contentId'] = $contentData['id'];
+            DBUtil::insertObject($searchData, 'content_searchable');
+        }
+    }
+
+    contentClearCaches();
+    return true;
+}
+
 /*=[ Delete content element ]====================================================*/
 
 function content_contentapi_deleteContent($args)
