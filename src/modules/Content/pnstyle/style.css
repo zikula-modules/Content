@@ -230,9 +230,8 @@ table.content-layout-edit td.content-area {
 }
 
 /* Portal widget specific */
-
 .widget {
-    border: 1px solid #000;
+    border: 1px solid #bbb;
     margin-bottom: 10px;
     display: table;
     width: 100%;
