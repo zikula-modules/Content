@@ -15,7 +15,9 @@
 
     <ul>
         <li><a href="<!--[pnmodurl modname=content type=edit]-->"><!--[gt text="Edit contents"]--></a></li>
+        <!--[securityutil_checkpermission_block component='content::' instance='::' level=ACCESS_ADMIN]-->
         <li><a href="<!--[pnmodurl modname=content type=admin func=settings]-->"><!--[gt text="Settings"]--></a></li>
+        <!--[/securityutil_checkpermission_block]-->
         <li><a href="<!--[pnmodurl modname=content type=user func=sitemap]-->"><!--[gt text="Sitemap"]--></a></li>
         <li><a href="<!--[pnmodurl modname=content type=user func=extlist]-->"><!--[gt text="Extended page list (showing page headers)"]--></a></li>
         <li><a href="<!--[pnmodurl modname=content type=user func=pagelist]-->"><!--[gt text="Complete page list (showing complete pages)"]--></a></li>

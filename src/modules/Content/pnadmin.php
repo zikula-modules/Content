@@ -13,7 +13,7 @@ Loader::requireOnce('includes/pnForm.php');
 
 function content_admin_main()
 {
-    if (!SecurityUtil::checkPermission('content::', '::', ACCESS_ADMIN)) {
+    if (!SecurityUtil::checkPermission('content::', '::', ACCESS_EDIT)) {
         return LogUtil::registerPermissionError();
     }
 

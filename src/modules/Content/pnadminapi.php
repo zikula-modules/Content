@@ -19,9 +19,15 @@ function content_adminapi_getlinks()
     $dom = ZLanguage::getModuleDomain('content');
     $links = array();
 
-    $links[] = array('url' => pnModURL('content', 'admin', 'main'), 'text' => __('Administration', $dom));
-    $links[] = array('url' => pnModURL('content', 'edit', 'main'), 'text' => __('Edit contents', $dom));
-    $links[] = array('url' => pnModURL('content', 'admin', 'settings'), 'text' => __('Settings', $dom));
+    if (SecurityUtil::checkPermission('content::', '::', ACCESS_ADMIN)) {
+        $links[] = array('url' => pnModURL('content', 'admin', 'main'), 'text' => __('Administration', $dom));
+    }
+    if (SecurityUtil::checkPermission('content::', '::', ACCESS_EDIT)) {
+        $links[] = array('url' => pnModURL('content', 'edit', 'main'), 'text' => __('Edit contents', $dom));
+    }
+    if (SecurityUtil::checkPermission('content::', '::', ACCESS_ADMIN)) {
+        $links[] = array('url' => pnModURL('content', 'admin', 'settings'), 'text' => __('Settings', $dom));
+    }
 
     return $links;
 }
