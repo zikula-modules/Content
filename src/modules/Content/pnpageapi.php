@@ -770,7 +770,7 @@ function content_pageapi_deletePage($args)
     $pageTable = $pntable['content_page'];
     $pageColumn = $pntable['content_page_column'];
 
-    $subPages = DBUtil::selectObjectArray('content_page', "$pageColumn[setLeft] > $pageData[setLeft] AND $pageColumn[setRight] < $pageData[setRight]"); // optimization: $pageColumn[level]=$pageData[level]+1
+    $subPages = DBUtil::selectObjectArray('content_page', "$pageColumn[setLeft] > $pageData[setLeft] AND $pageColumn[setRight] < $pageData[setRight] AND $pageColumn[level]=$pageData[level]+1", 'setLeft');
     foreach ($subPages as $page)
     {
         content_pageapi_deletePage(array('pageId' => $page['id']));
