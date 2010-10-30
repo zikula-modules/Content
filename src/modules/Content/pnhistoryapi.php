@@ -354,14 +354,15 @@ function content_historyapi_restoreVersion($args)
       else
       {
         //echo "Insert $contentItem[id]! ";
-        $newContentItem = array('id' => $contentItem['id'],
-                                'pageId' => $contentItem['pageId'],
-                                'module' => $contentItem['module'],
-                                'type' => $contentItem['type'],
-                                'data' => $contentItem['data'],
-                                'stylePosition' => $contentItem['stylePosition'],
-                                'styleWidth' => $contentItem['styleWidth'],
-                                'styleClass' => $contentItem['styleClass']);
+        $newContentItem = array();
+        $aKeys = array_keys($contentItem);
+        $aVals = array_values($contentItem);
+        // copy all direct keys/values
+        for ($x=0;$x<count($aKeys);$x++) {
+            if (substr($aKeys[$x],0,2) != 'is') {
+                $newContentItem[$aKeys[$x]]=$aVals[$x];
+            }
+        }
         $id = pnModAPIFunc('content', 'content', 'newContent',
                            array('content' => $newContentItem,
                                  'pageId' => $pageId,
