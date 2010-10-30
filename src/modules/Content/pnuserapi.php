@@ -137,7 +137,7 @@ function content_userapi_get($args)
         return false;
     }
 
-    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => false, 'noerror' => true, 'includeContent' => $args['includeContent']));
+    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => $args['includeContent']));
  
     if ($page === false) {
         return false;
