@@ -393,6 +393,8 @@ function content_pageapi_newPage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
+    // create pages initially invisible
+    $pageData['active'] = 0; 
 
     $newPage = DBUtil::insertObject($pageData, 'content_page');
     contentMainEditExpandSet($pageData['parentPageId'], true);
