@@ -705,6 +705,56 @@ function content_pageapi_clonePage($args)
     return $pageData['id'];
 }
 
+/*=[ Reinsert deleted page ]===============================================================*/
+
+function content_pageapi_reinsertPage($args)
+{
+    $dom = ZLanguage::getModuleDomain('content');
+    $pageData = $args['page'];
+
+    if ($pageData['parentPageId'] > 0) {
+        $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageData['parentPageId'], 'checkActive' => false, 'enableEscape' => false, 'includeContent' => false));
+        if ($sourcePageData === false)
+            $pageData['parentPageId'] = 0;
+    } else
+        $sourcePageData = null;
+
+    $pageData['language'] = ZLanguage::getLanguageCode();
+
+    // what does this mean?
+    if ($pageData['parentPageId'] > 0) {
+        $pageData['position'] = contentGetLastSubPagePosition($pageData['parentPageId']) + 1;
+        $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level'] + 1);
+    } else {
+        $pageData['position'] = contentGetLastPagePosition($pageData['parentPageId']) + 1;
+        $pageData['parentPageId'] = ($sourcePageData == null ? 0 : $sourcePageData['parentPageId']);
+        $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level']);
+    }
+
+    $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+    while (!$ok) {
+        $pageData['urlname'] = DataUtil::formatPermalink(strtolower(RandomUtil::getString(12, 12, false, true, true, false, true, false, true)));
+        $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+    }
+
+    $pageData['setLeft'] = -2;
+    $pageData['setRight'] = -1;
+
+    $pageData['active'] = 0; // create pages invisible
+
+    $newPage = DBUtil::insertObject($pageData, 'content_page', true);
+    contentMainEditExpandSet($pageData['parentPageId'], true);
+
+    $ok = content_pageapi_insertPage(array('pageId' => $pageData['id'], 'position' => $pageData['position'], 'parentPageId' => $pageData['parentPageId']));
+    if ($ok === false)
+        return false;
+
+    pnModCallHooks('item', 'create', $pageData['id'], array ('module' => 'content'));
+
+    contentClearCaches();
+    return array('id' => $pageData['id'], 'urlname' => $pageData['urlname']);
+}
+
 /*=[ Delete page ]===============================================================*/
 
 function content_pageapi_deletePage($args)
@@ -720,13 +770,18 @@ function content_pageapi_deletePage($args)
     $pageTable = $pntable['content_page'];
     $pageColumn = $pntable['content_page_column'];
 
-    $affectedPages = DBUtil::selectObjectArray('content_page', "$pageColumn[setLeft] > $pageData[setLeft] AND $pageColumn[setRight] < $pageData[setRight]");
-    foreach ($affectedPages as $page) {
-        pnModCallHooks('item', 'delete', $page['id'], array ('module' => 'content'));
+    $subPages = DBUtil::selectObjectArray('content_page', "$pageColumn[setLeft] > $pageData[setLeft] AND $pageColumn[setRight] < $pageData[setRight]"); // optimization: $pageColumn[level]=$pageData[level]+1
+    foreach ($subPages as $page)
+    {
+        content_pageapi_deletePage(array('pageId' => $page['id']));
     }
 
+    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYPAGEDELETED' /* delayed translation */));
+        if ($ok === false)
+            return false;
+
     // Delete translations first - they depend on content data
-    $ok = pnModAPIFunc('content', 'page', 'deleteTranslation', array('pageId' => $pageId));
+    $ok = pnModAPIFunc('content', 'page', 'deleteTranslation', array('pageId' => $pageId, 'addVersion' => false));
     if (!$ok)
         return false;
 
@@ -735,20 +790,7 @@ function content_pageapi_deletePage($args)
     if (!$ok)
         return false;
 
-    // Delete by left/right before updating left/right for remaining pages
-    // Do not delete "this" in order to "removePage" to work
-    $sql = "
-DELETE FROM $pageTable
-WHERE     $pageColumn[setLeft] > $pageData[setLeft]
-      AND $pageColumn[setRight] < $pageData[setRight]";
-
-    DBUtil::executeSQL($sql);
-
     if (!content_pageapi_removePage(array('id' => $pageId)))
-        return false;
-
-    $ok = pnModAPIFunc('content', 'history', 'deletePage', array('pageId' => $pageData['id']));
-    if ($ok === false)
         return false;
 
     // Now safe to delete page

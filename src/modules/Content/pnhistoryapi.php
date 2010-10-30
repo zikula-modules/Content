@@ -51,6 +51,33 @@ function content_historyapi_getPageVersionsCount($args)
     return DBUtil::selectObjectCount('content_history', $where);
 }
 
+function content_historyapi_getDeletedPages($args)
+{
+  $dom = ZLanguage::getModuleDomain('content');
+  $offset = (array_key_exists('offset', $args) ? $args['offset'] : 0);
+  $pageSize = (array_key_exists('pageSize', $args) ? $args['pageSize'] : 20);
+
+  $pntable = &pnDBGetTables();
+  $historyColumn = &$pntable['content_history_column'];
+  $pageColumn = &$pntable['content_page_column'];
+
+  $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $pntable[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'";
+
+  return DBUtil::selectObjectArray('content_history', $where, 'date DESC', $offset, $pageSize); // TODO: distinct
+}
+
+function content_historyapi_getDeletedPagesCount($args)
+{
+  $dom = ZLanguage::getModuleDomain('content');
+
+  $pntable = &pnDBGetTables();
+  $historyColumn = &$pntable['content_history_column'];
+  $pageColumn = &$pntable['content_page_column'];
+
+  $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $pntable[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'";
+
+  return DBUtil::selectObjectCount('content_history', $where, 'pageId'); // TODO: distinct
+}
 
 function contentHistoryActionTranslate($action)
 {
@@ -99,6 +126,9 @@ function contentHistoryActionTranslate($action)
           break;
       case '_CONTENT_HISTORYPAGERESTORED':
           $ActionTranslated = __f('Page restored from version [%s]', $parameters, $dom);
+          break;
+      case '_CONTENT_HISTORYPAGEDELETED':
+          $ActionTranslated = __("Page deleted", $dom);
           break;
   }
 
@@ -285,7 +315,7 @@ function content_historyapi_restoreVersion($args)
   $version = DBUtil::selectObjectByID('content_history', $versionId);
   if (empty($version))
     return LogUtil::registerError(__f('Error! Unknown version ID [%s]', $versionId, $dom));
-  
+
   $version['data'] = unserialize($version['data']);
 
   $versionData = $version['data'];
@@ -296,8 +326,24 @@ function content_historyapi_restoreVersion($args)
   $contentTranslations = $versionData['contentTranslations'];
 
   unset($page['isInMenu']);
-  unset($page['parentPageId']);
   unset($page['isActive']);
+  unset($page['layoutData']);
+  unset($page['isTranslated']);
+  unset($page['layoutTemplate']);
+  unset($page['content']);
+
+  $currentPage = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
+  if ($currentPage === false) {
+    // is a deleted page
+    $retval = pnModAPIFunc('content', 'page', 'reinsertPage', array('page' => $page));
+    if ($retval === false) {
+      return LogUtil::registerError(__('Error!Could not reinsert page', $dom));
+    }
+    $pageId = $page['id'] = $retval['id'];
+    $page['urlname'] = $retval['urlname'];
+  }
+
+  unset($page['parentPageId']);
   unset($page['position']);
   unset($page['level']);
   unset($page['setLeft']);
@@ -309,10 +355,6 @@ function content_historyapi_restoreVersion($args)
   unset($page['translatedTitle']);
   unset($page['translated']);
   unset($page['uname']);
-  unset($page['layoutData']);
-  unset($page['layoutTemplate']);
-  unset($page['isTranslated']);
-  unset($page['content']);
 
   $ok = pnModAPIFunc('content', 'page', 'updatePage',
                      array('page' => $page,
@@ -426,28 +468,6 @@ function content_historyapi_restoreVersion($args)
 
   return true;
 }
-
-
-function content_historyapi_deletePage($args)
-{
-  if (!pnModGetVar('content', 'enableVersioning'))
-    return true;
-
-  $pageId = (int)$args['pageId'];
-
-  $pntable = pnDBGetTables();
-  $historyTable = &$pntable['content_history'];
-  $historyColumn = &$pntable['content_history_column'];
-
-  $sql = "
-DELETE FROM $historyTable
-WHERE $historyColumn[pageId] = $pageId";
-
-  DBUtil::executeSQL($sql);
-
-  return true;
-}
-
 
 function contentGetNextRevisionNumber($pageId)
 {
