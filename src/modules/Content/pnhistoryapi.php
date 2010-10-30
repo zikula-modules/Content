@@ -54,7 +54,6 @@ function content_historyapi_getPageVersionsCount($args)
 
 function content_historyapi_getDeletedPages($args)
 {
-  $dom = ZLanguage::getModuleDomain('content');
   $offset = (array_key_exists('offset', $args) ? $args['offset'] : 0);
   $pageSize = (array_key_exists('pageSize', $args) ? $args['pageSize'] : 20);
 
@@ -69,8 +68,6 @@ function content_historyapi_getDeletedPages($args)
 
 function content_historyapi_getDeletedPagesCount($args)
 {
-  $dom = ZLanguage::getModuleDomain('content');
-
   $pntable = &pnDBGetTables();
   $historyColumn = &$pntable['content_history_column'];
   $pageColumn = &$pntable['content_page_column'];
