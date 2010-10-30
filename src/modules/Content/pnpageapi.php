@@ -921,7 +921,7 @@ function content_pageapi_removePage($args)
 {
     $id = (int) $args['id'];
 
-    $pageData = DBUtil::selectObjectByID('content_page', $id);
+    $pageData = DBUtil::selectObjectByID('content_page', $id, 'id', null,null,null,false); // prevent caching!!! otherwise if you delete a page with subpages setright isn't up2date!
 
     $pntable = pnDBGetTables();
     $pageTable = $pntable['content_page'];
