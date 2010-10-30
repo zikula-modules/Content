@@ -30,11 +30,15 @@ function content_pageapi_getPage($args)
     $args['filter']['pageId'] = $args['id'];
 
     $pages = content_pageapi_getPages($args);
-    if ($pages === false)
+    if ($pages === false) {
         return false;
-    if (count($pages) == 0)
-        return LogUtil::registerError(__('Error! Unknown page.', $dom), 404);
-
+    } elseif (count($pages) == 0) {
+        if (!$args['noerror']) {
+            return LogUtil::registerError(__('Error! Unknown page.', $dom), 404);
+        } else {
+            return false;
+        }
+    }
     $page = $pages[0];
 
     return $page;
@@ -637,6 +641,20 @@ function content_pageapi_deletePage($args)
 {
     $pageId = (int) $args['pageId'];
 
+    $pageData = DBUtil::selectObjectByID('content_page', $pageId);
+    if (!$pageData) {
+        return false;
+    }
+
+    $pntable = pnDBGetTables();
+    $pageTable = $pntable['content_page'];
+    $pageColumn = $pntable['content_page_column'];
+
+    $affectedPages = DBUtil::selectObjectArray('content_page', "$pageColumn[setLeft] > $pageData[setLeft] AND $pageColumn[setRight] < $pageData[setRight]");
+    foreach ($affectedPages as $page) {
+        pnModCallHooks('item', 'delete', $page['id'], array ('module' => 'content'));
+    }
+
     // Delete translations first - they depend on content data
     $ok = pnModAPIFunc('content', 'page', 'deleteTranslation', array('pageId' => $pageId));
     if (!$ok)
@@ -646,12 +664,6 @@ function content_pageapi_deletePage($args)
     $ok = pnModAPIFunc('content', 'content', 'deletePageAndSubPageContent', array('pageId' => $pageId));
     if (!$ok)
         return false;
-
-    $pageData = DBUtil::selectObjectByID('content_page', $pageId);
-
-    $pntable = pnDBGetTables();
-    $pageTable = $pntable['content_page'];
-    $pageColumn = $pntable['content_page_column'];
 
     // Delete by left/right before updating left/right for remaining pages
     // Do not delete "this" in order to "removePage" to work
@@ -1044,20 +1056,17 @@ function content_pageapi_isUniqueUrlnameByParentID($args)
 function content_pageapi_isUniqueUrlnameByPageId($args)
 {
     // Argument check
-    if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId']))
+    if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId'])) {
         return LogUtil::registerArgsError();
-
-    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false));
-
+    }
+    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false, 'filter' => array('checkActive' => false)));
     $parenturl = pnModAPIFunc('content', 'page', 'getUrlPath', array('pageId' => $page['parentPageId']));
-
     $url = $parenturl . '/' . $args['urlname'];
-
     $pageId = pnModAPIFunc('content', 'page', 'solveURLPath', array('urlname' => $url));
 
-    if ($pageId == false || $pageId == $args['pageId'])
+    if ($pageId == false || $pageId == $args['pageId']) {
         return true;
-
+    }
     return false;
 }
 

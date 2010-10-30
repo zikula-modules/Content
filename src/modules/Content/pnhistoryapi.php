@@ -43,6 +43,16 @@ function content_historyapi_getPageVersions($args)
 }
 
 
+function content_historyapi_getPageVersionsCount($args)
+{
+    $pageId = (int)$args['pageId'];
+    $pntable = &pnDBGetTables();
+    $historyColumn = &$pntable['content_history_column'];
+    $where = "$historyColumn[pageId] = $pageId";
+    return DBUtil::selectObjectCount('content_history', $where);
+}
+
+
 function contentHistoryActionTranslate($action)
 {
   $dom = ZLanguage::getModuleDomain('content');
@@ -284,6 +294,7 @@ function content_historyapi_restoreVersion($args)
   $contentTranslations = $versionData['contentTranslations'];
 
   unset($page['isInMenu']);
+  unset($page['parentPageId']);
   unset($page['isActive']);
   unset($page['position']);
   unset($page['level']);

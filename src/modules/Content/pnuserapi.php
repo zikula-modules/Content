@@ -129,15 +129,19 @@ function content_userapi_get($args)
     $pageId = $args['pid']; 
  
     Loader::requireOnce('modules/content/common.php'); 
+
+    if (!isset($args['includeContent'])) {
+        $args['includeContent'] = false;
+    }
+    if (!contentHasPageViewAccess($pageId)) {
+        return false;
+    }
+
+    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => false, 'noerror' => true, 'includeContent' => $args['includeContent']));
  
-    if (!contentHasPageViewAccess($pageId)) 
-        return false; 
- 
-    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => false)); 
- 
-    if ($page === false) 
-        return false; 
- 
+    if ($page === false) {
+        return false;
+    }
     return $page; 
 } 
  

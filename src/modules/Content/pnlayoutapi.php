@@ -81,5 +81,5 @@ function content_layoutapi_getLayoutPlugin($args)
 function content_layoutapi_getLayout($args)
 {
     $plugin = content_layoutapi_getLayoutPlugin($args);
-    return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage());
+    return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage(), 'plugin' => $plugin);
 }

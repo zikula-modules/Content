@@ -352,27 +352,27 @@ class content_edit_newContentHandler extends pnFormHandler
 
         if ($this->contentId != null) {
             $content = pnModAPIFunc('content', 'content', 'getContent', array('id' => $this->contentId));
-            if ($content === false)
+            if ($content === false) {
                 return $render->pnFormRegisterError(null);
-
+            }
             $this->pageId = $content['pageId'];
             $this->contentAreaIndex = $content['areaIndex'];
             $this->position = ($this->above ? $content['position'] : $content['position'] + 1);
         }
 
-        if (!contentHasPageEditAccess($this->pageId))
+        if (!contentHasPageEditAccess($this->pageId)) {
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
-
-        if ($this->pageId == null)
+        }
+        if ($this->pageId == null) {
             return $render->pnFormSetErrorMsg("Missing page ID (pid) in URL");
-
-        if ($this->contentAreaIndex == null)
+        }
+        if ($this->contentAreaIndex == null) {
             return $render->pnFormSetErrorMsg("Missing content area index (cai) in URL");
-
-        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'checkActive' => false));
-        if ($page === false)
+        }
+        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'filter' => array('checkActive' => false)));
+        if ($page === false) {
             return $render->pnFormRegisterError(null);
-
+        }
         PageUtil::setVar('title', __("Add new content to page", $dom) . ' : ' . $page['title']);
 
         $render->assign('page', $page);
@@ -450,7 +450,7 @@ class content_edit_editContentHandler extends pnFormHandler
         if (!contentHasPageEditAccess($this->pageId))
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
-        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'checkActive' => false));
+        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
         if ($page === false)
             return $render->pnFormRegisterError(null);
 
@@ -553,7 +553,7 @@ class content_edit_translatePageHandler extends pnFormHandler
         if (!contentHasPageEditAccess($this->pageId))
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
-        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'checkActive' => false, 'translate' => false));
+        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false), 'translate' => false));
         if ($page === false)
             return $render->pnFormRegisterError(null);
 
@@ -684,7 +684,7 @@ class content_edit_translateContentHandler extends pnFormHandler
         $page = pnModAPIFunc('content', 'page', 'getPage',
                              array('id' => $this->pageId,
                                    'includeContent' => false,
-                                   'checkActive' => false));
+                                   'filter' => array('checkActive' => false)));
         if ($page === false)
           return $render->pnFormRegisterError(null);
 
@@ -795,6 +795,7 @@ class content_edit_historyContentHandler extends pnFormHandler
         $dom = ZLanguage::getModuleDomain('content');
 
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
+        $offset = (int)FormUtil::getPassedValue('offset');
 
         if (!contentHasPageEditAccess($this->pageId))
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
@@ -803,13 +804,16 @@ class content_edit_historyContentHandler extends pnFormHandler
         if ($page === false)
             return $render->pnFormRegisterError(null);
 
-        $versions = pnModAPIFunc('content', 'history', 'getPageVersions', array('pageId' => $this->pageId));
+        $versionscnt = pnModAPIFunc('content', 'history', 'getPageVersionsCount', array('pageId' => $this->pageId));
+        $versions = pnModAPIFunc('content', 'history', 'getPageVersions', array('pageId' => $this->pageId, 'offset' => $offset));
         if ($versions === false)
             return $render->pnFormRegisterError(null);
 
         $render->assign('page', $page);
         $render->assign('versions', $versions);
         contentAddAccess($render, $this->pageId);
+        // Assign the values for the smarty plugin to produce a pager
+        $render->assign('numitems', $versionscnt);
 
         PageUtil::setVar('title', __("Page history", $dom) . ' : ' . $page['title']);
 
