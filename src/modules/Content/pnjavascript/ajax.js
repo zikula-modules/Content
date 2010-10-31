@@ -42,8 +42,11 @@ content.items = new Array();
 
 content.editPageOnLoad = function()
 {
+  // get "columns" in correct order
+  columns = $$("table.content-layout-edit td").sort(function(el1,el2) { return el1.id >= el2.id; });
+
   // Get new portal object
-  content.portal = new Xilinus.Portal("table.content-layout-edit td", { onUpdate: content.editPageHandleUpdate }) 
+  content.portal = new Xilinus.Portal(columns, { onUpdate: content.editPageHandleUpdate }) 
 
   // Iterate through the registered content elements and add them to the portal
   content.items.each(
@@ -135,9 +138,9 @@ content.pageInfo = {};
 
 content.pageInfo.clearTimer = null;
 
-content.pageInfo.toggle = function(id)
+content.pageInfo.toggle = function()
 {
-  $('contentPageInfo-'+id).toggle();
+  $('contentPageInfo').toggle();
   return false;
 }
 
