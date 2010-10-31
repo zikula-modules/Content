@@ -54,6 +54,8 @@ class content_edit_mainHandler extends pnFormHandler
             $url = pnModUrl('content', 'edit', 'newpage', array('pid' => $args['commandArgument'], 'loc' => 'sub'));
         } else if ($args['commandName'] == 'newPage') {
             $url = pnModUrl('content', 'edit', 'newpage', array('pid' => $args['commandArgument']));
+        } else if ($args['commandName'] == 'clone') {
+            $url = pnModUrl('content', 'edit', 'clone', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'drag') {
             $srcId = FormUtil::getPassedValue('contentTocDragSrcId', null, 'POST');
             $dstId = FormUtil::getPassedValue('contentTocDragDstId', null, 'POST');
@@ -319,6 +321,73 @@ function content_edit_editpage($args)
 {
     $render = FormUtil::newpnForm('content'); // get all config vars and assign them to the template
     return $render->pnFormExecute('content_edit_editpage.html', new content_edit_editPageHandler($args));
+}
+
+/*=[ Clone single page ]==========================================================*/
+
+class content_edit_clonePageHandler extends pnFormHandler
+{
+    var $pageId;
+    var $backref;
+
+    function content_edit_clonePageHandler($args)
+    {
+        $this->args = $args;
+    }
+
+    function initialize(&$render)
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
+
+        if (!contentHasPageCreateAccess())
+            return $render->pnFormRegisterError(LogUtil::registerPermissionError());
+
+        if (!contentHasPageEditAccess($this->pageId))
+            return LogUtil::registerPermissionError();
+
+        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'filter' => array('checkActive' => false), 'includeContent' => false));
+        if ($page === false)
+            return $render->pnFormRegisterError(null);
+
+        // Only allow subpages if edit access on parent page
+        if (!contentHasPageEditAccess($page['id']))
+            return LogUtil::registerPermissionError();
+
+        PageUtil::setVar('title', __("Clone page", $dom) . ' : ' . $page['title']);
+
+        $render->assign('page', $page);
+        contentAddAccess($render, $this->pageId);
+
+        return true;
+    }
+
+    function handleCommand(&$render, &$args)
+    {
+        $dom = ZLanguage::getModuleDomain('content');
+        $url = pnModUrl('content', 'edit', 'main');
+
+        if ($args['commandName'] == 'clone') {
+            if (!$render->pnFormIsValid())
+                return false;
+
+            $pageData = $render->pnFormGetValues();
+
+            $id = pnModAPIFunc('content', 'page', 'clonePage', array('page' => $pageData, 'pageId' => $this->pageId));
+            if ($id === false)
+                return $render->pnFormRegisterError(null);
+
+            $url = pnModUrl('content', 'edit', 'editpage', array('pid' => $id));
+        } else if ($args['commandName'] == 'cancel') {
+        }
+        return $render->pnFormRedirect($url);
+    }
+}
+
+function content_edit_clone($args)
+{
+    $render = FormUtil::newpnForm('content'); // get all config vars and assign them to the template
+    return $render->pnFormExecute('content_edit_clonepage.html', new content_edit_clonePageHandler($args));
 }
 
 /*=[ New content element ]=======================================================*/
