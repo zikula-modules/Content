@@ -37,7 +37,7 @@ class content_layouttypesapi_column1topheaderPlugin extends contentLayoutBase
     function getDescription()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Single 100% wide column and a top-header above the headline of the page - this might be useful if you want to put breadcrumbs or author-information above the title', $dom);
+        return __('Single 100% wide column and a top-header above the page headline (for e.g. breadcrumbs or author-information above the title)', $dom);
     }
 
     function getNumberOfContentAreas()
