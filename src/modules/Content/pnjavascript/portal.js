@@ -78,6 +78,15 @@ Object.extend(Xilinus.Widget.prototype, {
     return $(this._footerDiv)
   },
   
+  setActive: function(active) {
+    if (!active) {
+      $(this._contentDiv).addClassName('inactive');
+    } else {
+        $(this._contentDiv).removeClassName('inactive');
+    }
+    return this;
+  },
+  
   setContent: function(title) {
     $(this._contentDiv).update(title);  
     return this;

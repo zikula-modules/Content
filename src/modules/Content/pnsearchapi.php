@@ -68,7 +68,7 @@ JOIN $contentTable
      ON $contentColumn[pageId] = $pageColumn[id]
 JOIN $contentSearchTable
      ON $contentSearchColumn[contentId] = $contentColumn[id]
-WHERE $where";
+WHERE $where and $contentColumn[active] = 1";
 
     $dbresult = DBUtil::executeSQL($sql);
     if (!$dbresult)

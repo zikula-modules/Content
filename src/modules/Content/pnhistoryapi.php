@@ -42,7 +42,6 @@ function content_historyapi_getPageVersions($args)
   return $versions;
 }
 
-
 function content_historyapi_getPageVersionsCount($args)
 {
     $pageId = (int)$args['pageId'];
@@ -115,6 +114,9 @@ function contentHistoryActionTranslate($action)
           break;
       case '_CONTENT_HISTORYPAGEADDED':
           $ActionTranslated = __("Page added", $dom);
+          break;
+      case '_CONTENT_HISTORYPAGECLONED':
+          $ActionTranslated = __f('Page cloned from page [%s]', $parameters, $dom);
           break;
       case '_CONTENT_HISTORYPAGEUPDATED':
           $ActionTranslated = __("Page updated", $dom);
@@ -393,14 +395,15 @@ function content_historyapi_restoreVersion($args)
       else
       {
         //echo "Insert $contentItem[id]! ";
-        $newContentItem = array('id' => $contentItem['id'],
-                                'pageId' => $contentItem['pageId'],
-                                'module' => $contentItem['module'],
-                                'type' => $contentItem['type'],
-                                'data' => $contentItem['data'],
-                                'stylePosition' => $contentItem['stylePosition'],
-                                'styleWidth' => $contentItem['styleWidth'],
-                                'styleClass' => $contentItem['styleClass']);
+        $newContentItem = array();
+        $aKeys = array_keys($contentItem);
+        $aVals = array_values($contentItem);
+        // copy all direct keys/values
+        for ($x=0;$x<count($aKeys);$x++) {
+            if (substr($aKeys[$x],0,2) != 'is') {
+                $newContentItem[$aKeys[$x]]=$aVals[$x];
+            }
+        }
         $id = pnModAPIFunc('content', 'content', 'newContent',
                            array('content' => $newContentItem,
                                  'pageId' => $pageId,

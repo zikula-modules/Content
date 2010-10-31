@@ -59,8 +59,7 @@ function content_pntables()
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'page_');
   $pntable['content_page_column_def'] = $def;
   //indexes
-  $pntable['content_page_column_idx'] = array('parentPageId' => 'parentPageId', 'active' => 'active' , 'inMenu' => 'inMenu', 'position' => 'position', 'categoryId' => 'categoryId');
-
+  $pntable['content_page_column_idx'] = array('parentPageId' => array('parentPageId', 'position'), 'leftright' => array('setLeft','setRight'), 'categoryId' => 'categoryId', 'urlname' => array('urlname', 'parentPageId'));
 
     // Content setup (multiple content items on each page)
 
@@ -75,6 +74,7 @@ function content_pntables()
           'module'          => 'con_module',      // Content module
           'type'            => 'con_type',        // Content type (depending on module)
           'data'            => 'con_data',        // Data from the content providing module
+          'active'          => 'con_active',      // Bool flag: active or not?
           'stylePosition'   => 'con_stylepos',    // Styled floating position
           'styleWidth'      => 'con_stylewidth',  // Styled width
           'styleClass'      => 'con_styleclass'); // Styled CSS class
@@ -89,6 +89,7 @@ function content_pntables()
           'module'          => 'C(100) NOTNULL',
           'type'            => 'C(100) NOTNULL',
           'data'            => 'X NOTNULL',
+          'active'          => "I1 NOTNULL DEFAULT 1",
           'stylePosition'   => 'C(20) NOTNULL DEFAULT \'none\'',
           'styleWidth'      => 'C(20) NOTNULL DEFAULT \'100\'',
           'styleClass'      => 'C(100) NOTNULL DEFAULT \'\'');
@@ -96,7 +97,7 @@ function content_pntables()
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'con_');
   $pntable['content_content_column_def'] = $def;
   //indexes
-  $pntable['content_content_column_idx'] = array('pageId' => 'pageId', 'areaIndex' => 'areaIndex');
+  $pntable['content_content_column_idx'] = array('pageActive' => array('pageId', 'active'), 'pagePosition' => array('pageId', 'areaIndex', 'position'));
 
 
     // Multiple category relation
@@ -114,6 +115,7 @@ function content_pntables()
 
   $pntable['content_pagecategory_column_def'] = $def;
 
+  $pntable['content_pagecategory_column_idx'] = array('pageId' => 'pageId');
 
     // Searchable text from content plugins
 
@@ -204,7 +206,7 @@ function content_pntables()
 
   $pntable['content_history_column_def'] = $def;
   //indexes
-  $pntable['content_history_column_idx'] = array('entry' => array('pageId', 'revisionNo'));
+  $pntable['content_history_column_idx'] = array('entry' => array('pageId', 'revisionNo'), 'action' => 'action');
 
   return $pntable;
 }

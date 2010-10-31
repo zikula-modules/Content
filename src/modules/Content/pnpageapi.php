@@ -634,6 +634,77 @@ function content_pageapi_getTranslations($args)
     return $translations;
 }
 
+/*=[ Clone page ]===============================================================*/
+
+function content_pageapi_clonePage($args)
+{
+    $dom = ZLanguage::getModuleDomain('content');
+    $newPage = $args['page'];
+    $pageId = (int) $args['pageId']; // the page to clone
+    $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
+
+    $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false, 'enableEscape' => false, 'includeContent' => false)));
+    if ($sourcePageData === false)
+        return false;
+
+    $pageData = array();
+    $aKeys = array_keys($sourcePageData);
+    $aVals = array_values($sourcePageData);
+    // copy all direct keys/values
+    for ($x=0;$x<count($aKeys);$x++) {
+        if ($aKeys[$x] != 'id' && substr($aKeys[$x],0,2) != 'is') {
+            $pageData[$aKeys[$x]]=$aVals[$x];
+        }
+    }
+
+    $pageData['position']++;
+    $pageData['title'] = $newPage['title'];
+    $pageData['urlname'] = $newPage['urlname'];
+
+    if (!isset($pageData['urlname']) || empty($pageData['urlname']))
+        $pageData['urlname'] = $pageData['title'];
+    $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+
+    $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+    if (!$ok)
+        return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
+
+    $pageData['setLeft'] = -2;
+    $pageData['setRight'] = -1;
+
+    $pageData['active'] = 0; // create pages invisible
+
+    $newPage = DBUtil::insertObject($pageData, 'content_page');
+    contentMainEditExpandSet($pageData['parentPageId'], true);
+
+    $ok = content_pageapi_insertPage(array('pageId' => $pageData['id'], 'position' => $sourcePageData['position']+1, 'parentPageId' => $pageData['parentPageId']));
+    if ($ok === false)
+        return false;
+
+    $ok = pnModAPIFunc('content', 'content', 'copyContentOfPageToPage', array('fromPageId' => $sourcePageData['id'], 'toPageId' => $pageData['id'], 'cloneTranslation' => $cloneTranslation));
+    if ($ok === false)
+        return false;
+
+    $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '_CONTENT_HISTORYPAGECLONED'. "|fromPage=".$sourcePageData['id'] /* delayed translation */));
+    if ($ok === false)
+        return false;
+
+    if ($cloneTranslation) {
+        $translatedData = DBUtil::selectObjectByID('content_translatedpage', $sourcePageData['id'], 'pageId');
+        if ($translatedData) {
+            $translatedData['pageId'] = $pageData['id'];
+            DBUtil::insertObject($translatedData, 'content_translatedpage');
+        }
+    }
+
+    contentUpdatePageRelations($pageData['id'], $pageData);
+
+    pnModCallHooks('item', 'create', $pageData['id'], array ('module' => 'content'));
+
+    contentClearCaches();
+    return $pageData['id'];
+}
+
 /*=[ Reinsert deleted page ]===============================================================*/
 
 function content_pageapi_reinsertPage($args)

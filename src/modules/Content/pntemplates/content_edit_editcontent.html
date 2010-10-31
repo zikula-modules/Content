@@ -13,6 +13,10 @@
 <fieldset>
     <legend><!--[$contentType.title]--> [<!--[gt text="ID"]--><!--[$content.id]-->]</legend>
     <!--[include file=$contentTypeTemplate]-->
+    <div class="z-formrow">
+        <!--[pnformlabel for='active' __text='Active']-->
+        <!--[pnformcheckbox id='active' checked=$content.active]-->
+    </div>
 </fieldset>
 <!--[/pnformtabbedpanel]-->
 

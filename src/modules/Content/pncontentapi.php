@@ -276,7 +276,7 @@ function content_contentapi_getContent($args)
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
-    $content = contentGetContent('content', $id, $language, $translate);
+    $content = contentGetContent('content', $id, true, $language, $translate);
     if ($content === false)
         return false;
     if (count($content) == 0)
@@ -292,7 +292,7 @@ function content_contentapi_getPageContent($args)
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
-    $contentList = contentGetContent('page', $pageId, $language, $translate);
+    $contentList = contentGetContent('page', $pageId, $editing, $language, $translate);
 
     $content = array();
     foreach ($contentList as $c) {
@@ -329,7 +329,7 @@ function content_contentapi_GetSimplePageContent($args)
     return $content;
 }
 
-function contentGetContent($mode, $id, $language, $translate, $orderBy = null)
+function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy = null)
 {
     $dom = ZLanguage::getModuleDomain('content');
     $id = (int) $id;
@@ -344,6 +344,9 @@ function contentGetContent($mode, $id, $language, $translate, $orderBy = null)
         $restriction = "$contentColumn[id] = $id";
     else
         $restriction = "$contentColumn[pageId] = $id";
+
+    if (!$editing)
+        $restriction .= " and c.$contentColumn[active]=1";
 
     $language = DataUtil::formatForStore($language);
 
@@ -533,6 +536,41 @@ VALUES
   ($contentId, '" . DataUtil::formatForStore($text) . "')";
     DBUtil::executeSQL($sql);
 
+    return true;
+}
+
+/*=[ Copy content ]====================================================*/
+
+function content_contentapi_copyContentOfPageToPage($args)
+{
+    $dom = ZLanguage::getModuleDomain('content');
+
+    $fromPage = (int)$args['fromPageId'];
+    $toPage = (int)$args['toPageId'];
+    if ($fromPage <= 0 || $toPage <= 0) { return false; }
+    $cloneTranslation = isset($args['cloneTranslation']) ? $args['cloneTranslation'] : true;
+
+    $content = pnModAPIFunc('content', 'content', 'GetSimplePageContent', array('pageId' => $fromPage));
+    for ($i = 0; $i < count($content); $i++) {
+        $contentData = $content[$i];
+        $contentData['id'] = null;
+        $contentData['pageId'] = $toPage;
+        DBUtil::insertObject($contentData, 'content_content', 'id');
+        if ($cloneTranslation) {
+            $translatedData = DBUtil::selectObjectByID('content_translatedcontent', $contentData['id'], 'contentId');
+            if ($translatedData) {
+                $translatedData['contentId'] = $contentData['id'];
+                DBUtil::insertObject($translatedData, 'content_translatedcontent');
+            }
+        }
+        $searchData = DBUtil::selectObjectByID('content_searchable', $contentData['id'], 'contentId');
+        if ($searchData) {
+            $searchData['contentId'] = $contentData['id'];
+            DBUtil::insertObject($searchData, 'content_searchable');
+        }
+    }
+
+    contentClearCaches();
     return true;
 }
 
@@ -727,7 +765,7 @@ function content_contentapi_getTranslationInfo($args)
     if ($layout === false)
         return false;
 
-    $contentItems = contentGetContent('page', $pageId, null, false);
+    $contentItems = contentGetContent('page', $pageId, $editing, null, false);
     if ($contentItems === false)
         return false;
 

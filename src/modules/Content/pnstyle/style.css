@@ -249,6 +249,10 @@ table.content-layout-edit td.content-area {
 .widget_sw {
 }
 
+.inactive {
+    background-color: orange;
+}
+
 .widget_title {
     font-weight: bold;
     text-align: left;

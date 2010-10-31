@@ -1,0 +1,35 @@
+<!--[contentpageheading __header='Clone page']-->
+<!--[if isset($page)]--><div class="content-page-path"><!--[$locationLabel]--><!--[contentpagepath pageId=$page.id]--></div><!--[/if]-->
+
+<!--[insert name="getstatusmsg"]-->
+<!--[pnform cssClass='z-form']-->
+<!--[pnformsetinitialfocus inputId='title']-->
+<!--[pnformerrormessage id='error']-->
+
+<!--[contentformframe]-->
+<fieldset>
+    <div class="z-formrow">
+        <!--[pnformlabel for='title' __text='Page title']-->
+        <!--[pnformtextinput id='title' mandatory='1' maxLength='255']-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='urlname' __text='Permalink URL name']-->
+        <!--[pnformtextinput id='urlname' maxLength='255']-->
+        <!--[contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.']-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='translation' __text='Clone translations']-->
+        <!--[pnformcheckbox id='translation' checked='true']-->
+    </div>
+</fieldset>
+
+<!--[pnmodcallhooks hookobject='item' hookaction='new' module='content']-->
+
+<div class="z-buttons z-formbuttons">
+<!--[pnformbutton commandName="clone" __text="Clone"]-->
+<!--[pnformbutton commandName="cancel" __text="Cancel"]-->
+</div>
+
+<!--[/contentformframe]-->
+
+<!--[/pnform]-->

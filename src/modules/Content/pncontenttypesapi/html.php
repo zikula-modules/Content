@@ -48,7 +48,7 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
 
     function display()
     {
-        $text = DataUtil::formatForDisplayHTML($this->text);
+        $text = DataUtil::formatForDisplayHTML($this->activateinternallinks($this->text));
         $text = pnModCallHooks('item', 'transform', '', array($text));
         $text = $text[0];
         $render = & pnRender::getInstance('content', false);
@@ -77,7 +77,29 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
 
     function getSearchableText()
     {
-        return html_entity_decode(strip_tags($this->text));
+        return html_entity_decode(strip_tags($this->activateinternallinks($this->text)));
+    }
+
+    function activateinternallinks($text)
+    {
+        $text = preg_replace_callback("/\[\[link-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
+          '$treffer',
+          'if ($treffer[2]) { return "<a href=\"".pnModURL("content", "user", "view", array("pid" => $treffer[1]))."\">".$treffer[2]."</a>"; } else {
+          $page = pnModAPIFunc("content", "page", "getPage", array("pid" => $treffer[1]));
+          if ($page === false) return "";
+          return "<a href=\"".pnModURL("content", "user", "view", array("pid" => $treffer[1]))."\">".$page["title"]."</a>";
+          }'
+        ) , $text);
+        if (pnModAvailable('crptag')) {
+            $text = preg_replace_callback("/\[\[tag-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
+              '$treffer',
+              '$title = $treffer[1];
+              if ($treffer[2]) { $title = $treffer[2]; }
+              return "<a href=\"".pnModURL("crpTag", "user", "display", array("id" => $treffer[1]))."\">".$title."</a>";
+              '
+            ) , $text);
+        }
+        return $text;
     }
 }
 
