@@ -300,7 +300,7 @@ $this->show_this_code(\'example\');
                 'position'          => '0',
                 'module'            => 'content',
                 'type'              => 'html',
-                'data'              => serialize(array('text' => __('This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href="index.php?module=content&type=edit">Edit Contents</a> interface lets you edit or delete this introduction page. In the <a href="index.php?module=content&type=admin">administration</a> interface you can further control the Content module.', $dom),
+                'data'              => serialize(array('text' => __('This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href="index.php?module=content&type=edit">Page list</a> interface lets you edit or delete this introduction page. In the <a href="index.php?module=content&type=admin">administration</a> interface you can further control the Content module.', $dom),
                                             'inputType' => 'text')));
 
         // write the items to the dbase

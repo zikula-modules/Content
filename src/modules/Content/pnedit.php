@@ -940,7 +940,7 @@ class content_edit_deletedpagesContentHandler extends pnFormHandler
         $render->assign('numitems', $versionscnt);
         $render->assign('versions', $versions);
 
-        PageUtil::setVar('title', __("Deleted pages", $dom));
+        PageUtil::setVar('title', __("Restore deleted pages", $dom));
 
         return true;
     }
