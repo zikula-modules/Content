@@ -52,7 +52,6 @@ function content_pageapi_getPage($args)
  * @param filter array See contentGetPageListRestrictions().
  * @param orderBy string Field for "order by" in SQL query
  * @param orderDir string Direction for "order by" in SQL query (desc/asc) default: asc
- * @param orderBy
  * @param pageIndex int Zero based page index for browsing page by page.
  * @param pageSize int Number of pages to show on each "page".
  * @param enableEscape bool Enable HTML escape of returned text data.
@@ -480,7 +479,6 @@ WHERE $contentColumn[pageId] = $pageId
       AND $contentColumn[areaIndex] = $i";
         //echo "UPDATE: $sql\n ";
 
-
         DBUtil::executeSQL($sql);
     }
 
@@ -671,7 +669,6 @@ function content_pageapi_clonePage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-
     $pageData['active'] = 0; // create pages invisible
 
     $newPage = DBUtil::insertObject($pageData, 'content_page');
@@ -739,7 +736,6 @@ function content_pageapi_reinsertPage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-
     $pageData['active'] = 0; // create pages invisible
 
     $newPage = DBUtil::insertObject($pageData, 'content_page', true);
@@ -1327,4 +1323,27 @@ function content_pageapi_getPagePath($args)
     $result->Close();
 
     return $path;
+}
+
+function content_pageapi_updateState($args)
+{
+    // Argument check
+    if (!isset($args['pageId'])) {
+        return LogUtil::registerArgsError();
+    }
+
+    $pageId = (int) $args['pageId'];
+    $active = (int) $args['active'];
+    $inMenu = (int) $args['inMenu'];
+
+    $pntable = pnDBGetTables();
+    $pageTable = $pntable['content_page'];
+    $pageColumn = $pntable['content_page_column'];
+
+    $sql = "UPDATE $pageTable
+          SET $pageColumn[active] = $active, $pageColumn[inMenu] = $inMenu
+          WHERE $pageColumn[id] = $pageId";
+    DBUtil::executeSQL($sql);
+    
+    return true;
 }

@@ -32,33 +32,39 @@
 <!--[if $enableVersioning]--><!--[pnformcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history']--><!--[/if]-->
 <!--[/pnformcontextmenu]-->
 
+<!--[gt text="Click to put this page online" assign=activate]-->
+<!--[gt text="Click to put this page offline" assign=deactivate]-->
+<!--[gt text="Click to put this page in the menu" assign=inmenu]-->
+<!--[gt text="Click to pull this page from the menu" assign=outmenu]-->
+
 <div class="content-toc">
     <table class="z-datatable">
         <thead>
             <tr>
                 <th><!--[gt text="Page title [id]"]--></th>
+                <th><!--[gt text="Status"]--></th>
+                <th><!--[gt text="Menu"]--></th>
                 <th><!--[if $enableVersioning]--><!--[gt text="Last updated (revision)"]--><!--[else]--><!--[gt text="Last updated"]--><!--[/if]--></th>
-                <th><!--[gt text="Created"]--></th>
                 <!--[if $multilingual]--><th><!--[gt text="Language"]--></th><!--[/if]-->
             </tr>
         </thead>
         <tbody>
             <!--[foreach from=$pages item=page]-->
             <tr class="<!--[cycle values="z-odd,z-even"]-->">
-                <td style="padding-left: <!--[$page.level]-->em">
+                <td style="padding-left: <!--[$page.level*1.5]-->em">
                     <div id="page_<!--[$page.id]-->">
                         <!--[if $page.setRight - $page.setLeft != 1]-->
-                        <!--[if $page.isExpanded]--><img src="modules/content/pnimages/page-expanded.gif" onclick="contentToggle(<!--[$page.id]-->)" alt="" class="clickable" /><!--[else]--><img src="modules/content/pnimages/page-collapsed.gif" onclick="contentToggle(<!--[$page.id]-->)" alt="" class="clickable" /><!--[/if]-->
+                        <!--[if $page.isExpanded]-->
+                          <img src="modules/content/pnimages/page-expanded3.gif" onclick="contentToggle(<!--[$page.id]-->)" title="<!--[gt text="Click to hide sub-pages"]-->" alt="" class="clickable" />
                         <!--[else]-->
-                        <img src="modules/content/pnimages/page-none.gif" alt="" />
+                          <img src="modules/content/pnimages/page-collapsed3.gif" onclick="contentToggle(<!--[$page.id]-->)" title="<!--[gt text="Click to show sub-pages"]-->" alt="" class="clickable" />
+                        <!--[/if]-->
+                        <!--[else]-->
+                        <img src="modules/content/pnimages/page-none3.gif" alt="" />
                         <!--[/if]-->
 
                         <!--[if $access.pageEditAllowed]-->
-                        <!--[if $page.isInMenu]-->
-                        <img src="modules/content/pnimages/menupageactive.gif" alt="<!--[gt text="Page online and in menu"]-->" title="<!--[gt text="Page online and in menu"]-->" class="dragable"/>
-                        <!--[else]-->
-                        <img src="modules/content/pnimages/menupageinactive.gif" alt="<!--[gt text="Page offline or not in menu"]-->" title="<!--[gt text="Page offline or not in menu"]-->" class="dragable"/>
-                        <!--[/if]-->
+                        <img src="images/icons/extrasmall/folder_blank.gif" alt="<!--[gt text="Page online and in menu"]-->" title="<!--[gt text="Page online and in menu"]-->" class="dragable"/>
                         <!--[/if]-->
 
                         <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->">
@@ -66,13 +72,34 @@
                         </a><!--[if $access.pageEditAllowed]-->&nbsp;<!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="images/icons/extrasmall/next.gif"]--><!--[/if]-->
                     </div>
                 </td>
+                <td>
+                    <!--[if $page.active]-->
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$deactivate alt=$deactivate id="active_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"]--></a>
+                    <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="Online" __alt="Online" ]--></div></noscript>
+                    <span id="activity_<!--[$page.id]-->"><!--[gt text="Online"]--></span>
+                    <!--[else]-->
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$deactivate alt=$deactivate style="display: none;" id="active_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$activate alt=$activate id="inactive_`$page.id`"]--></a>
+                    <noscript><div><!--[pnimg src=redled.gif modname=core set=icons/extrasmall __title="Offline" __alt="Offline" ]--></div></noscript>
+                    <span id="activity_<!--[$page.id]-->"><!--[gt text="Offline"]--></span>
+                    <!--[/if]-->
+                </td>
+                <td>
+                    <!--[if $page.inMenu]-->
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"]--></a>
+                    <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" ]--></div></noscript>
+                    <span id="inmenu_<!--[$page.id]-->"><!--[gt text="In"]--></span>
+                    <!--[else]-->
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$outmenu alt=$outmenu style="display: none;" id="inmenu_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$inmenu alt=$inmenu id="outmenu_`$page.id`"]--></a>
+                    <noscript><div><!--[pnimg src=redled.gif modname=core set=icons/extrasmall __title="Out" __alt="Out" ]--></div></noscript>
+                    <span id="inmenu_<!--[$page.id]-->"><!--[gt text="Out"]--></span>
+                    <!--[/if]-->
+                </td>
                 <td><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datebrief tag2=$updaterName|userprofilelink]-->
                     <!--[if $enableVersioning]-->
                       <!--[pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo]-->
                       (#<!--[$versionNo]-->)
                     <!--[/if]-->
                 </td>
-                <td><!--[gt text="on $1%s by $2%s" tag1=$page.cr_date|pndate_format:datebrief tag2=$page.uname|userprofilelink]--></td>
                 <!--[if $multilingual]--><td><!--[if $page.isTranslated]--><!--[gt text="$1%s ($2%s original)" tag1=$language|getlanguagename tag2=$page.language|getlanguagename]--><!--[elseif $language neq $page.language]--><!--[gt text="%s original used" tag1=$page.language|getlanguagename]--><!--[else]--><!--[gt text="%s" tag1=$page.language|getlanguagename]--><!--[/if]--></td><!--[/if]-->
             </tr>
             <!--[foreachelse]-->
@@ -81,3 +108,11 @@
         </tbody>
     </table>
 </div>
+
+<script type="text/javascript">
+    var msgPageStatusOnline = '<!--[gt text="Online"]-->';
+    var msgPageStatusOffline = '<!--[gt text="Offline"]-->';
+    var msgPageInMenu = '<!--[gt text="In"]-->';
+    var msgPageOutMenu = '<!--[gt text="Out"]-->';
+    Event.observe(window, 'load', initcontentactivationbuttons, false);
+</script>

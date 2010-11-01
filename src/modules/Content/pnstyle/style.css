@@ -159,6 +159,11 @@ div.content-pageinfo .content li {
     padding:0 !important;
 }
 
+.content_activationbutton {
+    display: none;
+}
+
+
 /* ----------------------------------------------------------------------------
 Layouts
 ---------------------------------------------------------------------------- */

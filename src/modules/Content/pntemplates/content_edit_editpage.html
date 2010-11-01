@@ -97,6 +97,20 @@
         <!--[pnformlabel for='activeTo' __text='End date']-->
         <!--[pnformdateinput id='activeTo' group='page']-->
     </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='createdBy' __text='Created']-->
+        <!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
+        <span class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.cr_date|pndate_format:datetimebrief tag2=$page.uname|userprofilelink]--></span>
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='updatedBy' __text='Updated']-->
+        <span class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datetimebrief tag2=$updaterName|userprofilelink]-->
+        <!--[if $enableVersioning]-->
+            <!--[pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo]-->
+            (#<!--[$versionNo]-->)
+        <!--[/if]-->
+        </span>
+    </div>
 </fieldset>
 
 <!--[if $categoryUsage lt 4]-->

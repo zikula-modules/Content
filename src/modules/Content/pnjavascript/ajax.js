@@ -155,3 +155,95 @@ content.pageInfo.mouseout = function()
 {
   content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo').hide(); } , 500);
 }
+
+
+/**
+ * activate all buttons to (de-)activate blocks
+ *
+ */
+function initcontentactivationbuttons()
+{
+    $$('a.content_activationbutton').each(function(item) {
+        item.removeClassName('content_activationbutton');
+    });
+}
+
+/**
+ * Toggle a page online/offline status
+ *
+ *@params page id;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepagestate(id)
+{
+    var pars = "module=content&func=togglepagestate&id=" + id;
+    var myAjax = new Ajax.Request(
+        "ajax.php",
+        {
+            method: 'get',
+            parameters: pars,
+            onComplete: togglepagestate_response
+        });
+}
+
+/**
+ * Ajax response function for updating block status: cleanup
+ *
+ *@params none;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepagestate_response(req)
+{
+    if (req.status != 200 ) {
+        pnshowajaxerror(req.responseText);
+        return;
+    }
+
+    var json = pndejsonize(req.responseText);
+
+    $('active_' + json.id).toggle();
+    $('inactive_' + json.id).toggle();
+    $('activity_' + json.id).update((($('activity_' + json.id).innerHTML == msgPageStatusOffline) ? msgPageStatusOnline : msgPageStatusOffline));
+}
+
+/**
+ * Toggle a page inmenu status
+ *
+ *@params page id;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepageinmenu(id)
+{
+    var pars = "module=content&func=togglepageinmenu&id=" + id;
+    var myAjax = new Ajax.Request(
+        "ajax.php",
+        {
+            method: 'get',
+            parameters: pars,
+            onComplete: togglepageinmenu_response
+        });
+}
+
+/**
+ * Ajax response function for updating block status: cleanup
+ *
+ *@params none;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepageinmenu_response(req)
+{
+    if (req.status != 200 ) {
+        pnshowajaxerror(req.responseText);
+        return;
+    }
+
+    var json = pndejsonize(req.responseText);
+
+    $('inmenu_' + json.id).toggle();
+    $('outmenu_' + json.id).toggle();
+    $('inmenu_' + json.id).update((($('inmenu_' + json.id).innerHTML == msgPageInMenu) ? msgPageInMenu : msgPageOutMenu));
+}

@@ -10,9 +10,10 @@
 
 function smarty_function_contentareatitle($params, &$render) 
 {
-    $html = DataUtil::formatForDisplay($params['page']['layoutData']['plugin']->getContentAreaTitle($params['contentArea']));
-    if ($html) {
-        $html .= "<br />";
+    $dom = ZLanguage::getModuleDomain('content');
+    $areatitle = DataUtil::formatForDisplay($params['page']['layoutData']['plugin']->getContentAreaTitle($params['contentArea']));
+    if ($areatitle) {
+        $html = __f('%s area', $areatitle, $dom) . "<br />";
     }
     if (array_key_exists('assign', $params)) {
         $smarty->assign($params['assign'], $html);
