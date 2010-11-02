@@ -235,6 +235,7 @@ $where";
  * @param filter[pageId] int Restrict to specific page ID.
  * @param filter[urlname] string Restrict to specific page using the page's permalink name.
  * @param filter[checkActive] bool Enable restricting to only active pages (default true).
+ * @param filter[checkInMenu] bool Enable restricting to only pages that are shown in the menu (so active and inMenu) (default false).
  * @param filter[superParentId] int Restrict to pages beneath this ID (includes itself).
  * @param filter[where] string Any SQL to be used in the resulting restriction.
  * @param restrictions array Output array of restrictions (SQL expressions).
@@ -263,9 +264,15 @@ function contentGetPageListRestrictions($filter, &$restrictions, &$join)
     if (!empty($filter['urlname'])) {
         $restrictions[] = "$pageColumn[urlname] = '" . DataUtil::formatForStore($filter['urlname']) . "'";
     }
-
-    if (!array_key_exists('checkActive', $filter) || !empty($filter['checkActive'])) {
-        $restrictions[] = "$pageColumn[isActive] = 1";
+    
+    // if not specified always filter
+    if (!array_key_exists('checkActive', $filter) || (!empty($filter['checkActive']) && $filter['checkActive'])) {
+        $restrictions[] = "$pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
+    }
+    
+    // only filter explicitely
+    if (array_key_exists('checkInMenu', $filter) && $filter['checkInMenu']) {
+        $restrictions[] = "$pageColumn[inMenu] = 1 AND $pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
     }
 
     if (!empty($filter['superParentId'])) {

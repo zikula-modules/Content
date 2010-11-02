@@ -322,8 +322,6 @@ function content_historyapi_restoreVersion($args)
   $pageTranslations = $versionData['pageTranslations'];
   $contentTranslations = $versionData['contentTranslations'];
 
-  unset($page['isInMenu']);
-  unset($page['isActive']);
   unset($page['layoutData']);
   unset($page['isTranslated']);
   unset($page['layoutTemplate']);

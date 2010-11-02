@@ -58,6 +58,7 @@ function content_menublock_display($blockinfo)
         if ($vars['root'] > 0) {
             $options['filter']['superParentId'] = $vars['root'];
         }
+        $options['filter']['checkInMenu'] = true;
         $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
         if ($pages === false) {
             return false;

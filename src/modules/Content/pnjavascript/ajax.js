@@ -245,5 +245,5 @@ function togglepageinmenu_response(req)
 
     $('inmenu_' + json.id).toggle();
     $('outmenu_' + json.id).toggle();
-    $('inmenu_' + json.id).update((($('inmenu_' + json.id).innerHTML == msgPageInMenu) ? msgPageInMenu : msgPageOutMenu));
+    $('menustatus_' + json.id).update((($('menustatus_' + json.id).innerHTML == msgPageOutMenu) ? msgPageInMenu : msgPageOutMenu));
 }

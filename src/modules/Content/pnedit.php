@@ -26,8 +26,13 @@ class content_edit_mainHandler extends pnFormHandler
         if (!contentHasPageEditAccess())
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
-        $pages = pnModAPIFunc('content', 'page', 'getPages', array('editing' => true, 'filter' => array('checkActive' => false, 'expandedPageIds' => contentMainEditExpandGet()), 'enableEscape' => true, 'translate' => false, 'includeLanguages' => true,
-            'orderBy' => 'setLeft'));
+        $pages = pnModAPIFunc('content', 'page', 'getPages', array(
+                    'editing' => true, 
+                    'filter' => array('checkActive' => false, 'expandedPageIds' => contentMainEditExpandGet()), 
+                    'enableEscape' => true, 
+                    'translate' => false, 
+                    'includeLanguages' => true,
+                    'orderBy' => 'setLeft'));
         if ($pages === false)
             return $render->pnFormRegisterError(null);
 

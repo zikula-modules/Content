@@ -11,15 +11,15 @@
 
 function content_pntables()
 {
-  $pntable = array();
+  $tables = array();
   $prefix = pnConfigGetVar('prefix');
 
     // Page setup (pages can be nested beneath each other)
 
   $tableName = DBUtil::getLimitedTablename('content_page');
-  $pntable['content_page'] = $tableName;
+  $tables['content_page'] = $tableName;
 
-  $pntable['content_page_column'] = 
+  $tables['content_page_column'] = 
     array('id'            => 'page_id',         // Page ID
           'parentPageId'  => 'page_ppid',       // Parent (containing) page ID
           'title'         => 'page_title',      // Display title for this page
@@ -29,16 +29,14 @@ function content_pntables()
           'active'        => 'page_active',     // Bool flag: active or not?
           'activeFrom'    => 'page_activefrom', // Date - publish start
           'activeTo'      => 'page_activeto',   // Date - publish end
-          'isActive'      => 'CASE WHEN page_active = 1 AND (page_activeFrom <= NOW() OR page_activeFrom IS NULL) AND  (page_activeTo > NOW() OR page_activeTo IS NULL)  THEN 1 ELSE 0 END',
           'inMenu'        => 'page_inmenu',     // Bool flag: include in menu?
-          'isInMenu'      => 'CASE WHEN page_inmenu = 1 AND page_active = 1 AND (page_activeFrom <= NOW() OR page_activeFrom IS NULL) AND  (page_activeTo > NOW() OR page_activeTo IS NULL)  THEN 1 ELSE 0 END',
           'position'      => 'page_pos',        // Position inside current level of pages (sorting order)
           'level'         => 'page_level',      // Nested set level
           'setLeft'       => 'page_setleft',    // Nested set left
           'setRight'      => 'page_setright',   // Nested set right
           'language'      => 'page_language');  // Language of initial version
 
-  ObjectUtil::addStandardFieldsToTableDefinition ($pntable['content_page_column'], 'page_');
+  ObjectUtil::addStandardFieldsToTableDefinition ($tables['content_page_column'], 'page_');
 
   $def = array('id'           => "I NOTNULL AUTOINCREMENT KEY",
                'parentPageId' => "I NOTNULL DEFAULT 0",
@@ -57,16 +55,17 @@ function content_pntables()
                'language'      => 'C(10)');
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'page_');
-  $pntable['content_page_column_def'] = $def;
+  $tables['content_page_column_def'] = $def;
   //indexes
-  $pntable['content_page_column_idx'] = array('parentPageId' => array('parentPageId', 'position'), 'leftright' => array('setLeft','setRight'), 'categoryId' => 'categoryId', 'urlname' => array('urlname', 'parentPageId'));
+  $tables['content_page_column_idx'] = array('parentPageId' => array('parentPageId', 'position'), 'leftright' => array('setLeft','setRight'), 'categoryId' => 'categoryId', 'urlname' => array('urlname', 'parentPageId'));
+
 
     // Content setup (multiple content items on each page)
 
   $tableName = DBUtil::getLimitedTablename('content_content');
-  $pntable['content_content'] = $tableName;
+  $tables['content_content'] = $tableName;
 
-  $pntable['content_content_column'] = 
+  $tables['content_content_column'] = 
     array('id'              => 'con_id',          // Content item ID
           'pageId'          => 'con_pageid',      // Reference to owner page ID
           'areaIndex'       => 'con_areaindex',   // Content area index
@@ -79,7 +78,7 @@ function content_pntables()
           'styleWidth'      => 'con_stylewidth',  // Styled width
           'styleClass'      => 'con_styleclass'); // Styled CSS class
 
-  ObjectUtil::addStandardFieldsToTableDefinition ($pntable['content_content_column'], 'con_');
+  ObjectUtil::addStandardFieldsToTableDefinition ($tables['content_content_column'], 'con_');
 
   $def =
     array('id'              => 'I NOTNULL AUTOINCREMENT KEY',
@@ -95,17 +94,17 @@ function content_pntables()
           'styleClass'      => 'C(100) NOTNULL DEFAULT \'\'');
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'con_');
-  $pntable['content_content_column_def'] = $def;
+  $tables['content_content_column_def'] = $def;
   //indexes
-  $pntable['content_content_column_idx'] = array('pageActive' => array('pageId', 'active'), 'pagePosition' => array('pageId', 'areaIndex', 'position'));
+  $tables['content_content_column_idx'] = array('pageActive' => array('pageId', 'active'), 'pagePosition' => array('pageId', 'areaIndex', 'position'));
 
 
     // Multiple category relation
 
   $tableName = DBUtil::getLimitedTablename('content_pagecategory');
-  $pntable['content_pagecategory'] = $tableName;
+  $tables['content_pagecategory'] = $tableName;
 
-  $pntable['content_pagecategory_column'] = 
+  $tables['content_pagecategory_column'] = 
     array('pageId'     => 'con_pageid',       // Related page ID
           'categoryId' => 'con_categoryid');  // Related category ID
 
@@ -113,16 +112,17 @@ function content_pntables()
     array('pageId'     => 'I NOTNULL',
           'categoryId' => 'I NOTNULL');
 
-  $pntable['content_pagecategory_column_def'] = $def;
-
-  $pntable['content_pagecategory_column_idx'] = array('pageId' => 'pageId');
-
+  $tables['content_pagecategory_column_def'] = $def;
+  //indexes
+  $tables['content_pagecategory_column_idx'] = array('pageId' => 'pageId');
+  
+  
     // Searchable text from content plugins
 
   $tableName = DBUtil::getLimitedTablename('content_searchable');
-  $pntable['content_searchable'] = $tableName;
+  $tables['content_searchable'] = $tableName;
 
-  $pntable['content_searchable_column'] = 
+  $tables['content_searchable_column'] = 
     array('contentId' => 'search_cid',    // Content ID
           'text'      => 'search_text');  // Content searchable text
 
@@ -130,20 +130,20 @@ function content_pntables()
     array('contentId' => 'I NOTNULL KEY',
           'text'      => 'X');
 
-  $pntable['content_searchable_column_def'] = $def;
+  $tables['content_searchable_column_def'] = $def;
 
 
     // Translated pages
 
   $tableName = DBUtil::getLimitedTablename('content_translatedpage');
-  $pntable['content_translatedpage'] = $tableName;
+  $tables['content_translatedpage'] = $tableName;
 
-  $pntable['content_translatedpage_column'] = 
+  $tables['content_translatedpage_column'] = 
     array('pageId'    => 'transp_pid',      // Page ID
           'language'  => 'transp_lang',     // Translated to language
           'title'     => 'transp_title');   // Translated title
 
-  ObjectUtil::addStandardFieldsToTableDefinition ($pntable['content_translatedpage_column'], 'transp_');
+  ObjectUtil::addStandardFieldsToTableDefinition ($tables['content_translatedpage_column'], 'transp_');
 
   $def =
     array('pageId'    => 'I NOTNULL',
@@ -151,22 +151,22 @@ function content_pntables()
           'title'     => 'C(255) NOTNULL');
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'transp_');
-  $pntable['content_translatedpage_column_def'] = $def;
+  $tables['content_translatedpage_column_def'] = $def;
   //indexes
-  $pntable['content_translatedpage_column_idx'] = array('entry' => array('pageId', 'language'));
+  $tables['content_translatedpage_column_idx'] = array('entry' => array('pageId', 'language'));
 
 
     // Translated content plugins
 
   $tableName = DBUtil::getLimitedTablename('content_translatedcontent');
-  $pntable['content_translatedcontent'] = $tableName;
+  $tables['content_translatedcontent'] = $tableName;
 
-  $pntable['content_translatedcontent_column'] = 
+  $tables['content_translatedcontent_column'] = 
     array('contentId' => 'transc_cid',     // Content ID
           'language'  => 'transc_lang',    // Translated to language
           'data'      => 'transc_data');   // Translated content
 
-  ObjectUtil::addStandardFieldsToTableDefinition ($pntable['content_translatedcontent_column'], 'transc_');
+  ObjectUtil::addStandardFieldsToTableDefinition ($tables['content_translatedcontent_column'], 'transc_');
 
   $def =
     array('contentId' => 'I NOTNULL',
@@ -174,17 +174,17 @@ function content_pntables()
           'data'      => 'X');
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'trans_');
-  $pntable['content_translatedcontent_column_def'] = $def;
+  $tables['content_translatedcontent_column_def'] = $def;
   //indexes
-  $pntable['content_translatedcontent_column_idx'] = array('entry' => array('contentId', 'language'));
+  $tables['content_translatedcontent_column_idx'] = array('entry' => array('contentId', 'language'));
 
 
     // History
 
   $tableName = DBUtil::getLimitedTablename('content_history');
-  $pntable['content_history'] = $tableName;
+  $tables['content_history'] = $tableName;
 
-  $pntable['content_history_column'] = 
+  $tables['content_history_column'] = 
     array('id'            => 'ch_id',
           'pageId'        => 'ch_pageid',
           'data'          => 'ch_data',
@@ -204,9 +204,9 @@ function content_pntables()
           'ipno'         => "C(30) NOTNULL",
           'userId'       => "I NOTNULL");
 
-  $pntable['content_history_column_def'] = $def;
+  $tables['content_history_column_def'] = $def;
   //indexes
-  $pntable['content_history_column_idx'] = array('entry' => array('pageId', 'revisionNo'), 'action' => 'action');
+  $tables['content_history_column_idx'] = array('entry' => array('pageId', 'revisionNo'), 'action' => 'action');
 
-  return $pntable;
+  return $tables;
 }
