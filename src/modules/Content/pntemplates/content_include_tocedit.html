@@ -75,22 +75,22 @@
                 </td>
                 <td class="z-center" style="white-space:nowrap;">
                     <!--[if $page.active]-->
-                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$deactivate alt=$deactivate id="active_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"]--></a>
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$deactivate alt=$deactivate id="active_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="Online" __alt="Online" ]--></div></noscript>
                     <span id="activity_<!--[$page.id]-->"><!--[gt text="Online"]--></span>
                     <!--[else]-->
-                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$deactivate alt=$deactivate style="display: none;" id="active_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$activate alt=$activate id="inactive_`$page.id`"]--></a>
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$deactivate alt=$deactivate style="display: none;" id="active_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$activate alt=$activate id="inactive_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=redled.gif modname=core set=icons/extrasmall __title="Offline" __alt="Offline" ]--></div></noscript>
                     <span id="activity_<!--[$page.id]-->"><!--[gt text="Offline"]--></span>
                     <!--[/if]-->
                 </td>
                 <td class="z-center" style="white-space:nowrap;">
                     <!--[if $page.inMenu]-->
-                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"]--></a>
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" ]--></div></noscript>
                     <span id="menustatus_<!--[$page.id]-->"><!--[gt text="In"]--></span>
                     <!--[else]-->
-                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$outmenu alt=$outmenu style="display: none;" id="inmenu_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$inmenu alt=$inmenu id="outmenu_`$page.id`"]--></a>
+                    <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$outmenu alt=$outmenu style="display: none;" id="inmenu_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$inmenu alt=$inmenu id="outmenu_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=redled.gif modname=core set=icons/extrasmall __title="Out" __alt="Out" ]--></div></noscript>
                     <span id="menustatus_<!--[$page.id]-->"><!--[gt text="Out"]--></span>
                     <!--[/if]-->
