@@ -187,29 +187,29 @@ div.content-layout.column3 p {
 
 /* widths are located in the templates for easier adjustment */
 div.content-layout.column2 div.content-area-left {
-/*    width: 48%;*/
+    /*    width: 48%;*/
     float: left;
 }
 
 div.content-layout.column2 div.content-area-right {
-/*    width: 48%;*/
+    /*    width: 48%;*/
     float: right;
     padding-left: 2%;
 }
 
 div.content-layout.column3 div.content-area-left {
-/*    width: 30%;*/
+    /*    width: 30%;*/
     float: left;
 }
 
 div.content-layout.column3 div.content-area-center {
-/*    width: 30%;*/
+    /*    width: 30%;*/
     float: left;
     padding: 0 2%;
 }
 
 div.content-layout.column3 div.content-area-right {
-/*    width: 30%;*/
+    /*    width: 30%;*/
     float: right;
 }
 
@@ -453,20 +453,6 @@ dl.content-video dd {
     padding-left:5px;
 }
 
-/*******************************************************************************/
-/* Styling of links and buttons with images
-/*******************************************************************************/
-/*
-* Note: When use a CSS3 feature to highlight external the following image
-*       normally would not be visisble. The !important fixes this.
-* a[href^="http:"],
-* a[href^="https:"] {
-*     padding-left: 1.5em;
-*     background: url('images/internet.gif') no-repeat bottom left;
-* }
-*
-/*******************************************************************************/
-
 div.content-pageinfo .content a.con_image,
 div.content-pageinfo .content button.con_image {
     margin: 0 !important;
@@ -494,4 +480,18 @@ div.content-pageinfo .content a.editoff {
 }
 div.content-pageinfo .content a.editon {
     background: url(../../../images/icons/extrasmall/greenled.gif) no-repeat 0 50%;
+}
+
+.contextMenu {
+    border:1px solid transparent;
+    cursor:pointer;
+    padding:1px;
+    vertical-align:middle;
+}
+
+.contextMenu:hover {
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border:1px solid #333;
 }

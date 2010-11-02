@@ -44,8 +44,8 @@
         <thead>
             <tr>
                 <th><!--[gt text="Page title [id]"]--></th>
-                <th><!--[gt text="Status"]--></th>
-                <th><!--[gt text="Menu"]--></th>
+                <th class="z-center"><!--[gt text="Status"]--></th>
+                <th class="z-center"><!--[gt text="Menu"]--></th>
                 <th><!--[if $enableVersioning]--><!--[gt text="Last updated (revision)"]--><!--[else]--><!--[gt text="Last updated"]--><!--[/if]--></th>
                 <!--[if $multilingual]--><th><!--[gt text="Language"]--></th><!--[/if]-->
             </tr>
@@ -69,12 +69,11 @@
                         <img src="images/icons/extrasmall/folder_blank.gif" alt="<!--[gt text="Page online and in menu"]-->" title="<!--[gt text="Page online and in menu"]-->" class="dragable"/>
                         <!--[/if]-->
 
-                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->">
-                            <!--[$page.title]--> [<!--[$page.id]--><!--[* <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->  *]-->]
-                        </a><!--[if $access.pageEditAllowed]-->&nbsp;<!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="images/icons/extrasmall/next.gif"]--><!--[/if]-->
+                        <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title]--> [<!--[$page.id]--><!--[* <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->  *]-->]</a>
+                        <!--[if $access.pageEditAllowed]-->&nbsp;<!--[pnformcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="modules/content/pnimages/contextarrow.png"]--><!--[/if]-->
                     </div>
                 </td>
-                <td>
+                <td class="z-center" style="white-space:nowrap;">
                     <!--[if $page.active]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$deactivate alt=$deactivate id="active_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="Online" __alt="Online" ]--></div></noscript>
@@ -85,7 +84,7 @@
                     <span id="activity_<!--[$page.id]-->"><!--[gt text="Offline"]--></span>
                     <!--[/if]-->
                 </td>
-                <td>
+                <td class="z-center" style="white-space:nowrap;">
                     <!--[if $page.inMenu]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" ]--></div></noscript>
