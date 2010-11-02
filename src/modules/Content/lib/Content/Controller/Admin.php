@@ -13,8 +13,9 @@ class Content_Controller_Admin extends Zikula_Controller
 {
     public function main()
     {
-        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN))
+        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
             return LogUtil::registerPermissionError();
+        }
 
         $dom = ZLanguage::getModuleDomain('Content');
         $view = Zikula_View::getInstance('Content');

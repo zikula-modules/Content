@@ -40,7 +40,7 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     function getAdminInfo()
     {
         $dom = ZLanguage::getModuleDomain('Content');
-        return __('If you want to add Google maps to your content then you need a Google maps API key. You can get this from <a href="http://code.google.com/apis/maps/signup.html">google.com</a>.', $dom);
+        return __('A Google maps API key is not needed any more in the new version 3 of the Javascript API.', $dom);
     }
     function isTranslatable()
     {
@@ -48,11 +48,7 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     }
     function isActive()
     {
-        $apiKey = ModUtil::getVar('Content', 'googlemapApiKey');
-        if (!empty($apiKey)) {
-            return true;
-        }
-        return false;
+        return true;
     }
     function loadData(&$data)
     {
@@ -77,7 +73,6 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
         $view->assign('infotext', $this->infotext);
         $view->assign('streetviewcontrol', $this->streetviewcontrol);
         $view->assign('directionslink', $this->directionslink);
-        $view->assign('googlemapApiKey', ModUtil::getVar('Content', 'googlemapApiKey'));
         $view->assign('contentId', $this->contentId);
         $view->assign('language', ZLanguage::getLanguageCode());
 
@@ -101,7 +96,6 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     }
     function startEditing(&$view)
     {
-        $view->assign('googlemapApiKey', ModUtil::getVar('Content', 'googlemapApiKey'));
         $view->assign('language', ZLanguage::getLanguageCode());
         $view->assign('latitude', $this->latitude);
         $view->assign('longitude', $this->longitude);

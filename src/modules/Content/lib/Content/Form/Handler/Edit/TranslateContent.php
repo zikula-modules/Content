@@ -37,7 +37,7 @@ class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage',
                              array('id' => $this->pageId,
                                    'includeContent' => false,
-                                   'checkActive' => false));
+                                   'filter' => array('checkActive' => false)));
         if ($page === false) {
             return $view->registerError(null);
         }

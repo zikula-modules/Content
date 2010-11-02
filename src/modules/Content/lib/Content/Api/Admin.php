@@ -19,9 +19,15 @@ class Content_Api_Admin extends Zikula_Api
     {
         $links = array();
 
-        $links[] = array('url' => ModUtil::url('Content', 'admin', 'main'), 'text' => $this->__('Administration'), 'class' => 'z-icon-es-cubes');
-        $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Edit contents'), 'class' => 'z-icon-es-new');
-        $links[] = array('url' => ModUtil::url('Content', 'admin', 'settings'), 'text' => $this->__('Settings'), 'class' => 'z-icon-es-config');
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url('Content', 'admin', 'main'), 'text' => $this->__('Administration'), 'class' => 'z-icon-es-cubes');
+        }
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
+            $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Edit contents'), 'class' => 'z-icon-es-new');
+        }
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url('Content', 'admin', 'settings'), 'text' => $this->__('Settings'), 'class' => 'z-icon-es-config');
+        }
 
         return $links;
     }

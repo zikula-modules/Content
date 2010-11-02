@@ -1,7 +1,7 @@
 {ajaxheader modname='content' noscriptaculous=true}
 
 <script type="text/javascript" 
-    src="http://maps.google.com/maps/api/js?v=3&key={$googlemapApiKey|safetext}&language={$language}&sensor=false">
+    src="http://maps.google.com/maps/api/js?v=3&language={$language}&sensor=false">
 </script>
 
 <div class="content-googlemap">
@@ -53,10 +53,6 @@
 </script>
 
 <p>{gt text="Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position."}</p>
-
-{if empty($googlemapApiKey)}
-<p class="z-errormsg">{gt text='No Google API key available! You must specify a Google maps API key to use this feature. Get a key from %s and enter it in the admin section.' tag1='<a href="http://code.google.com/apis/maps/signup.html">google.com</a>'}</p>
-{/if}
 
 <div class="z-formrow">
     {formlabel for='latitude' __text='Latitude'}

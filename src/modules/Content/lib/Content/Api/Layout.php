@@ -59,6 +59,6 @@ class Content_Api_Layout extends Zikula_Api
     public function getLayout($args)
     {
         $plugin = $this->getLayoutPlugin($args);
-        return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage());
+        return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage(), 'plugin' => $plugin);
     }
 }

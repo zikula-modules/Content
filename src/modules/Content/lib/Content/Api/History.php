@@ -14,21 +14,19 @@ class Content_Api_History extends Zikula_Api
 {
     public function getPageVersions($args)
     {
-
         $pageId = (int)$args['pageId'];
         $enableEscape = (array_key_exists('enableEscape', $args) ? $args['enableEscape'] : true);
         $offset = (array_key_exists('offset', $args) ? $args['offset'] : 0);
         $pageSize = (array_key_exists('pageSize', $args) ? $args['pageSize'] : 20);
 
-        $pntable = &DBUtil::getTables();
-        $historyColumn = &$pntable['content_history_column'];
+        $table = &DBUtil::getTables();
+        $historyColumn = &$table['content_history_column'];
 
         $where = "$historyColumn[pageId] = $pageId";
 
         $versions = DBUtil::selectObjectArray('content_history', $where, 'revisionNo DESC', $offset, $pageSize);
         if (count($versions) == 0)
             return $versions;
-
 
         for ($i=0,$cou=count($versions); $i<$cou; ++$i)
         {
@@ -41,10 +39,18 @@ class Content_Api_History extends Zikula_Api
         return $versions;
     }
 
+    public function content_historyapi_getPageVersionsCount($args)
+    {
+        $pageId = (int)$args['pageId'];
+        $table = &DBUtil::getTables();
+        $historyColumn = &$table['content_history_column'];
+        $where = "$historyColumn[pageId] = $pageId";
+        return DBUtil::selectObjectCount('content_history', $where);
+    }
+
 
     protected function contentHistoryActionTranslate($action)
     {
-
         $textAndParam = explode('|', $action);
         $text = $textAndParam[0];
         $parametersStr = (count($textAndParam) > 1 ? $textAndParam[1] : '');
@@ -280,6 +286,7 @@ class Content_Api_History extends Zikula_Api
         $contentTranslations = $versionData['contentTranslations'];
 
         unset($page['isInMenu']);
+        unset($page['parentPageId']);
         unset($page['isActive']);
         unset($page['position']);
         unset($page['level']);
@@ -417,9 +424,9 @@ class Content_Api_History extends Zikula_Api
 
         $pageId = (int)$args['pageId'];
 
-        $pntable = DBUtil::getTables();
-        $historyTable = &$pntable['content_history'];
-        $historyColumn = &$pntable['content_history_column'];
+        $table = DBUtil::getTables();
+        $historyTable = &$table['content_history'];
+        $historyColumn = &$table['content_history_column'];
 
         $sql = "
 DELETE FROM $historyTable
@@ -435,9 +442,9 @@ WHERE $historyColumn[pageId] = $pageId";
     {
         $pageId = (int)$pageId;
 
-        $pntable = DBUtil::getTables();
-        $historyTable = &$pntable['content_history'];
-        $historyColumn = &$pntable['content_history_column'];
+        $table = DBUtil::getTables();
+        $historyTable = &$table['content_history'];
+        $historyColumn = &$table['content_history_column'];
 
         $sql = "
 SELECT MAX($historyColumn[revisionNo])

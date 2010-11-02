@@ -33,7 +33,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
             return $view->registerError(LogUtil::registerPermissionError());
         }
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'checkActive' => false));
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
         if ($page === false) {
             return $view->registerError(null);
         }

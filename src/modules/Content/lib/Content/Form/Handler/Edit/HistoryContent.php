@@ -14,6 +14,7 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
         $dom = ZLanguage::getModuleDomain('Content');
 
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
+        $offset = (int)FormUtil::getPassedValue('offset');
 
         if (!contentHasPageEditAccess($this->pageId)) {
             return $view->registerError(LogUtil::registerPermissionError());
@@ -23,7 +24,8 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
             return $view->registerError(null);
         }
 
-        $versions = ModUtil::apiFunc('Content', 'history', 'getPageVersions', array('pageId' => $this->pageId));
+        $versionscnt = ModUtil::apiFunc('Content', 'history', 'getPageVersionsCount', array('pageId' => $this->pageId));
+        $versions = ModUtil::apiFunc('Content', 'history', 'getPageVersions', array('pageId' => $this->pageId, 'offset' => $offset));
         if ($versions === false) {
             return $view->registerError(null);
         }
@@ -31,6 +33,8 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
         $view->assign('page', $page);
         $view->assign('versions', $versions);
         contentAddAccess($view, $this->pageId);
+        // Assign the values for the smarty plugin to produce a pager
+        $view->assign('numitems', $versionscnt);
 
         PageUtil::setVar('title', __("Page history", $dom) . ' : ' . $page['title']);
 

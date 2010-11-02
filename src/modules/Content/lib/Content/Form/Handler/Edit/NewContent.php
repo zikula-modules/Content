@@ -46,7 +46,7 @@ class Content_Form_Handler_Edit_NewContent extends Form_Handler
             return $view->setErrorMsg($this->__("Missing content area index (cai) in URL"));
         }
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'checkActive' => false));
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'filter' => array('checkActive' => false)));
         if ($page === false) {
             return $view->registerError(null);
         }

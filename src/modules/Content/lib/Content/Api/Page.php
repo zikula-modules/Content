@@ -31,11 +31,15 @@ class Content_Api_Page extends Zikula_Api
         $args['filter']['pageId'] = $args['id'];
 
         $pages = $this->getPages($args);
-        if ($pages === false)
+        if ($pages === false) {
             return false;
-        if (count($pages) == 0)
-            return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
-
+        } elseif (count($pages) == 0) {
+            if (!$args['noerror']) {
+                return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
+            } else {
+                return false;
+            }
+        }
         $page = $pages[0];
 
         return $page;
@@ -387,6 +391,8 @@ function dumpTree($pages)
 
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
+        // create pages initially invisible
+        $pageData['active'] = 0; 
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -1032,20 +1038,17 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
     public function isUniqueUrlnameByPageId($args)
     {
         // Argument check
-        if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId']))
+        if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId'])) {
             return LogUtil::registerArgsError();
-
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false));
-
+        }
+        $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false, 'filter' => array('checkActive' => false)));
         $parenturl = ModUtil::apiFunc('Content', 'Page', 'getUrlPath', array('pageId' => $page['parentPageId']));
-
         $url = $parenturl . '/' . $args['urlname'];
-
         $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', array('urlname' => $url));
 
-        if ($pageId == false || $pageId == $args['pageId'])
+        if ($pageId == false || $pageId == $args['pageId']) {
             return true;
-
+        }
         return false;
     }
 
