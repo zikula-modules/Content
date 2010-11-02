@@ -30,11 +30,11 @@ function content_needleapi_content($args)
     if (!empty($nid)) {
         if (!isset($cache[$nid])) {
             // not in cache array
-            if (pnModAvailable('Content')) {
+            if (pnModAvailable('content')) {
 
                 $contentpage = pnModAPIFunc('content', 'page', 'getPage', array('id' => $nid, 'includeContent' => false));
                 if ($contentpage != false) {
-                    $cache[$nid] = '<a href="' . DataUtil::formatForDisplay(pnModURL('Content', 'user', 'view', array('pid' => $nid))) . '" title="' . DataUtil::formatForDisplay($contentpage['title']) . '">' . DataUtil::formatForDisplay($contentpage['title']) . '</a>';
+                    $cache[$nid] = '<a href="' . DataUtil::formatForDisplay(pnModURL('content', 'user', 'view', array('pid' => $nid))) . '" title="' . DataUtil::formatForDisplay($contentpage['title']) . '">' . DataUtil::formatForDisplay($contentpage['title']) . '</a>';
                 } else {
                     $cache[$nid] = '<em>' . DataUtil::formatForDisplay(__('Unknown id', $dom)) . '</em>';
                 }

@@ -45,7 +45,7 @@ class content_layouttypesapi_column1Plugin extends contentLayoutBase
     }
     function getImage()
     {
-    	return pngetBaseUrl().'/modules/Content/pnimages/layout/column1.png';
+    	return pngetBaseUrl().'/modules/content/pnimages/layout/column1.png';
     }
 }
 

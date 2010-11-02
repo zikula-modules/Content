@@ -9,7 +9,7 @@
  */
 function content_searchapi_info()
 {
-    return array('title' => 'content', 'functions' => array('Content' => 'search'));
+    return array('title' => 'content', 'functions' => array('content' => 'search'));
 }
 
 /**

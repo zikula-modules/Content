@@ -34,7 +34,7 @@ function content_user_categories($args)
 
     Loader::loadClass('CategoryUtil');
     Loader::loadClass('CategoryRegistryUtil');
-    $mainCategoryId = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+    $mainCategoryId = CategoryRegistryUtil::getRegisteredModuleCategory('content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
     $categories = CategoryUtil::getCategoriesByParentID($mainCategoryId);
     $rootCategory = CategoryUtil::getCategoryByID($mainCategoryId);
 

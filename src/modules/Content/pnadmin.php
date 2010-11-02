@@ -40,7 +40,7 @@ class content_admin_settingsHandler extends pnFormHandler
         $render->assign('categoryusage', 1);
         
         // Assign all module vars
-        $render->assign('config', pnModGetVar('Content'));
+        $render->assign('config', pnModGetVar('content'));
 
         return true;
     }
@@ -60,12 +60,12 @@ class content_admin_settingsHandler extends pnFormHandler
             if ($data['config']['categoryUsage'] < 4) {
                 // load the category registry util
                 Loader::loadClass('CategoryRegistryUtil');
-                $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', $data['config']['categoryPropPrimary']);
+                $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('content', 'content_page', $data['config']['categoryPropPrimary']);
                 if (!$mainCategory) {
                     return LogUtil::registerError(__('Main category property does not exist.', $dom));
                 }
                 if ($data['config']['categoryUsage'] < 3) {
-                    $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', $data['config']['categoryPropSecondary']);
+                    $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('content', 'content_page', $data['config']['categoryPropSecondary']);
                     if (!$secondCategory) {
                         return LogUtil::registerError(__('Second category property does not exist.', $dom));
                     }

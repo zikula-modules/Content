@@ -34,7 +34,7 @@ class contentLayoutBase
     }
     function getImage()
     {
-    	return pngetBaseUrl().'/modules/Content/pnimages/layout_nopreview.png';
+    	return pngetBaseUrl().'/modules/content/pnimages/layout_nopreview.png';
     }
 }
 

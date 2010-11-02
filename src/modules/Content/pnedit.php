@@ -222,10 +222,10 @@ class content_edit_editPageHandler extends pnFormHandler
 
         // load the category registry util
         Loader::loadClass('CategoryRegistryUtil');
-        //$mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+        //$mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('content', 'content_page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
         // fallback to 30 == /__SYSTEM__/Modules/Global if property is not present
-        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', pnModGetVar('content', 'categoryPropPrimary'), 30);
-        $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', pnModGetVar('content', 'categoryPropSecondary'));
+        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('content', 'content_page', pnModGetVar('content', 'categoryPropPrimary'), 30);
+        $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('content', 'content_page', pnModGetVar('content', 'categoryPropSecondary'));
 
         $multilingual = pnModGetVar(PN_CONFIG_MODULE, 'multilingual');
         if ($page['language'] == ZLanguage::getLanguageCode())

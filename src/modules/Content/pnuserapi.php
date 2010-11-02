@@ -92,7 +92,7 @@ function content_userapi_decodeurl($args) {
     if (!isset($args['vars'][3]) || empty($args['vars'][3])) {
         Loader::loadClass('CategoryRegistryUtil');
         Loader::loadClass('CategoryUtil');
-        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory ('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory ('content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
         $cats = CategoryUtil::getCategoriesByParentID($mainCategory);
         foreach ($cats as $cat) {
             if ($args['vars'][2] == $cat['name'] || $args['vars'][2] == DataUtil::formatForURL($cat['name'])) {
