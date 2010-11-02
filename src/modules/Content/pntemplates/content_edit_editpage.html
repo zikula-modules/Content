@@ -54,7 +54,7 @@
 <!--[/if]-->
 
 <!--[pnformtabbedpanel __title='Content']-->
-<!--[gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."]-->
+<p><!--[gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."]--></p>
 <!--[include file=$layoutTemplate]-->
 <!--[/pnformtabbedpanel]-->
 
@@ -100,11 +100,11 @@
     <div class="z-formrow">
         <!--[pnformlabel for='createdBy' __text='Created']-->
         <!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
-        <span class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.cr_date|pndate_format:datetimebrief tag2=$page.uname|userprofilelink]--></span>
+        <span id="createdBy" class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.cr_date|pndate_format:datetimebrief tag2=$page.uname|userprofilelink]--></span>
     </div>
     <div class="z-formrow">
         <!--[pnformlabel for='updatedBy' __text='Updated']-->
-        <span class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datetimebrief tag2=$updaterName|userprofilelink]-->
+        <span id="updatedBy" class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datetimebrief tag2=$updaterName|userprofilelink]-->
         <!--[if $enableVersioning]-->
             <!--[pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo]-->
             (#<!--[$versionNo]-->)
@@ -154,15 +154,15 @@
     <legend><!--[gt text="Page layout"]--></legend>
     <div class="z-formrow">
         <!--[pnformlabel for='layout' __text='Page layout']-->
-        <!--[contentlayoutselector id='layout' group='page' layout=$layouts]-->
+        <!--[contentlayoutselector id='layout' group='page']-->
     </div>
     <div class="z-formrow">
-        <!--[pnformlabel __text='Layout preview and description']-->
+        <!--[pnformlabel for="layout_preview" __text='Layout preview and description']-->
         <div id="layout_preview">
-            <img id="layout_preview_img" src="<!--[$pagelayout.image]-->" align="top" />
-            <span id="layout_preview_desc"><!--[$pagelayout.description]--></span>
+            <img id="layout_preview_img" src="<!--[$pagelayout.image]-->" alt="<!--[$pagelayout.description]-->" />
         </div>
     </div>
+    <p id="layout_preview_desc" class="z-formnote"><!--[$pagelayout.description]--></p>
 </fieldset>
 
 <!--[/pnformtabbedpanel]-->

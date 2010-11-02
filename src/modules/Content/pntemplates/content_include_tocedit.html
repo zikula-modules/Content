@@ -12,7 +12,9 @@
 </script>
 
 <!--[pnformpostbackfunction function='contentPost' commandName='toggleExpand']-->
-<input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
+<div>
+    <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
+</div>
 <!--[pnmodurl modname=content type=edit func=translatepage pid="{commandArgument}" assign=translateUrl]-->
 <!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
 
@@ -87,11 +89,11 @@
                     <!--[if $page.inMenu]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" ]--></div></noscript>
-                    <span id="inmenu_<!--[$page.id]-->"><!--[gt text="In"]--></span>
+                    <span id="inmenu_<!--[$page.id]-->_text"><!--[gt text="In"]--></span>
                     <!--[else]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="greenled.gif" modname="core" set="icons/extrasmall" title=$outmenu alt=$outmenu style="display: none;" id="inmenu_`$page.id`"]--><!--[pnimg src="redled.gif" modname="core" set="icons/extrasmall" title=$inmenu alt=$inmenu id="outmenu_`$page.id`"]--></a>
                     <noscript><div><!--[pnimg src=redled.gif modname=core set=icons/extrasmall __title="Out" __alt="Out" ]--></div></noscript>
-                    <span id="inmenu_<!--[$page.id]-->"><!--[gt text="Out"]--></span>
+                    <span id="inmenu_<!--[$page.id]-->_text"><!--[gt text="Out"]--></span>
                     <!--[/if]-->
                 </td>
                 <td><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datebrief tag2=$updaterName|userprofilelink]-->
