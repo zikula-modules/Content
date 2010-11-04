@@ -12,6 +12,8 @@
 class content_contenttypesapi_VimeoPlugin extends contentTypeBase
 {
     var $url;
+    var $width;
+    var $height;
     var $text;
     var $clipId;
     var $displayMode;
@@ -41,6 +43,8 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
     function loadData(&$data)
     {
         $this->url = $data['url'];
+        $this->width = $data['width'];
+        $this->height = $data['height'];
         $this->text = $data['text'];
         $this->clipId = $data['clipId'];
         $this->displayMode = isset($data['displayMode']) ? $data['displayMode'] : 'inline';
@@ -49,6 +53,8 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
     {
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('url', $this->url);
+        $view->assign('width', $this->width);
+        $view->assign('height', $this->height);
         $view->assign('text', $this->text);
         $view->assign('clipId', $this->clipId);
         $view->assign('displayMode', $this->displayMode);
@@ -57,13 +63,15 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
     }
     function displayEditing()
     {
-        $output = '<div style="background-color:grey; width:320px; height:200px; margin:0 auto; padding:10px;">Video-ID : ' . $this->clipId . '</div>';
-        $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
+        $output = '<div style="background-color:grey; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->clipId . '</div>';
+        $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
     function getDefaultData()
     {
         return array('url' => '',
+        'width' => '425',
+        'height' => '340',
         'text' => '',
         'clipId' => '',
         'displayMode' => 'inline');
@@ -77,6 +85,7 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
             $this->clipId = $data['clipId'] = $matches[1];
             return true;
         }
+       
         $message = __('Error! Unrecognized Vimeo URL', $dom);
         return false;
     }

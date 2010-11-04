@@ -64,12 +64,11 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     function display()
     {
         $view = Zikula_View::getInstance('Content', false);
-        $view->assign('latitude', $this->latitude);
         $view->assign('longitude', $this->longitude);
+        $view->assign('latitude', $this->latitude);
         $view->assign('zoom', $this->zoom);
-        $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $view->assign('text', $this->text);
         $view->assign('height', $this->height);
+        $view->assign('text', $this->text);
         $view->assign('infotext', $this->infotext);
         $view->assign('streetviewcontrol', $this->streetviewcontrol);
         $view->assign('directionslink', $this->directionslink);
@@ -97,8 +96,8 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     function startEditing(&$view)
     {
         $view->assign('language', ZLanguage::getLanguageCode());
-        $view->assign('latitude', $this->latitude);
         $view->assign('longitude', $this->longitude);
+        $view->assign('latitude', $this->latitude);
         $view->assign('zoom', $this->zoom);
     }
     function getSearchableText()

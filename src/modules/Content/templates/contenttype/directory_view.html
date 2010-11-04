@@ -1,7 +1,7 @@
 {if $directory.directory}
 <ul class="content-directory">
     {foreach from=$directory.directory item="item"}
-    <li><a href="{$item.url|varprepfordisplay}">{$item.title}</a>
+    <li><a href="{$item.url|safetext}">{$item.title|safetext}</a>
         {if !empty($item.directory)}
         {include file="contenttype/directory_view.html" directory=$item}
         {/if}

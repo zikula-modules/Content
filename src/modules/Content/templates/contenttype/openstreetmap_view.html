@@ -24,9 +24,9 @@
         });
 
     // position and zoomlevel on the map
-    var lat={{$latitude|pnvarprepfordisplay}};
-    var lon={{$longitude|pnvarprepfordisplay}};
-    var zoom={{$zoom|pnvarprepfordisplay}};;
+    var lat={{$latitude|safetext}};
+    var lon={{$longitude|safetext}};
+    var zoom={{$zoom|safetext}};;
 
     checkForPermalink();
 

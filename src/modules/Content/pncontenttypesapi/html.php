@@ -71,7 +71,29 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
     }
     function getSearchableText()
     {
-        return html_entity_decode(strip_tags($this->text));
+        return html_entity_decode(strip_tags($this->activateinternallinks($this->text)));
+    }
+
+    function activateinternallinks($text)
+    {
+        $text = preg_replace_callback("/\[\[link-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
+          '$treffer',
+          'if ($treffer[2]) { return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $treffer[1]))."\">".$treffer[2]."</a>"; } else {
+          $page = ModUtil::apiFunc("Content", "page", "getPage", array("pid" => $treffer[1]));
+          if ($page === false) return "";
+          return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $treffer[1]))."\">".$page["title"]."</a>";
+          }'
+        ) , $text);
+        if (ModUtil::available('crptag')) {
+            $text = preg_replace_callback("/\[\[tag-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
+              '$treffer',
+              '$title = $treffer[1];
+              if ($treffer[2]) { $title = $treffer[2]; }
+              return "<a href=\"".ModUtil::url("crpTag", "user", "display", array("id" => $treffer[1]))."\">".$title."</a>";
+              '
+            ) , $text);
+        }
+        return $text;
     }
 }
 

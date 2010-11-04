@@ -11,6 +11,8 @@
 class content_contenttypesapi_YouTubePlugin extends contentTypeBase
 {
     var $url;
+    var $width;
+    var $height;
     var $text;
     var $videoId;
     var $displayMode;
@@ -40,6 +42,8 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     function loadData(&$data)
     {
         $this->url = $data['url'];
+        $this->width = $data['width'];
+        $this->height = $data['height'];
         $this->text = $data['text'];
         $this->videoId = $data['videoId'];
         $this->displayMode = isset($data['displayMode']) ? $data['displayMode'] : 'inline';
@@ -48,6 +52,8 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     {
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('url', $this->url);
+        $view->assign('width', $this->width);
+        $view->assign('height', $this->height);
         $view->assign('text', $this->text);
         $view->assign('videoId', $this->videoId);
         $view->assign('displayMode', $this->displayMode);
@@ -56,13 +62,13 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     }
     function displayEditing()
     {
-        $output = '<div style="background-color:grey; width:320px; height:200px; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . '</div>';
-        $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
+        $output = '<div style="background-color:grey; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . ',<br />Size in pixels: ' . $this->width . ' x ' . $this->height . ' </div>';
+        $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
     function getDefaultData()
     {
-        return array('url' => '', 'text' => '', 'videoId' => '', 'displayMode' => 'inline');
+        return array('url' => '', 'width' => '320', 'height' => '240', 'text' => '', 'videoId' => '', 'displayMode' => 'inline');
     }
     function isValid(&$data, &$message)
     {

@@ -1,8 +1,8 @@
-{formsetinitialfocus inputId='url'}
+{formsetinitialfocus inputId='videoPath'}
 <div class="z-formrow">
-    {formlabel for='url' __text='URL to the video clip'}
-    {formurlinput id='url' group='data'}
-    {contentlabelhelp __text='Something like "http://www.youtube.com/watch?v=ABcDEFgHij&feature=dir".'}
+    {formlabel for='videoPath' __text='Name of the Camtasia-Flash video'}
+    {formtextinput id='videoPath' group='data' mandatory='1' maxLength='120'}
+    {contentlabelhelp __text='You have to upload your camtasia project in the folder defined below <folder>/project/project.mp4 first. Here you have to give only the name of your project without path and file extension.'}
 </div>
 
 <div class="z-formrow">
@@ -18,6 +18,11 @@
 <div class="z-formrow">
     {formlabel for='text' __text='Video description'}
     {formtextinput id='text' textMode='multiline' cols='40' rows='10' group='data'}
+</div>
+
+<div class="z-formrow">
+    {formlabel for='folder' __text='Folder where the files are uploaded'}
+    {formtextinput id='folder' group='data' maxLength='50'}
 </div>
 
 <div class="z-formrow">
