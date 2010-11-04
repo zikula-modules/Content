@@ -38,17 +38,18 @@ class Content_Installer extends Zikula_Installer
         }
 
         if (!$this->_content_setCategoryRoot()) {
-            return false;
+            LogUtil::registerStatus($this->__('Warning! Could not create the default Content category tree. If you want to use categorisation with Content, register at least one property for the module in the Category Registry.')); 
         }
 
-        if (!$this->setVar('shorturlsuffix', '.html')) {
-            return LogUtil::registerError(__("Error! Failed to set shorturlsuffix.", $dom));
-        }
+        $this->setVar('shorturlsuffix', '.html');
+        $this->setVar('styleClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box");
+        $this->setVar('enableVersioning', false);
+        $this->setVar('flickrApiKey', '');
+        $this->setVar('googlemapApiKey', '');
+        $this->setVar('categoryUsage', '1');
+        $this->setVar('categoryPropPrimary', 'primary');
+        $this->setVar('categoryPropSecondary', 'primary');
 
-        if (!$this->setVar('styleClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box")) {
-            return LogUtil::registerError(__("Error! Failed to set style classes.", $dom));
-        }
-        
         // create the default data for the Content module
         $this->defaultdata();        
 
@@ -105,6 +106,7 @@ class Content_Installer extends Zikula_Installer
             case '3.0.3':
                 $ok = $ok && $this->contentUpgrade_3_1_0($oldVersion);
             case '3.1.0':
+                $ok = $ok && $this->contentUpgrade_3_2_0($oldVersion);
             case '3.2.0':
                 $ok = $ok && $this->contentUpgrade_4_0_0($oldVersion);
             // future
@@ -205,6 +207,23 @@ class Content_Installer extends Zikula_Installer
         return true;
     }
 
+    protected function contentUpgrade_3_2_0($oldVersion)
+    {
+        // update the database
+        DBUtil::changeTable('content_page');
+        DBUtil::changeTable('content_content');
+        DBUtil::changeTable('content_translatedpage');
+        DBUtil::changeTable('content_translatedcontent');
+        DBUtil::changeTable('content_history');
+        
+        // add new variable(s)
+        $this->setVar('categoryUsage', '1');
+        $this->setVar('categoryPropPrimary', 'primary');
+        $this->setVar('categoryPropSecondary', 'primary');
+        
+        return true;
+    }
+    
     protected function contentUpgrade_4_0_0($oldVersion)
     {
         // update tables with new indexes
@@ -224,6 +243,7 @@ class Content_Installer extends Zikula_Installer
             return false;
         }
         
+        // convert module vars
         $modvars = ModUtil::getVar('content');
         if ($modvars) {
             foreach ($modvars as $key => $value) {
@@ -231,6 +251,7 @@ class Content_Installer extends Zikula_Installer
             }
             ModUtil::delVar('content');
         }
+
         // clear compiled templates and Content cache
         ModUtil::apiFunc('view', 'user', 'clear_compiled');
         ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
