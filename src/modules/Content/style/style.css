@@ -13,7 +13,6 @@ input.date {
 
 #FormForm ul.contentPositionSelector li {
     float: left;
-    margin: 0 10px 0 0;
 }
 
 #FormForm ul.contentPositionSelector label {
@@ -160,11 +159,19 @@ div.content-pageinfo .content li {
     padding:0 !important;
 }
 
+.content_activationbutton {
+    display: none;
+}
+
+
 /* ----------------------------------------------------------------------------
 Layouts
 ---------------------------------------------------------------------------- */
 
 .content-area-top {
+}
+
+.content-area-topheader {
 }
 
 div.content-area-top h4,
@@ -248,6 +255,10 @@ table.content-layout-edit td.content-area {
 }
 
 .widget_sw {
+}
+
+.inactive {
+    background-color: orange;
 }
 
 .widget_title {
@@ -442,20 +453,6 @@ dl.content-video dd {
     padding-left:5px;
 }
 
-/*******************************************************************************/
-/* Styling of links and buttons with images
-/*******************************************************************************/
-/*
-* Note: When use a CSS3 feature to highlight external the following image
-*       normally would not be visisble. The !important fixes this.
-* a[href^="http:"],
-* a[href^="https:"] {
-*     padding-left: 1.5em;
-*     background: url('images/internet.gif') no-repeat bottom left;
-* }
-*
-/*******************************************************************************/
-
 div.content-pageinfo .content a.con_image,
 div.content-pageinfo .content button.con_image {
     margin: 0 !important;
@@ -483,4 +480,18 @@ div.content-pageinfo .content a.editoff {
 }
 div.content-pageinfo .content a.editon {
     background: url(../../../images/icons/extrasmall/greenled.gif) no-repeat 0 50%;
+}
+
+.contextMenu {
+    border:1px solid transparent;
+    cursor:pointer;
+    padding:1px;
+    vertical-align:middle;
+}
+
+.contextMenu:hover {
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border:1px solid #333;
 }

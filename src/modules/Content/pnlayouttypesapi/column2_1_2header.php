@@ -14,7 +14,7 @@ class content_layouttypesapi_column2_1_2headerPlugin extends contentLayoutBase
 
     function __construct()
     {
-        $dom = ZLanguage::getModuleDomain('content');
+        $dom = ZLanguage::getModuleDomain('Content');
         $this->contentAreaTitles = array(__('Header', $dom), 
                                          __('Left column1', $dom), 
                                          __('Right column1', $dom), 
@@ -30,12 +30,12 @@ class content_layouttypesapi_column2_1_2headerPlugin extends contentLayoutBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('content');
+        $dom = ZLanguage::getModuleDomain('Content');
         return __('2-1-2 columns (50|50)', $dom);
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('content');
+        $dom = ZLanguage::getModuleDomain('Content');
         return __('Header + two-one-two columns (50|50) + footer', $dom);
     }
     function getNumberOfContentAreas()
