@@ -76,9 +76,8 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
         'clipId' => '',
         'displayMode' => 'inline');
     }
-    function isValid(&$data, &$message)
+    function isValid(&$data)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $r = '/vimeo.com\/([-a-zA-Z0-9_]+)/';
         if (preg_match($r, $data['url'], $matches))
         {
@@ -86,7 +85,7 @@ class content_contenttypesapi_VimeoPlugin extends contentTypeBase
             return true;
         }
        
-        $message = __('Error! Unrecognized Vimeo URL', $dom);
+        //$message = $this->__('Error! Unrecognized Vimeo URL', $dom);
         return false;
     }
 }

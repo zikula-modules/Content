@@ -70,9 +70,8 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
     {
         return array('url' => '', 'text' => '', 'slideId' => '', 'playerType' => '0', 'width' => 425, 'height' => 355);
     }
-    function isValid(&$data, &$message)
+    function isValid(&$data)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         // [slideshare id=3318451&doc=rainfallreport-100302124103-phpapp02&type=d]
         // type=d is optional and player ssplayerd.swf should be used instead of the default one
         // Old expression without type=d $r = '/^[slideshare id=[0-9]+\&doc=([^&]+?)\]/';
@@ -86,7 +85,7 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
             }
             return true;
         }
-        $message = __('Not valid Slideshare Wordpress embed code', $dom);
+        //$message = $this->__('Not valid Slideshare Wordpress embed code', $dom);
         return false;
     }
 }

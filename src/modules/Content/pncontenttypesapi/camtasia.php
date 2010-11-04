@@ -39,7 +39,7 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
     {
         return true;
     }
-    function loadData($data)
+    function loadData(&$data)
     {
         $this->text = $data['text'];
         $this->width = $data['width'];
@@ -70,13 +70,13 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
     {
         return array('text' => '', 'videoPath' => '', 'displayMode' => 'inline', 'width' => '640', 'height' => '498', 'folder' => 'camtasia');
     }
-    function isValid(&$data, &$message)
+    function isValid(&$data)
     {
         if (is_file($data['folder'].'/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf')) {
             $this->videoPath = $data['videoPath'];
             return true;
         }
-        $message = __('Unrecognized Flash video path', $dom);
+        //$message = $this->__('Unrecognized Flash video path');
         return false;
     }
 	function altisValid(&$data, &$message)

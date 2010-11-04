@@ -70,14 +70,14 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     {
         return array('url' => '', 'width' => '320', 'height' => '240', 'text' => '', 'videoId' => '', 'displayMode' => 'inline');
     }
-    function isValid(&$data, &$message)
+    function isValid(&$data)
     {
         $r = '/\?v=([-a-zA-Z0-9_]+)(&|$)/';
         if (preg_match($r, $data['url'], $matches)) {
             $this->videoId = $data['videoId'] = $matches[1];
             return true;
         }
-        $message = __('Unrecognized YouTube URL', $dom);
+        //$message = $this->__('Unrecognized YouTube URL', $dom);
         return false;
     }
 }
