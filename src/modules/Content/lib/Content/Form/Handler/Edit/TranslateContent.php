@@ -43,7 +43,7 @@ class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
         }
 
         if ($this->language == $page['language']) {
-            return $this->view->registerError(LogUtil::registerError(__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%s"). Change the current site language ("%s") to some other language on the <a href="%s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual')), $dom)));
+            return $this->view->registerError(LogUtil::registerError($this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%s"). Change the current site language ("%s") to some other language on the <a href="%s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual')))));
         }
 
         $translationInfo = ModUtil::apiFunc('Content', 'Content', 'getTranslationInfo', array('contentId' => $this->contentId));
@@ -51,7 +51,7 @@ class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
             return $view->registerError(null);
         }
 
-        PageUtil::setVar('title', __("Translate content item", $dom) . ' : ' . $page['title']);
+        PageUtil::setVar('title', $this->__("Translate content item") . ' : ' . $page['title']);
 
         $templateOriginal = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_translate_original.html';
         $templateNew = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_translate_new.html';

@@ -43,6 +43,8 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
             $url = ModUtil::url('Content', 'edit', 'newpage', array('pid' => $args['commandArgument'], 'loc' => 'sub'));
         } else if ($args['commandName'] == 'newPage') {
             $url = ModUtil::url('Content', 'edit', 'newpage', array('pid' => $args['commandArgument']));
+        } else if ($args['commandName'] == 'clonePage') {
+            $url = ModUtil::url('Content', 'edit', 'clonepage', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'drag') {
             $srcId = FormUtil::getPassedValue('contentTocDragSrcId', null, 'POST');
             $dstId = FormUtil::getPassedValue('contentTocDragDstId', null, 'POST');

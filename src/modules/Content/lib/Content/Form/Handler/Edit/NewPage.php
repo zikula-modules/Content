@@ -12,7 +12,6 @@ class Content_Form_Handler_Edit_NewPage extends Form_Handler
 
     function initialize($view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $this->location = FormUtil::getPassedValue('loc', isset($this->args['loc']) ? $this->args['loc'] : null);
 
@@ -39,15 +38,15 @@ class Content_Form_Handler_Edit_NewPage extends Form_Handler
             return $view->registerError(null);
         }
 
-        PageUtil::setVar('title', __('Add new page', $dom));
+        PageUtil::setVar('title', $this->__('Add new page'));
 
         $view->assign('layouts', $layouts);
         $view->assign('page', $page);
         $view->assign('location', $this->location);
         if ($this->location == 'sub') {
-            $view->assign('locationLabel', __('Located below:', $dom));
+            $view->assign('locationLabel', $this->__('Located below:'));
         } else {
-            $view->assign('locationLabel', __('Located after:', $dom));
+            $view->assign('locationLabel', $this->__('Located after:'));
         }
         contentAddAccess($view, $this->pageId);
 
@@ -56,8 +55,9 @@ class Content_Form_Handler_Edit_NewPage extends Form_Handler
 
     function handleCommand($view, &$args)
     {
-        if (!contentHasPageCreateAccess())
-            return $view->setErrorMsg(__('Error! You have not been granted access to this page.', $dom));
+        if (!contentHasPageCreateAccess()) {
+            return $view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
+        }
 
         if ($args['commandName'] == 'create') {
             if (!$view->isValid()) {

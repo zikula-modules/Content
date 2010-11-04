@@ -165,7 +165,7 @@
 
 {/formtabbedpanelset}
 
-<div class="z-buttons" style="margin-top:1em;">
+<div class="z-buttons z-formbuttons">
     {formbutton commandName="save" __text="Save"}
     {if $access.pageDeleteAllowed}{formbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete'}{/if}
     <input type="submit" value="{gt text="Preview"}" onclick="window.open('{modurl modname='Content' type=user func=view preview=1 pid=$page.id}')" />

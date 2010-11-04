@@ -23,7 +23,7 @@ class Content_Api_Content extends Zikula_Api
         $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
-        $content = $this->contentGetContent('content', $id, $language, $translate);
+        $content = $this->contentGetContent('content', $id, true, $language, $translate);
         if ($content === false)
             return false;
         if (count($content) == 0)
@@ -39,7 +39,7 @@ class Content_Api_Content extends Zikula_Api
         $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
-        $contentList = $this->contentGetContent('page', $pageId, $language, $translate);
+        $contentList = $this->contentGetContent('page', $pageId, $editing, $language, $translate);
 
         $content = array();
         foreach ($contentList as $c) {
@@ -66,9 +66,9 @@ class Content_Api_Content extends Zikula_Api
     {
         $pageId = (int) $args['pageId'];
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         $where = "$contentColumn[pageId] = $pageId";
         $content = DBUtil::selectObjectArray('content_content', $where);
@@ -76,21 +76,24 @@ class Content_Api_Content extends Zikula_Api
         return $content;
     }
 
-    protected function contentGetContent($mode, $id, $language, $translate, $orderBy = null)
+    protected function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy = null)
     {
-
         $id = (int) $id;
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
-        $translatedTable = $pntable['content_translatedcontent'];
-        $translatedColumn = $pntable['content_translatedcontent_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
+        $translatedTable = $table['content_translatedcontent'];
+        $translatedColumn = $table['content_translatedcontent_column'];
 
-        if ($mode == 'content')
+        if ($mode == 'content') {
             $restriction = "$contentColumn[id] = $id";
-        else
+        } else {
             $restriction = "$contentColumn[pageId] = $id";
+        }
+        if (!$editing) {
+            $restriction .= " and c.$contentColumn[active]=1";
+        }
 
         $language = DataUtil::formatForStore($language);
 
@@ -125,11 +128,10 @@ WHERE $restriction";
                 if (is_array($c['translated']) && is_array($c['data']))
                     $c['data'] = array_merge($c['data'], $c['translated']);
 
-            $contentPlugin = ModUtil::apiFunc('Content', 'Content', 'getContentPlugin', $c);
-                $contentPlugin = $this->getContentPlugin($c);
-
-            if ($contentPlugin === false)
+            $contentPlugin = $this->getContentPlugin($c);
+            if ($contentPlugin === false) {
                 return LogUtil::registerError($this->__("Error! Can't load content plugin"));
+            }
             $content[$i]['plugin'] = $contentPlugin;
             $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable();
         }
@@ -139,14 +141,13 @@ WHERE $restriction";
 
     public function getPageAndSubPageContent($args)
     {
-
         $pageId = (int) $args['pageId'];
 
-        $pntable = DBUtil::getTables();
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $pageTable = $table['content_page'];
+        $pageColumn = $table['content_page_column'];
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         // Fetch all content items that belongs to page X or any of it's sub pages
         $sql = "
@@ -180,15 +181,15 @@ WHERE page.$pageColumn[id] = $pageId";
 
     public function newContent($args)
     {
-
         $contentData = $args['content'];
         $pageId = (int) $args['pageId'];
         $contentAreaIndex = (int) $args['contentAreaIndex'];
         $position = (int) $args['position'];
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
-        if (!$this->contentMoveContentDown($position, $contentAreaIndex, $pageId))
+        if (!$this->contentMoveContentDown($position, $contentAreaIndex, $pageId)) {
             return false;
+        }
 
         $contentPlugin = ModUtil::apiFunc($contentData['module'], 'contenttypes', $contentData['type'], null);
 
@@ -204,7 +205,7 @@ WHERE page.$pageColumn[id] = $pageId";
 
 
         if ($addVersion) {
-            $ok = ModUtil::apiFunc('Content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
+            $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
             if ($ok === false)
                 return false;
         }
@@ -218,9 +219,9 @@ WHERE page.$pageColumn[id] = $pageId";
         $pageId = (int) $pageId;
         $contentAreaIndex = (int) $contentAreaIndex;
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         $sql = "
 SELECT MAX($contentColumn[position])
@@ -235,7 +236,6 @@ WHERE $contentColumn[pageId] = $pageId";
 
     public function updateContent($args)
     {
-
         $contentData = $args['content'];
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
@@ -266,9 +266,9 @@ WHERE $contentColumn[pageId] = $pageId";
 
     protected function contentUpdateSearchableText($contentId, $text)
     {
-        $pntable = DBUtil::getTables();
-        $searchTable = $pntable['content_searchable'];
-        $searchColumn = $pntable['content_searchable_column'];
+        $table = DBUtil::getTables();
+        $searchTable = $table['content_searchable'];
+        $searchColumn = $table['content_searchable_column'];
 
         $sql = "DELETE FROM $searchTable WHERE $searchColumn[contentId] = $contentId";
         DBUtil::executeSQL($sql);
@@ -283,11 +283,42 @@ VALUES
         return true;
     }
 
+    /*=[ Copy content ]====================================================*/
+    
+    public function copyContentOfPageToPage($args)
+    {    
+        $fromPage = (int)$args['fromPageId'];
+        $toPage = (int)$args['toPageId'];
+        if ($fromPage <= 0 || $toPage <= 0) { return false; }
+        $cloneTranslation = isset($args['cloneTranslation']) ? $args['cloneTranslation'] : true;
+    
+        $content = ModUtil::apiFunc('Content', 'Content', 'GetSimplePageContent', array('pageId' => $fromPage));
+        for ($i = 0; $i < count($content); $i++) {
+            $contentData = $content[$i];
+            $contentData['id'] = null;
+            $contentData['pageId'] = $toPage;
+            DBUtil::insertObject($contentData, 'content_content', 'id');
+            if ($cloneTranslation) {
+                $translatedData = DBUtil::selectObjectByID('content_translatedcontent', $contentData['id'], 'contentId');
+                if ($translatedData) {
+                    $translatedData['contentId'] = $contentData['id'];
+                    DBUtil::insertObject($translatedData, 'content_translatedcontent');
+                }
+            }
+            $searchData = DBUtil::selectObjectByID('content_searchable', $contentData['id'], 'contentId');
+            if ($searchData) {
+                $searchData['contentId'] = $contentData['id'];
+                DBUtil::insertObject($searchData, 'content_searchable');
+            }
+        }
+        contentClearCaches();
+        return true;
+    }
+
     /*=[ Delete content element ]====================================================*/
 
     public function deleteContent($args)
     {
-
         $contentId = (int) $args['contentId'];
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
@@ -306,9 +337,9 @@ VALUES
 
         DBUtil::deleteObjectByID('content_content', $contentId);
 
-        $pntable = DBUtil::getTables();
-        $searchTable = $pntable['content_searchable'];
-        $searchColumn = $pntable['content_searchable_column'];
+        $table = DBUtil::getTables();
+        $searchTable = $table['content_searchable'];
+        $searchColumn = $table['content_searchable_column'];
 
         $sql = "DELETE FROM $searchTable WHERE $searchColumn[contentId] = $contentId";
         DBUtil::executeSQL($sql);
@@ -352,15 +383,14 @@ VALUES
 
     public function updateTranslation($args)
     {
-
         $contentId = (int) $args['contentId'];
         $language = DataUtil::formatForStore($args['language']);
         $translated = $args['translated'];
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
-        $pntable = DBUtil::getTables();
-        $translatedTable = $pntable['content_translatedcontent'];
-        $translatedColumn = $pntable['content_translatedcontent_column'];
+        $table = DBUtil::getTables();
+        $translatedTable = $table['content_translatedcontent'];
+        $translatedColumn = $table['content_translatedcontent_column'];
 
         // Delete optional existing translation
         $where = "$translatedColumn[contentId] = $contentId AND $translatedColumn[language] = '$language'";
@@ -386,13 +416,12 @@ VALUES
 
     public function deleteTranslation($args)
     {
-
         $contentId = (int) $args['contentId'];
         $language = isset($args['language']) ? $args['language'] : null;
         $includeHistory = isset($args['includeHistory']) ? $args['includeHistory'] : true;
 
-        $pntable = DBUtil::getTables();
-        $translatedColumn = $pntable['content_translatedcontent_column'];
+        $table = DBUtil::getTables();
+        $translatedColumn = $table['content_translatedcontent_column'];
 
         // Delete existing translation
         if ($language != null)
@@ -422,11 +451,11 @@ VALUES
         $pageId = (int) $args['pageId'];
         $language = isset($args['language']) ? $args['language'] : null;
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
-        $translatedTable = $pntable['content_translatedcontent'];
-        $translatedColumn = $pntable['content_translatedcontent_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
+        $translatedTable = $table['content_translatedcontent'];
+        $translatedColumn = $table['content_translatedcontent_column'];
 
         if ($language != null)
             $restriction = "AND t.$translatedColumn[language] = '" . DataUtil::formatForStore($language) . "'";
@@ -451,9 +480,9 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
         $contentId = (isset($args['contentId']) ? (int) $args['contentId'] : null);
         $pageId = (isset($args['pageId']) ? (int) $args['pageId'] : null);
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         // fetch content + page info
 
@@ -474,7 +503,7 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
         if ($layout === false)
             return false;
 
-        $contentItems = $this->contentGetContent('page', $pageId, null, false);
+        $contentItems = $this->contentGetContent('page', $pageId, $editing, null, false);
         if ($contentItems === false)
             return false;
 
@@ -517,11 +546,11 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
     {
         $pageId = (int) $args['pageId'];
 
-        $pntable = DBUtil::getTables();
-        $translatedTable = $pntable['content_translatedcontent'];
-        $translatedColumn = $pntable['content_translatedcontent_column'];
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $translatedTable = $table['content_translatedcontent'];
+        $translatedColumn = $table['content_translatedcontent_column'];
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         $cols = DBUtil::_getAllColumns('content_translatedcontent');
         $ca = DBUtil::getColumnsArray('content_translatedcontent');
@@ -544,7 +573,6 @@ WHERE c.$contentColumn[pageId] = $pageId";
 
     public function dragContent($args)
     {
-
         if (!isset($args['pageId']) || !isset($args['contentId']) || !isset($args['contentAreaIndex']) || !isset($args['position']))
             return LogUtil::registerArgsError();
 
@@ -578,9 +606,9 @@ WHERE c.$contentColumn[pageId] = $pageId";
         $contentAreaIndex = (int) $contentData['areaIndex'];
         $position = (int) $contentData['position'];
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         $sql = "
 UPDATE $contentTable
@@ -605,9 +633,9 @@ WHERE     $contentColumn[pageId] = $pageId
         if (!$this->contentMoveContentDown($position, $contentAreaIndex, $pageId))
             return false;
 
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         $contentData = array('id' => $contentId, 'position' => $position, 'areaIndex' => $contentAreaIndex);
         DBUtil::updateObject($contentData, 'content_content');
@@ -618,9 +646,9 @@ WHERE     $contentColumn[pageId] = $pageId
 
     protected function contentMoveContentDown($position, $contentAreaIndex, $pageId)
     {
-        $pntable = DBUtil::getTables();
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
+        $table = DBUtil::getTables();
+        $contentTable = $table['content_content'];
+        $contentColumn = $table['content_content_column'];
 
         $sql = "
 UPDATE $contentTable

@@ -15,8 +15,9 @@ class Content_Form_Handler_Edit_Page extends Form_Handler
         $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = (int) FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : -1);
 
-        if (!contentHasPageEditAccess($this->pageId))
+        if (!contentHasPageEditAccess($this->pageId)) {
             return $view->registerError(LogUtil::registerPermissionError());
+        }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'enableEscape' => false, 'translate' => false, 'includeContent' => true, 'includeCategories' => true));
         if ($page === false) {
@@ -24,13 +25,14 @@ class Content_Form_Handler_Edit_Page extends Form_Handler
         }
 
         // load the category registry util
-        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', ModUtil::getVar('Content', 'categoryPropPrimary'), 30);
+        $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', ModUtil::getVar('Content', 'categoryPropSecondary'));
         $multilingual = ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual');
         if ($page['language'] == ZLanguage::getLanguageCode()) {
             $multilingual = false;
         }
 
-        PageUtil::setVar('title', __("Edit page", $dom) . ' : ' . $page['title']);
+        PageUtil::setVar('title', $this->__("Edit page") . ' : ' . $page['title']);
 
         $pagelayout = ModUtil::apiFunc('Content', 'layout', 'getLayout', array('layout' => $page['layout']));
         if ($pagelayout === false) {
@@ -44,11 +46,13 @@ class Content_Form_Handler_Edit_Page extends Form_Handler
         $layoutTemplate = 'layout/' . $page['layoutData']['name'] . '_edit.html';
         $view->assign('layoutTemplate', $layoutTemplate);
         $view->assign('mainCategory', $mainCategory);
+        $view->assign('secondCategory', $secondCategory);
         $view->assign('page', $page);
         $view->assign('multilingual', $multilingual);
         $view->assign('layouts', $layouts);
         $view->assign('pagelayout', $pagelayout);
         $view->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
+        $view->assign('categoryUsage', ModUtil::getVar('Content', 'categoryUsage'));
         contentAddAccess($view, $this->pageId);
 
         if (!$this->view->isPostBack() && FormUtil::getPassedValue('back', 0)) {

@@ -11,8 +11,6 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
 
     function initialize($view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $offset = (int)FormUtil::getPassedValue('offset');
 
@@ -24,8 +22,8 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
             return $view->registerError(null);
         }
 
-        $versionscnt = ModUtil::apiFunc('Content', 'history', 'getPageVersionsCount', array('pageId' => $this->pageId));
-        $versions = ModUtil::apiFunc('Content', 'history', 'getPageVersions', array('pageId' => $this->pageId, 'offset' => $offset));
+        $versionscnt = ModUtil::apiFunc('Content', 'History', 'getPageVersionsCount', array('pageId' => $this->pageId));
+        $versions = ModUtil::apiFunc('Content', 'History', 'getPageVersions', array('pageId' => $this->pageId, 'offset' => $offset));
         if ($versions === false) {
             return $view->registerError(null);
         }
@@ -36,7 +34,7 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
         // Assign the values for the smarty plugin to produce a pager
         $view->assign('numitems', $versionscnt);
 
-        PageUtil::setVar('title', __("Page history", $dom) . ' : ' . $page['title']);
+        PageUtil::setVar('title', $this->__("Page history") . ' : ' . $page['title']);
 
         if (!$this->view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
@@ -50,7 +48,7 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
         $url = null;
 
         if ($args['commandName'] == 'restore') {
-            $ok = ModUtil::apiFunc('Content', 'history', 'restoreVersion', array('id' => $args['commandArgument']));
+            $ok = ModUtil::apiFunc('Content', 'History', 'restoreVersion', array('id' => $args['commandArgument']));
             if ($ok === false) {
                 return $view->registerError(null);
             }

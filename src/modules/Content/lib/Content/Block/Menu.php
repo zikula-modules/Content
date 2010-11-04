@@ -15,7 +15,7 @@ class Content_Block_Menu extends Zikula_Block
     public function init()
     {
         // Security
-        SecurityUtil::registerPermissionSchema('content:menublock:', 'Block title::');
+        SecurityUtil::registerPermissionSchema('Content:menublock:', 'Block title::');
     }
 
     public function info()
@@ -60,7 +60,7 @@ class Content_Block_Menu extends Zikula_Block
             if ($vars['root'] > 0) {
                 $options['filter']['superParentId'] = $vars['root'];
             }
-
+            $options['filter']['checkInMenu'] = true;
             $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
             if ($pages === false) {
                 return false;

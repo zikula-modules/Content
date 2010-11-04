@@ -128,6 +128,9 @@ class Content_Api_User extends Zikula_Api
 
         require_once 'modules/Content/common.php';
 
+        if (!isset($args['includeContent'])) {
+            $args['includeContent'] = false;
+        }
         if (!contentHasPageViewAccess($pageId)) {
             return false;
         }

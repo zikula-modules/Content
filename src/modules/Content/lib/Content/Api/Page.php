@@ -34,12 +34,9 @@ class Content_Api_Page extends Zikula_Api
         if ($pages === false) {
             return false;
         } elseif (count($pages) == 0) {
-            if (!$args['noerror']) {
-                return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
-            } else {
-                return false;
-            }
+            return false;
         }
+
         $page = $pages[0];
 
         return $page;
@@ -50,13 +47,12 @@ class Content_Api_Page extends Zikula_Api
      *
      * This function returns an array of pages depending on the various parameters. The most
      * interesting parameter may be "filter" which contains all the restrictions on the list.
-     * The filter data is passed to $this->contentGetPageListRestrictions() which is where you
+     * The filter data is passed to contentGetPageListRestrictions() which is where you
      * will find the documentation.
      *
-     * @param filter array See $this->contentGetPageListRestrictions().
+     * @param filter array See contentGetPageListRestrictions().
      * @param orderBy string Field for "order by" in SQL query
      * @param orderDir string Direction for "order by" in SQL query (desc/asc) default: asc
-     * @param orderBy
      * @param pageIndex int Zero based page index for browsing page by page.
      * @param pageSize int Number of pages to show on each "page".
      * @param enableEscape bool Enable HTML escape of returned text data.
@@ -151,12 +147,12 @@ LEFT JOIN $userTable usr
         for ($i = 0, $cou = count($pages); $i < $cou; ++$i) {
             $p = &$pages[$i];
             $p['translated'] = array('title' => $p['translatedTitle']);
-            $p['layoutData'] = ModUtil::apiFunc('Content', 'layout', 'getLayout', array('layout' => $p['layout']));
+            $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array('layout' => $p['layout']));
             $p['layoutTemplate'] = 'layout/' . $p['layoutData']['name'] . '.html';
             if ($includeCategories)
                 $p['categories'] = $this->contentGetPageCategories($p['id']);
             if ($includeVersionNo)
-                $p['versionNo'] = ModUtil::apiFunc('Content', 'history', 'getPageVersionNo', array('pageId' => $p['id']));
+                $p['versionNo'] = ModUtil::apiFunc('Content', 'History', 'getPageVersionNo', array('pageId' => $p['id']));
 
             if (!empty($p['translatedTitle'])) {
                 if ($translate) {
@@ -239,6 +235,7 @@ FROM $pageTable
      * @param filter[pageId] int Restrict to specific page ID.
      * @param filter[urlname] string Restrict to specific page using the page's permalink name.
      * @param filter[checkActive] bool Enable restricting to only active pages (default true).
+     * @param filter[checkInMenu] bool Enable restricting to only pages that are shown in the menu (so active and inMenu) (default false).
      * @param filter[superParentId] int Restrict to pages beneath this ID (includes itself).
      * @param filter[where] string Any SQL to be used in the resulting restriction.
      * @param restrictions array Output array of restrictions (SQL expressions).
@@ -268,8 +265,14 @@ FROM $pageTable
             $restrictions[] = "$pageColumn[urlname] = '" . DataUtil::formatForStore($filter['urlname']) . "'";
         }
 
-        if (!array_key_exists('checkActive', $filter) || !empty($filter['checkActive'])) {
-            $restrictions[] = "$pageColumn[isActive] = 1";
+        // if not specified always filter
+        if (!array_key_exists('checkActive', $filter) || (!empty($filter['checkActive']) && $filter['checkActive'])) {
+            $restrictions[] = "$pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
+        }
+        
+        // only filter explicitely
+        if (array_key_exists('checkInMenu', $filter) && $filter['checkInMenu']) {
+            $restrictions[] = "$pageColumn[inMenu] = 1 AND $pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
         }
 
         if (!empty($filter['superParentId'])) {
@@ -401,7 +404,7 @@ function dumpTree($pages)
         if ($ok === false)
             return false;
 
-        $ok = ModUtil::apiFunc('Content', 'history', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '_CONTENT_HISTORYPAGEADDED' /* delayed translation */));
+        $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '_CONTENT_HISTORYPAGEADDED' /* delayed translation */));
         if ($ok === false)
             return false;
 
@@ -454,8 +457,8 @@ function dumpTree($pages)
 // Update layout
     protected function contentUpdateLayout($pageId, $oldLayoutName, $newLayoutName)
     {
-        $oldLayout = ModUtil::apiFunc('Content', 'layout', 'getLayoutPlugin', array('layout' => $oldLayoutName));
-        $newLayout = ModUtil::apiFunc('Content', 'layout', 'getLayoutPlugin', array('layout' => $newLayoutName));
+        $oldLayout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array('layout' => $oldLayoutName));
+        $newLayout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array('layout' => $newLayoutName));
 
         $dbtables = DBUtil::getTables();
         $contentTable = $dbtables['content_content'];
@@ -491,6 +494,10 @@ WHERE $contentColumn[pageId] = $pageId
     protected function contentUpdatePageRelations($pageId, $pageData)
     {
         if (isset($pageData['categories'])) {
+            // check for single selection secondary category
+            if (!is_array($pageData['categories'])) {
+                $pageData['categories'] = array($pageData['categories']);
+            }
             $dbtables = DBUtil::getTables();
             $pageCategoryTable = $dbtables['content_pagecategory'];
             $pageCategoryColumn = $dbtables['content_pagecategory_column'];
@@ -540,14 +547,12 @@ SELECT $pageCategoryColumn[categoryId]
 FROM $pageCategoryTable
 WHERE $pageCategoryColumn[pageId] = $pageId";
 
-        $dbresult = DBUtil::executeSQL($sql);
+        $result = DBUtil::executeSQL($sql);
+        $objectArray = DBUtil::marshallObjects($result);
         $categories = array();
-
-        for (; !$dbresult->EOF; $dbresult->MoveNext()) {
-            $categories[] = (int) $dbresult->fields[0];
+        foreach ($objectArray as $object) {
+            $categories[] = (int) $object['con_categoryid'];
         }
-
-
         return $categories;
     }
 
@@ -555,7 +560,6 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
 
     public function updateTranslation($args)
     {
-
         $pageId = (int) $args['pageId'];
         $language = DataUtil::formatForStore($args['language']);
         $translated = $args['translated'];
@@ -574,7 +578,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         DBUtil::insertObject($translatedData, 'content_translatedpage');
 
         if ($addVersion) {
-            $ok = ModUtil::apiFunc('Content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => $this->__("Translated") /* delayed translation */));
+            $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => $this->__("Translated") /* delayed translation */));
             if ($ok === false)
                 return false;
         }
@@ -605,7 +609,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
             return false;
 
         if ($addVersion) {
-            $ok = ModUtil::apiFunc('Content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => $this->__("Translation deleted") /* delayed translation */));
+            $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => $this->__("Translation deleted") /* delayed translation */));
             if ($ok === false)
                 return false;
         }
@@ -628,51 +632,175 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         return $translations;
     }
 
+    /*=[ Clone page ]===============================================================*/
+    
+    public function clonePage($args)
+    {
+        $newPage = $args['page'];
+        $pageId = (int) $args['pageId']; // the page to clone
+        $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
+    
+        $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false, 'enableEscape' => false, 'includeContent' => false)));
+        if ($sourcePageData === false) {
+            return false;
+        }
+    
+        $pageData = array();
+        $aKeys = array_keys($sourcePageData);
+        $aVals = array_values($sourcePageData);
+        // copy all direct keys/values
+        for ($x=0;$x<count($aKeys);$x++) {
+            if ($aKeys[$x] != 'id' && substr($aKeys[$x],0,2) != 'is') {
+                $pageData[$aKeys[$x]]=$aVals[$x];
+            }
+        }
+    
+        $pageData['position']++;
+        $pageData['title'] = $newPage['title'];
+        $pageData['urlname'] = $newPage['urlname'];
+    
+        if (!isset($pageData['urlname']) || empty($pageData['urlname']))
+            $pageData['urlname'] = $pageData['title'];
+        $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+    
+        $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+        if (!$ok) {
+            return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
+        }
+    
+        $pageData['setLeft'] = -2;
+        $pageData['setRight'] = -1;
+        $pageData['active'] = 0; // create pages invisible
+    
+        $newPage = DBUtil::insertObject($pageData, 'content_page');
+        $this->contentMainEditExpandSet($pageData['parentPageId'], true);
+    
+        $ok = $this->insertPage(array('pageId' => $pageData['id'], 'position' => $sourcePageData['position']+1, 'parentPageId' => $pageData['parentPageId']));
+        if ($ok === false) {
+            return false;
+        }
+    
+        $ok = ModUtil::apiFunc('Content', 'Content', 'copyContentOfPageToPage', array('fromPageId' => $sourcePageData['id'], 'toPageId' => $pageData['id'], 'cloneTranslation' => $cloneTranslation));
+        if ($ok === false) {
+            return false;
+        }
+        $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '_CONTENT_HISTORYPAGECLONED'. "|fromPage=".$sourcePageData['id'] /* delayed translation */));
+        if ($ok === false) {
+            return false;
+        }
+        if ($cloneTranslation) {
+            $translatedData = DBUtil::selectObjectByID('content_translatedpage', $sourcePageData['id'], 'pageId');
+            if ($translatedData) {
+                $translatedData['pageId'] = $pageData['id'];
+                DBUtil::insertObject($translatedData, 'content_translatedpage');
+            }
+        }
+        $this->contentUpdatePageRelations($pageData['id'], $pageData);
+        $this->callHooks('item', 'create', $pageData['id'], array ('module' => 'Content'));
+    
+        contentClearCaches();
+        return $pageData['id'];
+    }
+    
+    /*=[ Reinsert deleted page ]===============================================================*/
+    
+    public function reinsertPage($args)
+    {
+        $pageData = $args['page'];
+    
+        if ($pageData['parentPageId'] > 0) {
+            $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageData['parentPageId'], 'checkActive' => false, 'enableEscape' => false, 'includeContent' => false));
+            if ($sourcePageData === false) {
+                $pageData['parentPageId'] = 0;
+            }
+        } else {
+            $sourcePageData = null;
+        }
+    
+        $pageData['language'] = ZLanguage::getLanguageCode();
+    
+        // what does this mean?
+        if ($pageData['parentPageId'] > 0) {
+            $pageData['position'] = contentGetLastSubPagePosition($pageData['parentPageId']) + 1;
+            $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level'] + 1);
+        } else {
+            $pageData['position'] = contentGetLastPagePosition($pageData['parentPageId']) + 1;
+            $pageData['parentPageId'] = ($sourcePageData == null ? 0 : $sourcePageData['parentPageId']);
+            $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level']);
+        }
+    
+        $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+        while (!$ok) {
+            $pageData['urlname'] = DataUtil::formatPermalink(strtolower(RandomUtil::getString(12, 12, false, true, true, false, true, false, true)));
+            $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+        }
+    
+        $pageData['setLeft'] = -2;
+        $pageData['setRight'] = -1;
+        $pageData['active'] = 0; // create pages invisible
+    
+        $newPage = DBUtil::insertObject($pageData, 'content_page', true);
+        $this->contentMainEditExpandSet($pageData['parentPageId'], true);
+    
+        $ok = $this->insertPage(array('pageId' => $pageData['id'], 'position' => $pageData['position'], 'parentPageId' => $pageData['parentPageId']));
+        if ($ok === false) {
+            return false;
+        }
+    
+        $this->callHooks('item', 'create', $pageData['id'], array ('module' => 'Content'));
+    
+        contentClearCaches();
+        return array('id' => $pageData['id'], 'urlname' => $pageData['urlname']);
+    }
+    
     /*=[ Delete page ]===============================================================*/
 
     public function deletePage($args)
     {
         $pageId = (int) $args['pageId'];
-
-        // Delete translations first - they depend on content data
-        $ok = ModUtil::apiFunc('Content', 'Page', 'deleteTranslation', array('pageId' => $pageId));
-        if (!$ok)
+    
+        $pageData = DBUtil::selectObjectByID('content_page', $pageId);
+        if (!$pageData) {
             return false;
-
+        }
+    
+        $table = pnDBGetTables();
+        $pageTable = $table['content_page'];
+        $pageColumn = $table['content_page_column'];
+    
+        $subPages = DBUtil::selectObjectArray('content_page', "$pageColumn[setLeft] > $pageData[setLeft] AND $pageColumn[setRight] < $pageData[setRight] AND $pageColumn[level]=$pageData[level]+1", 'setLeft');
+        foreach ($subPages as $page) {
+            $this->deletePage(array('pageId' => $page['id']));
+        }
+    
+        $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYPAGEDELETED' /* delayed translation */));
+        if ($ok === false) {
+            return false;
+        }
+    
+        // Delete translations first - they depend on content data
+        $ok = ModUtil::apiFunc('Content', 'Page', 'deleteTranslation', array('pageId' => $pageId, 'addVersion' => false));
+        if (!$ok) {
+            return false;
+        }
+    
         // Delete all content items on this page and all it's sub pages
         $ok = ModUtil::apiFunc('Content', 'Content', 'deletePageAndSubPageContent', array('pageId' => $pageId));
-        if (!$ok)
+        if (!$ok) {
             return false;
-
-        $pageData = DBUtil::selectObjectByID('content_page', $pageId);
-
-        $dbtables = DBUtil::getTables();
-        $pageTable = $dbtables['content_page'];
-        $pageColumn = $dbtables['content_page_column'];
-
-        // Delete by left/right before updating left/right for remaining pages
-        // Do not delete "this" in order to "removePage" to work
-        $sql = "
-DELETE FROM $pageTable
-WHERE     $pageColumn[setLeft] > $pageData[setLeft]
-      AND $pageColumn[setRight] < $pageData[setRight]";
-
-        DBUtil::executeSQL($sql);
-
-        if (!$this->removePage(array('id' => $pageId)))
+        }
+    
+        if (!$this->removePage(array('id' => $pageId))) {
             return false;
-
-        $ok = ModUtil::apiFunc('Content', 'history', 'deletePage', array('pageId' => $pageData['id']));
-        if ($ok === false)
-            return false;
-
+        }
+    
         // Now safe to delete page
         DBUtil::deleteObjectByID('content_page', $pageId);
-
+    
         $this->contentDeletePageRelations($pageId);
-
-        $this->callHooks('item', 'delete', $pageId, array ('module' => 'content')); 
-
+    
+        $this->callHooks('item', 'delete', $pageId, array ('module' => 'Content')); 
+        
         contentClearCaches();
         return true;
     }
@@ -742,11 +870,10 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
           WHERE $pageColumn[parentPageId] = $pageId
           ORDER BY $pageColumn[position]";
 
-        $dbresult = DBUtil::executeSQL($sql);
-
-        for (; !$dbresult->EOF; $dbresult->MoveNext()) {
-            $subPageId = $dbresult->fields[0];
-
+        $result = DBUtil::executeSQL($sql);
+        $objectArray = DBUtil::marshallObjects($result);
+        foreach ($objectArray as $object) {
+            $subPageId = $object['page_id'];
             $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count, $dbconn, $dbtables);
         }
 
@@ -862,7 +989,8 @@ WHERE $pageColumn[parentPageId] = $previousPage[id]";
     {
         $id = (int) $args['id'];
 
-        $pageData = DBUtil::selectObjectByID('content_page', $id);
+        // prevent caching!!! otherwise if you delete a page with subpages setright isn't up2date!
+        $pageData = DBUtil::selectObjectByID('content_page', $id, 'id', null,null,null,false); 
 
         $dbtables = DBUtil::getTables();
         $pageTable = $dbtables['content_page'];
@@ -1041,7 +1169,7 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId'])) {
             return LogUtil::registerArgsError();
         }
-        $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false, 'filter' => array('checkActive' => false)));
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false, 'filter' => array('checkActive' => false)));
         $parenturl = ModUtil::apiFunc('Content', 'Page', 'getUrlPath', array('pageId' => $page['parentPageId']));
         $url = $parenturl . '/' . $args['urlname'];
         $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', array('urlname' => $url));
@@ -1069,7 +1197,6 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $pageId = (int) $args['pageId'];
 
         $dbtables = DBUtil::getTables();
-
         $pageTable = $dbtables['content_page'];
         $pageColumn = $dbtables['content_page_column'];
 
@@ -1083,20 +1210,14 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
 
         $result = DBUtil::executeSQL($sql);
 
-        if (!$result)
+        if (!$result) {
             return LogUtil::registerError($this->__('Error! Could not load items.'));
-
-        if ($result->EOF)
-            return false;
-
-        $path = '';
-        for (; !$result->EOF; $result->MoveNext()) {
-            if (!empty($path)) {
-                $path .= '/';
-            }
-            $path .= $result->fields[0];
         }
-
+        $objectArray = DBUtil::marshallObjects($result);
+        $path = '';
+        foreach ($objectArray as $object) {
+            $path .= (!empty($path) ? '/' : '') . $object['page_urlname'];
+        }
         return $path;
     }
 
@@ -1122,7 +1243,6 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $parts = explode('/', $urlname);
 
         $dbtables = DBUtil::getTables();
-
         $pageTable = $dbtables['content_page'];
         $pageColumn = $dbtables['content_page_column'];
 
@@ -1147,18 +1267,11 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
           AND $parentsql";
 
         $result = DBUtil::executeSQL($sql);
-        $pageId = null;
-        for (; !$result->EOF; $result->MoveNext()) {
-            $pageId = reset($result->fields);
-        }
-/*
-        $result = DBUtil::executeSQL($sql);
         $objectArray = DBUtil::marshallObjects($result);
         $pageId = null;
         foreach ($objectArray as $object) {
             $pageId = reset($object);
-        }
-*/        
+        }        
         return $pageId;
     }
 
@@ -1171,7 +1284,6 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $pageId = (int) $args['pageId'];
 
         $dbtables = DBUtil::getTables();
-
         $pageTable = $dbtables['content_page'];
         $pageColumn = $dbtables['content_page_column'];
 
@@ -1188,22 +1300,34 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         if (!$result) {
             return LogUtil::registerError($this->__('Error! Could not load items.'));
         }
-        $path = array();
-        for (; !$result->EOF; $result->MoveNext()) {
-            $path[] = array('id' => $result->fields[0], 'title' => DataUtil::formatForDisplay($result->fields[1]));
-        }
-
-/*
-        $result = DBUtil::executeSQL($sql);
-        if (!$result) {
-            return LogUtil::registerError($this->__('Error! Could not load items.'));
-        }
         $objectArray = DBUtil::marshallObjects($result);
         $path = array();
         foreach ($objectArray as $object) {
-            $path[] = array('id' => $object[0], 'title' => DataUtil::formatForDisplay($object[1]));
+            $path[] = array('id' => $object['page_id'], 'title' => DataUtil::formatForDisplay($object['page_title']));
         }
-*/        
         return $path;
+    }
+    
+    public function updateState($args)
+    {
+        // Argument check
+        if (!isset($args['pageId'])) {
+            return LogUtil::registerArgsError();
+        }
+    
+        $pageId = (int) $args['pageId'];
+        $active = (int) $args['active'];
+        $inMenu = (int) $args['inMenu'];
+    
+        $table = pnDBGetTables();
+        $pageTable = $table['content_page'];
+        $pageColumn = $table['content_page_column'];
+    
+        $sql = "UPDATE $pageTable
+              SET $pageColumn[active] = $active, $pageColumn[inMenu] = $inMenu
+              WHERE $pageColumn[id] = $pageId";
+        DBUtil::executeSQL($sql);
+        
+        return true;
     }
 }

@@ -7,7 +7,6 @@ class Content_Form_Handler_Edit_TranslatePage extends Form_Handler
 
     function initialize($view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = (int) FormUtil::getPassedValue('pid', -1);
         $this->language = ZLanguage::getLanguageCode();
 
@@ -21,10 +20,10 @@ class Content_Form_Handler_Edit_TranslatePage extends Form_Handler
         }
 
         if ($this->language == $page['language']) {
-            return $this->view->registerError(LogUtil::registerError(__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%s"). Change the current site language ("%s") to some other language on the <a href="%s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual')), $dom)));
+            return $this->view->registerError(LogUtil::registerError($this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%s"). Change the current site language ("%s") to some other language on the <a href="%s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual')))));
         }
 
-        PageUtil::setVar('title', __("Translate page", $dom) . ' : ' . $page['title']);
+        PageUtil::setVar('title', $this->__("Translate page") . ' : ' . $page['title']);
 
         $view->assign('page', $page);
         $view->assign('translated', $page['translated']);

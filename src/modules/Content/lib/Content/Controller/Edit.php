@@ -32,6 +32,13 @@ class Content_Controller_Edit extends Zikula_Controller
         return $view->execute('content_edit_editpage.html', new Content_Form_Handler_Edit_Page($args));
     }
 
+    /*=[ Clone single page ]==========================================================*/
+    public function clonepage($args)
+    {
+        $view = FormUtil::newForm('Content');
+        return $view->execute('content_edit_clonepage.html', new Content_Form_Handler_Edit_ClonePage($args));
+    }
+
     /*=[ New content element ]=======================================================*/
     public function newcontent($args)
     {
@@ -65,5 +72,12 @@ class Content_Controller_Edit extends Zikula_Controller
     {
         $view = FormUtil::newForm('Content');
         return $view->execute('content_edit_history.html', new Content_Form_Handler_Edit_HistoryContent($args));
+    }
+    
+    /*=[ Restore deleted pages ]=====================================================*/
+    public function deletedpages($args)
+    {
+        $view = FormUtil::newForm('Content');
+        return $view->execute('content_edit_deletedpages.html', new Content_Form_Handler_Edit_DeletedPages($args));
     }
 }

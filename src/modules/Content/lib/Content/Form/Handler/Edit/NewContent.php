@@ -18,7 +18,6 @@ class Content_Form_Handler_Edit_NewContent extends Form_Handler
 
     function initialize($view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $this->contentAreaIndex = FormUtil::getPassedValue('cai', isset($this->args['cai']) ? $this->args['cai'] : null);
         $this->position = FormUtil::getPassedValue('pos', isset($this->args['pos']) ? $this->args['pos'] : 0);
@@ -51,7 +50,7 @@ class Content_Form_Handler_Edit_NewContent extends Form_Handler
             return $view->registerError(null);
         }
 
-        PageUtil::setVar('title', __("Add new content to page", $dom) . ' : ' . $page['title']);
+        PageUtil::setVar('title', $this->__("Add new content to page") . ' : ' . $page['title']);
 
         $view->assign('page', $page);
         $view->assign('htmlBody', 'content_edit_newcontent.html');

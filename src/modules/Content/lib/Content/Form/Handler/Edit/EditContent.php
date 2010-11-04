@@ -13,7 +13,6 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
 
     function initialize($view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $this->contentId = (int) FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
 
         $content = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $this->contentId, 'translate' => false));
@@ -42,7 +41,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
         if ($page['language'] == ZLanguage::getLanguageCode())
             $multilingual = false;
 
-        PageUtil::setVar('title', __("Edit content item", $dom) . ' : ' . $page['title']);
+        PageUtil::setVar('title', $this->__("Edit content item") . ' : ' . $page['title']);
 
         $template = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_edit.html';
         $view->assign('contentTypeTemplate', $template);

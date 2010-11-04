@@ -33,13 +33,13 @@ class Content_Api_History extends Zikula_Api
             $version =& $versions[$i];
 
             $version['action'] = $this->contentHistoryActionTranslate($version['action']);
-            $version['userName'] = $version['userId'] == 0 ? $this->__("Unknown user") : UserUtil::getPNUserField($version['userId'], 'uname');
+            $version['userName'] = $version['userId'] == 0 ? $this->__("Unknown user") : UserUtil::getVar('uname', $version['userId']);
         }
 
         return $versions;
     }
 
-    public function content_historyapi_getPageVersionsCount($args)
+    public function getPageVersionsCount($args)
     {
         $pageId = (int)$args['pageId'];
         $table = &DBUtil::getTables();
@@ -48,6 +48,26 @@ class Content_Api_History extends Zikula_Api
         return DBUtil::selectObjectCount('content_history', $where);
     }
 
+    public function getDeletedPages($args)
+    {
+      $offset = (array_key_exists('offset', $args) ? $args['offset'] : 0);
+      $pageSize = (array_key_exists('pageSize', $args) ? $args['pageSize'] : 20);
+    
+      $table = &DBUtil::getTables();
+      $historyColumn = &$table['content_history_column'];
+      $pageColumn = &$table['content_page_column'];
+      $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $table[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'";
+      return DBUtil::selectObjectArray('content_history', $where, 'date DESC', $offset, $pageSize); // TODO: distinct
+    }
+    
+    public function getDeletedPagesCount($args)
+    {
+      $table = &DBUtil::getTables();
+      $historyColumn = &$table['content_history_column'];
+      $pageColumn = &$table['content_page_column'];
+      $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $table[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'";
+      return DBUtil::selectObjectCount('content_history', $where, 'pageId'); // TODO: distinct
+    }
 
     protected function contentHistoryActionTranslate($action)
     {
@@ -87,11 +107,17 @@ class Content_Api_History extends Zikula_Api
             case '_CONTENT_HISTORYPAGEADDED':
                 $ActionTranslated = $this->__("Page added");
                 break;
+            case '_CONTENT_HISTORYPAGECLONED':
+                $ActionTranslated = $this->__f('Page cloned from page [%s]', $parameters);
+                break;
             case '_CONTENT_HISTORYPAGEUPDATED':
                 $ActionTranslated = $this->__("Page updated");
                 break;
             case '_CONTENT_HISTORYPAGERESTORED':
                 $ActionTranslated = $this->__f('Page restored from version [%s]', $parameters);
+                break;
+            case '_CONTENT_HISTORYPAGEDELETED':
+                $ActionTranslated = $this->__("Page deleted");
                 break;
         }
 
@@ -173,7 +199,6 @@ class Content_Api_History extends Zikula_Api
 
     public function getPageVersion($args)
     {
-
         $versionId = $args['id'];
         $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
         $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
@@ -182,7 +207,7 @@ class Content_Api_History extends Zikula_Api
         if (empty($version))
             return LogUtil::registerError($this->__f('Error! Unknown version ID [%s]', $versionId));
 
-        $version['userName'] = $version['userId'] == 0 ? $this->__("Unknown user") : UserUtil::getPNUserField($version['userId'], 'uname');
+        $version['userName'] = $version['userId'] == 0 ? $this->__("Unknown user") : UserUtil::getVar('uname', $version['userId']);
         $version['data'] = unserialize($version['data']);
         $versionData = & $version['data'];
         $page = & $versionData['page'];
@@ -269,12 +294,11 @@ class Content_Api_History extends Zikula_Api
 
     public function restoreVersion($args)
     {
-
         $versionId = $args['id'];
-
         $version = DBUtil::selectObjectByID('content_history', $versionId);
-        if (empty($version))
+        if (empty($version)) {
             return LogUtil::registerError($this->__f('Error! Unknown version ID [%s]', $versionId));
+        }
 
         $version['data'] = unserialize($version['data']);
 
@@ -285,9 +309,23 @@ class Content_Api_History extends Zikula_Api
         $pageTranslations = $versionData['pageTranslations'];
         $contentTranslations = $versionData['contentTranslations'];
 
-        unset($page['isInMenu']);
+        unset($page['layoutData']);
+        unset($page['isTranslated']);
+        unset($page['layoutTemplate']);
+        unset($page['content']);
+        
+        $currentPage = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
+        if ($currentPage === false) {
+          // is a deleted page
+          $retval = ModUtil::apiFunc('Content', 'Page', 'reinsertPage', array('page' => $page));
+          if ($retval === false) {
+            return LogUtil::registerError($this->__('Error!Could not reinsert page'));
+          }
+          $pageId = $page['id'] = $retval['id'];
+          $page['urlname'] = $retval['urlname'];
+        }
+        
         unset($page['parentPageId']);
-        unset($page['isActive']);
         unset($page['position']);
         unset($page['level']);
         unset($page['setLeft']);
@@ -299,26 +337,23 @@ class Content_Api_History extends Zikula_Api
         unset($page['translatedTitle']);
         unset($page['translated']);
         unset($page['uname']);
-        unset($page['layoutData']);
-        unset($page['layoutTemplate']);
-        unset($page['isTranslated']);
-        unset($page['content']);
 
         $ok = ModUtil::apiFunc('Content', 'Page', 'updatePage',
                 array('page' => $page,
                 'pageId' => $pageId,
                 'revisionText' => '_CONTENT_HISTORYPAGERESTORED' . "|revisionNo=$version[revisionNo]" /* delayed translation */));
-        if ($ok === false)
+        if ($ok === false) {
             return false;
+        }
 
         $currentContentItems = ModUtil::apiFunc('Content', 'Content', 'getSimplePageContent',
                 array('pageId' => $pageId));
-        if ($currentContentItems === false)
+        if ($currentContentItems === false) {
             return false;
+        }
 
         $currentContentItemsIdMap = array();
-        foreach ($currentContentItems as $currentContentItem)
-        {
+        foreach ($currentContentItems as $currentContentItem) {
             $currentContentItemsIdMap[$currentContentItem['id']] = $currentContentItem;
         }
 
@@ -346,14 +381,15 @@ class Content_Api_History extends Zikula_Api
                 else
                 {
                     //echo "Insert $contentItem[id]! ";
-                    $newContentItem = array('id' => $contentItem['id'],
-                            'pageId' => $contentItem['pageId'],
-                            'module' => $contentItem['module'],
-                            'type' => $contentItem['type'],
-                            'data' => $contentItem['data'],
-                            'stylePosition' => $contentItem['stylePosition'],
-                            'styleWidth' => $contentItem['styleWidth'],
-                            'styleClass' => $contentItem['styleClass']);
+                    $newContentItem = array();
+                    $aKeys = array_keys($contentItem);
+                    $aVals = array_values($contentItem);
+                    // copy all direct keys/values
+                    for ($x=0;$x<count($aKeys);$x++) {
+                        if (substr($aKeys[$x],0,2) != 'is') {
+                            $newContentItem[$aKeys[$x]]=$aVals[$x];
+                        }
+                    }
                     $id = ModUtil::apiFunc('Content', 'Content', 'newContent',
                             array('content' => $newContentItem,
                             'pageId' => $pageId,
@@ -377,8 +413,9 @@ class Content_Api_History extends Zikula_Api
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteContent',
                     array('contentId' => $id,
                     'addVersion' => false));
-            if (!$ok)
+            if (!$ok) {
                 return false;
+            }
         }
 
         // Delete all translations and replace with old translations
@@ -416,7 +453,7 @@ class Content_Api_History extends Zikula_Api
         return true;
     }
 
-
+/*
     public function deletePage($args)
     {
         if (!ModUtil::getVar('Content', 'enableVersioning'))
@@ -436,7 +473,7 @@ WHERE $historyColumn[pageId] = $pageId";
 
         return true;
     }
-
+*/
 
     protected function contentGetNextRevisionNumber($pageId)
     {
