@@ -105,6 +105,7 @@ class Content_Installer extends Zikula_Installer
             case '3.0.3':
                 $ok = $ok && $this->contentUpgrade_3_1_0($oldVersion);
             case '3.1.0':
+            case '3.2.0':
                 $ok = $ok && $this->contentUpgrade_4_0_0($oldVersion);
             // future
         }
