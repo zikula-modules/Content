@@ -35,16 +35,17 @@ function content_init()
     }
 
     if (!_content_setCategoryRoot()) {
-        return false;
+        LogUtil::registerStatus(__('Warning! Could not create the default Content category tree. If you want to use categorisation with Content, register at least one property for the module in the Category Registry.', $dom)); 
     }
 
-    if (!pnModSetVar('content', 'shorturlsuffix', '.html')) {
-        return LogUtil::registerError(__("Error! Failed to set shorturlsuffix.", $dom));
-    }
-    
-    if (!pnModSetVar('content', 'styleClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box")) {
-        return LogUtil::registerError(__("Error! Failed to set style classes.", $dom));
-    }
+    pnModSetVar('content', 'shorturlsuffix', '.html');
+    pnModSetVar('content', 'styleClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box");
+    pnModSetVar('content', 'enableVersioning', false);
+    pnModSetVar('content', 'flickrApiKey', '');
+    pnModSetVar('content', 'googlemapApiKey', '');
+    pnModSetVar('content', 'categoryUsage', '1');
+    pnModSetVar('content', 'categoryPropPrimary', 'primary');
+    pnModSetVar('content', 'categoryPropSecondary', 'primary');
 
     // create the default data for the Content module
     content_defaultdata();        
@@ -209,12 +210,22 @@ function contentUpgrade_3_1_0($oldVersion)
 
 function contentUpgrade_3_2_0($oldVersion)
 {
-    // add indexes
+    // update the database
     DBUtil::changeTable('content_page');
     DBUtil::changeTable('content_content');
     DBUtil::changeTable('content_translatedpage');
     DBUtil::changeTable('content_translatedcontent');
     DBUtil::changeTable('content_history');
+    
+    // add new variable(s)
+    pnModSetVar('content', 'categoryUsage', '1');
+    pnModSetVar('content', 'categoryPropPrimary', 'primary');
+    pnModSetVar('content', 'categoryPropSecondary', 'primary');
+
+    // clear compiled templates and News cache
+    pnModAPIFunc('pnRender', 'user', 'clear_compiled');
+    pnModAPIFunc('pnRender', 'user', 'clear_cache', array('module' => 'content'));
+    
     return true;
 }
 
