@@ -21,7 +21,7 @@ function smarty_function_contentpageheading($params, &$view)
     $html .= "</div>\n";
 
     if (array_key_exists('assign', $params)) {
-        $smarty->assign($params['assign'], $html);
+        $view->assign($params['assign'], $html);
     } else {
         return $html;
     }

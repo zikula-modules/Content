@@ -33,21 +33,15 @@ function smarty_function_contenthtmleditor($params, &$view)
     {
         $scribite = ModUtil::func('scribite','user','loader', array('modulename' => 'Content', 'areas' => array($inputId)));
         PageUtil::AddVar('rawtext', $scribite);
-    }
-    else if ($useWysiwyg && !ModUtil::available('scribite'))
-    {
+    } else if ($useWysiwyg && !ModUtil::available('scribite')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
         $html .= '(' . __("Please install Scribite to get a real HTML editor.", $dom) . ')';
         $html .= "</em></div>";
-    }
-    else if ($useBBCode && ModUtil::available('bbcode'))
-    {
+    } else if ($useBBCode && ModUtil::available('bbcode')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
         $html .= ModUtil::func('bbcode', 'user', 'bbcodes', array('textfieldid' => $inputId, 'images' => 0));
         $html .= "</em></div>";
-    }
-    else if ($useBBCode && !ModUtil::available('bbcode'))
-    {
+    } else if ($useBBCode && !ModUtil::available('bbcode')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
         $html .= '(' . __("Please install the hook BBCode to enable bbcode filtering.", $dom) . ')';
         $html .= "</em></div>";

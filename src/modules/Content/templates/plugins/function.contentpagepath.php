@@ -34,7 +34,7 @@ function smarty_function_contentpagepath($params, &$smarty)
     $result .= " </span>";
 
     if (array_key_exists('assign', $params))
-        $smarty->assign($params['assign'], $result);
+        $view->assign($params['assign'], $result);
     else
         return $result;
 }
