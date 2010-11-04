@@ -1,4 +1,4 @@
-{ajaxheader modname='Content' filename='ajax.js' dragdrop=1 builder=1 noscriptaculous=1 nobehaviour=1}
+{ajaxheader modname='Content' filename='ajax.js' dragdrop=1 builder=1 effects=1 noscriptaculous=1 nobehaviour=1}
 {contentpagepath pageId=$page.id language=$page.language assign='subheader'}
 {contentpageheading __header='Edit page' subheader=$subheader}
 
@@ -65,7 +65,7 @@
     <div class="z-formrow">
         {formlabel for='urlname' __text='Permalink URL name'}
         {formtextinput id='urlname' maxLength='255' group='page'}
-        {contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.'}
+        {contentlabelhelp __text='(Used in shorturl mode and generated automatically if left blank)'}
     </div>
     <div class="z-formrow">
         {formlabel for='language' __text='Page language'}
@@ -94,9 +94,33 @@
         {formlabel for='activeTo' __text='End date'}
         {formdateinput id='activeTo' group='page'}
     </div>
+    <div class="z-formrow">
+        {formlabel for='createdBy' __text='Created'}
+        {usergetvar name=uname uid=$page.lu_uid assign=updaterName}
+        <span id="createdBy" class="z-formnote">{gt text="on $1%s by $2%s" tag1=$page.cr_date|dateformat:'datetimebrief' tag2=$page.uname|userprofilelink}</span>
+    </div>
+    <div class="z-formrow">
+        {formlabel for='updatedBy' __text='Updated'}
+        <span id="updatedBy" class="z-formnote">{gt text="on $1%s by $2%s" tag1=$page.lu_date|dateformat:'datetimebrief' tag2=$updaterName|userprofilelink}
+        {if $enableVersioning}
+            {modapifunc modname=Content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
+            (#{$versionNo})
+        {/if}
+        </span>
+    </div>
 </fieldset>
 
+{if $categoryUsage lt 4}
 <fieldset>
+    {if $categoryUsage eq 3}
+    <legend>{gt text="Category"}</legend>
+    <div class="z-formrow">
+        {formlabel for='categoryId' __text='Category'}
+        <div>
+            {formcategoryselector id='categoryId' group='page' category=$mainCategory includeEmptyElement='1'}
+        </div>
+    </div>
+    {else}
     <legend>{gt text="Categories"}</legend>
     <div class="z-formrow">
         {formlabel for='categoryId' __text='Primary category'}
@@ -105,11 +129,18 @@
         </div>
     </div>
     <div class="z-formrow">
+        {if $categoryUsage eq 2}
+        <label>{gt text="Secondary category"}</label>
+        <div>
+        {formcategoryselector id='categories' group='page' category=$secondCategory selectedValue=$page.categories.0 includeEmptyElement='1'}
+        </div>
+        {else}
         <label>{gt text="Secondary categories"}</label>
-        {formcategorycheckboxlist id='categories' group='page' category=$mainCategory repeatcolumns='1'}
+        {formcategorycheckboxlist id='categories' group='page' category=$secondCategory repeatColumns='0'}
+        {/if}
     </div>
+    {/if}
 </fieldset>
-
 
 {/formtabbedpanel}
 

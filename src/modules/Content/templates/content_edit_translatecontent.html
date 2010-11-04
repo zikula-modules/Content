@@ -17,7 +17,7 @@
     {include file=$translateNewTemplate}
 </fieldset>
 
-<div class="z-buttons">
+<div class="z-buttons z-formbuttons">
     {formbutton commandName="prev" __text="Previous"}
     {formbutton commandName="next" __text="Next"} &mdash;
     {formbutton commandName="skip" __text="Skip"}
@@ -29,9 +29,9 @@
 {else}
 <p class="z-warningmsg">{gt text="Error! There is nothing to translate for this content type."}</p>
 
-{contentbuttons}
+<div class="z-buttons z-formbuttons">
 {formbutton commandName="cancel" __text="Back"}
-{/contentbuttons}
+</div>
 {/if}
 
 {/contentformframe}
