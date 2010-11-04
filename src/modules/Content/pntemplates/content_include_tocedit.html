@@ -16,7 +16,6 @@
     <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
 </div>
 <!--[pnmodurl modname=content type=edit func=translatepage pid="{commandArgument}" assign=translateUrl]-->
-<!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
 
 <!--[pnformcontextmenu id="contentTocMenu" width="auto"]-->
 <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"]-->
@@ -52,6 +51,7 @@
         </thead>
         <tbody>
             <!--[foreach from=$pages item=page]-->
+            <!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
             <tr class="<!--[cycle values="z-odd,z-even"]-->">
                 <td style="padding-left: <!--[$page.level*1.5]-->em">
                     <div id="page_<!--[$page.id]-->">
@@ -76,22 +76,22 @@
                 <td class="z-center" style="white-space:nowrap;">
                     <!--[if $page.active]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$deactivate alt=$deactivate id="active_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"]--></a>
-                    <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="Online" __alt="Online" ]--></div></noscript>
+                    <noscript><div><!--[pnimg src=page-greenled.gif modname=content __title="Online" __alt="Online" ]--></div></noscript>
                     <span id="activity_<!--[$page.id]-->"><!--[gt text="Online"]--></span>
                     <!--[else]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$deactivate alt=$deactivate style="display: none;" id="active_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$activate alt=$activate id="inactive_`$page.id`"]--></a>
-                    <noscript><div><!--[pnimg src=redled.gif modname=core set=icons/extrasmall __title="Offline" __alt="Offline" ]--></div></noscript>
+                    <noscript><div><!--[pnimg src=page-redled.gif modname=content __title="Offline" __alt="Offline" ]--></div></noscript>
                     <span id="activity_<!--[$page.id]-->"><!--[gt text="Offline"]--></span>
                     <!--[/if]-->
                 </td>
                 <td class="z-center" style="white-space:nowrap;">
                     <!--[if $page.inMenu]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"]--></a>
-                    <noscript><div><!--[pnimg src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" ]--></div></noscript>
+                    <noscript><div><!--[pnimg src=page-greenled.gif modname=content __title="In" __alt="In" ]--></div></noscript>
                     <span id="menustatus_<!--[$page.id]-->"><!--[gt text="In"]--></span>
                     <!--[else]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$outmenu alt=$outmenu style="display: none;" id="inmenu_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$inmenu alt=$inmenu id="outmenu_`$page.id`"]--></a>
-                    <noscript><div><!--[pnimg src=redled.gif modname=core set=icons/extrasmall __title="Out" __alt="Out" ]--></div></noscript>
+                    <noscript><div><!--[pnimg src=page-redled.gif modname=content __title="Out" __alt="Out" ]--></div></noscript>
                     <span id="menustatus_<!--[$page.id]-->"><!--[gt text="Out"]--></span>
                     <!--[/if]-->
                 </td>
@@ -104,7 +104,7 @@
                 <!--[if $multilingual]--><td><!--[if $page.isTranslated]--><!--[gt text="$1%s ($2%s original)" tag1=$language|getlanguagename tag2=$page.language|getlanguagename]--><!--[elseif $language neq $page.language]--><!--[gt text="%s original used" tag1=$page.language|getlanguagename]--><!--[else]--><!--[gt text="%s" tag1=$page.language|getlanguagename]--><!--[/if]--></td><!--[/if]-->
             </tr>
             <!--[foreachelse]-->
-            <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->4<!--[else]-->3<!--[/if]-->"><!--[gt text="No pages available."]--></td></tr>
+            <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->5<!--[else]-->4<!--[/if]-->"><!--[gt text="No pages available."]--></td></tr>
             <!--[/foreach]-->
         </tbody>
     </table>
