@@ -66,8 +66,8 @@ function content_ajax_togglepagestate($args)
 }
 
 /**
- * togglepagestate
- * This function toggles online/offline
+ * togglepageinmenu
+ * This function toggles inmenu/outmenu
  *
  * @author Erik Spaan
  * @param id int  id of page to toggle
