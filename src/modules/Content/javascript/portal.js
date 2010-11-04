@@ -82,7 +82,7 @@ Object.extend(Xilinus.Widget.prototype, {
     if (!active) {
       $(this._contentDiv).addClassName('inactive');
     } else {
-        $(this._contentDiv).removeClassName('inactive');
+      $(this._contentDiv).removeClassName('inactive');
     }
     return this;
   },
