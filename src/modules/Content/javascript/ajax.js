@@ -42,8 +42,11 @@ content.items = new Array();
 
 content.editPageOnLoad = function()
 {
+  // get "columns" in correct order
+  columns = $$("table.content-layout-edit td").sort(function(el1,el2) { return el1.id >= el2.id; });
+
   // Get new portal object
-  content.portal = new Xilinus.Portal("table.content-layout-edit td", { onUpdate: content.editPageHandleUpdate }) 
+  content.portal = new Xilinus.Portal(columns, { onUpdate: content.editPageHandleUpdate }) 
 
   // Iterate through the registered content elements and add them to the portal
   content.items.each(
@@ -55,7 +58,7 @@ content.editPageOnLoad = function()
       e.content = e.content.replace(/ srcXXX=/g, ' src=');
       e.content = e.content.replace(/ hrefXXX=/g, ' href=');
 
-      var widget = new Xilinus.Widget("widget", "widget_"+e.contentId).setTitle(e.title).setContent(e.content);
+      var widget = new Xilinus.Widget("widget", "widget_"+e.contentId).setTitle(e.title).setContent(e.content).setActive(e.active);
       content.portal.add(widget, e.column); 
     }
   );
@@ -151,4 +154,96 @@ content.pageInfo.mouseover = function()
 content.pageInfo.mouseout = function()
 {
   content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo').hide(); } , 500);
+}
+
+
+/**
+ * activate all buttons to (de-)activate blocks
+ *
+ */
+function initcontentactivationbuttons()
+{
+    $$('a.content_activationbutton').each(function(item) {
+        item.removeClassName('content_activationbutton');
+    });
+}
+
+/**
+ * Toggle a page online/offline status
+ *
+ *@params page id;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepagestate(id)
+{
+    var pars = "module=content&func=togglepagestate&id=" + id;
+    var myAjax = new Ajax.Request(
+        "ajax.php",
+        {
+            method: 'get',
+            parameters: pars,
+            onComplete: togglepagestate_response
+        });
+}
+
+/**
+ * Ajax response function for updating block status: cleanup
+ *
+ *@params none;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepagestate_response(req)
+{
+    if (req.status != 200 ) {
+        pnshowajaxerror(req.responseText);
+        return;
+    }
+
+    var json = pndejsonize(req.responseText);
+
+    $('active_' + json.id).toggle();
+    $('inactive_' + json.id).toggle();
+    $('activity_' + json.id).update((($('activity_' + json.id).innerHTML == msgPageStatusOffline) ? msgPageStatusOnline : msgPageStatusOffline));
+}
+
+/**
+ * Toggle a page inmenu status
+ *
+ *@params page id;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepageinmenu(id)
+{
+    var pars = "module=content&func=togglepageinmenu&id=" + id;
+    var myAjax = new Ajax.Request(
+        "ajax.php",
+        {
+            method: 'get',
+            parameters: pars,
+            onComplete: togglepageinmenu_response
+        });
+}
+
+/**
+ * Ajax response function for updating block status: cleanup
+ *
+ *@params none;
+ *@return none;
+ *@author Erik Spaan
+ */
+function togglepageinmenu_response(req)
+{
+    if (req.status != 200 ) {
+        pnshowajaxerror(req.responseText);
+        return;
+    }
+
+    var json = pndejsonize(req.responseText);
+
+    $('inmenu_' + json.id).toggle();
+    $('outmenu_' + json.id).toggle();
+    $('menustatus_' + json.id).update((($('menustatus_' + json.id).innerHTML == msgPageOutMenu) ? msgPageInMenu : msgPageOutMenu));
 }
