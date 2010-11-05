@@ -45,7 +45,7 @@ class content_layouttypesapi_column3_252550_headerPlugin extends contentLayoutBa
     }
     function getImage()
     {
-    	return pngetBaseUrl().'/modules/content/pnimages/layout/column3_252550_header.png';
+        return pngetBaseUrl().'/modules/content/pnimages/layout/column3_252550_header.png';
     }
 }
 

@@ -45,7 +45,7 @@ class content_layouttypesapi_column1woheaderPlugin extends contentLayoutBase
     }
     function getImage()
     {
-    	return pngetBaseUrl().'/modules/content/pnimages/layout/column1woheader.png';
+        return pngetBaseUrl().'/modules/content/pnimages/layout/column1woheader.png';
     }
 }
 

@@ -45,7 +45,7 @@ class content_layouttypesapi_column2_7030_headerPlugin extends contentLayoutBase
     }
     function getImage()
     {
-    	return pngetBaseUrl().'/modules/content/pnimages/layout/column2_7030_header.png';
+        return pngetBaseUrl().'/modules/content/pnimages/layout/column2_7030_header.png';
     }
 }
 
