@@ -244,12 +244,12 @@ class Content_Installer extends Zikula_Installer
         }
         
         // convert module vars
-        $modvars = ModUtil::getVar('content');
+        $modvars = ModUtil::getVar('Content');
         if ($modvars) {
             foreach ($modvars as $key => $value) {
                 $this->setVar($key, $value);
             }
-            ModUtil::delVar('content');
+            ModUtil::delVar('Content');
         }
 
         // clear compiled templates and Content cache

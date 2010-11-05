@@ -129,7 +129,7 @@
                 <td>{gt text="Buttons"}</td>
                 <td>{gt text='BBCode is an abbreviation for Bulletin Board Code, the lightweight markup language used to format posts in many message boards. (<a href="http://en.wikipedia.org/wiki/Bbcode">Wikipedia</a>)<br /><a href="http://code.zikula.org/bbcode">Download</a>'}</td>
             </tr>
-            {modapifunc modname="Content" type="content" func="getContentTypes" includeInactive=1 assign="plugins"}
+            {modapifunc modname="Content" type="Content" func="getContentTypes" includeInactive=1 assign="plugins"}
             {foreach from=$plugins item=plugin}
             <tr class="{cycle values="z-odd,z-even"}">
                 <td>{img src=greenled.gif modname=core set=icons/extrasmall __alt='Installed' }</td>
@@ -163,7 +163,7 @@
     {/form}
 
     <p class="z-center">
-        <a href="http://code.zikula.org/content/" title="content">{$modinfo.name} v{$modinfo.version}</a>
+        <a href="http://code.zikula.org/content/" title="Content">{$modinfo.name} v{$modinfo.version}</a>
     </p>
 
 </div>

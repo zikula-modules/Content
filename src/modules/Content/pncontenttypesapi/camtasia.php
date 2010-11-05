@@ -50,7 +50,7 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
     }
     function display()
     {
-        $render = & pnRender::getInstance('content', false);
+        $render = & pnRender::getInstance('Content', false);
         $render->assign('text', $this->text);
         $render->assign('width', $this->width);
         $render->assign('height', $this->height);
