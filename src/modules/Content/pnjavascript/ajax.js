@@ -173,11 +173,11 @@ function initcontentactivationbuttons()
  *
  *@params page id;
  *@return none;
- *@author Erik Spaan
+ *@author Erik Spaan & Sven Strickroth
  */
 function togglepagestate(id)
 {
-    var pars = "module=content&func=togglepagestate&id=" + id;
+    var pars = "module=content&func=togglepagestate&id=" + id + "&active=" + $('inactive_' + id).visible();
     var myAjax = new Ajax.Request(
         "ajax.php",
         {
@@ -213,11 +213,11 @@ function togglepagestate_response(req)
  *
  *@params page id;
  *@return none;
- *@author Erik Spaan
+ *@author Erik Spaan & Sven Strickroth
  */
 function togglepageinmenu(id)
 {
-    var pars = "module=content&func=togglepageinmenu&id=" + id;
+    var pars = "module=content&func=togglepageinmenu&id=" + id + "&inmenu=" + $('outmenu_' + id).visible();
     var myAjax = new Ajax.Request(
         "ajax.php",
         {

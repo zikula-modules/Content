@@ -1333,10 +1333,18 @@ function content_pageapi_updateState($args)
 
     $page = array('id' => (int) $args['pageId']);
     if (isset($args['active'])) {
-        $page['active'] = (int) $args['active'];
+        if ($args['active']) {
+            $page['active'] = 1;
+        } else {
+            $page['active'] = 0;
+        }
     }
     if (isset($args['inMenu'])) {
-        $page['inMenu'] = (int) $args['inMenu'];
+        if ($args['inMenu']) {
+            $page['inMenu'] = 1;
+        } else {
+            $page['inMenu'] = 0;
+        }
     }
 
     return DBUtil::updateObject($page, 'content_page');

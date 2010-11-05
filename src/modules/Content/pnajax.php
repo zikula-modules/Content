@@ -26,8 +26,9 @@ function content_ajax_dragcontent($args)
  * togglepagestate
  * This function toggles online/offline
  *
- * @author Erik Spaan
+ * @author Erik Spaan & Sven Strickroth
  * @param id int  id of page to toggle
+ * @param active  string "true"/"false"
  * @return mixed true or Ajax error
  */
 function content_ajax_togglepagestate($args)
@@ -44,20 +45,7 @@ function content_ajax_togglepagestate($args)
         AjaxUtil::output();
     }
 
-    // read the page information
-    $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'includeContent' => false, 'includeLanguages' => false));
-    if ($pageData === false) {
-        LogUtil::registerError(__f('Error! Could not retrieve page with ID %s.', DataUtil::formatForDisplay($id), $dom));
-        AjaxUtil::output();
-    }
-    // toggle the active state
-    if ($pageData['active'] == 1) {
-        $active = 0;
-    } else {
-        $active = 1;
-    }
-
-    $ok = pnModAPIFunc('content', 'page', 'updateState', array('pageId' => $id, 'active' => $active, 'inMenu' => $pageData['inMenu']));
+    $ok = pnModAPIFunc('content', 'page', 'updateState', array('pageId' => $id, 'active' => ('true' == FormUtil::getPassedValue('active', 'false', 'GET'))));
     if (!$ok) {
         LogUtil::registerError(__('Error! Could not update state.', $dom));
         AjaxUtil::output();
@@ -69,8 +57,9 @@ function content_ajax_togglepagestate($args)
  * togglepageinmenu
  * This function toggles inmenu/outmenu
  *
- * @author Erik Spaan
+ * @author Erik Spaan & Sven Strickroth
  * @param id int  id of page to toggle
+ * @param inmenu  string "true"/"false"
  * @return mixed true or Ajax error
  */
 function content_ajax_togglepageinmenu($args)
@@ -87,20 +76,7 @@ function content_ajax_togglepageinmenu($args)
         AjaxUtil::output();
     }
 
-    // read the page information
-    $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'includeContent' => false, 'includeLanguages' => false));
-    if ($pageData === false) {
-        LogUtil::registerError(__f('Error! Could not retrieve page with ID %s.', DataUtil::formatForDisplay($id), $dom));
-        AjaxUtil::output();
-    }
-    // toggle the inMenu state
-    if ($pageData['inMenu'] == 1) {
-        $inMenu = 0;
-    } else {
-        $inMenu = 1;
-    }
-
-    $ok = pnModAPIFunc('content', 'page', 'updateState', array('pageId' => $id, 'active' => $pageData['active'], 'inMenu' => $inMenu));
+    $ok = pnModAPIFunc('content', 'page', 'updateState', array('pageId' => $id, 'inMenu' => ('true' == FormUtil::getPassedValue('inmenu', 'false', 'GET'))));
     if (!$ok) {
         LogUtil::registerError(__('Error! Could not update state.', $dom));
         AjaxUtil::output();
