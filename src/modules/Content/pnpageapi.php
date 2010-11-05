@@ -1315,7 +1315,7 @@ function content_pageapi_getPagePath($args)
 
     $path = array();
     for (; !$result->EOF; $result->MoveNext()) {
-        $path[] = array('id' => $result->fields[0], 'title' => pnVarPrepForDisplay($result->fields[1]));
+        $path[] = array('id' => $result->fields[0], 'title' => $result->fields[1]);
     }
 
     $result->Close();
