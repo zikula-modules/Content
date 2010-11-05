@@ -1331,18 +1331,13 @@ function content_pageapi_updateState($args)
         return LogUtil::registerArgsError();
     }
 
-    $pageId = (int) $args['pageId'];
-    $active = (int) $args['active'];
-    $inMenu = (int) $args['inMenu'];
+    $page = array('id' => (int) $args['pageId']);
+    if (isset($args['active'])) {
+        $page['active'] = (int) $args['active'];
+    }
+    if (isset($args['inMenu'])) {
+        $page['inMenu'] = (int) $args['inMenu'];
+    }
 
-    $pntable = pnDBGetTables();
-    $pageTable = $pntable['content_page'];
-    $pageColumn = $pntable['content_page_column'];
-
-    $sql = "UPDATE $pageTable
-          SET $pageColumn[active] = $active, $pageColumn[inMenu] = $inMenu
-          WHERE $pageColumn[id] = $pageId";
-    DBUtil::executeSQL($sql);
-    
-    return true;
+    return DBUtil::updateObject($page, 'content_page');
 }
