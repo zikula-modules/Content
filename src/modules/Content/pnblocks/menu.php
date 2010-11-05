@@ -85,7 +85,7 @@ function content_menublock_modify($blockinfo)
     $render->assign($vars);
     $render->assign('dom', $dom);
 
-    $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
+    $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false));
     $pidItems = array();
     $pidItems[] = array('text' => __('All pages', $dom), 'value' => "0");
 

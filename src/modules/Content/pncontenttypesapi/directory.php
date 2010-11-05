@@ -123,7 +123,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     function startEditing(&$render)
     {
         $dom = ZLanguage::getModuleDomain('content');
-        $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
+        $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false));
 
         $pidItems = array();
         $pidItems[] = array('text' => __('All pages', $dom), 'value' => "0");

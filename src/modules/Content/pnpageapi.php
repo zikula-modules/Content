@@ -54,7 +54,6 @@ function content_pageapi_getPage($args)
  * @param orderDir string Direction for "order by" in SQL query (desc/asc) default: asc
  * @param pageIndex int Zero based page index for browsing page by page.
  * @param pageSize int Number of pages to show on each "page".
- * @param enableEscape bool Enable HTML escape of returned text data.
  * @param language string Three letter language identifier used for translating content.
  * @param translate bool Enable translation.
  * @param makeTree bool Enable conversion of page list to recursive tree structure.
@@ -73,7 +72,6 @@ function content_pageapi_getPages($args)
     $orderDir = !empty($args['orderDir']) ? $args['orderDir'] : 'asc';
     $pageIndex = isset($args['pageIndex']) ? $args['pageIndex'] : 0;
     $pageSize = isset($args['pageSize']) ? $args['pageSize'] : 0;
-    $enableEscape = (array_key_exists('enableEscape', $args) ? $args['enableEscape'] : true);
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
     $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
@@ -162,8 +160,6 @@ $orderBy";
         } else
             $p['isTranslated'] = false;
 
-        if ($enableEscape)
-            contentEscapePageData($p);
 
         if ($includeContent) {
             $content = pnModAPIFunc('content', 'content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
@@ -350,11 +346,6 @@ function dumpTree($pages)
 }
 */
 
-function contentEscapePageData(&$page)
-{
-    $page['title'] = DataUtil::formatForDisplay($page['title']);
-}
-
 /*=[ New page ]==================================================================*/
 
 function content_pageapi_newPage($args)
@@ -368,7 +359,7 @@ function content_pageapi_newPage($args)
         return LogUtil::registerError(__("Error! Cannot create sub-page without parent page ID", $dom));
 
     if ($pageId > 0) {
-        $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'enableEscape' => false, 'includeContent' => false));
+        $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'includeContent' => false));
         if ($sourcePageData === false)
             return false;
     } else
@@ -432,7 +423,7 @@ function content_pageapi_updatePage($args)
     if (!pnModApiFunc('content', 'page', 'isUniqueUrlnameByPageId', array('urlname' => $pageData['urlname'], 'pageId' => $pageId)))
         return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
 
-    $oldPageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'enableEscape' => false));
+    $oldPageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false)));
     if ($oldPageData === false)
         return false;
 
@@ -648,7 +639,7 @@ function content_pageapi_clonePage($args)
     $pageId = (int) $args['pageId']; // the page to clone
     $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
 
-    $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false, 'enableEscape' => false, 'includeContent' => false)));
+    $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false, 'includeContent' => false)));
     if ($sourcePageData === false)
         return false;
 
@@ -717,7 +708,7 @@ function content_pageapi_reinsertPage($args)
     $pageData = $args['page'];
 
     if ($pageData['parentPageId'] > 0) {
-        $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageData['parentPageId'], 'checkActive' => false, 'enableEscape' => false, 'includeContent' => false));
+        $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageData['parentPageId'], 'checkActive' => false, 'includeContent' => false));
         if ($sourcePageData === false)
             $pageData['parentPageId'] = 0;
     } else

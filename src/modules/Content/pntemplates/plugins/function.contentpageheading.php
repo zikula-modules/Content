@@ -10,10 +10,10 @@
 
 function smarty_function_contentpageheading($params, &$render) 
 {
-  $html = '<div class="content-page-heading"><h2>' . ($params['header']) . "</h2>\n";
+  $html = '<div class="content-page-heading"><h2>' . DataUtil::formatForDisplay($params['header']) . "</h2>\n";
 
   if (array_key_exists('subheader', $params))
-    $html .= "<h3>$params[subheader]</h3>\n";
+    $html .= "<h3>".DataUtil::formatForDisplay($params[subheader])."</h3>\n";
   else
     $html .= "<h3>&nbsp;</h3>\n";
 

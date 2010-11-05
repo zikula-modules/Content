@@ -17,7 +17,7 @@ function smarty_function_contentpagepath($params, &$smarty)
     $first = true;
     foreach ($path as $page)
     {
-        $result .= ($first ? '' : ' / ') . $page['title'];
+        $result .= ($first ? '' : ' / ') . DataUtil::formatForDisplay($page['title']);
         $first = false;
     }
 

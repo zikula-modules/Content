@@ -15,7 +15,6 @@ function content_historyapi_getPageVersions($args)
 {
   $dom = ZLanguage::getModuleDomain('content');
   $pageId = (int)$args['pageId'];
-  $enableEscape = (array_key_exists('enableEscape', $args) ? $args['enableEscape'] : true);
   $offset = (array_key_exists('offset', $args) ? $args['offset'] : 0);
   $pageSize = (array_key_exists('pageSize', $args) ? $args['pageSize'] : 20);
 
@@ -145,7 +144,6 @@ function content_historyapi_addPageVersion($args)
                        array('id' => $pageId,
                              'editing' => true,
                              'filter' => array('checkActive' => false),
-                             'enableEscape' => false,
                              'translate' => false,
                              'includeContent' => true));
   if ($page === false)
@@ -327,7 +325,7 @@ function content_historyapi_restoreVersion($args)
   unset($page['layoutTemplate']);
   unset($page['content']);
 
-  $currentPage = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
+  $currentPage = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
   if ($currentPage === false) {
     // is a deleted page
     $retval = pnModAPIFunc('content', 'page', 'reinsertPage', array('page' => $page));

@@ -29,7 +29,6 @@ class content_edit_mainHandler extends pnFormHandler
         $pages = pnModAPIFunc('content', 'page', 'getPages', array(
                     'editing' => true, 
                     'filter' => array('checkActive' => false, 'expandedPageIds' => contentMainEditExpandGet()), 
-                    'enableEscape' => true, 
                     'translate' => false, 
                     'includeLanguages' => true,
                     'orderBy' => 'setLeft'));
@@ -221,7 +220,7 @@ class content_edit_editPageHandler extends pnFormHandler
         if (!contentHasPageEditAccess($this->pageId))
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
-        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'enableEscape' => false, 'translate' => false, 'includeContent' => true, 'includeCategories' => true));
+        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'translate' => false, 'includeContent' => true, 'includeCategories' => true));
         if ($page === false)
             return $render->pnFormRegisterError(null);
 
@@ -281,7 +280,7 @@ class content_edit_editPageHandler extends pnFormHandler
             $pageData = $render->pnFormGetValues();
 
             // fetch old data *before* updating
-            $oldPageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'enableEscape' => false));
+            $oldPageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'editing' => true, 'filter' => array('checkActive' => false)));
             if ($oldPageData === false)
                 return $render->pnFormRegisterError(null);
 
@@ -874,7 +873,7 @@ class content_edit_historyContentHandler extends pnFormHandler
         if (!contentHasPageEditAccess($this->pageId))
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
 
-        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
+        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
         if ($page === false)
             return $render->pnFormRegisterError(null);
 

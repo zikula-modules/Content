@@ -45,7 +45,7 @@ function content_ajax_togglepagestate($args)
     }
 
     // read the page information
-    $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'enableEscape' => false, 'includeContent' => false, 'includeLanguages' => false));
+    $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'includeContent' => false, 'includeLanguages' => false));
     if ($pageData === false) {
         LogUtil::registerError(__f('Error! Could not retrieve page with ID %s.', DataUtil::formatForDisplay($id), $dom));
         AjaxUtil::output();
@@ -88,7 +88,7 @@ function content_ajax_togglepageinmenu($args)
     }
 
     // read the page information
-    $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'enableEscape' => false, 'includeContent' => false, 'includeLanguages' => false));
+    $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'includeContent' => false, 'includeLanguages' => false));
     if ($pageData === false) {
         LogUtil::registerError(__f('Error! Could not retrieve page with ID %s.', DataUtil::formatForDisplay($id), $dom));
         AjaxUtil::output();
