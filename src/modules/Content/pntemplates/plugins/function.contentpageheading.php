@@ -13,7 +13,7 @@ function smarty_function_contentpageheading($params, &$render)
   $html = '<div class="content-page-heading"><h2>' . DataUtil::formatForDisplay($params['header']) . "</h2>\n";
 
   if (array_key_exists('subheader', $params))
-    $html .= "<h3>".DataUtil::formatForDisplay($params[subheader])."</h3>\n";
+    $html .= "<h3>".$params[subheader]."</h3>\n"; // no escape here, because we send html here (like pagepath)
   else
     $html .= "<h3>&nbsp;</h3>\n";
 
