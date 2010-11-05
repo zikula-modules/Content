@@ -52,6 +52,7 @@ function content_pageapi_getPage($args)
  * @param filter array See contentGetPageListRestrictions().
  * @param orderBy string Field for "order by" in SQL query
  * @param orderDir string Direction for "order by" in SQL query (desc/asc) default: asc
+ * @param orderBy
  * @param pageIndex int Zero based page index for browsing page by page.
  * @param pageSize int Number of pages to show on each "page".
  * @param language string Three letter language identifier used for translating content.
