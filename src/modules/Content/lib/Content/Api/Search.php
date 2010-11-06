@@ -4,7 +4,6 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id: pnsearchapi.php 403 2010-05-31 18:15:19Z drak $
  * @license See license.txt
  */
 

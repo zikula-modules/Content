@@ -2,11 +2,9 @@
 /**
  * Content
  *
- * @copyright (c) 2001-now, Frank Schummertz
+ * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id$
- * @license GNU/GPL - http://www.gnu.org/copyleft/gpl.html
- * @package Content
+ * @license See license.txt
  */
 
 /**

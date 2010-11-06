@@ -4,7 +4,6 @@
  *
  * @copyright (C) 2007, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id$
  * @license See license.txt
  */
 class content_contenttypesapi_RSSPlugin extends contentTypeBase

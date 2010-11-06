@@ -4,7 +4,6 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id: column2header.php 371 2010-01-05 16:15:52Z herr.vorragend $
  * @license See license.txt
  */
 

@@ -4,7 +4,6 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id: mytube.php 375 2010-01-06 13:34:29Z herr.vorragend $
  * @license See license.txt
  */
 

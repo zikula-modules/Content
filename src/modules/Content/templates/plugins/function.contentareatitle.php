@@ -4,7 +4,6 @@
  *
  * @copyright (C) 2010 Sven Strickroth, TU Clausthal
  * @link http://code.zikula.org/content
- * @version $Id$
  * @license See license.txt
  */
 

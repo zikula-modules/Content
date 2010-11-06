@@ -4,7 +4,6 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id: googlemap.php 356 2010-01-04 14:43:31Z herr.vorragend $
  * @license See license.txt
  */
 

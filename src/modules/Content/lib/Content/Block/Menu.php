@@ -4,7 +4,6 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
- * @version $Id: menu.php 406 2010-06-01 03:04:45Z drak $
  * @license See license.txt
  */
 
