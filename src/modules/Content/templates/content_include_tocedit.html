@@ -84,7 +84,7 @@
                     <span id="activity_{$page.id}">{gt text="Offline"}</span>
                     {/if}
                 </td>
-                <td class="z-center z-nowrap"
+                <td class="z-center z-nowrap">
                     {if $page.inMenu}
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu({$page.id})">{img src="page-greenled.gif" modname="Content" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"}{img src="page-redled.gif" modname="Content" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"}</a>
                     <noscript><div>{img src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" }</div></noscript>
