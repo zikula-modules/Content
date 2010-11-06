@@ -14,7 +14,7 @@ class content_contenttypesapi_joinpositionPlugin extends contentTypeBase
 
     function getModule()
     {
-        return 'content';
+        return 'Content';
     }
     function getName()
     {

@@ -53,8 +53,8 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         if ($this->includeSubpage && $this->pid != 0) {
             $options['filter']['superParentId'] = $this->pid;
         } elseif (!$this->includeSubpage && $this->pid == 0) {
-            $pntable = DBUtil::getTables();
-            $pageColumn = $pntable['content_page_column'];
+            $table = DBUtil::getTables();
+            $pageColumn = $table['content_page_column'];
             $options['filter']['where'] = "$pageColumn[level] = 0";
         } elseif (!$this->includeSubpage && $this->pid != 0)
             $options['filter']['pageId'] = $this->pid;

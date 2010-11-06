@@ -19,7 +19,7 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
 
     function getModule()
     {
-        return 'content';
+        return 'Content';
     }
     function getName()
     {
