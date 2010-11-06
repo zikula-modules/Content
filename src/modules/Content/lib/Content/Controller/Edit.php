@@ -63,7 +63,7 @@ class Content_Controller_Edit extends Zikula_Controller
     public function translatecontent($args)
     {
         $view = FormUtil::newForm('Content');
-        return $view->execute('content_edit_translatecontent.html', new Content_Form_Handler_Edit_TtranslateContent($args));
+        return $view->execute('content_edit_translatecontent.html', new Content_Form_Handler_Edit_TranslateContent($args));
     }
 
     /*=[ History ]===================================================================*/
