@@ -559,6 +559,27 @@ div.content-pageinfo .content a.editon {
     background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }
 
+.z-buttons input.con-bt-prev {
+    background: url("../../../images/icons/extrasmall/previous.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+}
+
+.z-buttons input.con-bt-prev:hover {
+    background: url("../../../images/icons/extrasmall/previous.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+}
+
+.z-buttons input.con-bt-prev:active {
+    background: url("../../../images/icons/extrasmall/previous.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+}
+
 .z-buttons input.con-bt-skip {
     background: url("../../../images/icons/extrasmall/redo.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
     background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
@@ -570,7 +591,7 @@ div.content-pageinfo .content a.editon {
     background: url("../../../images/icons/extrasmall/redo.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
     background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
     background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/tab_right.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-skip:active {
@@ -578,4 +599,25 @@ div.content-pageinfo .content a.editon {
     background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
     background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
     background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+}
+
+.z-buttons input.con-bt-view {
+    background: url("../../../images/icons/extrasmall/demo.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+}
+
+.z-buttons input.con-bt-view:hover {
+    background: url("../../../images/icons/extrasmall/demo.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+}
+
+.z-buttons input.con-bt-view:active {
+    background: url("../../../images/icons/extrasmall/demo.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/demo.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }

@@ -12,8 +12,8 @@
     var images = [];
     var descs = [];
     {{foreach from=$layouts item=layout}}
-        images.push('{{$layout.image}}');
-        descs.push('{{$layout.description}}');
+    images.push('{{$layout.image}}');
+    descs.push('{{$layout.description}}');
     {{/foreach}}
     //]]>
 </script>
@@ -51,7 +51,7 @@
 {/if}
 
 {formtabbedpanel __title='Content'}
-{gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."}
+<p>{gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."}</p>
 {include file=$layoutTemplate}
 {/formtabbedpanel}
 
@@ -102,10 +102,10 @@
     <div class="z-formrow">
         {formlabel for='updatedBy' __text='Updated'}
         <span id="updatedBy" class="z-formnote">{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datetimebrief' tag2=$updaterName|userprofilelink}
-        {if $enableVersioning}
+            {if $enableVersioning}
             {modapifunc modname=Content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
             (#{$versionNo})
-        {/if}
+            {/if}
         </span>
     </div>
 </fieldset>
@@ -132,7 +132,7 @@
         {if $categoryUsage eq 2}
         <label>{gt text="Secondary category"}</label>
         <div>
-        {formcategoryselector id='categories' group='page' category=$secondCategory selectedValue=$page.categories.0 includeEmptyElement='1'}
+            {formcategoryselector id='categories' group='page' category=$secondCategory selectedValue=$page.categories.0 includeEmptyElement='1'}
         </div>
         {else}
         <label>{gt text="Secondary categories"}</label>
@@ -150,28 +150,30 @@
     <legend>{gt text="Page layout"}</legend>
     <div class="z-formrow">
         {formlabel for='layout' __text='Page layout'}
-        {contentlayoutselector id='layout' group='page' layouts=$layouts}
+        {contentlayoutselector id='layout' group='page'}
     </div>
     <div class="z-formrow">
-        {formlabel __text='Layout preview and description'}
+        {formlabel for='layout_preview' __text='Layout preview and description'}
         <div id="layout_preview">
-            <img id="layout_preview_img" src="{$pagelayout.image}" align="top" />
-            <span id="layout_preview_desc">{$pagelayout.description}</span>
+            <img id="layout_preview_img" src="{$pagelayout.image}" alt="" />
         </div>
     </div>
+    <p id="layout_preview_desc" class="z-formnote">{$pagelayout.description}</p>
 </fieldset>
 
 {/formtabbedpanel}
 
 {/formtabbedpanelset}
 
-<div class="z-buttons z-formbuttons">
+<div class="z-buttons">
     {formbutton class="z-bt-save" commandName="save" __text="Save"}
-    {if $access.pageDeleteAllowed}{formbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete'}{/if}
-    <input type="submit" value="{gt text="Preview"}" onclick="window.open('{modurl modname='Content' type=user func=view preview=1 pid=$page.id}')" />
+    {if $access.pageDeleteAllowed}
+    {formbutton class="z-bt-delete" commandName="deletePage" __text="Delete" __confirmMessage='Delete'}
+    {/if}
+    <input type="submit" class="z-bt-icon con-bt-view" value="{gt text="Preview"}" onclick="window.open('{modurl modname='Content' type=user func=view preview=1 pid=$page.id}')" />
     {formbutton class="z-bt-save" commandName="saveAndView" __text="Save & View"}
     {if $multilingual==1}
-    {formbutton class="con-bt-translate" commandName="translate" __text="Translate"}
+    {formbutton class="z-bt-icon con-bt-translate" commandName="translate" __text="Translate"}
     {/if}
     {formbutton class="z-bt-cancel" commandName="cancel" __text="Cancel"}
 </div>

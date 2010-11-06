@@ -12,7 +12,9 @@
 </script>
 
 {formpostbackfunction function='contentPost' commandName='toggleExpand'}
-<input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
+<div>
+    <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
+</div>
 {modurl modname='Content' type=edit func=translatepage pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
 
 {formcontextmenu id="contentTocMenu" width="auto"}
@@ -55,9 +57,9 @@
                     <div id="page_{$page.id}">
                         {if $page.setRight - $page.setLeft != 1}
                         {if $page.isExpanded}
-                          <img src="modules/Content/images/page-expanded3.gif" onclick="contentToggle({$page.id})" title="{gt text="Click to hide sub-pages"}" alt="" class="clickable" />
+                        <img src="modules/Content/images/page-expanded3.gif" onclick="contentToggle({$page.id})" title="{gt text="Click to hide sub-pages"}" alt="" class="clickable" />
                         {else}
-                          <img src="modules/Content/images/page-collapsed3.gif" onclick="contentToggle({$page.id})" title="{gt text="Click to show sub-pages"}" alt="" class="clickable" />
+                        <img src="modules/Content/images/page-collapsed3.gif" onclick="contentToggle({$page.id})" title="{gt text="Click to show sub-pages"}" alt="" class="clickable" />
                         {/if}
                         {else}
                         <img src="modules/Content/images/page-none3.gif" alt="" />
@@ -71,7 +73,7 @@
                         {if $access.pageEditAllowed}&nbsp;{formcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="modules/Content/images/contextarrow.png"}{/if}
                     </div>
                 </td>
-                <td class="z-center" style="white-space:nowrap;">
+                <td class="z-center z-nowrap">
                     {if $page.active}
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate({$page.id})">{img src="page-greenled.gif" modname="Content" title=$deactivate alt=$deactivate id="active_`$page.id`"}{img src="page-redled.gif" modname="Content" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"}</a>
                     <noscript><div>{img src=greenled.gif modname=core set=icons/extrasmall __title="Online" __alt="Online" }</div></noscript>
@@ -82,7 +84,7 @@
                     <span id="activity_{$page.id}">{gt text="Offline"}</span>
                     {/if}
                 </td>
-                <td class="z-center" style="white-space:nowrap;">
+                <td class="z-center z-nowrap"
                     {if $page.inMenu}
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu({$page.id})">{img src="page-greenled.gif" modname="Content" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"}{img src="page-redled.gif" modname="Content" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"}</a>
                     <noscript><div>{img src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" }</div></noscript>
@@ -95,8 +97,8 @@
                 </td>
                 <td>{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datebrief' tag2=$updaterName|userprofilelink}
                     {if $enableVersioning}
-                      {modapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
-                      (#{$versionNo})
+                    {modapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
+                    (#{$versionNo})
                     {/if}
                 </td>
                 {if $multilingual}<td>{if $page.isTranslated}{gt text='%1$s (%2$s original)' tag1=$language|getlanguagename tag2=$page.language|getlanguagename}{elseif $language neq $page.language}{gt text="%s original used" tag1=$page.language|getlanguagename}{else}{gt text="%s" tag1=$page.language|getlanguagename}{/if}</td>{/if}

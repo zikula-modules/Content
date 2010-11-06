@@ -36,15 +36,15 @@
     <legend>{gt text="Please select a specific layout for your page"}</legend>
     <div class="z-formrow">
         {formlabel for='layout' __text='Page layout'}
-        {contentlayoutselector id='layout' layouts=$layouts}
+        {contentlayoutselector id='layout'}
     </div>
     <div class="z-formrow">
-        {formlabel __text='Layout preview and description'}
+        {formlabel for='layout_preview' __text='Layout preview and description'}
         <div id="layout_preview">
-            <img id="layout_preview_img" src="{$layouts.0.image}" align="top" />
-            <span id="layout_preview_desc">{$layouts.0.description}</span>
+            <img id="layout_preview_img" src="{$layouts.0.image}" alt="" />
         </div>
     </div>
+    <p id="layout_preview_desc" class="z-formnote">{$layouts.0.description}</p>
 </fieldset>
 
 {modcallhooks hookobject='item' hookaction='new' module='Content'}
