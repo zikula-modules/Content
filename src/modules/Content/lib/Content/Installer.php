@@ -134,9 +134,9 @@ class Content_Installer extends Zikula_Installer
     {
         // Drop unused version 1.x column. Some people might have done this manually, so ignore errors.
         $dbconn = DBConnectionStack::getConnection();
-        $pntables = DBUtil::getTables();
+        $tables = DBUtil::getTables();
         $dict = NewDataDictionary($dbconn);
-        $table = $pntables['content_content'];
+        $table = $tables['content_content'];
         $sqlarray = $dict->DropColumnSQL($table, array('con_language'));
         $dict->ExecuteSQLArray($sqlarray);
         return true;
@@ -163,12 +163,12 @@ class Content_Installer extends Zikula_Installer
         DBUtil::changeTable('content_page');
 
         $dbconn = DBConnectionStack::getConnection();
-        $pntables = DBUtil::getTables();
+        $tables = DBUtil::getTables();
         $language = ZLanguage::getLanguageCode();
 
         // Assume language of created pages is same as current lang
-        $table = $pntables['content_page'];
-        $column = $pntables['content_page_column'];
+        $table = $tables['content_page'];
+        $column = $tables['content_page_column'];
         $sql = "UPDATE $table SET $column[language] = '" . DataUtil::formatForStore($language) . "'";
         DBUtil::executeSQL($sql);
         return true;

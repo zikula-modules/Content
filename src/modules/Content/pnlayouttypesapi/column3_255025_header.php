@@ -39,7 +39,7 @@ class content_layouttypesapi_column3_255025_headerPlugin extends contentLayoutBa
     {
         return $this->contentAreaTitles[$areaIndex];
     }
-	function getImage()
+    function getImage()
     {
     	return System::getBaseUrl().'/modules/Content/images/layout/column3_255025_header.png';
     }

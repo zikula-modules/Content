@@ -49,7 +49,7 @@
     icons[0] = new Array('http://openlayers.org/api/img/marker.png','21','25','0.5','1');
 
     // add the marker
-    addMarker(layer_markers,lon,lat,"<div><h4>{{$text|pnvarprephtmldisplay}}</h4></div>",false,0);
+    addMarker(layer_markers,lon,lat,"<div><h4>{{$text|safehtml}}</h4></div>",false,0);
 
     geometries = new Array();
     

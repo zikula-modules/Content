@@ -19,7 +19,7 @@ class Content_Api_Layout extends Zikula_Api
         $plugins = array();
         foreach ($modules as $module) {
             if (ModUtil::loadApi($module['name'], 'layouttypes')) {
-                // old style layouttypes plugins directory, maybe changed later
+                // TODO: old style layouttypes plugins directory, maybe changed later
                 $dir = "modules/$module[directory]/pnlayouttypesapi";
                 if (is_dir($dir) && $dh = opendir($dir)) {
                     while (($filename = readdir($dh)) !== false) {

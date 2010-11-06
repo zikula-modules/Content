@@ -93,7 +93,7 @@ content.editPageHandleUpdate = function(portal, widget)
 
   // Start AJAX request
   var pars = "pid=" + content.pageId + "&cid=" + contentId + "&cai=" + contentAreaIndex + "&pos=" + position;
-  var url = "ajax.php?module=content&func=dragcontent";
+  var url = "ajax.php?module=Content&func=dragcontent";
 
   new Ajax.Request(url, { method: "post", 
                           parameters: pars, 
@@ -177,7 +177,7 @@ function initcontentactivationbuttons()
  */
 function togglepagestate(id)
 {
-    var pars = "module=content&func=togglepagestate&id=" + id;
+    var pars = "module=Content&func=togglepagestate&id=" + id;
     var myAjax = new Ajax.Request(
         "ajax.php",
         {
@@ -217,7 +217,7 @@ function togglepagestate_response(req)
  */
 function togglepageinmenu(id)
 {
-    var pars = "module=content&func=togglepageinmenu&id=" + id;
+    var pars = "module=Content&func=togglepageinmenu&id=" + id;
     var myAjax = new Ajax.Request(
         "ajax.php",
         {

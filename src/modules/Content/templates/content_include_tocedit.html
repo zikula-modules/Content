@@ -95,7 +95,7 @@
                 </td>
                 <td>{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datebrief' tag2=$updaterName|userprofilelink}
                     {if $enableVersioning}
-                      {pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
+                      {modapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
                       (#{$versionNo})
                     {/if}
                 </td>

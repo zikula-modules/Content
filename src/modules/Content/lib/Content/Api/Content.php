@@ -672,6 +672,7 @@ WHERE     $contentColumn[pageId] = $pageId
         foreach ($modules as $module) {
             if (ModUtil::loadApi($module['name'], 'contenttypes')) {
 //                $dir = "modules/$module[directory]/lib/$module[directory]/ContentType";
+// TODO: Find a new solution for this plugin directory!!!
                 $dir = "modules/$module[directory]/pncontenttypesapi";
                 if (is_dir($dir) && $dh = opendir($dir)) {
                     while (($filename = readdir($dh)) !== false) {

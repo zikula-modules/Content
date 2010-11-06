@@ -42,12 +42,12 @@
 {/formtabbedpanelset}
 
 <div class="z-buttons">
-    {formbutton commandName="save" __text="Save"}
+    {formbutton class="z-bt-save" commandName="save" __text="Save"}
     {if $access.pageDeleteAllowed}{formbutton commandName="delete" __text="Delete" __confirmMessage='Delete'}{/if}
     {if $content.isTranslatable && $multilingual==1}
-    {formbutton commandName="translate" __text="Translate"}
+    {formbutton class="con-bt-translate" commandName="translate" __text="Translate"}
     {/if}
-    {formbutton commandName="cancel" __text="Cancel"}
+    {formbutton class="z-bt-cancel" commandName="cancel" __text="Cancel"}
 </div>
 
 {/contentformframe}

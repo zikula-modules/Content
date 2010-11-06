@@ -1,7 +1,7 @@
 {if count($pages) > 0}
 {foreach from=$pages item=page}
 <url>
-    <loc>{$baseURL}{pnmodurl modname='Content' type=user func=view pid=$page.id}</loc>
+    <loc>{$baseURL}{modurl modname='Content' type=user func=view pid=$page.id}</loc>
     <changefreq>daily</changefreq>
 </url>
 {include file='content_include_sitemap.xml' pages=$page.subPages baseURL=$baseURL}

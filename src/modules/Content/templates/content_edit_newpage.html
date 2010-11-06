@@ -13,8 +13,8 @@
     var images = [];
     var descs = [];
     {{foreach from=$layouts item=layout}}
-        images.push('{{$layout.image}}');
-        descs.push('{{$layout.description}}');
+    images.push('{{$layout.image}}');
+    descs.push('{{$layout.description}}');
     {{/foreach}}
     //]]>
 </script>
@@ -35,11 +35,11 @@
 <fieldset>
     <legend>{gt text="Please select a specific layout for your page"}</legend>
     <div class="z-formrow">
-    	{formlabel for='layout' __text='Page layout'}
-    	{contentlayoutselector id='layout' layouts=$layouts}
+        {formlabel for='layout' __text='Page layout'}
+        {contentlayoutselector id='layout' layouts=$layouts}
     </div>
     <div class="z-formrow">
-        {pnformlabel __text='Layout preview and description'}
+        {formlabel __text='Layout preview and description'}
         <div id="layout_preview">
             <img id="layout_preview_img" src="{$layouts.0.image}" align="top" />
             <span id="layout_preview_desc">{$layouts.0.description}</span>
@@ -50,8 +50,8 @@
 {modcallhooks hookobject='item' hookaction='new' module='Content'}
 
 <div class="z-buttons z-formbuttons">
-    {formbutton commandName="create" __text="Create"}
-    {formbutton commandName="cancel" __text="Cancel"}
+    {formbutton class="z-bt-new" commandName="create" __text="Create"}
+    {formbutton class="z-bt-cancel" commandName="cancel" __text="Cancel"}
 </div>
 
 {/contentformframe}

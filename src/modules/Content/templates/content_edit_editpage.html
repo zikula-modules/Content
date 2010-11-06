@@ -153,7 +153,7 @@
         {contentlayoutselector id='layout' group='page' layouts=$layouts}
     </div>
     <div class="z-formrow">
-        {pnformlabel __text='Layout preview and description'}
+        {formlabel __text='Layout preview and description'}
         <div id="layout_preview">
             <img id="layout_preview_img" src="{$pagelayout.image}" align="top" />
             <span id="layout_preview_desc">{$pagelayout.description}</span>
@@ -166,14 +166,14 @@
 {/formtabbedpanelset}
 
 <div class="z-buttons z-formbuttons">
-    {formbutton commandName="save" __text="Save"}
+    {formbutton class="z-bt-save" commandName="save" __text="Save"}
     {if $access.pageDeleteAllowed}{formbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete'}{/if}
     <input type="submit" value="{gt text="Preview"}" onclick="window.open('{modurl modname='Content' type=user func=view preview=1 pid=$page.id}')" />
-    {formbutton commandName="saveAndView" __text="Save & View"}
+    {formbutton class="z-bt-save" commandName="saveAndView" __text="Save & View"}
     {if $multilingual==1}
-    {formbutton commandName="translate" __text="Translate"}
+    {formbutton class="con-bt-translate" commandName="translate" __text="Translate"}
     {/if}
-    {formbutton commandName="cancel" __text="Cancel"}
+    {formbutton class="z-bt-cancel" commandName="cancel" __text="Cancel"}
 </div>
 
 {/contentformframe}
