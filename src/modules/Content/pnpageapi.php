@@ -648,7 +648,7 @@ function content_pageapi_clonePage($args)
     $aVals = array_values($sourcePageData);
     // copy all direct keys/values
     for ($x=0;$x<count($aKeys);$x++) {
-        if ($aKeys[$x] != 'id' && substr($aKeys[$x],0,2) != 'is') {
+        if ($aKeys[$x] != 'id') {
             $pageData[$aKeys[$x]]=$aVals[$x];
         }
     }

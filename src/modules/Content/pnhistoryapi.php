@@ -396,9 +396,7 @@ function content_historyapi_restoreVersion($args)
         $aVals = array_values($contentItem);
         // copy all direct keys/values
         for ($x=0;$x<count($aKeys);$x++) {
-            if (substr($aKeys[$x],0,2) != 'is') {
-                $newContentItem[$aKeys[$x]]=$aVals[$x];
-            }
+            $newContentItem[$aKeys[$x]] = $aVals[$x];
         }
         $id = pnModAPIFunc('content', 'content', 'newContent',
                            array('content' => $newContentItem,
