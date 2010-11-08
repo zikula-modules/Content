@@ -96,7 +96,7 @@ function content_user_view($args)
         return LogUtil::registerPermissionError();
 
     if ($pageId !== null && $versionId === null) {
-        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true));
+        $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true, 'filter' => array('checkActive' => !($preview && $hasEditAccess))));
     } else if ($versionId === null)
         return LogUtil::registerArgsError();
 
