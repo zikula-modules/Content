@@ -173,7 +173,9 @@
 <!--[pnformbutton commandName="save" __text="Save"]-->
 <!--[if $access.pageDeleteAllowed]--><!--[pnformbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete']--><!--[/if]-->
 <input type="submit" value="<!--[gt text="Preview"]-->" onclick="window.open('<!--[pnmodurl modname=content type=user func=view preview=1 pid=$page.id]-->')" />
+<!--[if $page.isActive]-->
 <!--[pnformbutton commandName="saveAndView" __text="Save & View"]-->
+<!--[/if]-->
 <!--[if $multilingual==1]-->
 <!--[pnformbutton commandName="translate" __text="Translate"]-->
 <!--[/if]-->
