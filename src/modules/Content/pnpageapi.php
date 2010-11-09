@@ -359,7 +359,7 @@ function content_pageapi_newPage($args)
         return LogUtil::registerError(__("Error! Cannot create sub-page without parent page ID", $dom));
 
     if ($pageId > 0) {
-        $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'includeContent' => false));
+        $sourcePageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
         if ($sourcePageData === false)
             return false;
     } else

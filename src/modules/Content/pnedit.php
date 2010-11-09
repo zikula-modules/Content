@@ -144,7 +144,7 @@ class content_edit_newPageHandler extends pnFormHandler
             return LogUtil::registerPermissionError();
 
         if ($this->pageId != null) {
-            $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false));
+            $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
             if ($page === false)
                 return $render->pnFormRegisterError(null);
         } else
