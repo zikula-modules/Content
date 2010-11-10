@@ -39,6 +39,13 @@ class content_admin_settingsHandler extends pnFormHandler
         $render->assign('catoptions', $catoptions);
         $render->assign('categoryusage', 1);
         
+        $activeoptions = array( array('text' => __('New pages will be online and shown in the menu', $dom), 'value' => '1'),
+                                array('text' => __('New pages will be offline and shown in the menu', $dom), 'value' => '2'),
+                                array('text' => __('New pages will be online and not shown in the menu', $dom), 'value' => '3'),
+                                array('text' => __('New pages will be offline and not shown in the menu', $dom), 'value' => '4') );
+
+        $render->assign('activeoptions', $activeoptions);
+
         // Assign all module vars
         $render->assign('config', pnModGetVar('content'));
 

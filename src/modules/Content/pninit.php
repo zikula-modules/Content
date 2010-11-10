@@ -46,6 +46,7 @@ function content_init()
     pnModSetVar('content', 'categoryUsage', '1');
     pnModSetVar('content', 'categoryPropPrimary', 'primary');
     pnModSetVar('content', 'categoryPropSecondary', 'primary');
+    pnModSetVar('content', 'newPageState', '1');
 
     // create the default data for the Content module
     content_defaultdata();        
@@ -221,6 +222,7 @@ function contentUpgrade_3_2_0($oldVersion)
     pnModSetVar('content', 'categoryUsage', '1');
     pnModSetVar('content', 'categoryPropPrimary', 'primary');
     pnModSetVar('content', 'categoryPropSecondary', 'primary');
+    pnModSetVar('content', 'newPageState', '1');
 
     // clear compiled templates and News cache
     pnModAPIFunc('pnRender', 'user', 'clear_compiled');

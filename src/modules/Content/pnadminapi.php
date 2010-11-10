@@ -24,6 +24,7 @@ function content_adminapi_getlinks()
     }
     if (SecurityUtil::checkPermission('content::', '::', ACCESS_EDIT)) {
         $links[] = array('url' => pnModURL('content', 'edit', 'main'), 'text' => __('Page list', $dom));
+        $links[] = array('url' => pnModURL('content', 'edit', 'newpage'), 'text' => __('Add new page', $dom));
     }
     if (SecurityUtil::checkPermission('content::', '::', ACCESS_ADMIN)) {
         $links[] = array('url' => pnModURL('content', 'admin', 'settings'), 'text' => __('Settings', $dom));
