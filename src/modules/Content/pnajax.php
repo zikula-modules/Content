@@ -24,7 +24,7 @@ function content_ajax_dragcontent($args)
 
 /**
  * togglepagestate
- * This function toggles online/offline
+ * This function toggles active/inactive
  *
  * @author Erik Spaan & Sven Strickroth
  * @param id int  id of page to toggle

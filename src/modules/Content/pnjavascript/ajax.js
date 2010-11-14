@@ -169,7 +169,7 @@ function initcontentactivationbuttons()
 }
 
 /**
- * Toggle a page online/offline status
+ * Toggle a page active/inactive status
  *
  *@params page id;
  *@return none;

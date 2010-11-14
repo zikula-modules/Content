@@ -33,8 +33,8 @@
 <!--[if $enableVersioning]--><!--[pnformcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history']--><!--[/if]-->
 <!--[/pnformcontextmenu]-->
 
-<!--[gt text="Click to put this page online" assign=activate]-->
-<!--[gt text="Click to put this page offline" assign=deactivate]-->
+<!--[gt text="Click to activate this page" assign=activate]-->
+<!--[gt text="Click to deactivate this page" assign=deactivate]-->
 <!--[gt text="Click to put this page in the menu" assign=inmenu]-->
 <!--[gt text="Click to pull this page from the menu" assign=outmenu]-->
 
@@ -66,7 +66,7 @@
                         <!--[/if]-->
 
                         <!--[if $access.pageEditAllowed]-->
-                        <img src="images/icons/extrasmall/folder_blank.gif" alt="<!--[gt text="Page online and in menu"]-->" title="<!--[gt text="Page online and in menu"]-->" class="dragable"/>
+                        <img src="images/icons/extrasmall/folder_blank.gif" alt="<!--[gt text="Page dragable"]-->" title="<!--[gt text="Page dragable"]-->" class="dragable"/>
                         <!--[/if]-->
 
                         <a href="<!--[pnmodurl modname=content type=edit func=editpage pid=$page.id]-->" id="anchor_<!--[$page.id]-->"><!--[$page.title|pnvarprepfordisplay]--> [<!--[$page.id]--><!--[* <!--[$page.position]-->|<!--[$page.setLeft]-->/<!--[$page.setRight]-->  *]-->]</a>
@@ -76,12 +76,12 @@
                 <td class="z-center" style="white-space:nowrap;">
                     <!--[if $page.active]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$deactivate alt=$deactivate id="active_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"]--></a>
-                    <noscript><div><!--[pnimg src=page-greenled.gif modname=content __title="Online" __alt="Online" ]--></div></noscript>
-                    <span id="activity_<!--[$page.id]-->"><!--[gt text="Online"]--></span>
+                    <noscript><div><!--[pnimg src=page-greenled.gif modname=content __title="Active" __alt="Active" ]--></div></noscript>
+                    <span id="activity_<!--[$page.id]-->"><!--[gt text="Active"]--></span>
                     <!--[else]-->
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate(<!--[$page.id]-->)"><!--[pnimg src="page-greenled.gif" modname="content" title=$deactivate alt=$deactivate style="display: none;" id="active_`$page.id`"]--><!--[pnimg src="page-redled.gif" modname="content" title=$activate alt=$activate id="inactive_`$page.id`"]--></a>
-                    <noscript><div><!--[pnimg src=page-redled.gif modname=content __title="Offline" __alt="Offline" ]--></div></noscript>
-                    <span id="activity_<!--[$page.id]-->"><!--[gt text="Offline"]--></span>
+                    <noscript><div><!--[pnimg src=page-redled.gif modname=content __title="Inactive" __alt="Inactive" ]--></div></noscript>
+                    <span id="activity_<!--[$page.id]-->"><!--[gt text="Inactive"]--></span>
                     <!--[/if]-->
                 </td>
                 <td class="z-center" style="white-space:nowrap;">
@@ -111,8 +111,8 @@
 </div>
 
 <script type="text/javascript">
-    var msgPageStatusOnline = '<!--[gt text="Online"]-->';
-    var msgPageStatusOffline = '<!--[gt text="Offline"]-->';
+    var msgPageStatusOnline = '<!--[gt text="Active"]-->';
+    var msgPageStatusOffline = '<!--[gt text="Inactive"]-->';
     var msgPageInMenu = '<!--[gt text="In"]-->';
     var msgPageOutMenu = '<!--[gt text="Out"]-->';
     Event.observe(window, 'load', initcontentactivationbuttons, false);

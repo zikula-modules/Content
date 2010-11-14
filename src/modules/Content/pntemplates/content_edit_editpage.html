@@ -77,6 +77,7 @@
     <div class="z-formrow">
         <!--[pnformlabel for='inMenu' __text='Include page in menu']-->
         <!--[pnformcheckbox id='inMenu' group='page']-->
+        <!--[contentlabelhelp __text='You can include/exclude the page in the menu. The page is only shown when it is also Online.']-->
     </div>
 </fieldset>
 
@@ -85,9 +86,9 @@
 <fieldset>
     <legend><!--[gt text="Page state"]--></legend>
     <div class="z-formrow">
-        <!--[pnformlabel for='active' __text='Online']-->
+        <!--[pnformlabel for='active' __text='Active']-->
         <!--[pnformcheckbox id='active' group='page']-->
-        <!--[contentlabelhelp __text='You can set the page online/offline as well as supply a date interval for the page to be online. The checkbox overrides the dates.']-->
+        <!--[contentlabelhelp __text='You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.']-->
     </div>
     <div class="z-formrow">
         <!--[pnformlabel for='activeFrom' __text='Start date']-->
@@ -173,7 +174,7 @@
 <!--[pnformbutton commandName="save" __text="Save"]-->
 <!--[if $access.pageDeleteAllowed]--><!--[pnformbutton commandName="deletePage" __text="Delete" __confirmMessage='Delete']--><!--[/if]-->
 <input type="submit" value="<!--[gt text="Preview"]-->" onclick="window.open('<!--[pnmodurl modname=content type=user func=view preview=1 pid=$page.id]-->')" />
-<!--[if $page.active]-->
+<!--[if $page.isOnline]-->
 <!--[pnformbutton commandName="saveAndView" __text="Save & View"]-->
 <!--[/if]-->
 <!--[if $multilingual==1]-->
