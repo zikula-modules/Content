@@ -296,11 +296,18 @@ function content_defaultdata()
                 'areaIndex'         => '2',
                 'position'          => '0',
                 'module'            => 'content',
-                'type'              => 'computercode',
-                'data'              => serialize(array('text' => __('// A bit of computer code. <br />if ($content == \'example\')<br />{$this->show_this_code(\'example\');<br />}', $dom))));
+                'type'              => 'quote',
+                'data'              => serialize(array('text' => __('No matter what your needs, Zikula can provide the solution.', $dom),
+                                            'source' => 'http://zikula.org', 'desc' => 'Zikula homepage')));
         $content[] = array('pageId' => $obj['id'],
                 'areaIndex'         => '2',
                 'position'          => '1',
+                'module'            => 'content',
+                'type'              => 'computercode',
+                'data'              => serialize(array('text' => __('$this->doAction($var); // just some code', $dom))));
+        $content[] = array('pageId' => $obj['id'],
+                'areaIndex'         => '2',
+                'position'          => '2',
                 'module'            => 'content',
                 'type'              => 'html',
                 'data'              => serialize(array('text' => __('<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column (62|38) layout</strong> which has a header, 2 colums with 62% width on the left and 38% width on the right and a footer</p>', $dom),
