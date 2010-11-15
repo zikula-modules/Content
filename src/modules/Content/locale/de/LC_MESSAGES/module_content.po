@@ -534,7 +534,7 @@ msgstr "Kein gültiger Slideshare Wordpress-Code"
 
 #: pncontenttypesapi/googlemap.php:33
 msgid "Google map"
-msgstr "Google Map"
+msgstr "GoogleMap-Karte"
 
 #: pncontenttypesapi/googlemap.php:38
 msgid "Display Google map position."
@@ -592,11 +592,11 @@ msgstr "Anzeige einer einzelnen Pagesetter Publikation."
 
 #: pncontenttypesapi/joinposition.php:26
 msgid "Join Position"
-msgstr "Positionen zusammenfügen"
+msgstr "Join Position"
 
 #: pncontenttypesapi/joinposition.php:31
 msgid "Joins different positions, e.g. if you used position: top-right then this can fix the layout/textflow."
-msgstr "Verschiedene Positionen zusammenfügen. Falls Positionierungen, wie z.B. \"oben-rechts\" genutzt wurden, so kann man hiermit das Layout bzw. den Textfluss korrigieren."
+msgstr "Falls Inhalte \"gefloatet\" bzw. Positionierungen wie z.B. \"oben-rechts\" genutzt wurden und sich nicht im Fluss der Seite befinden, so kann man hiermit das Layout bzw. den Textfluss korrigieren. Per CSS wird je nach Bedarf ein clear:left|both|right durchgeführt."
 
 #: pncontenttypesapi/breadcrumb.php:29
 msgid "BreadCrumb"
@@ -681,11 +681,11 @@ msgstr "Zeigt Inhalte eines RSS Feeds an."
 
 #: pncontenttypesapi/camtasia.php:31
 msgid "camtasia-Flash video"
-msgstr "Camtasia-Flashvideo"
+msgstr "Camtasia-Video"
 
 #: pncontenttypesapi/camtasia.php:36
 msgid "Display camtasia-Flash video."
-msgstr "Flashvideo von Camtasia anzeigen."
+msgstr "Camtasia-Video anzeigen."
 
 #: pncontenttypesapi/camtasia.php:80
 msgid "Unrecognized Flash video path"
@@ -693,7 +693,7 @@ msgstr "Unbekannter Flashvideo-Pfad"
 
 #: pncontenttypesapi/camtasia.php:94
 msgid "Unrecognized camtasia-Flash video path: "
-msgstr "Unbekannter Camtasia Flashvideo-Pfad"
+msgstr "Unbekannter Pfad für Camtasia-Video"
 
 #: pnuser.php:89
 #, php-format
@@ -1460,13 +1460,13 @@ msgstr "Wiedergabe"
 #: pntemplates/contenttype/googlemap_edit.html:92
 #: pntemplates/contenttype/googlemap_translate_new.html:2
 msgid "Description to be shown below the map"
-msgstr "Beschreibung zur Anzeige unterhalb der Karte"
+msgstr "Beschreibung unterhalb der Karte"
 
 #: pntemplates/contenttype/googlemap_translate_original.html:6
 #: pntemplates/contenttype/googlemap_edit.html:97
 #: pntemplates/contenttype/googlemap_translate_new.html:7
 msgid "Text to be shown in the popup window of the marker"
-msgstr "Text welcher im PopUp-Fenster der Markierung angezeigt werden soll"
+msgstr "Text im PopUp-Fenster der Markierung"
 
 #: pntemplates/contenttype/directory_edit.html:2
 msgid "Page ID"
@@ -1478,7 +1478,7 @@ msgstr "Überschriften im Verzeichnis aufnehmen"
 
 #: pntemplates/contenttype/directory_edit.html:12
 msgid "Include subpages into table"
-msgstr "Folgende Unterseiten aufnehmen"
+msgstr "Unterseiten im Verzeichnis aufnehmen"
 
 #: pntemplates/contenttype/heading_edit.html:9
 msgid "Header size"
@@ -1513,7 +1513,7 @@ msgstr "Max. Anzahl der anzuzeigenden Einträge"
 
 #: pntemplates/contenttype/joinposition_edit.html:5
 msgid "both"
-msgstr "Beide"
+msgstr "Beides"
 
 #: pntemplates/contenttype/joinposition_edit.html:7
 msgid "left"
@@ -1570,7 +1570,7 @@ msgstr "(von 0 für die ganze Welt bis 21 für individuelle Gebäude)"
 #: pntemplates/contenttype/openstreetmap_edit.html:103
 #: pntemplates/contenttype/googlemap_edit.html:76
 msgid "Height of the displayed map in pixels"
-msgstr "Höhe der angezeigten Karte in Pixel"
+msgstr "Kartenhöhe in Pixel"
 
 #: pntemplates/contenttype/openstreetmap_edit.html:105
 #: pntemplates/contenttype/googlemap_edit.html:78
@@ -1651,7 +1651,7 @@ msgstr "Streetview-Steuerung anzeigen"
 
 #: pntemplates/contenttype/googlemap_edit.html:87
 msgid "Display a link to directions to this location in Google Maps "
-msgstr "Link für die Routenplanung zum Ort in GoogleMap anzeigen"
+msgstr "Link für die Routenplanung anzeigen"
 
 #: pntemplates/contenttype/googlemap_edit.html:99
 msgid "(can contain HTML markup. Leave this field empty for disabling the popup window.)"
@@ -1756,7 +1756,7 @@ msgstr "Informationen auf Karte verstecken"
 
 #: pntemplates/contenttype/camtasia_edit.html:3
 msgid "Name of the Camtasia-Flash video"
-msgstr "Name des Camtasia-Flash Videos"
+msgstr "Name des Camtasia-Videos"
 
 #: pntemplates/contenttype/camtasia_edit.html:5
 msgid "You have to upload your camtasia project in the folder defined below <folder>/project/project.mp4 first. Here you have to give only the name of your project without path and file extension."
@@ -1923,83 +1923,4 @@ msgstr "Revision #"
 #: pntemplates/content_edit_history.html:22
 msgid "Event"
 msgstr "Ereignis"
-
-#~ msgid ""
-#~ "Sorry, you cannot translate an item to the same language as it's default "
-#~ "language (\"%s\"). Change the current site language (\"%s\") to some "
-#~ "other language on the <a href=\"%s\">localisation settings</a> page.<br /"
-#~ "> Another way is to add, for instance, <strong>&amp;lang=de</strong> to "
-#~ "the url for changing the current site language to German and after that "
-#~ "the item can be translated to German."
-#~ msgstr ""
-#~ "Inhalte können nicht in die gleiche Sprache, wie die Standardsprache (\"%1"
-#~ "$s\") übersetzt werden. Die Standardeinstellung der Website (\"%1$s\") "
-#~ "muss dazu in den Einstellungen zur <a href=\"%s\">Mehrsprachigkeit</a> "
-#~ "auf eine andere Sprache geändert werden.<br />Eine weitere Möglichkeit "
-#~ "wäre, wenn man beispielsweise <strong>&amp;lang=de</strong> zur URL "
-#~ "hinzugefügt, um so die aktive Sprache auf Deutsch zu ändern. Daraufhin "
-#~ "kann man die Übersetzung in die deutsche Sprache vornehmen"
-#~ msgid "%s"
-#~ msgstr "%s"
-#~ msgid "http://"
-#~ msgstr "http://"
-#~ msgid ""
-#~ "If you want to add Google maps to your content then you need a Google "
-#~ "maps API key. You can get this from <a href=\"http://www.google.com/apis/"
-#~ "maps/signup.html\">google.com</a>."
-#~ msgstr ""
-#~ "Wenn Google Maps angezeigt werden sollen, muss ein Google Maps Schlüssel "
-#~ "(Key) angegeben werden. Er ist erhältlich unter <a href=\"http://www."
-#~ "google.com/apis/maps/signup.html\">google.com</a>."
-#~ msgid "Edit contents"
-#~ msgstr "Inhalte bearbeiten"
-#~ msgid "Error! Failed to set shorturlsuffix."
-#~ msgstr "Fehler! ShortURL-Suffix konnte nicht geschrieben werden."
-#~ msgid "Error! Failed to set style classes."
-#~ msgstr "Fehler! Style-Classes konnte nicht geschrieben werden."
-#~ msgid ""
-#~ "You should not translate item to same language as it's default language."
-#~ msgstr ""
-#~ "Inhalte können nicht in die gleiche Sprache, wie die Standardsprache "
-#~ "übersetzt werden."
-#~ msgid "Online"
-#~ msgstr "Online"
-#~ msgid "Created By"
-#~ msgstr "Erstellt von"
-#~ msgid "Page online and in menu"
-#~ msgstr "Seite online und im Menü"
-#~ msgid "Page offline or not in menu"
-#~ msgstr "Seite offline und nicht im Menü"
-#~ msgid ""
-#~ "To drag and drop a page you must select the icon left of the title and "
-#~ "drop it on the title of another page."
-#~ msgstr ""
-#~ "Zum Änderung der Reihenfolge muss das Symbol links vom Seitentitel "
-#~ "ausgewählt und mittels Drag und Drop auf den Titel einer anderen Seite "
-#~ "geschoben werden."
-#~ msgid "<h2>"
-#~ msgstr "<h2>"
-#~ msgid "<h3>"
-#~ msgstr "<h3>"
-#~ msgid "<h4>"
-#~ msgstr "<h4>"
-#~ msgid ""
-#~ "No Google API key available! You must specify a Google maps API key to "
-#~ "use this feature. Get a key from <a href="
-#~ msgstr ""
-#~ "Kein Google API-Key verfügbar! Es muss ein Google Map Schlüssel (Key) "
-#~ "verfügbar sein, um Google Maps nutzen zu können. Der Schlüssel kann auf "
-#~ "<a href=\"http://www.google.com/apis/maps/signup.html\">google.com</a> "
-#~ "erzeugt werden und in der Administartion dieses Moduls eingetragen werden."
-#~ msgid ""
-#~ "Copy Slideshare's Wordpress embed code here (including brackets and all)"
-#~ msgstr ""
-#~ "Bitte hier den \"Wordpress Embedded Code\" zur Präsentation eingeben "
-#~ "(inkl. Klammern, etc.)"
-#~ msgid "#"
-#~ msgstr "#"
-#~ msgid "From (YYYY-MM-DD)"
-#~ msgstr "Startdatum (YYYY-MM-DD)"
-#~ msgid "to (YYYY-MM-DD)"
-#~ msgstr "Enddatum (YYYY-MM-DD)"
 
