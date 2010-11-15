@@ -101,7 +101,7 @@
                       (#<!--[$versionNo]-->)
                     <!--[/if]-->
                 </td>
-                <!--[if $multilingual]--><td><!--[if $page.isTranslated]--><!--[gt text="$1%s ($2%s original)" tag1=$language|getlanguagename tag2=$page.language|getlanguagename]--><!--[elseif $language neq $page.language]--><!--[gt text="%s original used" tag1=$page.language|getlanguagename]--><!--[else]--><!--[gt text="%s" tag1=$page.language|getlanguagename]--><!--[/if]--></td><!--[/if]-->
+                <!--[if $multilingual]--><td><!--[if $page.isTranslated]--><!--[gt text="$1%s ($2%s original)" tag1=$language|getlanguagename tag2=$page.language|getlanguagename]--><!--[elseif $language neq $page.language]--><!--[gt text="%s original used" tag1=$page.language|getlanguagename]--><!--[else]--><!--[$page.language|getlanguagename]--><!--[/if]--></td><!--[/if]-->
             </tr>
             <!--[foreachelse]-->
             <tr class="z-datatableempty"><td colspan="<!--[if $multilingual]-->5<!--[else]-->4<!--[/if]-->"><!--[gt text="No pages available."]--></td></tr>

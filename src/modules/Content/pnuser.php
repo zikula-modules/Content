@@ -205,6 +205,8 @@ function contentCommonList($args, $template, $includeContent)
  */
 function content_user_subpages($args)
 {
+    $dom = ZLanguage::getModuleDomain('content');
+
     $pageId = isset($args['pid']) ? $args['pid'] : FormUtil::getPassedValue('pid');
     $urlname = isset($args['name']) ? $args['name'] : FormUtil::getPassedValue('name');
 

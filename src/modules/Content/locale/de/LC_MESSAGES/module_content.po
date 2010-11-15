@@ -49,43 +49,43 @@ msgstr "Fehler! Einträge konnte nicht geladen werden."
 
 #: pnadmin.php:34
 msgid "Use 2 category levels (1st level single, 2nd level multi selection)"
-msgstr ""
+msgstr "Zwei Kategoriestufen benutzen (Erste Stufe mit Einfachauswahl, Zweite Stufe mit Mehrfachauswahl)"
 
 #: pnadmin.php:35
 msgid "Use 2 category levels (both single selection)"
-msgstr ""
+msgstr "Zwei Kategoriestufen benutzen (Beide Stufen mit Mehrfachauswahl)"
 
 #: pnadmin.php:36
 msgid "Use 1 category level"
-msgstr ""
+msgstr "Eine Kategoriestufe benutzen"
 
 #: pnadmin.php:37
 msgid "Don't use Categories at all"
-msgstr ""
+msgstr "Keine Kategorisierung benutzen"
 
 #: pnadmin.php:42
 msgid "New pages will be active and available in the menu"
-msgstr ""
+msgstr "Neu angelegte Seiten sind aktiv und über das Menü erreichbar"
 
 #: pnadmin.php:43
 msgid "New pages will be inactive and available in the menu"
-msgstr ""
+msgstr "Neu angelegte Seiten sind inaktiv und über das Menü erreichbar"
 
 #: pnadmin.php:44
 msgid "New pages will be active and not available in the menu"
-msgstr ""
+msgstr "Neu angelegte Seiten sind aktiv und nicht über das Menü erreichbar"
 
 #: pnadmin.php:45
 msgid "New pages will be inactive and not available in the menu"
-msgstr ""
+msgstr "Neu angelegte Seiten sind inaktiv und nicht über das Menü erreichbar"
 
 #: pnadmin.php:72
 msgid "Main category property does not exist."
-msgstr ""
+msgstr "Die Eigenschaft der primären Kategorie existiert nicht."
 
 #: pnadmin.php:77
 msgid "Second category property does not exist."
-msgstr ""
+msgstr "Die Eigenschaft der sekundären Kategorie existiert nicht."
 
 #: pnadmin.php:81
 msgid "Done! Saved module configuration."
@@ -97,21 +97,18 @@ msgstr "OK"
 
 #: pnajax.php:37
 #: pnajax.php:68
-#, fuzzy
 msgid "Sorry! You have not been granted access to this page."
-msgstr "Fehler! Es ist kein Zugriffsrecht auf diese Seite vorhanden."
+msgstr "Fehler! Für den Aufruf dieser Seite sind die erforderlichen Zugriffsrechte nicht vorhanden."
 
 #: pnajax.php:44
 #: pnajax.php:75
-#, fuzzy
 msgid "No page ID passed."
-msgstr "Keine Seiten verfügbar."
+msgstr "Keine Seiten-ID übermittelt."
 
 #: pnajax.php:50
 #: pnajax.php:81
-#, fuzzy
 msgid "Error! Could not update state."
-msgstr "Fehler! Einträge konnte nicht geladen werden."
+msgstr "Fehler! Status konnte nicht aktualisiert werden."
 
 #: pncontentapi.php:283
 msgid "Error! Unknown content-ID"
@@ -177,7 +174,7 @@ msgstr "Bitte den BBCode-Hook für das Content-Modul aktivieren, wenn der BBCode
 #: pntemplates/plugins/function.contentareatitle.php:16
 #, php-format
 msgid "%s area"
-msgstr ""
+msgstr "Bereich %s"
 
 #: pntemplates/plugins/function.contentinsertlink.php:22
 msgid "Add new content here"
@@ -276,24 +273,20 @@ msgid "Footer"
 msgstr "Fußzeile"
 
 #: pnlayouttypesapi/column2_6238_header.php:31
-#, fuzzy
 msgid "2 columns (62|38)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (62|38)"
 
 #: pnlayouttypesapi/column2_6238_header.php:36
-#, fuzzy
 msgid "Header + two columns (62|38) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (62|38) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column2_3070_header.php:31
-#, fuzzy
 msgid "2 columns (30|70)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (30|70)"
 
 #: pnlayouttypesapi/column2_3070_header.php:36
-#, fuzzy
 msgid "Header + two columns (30|70) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (30|70) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column3_502525_header.php:18
 #: pnlayouttypesapi/column3_252550_header.php:18
@@ -306,131 +299,110 @@ msgid "Centre column"
 msgstr "Mittlere Spalte"
 
 #: pnlayouttypesapi/column3_502525_header.php:31
-#, fuzzy
 msgid "3 columns (50|25|25)"
-msgstr "3 Spalten"
+msgstr "3 Spalten (50|25|25)"
 
 #: pnlayouttypesapi/column3_502525_header.php:36
-#, fuzzy
 msgid "Header + three columns (50|25|25) + footer"
-msgstr "Drei Spalten mit Kopf- und Fußzeile"
+msgstr "Drei Spalten (50|25|25) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column3_252550_header.php:31
-#, fuzzy
 msgid "3 columns (25|25|50)"
-msgstr "3 Spalten"
+msgstr "3 Spalten (25|25|50)"
 
 #: pnlayouttypesapi/column3_252550_header.php:36
-#, fuzzy
 msgid "Header + three columns (25|25|50) + footer"
-msgstr "Drei Spalten mit Kopf- und Fußzeile"
+msgstr "Drei Spalten (25|25|50) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column2_7525_header.php:31
-#, fuzzy
 msgid "2 columns (75|25)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (75|25)"
 
 #: pnlayouttypesapi/column2_7525_header.php:36
-#, fuzzy
 msgid "Header + two columns (75|25) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (75|25) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column1topheader.php:18
 msgid "Header above page headline"
-msgstr ""
+msgstr "Kopfzeile über Seitentitel"
 
 #: pnlayouttypesapi/column1topheader.php:34
 msgid "1 column, header above page headline"
-msgstr ""
+msgstr "Eine Spalte, Kopfzeile über Seitentitel"
 
 #: pnlayouttypesapi/column1topheader.php:40
 msgid "Single 100% wide column and a top-header above the page headline (for e.g. breadcrumbs or author-information above the title)"
-msgstr ""
+msgstr "Eine Spalte über volle 100% Breite mit der Kopfzeile über den Seitentitel (z.B. für BreadCrumbs oder Autoreninformation)"
 
 #: pnlayouttypesapi/column2_6633_header.php:31
-#, fuzzy
 msgid "2 columns (66|33)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (66|33)"
 
 #: pnlayouttypesapi/column2_6633_header.php:36
-#, fuzzy
 msgid "Header + two columns (66|33) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (66|33) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column1.php:31
 msgid "1 column"
 msgstr "1 Spalte mit Kopfzeile"
 
 #: pnlayouttypesapi/column1.php:36
-#, fuzzy
 msgid "Header + single 100% wide column"
-msgstr "Eine Spalte über die ganze Breite. Mit Kopfzeile."
+msgstr "Eine Spalte (100) über die ganze Breite mit Kopfzeile"
 
 #: pnlayouttypesapi/column2_2575_header.php:31
-#, fuzzy
 msgid "2 columns (25|75)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (25|75)"
 
 #: pnlayouttypesapi/column2_2575_header.php:36
-#, fuzzy
 msgid "Header + two columns (25|75) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (25|75) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column2_3862_header.php:31
-#, fuzzy
 msgid "2 columns (38|62)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (38|62)"
 
 #: pnlayouttypesapi/column2_3862_header.php:36
-#, fuzzy
 msgid "Header + two columns (38|62) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (38|62) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column2_7030_header.php:31
-#, fuzzy
 msgid "2 columns (70|30)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (70|30)"
 
 #: pnlayouttypesapi/column2_7030_header.php:36
-#, fuzzy
 msgid "Header + two columns (70|30) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (70|30) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column2_1_2header.php:19
-#, fuzzy
 msgid "Left column1"
-msgstr "Linke Spalte"
+msgstr "Linke Spalte1"
 
 #: pnlayouttypesapi/column2_1_2header.php:20
-#, fuzzy
 msgid "Right column1"
-msgstr "Rechte Spalte"
+msgstr "Rechte Spalte1"
 
 #: pnlayouttypesapi/column2_1_2header.php:21
 msgid "center1"
-msgstr ""
+msgstr "Mitte1"
 
 #: pnlayouttypesapi/column2_1_2header.php:22
-#, fuzzy
 msgid "Left column2"
-msgstr "Linke Spalte"
+msgstr "Linke Spalte2"
 
 #: pnlayouttypesapi/column2_1_2header.php:23
-#, fuzzy
 msgid "Right column2"
-msgstr "Rechte Spalte"
+msgstr "Rechte Spalte2"
 
 #: pnlayouttypesapi/column2_1_2header.php:38
-#, fuzzy
 msgid "2-1-2 columns (50|50)"
-msgstr "2 Spalten"
+msgstr "2-1-2 Spalten (50|50)"
 
 #: pnlayouttypesapi/column2_1_2header.php:43
 msgid "Header + two-one-two columns (50|50) + footer"
-msgstr ""
+msgstr "2-1-2 Spalten (50|50) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column1woheader.php:31
-#, fuzzy
 msgid "1 column no header"
 msgstr "1 Spalte ohne Kopfzeile"
 
@@ -439,44 +411,36 @@ msgid "Single 100% wide column without header"
 msgstr "Eine Spalte über die ganze Breite. Ohne Kopfzeile."
 
 #: pnlayouttypesapi/column3_255025_header.php:31
-#, fuzzy
 msgid "3 columns (25|50|25)"
-msgstr "3 Spalten"
+msgstr "3 Spalten (25|50|25)"
 
 #: pnlayouttypesapi/column3_255025_header.php:36
-#, fuzzy
 msgid "Header + three columns (25|50|25) + footer"
-msgstr "Drei Spalten mit Kopf- und Fußzeile"
+msgstr "Drei Spalten (25|50|25) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column2header.php:31
-#, fuzzy
 msgid "2 columns (50|50)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (50|50)"
 
 #: pnlayouttypesapi/column2header.php:36
-#, fuzzy
 msgid "Header + two columns (50|50) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (50|50) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column3header.php:31
-#, fuzzy
 msgid "3 columns (33|33|33)"
-msgstr "3 Spalten"
+msgstr "3 Spalten (33|33|33)"
 
 #: pnlayouttypesapi/column3header.php:36
-#, fuzzy
 msgid "Header + three columns (33|33|33) + footer"
-msgstr "Drei Spalten mit Kopf- und Fußzeile"
+msgstr "Drei Spalten (33|33|33) mit Kopf- und Fußzeile"
 
 #: pnlayouttypesapi/column2_3366_header.php:31
-#, fuzzy
 msgid "2 columns (33|66)"
-msgstr "2 Spalten"
+msgstr "2 Spalten (33|66)"
 
 #: pnlayouttypesapi/column2_3366_header.php:36
-#, fuzzy
 msgid "Header + two columns (33|66) + footer"
-msgstr "Zwei Spalten mit Kopf- und Fußzeile"
+msgstr "Zwei Spalten (33|66) mit Kopf- und Fußzeile"
 
 #: pnblocks/menu.php:23
 msgid "Content menu"
@@ -560,9 +524,9 @@ msgid "Display slides from slideshare.com"
 msgstr "Zeigt Präsentationen von slideshare.com an."
 
 #: pncontenttypesapi/slideshare.php:68
-#, fuzzy, php-format
+#, php-format
 msgid "Slideshare: %s"
-msgstr "Slideshare"
+msgstr "Slideshare: %s"
 
 #: pncontenttypesapi/slideshare.php:94
 msgid "Not valid Slideshare Wordpress embed code"
@@ -574,24 +538,23 @@ msgstr "Google Map"
 
 #: pncontenttypesapi/googlemap.php:38
 msgid "Display Google map position."
-msgstr "Zeigt Google Map Position."
+msgstr "Zeigt Position in GoogleMap-Karte an."
 
 #: pncontenttypesapi/googlemap.php:43
 msgid "A Google maps API key is not needed any more in the new version 3 of the Javascript API."
-msgstr ""
+msgstr "Der GoogleMaps API-Schlüssel wird für die neue Javascripts-API Version 3 nicht mehr benötigt."
 
 #: pncontenttypesapi/openstreetmap.php:30
 msgid "OpenStreetMap map"
-msgstr ""
+msgstr "OpenStreetMap Karte"
 
 #: pncontenttypesapi/openstreetmap.php:35
-#, fuzzy
 msgid "Display OpenStreetMap map position."
-msgstr "Zeigt Google Map Position."
+msgstr "Zeigt Position in OpenStreetMap-Karte an."
 
 #: pncontenttypesapi/openstreetmap.php:40
 msgid "If you want to add OpenStreetMap maps to your content you don't need an API key."
-msgstr ""
+msgstr "Falls eine OpenStreetMap-Karte zum Inhalt hinzugefügt werden soll, wird kein API Schlüssel benötigt."
 
 #: pncontenttypesapi/author.php:26
 msgid "Author Infobox"
@@ -628,21 +591,20 @@ msgid "Display a Pagesetter publication."
 msgstr "Anzeige einer einzelnen Pagesetter Publikation."
 
 #: pncontenttypesapi/joinposition.php:26
-#, fuzzy
 msgid "Join Position"
-msgstr "Position"
+msgstr "Positionen zusammenfügen"
 
 #: pncontenttypesapi/joinposition.php:31
 msgid "Joins different positions, e.g. if you used position: top-right then this can fix the layout/textflow."
-msgstr ""
+msgstr "Verschiedene Positionen zusammenfügen. Falls Positionierungen, wie z.B. \"oben-rechts\" genutzt wurden, so kann man hiermit das Layout bzw. den Textfluss korrigieren."
 
 #: pncontenttypesapi/breadcrumb.php:29
 msgid "BreadCrumb"
-msgstr ""
+msgstr "BreadCrumb"
 
 #: pncontenttypesapi/breadcrumb.php:34
 msgid "Show breadcrumbs for hierarchical pages"
-msgstr ""
+msgstr "Zeige BreadCrumbs bei hierarchischen Seiten"
 
 #: pncontenttypesapi/html.php:27
 msgid "HTML text"
@@ -719,19 +681,19 @@ msgstr "Zeigt Inhalte eines RSS Feeds an."
 
 #: pncontenttypesapi/camtasia.php:31
 msgid "camtasia-Flash video"
-msgstr ""
+msgstr "Camtasia-Flashvideo"
 
 #: pncontenttypesapi/camtasia.php:36
 msgid "Display camtasia-Flash video."
-msgstr ""
+msgstr "Flashvideo von Camtasia anzeigen."
 
 #: pncontenttypesapi/camtasia.php:79
 msgid "Unrecognized Flash video path"
-msgstr ""
+msgstr "Unbekannter Flashvideo-Pfad"
 
 #: pncontenttypesapi/camtasia.php:92
 msgid "Unrecognized camtasia-Flash video path: "
-msgstr ""
+msgstr "Unbekannter Camtasia Flashvideo-Pfad"
 
 #: pnuser.php:89
 #, php-format
@@ -780,9 +742,9 @@ msgid "Page added"
 msgstr "Seite hinzugefügt"
 
 #: pnhistoryapi.php:118
-#, fuzzy, php-format
+#, php-format
 msgid "Page cloned from page [%s]"
-msgstr "Seite aus Version [%s] wiederhergestellt"
+msgstr "Seite aus Seite [%s] dupliziert"
 
 #: pnhistoryapi.php:121
 msgid "Page updated"
@@ -794,9 +756,8 @@ msgid "Page restored from version [%s]"
 msgstr "Seite aus Version [%s] wiederhergestellt"
 
 #: pnhistoryapi.php:127
-#, fuzzy
 msgid "Page deleted"
-msgstr "Seite aktualisiert"
+msgstr "Seite gelöscht"
 
 #: pnhistoryapi.php:215
 #: pnhistoryapi.php:312
@@ -805,9 +766,8 @@ msgid "Error! Unknown version ID [%s]"
 msgstr "Fehler! Unbekannte Version-ID [%s]"
 
 #: pnhistoryapi.php:333
-#, fuzzy
 msgid "Error!Could not reinsert page"
-msgstr "Fehler! Einträge konnte nicht geladen werden."
+msgstr "Fehler! Seite konnte nicht wiedereingefügt werden."
 
 #: pnhistoryapi.php:410
 msgid "Error! Re-created old content item but did not restore old ID."
@@ -849,9 +809,8 @@ msgid "Warning! Could not create the default Content category tree. If you want 
 msgstr ""
 
 #: pninit.php:261
-#, fuzzy
 msgid "Content introduction page"
-msgstr "Inhaltsverwaltung"
+msgstr "Content-Einführungsseite"
 
 #: pninit.php:262
 msgid "content-introduction-page"
@@ -915,9 +874,8 @@ msgstr "Layout geändert"
 #: pnedit.php:361
 #: pntemplates/content_include_tocedit.html:25
 #: pntemplates/content_edit_clonepage.html:1
-#, fuzzy
 msgid "Clone page"
-msgstr "Neue Seite"
+msgstr "Seite duplizieren"
 
 #: pnedit.php:449
 #: pntemplates/content_edit_newcontent.html:2
@@ -970,9 +928,8 @@ msgstr "Seitentitel"
 
 #: pntemplates/content_edit_newpage.html:30
 #: pntemplates/content_edit_editpage.html:69
-#, fuzzy
 msgid "Permalink URL"
-msgstr "Permalink URL Name"
+msgstr "Permalink URL"
 
 #: pntemplates/content_edit_newpage.html:32
 #: pntemplates/content_edit_editpage.html:71
@@ -1044,9 +1001,8 @@ msgid "Content"
 msgstr "Inhalt"
 
 #: pntemplates/content_edit_editpage.html:57
-#, fuzzy
 msgid "Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."
-msgstr "Hier werden alle Seiten verwaltet. Es können Seiten hinzugefügt, geändert bzw. gelöscht werden. Außerdem können sie zu einer beliebigen Inhaltsstruktur verschoben werden."
+msgstr "Hier könnten die Inhalte dieser Seite verwaltet werden. Es besteht die Möglichkeit, Inhalte hinzuzufügen, zu ändern oder zu löschen. Außerdem können die Inhalte per Drap+Drop in die verschiedenen Bereiche positioniert werden. Über das Icon neben dem Titel können weitere Optionen aufgerufen werden."
 
 #: pntemplates/content_edit_editpage.html:61
 msgid "Options"
@@ -1085,9 +1041,8 @@ msgid "Active"
 msgstr "Aktiv"
 
 #: pntemplates/content_edit_editpage.html:91
-#, fuzzy
 msgid "You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval."
-msgstr "Die Seite kann durch Setzen eines Intervalls oder der Checkbox offline bzw. online gestellt werden. Die Checkbox überschreibt das Datum."
+msgstr "Die Seite kann manuell aktiviert und deaktiviert werden sowie auch über ein Veröffentlichungszeitraum gesteuert werden. Eine Seite ist nur dann online wenn diese aktiviert ist und in den Veröffentlichungszeitraum fällt."
 
 #: pntemplates/content_edit_editpage.html:94
 msgid "Start date"
@@ -1098,9 +1053,8 @@ msgid "End date"
 msgstr "Enddatum"
 
 #: pntemplates/content_edit_editpage.html:102
-#, fuzzy
 msgid "Created"
-msgstr "Erstellen"
+msgstr "Erstellt"
 
 #: pntemplates/content_edit_editpage.html:104
 #: pntemplates/content_edit_editpage.html:108
@@ -1110,15 +1064,13 @@ msgid "on $1%s by $2%s"
 msgstr ""
 
 #: pntemplates/content_edit_editpage.html:107
-#, fuzzy
 msgid "Updated"
-msgstr "Seite aktualisiert"
+msgstr "Aktualisiert"
 
 #: pntemplates/content_edit_editpage.html:120
 #: pntemplates/content_edit_editpage.html:122
-#, fuzzy
 msgid "Category"
-msgstr "Kategorien"
+msgstr "Kategorie"
 
 #: pntemplates/content_edit_editpage.html:128
 msgid "Categories"
@@ -1129,7 +1081,6 @@ msgid "Primary category"
 msgstr "Primäre Kategorie"
 
 #: pntemplates/content_edit_editpage.html:137
-#, fuzzy
 msgid "Secondary category"
 msgstr "Sekundäre Kategorie"
 
@@ -1255,40 +1206,36 @@ msgid "Increase indent"
 msgstr "Einzug erhöhen"
 
 #: pntemplates/content_include_tocedit.html:36
-#, fuzzy
 msgid "Click to activate this page"
-msgstr "Seite übersetzen"
+msgstr "Hier klicken, um Seite zu aktivieren"
 
 #: pntemplates/content_include_tocedit.html:37
-#, fuzzy
 msgid "Click to deactivate this page"
-msgstr "Seite bearbeiten"
+msgstr "Hier klicken, um Seite zu deaktivieren"
 
 #: pntemplates/content_include_tocedit.html:38
 msgid "Click to put this page in the menu"
-msgstr ""
+msgstr "Hier klicken, um Seite im Menü aufzunehmen"
 
 #: pntemplates/content_include_tocedit.html:39
 msgid "Click to pull this page from the menu"
-msgstr ""
+msgstr "Hier klicken, um Seite aus dem Menü rauszunehmen"
 
 #: pntemplates/content_include_tocedit.html:45
-#, fuzzy
 msgid "Page title [id]"
-msgstr "Seitentitel"
+msgstr "Seitentitel [ID]"
 
 #: pntemplates/content_include_tocedit.html:46
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: pntemplates/content_include_tocedit.html:47
 msgid "Menu"
-msgstr ""
+msgstr "Menü"
 
 #: pntemplates/content_include_tocedit.html:48
-#, fuzzy
 msgid "Last updated (revision)"
-msgstr "Zuletzt aktualisiert"
+msgstr "Zuletzt aktualisiert (Rev.)"
 
 #: pntemplates/content_include_tocedit.html:48
 msgid "Last updated"
@@ -1296,16 +1243,15 @@ msgstr "Zuletzt aktualisiert"
 
 #: pntemplates/content_include_tocedit.html:60
 msgid "Click to hide sub-pages"
-msgstr ""
+msgstr "Hier klicken, um Unterseiten zu verstecken"
 
 #: pntemplates/content_include_tocedit.html:62
 msgid "Click to show sub-pages"
-msgstr ""
+msgstr "Hier klicken, um Unterseiten anzuzeigen"
 
 #: pntemplates/content_include_tocedit.html:69
-#, fuzzy
 msgid "Page dragable"
-msgstr "Seitensprache"
+msgstr "Verschiebbare Seite"
 
 #: pntemplates/content_include_tocedit.html:83
 #: pntemplates/content_include_tocedit.html:84
@@ -1322,31 +1268,30 @@ msgstr "Inaktiv"
 #: pntemplates/content_include_tocedit.html:91
 #: pntemplates/content_include_tocedit.html:116
 msgid "In"
-msgstr ""
+msgstr "Ja"
 
 #: pntemplates/content_include_tocedit.html:94
 #: pntemplates/content_include_tocedit.html:95
 #: pntemplates/content_include_tocedit.html:117
 msgid "Out"
-msgstr ""
+msgstr "Nein"
 
 #: pntemplates/content_include_tocedit.html:104
 #, php-format
 msgid "$1%s ($2%s original)"
-msgstr ""
+msgstr "$1%s ($2%s Original)"
 
 #: pntemplates/content_include_tocedit.html:104
 #, php-format
 msgid "%s original used"
-msgstr ""
+msgstr "%s Original benutzt"
 
 #: pntemplates/content_include_tocedit.html:104
 #, php-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: pntemplates/content_include_tocedit.html:107
-#, fuzzy
 msgid "No pages available."
 msgstr "Keine Seiten verfügbar."
 
@@ -1383,9 +1328,8 @@ msgid "File suffix of short URLs (including a dot - for instance \".html\"). Thi
 msgstr "Dateisuffix für Short-URLs (inkl. Punkt - zum Beispiel \".html\"). Wird nur benötigt, wenn in der Zikula-Administration die Short-URLs aktiviert sind."
 
 #: pntemplates/content_admin_settings.html:31
-#, fuzzy
 msgid "State of new pages"
-msgstr "Neue Seite hinzufügen"
+msgstr "Status von neuen Seiten"
 
 #: pntemplates/content_admin_settings.html:35
 msgid "Google maps API key"
@@ -1413,9 +1357,8 @@ msgid "Enable version history"
 msgstr "Versionierung aktivieren"
 
 #: pntemplates/content_admin_settings.html:54
-#, fuzzy
 msgid "Category usage"
-msgstr "Kategorien"
+msgstr "Kategoriebenutzung"
 
 #: pntemplates/content_admin_settings.html:59
 msgid "Category Property for the first category selection"
@@ -1496,14 +1439,12 @@ msgid "BBCode is an abbreviation for Bulletin Board Code, the lightweight markup
 msgstr "\"BBCode (von engl. Bulletin Board Code) ist eine sehr eng an HTML angelehnte, jedoch vereinfachte Auszeichnungssprache, die bevorzugt für die Erstellung von Beiträgen in Webforen (engl. Bulletin Boards) eingesetzt wird.\" (<a href=\"http://de.wikipedia.org/wiki/BBCode\">Wikipedia</a>)<br /><a href=\"http://code.zikula.org/bbcode\">Download</a>"
 
 #: pntemplates/content_edit_main.html:10
-#, fuzzy
 msgid "Restore pages"
-msgstr "Wiederherstellen"
+msgstr "Seiten wiederherstellen"
 
 #: pntemplates/content_edit_main.html:19
-#, fuzzy
 msgid "This is where you manage all your pages. You can add/edit/delete/translate pages (depending on permission rights) as well as drag them around to get the content structure right."
-msgstr "Hier werden alle Seiten verwaltet. Es können Seiten hinzugefügt, geändert bzw. gelöscht werden. Außerdem können sie zu einer beliebigen Inhaltsstruktur verschoben werden."
+msgstr "Hier werden alle Seiten verwaltet. Abhängig von den Zugriffsrechten können Seiten hinzugefügt, geändert, gelöscht und übersetzt werden. Außerdem können sie zu einer beliebigen Inhaltsstruktur verschoben werden."
 
 #: pntemplates/content_edit_main.html:24
 msgid "Click on the arrow right of a page title for the options of that page. To drag and drop a page you must select the folder icon left of the title and drop it on the title of another page. A page with sub-pages can be expanded or contracted by clicking on the plus or minus left of the page title. To activate/deactive pages or make pages (not) available in the menu click on the led icons."
@@ -1580,9 +1521,8 @@ msgid "both"
 msgstr ""
 
 #: pntemplates/contenttype/joinposition_edit.html:7
-#, fuzzy
 msgid "left"
-msgstr "Löschen"
+msgstr "Links"
 
 #: pntemplates/contenttype/joinposition_edit.html:9
 msgid "right"
@@ -1602,9 +1542,8 @@ msgstr "Videobeschreibung"
 
 #: pntemplates/contenttype/openstreetmap_edit.html:82
 #: pntemplates/contenttype/googlemap_edit.html:55
-#, fuzzy
 msgid "Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position."
-msgstr "Position entweder durch Klicken in der Karte oder durch Direkteingabe wählen. Die Karte kann mit der Maus verschoben werden. Doppelklick zoomt in die Karte ein."
+msgstr "Position entweder durch Klicken in der Karte oder durch Direkteingabe wählen. Die Karte kann mit der Maus verschoben werden. Ein Doppelklick zoomt in die Karte ein."
 
 #: pntemplates/contenttype/openstreetmap_edit.html:85
 #: pntemplates/contenttype/googlemap_edit.html:58
@@ -1695,9 +1634,9 @@ msgid "By"
 msgstr "Von"
 
 #: pntemplates/contenttype/flickr_edit.html:4
-#, fuzzy, php-format
+#, php-format
 msgid "No Flickr API key available! You must specify a Flickr API key to use this feature. You can get a key from %s."
-msgstr "Kein Flickr API-Key verfügbar! Es muss ein Flickr API-Key für dieses Feature eingegeben werden, der unter <a href=\"http://www.flickr.com/api\">flickr.com</a> bezogen werden kann."
+msgstr "Kein Flickr API-Key verfügbar! Es muss ein Flickr API-Key für dieses Feature eingegeben werden, der unter %s bezogen werden kann."
 
 #: pntemplates/contenttype/flickr_edit.html:8
 msgid "Display photos from this user"
@@ -1766,11 +1705,11 @@ msgstr ""
 
 #: pntemplates/contenttype/googlemap_view.html:11
 msgid "Show Directions"
-msgstr ""
+msgstr "Richtungen anzeigen"
 
 #: pntemplates/contenttype/googlemap_view.html:12
 msgid "Clear Directions"
-msgstr ""
+msgstr "Richtungen entfernen"
 
 #: pntemplates/contenttype/googlemap_view.html:18
 msgid "Get directions to this location"
@@ -1878,7 +1817,7 @@ msgstr "Folgende Unterseiten aufnehmen"
 
 #: pntemplates/content_block_menu_modify.html:13
 msgid "Use caching in the menu block"
-msgstr ""
+msgstr "Caching im Menü-Block benutzen"
 
 #: pntemplates/content_edit_translatecontent.html:21
 msgid "Previous"
@@ -1967,7 +1906,7 @@ msgstr "Wird benutzt, um diese Seite in bei den Short-URLS zu referenzieren. Lee
 
 #: pntemplates/content_edit_clonepage.html:21
 msgid "Clone translations"
-msgstr ""
+msgstr "Übersetzungen duplizieren"
 
 #: pntemplates/content_edit_clonepage.html:29
 msgid "Clone"

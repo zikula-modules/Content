@@ -65,6 +65,7 @@ class content_contenttypesapi_SlidesharePlugin extends contentTypeBase
 
     function displayEditing()
     {
+        $dom = ZLanguage::getModuleDomain('content');
         $output = '<div style="background-color:#ddd; width:320px; height:200px; margin:0 auto; padding:15px;">' . __f('Slideshare: %s', $this->slideId, $dom) . '</div>';
         $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;

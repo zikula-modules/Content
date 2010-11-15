@@ -54,7 +54,6 @@ class content_contenttypesapi_joinpositionPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        $dom = ZLanguage::getModuleDomain('content');
         return array('clear' => 'both');
     }
 

@@ -31,6 +31,8 @@ class content_admin_settingsHandler extends pnFormHandler
             return $render->pnFormRegisterError(LogUtil::registerPermissionError());
         }
 
+        $dom = ZLanguage::getModuleDomain('content');
+
         $catoptions = array( array('text' => __('Use 2 category levels (1st level single, 2nd level multi selection)', $dom), 'value' => '1'),
                              array('text' => __('Use 2 category levels (both single selection)', $dom), 'value' => '2'),
                              array('text' => __('Use 1 category level', $dom), 'value' => '3'),

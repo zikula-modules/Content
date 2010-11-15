@@ -171,6 +171,8 @@ class content_edit_newPageHandler extends pnFormHandler
 
     function handleCommand(&$render, &$args)
     {
+        $dom = ZLanguage::getModuleDomain('content');
+
         if (!contentHasPageCreateAccess())
             return $render->pnFormSetErrorMsg(__('Error! You have not been granted access to this page.', $dom));
 

@@ -330,7 +330,7 @@ function content_historyapi_restoreVersion($args)
     // is a deleted page
     $retval = pnModAPIFunc('content', 'page', 'reinsertPage', array('page' => $page));
     if ($retval === false) {
-      return LogUtil::registerError(__('Error!Could not reinsert page', $dom));
+      return LogUtil::registerError(__('Error! Could not reinsert page', $dom));
     }
     $pageId = $page['id'] = $retval['id'];
     $page['urlname'] = $retval['urlname'];

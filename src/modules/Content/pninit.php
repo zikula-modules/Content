@@ -297,7 +297,7 @@ function content_defaultdata()
                 'position'          => '0',
                 'module'            => 'content',
                 'type'              => 'computercode',
-                'data'              => serialize(array('text' => __('// A bit of computer code. if ($content == \'example\') {$this->show_this_code(\'example\');}', $dom))));
+                'data'              => serialize(array('text' => __('// A bit of computer code. <br />if ($content == \'example\')<br />{$this->show_this_code(\'example\');<br />}', $dom))));
         $content[] = array('pageId' => $obj['id'],
                 'areaIndex'         => '2',
                 'position'          => '1',

@@ -72,6 +72,7 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
     }
     function isValid(&$data, &$message)
     {
+        $dom = ZLanguage::getModuleDomain('content');
         if (is_file($data['folder'].'/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf')) {
             $this->videoPath = $data['videoPath'];
             return true;
@@ -81,6 +82,7 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
     }
 	function altisValid(&$data, &$message)
 	{
+	    $dom = ZLanguage::getModuleDomain('content');
 	    $videoPath = $data['folder'].'/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf';
 	
     	//'camtasia/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf';

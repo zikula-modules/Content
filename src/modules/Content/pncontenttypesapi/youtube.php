@@ -72,6 +72,7 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     }
     function isValid(&$data, &$message)
     {
+        $dom = ZLanguage::getModuleDomain('content');
         $r = '/\?v=([-a-zA-Z0-9_]+)(&|$)/';
         if (preg_match($r, $data['url'], $matches)) {
             $this->videoId = $data['videoId'] = $matches[1];
