@@ -174,7 +174,7 @@ msgstr "Bitte den BBCode-Hook für das Content-Modul aktivieren, wenn der BBCode
 #: pntemplates/plugins/function.contentareatitle.php:16
 #, php-format
 msgid "%s area"
-msgstr "Bereich %s"
+msgstr "Bereich: %s"
 
 #: pntemplates/plugins/function.contentinsertlink.php:22
 msgid "Add new content here"
@@ -328,7 +328,7 @@ msgstr "Kopfzeile über Seitentitel"
 
 #: pnlayouttypesapi/column1topheader.php:34
 msgid "1 column, header above page headline"
-msgstr "Eine Spalte, Kopfzeile über Seitentitel"
+msgstr "1 Spalte mit Kopfzeile über Seitentitel"
 
 #: pnlayouttypesapi/column1topheader.php:40
 msgid "Single 100% wide column and a top-header above the page headline (for e.g. breadcrumbs or author-information above the title)"
@@ -826,7 +826,7 @@ msgstr "Eine Seite im Content-Modul besteht aus verschiedenen Inhaltselementen i
 
 #: pninit.php:286
 msgid "<p>Each created page has a specific layout, like 1 column with and without a header, 2 columns, 3 columns. The chosen layout contains various content areas. In each area you can place 1 or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> <li>the output of another Zikula module.</li> </ul> <p>Within these content areas you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>"
-msgstr "<p>Jede erstellte Seite hat ein individuelles Layout, wie z.B. eine Spalte mit oder ohne Kopfzeile, zwei oder drei Spalten. Das ausgewählte Layout beinhaltet verschiedene Bereiche. In jedem Bereich können mehrere verschiedene Inhalte positioniert werden.</p><ul> <li>HTML Text;</li> <li>YouTube Videos;</li> <li>Google Maps;</li> <li>Flickr Fotos;</li> <li>RSS Feeds;</li> <li>Computer Code;</li> <li>Ausgabe von anderen Zikula-Modulen.</li> </ul><p>Innerhalb dieser Bereiche können die Inhalte per Drag und Drop verschoben werden.<br />Es kann eine unbegrenze Anzahl an Seiten angelegt werden, die man bei Bedarf auch hierarchisch strukturieren kann. Die dadurch erzeugte Seitenstruktur kann in einem Menü über mehrere Ebenen angezeigt werden.</p>"
+msgstr "<p>Jede erstellte Seite hat ein individuelles Layout, wie z.B. eine Spalte mit oder ohne Kopfzeile, zwei oder drei Spalten. Das ausgewählte Layout beinhaltet verschiedene Bereiche. In jedem Bereich können mehrere verschiedene Inhalte positioniert werden.</p><ul> <li>HTML Text;</li> <li>YouTube Videos;</li> <li>Google Maps;</li> <li>Flickr Fotos;</li> <li>RSS Feeds;</li> <li>Computer Code;</li> <li>Ausgabe von anderen Zikula-Modulen.</li> </ul><p>Innerhalb dieser Bereiche können die Inhalte per Drag+Drop verschoben werden.<br />Es kann eine unbegrenze Anzahl an Seiten angelegt werden, die man bei Bedarf auch hierarchisch strukturieren kann. Die dadurch erzeugte Seitenstruktur kann in einem Menü über mehrere Ebenen angezeigt werden.</p>"
 
 #: pninit.php:293
 msgid "<p><strong>This is a second HTML text content item in the left column</strong><br /> Content is an extendible module. You can create your own content plugins and layouts and other Zikula modules can also offer content items. The News published module for instance has a Content plugin for a list of the latest articles.</p>"
@@ -1002,7 +1002,7 @@ msgstr "Inhalt"
 
 #: pntemplates/content_edit_editpage.html:57
 msgid "Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."
-msgstr "Hier könnten die Inhalte dieser Seite verwaltet werden. Es besteht die Möglichkeit, Inhalte hinzuzufügen, zu ändern oder zu löschen. Außerdem können die Inhalte per Drap+Drop in die verschiedenen Bereiche positioniert werden. Über das Icon neben dem Titel können weitere Optionen aufgerufen werden."
+msgstr "Hier könnten die Inhalte dieser Seite verwaltet werden. Es besteht die Möglichkeit, Inhalte hinzuzufügen, zu ändern oder zu löschen. Außerdem können die Inhalte per Drag+Drop in die verschiedenen Bereiche positioniert werden. Über das Icon neben dem Titel können weitere Optionen aufgerufen werden."
 
 #: pntemplates/content_edit_editpage.html:61
 msgid "Options"
@@ -1439,11 +1439,11 @@ msgstr "Seiten wiederherstellen"
 
 #: pntemplates/content_edit_main.html:19
 msgid "This is where you manage all your pages. You can add/edit/delete/translate pages (depending on permission rights) as well as drag them around to get the content structure right."
-msgstr "Hier werden alle Seiten verwaltet. Abhängig von den Zugriffsrechten können Seiten hinzugefügt, geändert, gelöscht und übersetzt werden. Außerdem können sie zu einer beliebigen Inhaltsstruktur verschoben werden."
+msgstr "An dieser Stelle werden alle Seiten des Moduls verwaltet. Abhängig von den Zugriffsrechten können Seiten hinzugefügt, geändert, gelöscht und übersetzt werden. Außerdem können sie zu einer beliebigen Inhaltsstruktur per Drag+Drop verschoben werden."
 
 #: pntemplates/content_edit_main.html:24
 msgid "Click on the arrow right of a page title for the options of that page. To drag and drop a page you must select the folder icon left of the title and drop it on the title of another page. A page with sub-pages can be expanded or contracted by clicking on the plus or minus left of the page title. To activate/deactive pages or make pages (not) available in the menu click on the led icons."
-msgstr "Über das Pfeil-Symbol rechts neben dem Seitentitel können für die ausgewählte Seite weitere Optionen ausgewählt werden. Zum Änderung der Reihenfolge muss das Symbol links vom Seitentitel ausgewählt und mittels Drag und Drop auf den Titel einer anderen Seite geschoben werden. Die Anzeige von Unterseiten kann über das Plus/Minus-Symbol erweitert bzw. komprimiert werden. Das De/Aktivieren bzw. die Aufnahme einer Seite zum Menü-Block lässt sich über die LED-Symbole steuern."
+msgstr "Über das Pfeil-Symbol rechts neben dem Seitentitel können für die ausgewählte Seite weitere Optionen ausgewählt werden. Zum Änderung der Reihenfolge muss das Symbol links vom Seitentitel ausgewählt und mittels Drag+Drop auf den Titel einer anderen Seite geschoben werden. Die Anzeige von Unterseiten kann über das Plus/Minus-Symbol erweitert bzw. komprimiert werden. Das De/Aktivieren bzw. die Aufnahme einer Seite zum Menü-Block lässt sich über die LED-Symbole steuern."
 
 #: pntemplates/contenttype/block_edit.html:4
 msgid "Please enter the Block-ID"

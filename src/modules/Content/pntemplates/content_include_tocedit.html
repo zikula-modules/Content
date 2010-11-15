@@ -95,7 +95,7 @@
                     <span id="menustatus_<!--[$page.id]-->"><!--[gt text="Out"]--></span>
                     <!--[/if]-->
                 </td>
-                <td><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datebrief tag2=$updaterName|userprofilelink]-->
+                <td><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datebrief tag2=$updaterName|userprofilelink domain='module_content']-->
                     <!--[if $enableVersioning]-->
                       <!--[pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo]-->
                       (#<!--[$versionNo]-->)
