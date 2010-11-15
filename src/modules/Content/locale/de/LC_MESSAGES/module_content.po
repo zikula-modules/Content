@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: content 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-15 10:12+0000\n"
+"POT-Creation-Date: 2010-11-15 14:04+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
 "Language-Team: Carsten Volmer <carsten@zikula.org>\n"
@@ -47,47 +47,47 @@ msgstr "Fehler! Es ist nicht möglich eine Elternseite unterhalb seiner Nachkomm
 msgid "Error! Could not load items."
 msgstr "Fehler! Einträge konnte nicht geladen werden."
 
-#: pnadmin.php:34
+#: pnadmin.php:36
 msgid "Use 2 category levels (1st level single, 2nd level multi selection)"
 msgstr "Zwei Kategoriestufen benutzen (Erste Stufe mit Einfachauswahl, Zweite Stufe mit Mehrfachauswahl)"
 
-#: pnadmin.php:35
+#: pnadmin.php:37
 msgid "Use 2 category levels (both single selection)"
 msgstr "Zwei Kategoriestufen benutzen (Beide Stufen mit Mehrfachauswahl)"
 
-#: pnadmin.php:36
+#: pnadmin.php:38
 msgid "Use 1 category level"
 msgstr "Eine Kategoriestufe benutzen"
 
-#: pnadmin.php:37
+#: pnadmin.php:39
 msgid "Don't use Categories at all"
 msgstr "Keine Kategorisierung benutzen"
 
-#: pnadmin.php:42
+#: pnadmin.php:44
 msgid "New pages will be active and available in the menu"
 msgstr "Neu angelegte Seiten sind aktiv und über das Menü erreichbar"
 
-#: pnadmin.php:43
+#: pnadmin.php:45
 msgid "New pages will be inactive and available in the menu"
 msgstr "Neu angelegte Seiten sind inaktiv und über das Menü erreichbar"
 
-#: pnadmin.php:44
+#: pnadmin.php:46
 msgid "New pages will be active and not available in the menu"
 msgstr "Neu angelegte Seiten sind aktiv und nicht über das Menü erreichbar"
 
-#: pnadmin.php:45
+#: pnadmin.php:47
 msgid "New pages will be inactive and not available in the menu"
 msgstr "Neu angelegte Seiten sind inaktiv und nicht über das Menü erreichbar"
 
-#: pnadmin.php:72
+#: pnadmin.php:74
 msgid "Main category property does not exist."
 msgstr "Die Eigenschaft der primären Kategorie existiert nicht."
 
-#: pnadmin.php:77
+#: pnadmin.php:79
 msgid "Second category property does not exist."
 msgstr "Die Eigenschaft der sekundären Kategorie existiert nicht."
 
-#: pnadmin.php:81
+#: pnadmin.php:83
 msgid "Done! Saved module configuration."
 msgstr "Erledigt! Die Modulkonfiguration wurde gespeichert."
 
@@ -523,12 +523,12 @@ msgstr "Slideshare"
 msgid "Display slides from slideshare.com"
 msgstr "Zeigt Präsentationen von slideshare.com an."
 
-#: pncontenttypesapi/slideshare.php:68
+#: pncontenttypesapi/slideshare.php:69
 #, php-format
 msgid "Slideshare: %s"
 msgstr "Slideshare: %s"
 
-#: pncontenttypesapi/slideshare.php:94
+#: pncontenttypesapi/slideshare.php:95
 msgid "Not valid Slideshare Wordpress embed code"
 msgstr "Kein gültiger Slideshare Wordpress-Code"
 
@@ -667,7 +667,7 @@ msgstr "YouTube Video"
 msgid "Display YouTube video clip."
 msgstr "YouTube Video anzeigen."
 
-#: pncontenttypesapi/youtube.php:80
+#: pncontenttypesapi/youtube.php:81
 msgid "Unrecognized YouTube URL"
 msgstr "Unbekannte YouTube URL"
 
@@ -687,11 +687,11 @@ msgstr "Camtasia-Flashvideo"
 msgid "Display camtasia-Flash video."
 msgstr "Flashvideo von Camtasia anzeigen."
 
-#: pncontenttypesapi/camtasia.php:79
+#: pncontenttypesapi/camtasia.php:80
 msgid "Unrecognized Flash video path"
 msgstr "Unbekannter Flashvideo-Pfad"
 
-#: pncontenttypesapi/camtasia.php:92
+#: pncontenttypesapi/camtasia.php:94
 msgid "Unrecognized camtasia-Flash video path: "
 msgstr "Unbekannter Camtasia Flashvideo-Pfad"
 
@@ -706,11 +706,11 @@ msgstr "Version #%1$s - %2$s - %3$s von %4$s (IP %5$s)"
 msgid "Preview"
 msgstr "Vorschau"
 
-#: pnuser.php:216
+#: pnuser.php:218
 msgid "Error! Unknown page."
 msgstr "Fehler! Unbekannte Seite."
 
-#: pnuser.php:245
+#: pnuser.php:247
 #: pntemplates/content_admin_main.html:21
 #: pntemplates/content_user_sitemap.html:1
 msgid "Sitemap"
@@ -766,7 +766,7 @@ msgid "Error! Unknown version ID [%s]"
 msgstr "Fehler! Unbekannte Version-ID [%s]"
 
 #: pnhistoryapi.php:333
-msgid "Error!Could not reinsert page"
+msgid "Error! Could not reinsert page"
 msgstr "Fehler! Seite konnte nicht wiedereingefügt werden."
 
 #: pnhistoryapi.php:410
@@ -833,7 +833,7 @@ msgid "<p><strong>This is a second HTML text content item in the left column</st
 msgstr ""
 
 #: pninit.php:300
-msgid "// A bit of computer code. if ($content == 'example') {$this->show_this_code('example');}"
+msgid "// A bit of computer code. <br />if ($content == 'example')<br />{$this->show_this_code('example');<br />}"
 msgstr ""
 
 #: pninit.php:306
@@ -857,59 +857,59 @@ msgstr "Platziert vor:"
 msgid "Located after:"
 msgstr "Platziert hinter:"
 
-#: pnedit.php:175
+#: pnedit.php:177
 msgid "Error! You have not been granted access to this page."
 msgstr "Fehler! Es ist kein Zugriffsrecht auf diese Seite vorhanden."
 
-#: pnedit.php:245
+#: pnedit.php:247
 #: pntemplates/content_edit_editpage.html:3
 #: pntemplates/content_include_pageinfo.html:17
 msgid "Edit page"
 msgstr "Seite bearbeiten"
 
-#: pnedit.php:297
+#: pnedit.php:299
 msgid "Layout changed"
 msgstr "Layout geändert"
 
-#: pnedit.php:361
+#: pnedit.php:363
 #: pntemplates/content_include_tocedit.html:25
 #: pntemplates/content_edit_clonepage.html:1
 msgid "Clone page"
 msgstr "Seite duplizieren"
 
-#: pnedit.php:449
+#: pnedit.php:451
 #: pntemplates/content_edit_newcontent.html:2
 msgid "Add new content to page"
 msgstr "Neuen Inhalt zur Seite hinzufügen"
 
-#: pnedit.php:534
+#: pnedit.php:536
 #: pntemplates/content_edit_editcontent.html:1
 msgid "Edit content item"
 msgstr "Inhalt bearbeiten"
 
-#: pnedit.php:634
-#: pnedit.php:765
+#: pnedit.php:636
+#: pnedit.php:767
 #, php-format
 msgid "Sorry, you cannot translate an item to the same language as it's default language (\"%s\"). Change the current site language (\"%s\") to some other language on the <a href=\"%s\">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German."
 msgstr ""
 
-#: pnedit.php:636
+#: pnedit.php:638
 #: pntemplates/content_include_pageinfo.html:19
 #: pntemplates/content_edit_translatepage.html:1
 msgid "Translate page"
 msgstr "Seite übersetzen"
 
-#: pnedit.php:771
+#: pnedit.php:773
 #: pntemplates/content_edit_translatecontent.html:1
 msgid "Translate content item"
 msgstr "Inhalt übersetzen"
 
-#: pnedit.php:891
+#: pnedit.php:893
 #: pntemplates/content_edit_history.html:2
 msgid "Page history"
 msgstr "Seitenhistorie"
 
-#: pnedit.php:947
+#: pnedit.php:949
 #: pntemplates/content_edit_deletedpages.html:1
 msgid "Restore deleted pages"
 msgstr ""
@@ -1285,11 +1285,6 @@ msgstr "$1%s ($2%s Original)"
 #, php-format
 msgid "%s original used"
 msgstr "%s Original benutzt"
-
-#: pntemplates/content_include_tocedit.html:104
-#, php-format
-msgid "%s"
-msgstr "%s"
 
 #: pntemplates/content_include_tocedit.html:107
 msgid "No pages available."
@@ -1929,6 +1924,8 @@ msgstr "Revision #"
 msgid "Event"
 msgstr "Ereignis"
 
+#~ msgid "%s"
+#~ msgstr "%s"
 #~ msgid "http://"
 #~ msgstr "http://"
 #~ msgid ""

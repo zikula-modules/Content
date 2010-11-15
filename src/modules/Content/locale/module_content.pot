@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-15 10:12+0000\n"
+"POT-Creation-Date: 2010-11-15 14:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,47 +45,47 @@ msgstr ""
 msgid "Error! Could not load items."
 msgstr ""
 
-#: pnadmin.php:34
+#: pnadmin.php:36
 msgid "Use 2 category levels (1st level single, 2nd level multi selection)"
 msgstr ""
 
-#: pnadmin.php:35
+#: pnadmin.php:37
 msgid "Use 2 category levels (both single selection)"
 msgstr ""
 
-#: pnadmin.php:36
+#: pnadmin.php:38
 msgid "Use 1 category level"
 msgstr ""
 
-#: pnadmin.php:37
+#: pnadmin.php:39
 msgid "Don't use Categories at all"
 msgstr ""
 
-#: pnadmin.php:42
+#: pnadmin.php:44
 msgid "New pages will be active and available in the menu"
 msgstr ""
 
-#: pnadmin.php:43
+#: pnadmin.php:45
 msgid "New pages will be inactive and available in the menu"
 msgstr ""
 
-#: pnadmin.php:44
+#: pnadmin.php:46
 msgid "New pages will be active and not available in the menu"
 msgstr ""
 
-#: pnadmin.php:45
+#: pnadmin.php:47
 msgid "New pages will be inactive and not available in the menu"
 msgstr ""
 
-#: pnadmin.php:72
+#: pnadmin.php:74
 msgid "Main category property does not exist."
 msgstr ""
 
-#: pnadmin.php:77
+#: pnadmin.php:79
 msgid "Second category property does not exist."
 msgstr ""
 
-#: pnadmin.php:81
+#: pnadmin.php:83
 msgid "Done! Saved module configuration."
 msgstr ""
 
@@ -516,12 +516,12 @@ msgstr ""
 msgid "Display slides from slideshare.com"
 msgstr ""
 
-#: pncontenttypesapi/slideshare.php:68
+#: pncontenttypesapi/slideshare.php:69
 #, php-format
 msgid "Slideshare: %s"
 msgstr ""
 
-#: pncontenttypesapi/slideshare.php:94
+#: pncontenttypesapi/slideshare.php:95
 msgid "Not valid Slideshare Wordpress embed code"
 msgstr ""
 
@@ -674,7 +674,7 @@ msgstr ""
 msgid "Display YouTube video clip."
 msgstr ""
 
-#: pncontenttypesapi/youtube.php:80
+#: pncontenttypesapi/youtube.php:81
 msgid "Unrecognized YouTube URL"
 msgstr ""
 
@@ -694,11 +694,11 @@ msgstr ""
 msgid "Display camtasia-Flash video."
 msgstr ""
 
-#: pncontenttypesapi/camtasia.php:79
+#: pncontenttypesapi/camtasia.php:80
 msgid "Unrecognized Flash video path"
 msgstr ""
 
-#: pncontenttypesapi/camtasia.php:92
+#: pncontenttypesapi/camtasia.php:94
 msgid "Unrecognized camtasia-Flash video path: "
 msgstr ""
 
@@ -712,11 +712,11 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: pnuser.php:216
+#: pnuser.php:218
 msgid "Error! Unknown page."
 msgstr ""
 
-#: pnuser.php:245 pntemplates/content_admin_main.html:21
+#: pnuser.php:247 pntemplates/content_admin_main.html:21
 #: pntemplates/content_user_sitemap.html:1
 msgid "Sitemap"
 msgstr ""
@@ -769,7 +769,7 @@ msgid "Error! Unknown version ID [%s]"
 msgstr ""
 
 #: pnhistoryapi.php:333
-msgid "Error!Could not reinsert page"
+msgid "Error! Could not reinsert page"
 msgstr ""
 
 #: pnhistoryapi.php:410
@@ -849,8 +849,8 @@ msgstr ""
 
 #: pninit.php:300
 msgid ""
-"// A bit of computer code. if ($content == 'example') {$this->show_this_code"
-"('example');}"
+"// A bit of computer code. <br />if ($content == 'example')<br />{$this-"
+">show_this_code('example');<br />}"
 msgstr ""
 
 #: pninit.php:306
@@ -883,33 +883,33 @@ msgstr ""
 msgid "Located after:"
 msgstr ""
 
-#: pnedit.php:175
+#: pnedit.php:177
 msgid "Error! You have not been granted access to this page."
 msgstr ""
 
-#: pnedit.php:245 pntemplates/content_edit_editpage.html:3
+#: pnedit.php:247 pntemplates/content_edit_editpage.html:3
 #: pntemplates/content_include_pageinfo.html:17
 msgid "Edit page"
 msgstr ""
 
-#: pnedit.php:297
+#: pnedit.php:299
 msgid "Layout changed"
 msgstr ""
 
-#: pnedit.php:361 pntemplates/content_include_tocedit.html:25
+#: pnedit.php:363 pntemplates/content_include_tocedit.html:25
 #: pntemplates/content_edit_clonepage.html:1
 msgid "Clone page"
 msgstr ""
 
-#: pnedit.php:449 pntemplates/content_edit_newcontent.html:2
+#: pnedit.php:451 pntemplates/content_edit_newcontent.html:2
 msgid "Add new content to page"
 msgstr ""
 
-#: pnedit.php:534 pntemplates/content_edit_editcontent.html:1
+#: pnedit.php:536 pntemplates/content_edit_editcontent.html:1
 msgid "Edit content item"
 msgstr ""
 
-#: pnedit.php:634 pnedit.php:765
+#: pnedit.php:636 pnedit.php:767
 #, php-format
 msgid ""
 "Sorry, you cannot translate an item to the same language as it's default "
@@ -920,20 +920,20 @@ msgid ""
 "translated to German."
 msgstr ""
 
-#: pnedit.php:636 pntemplates/content_include_pageinfo.html:19
+#: pnedit.php:638 pntemplates/content_include_pageinfo.html:19
 #: pntemplates/content_edit_translatepage.html:1
 msgid "Translate page"
 msgstr ""
 
-#: pnedit.php:771 pntemplates/content_edit_translatecontent.html:1
+#: pnedit.php:773 pntemplates/content_edit_translatecontent.html:1
 msgid "Translate content item"
 msgstr ""
 
-#: pnedit.php:891 pntemplates/content_edit_history.html:2
+#: pnedit.php:893 pntemplates/content_edit_history.html:2
 msgid "Page history"
 msgstr ""
 
-#: pnedit.php:947 pntemplates/content_edit_deletedpages.html:1
+#: pnedit.php:949 pntemplates/content_edit_deletedpages.html:1
 msgid "Restore deleted pages"
 msgstr ""
 
@@ -1320,11 +1320,6 @@ msgstr ""
 #: pntemplates/content_include_tocedit.html:104
 #, php-format
 msgid "%s original used"
-msgstr ""
-
-#: pntemplates/content_include_tocedit.html:104
-#, php-format
-msgid "%s"
 msgstr ""
 
 #: pntemplates/content_include_tocedit.html:107
