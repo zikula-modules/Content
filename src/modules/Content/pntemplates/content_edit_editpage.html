@@ -101,11 +101,11 @@
     <div class="z-formrow">
         <!--[pnformlabel for='createdBy' __text='Created']-->
         <!--[pnusergetvar name=uname uid=$page.lu_uid assign=updaterName]-->
-        <span id="createdBy" class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.cr_date|pndate_format:datetimebrief tag2=$page.uname|userprofilelink]--></span>
+        <span id="createdBy" class="z-formnote"><!--[gt text='on %1$s by %2$s' tag1=$page.cr_date|pndate_format:datetimebrief tag2=$page.uname|userprofilelink]--></span>
     </div>
     <div class="z-formrow">
         <!--[pnformlabel for='updatedBy' __text='Updated']-->
-        <span id="updatedBy" class="z-formnote"><!--[gt text="on $1%s by $2%s" tag1=$page.lu_date|pndate_format:datetimebrief tag2=$updaterName|userprofilelink]-->
+        <span id="updatedBy" class="z-formnote"><!--[gt text='on %1$s by %2$s' tag1=$page.lu_date|pndate_format:datetimebrief tag2=$updaterName|userprofilelink]-->
         <!--[if $enableVersioning]-->
             <!--[pnmodapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo]-->
             (#<!--[$versionNo]-->)
