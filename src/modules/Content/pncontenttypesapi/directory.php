@@ -13,6 +13,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     var $pid;
     var $includeHeading;
     var $includeSubpage;
+    var $includeNotInMenu;
 
     function getModule()
     {
@@ -43,6 +44,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $this->pid = $data['pid'];
         $this->includeHeading = (bool) $data['includeHeading'];
         $this->includeSubpage = (bool) $data['includeSubpage'];
+        $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
     }
 
     function display()
@@ -62,7 +64,9 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         } elseif (!$this->includeSubpage && $this->pid != 0)
             $options['filter']['pageId'] = $this->pid;
 
-        $options['filter']['checkInMenu'] = true;
+        if (!$this->includeNotInMenu) {
+            $options['filter']['checkInMenu'] = true;
+        }
 
         if ($this->includeHeading)
             $options['includeContent'] = true;
@@ -118,7 +122,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false);
+        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => false);
 
     }
 
