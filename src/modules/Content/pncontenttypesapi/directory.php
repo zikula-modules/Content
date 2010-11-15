@@ -13,6 +13,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     var $pid;
     var $includeHeading;
     var $includeSubpage;
+    var $includeNotInMenu;
 
     function getModule()
     {
@@ -43,6 +44,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $this->pid = $data['pid'];
         $this->includeHeading = (bool) $data['includeHeading'];
         $this->includeSubpage = (bool) $data['includeSubpage'];
+        $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
     }
 
     function display()
@@ -61,6 +63,10 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             $options['filter']['where'] = "$pageColumn[level] = 0";
         } elseif (!$this->includeSubpage && $this->pid != 0)
             $options['filter']['pageId'] = $this->pid;
+
+        if (!$this->includeNotInMenu) {
+            $options['filter']['checkInMenu'] = true;
+        }
 
         if ($this->includeHeading)
             $options['includeContent'] = true;
@@ -116,14 +122,14 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false);
+        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => false);
 
     }
 
     function startEditing(&$render)
     {
         $dom = ZLanguage::getModuleDomain('content');
-        $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false));
+        $pages = pnModAPIFunc('content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'filter' => array('checkActive' => false)));
 
         $pidItems = array();
         $pidItems[] = array('text' => __('All pages', $dom), 'value' => "0");
