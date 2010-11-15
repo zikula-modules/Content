@@ -37,15 +37,15 @@
     <legend><!--[gt text="Please select a specific layout for your page"]--></legend>
     <div class="z-formrow">
         <!--[pnformlabel for='layout' __text='Page layout']-->
-        <!--[contentlayoutselector id='layout' layouts=$layouts]-->
+        <!--[contentlayoutselector id='layout']-->
     </div>
     <div class="z-formrow">
-        <!--[pnformlabel __text='Layout preview and description']-->
+        <!--[pnformlabel for="layout_preview" __text='Layout preview and description']-->
         <div id="layout_preview">
-            <img id="layout_preview_img" src="<!--[$layouts.0.image]-->" align="top" />
-            <span id="layout_preview_desc"><!--[$layouts.0.description]--></span>
+            <img id="layout_preview_img" src="<!--[$layouts.0.image]-->" alt="" />
         </div>
     </div>
+    <p id="layout_preview_desc" class="z-formnote"><!--[$layouts.0.description]--></p>
 </fieldset>
 
 <!--[pnmodcallhooks hookobject='item' hookaction='new' module='content']-->
