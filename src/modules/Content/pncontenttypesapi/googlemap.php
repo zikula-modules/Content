@@ -98,7 +98,7 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
         $render->assign('language', ZLanguage::getLanguageCode());
         $render->assign('longitude', $this->longitude);
         $render->assign('latitude', $this->latitude);
-        $render->assign('zoom', $this->zoom);        
+        $render->assign('zoom', $this->zoom);
     }
     function getSearchableText()
     {

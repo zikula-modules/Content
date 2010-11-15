@@ -806,7 +806,7 @@ msgstr "Konfiguration"
 
 #: pninit.php:38
 msgid "Warning! Could not create the default Content category tree. If you want to use categorisation with Content, register at least one property for the module in the Category Registry."
-msgstr ""
+msgstr "Warnung! Der Zweig für die Standardkategorie von Content konnte nicht erstellt werden. Falls die Kategorisierung in Content genutzt werden soll, so muss wenigstens eine Kategoriezuweisung durchgeführt werden."
 
 #: pninit.php:261
 msgid "Content introduction page"
@@ -814,15 +814,15 @@ msgstr "Content-Einführungsseite"
 
 #: pninit.php:262
 msgid "content-introduction-page"
-msgstr ""
+msgstr "content-einfuehrungsseite"
 
 #: pninit.php:270
 msgid "Warning! Could not create the default Content introductory page."
-msgstr ""
+msgstr "Warnung! Die Einführungsseite für das Content-Modul konnte nicht erstellt werden."
 
 #: pninit.php:279
 msgid "A Content page consists of various content items in a chosen layout"
-msgstr ""
+msgstr "Eine Seite im Content-Modul besteht aus verschiedenen Inhaltselementen in einem ausgewählten Layout."
 
 #: pninit.php:286
 msgid "<p>Each created page has a specific layout, like 1 column with and without a header, 2 columns, 3 columns. The chosen layout contains various content areas. In each area you can place 1 or more content items of various kinds like: <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> <li>the output of another Zikula module.</li> </ul> Within these content areas you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>"
@@ -830,19 +830,19 @@ msgstr ""
 
 #: pninit.php:293
 msgid "<p><strong>This is a second HTML text content item in the left column</strong><br /> Content is an extendible module. You can create your own content plugins and layouts and other Zikula modules can also offer content items. The News published module for instance has a Content plugin for a list of the latest articles.</p>"
-msgstr ""
+msgstr "<p><strong>Das ist ein zweites Inhaltselement mit HTML Text in der linken Spalte.<br />Content ist ein erweiterbares Modul. Es können eigene Plugins und Layouts erstellt werden und auch zusätzliche Zikula-Module können weitere Features hinzufügen. So bietet beispielsweise das News-Modul ein Content-Plugin für die Anzeige der neuesten Beiträge an.</p>"
 
 #: pninit.php:300
 msgid "// A bit of computer code. <br />if ($content == 'example')<br />{$this->show_this_code('example');<br />}"
-msgstr ""
+msgstr "// Ein wenig Computer-Code. <br />if ($content == 'example')<br />{$this->show_this_code('example');<br />}"
 
 #: pninit.php:306
 msgid "<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column (62|38) layout</strong> which has a header, 2 colums with 62% width on the left and 38% width on the right and a footer</p>"
-msgstr ""
+msgstr "<p>Man erkennt, dass man mit dem Modul die unterschiedlichsten Inhalte nach Belieben positionieren und gestalten kann. Das macht Content zu einem sehr leistungsfähigen Modul.</p><p>Diese Seite nutzt ein <strong>2-Spalten (62|38)-Layout</strong>, welches aus einer Kopfzeile, zwei Spalten (62% Breite auf der linken Seite und 38% Breite in der rechten Spalte) und einer Fußzeile besteht.</p>"
 
 #: pninit.php:313
 msgid "This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href=\"index.php?module=content&type=edit\">Page list</a> interface lets you edit or delete this introduction page. In the <a href=\"index.php?module=content&type=admin\">administration</a> interface you can further control the Content module."
-msgstr ""
+msgstr "Dieser <strong>Fußbereich</strong> beendet die Einführungsseite. Viel Spaß bei der Benutzung von Content. Über die <a href=\"index.php?module=content&type=edit\">Seitenliste</a> kann diese Einführungsseite bearbeitet oder gelöscht werden. In der <a href=\"index.php?module=content&type=admin\">Administrationsoberfläche</a> können die Moduleinstellungen verwaltet werden."
 
 #: pnedit.php:38
 #: pntemplates/content_edit_main.html:4
@@ -891,7 +891,7 @@ msgstr "Inhalt bearbeiten"
 #: pnedit.php:767
 #, php-format
 msgid "Sorry, you cannot translate an item to the same language as it's default language (\"%s\"). Change the current site language (\"%s\") to some other language on the <a href=\"%s\">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German."
-msgstr ""
+msgstr "Inhalte können nicht in die gleiche Sprache, wie die Standardsprache (\"%1$s\") übersetzt werden. Die Standardeinstellung der Website (\"%1$s\") muss dazu in den Einstellungen zur <a href=\"%s\">Mehrsprachigkeit</a> auf eine andere Sprache geändert werden.<br />Eine weitere Möglichkeit wäre, wenn man beispielsweise <strong>&amp;lang=de</strong> zur URL hinzugefügt, um so die aktive Sprache auf Deutsch zu ändern. Daraufhin kann man die Übersetzung in die deutsche Sprache vornehmen"
 
 #: pnedit.php:638
 #: pntemplates/content_include_pageinfo.html:19
@@ -912,7 +912,7 @@ msgstr "Seitenhistorie"
 #: pnedit.php:949
 #: pntemplates/content_edit_deletedpages.html:1
 msgid "Restore deleted pages"
-msgstr ""
+msgstr "Gelöscht Seiten wiederherstellen"
 
 #: pntemplates/content_edit_newpage.html:3
 msgid "Select layout"
@@ -934,7 +934,7 @@ msgstr "Permalink URL"
 #: pntemplates/content_edit_newpage.html:32
 #: pntemplates/content_edit_editpage.html:71
 msgid "(Used in shorturl mode and generated automatically if left blank)"
-msgstr ""
+msgstr "(Werden bei ShortURLs genutzt. Falls das Feld leer gelassen wird, so wird der Inhalt automatisch ermittelt)"
 
 #: pntemplates/content_edit_newpage.html:37
 msgid "Please select a specific layout for your page"
@@ -949,7 +949,7 @@ msgstr "Seitenlayout"
 #: pntemplates/content_edit_newpage.html:43
 #: pntemplates/content_edit_editpage.html:161
 msgid "Layout preview and description"
-msgstr ""
+msgstr "Layoutvorschau und Beschreibung"
 
 #: pntemplates/content_edit_newpage.html:54
 #: pntemplates/content_edit_newcontent.html:19
@@ -1022,7 +1022,7 @@ msgstr "Seite im Menü anzeigen"
 
 #: pntemplates/content_edit_editpage.html:80
 msgid "You can include/exclude the page in the menu. The page is only shown when it is also Online."
-msgstr ""
+msgstr "Die Seite kann im Menü aufgenommen/herausgenommen werden. Die Seite wird nur angezeigt, wenn diese auch \"online\" ist."
 
 #: pntemplates/content_edit_editpage.html:87
 msgid "Page state"
@@ -1061,7 +1061,7 @@ msgstr "Erstellt"
 #: pntemplates/content_include_tocedit.html:98
 #, php-format
 msgid "on $1%s by $2%s"
-msgstr ""
+msgstr "am $1%s von $2%s"
 
 #: pntemplates/content_edit_editpage.html:107
 msgid "Updated"
@@ -1332,7 +1332,7 @@ msgstr "GoogleMaps API-Key"
 
 #: pntemplates/content_admin_settings.html:37
 msgid "A Google Maps API key is no longer needed for including maps with the Javascript API v3. More information at <a href=\"http://code.google.com/apis/maps/documentation/javascript/basics.html\">Google</a>."
-msgstr ""
+msgstr "Der GoogleMaps API Schlüssel wird bei der neuen Javascript API v3 nicht mehr benötigt. Weitere Informationen unter <a href=\"http://code.google.com/apis/maps/documentation/javascript/basics.html\">Google</a>."
 
 #: pntemplates/content_admin_settings.html:40
 msgid "Flickr API key"
@@ -1357,21 +1357,21 @@ msgstr "Kategoriebenutzung"
 
 #: pntemplates/content_admin_settings.html:59
 msgid "Category Property for the first category selection"
-msgstr ""
+msgstr "Kategorieeigenschaft für die primäre Kategorieauswahl"
 
 #: pntemplates/content_admin_settings.html:61
 #, php-format
 msgid "(In the <a href=\"%s\">category registry</a> you can set the property to use for the first category)"
-msgstr ""
+msgstr "(Unter <a href=\"%s\">Kategoriezuweisung</a> kann die Eigenschaft für die primäre Kategorie gesetzt werden)"
 
 #: pntemplates/content_admin_settings.html:64
 msgid "Category Property for the second category selection"
-msgstr ""
+msgstr "Kategorieeigenschaft für die sekundäre Kategorieauswahl"
 
 #: pntemplates/content_admin_settings.html:66
 #, php-format
 msgid "(In the <a href=\"%s\">category registry</a> you can set the property to use for the second category if being used)"
-msgstr ""
+msgstr "(Unter <a href=\"%s\">Kategoriezuweisung</a> kann die Eigenschaft  falls notwendig - für die sekundäre Kategorie gesetzt werden)"
 
 #: pntemplates/content_admin_settings.html:71
 msgid "Module Dependencies"
@@ -1443,7 +1443,7 @@ msgstr "Hier werden alle Seiten verwaltet. Abhängig von den Zugriffsrechten kö
 
 #: pntemplates/content_edit_main.html:24
 msgid "Click on the arrow right of a page title for the options of that page. To drag and drop a page you must select the folder icon left of the title and drop it on the title of another page. A page with sub-pages can be expanded or contracted by clicking on the plus or minus left of the page title. To activate/deactive pages or make pages (not) available in the menu click on the led icons."
-msgstr ""
+msgstr "Über das Pfeil-Symbol rechts neben dem Seitentitel können für die ausgewählte Seite weitere Optionen ausgewählt werden. Zum Änderung der Reihenfolge muss das Symbol links vom Seitentitel ausgewählt und mittels Drag und Drop auf den Titel einer anderen Seite geschoben werden. Die Anzeige von Unterseiten kann über das Plus/Minus-Symbol erweitert bzw. komprimiert werden. Das De/Aktivieren bzw. die Aufnahme einer Seite zum Menü-Block lässt sich über die LED-Symbole steuern."
 
 #: pntemplates/contenttype/block_edit.html:4
 msgid "Please enter the Block-ID"
@@ -1460,13 +1460,13 @@ msgstr "Wiedergabe"
 #: pntemplates/contenttype/googlemap_edit.html:92
 #: pntemplates/contenttype/googlemap_translate_new.html:2
 msgid "Description to be shown below the map"
-msgstr ""
+msgstr "Beschreibung zur Anzeige unterhalb der Karte"
 
 #: pntemplates/contenttype/googlemap_translate_original.html:6
 #: pntemplates/contenttype/googlemap_edit.html:97
 #: pntemplates/contenttype/googlemap_translate_new.html:7
 msgid "Text to be shown in the popup window of the marker"
-msgstr ""
+msgstr "Text welcher im PopUp-Fenster der Markierung angezeigt werden soll"
 
 #: pntemplates/contenttype/directory_edit.html:2
 msgid "Page ID"
@@ -1513,7 +1513,7 @@ msgstr "Max. Anzahl der anzuzeigenden Einträge"
 
 #: pntemplates/contenttype/joinposition_edit.html:5
 msgid "both"
-msgstr ""
+msgstr "Beide"
 
 #: pntemplates/contenttype/joinposition_edit.html:7
 msgid "left"
@@ -1521,7 +1521,7 @@ msgstr "Links"
 
 #: pntemplates/contenttype/joinposition_edit.html:9
 msgid "right"
-msgstr ""
+msgstr "Rechts"
 
 #: pntemplates/contenttype/vimeo_translate_new.html:2
 #: pntemplates/contenttype/camtasia_translate_new.html:2
@@ -1550,7 +1550,7 @@ msgstr "Breitengrad"
 #: pntemplates/contenttype/googlemap_edit.html:60
 #: pntemplates/contenttype/googlemap_edit.html:66
 msgid "(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)"
-msgstr ""
+msgstr "(ein komma-separierter numerischer Wert mit einer Genauigkeit von 6 Dezimalstellen. Beispiel: 40.714728)"
 
 #: pntemplates/contenttype/openstreetmap_edit.html:91
 #: pntemplates/contenttype/googlemap_edit.html:64
@@ -1565,17 +1565,17 @@ msgstr "Zoomstufe"
 #: pntemplates/contenttype/openstreetmap_edit.html:99
 #: pntemplates/contenttype/googlemap_edit.html:72
 msgid "(from 0 for the entire world to 21 for individual buildings)"
-msgstr ""
+msgstr "(von 0 für die ganze Welt bis 21 für individuelle Gebäude)"
 
 #: pntemplates/contenttype/openstreetmap_edit.html:103
 #: pntemplates/contenttype/googlemap_edit.html:76
 msgid "Height of the displayed map in pixels"
-msgstr ""
+msgstr "Höhe der angezeigten Karte in Pixel"
 
 #: pntemplates/contenttype/openstreetmap_edit.html:105
 #: pntemplates/contenttype/googlemap_edit.html:78
 msgid "(below 350 pixels the navigation controls will be small)"
-msgstr ""
+msgstr "(Die Steuerelemente werden unterhalb von 350 Pixel zu klein)"
 
 #: pntemplates/contenttype/html_edit.html:13
 msgid "HTML"
@@ -1604,13 +1604,13 @@ msgstr "Wie beispielsweise \"http://www.youtube.com/watch?v=ABcDEFgHij&feature=d
 #: pntemplates/contenttype/vimeo_edit.html:9
 #: pntemplates/contenttype/camtasia_edit.html:9
 msgid "Video display width [in pixels]"
-msgstr ""
+msgstr "Breite der Videoanzeige [in Pixel]"
 
 #: pntemplates/contenttype/youtube_edit.html:14
 #: pntemplates/contenttype/vimeo_edit.html:14
 #: pntemplates/contenttype/camtasia_edit.html:14
 msgid "Video display height [in pixels]"
-msgstr ""
+msgstr "Höhe der Videoanzeige [in Pixel]"
 
 #: pntemplates/contenttype/youtube_edit.html:26
 #: pntemplates/contenttype/vimeo_edit.html:26
@@ -1647,15 +1647,15 @@ msgstr "Anzahl Fotos, die angezeigt werden sollen"
 
 #: pntemplates/contenttype/googlemap_edit.html:82
 msgid "Display the streetview control"
-msgstr ""
+msgstr "Streetview-Steuerung anzeigen"
 
 #: pntemplates/contenttype/googlemap_edit.html:87
 msgid "Display a link to directions to this location in Google Maps "
-msgstr ""
+msgstr "Link für die Routenplanung zum Ort in GoogleMap anzeigen"
 
 #: pntemplates/contenttype/googlemap_edit.html:99
 msgid "(can contain HTML markup. Leave this field empty for disabling the popup window."
-msgstr ""
+msgstr "(Darf HTML-Markup enthalten. Feld leerlassen, wenn das PopUp-Fenster deaktiviert werden soll.)"
 
 #: pntemplates/contenttype/pagesetter_pub_edit.html:2
 #: pntemplates/contenttype/pagesetter_publist_edit.html:2
@@ -1696,7 +1696,7 @@ msgstr "Kommasepariert, z.B. x=5,y=2"
 
 #: pntemplates/contenttype/googlemap_view.html:9
 msgid "Get directions from start address"
-msgstr ""
+msgstr "Routenplanung von einer Startadresse"
 
 #: pntemplates/contenttype/googlemap_view.html:11
 msgid "Show Directions"
@@ -1708,7 +1708,7 @@ msgstr "Richtungen entfernen"
 
 #: pntemplates/contenttype/googlemap_view.html:18
 msgid "Get directions to this location"
-msgstr ""
+msgstr "Routenplanung zu diesem Ort"
 
 #: pntemplates/contenttype/vimeo_edit.html:5
 msgid "Something like \"http://vimeo.com/7504225\"."
@@ -1744,27 +1744,27 @@ msgstr "Template-Format"
 
 #: pntemplates/contenttype/camtasia_translate_original.html:2
 msgid "Path to the Shockwave-Flash video"
-msgstr ""
+msgstr "Pfad zum Shockwave-Flash Video"
 
 #: pntemplates/contenttype/openstreetmap_view.html:7
 msgid "Show information on the map"
-msgstr ""
+msgstr "Informationen auf Karte anzeigen"
 
 #: pntemplates/contenttype/openstreetmap_view.html:7
 msgid "Hide information on the map"
-msgstr ""
+msgstr "Informationen auf Karte verstecken"
 
 #: pntemplates/contenttype/camtasia_edit.html:3
 msgid "Name of the Camtasia-Flash video"
-msgstr ""
+msgstr "Name des Camtasia-Flash Videos"
 
 #: pntemplates/contenttype/camtasia_edit.html:5
 msgid "You have to upload your camtasia project in the folder defined below <folder>/project/project.mp4 first. Here you have to give only the name of your project without path and file extension."
-msgstr ""
+msgstr "Das Camtasia-Projekt muss in das unterhalb des angegebenen Verzeichnisses hochgeladen werden <folder>/project/project.mp4 first. Hier muss nur der Name des Projektes (ohne Pfad und Dateierweiterung) angegeben werden."
 
 #: pntemplates/contenttype/camtasia_edit.html:24
 msgid "Folder where the files are uploaded"
-msgstr ""
+msgstr "Verzeichnis, indem die Dateien hochgeladen wurden"
 
 #: pntemplates/contenttype/slideshare_edit.html:3
 msgid "Slideshare's Wordpress code"
@@ -1772,7 +1772,7 @@ msgstr "Slideshare Wordpress-Code"
 
 #: pntemplates/contenttype/slideshare_edit.html:5
 msgid "Copy Slideshare's Wordpress embed code here (including square brackets and all). Click on Embed and Customize to show the wordpress embed code. It should look something like [slideshare id=145849&doc=prototype-jquery-going-from-one-to-the-other-1193346036472971-5]"
-msgstr ""
+msgstr "Bitte den \"Wordpress Embed Code\" (inkl. Klammern & Co. ) zur Präsentation hier eingeben. Auf \"Embed\" und \"Customize\" klicken, damit der benötigte \"Wordpress Embed Code\" angezeigt wird. Dieser sieht in etwas so aus: [slideshare id=145849&doc=prototype-jquery-going-from-one-to-the-other-1193346036472971-5]"
 
 #: pntemplates/contenttype/slideshare_edit.html:9
 msgid "Slide description"
@@ -1780,11 +1780,11 @@ msgstr "Beschreibung der Präsentation"
 
 #: pntemplates/contenttype/slideshare_edit.html:14
 msgid "Slideshare's embedded player width"
-msgstr ""
+msgstr "Breite der Slideshare-Wiedergabe"
 
 #: pntemplates/contenttype/slideshare_edit.html:19
 msgid "Slideshare's embedded player height"
-msgstr ""
+msgstr "Höhe der Slideshare-Wiedergabe"
 
 #: pntemplates/contenttype/author_edit.html:10
 msgid "Author"
