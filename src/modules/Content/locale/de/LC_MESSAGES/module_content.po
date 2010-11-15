@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: content 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-15 14:04+0000\n"
+"POT-Creation-Date: 2010-11-15 16:55+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
 "Language-Team: Carsten Volmer <carsten@zikula.org>\n"
@@ -825,8 +825,8 @@ msgid "A Content page consists of various content items in a chosen layout"
 msgstr "Eine Seite im Content-Modul besteht aus verschiedenen Inhaltselementen in einem ausgewählten Layout."
 
 #: pninit.php:286
-msgid "<p>Each created page has a specific layout, like 1 column with and without a header, 2 columns, 3 columns. The chosen layout contains various content areas. In each area you can place 1 or more content items of various kinds like: <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> <li>the output of another Zikula module.</li> </ul> Within these content areas you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>"
-msgstr ""
+msgid "<p>Each created page has a specific layout, like 1 column with and without a header, 2 columns, 3 columns. The chosen layout contains various content areas. In each area you can place 1 or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> <li>the output of another Zikula module.</li> </ul> <p>Within these content areas you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>"
+msgstr "<p>Jede erstellte Seite hat ein individuelles Layout, wie z.B. eine Spalte mit oder ohne Kopfzeile, zwei oder drei Spalten. Das ausgewählte Layout beinhaltet verschiedene Bereiche. In jedem Bereich können mehrere verschiedene Inhalte positioniert werden.</p><ul> <li>HTML Text;</li> <li>YouTube Videos;</li> <li>Google Maps;</li> <li>Flickr Fotos;</li> <li>RSS Feeds;</li> <li>Computer Code;</li> <li>Ausgabe von anderen Zikula-Modulen.</li> </ul><p>Innerhalb dieser Bereiche können die Inhalte per Drag und Drop verschoben werden.<br />Es kann eine unbegrenze Anzahl an Seiten angelegt werden, die man bei Bedarf auch hierarchisch strukturieren kann. Die dadurch erzeugte Seitenstruktur kann in einem Menü über mehrere Ebenen angezeigt werden.</p>"
 
 #: pninit.php:293
 msgid "<p><strong>This is a second HTML text content item in the left column</strong><br /> Content is an extendible module. You can create your own content plugins and layouts and other Zikula modules can also offer content items. The News published module for instance has a Content plugin for a list of the latest articles.</p>"
@@ -890,8 +890,8 @@ msgstr "Inhalt bearbeiten"
 #: pnedit.php:636
 #: pnedit.php:767
 #, php-format
-msgid "Sorry, you cannot translate an item to the same language as it's default language (\"%s\"). Change the current site language (\"%s\") to some other language on the <a href=\"%s\">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German."
-msgstr "Inhalte können nicht in die gleiche Sprache, wie die Standardsprache (\"%1$s\") übersetzt werden. Die Standardeinstellung der Website (\"%1$s\") muss dazu in den Einstellungen zur <a href=\"%s\">Mehrsprachigkeit</a> auf eine andere Sprache geändert werden.<br />Eine weitere Möglichkeit wäre, wenn man beispielsweise <strong>&amp;lang=de</strong> zur URL hinzugefügt, um so die aktive Sprache auf Deutsch zu ändern. Daraufhin kann man die Übersetzung in die deutsche Sprache vornehmen"
+msgid "Sorry, you cannot translate an item to the same language as it's default language (\"%1$s\"). Change the current site language (\"%1$s\") to some other language on the <a href=\"%2$s\">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German."
+msgstr "Inhalte können nicht in die gleiche Sprache, wie die Standardsprache (\"%1$s\") übersetzt werden. Die Standardeinstellung der Website (\"%1$s\") muss dazu in den Einstellungen zur <a href=\"%2$s\">Mehrsprachigkeit</a> auf eine andere Sprache geändert werden.<br />Eine weitere Möglichkeit wäre, wenn man beispielsweise <strong>&amp;lang=de</strong> zur URL hinzugefügt, um so die aktive Sprache auf Deutsch zu ändern. Daraufhin kann man die Übersetzung in die deutsche Sprache vornehmen"
 
 #: pnedit.php:638
 #: pntemplates/content_include_pageinfo.html:19
@@ -1654,7 +1654,7 @@ msgid "Display a link to directions to this location in Google Maps "
 msgstr "Link für die Routenplanung zum Ort in GoogleMap anzeigen"
 
 #: pntemplates/contenttype/googlemap_edit.html:99
-msgid "(can contain HTML markup. Leave this field empty for disabling the popup window."
+msgid "(can contain HTML markup. Leave this field empty for disabling the popup window.)"
 msgstr "(Darf HTML-Markup enthalten. Feld leerlassen, wenn das PopUp-Fenster deaktiviert werden soll.)"
 
 #: pntemplates/contenttype/pagesetter_pub_edit.html:2
@@ -1924,6 +1924,21 @@ msgstr "Revision #"
 msgid "Event"
 msgstr "Ereignis"
 
+#~ msgid ""
+#~ "Sorry, you cannot translate an item to the same language as it's default "
+#~ "language (\"%s\"). Change the current site language (\"%s\") to some "
+#~ "other language on the <a href=\"%s\">localisation settings</a> page.<br /"
+#~ "> Another way is to add, for instance, <strong>&amp;lang=de</strong> to "
+#~ "the url for changing the current site language to German and after that "
+#~ "the item can be translated to German."
+#~ msgstr ""
+#~ "Inhalte können nicht in die gleiche Sprache, wie die Standardsprache (\"%1"
+#~ "$s\") übersetzt werden. Die Standardeinstellung der Website (\"%1$s\") "
+#~ "muss dazu in den Einstellungen zur <a href=\"%s\">Mehrsprachigkeit</a> "
+#~ "auf eine andere Sprache geändert werden.<br />Eine weitere Möglichkeit "
+#~ "wäre, wenn man beispielsweise <strong>&amp;lang=de</strong> zur URL "
+#~ "hinzugefügt, um so die aktive Sprache auf Deutsch zu ändern. Daraufhin "
+#~ "kann man die Übersetzung in die deutsche Sprache vornehmen"
 #~ msgid "%s"
 #~ msgstr "%s"
 #~ msgid "http://"
