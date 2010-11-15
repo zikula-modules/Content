@@ -62,6 +62,8 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         } elseif (!$this->includeSubpage && $this->pid != 0)
             $options['filter']['pageId'] = $this->pid;
 
+        $options['filter']['checkInMenu'] = true;
+
         if ($this->includeHeading)
             $options['includeContent'] = true;
         $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
