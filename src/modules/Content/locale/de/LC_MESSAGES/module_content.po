@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: content 3.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-15 16:55+0000\n"
+"POT-Creation-Date: 2010-11-16 10:08+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Carsten Volmer <carsten@zikula.org>\n"
 "Language-Team: Carsten Volmer <carsten@zikula.org>\n"
@@ -451,7 +451,7 @@ msgid "Content menu block"
 msgstr "Content Menüblock"
 
 #: pnblocks/menu.php:90
-#: pncontenttypesapi/directory.php:129
+#: pncontenttypesapi/directory.php:135
 msgid "All pages"
 msgstr "Alle Seiten"
 
@@ -638,15 +638,15 @@ msgstr "Anzeige beliebiger Inhalte aus jedem installierten Modul."
 msgid "Maximum number of pages-in-pages reached! You probably included this page in itself."
 msgstr "Maximale Anzahl der Seiten-in-Seiten erreicht! Möglicherweise wurde diese Seite in sich selbst eingebunden und dadurch eine Endlosschleife erzeugt."
 
-#: pncontenttypesapi/directory.php:28
+#: pncontenttypesapi/directory.php:29
 msgid "Table of contents"
 msgstr "Inhaltsverzeichnis"
 
-#: pncontenttypesapi/directory.php:33
+#: pncontenttypesapi/directory.php:34
 msgid "A table of contents of headings and subpages (build from this module's pages)."
 msgstr "Inhaltsverzeichnis mit Überschriften und Unterseiten."
 
-#: pncontenttypesapi/directory.php:114
+#: pncontenttypesapi/directory.php:120
 #, php-format
 msgid "Table of contents of %1$s"
 msgstr "Inhaltsverzeichnis von %1$s"
@@ -833,14 +833,18 @@ msgid "<p><strong>This is a second HTML text content item in the left column</st
 msgstr "<p><strong>Das ist ein zweites Inhaltselement mit HTML Text in der linken Spalte.<br />Content ist ein erweiterbares Modul. Es können eigene Plugins und Layouts erstellt werden und auch zusätzliche Zikula-Module können weitere Features hinzufügen. So bietet beispielsweise das News-Modul ein Content-Plugin für die Anzeige der neuesten Beiträge an.</p>"
 
 #: pninit.php:300
-msgid "// A bit of computer code. <br />if ($content == 'example')<br />{$this->show_this_code('example');<br />}"
-msgstr "// Ein wenig Computer-Code. <br />if ($content == 'example')<br />{$this->show_this_code('example');<br />}"
+msgid "No matter what your needs, Zikula can provide the solution."
+msgstr "Unabhängig davon, wie die eigenen Erfordernisse sind. Zikula bietet immer eine passende Lösung."
 
-#: pninit.php:306
+#: pninit.php:307
+msgid "$this->doAction($var); // just some code"
+msgstr "$this->doAction($var); // just some code"
+
+#: pninit.php:313
 msgid "<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column (62|38) layout</strong> which has a header, 2 colums with 62% width on the left and 38% width on the right and a footer</p>"
 msgstr "<p>Man erkennt, dass man mit dem Modul die unterschiedlichsten Inhalte nach Belieben positionieren und gestalten kann. Das macht Content zu einem sehr leistungsfähigen Modul.</p><p>Diese Seite nutzt ein <strong>2-Spalten (62|38)-Layout</strong>, welches aus einer Kopfzeile, zwei Spalten (62% Breite auf der linken Seite und 38% Breite in der rechten Spalte) und einer Fußzeile besteht.</p>"
 
-#: pninit.php:313
+#: pninit.php:320
 msgid "This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href=\"index.php?module=content&type=edit\">Page list</a> interface lets you edit or delete this introduction page. In the <a href=\"index.php?module=content&type=admin\">administration</a> interface you can further control the Content module."
 msgstr "Dieser <strong>Fußbereich</strong> beendet die Einführungsseite. Viel Spaß bei der Benutzung von Content. Über die <a href=\"index.php?module=content&type=edit\">Seitenliste</a> kann diese Einführungsseite bearbeitet oder gelöscht werden. In der <a href=\"index.php?module=content&type=admin\">Administrationsoberfläche</a> können die Moduleinstellungen verwaltet werden."
 
@@ -1060,8 +1064,8 @@ msgstr "Erstellt"
 #: pntemplates/content_edit_editpage.html:108
 #: pntemplates/content_include_tocedit.html:98
 #, php-format
-msgid "on $1%s by $2%s"
-msgstr "am $1%s von $2%s"
+msgid "on %1$s by %2$s"
+msgstr "am %1$s von %2$s"
 
 #: pntemplates/content_edit_editpage.html:107
 msgid "Updated"
@@ -1278,8 +1282,8 @@ msgstr "Nein"
 
 #: pntemplates/content_include_tocedit.html:104
 #, php-format
-msgid "$1%s ($2%s original)"
-msgstr "$1%s ($2%s Original)"
+msgid "%1$s (%2$s original)"
+msgstr "%1$s (%2$s Original)"
 
 #: pntemplates/content_include_tocedit.html:104
 #, php-format
@@ -1473,12 +1477,16 @@ msgid "Page ID"
 msgstr "Seiten ID"
 
 #: pntemplates/contenttype/directory_edit.html:7
-msgid "Include headings into table"
+msgid "Include headings into the table"
 msgstr "Überschriften im Verzeichnis aufnehmen"
 
 #: pntemplates/contenttype/directory_edit.html:12
-msgid "Include subpages into table"
+msgid "Include subpages into the table"
 msgstr "Unterseiten im Verzeichnis aufnehmen"
+
+#: pntemplates/contenttype/directory_edit.html:17
+msgid "Include subpages that are not in the menus"
+msgstr "Unterseiten, die nicht im Menü sind, aufnehmen"
 
 #: pntemplates/contenttype/heading_edit.html:9
 msgid "Header size"
@@ -1923,4 +1931,11 @@ msgstr "Revision #"
 #: pntemplates/content_edit_history.html:22
 msgid "Event"
 msgstr "Ereignis"
+
+#~ msgid ""
+#~ "// A bit of computer code. <br />if ($content == 'example')<br />{$this-"
+#~ ">show_this_code('example');<br />}"
+#~ msgstr ""
+#~ "// Ein wenig Computer-Code. <br />if ($content == 'example')<br />{$this-"
+#~ ">show_this_code('example');<br />}"
 

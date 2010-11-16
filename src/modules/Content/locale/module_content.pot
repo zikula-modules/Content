@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.2.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-15 16:55+0000\n"
+"POT-Creation-Date: 2010-11-16 10:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -445,7 +445,7 @@ msgstr ""
 msgid "Content menu block"
 msgstr ""
 
-#: pnblocks/menu.php:90 pncontenttypesapi/directory.php:129
+#: pnblocks/menu.php:90 pncontenttypesapi/directory.php:135
 msgid "All pages"
 msgstr ""
 
@@ -641,17 +641,17 @@ msgid ""
 "itself."
 msgstr ""
 
-#: pncontenttypesapi/directory.php:28
+#: pncontenttypesapi/directory.php:29
 msgid "Table of contents"
 msgstr ""
 
-#: pncontenttypesapi/directory.php:33
+#: pncontenttypesapi/directory.php:34
 msgid ""
 "A table of contents of headings and subpages (build from this module's "
 "pages)."
 msgstr ""
 
-#: pncontenttypesapi/directory.php:114
+#: pncontenttypesapi/directory.php:120
 #, php-format
 msgid "Table of contents of %1$s"
 msgstr ""
@@ -848,12 +848,14 @@ msgid ""
 msgstr ""
 
 #: pninit.php:300
-msgid ""
-"// A bit of computer code. <br />if ($content == 'example')<br />{$this-"
-">show_this_code('example');<br />}"
+msgid "No matter what your needs, Zikula can provide the solution."
 msgstr ""
 
-#: pninit.php:306
+#: pninit.php:307
+msgid "$this->doAction($var); // just some code"
+msgstr ""
+
+#: pninit.php:313
 msgid ""
 "<p>So you see that you can place all kinds of content on the page in your "
 "own style and liking. This makes Content a really powerful module.</p> "
@@ -862,7 +864,7 @@ msgid ""
 "footer</p>"
 msgstr ""
 
-#: pninit.php:313
+#: pninit.php:320
 msgid ""
 "This <strong>footer</strong> finishes of this introduction page. Good luck "
 "with using Content. The <a href=\"index.php?module=content&type=edit\">Page "
@@ -1091,7 +1093,7 @@ msgstr ""
 #: pntemplates/content_edit_editpage.html:108
 #: pntemplates/content_include_tocedit.html:98
 #, php-format
-msgid "on $1%s by $2%s"
+msgid "on %1$s by %2$s"
 msgstr ""
 
 #: pntemplates/content_edit_editpage.html:107
@@ -1314,7 +1316,7 @@ msgstr ""
 
 #: pntemplates/content_include_tocedit.html:104
 #, php-format
-msgid "$1%s ($2%s original)"
+msgid "%1$s (%2$s original)"
 msgstr ""
 
 #: pntemplates/content_include_tocedit.html:104
@@ -1541,11 +1543,15 @@ msgid "Page ID"
 msgstr ""
 
 #: pntemplates/contenttype/directory_edit.html:7
-msgid "Include headings into table"
+msgid "Include headings into the table"
 msgstr ""
 
 #: pntemplates/contenttype/directory_edit.html:12
-msgid "Include subpages into table"
+msgid "Include subpages into the table"
+msgstr ""
+
+#: pntemplates/contenttype/directory_edit.html:17
+msgid "Include subpages that are not in the menus"
 msgstr ""
 
 #: pntemplates/contenttype/heading_edit.html:9
