@@ -1,0 +1,60 @@
+<!--[pnajaxheader modname='content' noscriptaculous=1]-->
+<!--[pnpageaddvar name="javascript" value="modules/content/pnjavascript/pagelayout.js"]-->
+<!--[contentpageheading __header='Add new page' __subheader="Select layout"]-->
+<!--[if isset($page)]--><div class="content-page-path"><!--[$locationLabel]--><!--[contentpagepath pageId=$page.id]--></div><!--[/if]-->
+
+<!--[insert name="getstatusmsg"]-->
+<!--[pnform cssClass='z-form']-->
+<!--[pnformsetinitialfocus inputId='title']-->
+<!--[pnformerrormessage id='error']-->
+
+<script type="text/javascript" >
+    //<![CDATA[
+    // store the image location and description in a JS array
+    var images = [];
+    var descs = [];
+    <!--[foreach from=$layouts item=layout]-->
+        images.push('<!--[$layout.image]-->');
+        descs.push('<!--[$layout.description]-->');
+    <!--[/foreach]-->
+    //]]>
+</script>
+
+<!--[contentformframe]-->
+<fieldset>
+    <div class="z-formrow">
+        <!--[pnformlabel for='title' __text='Page title']-->
+        <!--[pnformtextinput id='title' mandatory='1' maxLength='255']-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for='urlname' __text='Permalink URL']-->
+        <!--[pnformtextinput id='urlname' maxLength='255']-->
+        <!--[contentlabelhelp __text='(Used in shorturl mode and generated automatically if left blank)']-->
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend><!--[gt text="Please select a specific layout for your page"]--></legend>
+    <div class="z-formrow">
+        <!--[pnformlabel for='layout' __text='Page layout']-->
+        <!--[contentlayoutselector id='layout']-->
+    </div>
+    <div class="z-formrow">
+        <!--[pnformlabel for="layout_preview" __text='Layout preview and description']-->
+        <div id="layout_preview">
+            <img id="layout_preview_img" src="<!--[$layouts.0.image]-->" alt="" />
+        </div>
+    </div>
+    <p id="layout_preview_desc" class="z-formnote"><!--[$layouts.0.description]--></p>
+</fieldset>
+
+<!--[pnmodcallhooks hookobject='item' hookaction='new' module='content']-->
+
+<div class="z-buttons z-formbuttons">
+<!--[pnformbutton commandName="create" __text="Create"]-->
+<!--[pnformbutton commandName="cancel" __text="Cancel"]-->
+</div>
+
+<!--[/contentformframe]-->
+
+<!--[/pnform]-->
