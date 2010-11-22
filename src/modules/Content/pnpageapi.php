@@ -383,7 +383,7 @@ function content_pageapi_newPage($args)
 
     if (!isset($pageData['urlname']) || empty($pageData['urlname']))
         $pageData['urlname'] = $pageData['title'];
-    $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+    $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
     $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
     if (!$ok)
@@ -439,7 +439,7 @@ function content_pageapi_updatePage($args)
 
     if (!isset($pageData['urlname']) || empty($pageData['urlname']))
         $pageData['urlname'] = $pageData['title'];
-    $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+    $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
     if (!pnModApiFunc('content', 'page', 'isUniqueUrlnameByPageId', array('urlname' => $pageData['urlname'], 'pageId' => $pageId)))
         return LogUtil::registerError(__('Error! There is already another page registered with the supplied permalink URL.', $dom));
@@ -680,7 +680,7 @@ function content_pageapi_clonePage($args)
 
     if (!isset($pageData['urlname']) || empty($pageData['urlname']))
         $pageData['urlname'] = $pageData['title'];
-    $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+    $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
     $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
     if (!$ok)
@@ -767,7 +767,7 @@ function content_pageapi_reinsertPage($args)
 
     $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
     while (!$ok) {
-        $pageData['urlname'] = DataUtil::formatPermalink(strtolower(RandomUtil::getString(12, 12, false, true, true, false, true, false, true)));
+        $pageData['urlname'] = DataUtil::formatPermalink(RandomUtil::getString(12, 12, false, true, true, false, true, false, true));
         $ok = pnModAPIFunc('content', 'page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
     }
 
