@@ -21,7 +21,7 @@ class content_contenttypesapi_pagenavigationPlugin extends contentTypeBase
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return __('Seitennavigation', $dom);
+        return __('Page navigation', $dom);
     }
     function getDescription()
     {
@@ -69,7 +69,7 @@ class content_contenttypesapi_pagenavigationPlugin extends contentTypeBase
     function displayEditing()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return "<h3>" . __('Seitennavigation', $dom)."</h3>";
+        return "<h3>" . __('Page navigation', $dom)."</h3>";
     }
 
     function getSearchableText()
