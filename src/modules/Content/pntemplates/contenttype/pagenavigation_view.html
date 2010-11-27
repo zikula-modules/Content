@@ -1,0 +1,13 @@
+<!--[if $nextpage || $prevpage]-->
+<table width="100%" border="0">
+    <tr>
+        <td style="background: none repeat scroll 0% 0% transparent ! important;" width="25%"><!--[if $prevpage]-->
+            <a href="<!--[pnmodurl modname=content type=user func=view pid=$prevpage.id]-->" <!--[if $prevpage.onlymembers && !$loggedin]-->class="membersonly"<!--[/if]--> title="<!--[$prevpage.title|pnvarprepfordisplay]-->">&lt;- Zur&uuml;ck</a>
+            <!--[/if]--></td>
+        <td style="background: none repeat scroll 0% 0% transparent ! important;" align="center"><a href="<!--[pnmodurl modname=content type=user func=view pid=$page.parentPageId]-->">&Uuml;bersicht</a></td>
+        <td style="background: none repeat scroll 0% 0% transparent ! important;" width="25%" align="right"><!--[if $nextpage]-->
+            <a href="<!--[pnmodurl modname=content type=user func=view pid=$nextpage.id]-->" <!--[if $nextpage.onlymembers && !$loggedin]-->class="membersonly"<!--[/if]--> title="<!--[$nextpage.title|pnvarprepfordisplay]-->">Weiter -&gt;</a>
+            <!--[/if]--></td>
+    </tr>
+</table>
+<!--[/if]-->
