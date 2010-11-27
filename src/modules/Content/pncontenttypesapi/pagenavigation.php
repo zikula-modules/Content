@@ -46,17 +46,25 @@ class content_contenttypesapi_pagenavigationPlugin extends contentTypeBase
         $pageColumn = $pntable['content_page_column'];
 
         $options = array('makeTree' => true);
-        $options['orderBy'] = 'setLeft';
+        $options['orderBy'] = 'position';
+        $options['orderDir'] = 'desc';
+        $options['pageSize'] = 1;
         $options['filter']['superParentId'] = $page['parentPageId'];
-        $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] in ($page[position]-1,$page[position]+1)";
 
-        $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
-        foreach ($pages as $currentPage) {
-            if ($currentPage['position'] == $page['position']-1) {
-                $prevpage = $currentPage;
-            } else {
-                $nextpage = $currentPage;
+        if ($page[position] > 0) {
+            $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] < $page[position]";
+    
+            $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
+            if (count($pages) > 0) {
+                $prevpage = $pages[0];
             }
+        }
+
+        $options['orderDir'] = 'asc';
+        $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
+        $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
+        if (count($pages) > 0) {
+            $nextpage = $pages[0];
         }
 
         $render = & pnRender::getInstance('content', false);
