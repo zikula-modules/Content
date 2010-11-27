@@ -120,6 +120,15 @@ function content_user_view($args)
 
     contentAddAccess($render, $pageId);
 
+    // exclude writers from statistics
+    if (!$hasEditAccess && !$preview && !$editmode && pnModGetVar('content', 'countViews')) {
+        // Check against session to see if user was already counted
+        if (!SessionUtil::getVar("ContentRead" . $pageId)) {
+            SessionUtil::setVar("ContentRead" . $pageId, $pageId);
+            DBUtil::incrementObjectFieldByID('content_page', 'views', $pageId);
+        }
+    }
+
     return $versionHtml . $render->fetch('content_user_page.html');
 }
 
