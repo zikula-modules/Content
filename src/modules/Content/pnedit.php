@@ -304,6 +304,12 @@ class content_edit_editPageHandler extends pnFormHandler
                 return $render->pnFormRegisterError(null);
 
             $url = pnModUrl('content', 'edit', 'editpage', array('pid' => $this->pageId));
+        } else if ($args['commandName'] == 'cloneContent') {
+            $clonedId = pnModAPIFunc('content', 'content', 'cloneContent', array('id' => (int) $args['commandArgument'], 'translation' => true));
+            if ($clonedId === false) {
+                return $render->pnFormRegisterError(null);
+            }
+            $url = pnModUrl('content', 'edit', 'editcontent', array('cid' => $clonedId));
         } else if ($args['commandName'] == 'deletePage') {
             $ok = pnModAPIFunc('content', 'page', 'deletePage', array('pageId' => $this->pageId));
             if ($ok === false)
@@ -490,28 +496,6 @@ function content_edit_newcontent($args)
     return $render->pnFormExecute('content_edit_newcontent.html', new content_edit_newContentHandler($args));
     //echo $render->pnFormExecute('content_blankpage.html', new content_edit_newContentHandler($args));
 //return true;
-}
-
-/*=[ Clone single content item ]==================================================*/
-
-function content_edit_clonecontent($args) {
-    $contentId = (int) FormUtil::getPassedValue('cid', isset($args['cid']) ? $args['cid'] : -1);
-
-    $content = pnModAPIFunc('content', 'content', 'getContent', array('id' => $contentId, 'translate' => false));
-    if ($content === false) {
-        return LogUtil::registerError(__('Error! No content found.'), 404);
-    }
-
-    if (!contentHasPageEditAccess($content['pageId'])) {
-        return LogUtil::registerPermissionError();
-    }
-
-    $clonedId = pnModAPIFunc('content', 'content', 'cloneContent', array('id' => $contentId, 'translation' => true));
-    if ($clonedId === false) {
-        return LogUtil::registerError(__('Error! Could not clone content.'), pnModUrl('content', 'edit', 'editpage', array('pid' => $content['pageId'])));
-    }
-
-    return pnRedirect(pnModUrl('content', 'edit', 'editcontent', array('cid' => $clonedId)));
 }
 
 /*=[ Edit single content item ]==================================================*/
