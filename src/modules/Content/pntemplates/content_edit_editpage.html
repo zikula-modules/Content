@@ -20,6 +20,7 @@
 <!--[pnmodurl modname=content type=edit func=editcontent cid="{commandArgument}" assign=editUrl]-->
 <!--[pnmodurl modname=content type=edit func=newcontent above=1 cid="{commandArgument}" assign=aboveUrl]-->
 <!--[pnmodurl modname=content type=edit func=newcontent above=0 cid="{commandArgument}" assign=belowUrl]-->
+<!--[pnmodurl modname=content type=edit func=clonecontent cid="{commandArgument}" assign=cloneContent]-->
 <!--[pnmodurl modname=content type=edit func=translatecontent cid="{commandArgument}" assign=translateUrl]-->
 
 <!--[insert name="getstatusmsg"]-->
@@ -29,6 +30,7 @@
 <!--[pnformcontextmenu id="contentEditMenu" width="auto"]-->
 <!--[pnformcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandRedirect=$editUrl]-->
 <!--[if $access.pageCreateAllowed]-->
+<!--[pnformcontextmenuitem __title='Clone content' imageURL="images/icons/extrasmall/editcopy.gif" commandRedirect="$cloneContent"]-->
 <!--[pnformcontextmenuitem __title='Add new content above' imageURL="images/icons/extrasmall/insert_table_row_above.gif" commandRedirect=$aboveUrl]-->
 <!--[pnformcontextmenuitem __title='Add new content below' imageURL="images/icons/extrasmall/insert_table_row.gif" commandRedirect=$belowUrl]-->
 <!--[/if]-->

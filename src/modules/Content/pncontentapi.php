@@ -487,6 +487,60 @@ WHERE $contentColumn[pageId] = $pageId";
     return $pos === null ? -1 : (int) $pos;
 }
 
+/*=[ Clone content element on same page ]====================================================*/
+// TODO: maybe reuse in/with copyContentOfPageToPage
+
+function content_contentapi_cloneContent($args)
+{
+    $dom = ZLanguage::getModuleDomain('content');
+    $contentId = (int)$args['id'];
+    $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
+    $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
+
+    $contentData = DBUtil::selectObjectByID('content_content', $contentId);
+    if ($contentData === false) {
+        return false;
+    }
+
+    $searchableData = DBUtil::selectObjectByID('content_searchable', $contentId, 'contentId');
+
+    $contentData['position']++;
+    unset($contentData['id']);
+
+    if ($cloneTranslation) {
+        $pntable = pnDBGetTables();
+        $translatedColumn = $pntable['content_translatedcontent_column'];
+        $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'].'='.$contentId);
+    }
+
+    if (!contentMoveContentDown($contentData['position'], $contentData['areaIndex'], $contentData['pageId'])) {
+        return false;
+    }
+
+    DBUtil::insertObject($contentData, 'content_content');
+
+    if (!($searchableData === false)) {
+        $searchableData['contentId'] = $contentData['id'];
+        DBUtil::insertObject($searchableData, 'content_searchable');
+    }
+
+    if ($cloneTranslation && count($translations) > 0) {
+        foreach ($translations as &$t) {
+            $t['contentId'] = $contentData['id'];
+        }
+        DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
+    }
+
+    if ($addVersion) {
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
+        if ($ok === false)
+            return false;
+    }
+
+    contentClearCaches();
+    return $contentData['id'];
+}
+
 /*=[ Update content element ]====================================================*/
 
 function content_contentapi_updateContent($args)

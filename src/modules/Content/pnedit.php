@@ -492,6 +492,28 @@ function content_edit_newcontent($args)
 //return true;
 }
 
+/*=[ Clone single content item ]==================================================*/
+
+function content_edit_clonecontent($args) {
+    $contentId = (int) FormUtil::getPassedValue('cid', isset($args['cid']) ? $args['cid'] : -1);
+
+    $content = pnModAPIFunc('content', 'content', 'getContent', array('id' => $contentId, 'translate' => false));
+    if ($content === false) {
+        return LogUtil::registerError(__('Error! No content found.'), 404);
+    }
+
+    if (!contentHasPageEditAccess($content['pageId'])) {
+        return LogUtil::registerPermissionError();
+    }
+
+    $clonedId = pnModAPIFunc('content', 'content', 'cloneContent', array('id' => $contentId, 'translation' => true));
+    if ($clonedId === false) {
+        return LogUtil::registerError(__('Error! Could not clone content.'), pnModUrl('content', 'edit', 'editpage', array('pid' => $content['pageId'])));
+    }
+
+    return pnRedirect(pnModUrl('content', 'edit', 'editcontent', array('cid' => $clonedId)));
+}
+
 /*=[ Edit single content item ]==================================================*/
 
 class content_edit_editContentHandler extends pnFormHandler
