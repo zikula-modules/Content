@@ -46,7 +46,7 @@ class contentTypeBase implements Zikula_Translatable
 	{
         $this->domain = ZLanguage::getModuleDomain('Content');
 	}
-	
+
     /**
      * Translate.
      *
