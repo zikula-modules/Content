@@ -80,7 +80,7 @@ function content_tables()
         'position'        => "I NOTNULL DEFAULT 0",
         'module'          => "C(100) NOTNULL DEFAULT ''",
         'type'            => "C(100) NOTNULL DEFAULT ''",
-        'data'            => "X",
+        'data'            => "XL",
         'active'          => "I1 NOTNULL DEFAULT 1",
         'stylePosition'   => "C(20) NOTNULL DEFAULT 'none'",
         'styleWidth'      => "C(20) NOTNULL DEFAULT 'wauto'",
@@ -149,7 +149,7 @@ function content_tables()
     $tables['content_translatedcontent_column_def'] = array(
         'contentId' => 'I NOTNULL DEFAULT 0',
         'language'  => 'C(10) NOTNULL',
-        'data'      => 'X'
+        'data'      => 'XL'
     );
     ObjectUtil::addStandardFieldsToTableDefinition ($tables['content_translatedcontent_column'], 'transc_');
     ObjectUtil::addStandardFieldsToTableDataDefinition($tables['content_translatedcontent_column_def']);
