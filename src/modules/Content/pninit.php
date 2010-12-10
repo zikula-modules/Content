@@ -47,6 +47,7 @@ function content_init()
     pnModSetVar('content', 'categoryPropPrimary', 'primary');
     pnModSetVar('content', 'categoryPropSecondary', 'primary');
     pnModSetVar('content', 'newPageState', '1');
+    pnModSetVar('content', 'countViews', '0');
 
     // create the default data for the Content module
     content_defaultdata();        
@@ -236,9 +237,13 @@ function contentUpgrade_3_2_0($oldVersion)
 function contentUpgrade_3_2_1($oldVersion)
 {
     // update the database
+    DBUtil::changeTable('content_page');
     DBUtil::changeTable('content_content');
     DBUtil::changeTable('content_translatedcontent');
     
+    // add new variable(s)
+    pnModSetVar('content', 'countViews', '0');
+
     // clear compiled templates and Content cache
     pnModAPIFunc('pnRender', 'user', 'clear_compiled');
     pnModAPIFunc('pnRender', 'user', 'clear_cache', array('module' => 'content'));

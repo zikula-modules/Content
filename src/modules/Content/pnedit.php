@@ -304,6 +304,12 @@ class content_edit_editPageHandler extends pnFormHandler
                 return $render->pnFormRegisterError(null);
 
             $url = pnModUrl('content', 'edit', 'editpage', array('pid' => $this->pageId));
+        } else if ($args['commandName'] == 'cloneContent') {
+            $clonedId = pnModAPIFunc('content', 'content', 'cloneContent', array('id' => (int) $args['commandArgument'], 'translation' => true));
+            if ($clonedId === false) {
+                return $render->pnFormRegisterError(null);
+            }
+            $url = pnModUrl('content', 'edit', 'editcontent', array('cid' => $clonedId));
         } else if ($args['commandName'] == 'deletePage') {
             $ok = pnModAPIFunc('content', 'page', 'deletePage', array('pageId' => $this->pageId));
             if ($ok === false)

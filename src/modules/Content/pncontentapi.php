@@ -487,6 +487,60 @@ WHERE $contentColumn[pageId] = $pageId";
     return $pos === null ? -1 : (int) $pos;
 }
 
+/*=[ Clone content element on same page ]====================================================*/
+// TODO: maybe reuse in/with copyContentOfPageToPage
+
+function content_contentapi_cloneContent($args)
+{
+    $dom = ZLanguage::getModuleDomain('content');
+    $contentId = (int)$args['id'];
+    $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
+    $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
+
+    $contentData = DBUtil::selectObjectByID('content_content', $contentId);
+    if ($contentData === false) {
+        return false;
+    }
+
+    $searchableData = DBUtil::selectObjectByID('content_searchable', $contentId, 'contentId');
+
+    $contentData['position']++;
+    unset($contentData['id']);
+
+    if ($cloneTranslation) {
+        $pntable = pnDBGetTables();
+        $translatedColumn = $pntable['content_translatedcontent_column'];
+        $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'].'='.$contentId);
+    }
+
+    if (!contentMoveContentDown($contentData['position'], $contentData['areaIndex'], $contentData['pageId'])) {
+        return false;
+    }
+
+    DBUtil::insertObject($contentData, 'content_content');
+
+    if (!($searchableData === false)) {
+        $searchableData['contentId'] = $contentData['id'];
+        DBUtil::insertObject($searchableData, 'content_searchable');
+    }
+
+    if ($cloneTranslation && count($translations) > 0) {
+        foreach ($translations as &$t) {
+            $t['contentId'] = $contentData['id'];
+        }
+        DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
+    }
+
+    if ($addVersion) {
+        $ok = pnModAPIFunc('content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
+        if ($ok === false)
+            return false;
+    }
+
+    contentClearCaches();
+    return $contentData['id'];
+}
+
 /*=[ Update content element ]====================================================*/
 
 function content_contentapi_updateContent($args)
@@ -550,6 +604,9 @@ function content_contentapi_copyContentOfPageToPage($args)
     if ($fromPage <= 0 || $toPage <= 0) { return false; }
     $cloneTranslation = isset($args['cloneTranslation']) ? $args['cloneTranslation'] : true;
 
+    $pntable = pnDBGetTables();
+    $translatedColumn = $pntable['content_translatedcontent_column'];
+
     $content = pnModAPIFunc('content', 'content', 'GetSimplePageContent', array('pageId' => $fromPage));
     for ($i = 0; $i < count($content); $i++) {
         $contentData = $content[$i];
@@ -557,10 +614,12 @@ function content_contentapi_copyContentOfPageToPage($args)
         $contentData['pageId'] = $toPage;
         DBUtil::insertObject($contentData, 'content_content', 'id');
         if ($cloneTranslation) {
-            $translatedData = DBUtil::selectObjectByID('content_translatedcontent', $contentData['id'], 'contentId');
-            if ($translatedData) {
-                $translatedData['contentId'] = $contentData['id'];
-                DBUtil::insertObject($translatedData, 'content_translatedcontent');
+            $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'].'='.$contentData['id']);
+            if (!($translations === false) && count($translations) > 0) {
+                foreach ($translations as &$t) {
+                    $t['contentId'] = $contentData['id'];
+                }
+                DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
             }
         }
         $searchData = DBUtil::selectObjectByID('content_searchable', $contentData['id'], 'contentId');
