@@ -14,7 +14,7 @@
     var descs = [];
     {{foreach from=$layouts item=layout}}
     images.push('{{$layout.image}}');
-    descs.push('{{$layout.description}}');
+    descs.push('{{$layout.description|safetext}}');
     {{/foreach}}
     //]]>
 </script>

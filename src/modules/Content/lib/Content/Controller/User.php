@@ -57,8 +57,6 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function view($args)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-
         $pageId = isset($args['pid']) ? $args['pid'] : FormUtil::getPassedValue('pid');
         $versionId = isset($args['vid']) ? $args['vid'] : FormUtil::getPassedValue('vid');
         $urlname = isset($args['name']) ? $args['name'] : FormUtil::getPassedValue('name');
@@ -84,7 +82,7 @@ class Content_Controller_User extends Zikula_Controller
             //var_dump($version);
             $translatable = array('revisionNo' => $version['revisionNo'], 'date' => $version['date'], 'action' => constant($version['action']), 'userName' => $version['userName'], 'ipno' => $version['ipno']);
             $iconSrc = 'images/icons/extrasmall/clock.gif';
-            $versionHtml = "<p class=\"content-versionpreview\"><img alt=\"\" src=\"$iconSrc\"/> " . __f('Version #%1$s - %2$s - %3$s by %4$s from %5$s', $translatable, $dom) . "</p>";
+            $versionHtml = "<p class=\"content-versionpreview\"><img alt=\"\" src=\"$iconSrc\"/> " . $this->__f('Version #%1$s - %2$s - %3$s by %4$s from %5$s', $translatable) . "</p>";
         } else if ($pageId === null && !empty($urlname)) {
             $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', compact('urlname'));
             System::queryStringSetVar('pid', $pageId);
@@ -94,7 +92,7 @@ class Content_Controller_User extends Zikula_Controller
             return LogUtil::registerPermissionError();
 
         if ($pageId !== null && $versionId === null) {
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true));
+			$page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true, 'filter' => array('checkActive' => !($preview && $hasEditAccess))));
         } else if ($versionId === null)
             return LogUtil::registerArgsError();
 
@@ -106,7 +104,7 @@ class Content_Controller_User extends Zikula_Controller
             $multilingual = false;
 
         $pageTitle = html_entity_decode($page['title']);
-        PageUtil::setVar('title', ($preview ? __("Preview", $dom) . ' - ' . $pageTitle : $pageTitle));
+        PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
 
         //$layoutTemplate = 'layout/' . $page['layoutData']['name'] . '.html';
         $view = Zikula_View::getInstance('Content');
@@ -212,7 +210,7 @@ class Content_Controller_User extends Zikula_Controller
         }
 
         if ($pageId === null)
-            return LogUtil::registerError(__('Error! Unknown page.', $dom), 404);
+            return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
 
         if (!contentHasPageViewAccess($pageId))
             return LogUtil::registerPermissionError();
@@ -233,7 +231,6 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function sitemap($args)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         if (!contentHasPageViewAccess())
             return LogUtil::registerPermissionError();
 
@@ -241,7 +238,7 @@ class Content_Controller_User extends Zikula_Controller
         if ($pages === false)
             return false;
 
-        PageUtil::setVar('title', __('Sitemap', $dom));
+        PageUtil::setVar('title', $this->__('Sitemap'));
 
         $view = Zikula_View::getInstance('Content');
         $view->assign('pages', $pages);

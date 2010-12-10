@@ -483,17 +483,28 @@ div.content-pageinfo .content a.editon {
 }
 
 .contextMenu {
-    border:1px solid transparent;
-    cursor:pointer;
-    padding:1px;
-    vertical-align:middle;
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: 1px;
+    vertical-align: middle;
 }
 
 .contextMenu:hover {
     -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    border:1px solid #333;
+    border: 1px solid #333;
+}
+
+.con_area {
+    background :#FAFAFA;
+    border-bottom: 1px dashed #777777;
+    color: #444444;
+    display: block;
+    font-size: 0.8em;
+    margin: 1px 0;
+    padding: 1px;
+    text-transform: uppercase;
 }
 
 .z-buttons input.con-bt-clone {

@@ -25,7 +25,7 @@ class Content_Form_Handler_Edit_NewPage extends Form_Handler
         }
 
         if ($this->pageId != null) {
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false));
+            $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
             if ($page === false) {
                 return $view->registerError(null);
             }

@@ -26,13 +26,11 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('camtasia-Flash video', $dom);
+        return $this->__('camtasia-Flash video');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display camtasia-Flash video.', $dom);
+        return $this->__('Display camtasia-Flash video.');
     }
     function isTranslatable()
     {
@@ -49,15 +47,15 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
     }
     function display()
     {
-        $render = & pnRender::getInstance('Content', false);
-        $render->assign('text', $this->text);
-        $render->assign('width', $this->width);
-        $render->assign('height', $this->height);
-        $render->assign('videoPath', $this->videoPath);
-        $render->assign('displayMode', $this->displayMode);
-        $render->assign('folder', $this->folder);
+        $view = Zikula_View::getInstance('Content', false);
+        $view->assign('text', $this->text);
+        $view->assign('width', $this->width);
+        $view->assign('height', $this->height);
+        $view->assign('videoPath', $this->videoPath);
+        $view->assign('displayMode', $this->displayMode);
+        $view->assign('folder', $this->folder);
 
-        return $render->fetch('contenttype/camtasia_view.html');
+        return $view->fetch('contenttype/camtasia_view.html');
     }
     function displayEditing()
     {
@@ -75,20 +73,17 @@ class content_contenttypesapi_camtasiaPlugin extends contentTypeBase
             $this->videoPath = $data['videoPath'];
             return true;
         }
-        //$message = $this->__('Unrecognized Flash video path');
         return false;
     }
-	function altisValid(&$data, &$message)
+	function altisValid(&$data)
 	{
 	    $videoPath = $data['folder'].'/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf';
-	
     	//'camtasia/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf';
 	
         if (is_file($data['videoPath'])) {
             $this->videoPath = $data['videoPath'];
             return true;
         }
-        $message = __('Unrecognized camtasia-Flash video path: '.$videoPath.'|'.$data['videoPath'], $dom);
         return false;
     }
 }

@@ -8,12 +8,13 @@
  * has submitted data after editing plugin. The constructor should initialize
  * object data based on the input.
  */
-class contentTypeBase
+class contentTypeBase implements Zikula_Translatable
 {
     public $pageId;
     public $contentAreaIndex;
     public $position;
     public $contentId;
+    public $domain;
 
     /**
      * Style position (none, above, topLeft, topRight, aboveLeft, aboveRight)
@@ -38,6 +39,68 @@ class contentTypeBase
      */
     public $addedStyle = false;
 
+    /**
+     * Constructor
+     */
+	public function __construct()
+	{
+        $this->domain = ZLanguage::getModuleDomain('Content');
+	}
+	
+    /**
+     * Translate.
+     *
+     * @param string $msgid String to be translated.
+     *
+     * @return string The $msgid translated by gettext.
+     */
+    public function __($msgid)
+    {
+        return __($msgid, $this->domain);
+    }
+
+    /**
+     * Translate with sprintf().
+     *
+     * @param string       $msgid  String to be translated.
+     * @param string|array $params Args for sprintf().
+     *
+     * @return string The $msgid translated by gettext.
+     */
+    public function __f($msgid, $params)
+    {
+        return __f($msgid, $params, $this->domain);
+    }
+
+    /**
+     * Translate plural string.
+     *
+     * @param string $singular Singular instance.
+     * @param string $plural   Plural instance.
+     * @param string $count    Object count.
+     *
+     * @return string Translated string.
+     */
+    public function _n($singular, $plural, $count)
+    {
+        return _n($singular, $plural, $count, $this->domain);
+    }
+
+    /**
+     * Translate plural string with sprintf().
+     *
+     * @param string       $sin    Singular instance.
+     * @param string       $plu    Plural instance.
+     * @param string       $n      Object count.
+     * @param string|array $params Sprintf() arguments.
+     *
+     * @return string The $sin or $plu translated by gettext, based on $n.
+     */
+    public function _fn($sin, $plu, $n, $params)
+    {
+        return _fn($sin, $plu, $n, $params, $this->domain);
+    }
+	
     /**
      * Get module name (for use in ModUtil::apiFunc() calls)
      * @return string

@@ -54,7 +54,6 @@ class Content_Api_Page extends Zikula_Api
      * @param orderDir string Direction for "order by" in SQL query (desc/asc) default: asc
      * @param pageIndex int Zero based page index for browsing page by page.
      * @param pageSize int Number of pages to show on each "page".
-     * @param enableEscape bool Enable HTML escape of returned text data.
      * @param language string Three letter language identifier used for translating content.
      * @param translate bool Enable translation.
      * @param makeTree bool Enable conversion of page list to recursive tree structure.
@@ -73,7 +72,6 @@ class Content_Api_Page extends Zikula_Api
         $orderDir = !empty($args['orderDir']) ? $args['orderDir'] : 'asc';
         $pageIndex = isset($args['pageIndex']) ? $args['pageIndex'] : 0;
         $pageSize = isset($args['pageSize']) ? $args['pageSize'] : 0;
-        $enableEscape = (array_key_exists('enableEscape', $args) ? $args['enableEscape'] : true);
         $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
         $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
@@ -161,8 +159,10 @@ LEFT JOIN $userTable usr
             } else
                 $p['isTranslated'] = false;
 
-            if ($enableEscape)
-                $this->contentEscapePageData($p);
+			// create page variables that represent the Online and Menu status, much like the old db fields
+			$now = DateUtil::getDatetime();
+			$p['isOnline'] = $p['active'] && (DateUtil::getDatetimeDiff_AsField($p['activeFrom'], $now, 6) >= 0 || $p['activeFrom'] == null) && (DateUtil::getDatetimeDiff_AsField($p['activeTo'], $now, 6) < 0 || $p['activeTo'] == null);
+			$p['isInMenu'] = $p['isActive'] && $p['inMenu'];
 
             if ($includeContent) {
                 $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
@@ -365,7 +365,7 @@ function dumpTree($pages)
             return LogUtil::registerError($this->__("Error! Cannot create sub-page without parent page ID"));
 
         if ($pageId > 0) {
-            $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'enableEscape' => false, 'includeContent' => false));
+            $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'includeContent' => false));
             if ($sourcePageData === false)
                 return false;
         } else
@@ -385,7 +385,7 @@ function dumpTree($pages)
 
         if (!isset($pageData['urlname']) || empty($pageData['urlname']))
             $pageData['urlname'] = $pageData['title'];
-        $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+        $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
         $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
         if (!$ok)
@@ -393,8 +393,25 @@ function dumpTree($pages)
 
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-        // create pages initially invisible
-        $pageData['active'] = 0; 
+		// set the state of new pages
+		switch ($this->getVar('newPageState')) {
+			case '1':
+				$pageData['active'] = 1;
+				$pageData['inMenu'] = 1;
+				break;
+			case '2':
+				$pageData['active'] = 0;
+				$pageData['inMenu'] = 1;
+				break;
+			case '3':
+				$pageData['active'] = 1;
+				$pageData['inMenu'] = 0;
+				break;
+			case '4':
+				$pageData['active'] = 0;
+				$pageData['inMenu'] = 0;
+				break;
+		}
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -423,12 +440,12 @@ function dumpTree($pages)
 
         if (!isset($pageData['urlname']) || empty($pageData['urlname']))
             $pageData['urlname'] = $pageData['title'];
-        $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+        $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
         if (!ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByPageId', array('urlname' => $pageData['urlname'], 'pageId' => $pageId)))
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
 
-        $oldPageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'enableEscape' => false));
+        $oldPageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false)));
         if ($oldPageData === false)
             return false;
 
@@ -639,7 +656,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageId = (int) $args['pageId']; // the page to clone
         $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
     
-        $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false, 'enableEscape' => false, 'includeContent' => false)));
+        $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false, 'includeContent' => false)));
         if ($sourcePageData === false) {
             return false;
         }
@@ -647,20 +664,20 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageData = array();
         $aKeys = array_keys($sourcePageData);
         $aVals = array_values($sourcePageData);
-        // copy all direct keys/values
-        for ($x=0;$x<count($aKeys);$x++) {
-            if ($aKeys[$x] != 'id' && substr($aKeys[$x],0,2) != 'is') {
-                $pageData[$aKeys[$x]]=$aVals[$x];
-            }
-        }
-    
+		// copy all direct keys/values
+		for ($x=0; $x<count($aKeys); $x++) {
+			if ($aKeys[$x] != 'id') {
+				$pageData[$aKeys[$x]]=$aVals[$x];
+			}
+		}
+   
         $pageData['position']++;
         $pageData['title'] = $newPage['title'];
         $pageData['urlname'] = $newPage['urlname'];
     
         if (!isset($pageData['urlname']) || empty($pageData['urlname']))
             $pageData['urlname'] = $pageData['title'];
-        $pageData['urlname'] = DataUtil::formatPermalink(strtolower($pageData['urlname']));
+        $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
     
         $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
         if (!$ok) {
@@ -669,7 +686,25 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-        $pageData['active'] = 0; // create pages invisible
+		// set the state of new pages
+		switch ($this->getVar('newPageState')) {
+			case '1':
+				$pageData['active'] = 1;
+				$pageData['inMenu'] = 1;
+				break;
+			case '2':
+				$pageData['active'] = 0;
+				$pageData['inMenu'] = 1;
+				break;
+			case '3':
+				$pageData['active'] = 1;
+				$pageData['inMenu'] = 0;
+				break;
+			case '4':
+				$pageData['active'] = 0;
+				$pageData['inMenu'] = 0;
+				break;
+		}
     
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -708,7 +743,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageData = $args['page'];
     
         if ($pageData['parentPageId'] > 0) {
-            $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageData['parentPageId'], 'checkActive' => false, 'enableEscape' => false, 'includeContent' => false));
+            $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageData['parentPageId'], 'checkActive' => false, 'includeContent' => false));
             if ($sourcePageData === false) {
                 $pageData['parentPageId'] = 0;
             }
@@ -730,13 +765,31 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     
         $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
         while (!$ok) {
-            $pageData['urlname'] = DataUtil::formatPermalink(strtolower(RandomUtil::getString(12, 12, false, true, true, false, true, false, true)));
+            $pageData['urlname'] = DataUtil::formatPermalink(RandomUtil::getString(12, 12, false, true, true, false, true, false, true));
             $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
         }
     
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-        $pageData['active'] = 0; // create pages invisible
+		// set the state of new pages
+		switch ($this->getVar('newPageState')) {
+			case '1':
+				$pageData['active'] = 1;
+				$pageData['inMenu'] = 1;
+				break;
+			case '2':
+				$pageData['active'] = 0;
+				$pageData['inMenu'] = 1;
+				break;
+			case '3':
+				$pageData['active'] = 1;
+				$pageData['inMenu'] = 0;
+				break;
+			case '4':
+				$pageData['active'] = 0;
+				$pageData['inMenu'] = 0;
+				break;
+		}
     
         $newPage = DBUtil::insertObject($pageData, 'content_page', true);
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -1302,31 +1355,34 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $objectArray = DBUtil::marshallObjects($result);
         $path = array();
         foreach ($objectArray as $object) {
-            $path[] = array('id' => $object['page_id'], 'title' => DataUtil::formatForDisplay($object['page_title']));
+            $path[] = array('id' => $object['page_id'], 'title' => $object['page_title']);
         }
         return $path;
     }
     
     public function updateState($args)
     {
-        // Argument check
-        if (!isset($args['pageId'])) {
-            return LogUtil::registerArgsError();
-        }
-    
-        $pageId = (int) $args['pageId'];
-        $active = (int) $args['active'];
-        $inMenu = (int) $args['inMenu'];
-    
-        $table = pnDBGetTables();
-        $pageTable = $table['content_page'];
-        $pageColumn = $table['content_page_column'];
-    
-        $sql = "UPDATE $pageTable
-              SET $pageColumn[active] = $active, $pageColumn[inMenu] = $inMenu
-              WHERE $pageColumn[id] = $pageId";
-        DBUtil::executeSQL($sql);
-        
-        return true;
+		// Argument check
+		if (!isset($args['pageId'])) {
+			return LogUtil::registerArgsError();
+		}
+
+		$page = array('id' => (int) $args['pageId']);
+		if (isset($args['active'])) {
+			if ($args['active']) {
+				$page['active'] = 1;
+			} else {
+				$page['active'] = 0;
+			}
+		}
+		if (isset($args['inMenu'])) {
+			if ($args['inMenu']) {
+				$page['inMenu'] = 1;
+			} else {
+				$page['inMenu'] = 0;
+			}
+		}
+
+		return DBUtil::updateObject($page, 'content_page');
     }
 }

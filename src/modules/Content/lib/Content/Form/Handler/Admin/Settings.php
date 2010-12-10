@@ -11,9 +11,15 @@ class Content_Form_Handler_Admin_Settings extends Form_Handler
                              array('text' => $this->__('Use 2 category levels (both single selection)'), 'value' => '2'),
                              array('text' => $this->__('Use 1 category level'), 'value' => '3'),
                              array('text' => $this->__("Don't use Categories at all"), 'value' => '4') );
-                        
         $view->assign('catoptions', $catoptions);
         $view->assign('categoryusage', 1);
+
+        $activeoptions = array( array('text' => $this->__('New pages will be active and available in the menu'), 'value' => '1'),
+                                array('text' => $this->__('New pages will be inactive and available in the menu'), 'value' => '2'),
+                                array('text' => $this->__('New pages will be active and not available in the menu'), 'value' => '3'),
+                                array('text' => $this->__('New pages will be inactive and not available in the menu'), 'value' => '4') );
+        $view->assign('activeoptions', $activeoptions);
+
         // Assign all module vars
         $view->assign('config', ModUtil::getVar('Content'));
 

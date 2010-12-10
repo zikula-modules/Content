@@ -22,7 +22,8 @@ class Content_Api_Admin extends Zikula_Api
             $links[] = array('url' => ModUtil::url('Content', 'admin', 'main'), 'text' => $this->__('Administration'), 'class' => 'z-icon-es-cubes');
         }
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Page list'), 'class' => 'z-icon-es-new');
+            $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Page list'), 'class' => 'z-icon-es-edit');
+			$links[] = array('url' => ModUtil::url('Content', 'edit', 'newpage'), 'text' => $this->__('Add new page'), 'class' => 'z-icon-es-new');
         }
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
             $links[] = array('url' => ModUtil::url('Content', 'admin', 'settings'), 'text' => $this->__('Settings'), 'class' => 'z-icon-es-config');

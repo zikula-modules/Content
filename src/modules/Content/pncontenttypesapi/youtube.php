@@ -26,13 +26,11 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('YouTube video clip', $dom);
+        return $this->__('YouTube video clip');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display YouTube video clip.', $dom);
+        return $this->__('Display YouTube video clip.');
     }
     function isTranslatable()
     {
@@ -61,7 +59,7 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     }
     function displayEditing()
     {
-        $output = '<div style="background-color:grey; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . ',<br />Size in pixels: ' . $this->width . ' x ' . $this->height . ' </div>';
+        $output = '<div style="background-color:grey; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">' . $this->__('Video-ID : %1$s<br />Size in pixels: %2$s x %3$s', $this->videoId, $this->width, $this->height) . ' </div>';
         $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
@@ -76,7 +74,6 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
             $this->videoId = $data['videoId'] = $matches[1];
             return true;
         }
-        //$message = $this->__('Unrecognized YouTube URL', $dom);
         return false;
     }
 }

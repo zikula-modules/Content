@@ -318,7 +318,7 @@ class Content_Api_History extends Zikula_Api
           // is a deleted page
           $retval = ModUtil::apiFunc('Content', 'Page', 'reinsertPage', array('page' => $page));
           if ($retval === false) {
-            return LogUtil::registerError($this->__('Error!Could not reinsert page'));
+            return LogUtil::registerError($this->__('Error! Could not reinsert page'));
           }
           $pageId = $page['id'] = $retval['id'];
           $page['urlname'] = $retval['urlname'];
@@ -383,12 +383,10 @@ class Content_Api_History extends Zikula_Api
                     $newContentItem = array();
                     $aKeys = array_keys($contentItem);
                     $aVals = array_values($contentItem);
-                    // copy all direct keys/values
-                    for ($x=0;$x<count($aKeys);$x++) {
-                        if (substr($aKeys[$x],0,2) != 'is') {
-                            $newContentItem[$aKeys[$x]]=$aVals[$x];
-                        }
-                    }
+					// copy all direct keys/values
+					for ($x=0;$x<count($aKeys);$x++) {
+						$newContentItem[$aKeys[$x]] = $aVals[$x];
+					}
                     $id = ModUtil::apiFunc('Content', 'Content', 'newContent',
                             array('content' => $newContentItem,
                             'pageId' => $pageId,

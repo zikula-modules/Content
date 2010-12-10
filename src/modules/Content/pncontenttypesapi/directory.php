@@ -12,6 +12,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     var $pid;
     var $includeHeading;
     var $includeSubpage;
+    var $includeNotInMenu;
 
     function getModule()
     {
@@ -23,13 +24,11 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Table of contents', $dom);
+        return $this->__('Table of contents');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __("A table of contents of headings and subpages (build from this module's pages).", $dom);
+        return $this->__("A table of contents of headings and subpages (build from this module's pages).");
     }
     function isTranslatable()
     {
@@ -40,6 +39,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $this->pid = $data['pid'];
         $this->includeHeading = (bool) $data['includeHeading'];
         $this->includeSubpage = (bool) $data['includeSubpage'];
+        $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
     }
     function display()
     {
@@ -57,6 +57,10 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             $options['filter']['where'] = "$pageColumn[level] = 0";
         } elseif (!$this->includeSubpage && $this->pid != 0)
             $options['filter']['pageId'] = $this->pid;
+
+		if (!$this->includeNotInMenu) {
+            $options['filter']['checkInMenu'] = true;
+        }
 
         if ($this->includeHeading) {
             $options['includeContent'] = true;
@@ -105,22 +109,19 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     }
     function displayEditing()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false));
-        return "<h3>" . __f('Table of contents of %1$s', array("title" => $page['title']), $dom) . "</h3>";
+        return "<h3>" . $this->__f('Table of contents of %1$s', array("title" => $page['title'])) . "</h3>";
     }
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false);
+        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => false);
 
     }
     function startEditing(&$view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        $pages = ModUtil::apiFunc('Content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
-
+        $pages = ModUtil::apiFunc('Content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'filter' => array('checkActive' => false)));
         $pidItems = array();
-        $pidItems[] = array('text' => __('All pages', $dom), 'value' => "0");
+        $pidItems[] = array('text' => $this->__('All pages'), 'value' => "0");
         foreach ($pages as $page) {
             $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
         }

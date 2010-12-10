@@ -24,13 +24,11 @@ class content_contenttypesapi_ModuleFuncPlugin extends contentTypeBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Module display', $dom);
+        return $this->__('Module display');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display output from any installed module.', $dom);
+        return $this->__('Display output from any installed module.');
     }
     function isTranslatable()
     {
@@ -46,10 +44,9 @@ class content_contenttypesapi_ModuleFuncPlugin extends contentTypeBase
     }
     function display()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         static $recursionLevel = 0;
         if ($recursionLevel > 4)
-            return __("Maximum number of pages-in-pages reached! You probably included this page in itself.", $dom);
+            return $this->__("Maximum number of pages-in-pages reached! You probably included this page in itself.");
 
         // Convert "x=5,y=2" to array('x' => 5, 'y' => 2)
         $args = explode(',', $this->query);

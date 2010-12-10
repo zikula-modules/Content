@@ -1,5 +1,5 @@
 {contentpagepath pageId=$page.id language=$page.language assign='subheader'}
-{contentpageheading __header='Page history' subheader=$subheader}
+{contentpageheading __header='Page history' subheader=$subheader noescape=true}
 <div class="z-menu">
     <span class="z-menuitem-title">
         [ <a href="{modurl modname='Content' type=edit func=editpage pid=$page.id}">{gt text="Back to page"}</a>

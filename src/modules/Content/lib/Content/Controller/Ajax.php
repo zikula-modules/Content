@@ -23,14 +23,15 @@ class Content_Controller_Ajax extends Zikula_Controller
         return array('ok' => true, 'message' => $this->__('OK'));
     }
 
-    /**
-     * togglepagestate
-     * This function toggles online/offline
-     *
-     * @author Erik Spaan
-     * @param id int  id of page to toggle
-     * @return mixed true or Ajax error
-     */
+	/**
+	 * togglepagestate
+	 * This function toggles active/inactive
+	 *
+	 * @author Erik Spaan & Sven Strickroth
+	 * @param id int  id of page to toggle
+	 * @param active  string "true"/"false"
+	 * @return mixed true or Ajax error
+	 */
     public function togglepagestate($args)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
@@ -39,36 +40,25 @@ class Content_Controller_Ajax extends Zikula_Controller
         
         $id = FormUtil::getPassedValue('id', -1, 'GET');
         if ($id == -1) {
-            return AjaxUtil::error(LogUtil::registerError($this->__('No page ID passed.')));
+            return AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
-    
-        // read the page information
-        $pageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'enableEscape' => false, 'includeContent' => false, 'includeLanguages' => false));
-        if ($pageData === false) {
-            return AjaxUtil::error(LogUtil::registerError($this->__f('Error! Could not retrieve page with ID %s.', DataUtil::formatForDisplay($id))));
-        }
-        // toggle the active state
-        if ($pageData['active'] == 1) {
-            $active = 0;
-        } else {
-            $active = 1;
-        }
-    
-        $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'active' => $active, 'inMenu' => $pageData['inMenu']));
+        
+		$ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'active' => ((bool)FormUtil::getPassedValue('active', 'false', 'GET'))));
         if (!$ok) {
             return AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }
         AjaxUtil::output(array('id' => $id));
     }
     
-    /**
-     * togglepageinmenu
-     * This function toggles inmenu/outmenu
-     *
-     * @author Erik Spaan
-     * @param id int  id of page to toggle
-     * @return mixed true or Ajax error
-     */
+	/**
+	 * togglepageinmenu
+	 * This function toggles inmenu/outmenu
+	 *
+	 * @author Erik Spaan & Sven Strickroth
+	 * @param id int  id of page to toggle
+	 * @param inmenu  string "true"/"false"
+	 * @return mixed true or Ajax error
+	 */
     public function togglepageinmenu($args)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
@@ -77,28 +67,13 @@ class Content_Controller_Ajax extends Zikula_Controller
         
         $id = FormUtil::getPassedValue('id', -1, 'GET');
         if ($id == -1) {
-            LogUtil::registerError($this->__('No page ID passed.'));
-            AjaxUtil::output();
+            return AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
-    
-        // read the page information
-        $pageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $id, 'filter' => array('checkActive' => false), 'enableEscape' => false, 'includeContent' => false, 'includeLanguages' => false));
-        if ($pageData === false) {
-            LogUtil::registerError($this->__f('Error! Could not retrieve page with ID %s.', DataUtil::formatForDisplay($id)));
-            AjaxUtil::output();
-        }
-        // toggle the inMenu state
-        if ($pageData['inMenu'] == 1) {
-            $inMenu = 0;
-        } else {
-            $inMenu = 1;
-        }
-    
-        $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'active' => $pageData['active'], 'inMenu' => $inMenu));
+        
+		$ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'inMenu' => ((bool)FormUtil::getPassedValue('inmenu', 'false', 'GET'))));
         if (!$ok) {
-            LogUtil::registerError($this->__('Error! Could not update state.'));
-            AjaxUtil::output();
+            return AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }
-        return array('id' => $id);
+        AjaxUtil::output(array('id' => $id));
     }
 }

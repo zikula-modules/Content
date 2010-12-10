@@ -21,13 +21,11 @@ class content_contenttypesapi_joinpositionPlugin extends contentTypeBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Join Position', $dom);
+        return $this->__('Join Position');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Joins different positions, e.g. if you used position: top-right then this can fix the layout/textflow.', $dom);
+        return $this->__('Joins different positions, e.g. if you used position: top-right then this can fix the layout/textflow.');
     }
     function isTranslatable()
     {
@@ -36,8 +34,9 @@ class content_contenttypesapi_joinpositionPlugin extends contentTypeBase
 
     function loadData(&$data)
     {
-        if (!isset($data['clear']) || in_array($data['clear'], array('both','left','right')))
+        if (!isset($data['clear']) || in_array($data['clear'], array('both','left','right'))) {
             $data['clear'] = 'both';
+		}
         $this->clear = $data['clear'];
     }
 
@@ -53,7 +52,6 @@ class content_contenttypesapi_joinpositionPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         return array('clear' => 'both');
     }
 

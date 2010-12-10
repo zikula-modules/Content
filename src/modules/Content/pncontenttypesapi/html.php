@@ -22,13 +22,11 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('HTML text', $dom);
+        return $this->__('HTML text');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('A rich HTML editor for adding text to your page.', $dom);
+        return $this->__('A rich HTML editor for adding text to your page.');
     }
     function isTranslatable()
     {
@@ -36,10 +34,12 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
     }
     function loadData(&$data)
     {
-        if (!isset($data['inputType']))
+        if (!isset($data['inputType'])) {
             $data['inputType'] = 'html';
-        if (!ModUtil::available('scribite') && $data['inputType'] == 'html')
+		}
+        if (!ModUtil::available('scribite') && $data['inputType'] == 'html') {
             $data['inputType'] = 'text';
+		}
         $this->text = $data['text'];
         $this->inputType = $data['inputType'];
     }
@@ -60,8 +60,7 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
     }
     function getDefaultData()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return array('text' => __('Add text here ...', $dom), 'inputType' => (ModUtil::available('scribite') ? 'html' : 'text'));
+        return array('text' => $this->__('Add text here ...'), 'inputType' => (ModUtil::available('Scribite') ? 'html' : 'text'));
     }
     function startEditing(&$view)
     {

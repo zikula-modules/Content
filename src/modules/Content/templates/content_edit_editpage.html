@@ -1,6 +1,6 @@
 {ajaxheader modname='Content' filename='ajax.js' dragdrop=1 builder=1 effects=1 noscriptaculous=1 nobehaviour=1}
 {contentpagepath pageId=$page.id language=$page.language assign='subheader'}
-{contentpageheading __header='Edit page' subheader=$subheader}
+{contentpageheading __header='Edit page' subheader=$subheader noescape=true}
 
 {pageaddvar name="javascript" value="modules/Content/javascript/portal.js"}
 {pageaddvar name="javascript" value="modules/Content/javascript/pagelayout.js"}
@@ -13,7 +13,7 @@
     var descs = [];
     {{foreach from=$layouts item=layout}}
     images.push('{{$layout.image}}');
-    descs.push('{{$layout.description}}');
+    descs.push('{{$layout.description|safetext}}');
     {{/foreach}}
     //]]>
 </script>
@@ -43,6 +43,7 @@
 {contentformframe}
 
 {formtabbedpanelset}
+
 
 {if $enableVersioning}
 <ul class="content-subtabs">
@@ -74,6 +75,7 @@
     <div class="z-formrow">
         {formlabel for='inMenu' __text='Include page in menu'}
         {formcheckbox id='inMenu' group='page'}
+        {contentlabelhelp __text='You can include/exclude the page in the menu. The page is only shown when it is also Online.'}
     </div>
 </fieldset>
 
@@ -82,9 +84,9 @@
 <fieldset>
     <legend>{gt text="Page state"}</legend>
     <div class="z-formrow">
-        {formlabel for='active' __text='Online'}
+        {formlabel for='active' __text='Active'}
         {formcheckbox id='active' group='page'}
-        {contentlabelhelp __text='You can set the page online/offline as well as supply a date interval for the page to be online. The checkbox overrides the dates.'}
+        {contentlabelhelp __text='You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.'}
     </div>
     <div class="z-formrow">
         {formlabel for='activeFrom' __text='Start date'}
@@ -171,7 +173,9 @@
     {formbutton class="z-bt-delete" commandName="deletePage" __text="Delete" __confirmMessage='Delete'}
     {/if}
     <input type="submit" class="z-bt-icon con-bt-view" value="{gt text="Preview"}" onclick="window.open('{modurl modname='Content' type=user func=view preview=1 pid=$page.id}')" />
+	{if $page.isOnline}
     {formbutton class="z-bt-save" commandName="saveAndView" __text="Save & View"}
+	{/if}
     {if $multilingual==1}
     {formbutton class="z-bt-icon con-bt-translate" commandName="translate" __text="Translate"}
     {/if}

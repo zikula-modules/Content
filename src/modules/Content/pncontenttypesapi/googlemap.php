@@ -28,18 +28,15 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Google map', $dom);
+        return $this->__('Google map');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display Google map position.', $dom);
+        return $this->__('Display Google map position.');
     }
     function getAdminInfo()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('A Google maps API key is not needed any more in the new version 3 of the Javascript API.', $dom);
+        return $this->__('A Google maps API key is not needed any more in the new version 3 of the Javascript API.');
     }
     function isTranslatable()
     {
