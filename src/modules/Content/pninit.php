@@ -109,6 +109,8 @@ function content_upgrade($oldVersion)
             $ok = $ok && contentUpgrade_3_1_0($oldVersion);
         case '3.1.0':
             $ok = $ok && contentUpgrade_3_2_0($oldVersion);
+        case '3.2.0':
+            $ok = $ok && contentUpgrade_3_2_1($oldVersion);
         // future
     }
 
@@ -225,6 +227,19 @@ function contentUpgrade_3_2_0($oldVersion)
     pnModSetVar('content', 'newPageState', '1');
 
     // clear compiled templates and News cache
+    pnModAPIFunc('pnRender', 'user', 'clear_compiled');
+    pnModAPIFunc('pnRender', 'user', 'clear_cache', array('module' => 'content'));
+    
+    return true;
+}
+
+function contentUpgrade_3_2_1($oldVersion)
+{
+    // update the database
+    DBUtil::changeTable('content_content');
+    DBUtil::changeTable('content_translatedcontent');
+    
+    // clear compiled templates and Content cache
     pnModAPIFunc('pnRender', 'user', 'clear_compiled');
     pnModAPIFunc('pnRender', 'user', 'clear_cache', array('module' => 'content'));
     

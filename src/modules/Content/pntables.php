@@ -87,7 +87,7 @@ function content_pntables()
           'position'        => 'I NOTNULL',
           'module'          => 'C(100) NOTNULL',
           'type'            => 'C(100) NOTNULL',
-          'data'            => 'X NOTNULL',
+          'data'            => 'XL NOTNULL',
           'active'          => "I1 NOTNULL DEFAULT 1",
           'stylePosition'   => 'C(20) NOTNULL DEFAULT \'none\'',
           'styleWidth'      => 'C(20) NOTNULL DEFAULT \'100\'',
@@ -171,7 +171,7 @@ function content_pntables()
   $def =
     array('contentId' => 'I NOTNULL',
           'language'  => 'C(10) NOTNULL',
-          'data'      => 'X');
+          'data'      => 'XL');
 
   ObjectUtil::addStandardFieldsToTableDataDefinition($def, 'trans_');
   $tables['content_translatedcontent_column_def'] = $def;
