@@ -107,6 +107,8 @@ class Content_Installer extends Zikula_Installer
             case '3.1.0':
                 $ok = $ok && $this->contentUpgrade_3_2_0($oldVersion);
             case '3.2.0':
+                $ok = $ok && $this->contentUpgrade_3_2_1($oldVersion);
+            case '3.2.1':
                 $ok = $ok && $this->contentUpgrade_4_0_0($oldVersion);
             // future
         }
@@ -219,6 +221,15 @@ class Content_Installer extends Zikula_Installer
         $this->setVar('categoryUsage', '1');
         $this->setVar('categoryPropPrimary', 'primary');
         $this->setVar('categoryPropSecondary', 'primary');
+        
+        return true;
+    }
+
+    protected function contentUpgrade_3_2_1($oldVersion)
+    {
+        // update the database
+        DBUtil::changeTable('content_content');
+        DBUtil::changeTable('content_translatedcontent');
         
         return true;
     }
