@@ -19,10 +19,9 @@ class Content_Block_Menu extends Zikula_Block
 
     public function info()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         return array('module'          => 'Content',
-                'text_type'       => __('Content menu', $dom),
-                'text_type_long'  => __('Content menu block', $dom),
+                'text_type'       => $this->__('Content menu'),
+                'text_type_long'  => $this->__('Content menu block'),
                 'allow_multiple'  => true,
                 'form_content'    => false,
                 'form_refresh'    => false,
@@ -48,13 +47,13 @@ class Content_Block_Menu extends Zikula_Block
         }
         
         if ($vars['usecaching']) {
-            $view = Zikula_View::getInstance('Content', true);
+            $this->view->setCaching(true);
             $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
         } else {
-            $view = Zikula_View::getInstance('Content', false);
+            $this->view->setCaching(false);
             $cacheId = null;
         }
-        if (!$vars['usecaching'] || ($vars['usecaching'] && !$view->is_cached('content_block_menu.html', $cacheId))) {
+        if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('content_block_menu.html', $cacheId))) {
             $options = array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array());
             if ($vars['root'] > 0) {
                 $options['filter']['superParentId'] = $vars['root'];
@@ -66,38 +65,33 @@ class Content_Block_Menu extends Zikula_Block
             }
 
             if ($vars['root'] > 0) {
-                $view->assign(reset($pages));
+                $this->view->assign(reset($pages));
             } else {
-                $view->assign('subPages', $pages);
+                $this->view->assign('subPages', $pages);
             }
         }
-        $blockinfo['content'] = $view->fetch('content_block_menu.html', $cacheId);
+        $blockinfo['content'] = $this->view->fetch('content_block_menu.html', $cacheId);
         return BlockUtil::themeBlock($blockinfo);
     }
 
     public function modify($blockinfo)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
         if (!isset($vars['usecaching'])) {
             $vars['usecaching'] = true;
         }
 
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign($vars);
-        $view->assign('dom', $dom);
+        $this->view->assign($vars);
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'enableEscape' => false));
         $pidItems = array();
-        $pidItems[] = array('text' => __('All pages', $dom), 'value' => "0");
+        $pidItems[] = array('text' => $this->__('All pages'), 'value' => "0");
 
         foreach ($pages as $page) {
             $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
-
         }
-        $view->assign('pidItems', $pidItems);
-
-        return $view->fetch('content_block_menu_modify.html');
+        $this->view->assign('pidItems', $pidItems);
+        return $this->view->fetch('content_block_menu_modify.html');
     }
 
     public function update($blockinfo)
@@ -108,9 +102,7 @@ class Content_Block_Menu extends Zikula_Block
         $blockinfo['content'] = BlockUtil::varsToContent($vars);
 
         // clear the block cache
-        $view = Zikula_View::getInstance('Content', false);
-        $view->clear_cache('content_block_menu.html');
-
+        $this->view->clear_cache('content_block_menu.html');
         return $blockinfo;
     }
 }

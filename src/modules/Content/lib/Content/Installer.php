@@ -49,10 +49,9 @@ class Content_Installer extends Zikula_Installer
         $this->setVar('categoryPropPrimary', 'primary');
         $this->setVar('categoryPropSecondary', 'primary');
         $this->setVar('newPageState', '1');
+        $this->setVar('countViews', '0');
 
-
-
-        // create the default data for the Content module
+    // create the default data for the Content module
         $this->defaultdata();        
 
         return true;
@@ -234,9 +233,17 @@ class Content_Installer extends Zikula_Installer
     protected function contentUpgrade_3_2_1($oldVersion)
     {
         // update the database
+        DBUtil::changeTable('content_page');
         DBUtil::changeTable('content_content');
         DBUtil::changeTable('content_translatedcontent');
         
+        // add new variable(s)
+        $this->setVar('countViews', '0');
+
+        // clear compiled templates and Content cache
+        ModUtil::apiFunc('view', 'user', 'clear_compiled');
+        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
+
         return true;
     }
     

@@ -1,4 +1,5 @@
 <br class="z-clearer" />
-
+{if !$page.nohooks}
 {modurl modname="Content" func="view" pid=$pid assign="viewUrl"}
-{modcallhooks hookobject=item hookaction=display hookid=$pid module='Content' returnurl=$viewUrl}
+{pnmodcallhooks hookobject=item hookaction=display hookid=$pid module=Content returnurl=$viewUrl}
+{/if}

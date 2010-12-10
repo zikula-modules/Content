@@ -29,6 +29,7 @@
 {formcontextmenu id="contentEditMenu" width="auto"}
 {formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandRedirect=$editUrl}
 {if $access.pageCreateAllowed}
+{formcontextmenuitem __title='Clone content' imageURL="images/icons/extrasmall/editcopy.gif" commandName="cloneContent"}
 {formcontextmenuitem __title='Add new content above' imageURL="images/icons/extrasmall/insert_table_row_above.gif" commandRedirect=$aboveUrl}
 {formcontextmenuitem __title='Add new content below' imageURL="images/icons/extrasmall/insert_table_row.gif" commandRedirect=$belowUrl}
 {/if}
@@ -76,6 +77,11 @@
         {formlabel for='inMenu' __text='Include page in menu'}
         {formcheckbox id='inMenu' group='page'}
         {contentlabelhelp __text='You can include/exclude the page in the menu. The page is only shown when it is also Online.'}
+    </div>
+    <div class="z-formrow">
+        {formlabel for='nohooks' __text='Do not display hooks on this page'}
+        {formcheckbox id='nohooks' group='page'}
+        {contentlabelhelp __text='Checking this option will just ignore all the hooks for this page, it does not replace permissions.'}
     </div>
 </fieldset>
 

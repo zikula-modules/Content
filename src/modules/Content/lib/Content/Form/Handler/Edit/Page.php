@@ -104,6 +104,12 @@ class Content_Form_Handler_Edit_Page extends Form_Handler
                 return $view->registerError(null);
             }
             $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+        } else if ($args['commandName'] == 'cloneContent') {
+            $clonedId = ModUtil::apiFunc('Content', 'Content', 'cloneContent', array('id' => (int) $args['commandArgument'], 'translation' => true));
+            if ($clonedId === false) {
+                return $view->registerError(null);
+            }
+            $url = ModUtil::url('Content', 'edit', 'editcontent', array('cid' => $clonedId));
         } else if ($args['commandName'] == 'deletePage') {
             $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $this->pageId));
             if ($ok === false) {
