@@ -58,7 +58,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         } elseif (!$this->includeSubpage && $this->pid != 0)
             $options['filter']['pageId'] = $this->pid;
 
-		if (!$this->includeNotInMenu) {
+        if (!$this->includeNotInMenu) {
             $options['filter']['checkInMenu'] = true;
         }
 

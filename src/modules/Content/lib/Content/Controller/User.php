@@ -92,7 +92,7 @@ class Content_Controller_User extends Zikula_Controller
             return LogUtil::registerPermissionError();
 
         if ($pageId !== null && $versionId === null) {
-			$page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true, 'filter' => array('checkActive' => !($preview && $hasEditAccess))));
+            $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true, 'filter' => array('checkActive' => !($preview && $hasEditAccess))));
         } else if ($versionId === null)
             return LogUtil::registerArgsError();
 

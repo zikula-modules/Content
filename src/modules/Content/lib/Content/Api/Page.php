@@ -159,10 +159,10 @@ LEFT JOIN $userTable usr
             } else
                 $p['isTranslated'] = false;
 
-			// create page variables that represent the Online and Menu status, much like the old db fields
-			$now = DateUtil::getDatetime();
-			$p['isOnline'] = $p['active'] && (DateUtil::getDatetimeDiff_AsField($p['activeFrom'], $now, 6) >= 0 || $p['activeFrom'] == null) && (DateUtil::getDatetimeDiff_AsField($p['activeTo'], $now, 6) < 0 || $p['activeTo'] == null);
-			$p['isInMenu'] = $p['isActive'] && $p['inMenu'];
+            // create page variables that represent the Online and Menu status, much like the old db fields
+            $now = DateUtil::getDatetime();
+            $p['isOnline'] = $p['active'] && (DateUtil::getDatetimeDiff_AsField($p['activeFrom'], $now, 6) >= 0 || $p['activeFrom'] == null) && (DateUtil::getDatetimeDiff_AsField($p['activeTo'], $now, 6) < 0 || $p['activeTo'] == null);
+            $p['isInMenu'] = $p['isActive'] && $p['inMenu'];
 
             if ($includeContent) {
                 $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
@@ -393,25 +393,25 @@ function dumpTree($pages)
 
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-		// set the state of new pages
-		switch ($this->getVar('newPageState')) {
-			case '1':
-				$pageData['active'] = 1;
-				$pageData['inMenu'] = 1;
-				break;
-			case '2':
-				$pageData['active'] = 0;
-				$pageData['inMenu'] = 1;
-				break;
-			case '3':
-				$pageData['active'] = 1;
-				$pageData['inMenu'] = 0;
-				break;
-			case '4':
-				$pageData['active'] = 0;
-				$pageData['inMenu'] = 0;
-				break;
-		}
+        // set the state of new pages
+        switch ($this->getVar('newPageState')) {
+            case '1':
+                $pageData['active'] = 1;
+                $pageData['inMenu'] = 1;
+                break;
+            case '2':
+                $pageData['active'] = 0;
+                $pageData['inMenu'] = 1;
+                break;
+            case '3':
+                $pageData['active'] = 1;
+                $pageData['inMenu'] = 0;
+                break;
+            case '4':
+                $pageData['active'] = 0;
+                $pageData['inMenu'] = 0;
+                break;
+        }
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -664,12 +664,12 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageData = array();
         $aKeys = array_keys($sourcePageData);
         $aVals = array_values($sourcePageData);
-		// copy all direct keys/values
-		for ($x=0; $x<count($aKeys); $x++) {
-			if ($aKeys[$x] != 'id') {
-				$pageData[$aKeys[$x]]=$aVals[$x];
-			}
-		}
+        // copy all direct keys/values
+        for ($x=0; $x<count($aKeys); $x++) {
+            if ($aKeys[$x] != 'id') {
+                $pageData[$aKeys[$x]]=$aVals[$x];
+            }
+        }
    
         $pageData['position']++;
         $pageData['title'] = $newPage['title'];
@@ -686,25 +686,25 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-		// set the state of new pages
-		switch ($this->getVar('newPageState')) {
-			case '1':
-				$pageData['active'] = 1;
-				$pageData['inMenu'] = 1;
-				break;
-			case '2':
-				$pageData['active'] = 0;
-				$pageData['inMenu'] = 1;
-				break;
-			case '3':
-				$pageData['active'] = 1;
-				$pageData['inMenu'] = 0;
-				break;
-			case '4':
-				$pageData['active'] = 0;
-				$pageData['inMenu'] = 0;
-				break;
-		}
+        // set the state of new pages
+        switch ($this->getVar('newPageState')) {
+            case '1':
+                $pageData['active'] = 1;
+                $pageData['inMenu'] = 1;
+                break;
+            case '2':
+                $pageData['active'] = 0;
+                $pageData['inMenu'] = 1;
+                break;
+            case '3':
+                $pageData['active'] = 1;
+                $pageData['inMenu'] = 0;
+                break;
+            case '4':
+                $pageData['active'] = 0;
+                $pageData['inMenu'] = 0;
+                break;
+        }
     
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -771,25 +771,25 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-		// set the state of new pages
-		switch ($this->getVar('newPageState')) {
-			case '1':
-				$pageData['active'] = 1;
-				$pageData['inMenu'] = 1;
-				break;
-			case '2':
-				$pageData['active'] = 0;
-				$pageData['inMenu'] = 1;
-				break;
-			case '3':
-				$pageData['active'] = 1;
-				$pageData['inMenu'] = 0;
-				break;
-			case '4':
-				$pageData['active'] = 0;
-				$pageData['inMenu'] = 0;
-				break;
-		}
+        // set the state of new pages
+        switch ($this->getVar('newPageState')) {
+            case '1':
+                $pageData['active'] = 1;
+                $pageData['inMenu'] = 1;
+                break;
+            case '2':
+                $pageData['active'] = 0;
+                $pageData['inMenu'] = 1;
+                break;
+            case '3':
+                $pageData['active'] = 1;
+                $pageData['inMenu'] = 0;
+                break;
+            case '4':
+                $pageData['active'] = 0;
+                $pageData['inMenu'] = 0;
+                break;
+        }
     
         $newPage = DBUtil::insertObject($pageData, 'content_page', true);
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -1362,27 +1362,27 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
     
     public function updateState($args)
     {
-		// Argument check
-		if (!isset($args['pageId'])) {
-			return LogUtil::registerArgsError();
-		}
+        // Argument check
+        if (!isset($args['pageId'])) {
+            return LogUtil::registerArgsError();
+        }
 
-		$page = array('id' => (int) $args['pageId']);
-		if (isset($args['active'])) {
-			if ($args['active']) {
-				$page['active'] = 1;
-			} else {
-				$page['active'] = 0;
-			}
-		}
-		if (isset($args['inMenu'])) {
-			if ($args['inMenu']) {
-				$page['inMenu'] = 1;
-			} else {
-				$page['inMenu'] = 0;
-			}
-		}
+        $page = array('id' => (int) $args['pageId']);
+        if (isset($args['active'])) {
+            if ($args['active']) {
+                $page['active'] = 1;
+            } else {
+                $page['active'] = 0;
+            }
+        }
+        if (isset($args['inMenu'])) {
+            if ($args['inMenu']) {
+                $page['inMenu'] = 1;
+            } else {
+                $page['inMenu'] = 0;
+            }
+        }
 
-		return DBUtil::updateObject($page, 'content_page');
+        return DBUtil::updateObject($page, 'content_page');
     }
 }

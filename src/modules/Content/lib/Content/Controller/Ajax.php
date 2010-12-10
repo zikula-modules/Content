@@ -23,15 +23,15 @@ class Content_Controller_Ajax extends Zikula_Controller
         return array('ok' => true, 'message' => $this->__('OK'));
     }
 
-	/**
-	 * togglepagestate
-	 * This function toggles active/inactive
-	 *
-	 * @author Erik Spaan & Sven Strickroth
-	 * @param id int  id of page to toggle
-	 * @param active  string "true"/"false"
-	 * @return mixed true or Ajax error
-	 */
+    /**
+     * togglepagestate
+     * This function toggles active/inactive
+     *
+     * @author Erik Spaan & Sven Strickroth
+     * @param id int  id of page to toggle
+     * @param active  string "true"/"false"
+     * @return mixed true or Ajax error
+     */
     public function togglepagestate($args)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
@@ -43,22 +43,22 @@ class Content_Controller_Ajax extends Zikula_Controller
             return AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
         
-		$ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'active' => ((bool)FormUtil::getPassedValue('active', 'false', 'GET'))));
+        $ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'active' => ((bool)FormUtil::getPassedValue('active', 'false', 'GET'))));
         if (!$ok) {
             return AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }
         AjaxUtil::output(array('id' => $id));
     }
     
-	/**
-	 * togglepageinmenu
-	 * This function toggles inmenu/outmenu
-	 *
-	 * @author Erik Spaan & Sven Strickroth
-	 * @param id int  id of page to toggle
-	 * @param inmenu  string "true"/"false"
-	 * @return mixed true or Ajax error
-	 */
+    /**
+     * togglepageinmenu
+     * This function toggles inmenu/outmenu
+     *
+     * @author Erik Spaan & Sven Strickroth
+     * @param id int  id of page to toggle
+     * @param inmenu  string "true"/"false"
+     * @return mixed true or Ajax error
+     */
     public function togglepageinmenu($args)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
@@ -70,7 +70,7 @@ class Content_Controller_Ajax extends Zikula_Controller
             return AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
         
-		$ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'inMenu' => ((bool)FormUtil::getPassedValue('inmenu', 'false', 'GET'))));
+        $ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'inMenu' => ((bool)FormUtil::getPassedValue('inmenu', 'false', 'GET'))));
         if (!$ok) {
             return AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }

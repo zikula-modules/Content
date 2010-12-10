@@ -36,10 +36,10 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
     {
         if (!isset($data['inputType'])) {
             $data['inputType'] = 'html';
-		}
+        }
         if (!ModUtil::available('scribite') && $data['inputType'] == 'html') {
             $data['inputType'] = 'text';
-		}
+        }
         $this->text = $data['text'];
         $this->inputType = $data['inputType'];
     }
