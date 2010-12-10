@@ -383,10 +383,10 @@ class Content_Api_History extends Zikula_Api
                     $newContentItem = array();
                     $aKeys = array_keys($contentItem);
                     $aVals = array_values($contentItem);
-					// copy all direct keys/values
-					for ($x=0;$x<count($aKeys);$x++) {
-						$newContentItem[$aKeys[$x]] = $aVals[$x];
-					}
+                    // copy all direct keys/values
+                    for ($x=0;$x<count($aKeys);$x++) {
+                        $newContentItem[$aKeys[$x]] = $aVals[$x];
+                    }
                     $id = ModUtil::apiFunc('Content', 'Content', 'newContent',
                             array('content' => $newContentItem,
                             'pageId' => $pageId,
