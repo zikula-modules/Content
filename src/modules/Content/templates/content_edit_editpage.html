@@ -174,14 +174,14 @@
 {/formtabbedpanelset}
 
 <div class="z-buttons">
-    {formbutton class="z-bt-save" commandName="save" __text="Save"}
-    {if $access.pageDeleteAllowed}
-    {formbutton class="z-bt-delete" commandName="deletePage" __text="Delete" __confirmMessage='Delete'}
-    {/if}
     <input type="submit" class="z-bt-icon con-bt-view" value="{gt text="Preview"}" onclick="window.open('{modurl modname='Content' type=user func=view preview=1 pid=$page.id}')" />
+    {formbutton class="z-bt-save z-btgreen" commandName="save" __text="Save"}
 	{if $page.isOnline}
-    {formbutton class="z-bt-save" commandName="saveAndView" __text="Save & View"}
+    {formbutton class="z-bt-save z-btgreen" commandName="saveAndView" __text="Save & View"}
 	{/if}
+    {if $access.pageDeleteAllowed}
+    {formbutton class="z-bt-delete z-btred" commandName="deletePage" __text="Delete" __confirmMessage='Delete'}
+    {/if}
     {if $multilingual==1}
     {formbutton class="z-bt-icon con-bt-translate" commandName="translate" __text="Translate"}
     {/if}

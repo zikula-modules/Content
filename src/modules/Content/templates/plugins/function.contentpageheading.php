@@ -12,7 +12,7 @@ function smarty_function_contentpageheading($params, &$view)
     $html = '<div class="content-page-heading"><h2>' . ($params['header']) . "</h2>\n";
 
     if (array_key_exists('subheader', $params)) {
-        if ($params['noescape']) {
+        if (isset($params['noescape']) && $params['noescape']) {
             $html .= "<h3>".$params['subheader']."</h3>\n";
         } else {
             $html .= "<h3>".DataUtil::formatForDisplay($params['subheader'])."</h3>\n";

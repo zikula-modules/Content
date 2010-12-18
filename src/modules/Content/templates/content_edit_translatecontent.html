@@ -21,9 +21,9 @@
     {formbutton class="z-bt-icon con-bt-prev" commandName="prev" __text="Previous"}
     {formbutton class="z-bt-icon con-bt-next" commandName="next" __text="Next"} &mdash;
     {formbutton class="z-bt-icon con-bt-skip" commandName="skip" __text="Skip"}
-    {formbutton class="z-bt-save" commandName="quit" __text="Save"}
+    {formbutton class="z-bt-save z-btgreen" commandName="quit" __text="Save"}
     {if $access.pageDeleteAllowed}
-    {formbutton class="z-bt-delete" commandName="delete" __text="Delete" __confirmMessage='Delete'}
+    {formbutton class="z-bt-delete z-btred" commandName="delete" __text="Delete" __confirmMessage='Delete'}
     {/if}
     {formbutton class="z-bt-cancel" commandName="cancel" __text="Cancel"}
     {formdropdownlist id='translationStep' items=$translationInfo.items autoPostBack='1' onSelectedIndexChanged='handleCommand'}

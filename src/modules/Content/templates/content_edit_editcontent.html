@@ -42,9 +42,9 @@
 {/formtabbedpanelset}
 
 <div class="z-buttons">
-    {formbutton class="z-bt-save" commandName="save" __text="Save"}
+    {formbutton class="z-bt-save z-btgreen" commandName="save" __text="Save"}
     {if $access.pageDeleteAllowed}
-    {formbutton class="z-bt-delete" commandName="delete" __text="Delete" __confirmMessage='Delete'}
+    {formbutton class="z-bt-delete z-btred" commandName="delete" __text="Delete" __confirmMessage='Delete'}
     {/if}
     {if $content.isTranslatable && $multilingual==1}
     {formbutton class="z-bt-icon con-bt-translate" commandName="translate" __text="Translate"}
