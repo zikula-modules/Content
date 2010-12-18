@@ -162,7 +162,7 @@ LEFT JOIN $userTable usr
             // create page variables that represent the Online and Menu status, much like the old db fields
             $now = DateUtil::getDatetime();
             $p['isOnline'] = $p['active'] && (DateUtil::getDatetimeDiff_AsField($p['activeFrom'], $now, 6) >= 0 || $p['activeFrom'] == null) && (DateUtil::getDatetimeDiff_AsField($p['activeTo'], $now, 6) < 0 || $p['activeTo'] == null);
-            $p['isInMenu'] = $p['isActive'] && $p['inMenu'];
+            $p['isInMenu'] = $p['isOnline'] && $p['inMenu'];
 
             if ($includeContent) {
                 $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
