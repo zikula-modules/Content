@@ -6,10 +6,11 @@
     {{modurl modname='Content' type=edit func=editcontent cid=$c.id fqurl=1 assign=editUrl}}
     {{formcontextmenureference menuId="contentEditMenu" commandArgument=$c.id imageURL="modules/Content/images/contextarrow.png" assign='menuHandle'}}
     content.items.push
-    ({ {{* XXX's added to avoid bad short URL handling in PN's short URL output filter *}}
-        title: "<a hrefXXX=\"{{$editUrl|escape:html}}\">{{$c.title}} [{{gt text="ID %d" tag1=$c.id}}]</a> {{$menuHandle|replace:src:srcXXX|escape:javascript}}",
+    ({ {{* XXXs added to avoid wrong short URL handling in the Zikula short URL output filter *}}
+        title: "<a hrefXXX=\"{{$editUrl|escape:html}}\">{{$c.title|safetext}} [{{gt text="ID %d" tag1=$c.id}}]</a> {{$menuHandle|replace:src:srcXXX|escape:javascript}}",
         content: "{{$c.output|replace:" src=":" srcXXX="|replace:" href=":" hrefXXX="|escape:javascript}}",
         column: {{$contentAreaIndex}},
+        active: {{$c.active}},
         contentId: {{$c.id}}
     });
     {{/foreach}}
