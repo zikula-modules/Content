@@ -45,7 +45,7 @@ class Content_Installer extends Zikula_Installer
         $this->setVar('enableVersioning', false);
         $this->setVar('flickrApiKey', '');
         $this->setVar('googlemapApiKey', '');
-        $this->setVar('categoryUsage', '1');
+        $this->setVar('categoryUsage', '3');
         $this->setVar('categoryPropPrimary', 'primary');
         $this->setVar('categoryPropSecondary', 'primary');
         $this->setVar('newPageState', '1');
