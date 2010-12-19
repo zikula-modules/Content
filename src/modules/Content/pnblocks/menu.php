@@ -58,16 +58,13 @@ function content_menublock_display($blockinfo)
         if ($vars['root'] > 0) {
             $options['filter']['superParentId'] = $vars['root'];
         }
+        // checkInMenu
         $options['filter']['checkInMenu'] = true;
         $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
         if ($pages === false) {
             return false;
         }
-        if ($vars['root'] > 0) {
-            $render->assign(reset($pages));
-        } else {
-            $render->assign('subPages', $pages);
-        }
+        $render->assign('subPages', $pages);
     }
     $blockinfo['content'] = $render->fetch('content_block_menu.html', $cacheId);
     return pnBlockThemeBlock($blockinfo);

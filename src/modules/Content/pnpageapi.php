@@ -129,7 +129,6 @@ $orderBy";
 
     //echo "<pre>$sql</pre>";
 
-
     if ($pageSize > 0)
         $dbresult = DBUtil::executeSQL($sql, $pageSize * $pageIndex, $pageSize);
     else
@@ -270,19 +269,14 @@ function contentGetPageListRestrictions($filter, &$restrictions, &$join)
         $restrictions[] = "$pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
     }
     
-    // only filter explicitely
+    // only filter explicitely, active check is done above
     if (array_key_exists('checkInMenu', $filter) && $filter['checkInMenu']) {
-        $restrictions[] = "$pageColumn[inMenu] = 1 AND $pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
+        $restrictions[] = "$pageColumn[inMenu] = 1";
     }
 
     if (!empty($filter['superParentId'])) {
-        $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $filter['superParentId']));
-        if ($pageData === false)
-            return false;
-
-        $where = "    $pageData[setLeft] <= $pageColumn[setLeft]
-              AND $pageColumn[setRight] <= $pageData[setRight]";
-
+        $pageData = DBUtil::selectObjectByID('content_page', $filter['superParentId'], 'id', array('setLeft', 'setRight'));
+        $where = "$pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
         $restrictions[] = $where;
     }
 
