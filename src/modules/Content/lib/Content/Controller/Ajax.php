@@ -37,12 +37,15 @@ class Content_Controller_Ajax extends Zikula_Controller
             throw new Zikula_Exception_Forbidden();
         }
         
-        $id = FormUtil::getPassedValue('id', -1, 'GET');
+        $id = FormUtil::getPassedValue('id', -1);
+        $active = (bool)FormUtil::getPassedValue('active', 'false');
+//        $id = FormUtil::getPassedValue('id', -1, 'GET');
         if ($id == -1) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
         
-        $ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'active' => ((bool)FormUtil::getPassedValue('active', 'false', 'GET'))));
+//        $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'active' => ((bool)FormUtil::getPassedValue('active', 'false', 'GET'))));
+        $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'active' => $active));
         if (!$ok) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }

@@ -182,7 +182,7 @@ function togglepagestate(id)
     new Zikula.Ajax.Request(
         "ajax.php?module=Content&func=togglepagestate",
         {
-            method: 'get',
+            method: 'post',
             parameters: pars,
             onComplete: togglepagestate_response
         });
