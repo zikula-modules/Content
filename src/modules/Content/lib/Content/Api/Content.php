@@ -629,29 +629,31 @@ WHERE c.$contentColumn[pageId] = $pageId";
 
     public function dragContent($args)
     {
-        if (!isset($args['pageId']) || !isset($args['contentId']) || !isset($args['contentAreaIndex']) || !isset($args['position']))
+        if (!isset($args['pageId']) || !isset($args['contentId']) || !isset($args['contentAreaIndex']) || !isset($args['position'])) {
             return LogUtil::registerArgsError();
+        }
 
         $pageId = (int) $args['pageId'];
         $contentId = (int) $args['contentId'];
         $contentAreaIndex = (int) $args['contentAreaIndex'];
         $position = (int) $args['position'];
 
-        if (!$this->contentRemoveContent($contentId))
+        if (!$this->contentRemoveContent($contentId)) {
             return false;
-
-        if (!$this->contentInsertContent($contentId, $position, $contentAreaIndex, $pageId))
+        }
+        if (!$this->contentInsertContent($contentId, $position, $contentAreaIndex, $pageId)) {
             return false;
-
+        }
         $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTMOVED' /* delayed translation */));
-        if ($ok === false)
+        if ($ok === false) {
             return false;
-
+        }
+        
         contentClearCaches();
         return true;
     }
 
-// Remove content from content area, but do not delete it
+    // Remove content from content area, but do not delete it
     protected function contentRemoveContent($contentId)
     {
         $contentData = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $contentId));
@@ -679,7 +681,7 @@ WHERE     $contentColumn[pageId] = $pageId
         return true;
     }
 
-// Insert content in content area
+    // Insert content in content area
     protected function contentInsertContent($contentId, $position, $contentAreaIndex, $pageId)
     {
         $contentData = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $contentId));
