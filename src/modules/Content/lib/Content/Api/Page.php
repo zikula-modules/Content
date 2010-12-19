@@ -95,10 +95,11 @@ class Content_Api_Page extends Zikula_Api
 
         $this->contentGetPageListRestrictions($filter, $restrictions, $join);
 
-        if (count($restrictions) > 0)
+        if (count($restrictions) > 0) {
             $where = 'WHERE ' . join(' AND ', $restrictions);
-        else
+        } else {
             $where = '';
+        }
 
         if (!empty($orderBy)) {
             $orderBy = ' ORDER BY ' . DataUtil::formatForStore($orderBy);
@@ -129,35 +130,39 @@ LEFT JOIN $userTable usr
 
         //echo "<pre>$sql</pre>";
 
-        if ($pageSize > 0)
+        if ($pageSize > 0) {
             $dbresult = DBUtil::executeSQL($sql, $pageSize * $pageIndex, $pageSize);
-        else
+        } else {
             $dbresult = DBUtil::executeSQL($sql);
+        }
 
         $pages = DBUtil::marshallObjects($dbresult, $ca);
 
-        if (isset($filter['expandedPageIds']) && is_array($filter['expandedPageIds']))
+        if (isset($filter['expandedPageIds']) && is_array($filter['expandedPageIds'])) {
             $expandedPageIdsMap = $filter['expandedPageIds'];
-        else
+        } else {
             $expandedPageIdsMap = null;
+        }
 
         for ($i = 0, $cou = count($pages); $i < $cou; ++$i) {
             $p = &$pages[$i];
             $p['translated'] = array('title' => $p['translatedTitle']);
             $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array('layout' => $p['layout']));
             $p['layoutTemplate'] = 'layout/' . $p['layoutData']['name'] . '.html';
-            if ($includeCategories)
+            if ($includeCategories) {
                 $p['categories'] = $this->contentGetPageCategories($p['id']);
-            if ($includeVersionNo)
+            }
+            if ($includeVersionNo) {
                 $p['versionNo'] = ModUtil::apiFunc('Content', 'History', 'getPageVersionNo', array('pageId' => $p['id']));
-
+            }
             if (!empty($p['translatedTitle'])) {
                 if ($translate) {
                     $p = array_merge($p, $p['translated']);
                 }
                 $p['isTranslated'] = true;
-            } else
+            } else {
                 $p['isTranslated'] = false;
+            }
 
             // create page variables that represent the Online and Menu status, much like the old db fields
             $now = DateUtil::getDatetime();
@@ -166,18 +171,21 @@ LEFT JOIN $userTable usr
 
             if ($includeContent) {
                 $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
-                if ($content === false)
+                if ($content === false) {
                     return false;
-            } else
+                }
+            } else {
                 $content = null;
+            }
 
             $p['content'] = $content;
 
             if ($expandedPageIdsMap !== null) {
-                if (!empty($expandedPageIdsMap[$p['id']]))
+                if (!empty($expandedPageIdsMap[$p['id']])) {
                     $p['isExpanded'] = 1;
-                else
+                } else {
                     $p['isExpanded'] = 0;
+                }
             }
         }
 
@@ -269,26 +277,23 @@ FROM $pageTable
             $restrictions[] = "$pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
         }
         
-        // only filter explicitely
+        // only filter explicitely, active check is done above
         if (array_key_exists('checkInMenu', $filter) && $filter['checkInMenu']) {
-            $restrictions[] = "$pageColumn[inMenu] = 1 AND $pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
+            $restrictions[] = "$pageColumn[inMenu] = 1";
         }
 
         if (!empty($filter['superParentId'])) {
-            $pageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $filter['superParentId']));
-            if ($pageData === false)
-                return false;
-
-            $where = "    $pageData[setLeft] <= $pageColumn[setLeft]
-              AND $pageColumn[setRight] <= $pageData[setRight]";
-
+            // get the setLeft/Right of the selected parent for filtering
+            $pageData = DBUtil::selectObjectByID('content_page', $filter['superParentId'], 'id', array('setLeft', 'setRight'));
+            $where = " $pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
             $restrictions[] = $where;
         }
 
         if (isset($filter['expandedPageIds']) && is_array($filter['expandedPageIds'])) {
             $pageIdStr = '-1';
-            foreach (array_keys($filter['expandedPageIds']) as $pageId)
+            foreach (array_keys($filter['expandedPageIds']) as $pageId) {
                 $pageIdStr .= ',' . (int) $pageId;
+            }
 
             // Only select pages that do not have a collapsed (not expanded) page above it
             $restriction = "
@@ -463,7 +468,7 @@ function dumpTree($pages)
 
         DBUtil::updateObject($pageData, 'content_page');
 
-        $ok = ModUtil::apiFunc('Content', 'history', 'addPageVersion', array('pageId' => $pageId, 'action' => $revisionText));
+        $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => $revisionText));
         if ($ok === false)
             return false;
 
@@ -1399,6 +1404,7 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
             }
         }
 
-        return DBUtil::updateObject($page, 'content_page');
+        DBUtil::updateObject($page, 'content_page');
+        return true;
     }
 }
