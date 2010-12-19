@@ -193,7 +193,7 @@ class Content_Controller_User extends Zikula_Controller
         $this->view->assign('pageIndex', $pageIndex);
         $this->view->assign('pageSize', $pageSize);
         $this->view->assign('pageCount', $pageCount);
-        $this->this->view->assign('preview', false);
+        $this->view->assign('preview', false);
         contentAddAccess($this->view, null);
         return $this->view->fetch($template);
     }
