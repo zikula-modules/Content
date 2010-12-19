@@ -58,17 +58,13 @@ class Content_Block_Menu extends Zikula_Block
             if ($vars['root'] > 0) {
                 $options['filter']['superParentId'] = $vars['root'];
             }
+            // checkInMenu, checkActive is done implicitely
             $options['filter']['checkInMenu'] = true;
             $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
             if ($pages === false) {
                 return false;
             }
-
-            if ($vars['root'] > 0) {
-                $this->view->assign(reset($pages));
-            } else {
-                $this->view->assign('subPages', $pages);
-            }
+            $this->view->assign('subPages', $pages);
         }
         $blockinfo['content'] = $this->view->fetch('content_block_menu.html', $cacheId);
         return BlockUtil::themeBlock($blockinfo);
