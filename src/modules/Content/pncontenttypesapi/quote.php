@@ -46,10 +46,11 @@ class content_contenttypesapi_quotePlugin extends contentTypeBase
         $source = DataUtil::formatForDisplayHTML($this->source);
         $desc = DataUtil::formatForDisplayHTML($this->desc);
 
-        $text = ModUtil::callHooks('item', 'transform', '', array($text));
-        $text = $text[0];
-
-        $view = Zikula_View::getInstance('Content', false);
+//        $text = ModUtil::callHooks('item', 'transform', '', array($text));
+//        $text = $text[0];
+        $view = Zikula_View::getInstance('Content');
+        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $view, array('caller' => $this->getModule()), $text);
+        $text = $view->getEventManager()->notify($event)->getData();
         $view->assign('source', $source);
         $view->assign('text', $text);
         $view->assign('desc', $desc);
@@ -62,8 +63,11 @@ class content_contenttypesapi_quotePlugin extends contentTypeBase
         $source = DataUtil::formatForDisplayHTML($this->source);
         $desc = DataUtil::formatForDisplayHTML($this->desc);
 
-        $text = ModUtil::callHooks('item', 'transform', '', array($text));
-        $text = trim($text[0]);
+//        $text = ModUtil::callHooks('item', 'transform', '', array($text));
+//        $text = trim($text[0]);
+        $view = Zikula_View::getInstance('Content');
+        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $view, array('caller' => $this->getModule()), $text);
+        $text = $view->getEventManager()->notify($event)->getData();
 
         $text = '<div class="content-quote"><blockquote>' . $text . '</blockquote><p>-- ' . $desc . '</p></div>';
 

@@ -46,8 +46,13 @@ class content_contenttypesapi_htmlPlugin extends contentTypeBase
     function display()
     {
         $text = DataUtil::formatForDisplayHTML($this->text);
-        $text = ModUtil::callHooks('item', 'transform', '', array($text));
-        $text = $text[0];
+
+//        $text = ModUtil::callHooks('item', 'transform', '', array($text));
+//        $text = $text[0];
+        $view = Zikula_View::getInstance('Content');
+        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $view, array('caller' => $this->getModule()), $text);
+        $text = $view->getEventManager()->notify($event)->getData();
+
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('inputType', $this->inputType);
         $view->assign('text', $text);

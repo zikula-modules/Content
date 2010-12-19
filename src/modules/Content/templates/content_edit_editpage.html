@@ -45,7 +45,6 @@
 
 {formtabbedpanelset}
 
-
 {if $enableVersioning}
 <ul class="content-subtabs">
     <li><a href="{modurl modname='Content' type=edit func=history pid=$page.id}">{gt text="History"}</a></li>
@@ -85,7 +84,7 @@
     </div>
 </fieldset>
 
-{modcallhooks hookobject='item' hookaction='modify' hookid=$page.id module='Content'}
+{notifydisplayhooks eventname='content.hook.pages.ui.edit' area='modulehook_area.content.pages' subject=$page id=$page.id caller="Content"}
 
 <fieldset>
     <legend>{gt text="Page state"}</legend>

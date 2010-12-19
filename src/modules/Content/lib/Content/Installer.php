@@ -51,7 +51,10 @@ class Content_Installer extends Zikula_Installer
         $this->setVar('newPageState', '1');
         $this->setVar('countViews', '0');
 
-    // create the default data for the Content module
+        // Register for hooks subscribing
+        HookUtil::registerHookSubscriberBundles($this->version);
+
+        // create the default data for the Content module
         $this->defaultdata();        
 
         return true;
@@ -265,6 +268,9 @@ class Content_Installer extends Zikula_Installer
         if (!DBUtil::changeTable('content_history')) {
             return false;
         }
+                
+        // Register for hook subscribing
+        HookUtil::registerHookSubscriberBundles($this->version);
         
         // convert module vars
         $modvars = ModUtil::getVar('Content');
@@ -298,6 +304,9 @@ class Content_Installer extends Zikula_Installer
         DBUtil::dropTable('content_history');
 
         $this->delVars();
+
+        // unregister handlers
+        HookUtil::unregisterHookSubscriberBundles($this->version);
 
         // Deletion successful
         return true;

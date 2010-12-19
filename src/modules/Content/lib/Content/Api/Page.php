@@ -424,7 +424,10 @@ function dumpTree($pages)
         if ($ok === false)
             return false;
 
-        $this->callHooks('item', 'create', $pageData['id'], array ('module' => 'Content')); 
+        // Let any hooks know that we have created an item.
+//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
+        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
+        $this->eventManager->notify($event);
 
         contentClearCaches();
         return $pageData['id'];
@@ -464,7 +467,10 @@ function dumpTree($pages)
         if ($ok === false)
             return false;
 
-        $this->callHooks('item', 'update', $pageData['id'], array ('module' => 'Content')); 
+        // Let any hooks know that we have updated an item.
+//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
+        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
+        $this->eventManager->notify($event);
 
         contentClearCaches();
         return true;
@@ -730,7 +736,11 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
             }
         }
         $this->contentUpdatePageRelations($pageData['id'], $pageData);
-        $this->callHooks('item', 'create', $pageData['id'], array ('module' => 'Content'));
+
+        // Let any hooks know that we have created an item.
+//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
+        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
+        $this->eventManager->notify($event);
     
         contentClearCaches();
         return $pageData['id'];
@@ -799,7 +809,10 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
             return false;
         }
     
-        $this->callHooks('item', 'create', $pageData['id'], array ('module' => 'Content'));
+        // Let any hooks know that we have updated an item.
+//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
+        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
+        $this->eventManager->notify($event);
     
         contentClearCaches();
         return array('id' => $pageData['id'], 'urlname' => $pageData['urlname']);
@@ -851,7 +864,10 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     
         $this->contentDeletePageRelations($pageId);
     
-        $this->callHooks('item', 'delete', $pageId, array ('module' => 'Content')); 
+        // Let any hooks know that we have deleted an item.
+//        $this->notifyHooks('content.hook.pages.process.delete', $pageData, $pageId);
+        $event = new Zikula_Event('content.hook.pages.process.delete', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
+        $this->eventManager->notify($event);
         
         contentClearCaches();
         return true;
