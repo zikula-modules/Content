@@ -6,32 +6,31 @@
  * @license See license.txt
  */
 
-
 var content = {};
 
 /*=[ Drag/drop page ]============================================================*/
 
 content.tocAddPage = function(id)
 {
-  var pageId = "page_" + id;
-  var anchorId = "anchor_" + id;
-
-  new Draggable(pageId,
-  {
-    handle: "dragable"
-  });
-
-  Droppables.add(anchorId, 
+    var pageId = "page_" + id;
+    var anchorId = "anchor_" + id;
+  
+    new Draggable(pageId,
     {
-      onDrop: function(drag, drop, evt) 
-      {
-        Event.stop(evt);
-        $('contentTocDragSrcId').value = drag.id;
-        $('contentTocDragDstId').value = drop.id;
-        content.tocPageDrag();
-      },
-      hoverclass: "hover"
+        handle: "dragable"
     });
+  
+    Droppables.add(anchorId, 
+    {
+        onDrop: function(drag, drop, evt) 
+        {
+            Event.stop(evt);
+            $('contentTocDragSrcId').value = drag.id;
+            $('contentTocDragDstId').value = drop.id;
+            content.tocPageDrag();
+        },
+        hoverclass: "hover"
+     });
 }
 
 
@@ -41,83 +40,84 @@ content.items = new Array();
 
 content.editPageOnLoad = function()
 {
-  // get "columns" in correct order
-  columns = $$("table.content-layout-edit td").sort(function(el1,el2) { return el1.id >= el2.id; });
-
-  // Get new portal object
-  content.portal = new Xilinus.Portal(columns, { onUpdate: content.editPageHandleUpdate }) 
-
-  // Iterate through the registered content elements and add them to the portal
-  content.items.each(
-    function(e) 
-    { 
-      // Remove XXX's added to avoid bad short URL handling in PN's short URL output filter
-      e.title = e.title.replace(/ srcXXX=/g, ' src=');
-      e.title = e.title.replace(/ hrefXXX=/g, ' href=');
-      e.content = e.content.replace(/ srcXXX=/g, ' src=');
-      e.content = e.content.replace(/ hrefXXX=/g, ' href=');
-
-      var widget = new Xilinus.Widget("widget", "widget_"+e.contentId).setTitle(e.title).setContent(e.content).setActive(e.active);
-      content.portal.add(widget, e.column); 
-    }
-  );
+    // get "columns" in correct order
+    columns = $$("table.content-layout-edit td").sort(function(el1,el2) { return el1.id >= el2.id; });
+  
+    // Get new portal object
+    content.portal = new Xilinus.Portal(columns, { onUpdate: content.editPageHandleUpdate }) 
+  
+    // Iterate through the registered content elements and add them to the portal
+    content.items.each(
+        function(e) 
+        { 
+            // Remove XXX's added to avoid bad short URL handling in PN's short URL output filter
+            e.title = e.title.replace(/ srcXXX=/g, ' src=');
+            e.title = e.title.replace(/ hrefXXX=/g, ' href=');
+            e.content = e.content.replace(/ srcXXX=/g, ' src=');
+            e.content = e.content.replace(/ hrefXXX=/g, ' href=');
+      
+            var widget = new Xilinus.Widget("widget", "widget_"+e.contentId).setTitle(e.title).setContent(e.content).setActive(e.active);
+            content.portal.add(widget, e.column); 
+        }
+    );
 }
 
 
 // Called by portal when a content item has been moved
 content.editPageHandleUpdate = function(portal, widget)
 {
-  var contentArea = widget.parentNode;
-
-  // Figure out position inside this content item
-  var position = 0;
-  for (var i=0; i<contentArea.childNodes.length; ++i)
-  {
-    // Found the passed widget?
-    if (contentArea.childNodes[i] == widget)
-      break;
-
-    // Found any widget?
-    if (contentArea.childNodes[i].nodeType == 1 && contentArea.childNodes[i].className == 'widget')
-      ++position;
-  }
-
-  // Convert "widget_col_X" to X
-  var contentAreaIndex = contentArea.id.substr(11);
-
-  // Convert "widget_X" to X
-  var contentId = widget.id.substr(7);
-
-  //alert("New position for " + contentId + " = (" + contentAreaIndex + "," + position + ")");
-
-  // Start AJAX request
-  var pars = "pid=" + content.pageId + "&cid=" + contentId + "&cai=" + contentAreaIndex + "&pos=" + position;
-  var url = "ajax.php?module=Content&func=dragcontent";
-
-  new Ajax.Request(url, { method: "post", 
-                          parameters: pars, 
-                          onSuccess: function(response) { content.handleDragContentOk(response); },
-                          onFailure: content.handleAjaxError});
+    var contentArea = widget.parentNode;
+  
+    // Figure out position inside this content item
+    var position = 0;
+    for (var i=0; i<contentArea.childNodes.length; ++i) {
+        // Found the passed widget?
+        if (contentArea.childNodes[i] == widget)
+          break;
+    
+        // Found any widget?
+        if (contentArea.childNodes[i].nodeType == 1 && contentArea.childNodes[i].className == 'widget') {
+            ++position;
+        }
+    }
+  
+    // Convert "widget_col_X" to X
+    var contentAreaIndex = contentArea.id.substr(11);
+  
+    // Convert "widget_X" to X
+    var contentId = widget.id.substr(7);
+  
+    //alert("New position for " + contentId + " = (" + contentAreaIndex + "," + position + ")");
+  
+    // Start AJAX request
+    var pars = "pid=" + content.pageId + "&cid=" + contentId + "&cai=" + contentAreaIndex + "&pos=" + position;
+    var url = "ajax.php?module=Content&func=dragcontent";
+  
+    new Ajax.Request(url, { method: "post", 
+                            parameters: pars, 
+                            onSuccess: function(response) { content.handleDragContentOk(response); },
+                            onFailure: content.handleAjaxError});
 }
 
 
 content.handleDragContentOk = function(response)
 {
-  var result = pndejsonize(response.responseText);
-  if (!result.ok)
-    alert(result.message);
+    var result = pndejsonize(response.responseText);
+    if (!result.ok) {
+        alert(result.message);
+    }
 }
 
 
 content.handleAjaxError = function(response)
 {
-  alert(response.responseText);
+    alert(response.responseText);
 }
 
 content.popupPreviewWindow = function(commandArgument)
 {
-  url = content.previewUrl.replace('__PID__', commandArgument);
-  window.open(url);
+    url = content.previewUrl.replace('__PID__', commandArgument);
+    window.open(url);
 }
 
 
@@ -125,34 +125,33 @@ content.popupPreviewWindow = function(commandArgument)
 
 content.handleContenTypeSelected = function(id)
 {
-  var dropdownElement = $(id);
-  var descrElement = $(id+"_descr");
-  descrElement.innerHTML = contentDescriptions[dropdownElement.value];
+    var dropdownElement = $(id);
+    var descrElement = $(id+"_descr");
+    descrElement.innerHTML = contentDescriptions[dropdownElement.value];
 }
 
 
 /*=[ Page info ]=================================================================*/
 
 content.pageInfo = {};
-
 content.pageInfo.clearTimer = null;
 
 content.pageInfo.toggle = function(id)
 {
-  $('contentPageInfo-'+id).toggle();
-  return false;
+    $('contentPageInfo-'+id).toggle();
+    return false;
 }
 
 
 content.pageInfo.mouseover = function()
 {
-  clearTimeout(content.pageInfo.clearTimer);
+    clearTimeout(content.pageInfo.clearTimer);
 }
 
 
 content.pageInfo.mouseout = function()
 {
-  content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo').hide(); } , 500);
+    content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo').hide(); } , 500);
 }
 
 
@@ -176,6 +175,18 @@ function initcontentactivationbuttons()
  */
 function togglepagestate(id)
 {
+    var pars = {
+        id: id,
+        active: $('inactive_' + id).visible()
+    };
+    new Zikula.Ajax.Request(
+        "ajax.php?module=Content&func=togglepagestate",
+        {
+            method: 'get',
+            parameters: pars,
+            onComplete: togglepagestate_response
+        });
+/*
     var pars = "module=Content&func=togglepagestate&id=" + id + "&active=" + $('inactive_' + id).visible();
     var myAjax = new Ajax.Request(
         "ajax.php",
@@ -184,6 +195,7 @@ function togglepagestate(id)
             parameters: pars,
             onComplete: togglepagestate_response
         });
+*/
 }
 
 /**
@@ -195,16 +207,15 @@ function togglepagestate(id)
  */
 function togglepagestate_response(req)
 {
-    if (req.status != 200 ) {
-        pnshowajaxerror(req.responseText);
+    if (!req.isSuccess()) {
+        Zikula.showajaxerror(req.getMessage());
         return;
     }
+    var data = req.getData();
 
-    var json = pndejsonize(req.responseText);
-
-    $('active_' + json.id).toggle();
-    $('inactive_' + json.id).toggle();
-    $('activity_' + json.id).update((($('activity_' + json.id).innerHTML == msgPageStatusOffline) ? msgPageStatusOnline : msgPageStatusOffline));
+    $('active_' + data.id).toggle();
+    $('inactive_' + data.id).toggle();
+    $('activity_' + data.id).update((($('activity_' + data.id).innerHTML == msgPageStatusOffline) ? msgPageStatusOnline : msgPageStatusOffline));
 }
 
 /**
@@ -216,6 +227,18 @@ function togglepagestate_response(req)
  */
 function togglepageinmenu(id)
 {
+    var pars = {
+        id: id,
+        inmenu:  $('outmenu_' + id).visible()
+    };
+    new Zikula.Ajax.Request(
+        "ajax.php?module=Content&func=togglepageinmenu",
+        {
+            method: 'post',
+            parameters: pars,
+            onComplete: togglepageinmenu_response
+        });
+/*
     var pars = "module=Content&func=togglepageinmenu&id=" + id + "&inmenu=" + $('outmenu_' + id).visible();
     var myAjax = new Ajax.Request(
         "ajax.php",
@@ -224,6 +247,7 @@ function togglepageinmenu(id)
             parameters: pars,
             onComplete: togglepageinmenu_response
         });
+*/
 }
 
 /**
@@ -235,14 +259,13 @@ function togglepageinmenu(id)
  */
 function togglepageinmenu_response(req)
 {
-    if (req.status != 200 ) {
-        pnshowajaxerror(req.responseText);
+    if (!req.isSuccess()) {
+        Zikula.showajaxerror(req.getMessage());
         return;
     }
+    var data = req.getData();
 
-    var json = pndejsonize(req.responseText);
-
-    $('inmenu_' + json.id).toggle();
-    $('outmenu_' + json.id).toggle();
-    $('menustatus_' + json.id).update((($('menustatus_' + json.id).innerHTML == msgPageOutMenu) ? msgPageInMenu : msgPageOutMenu));
+    $('inmenu_' + data.id).toggle();
+    $('outmenu_' + data.id).toggle();
+    $('menustatus_' + data.id).update((($('menustatus_' + data.id).innerHTML == msgPageOutMenu) ? msgPageInMenu : msgPageOutMenu));
 }
