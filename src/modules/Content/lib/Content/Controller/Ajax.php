@@ -7,20 +7,18 @@
  * @license See license.txt
  */
 
-
 class Content_Controller_Ajax extends Zikula_Controller
 {
     public function dragcontent($args)
     {
-        $ok = ModUtil::apiFunc('Content', 'Content', 'dragcontent', array('pageId' => FormUtil::getPassedValue('pid', null, 'P'), 
+        $ok = ModUtil::apiFunc('Content', 'Content', 'dragContent', array('pageId' => FormUtil::getPassedValue('pid', null, 'P'), 
                 'contentId' => FormUtil::getPassedValue('cid', null, 'P'), 
                 'contentAreaIndex' => FormUtil::getPassedValue('cai', null, 'P'),
                 'position' => FormUtil::getPassedValue('pos', null, 'P')));
         if (!$ok) {
-            return array('ok' => false, 'message' => LogUtil::getErrorMessagesText());
+            return new Zikula_Response_Ajax(array('ok' => false, 'message' => LogUtil::getErrorMessagesText()));
         }
-
-        return array('ok' => true, 'message' => $this->__('OK'));
+        return new Zikula_Response_Ajax(array('ok' => true, 'message' => $this->__('OK')));
     }
 
     /**
@@ -35,19 +33,20 @@ class Content_Controller_Ajax extends Zikula_Controller
     public function togglepagestate($args)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            AjaxUtil::error($this->__('Sorry! You have not been granted access to this page.'));
+            LogUtil::registerPermissionError(null,true);
+            throw new Zikula_Exception_Forbidden();
         }
         
         $id = FormUtil::getPassedValue('id', -1, 'GET');
         if ($id == -1) {
-            return AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
+            AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
         
         $ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'active' => ((bool)FormUtil::getPassedValue('active', 'false', 'GET'))));
         if (!$ok) {
-            return AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
+            AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }
-        AjaxUtil::output(array('id' => $id));
+        return new Zikula_Response_Ajax(array('id' => $id));
     }
     
     /**
@@ -62,7 +61,8 @@ class Content_Controller_Ajax extends Zikula_Controller
     public function togglepageinmenu($args)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            AjaxUtil::error($this->__('Sorry! You have not been granted access to this page.'));
+            LogUtil::registerPermissionError(null,true);
+            throw new Zikula_Exception_Forbidden();
         }
         
         $id = FormUtil::getPassedValue('id', -1, 'GET');
