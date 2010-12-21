@@ -257,6 +257,14 @@ table.content-layout-edit td.content-area {
 .widget_sw {
 }
 
+.onlymembers {
+    background-color: lightblue;
+}
+
+.onlynonmembers {
+    background-color: grey;
+}
+
 .inactive {
     background-color: orange;
 }

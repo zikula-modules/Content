@@ -345,8 +345,9 @@ function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy
     else
         $restriction = "$contentColumn[pageId] = $id";
 
-    if (!$editing)
-        $restriction .= " and c.$contentColumn[active]=1";
+    if (!$editing) {
+        $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] ".(pnUserLoggedIn()?'<=1':'>=1');
+    }
 
     $language = DataUtil::formatForStore($language);
 
