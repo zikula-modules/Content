@@ -64,7 +64,6 @@ class Content_Api_Page extends Zikula_Api
      *
      * @return array Array of pages (each of which is an associative array).
      */
-
     public function getPages($args)
     {
         $filter = isset($args['filter']) ? $args['filter'] : array();
@@ -370,7 +369,7 @@ function dumpTree($pages)
             return LogUtil::registerError($this->__("Error! Cannot create sub-page without parent page ID"));
 
         if ($pageId > 0) {
-            $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'includeContent' => false));
+            $sourcePageData = $this->getPage(array('id' => $pageId, 'includeContent' => false));
             if ($sourcePageData === false)
                 return false;
         } else
@@ -392,9 +391,10 @@ function dumpTree($pages)
             $pageData['urlname'] = $pageData['title'];
         $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
-        $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
-        if (!$ok)
+        $ok = $this->isUniqueUrlnameByParentID(array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+        if (!$ok) {
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
+        }
 
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
@@ -446,31 +446,36 @@ function dumpTree($pages)
         $pageId = (int) $args['pageId'];
         $revisionText = (isset($args['revisionText']) ? $args['revisionText'] : '_CONTENT_HISTORYPAGEUPDATED' /* delayed translation */);
 
-        if (!isset($pageData['urlname']) || empty($pageData['urlname']))
+        if (!isset($pageData['urlname']) || empty($pageData['urlname'])) {
             $pageData['urlname'] = $pageData['title'];
+        }
         $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
-        if (!ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByPageId', array('urlname' => $pageData['urlname'], 'pageId' => $pageId)))
+        if (!$this->isUniqueUrlnameByPageId(array('urlname' => $pageData['urlname'], 'pageId' => $pageId))) {
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
+        }
 
-        $oldPageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false)));
-        if ($oldPageData === false)
+        $oldPageData = $this->getPage(array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false)));
+        if ($oldPageData === false) {
             return false;
+        }
 
-        if ($oldPageData['layout'] != $pageData['layout'])
-            if (!$this->contentUpdateLayout($pageId, $oldPageData['layout'], $pageData['layout']))
+        if ($oldPageData['layout'] != $pageData['layout']) {
+            if (!$this->contentUpdateLayout($pageId, $oldPageData['layout'], $pageData['layout'])) {
                 return false;
+            }
+        }
 
-        if (!$this->contentUpdatePageRelations($pageId, $pageData))
+        if (!$this->contentUpdatePageRelations($pageId, $pageData)) {
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
-
+        }
         $pageData['id'] = $pageId;
-
         DBUtil::updateObject($pageData, 'content_page');
 
         $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => $revisionText));
-        if ($ok === false)
+        if ($ok === false) {
             return false;
+        }
 
         // Let any hooks know that we have updated an item.
 //        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
@@ -481,7 +486,7 @@ function dumpTree($pages)
         return true;
     }
 
-// Update layout
+    // Update layout
     protected function contentUpdateLayout($pageId, $oldLayoutName, $newLayoutName)
     {
         $oldLayout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array('layout' => $oldLayoutName));
@@ -667,7 +672,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageId = (int) $args['pageId']; // the page to clone
         $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
     
-        $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false, 'includeContent' => false)));
+        $sourcePageData = $this->getPage(array('id' => $pageId, 'filter' => array('checkActive' => false, 'includeContent' => false)));
         if ($sourcePageData === false) {
             return false;
         }
@@ -690,7 +695,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
             $pageData['urlname'] = $pageData['title'];
         $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
     
-        $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+        $ok = $this->isUniqueUrlnameByParentID(array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
         if (!$ok) {
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
         }
@@ -758,7 +763,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageData = $args['page'];
     
         if ($pageData['parentPageId'] > 0) {
-            $sourcePageData = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageData['parentPageId'], 'checkActive' => false, 'includeContent' => false));
+            $sourcePageData = $this->getPage(array('id' => $pageData['parentPageId'], 'checkActive' => false, 'includeContent' => false));
             if ($sourcePageData === false) {
                 $pageData['parentPageId'] = 0;
             }
@@ -778,10 +783,10 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
             $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level']);
         }
     
-        $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+        $ok = $this->isUniqueUrlnameByParentID(array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
         while (!$ok) {
             $pageData['urlname'] = DataUtil::formatPermalink(RandomUtil::getString(12, 12, false, true, true, false, true, false, true));
-            $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
+            $ok = $this->isUniqueUrlnameByParentID(array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
         }
     
         $pageData['setLeft'] = -2;
@@ -849,7 +854,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         }
     
         // Delete translations first - they depend on content data
-        $ok = ModUtil::apiFunc('Content', 'Page', 'deleteTranslation', array('pageId' => $pageId, 'addVersion' => false));
+        $ok = $this->deleteTranslation(array('pageId' => $pageId, 'addVersion' => false));
         if (!$ok) {
             return false;
         }
@@ -975,23 +980,23 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         if ($srcPage['setLeft'] < $dstPage['setLeft'] && $srcPage['setRight'] > $dstPage['setRight'])
             return LogUtil::registerError($this->__('Error! It is not possible to move a parent page beneath one of its descendants.'));
 
-        $ok = ModUtil::apiFunc('Content', 'Page', 'removePage', array('id' => $srcId));
-        if ($ok === false)
+        $ok = $this->removePage(array('id' => $srcId));
+        if ($ok === false) {
             return false;
-
+        }
         DBUtil::flushCache('content_page');
 
         // Get destination again so we get an updated position after the above "removePage"
         $dstPage = DBUtil::selectObjectByID('content_page', $dstId);
 //        $dstPage = DBUtil::selectObjectByID('content_page', $dstId, 'id', null, null, null, false);
 
-        $test = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $srcPage['urlname'], 'parentId' => $dstPage['parentPageId'], 'currentPageId' => $srcId));
+        $test = $this->isUniqueUrlnameByParentID(array('urlname' => $srcPage['urlname'], 'parentId' => $dstPage['parentPageId'], 'currentPageId' => $srcId));
         if (!$test) {
-            ModUtil::apiFunc('Content', 'Page', 'insertPage', array('pageId' => $srcId, 'position' => $srcPage['position'], 'parentPageId' => $srcPage['parentPageId']));
+            $this->insertPage(array('pageId' => $srcId, 'position' => $srcPage['position'], 'parentPageId' => $srcPage['parentPageId']));
             // FIXME: This causes a "page not found". But I don't know why. Pls help ;)
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
         }
-        $ok = ModUtil::apiFunc('Content', 'Page', 'insertPage', array('pageId' => $srcId, 'position' => $dstPage['position'] + 1, 'parentPageId' => $dstPage['parentPageId']));
+        $ok = $this->insertPage(array('pageId' => $srcId, 'position' => $dstPage['position'] + 1, 'parentPageId' => $dstPage['parentPageId']));
         if ($ok === false)
             return false;
 
@@ -1024,14 +1029,16 @@ AND $pageColumn[position] = $position-1";
 
         $thisPage = DBUtil::selectObjectByID('content_page', $pageId);
 
-        $ok = ModUtil::apiFunc('Content', 'Page', 'isUniqueUrlnameByParentID', array('urlname' => $thisPage['urlname'], 'parentId' => $previousPage['id']));
+        $ok = $this->isUniqueUrlnameByParentID(array('urlname' => $thisPage['urlname'], 'parentId' => $previousPage['id']));
         // FIXME: This causes a "page not found" if $ok == false. But I don't know why. Pls help ;)
-        if (!$ok)
+        if (!$ok) {
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
+        }
 
-        $ok = ModUtil::apiFunc('Content', 'Page', 'removePage', array('id' => $pageId));
-        if ($ok === false)
+        $ok = $this->removePage(array('id' => $pageId));
+        if ($ok === false) {
             return false;
+        }
 
         DBUtil::flushCache('content_page');
 
@@ -1045,11 +1052,11 @@ WHERE $pageColumn[parentPageId] = $previousPage[id]";
         if ($newPosition == null)
             $newPosition = 0;
 
-        $ok = ModUtil::apiFunc('Content', 'Page', 'insertPage', array('pageId' => $pageId, 'position' => $newPosition, 'parentPageId' => $previousPage['id']));
+        $ok = $this->insertPage(array('pageId' => $pageId, 'position' => $newPosition, 'parentPageId' => $previousPage['id']));
         if ($ok === false)
             return false;
         /*
-  $ok = ModUtil::apiFunc('Content', 'Page', 'updateNestedSetValues');
+  $ok = $this->updateNestedSetValues();
   if ($ok === false)
     return false;
         */
@@ -1216,11 +1223,11 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $url = $args['urlname'];
 
         if ($args['parentId'] > 0) {
-            $parenturl = ModUtil::apiFunc('Content', 'Page', 'getUrlPath', array('pageId' => $args['parentId']));
+            $parenturl = $this->getUrlPath(array('pageId' => $args['parentId']));
             $url = $parenturl . '/' . $url;
         }
 
-        $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', array('urlname' => $url));
+        $pageId = $this->solveURLPath(array('urlname' => $url));
 
         // It is unique if no other page exists OR the found page is the same as we are testing from
         if ($pageId == false || $pageId == $currentPageId)
@@ -1242,10 +1249,10 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['pageId']) || empty($args['pageId'])) {
             return LogUtil::registerArgsError();
         }
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $args['pageId'], 'includeContent' => false, 'filter' => array('checkActive' => false)));
-        $parenturl = ModUtil::apiFunc('Content', 'Page', 'getUrlPath', array('pageId' => $page['parentPageId']));
+        $page = $this->getPage(array('id' => $args['pageId'], 'includeContent' => false, 'filter' => array('checkActive' => false)));
+        $parenturl = $this->getUrlPath(array('pageId' => $page['parentPageId']));
         $url = $parenturl . '/' . $args['urlname'];
-        $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', array('urlname' => $url));
+        $pageId = $this->solveURLPath(array('urlname' => $url));
 
         if ($pageId == false || $pageId == $args['pageId']) {
             return true;
@@ -1403,7 +1410,7 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
                 $page['inMenu'] = 0;
             }
         }
-
+        
         DBUtil::updateObject($page, 'content_page');
         return true;
     }
