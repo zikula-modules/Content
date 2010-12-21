@@ -29,8 +29,11 @@
 {formcontextmenuitem __title='Decrease indent' imageURL="images/icons/extrasmall/format_decreaseindent.gif" commandName="decIndent"}
 {formcontextmenuitem __title='Increase indent' imageURL="images/icons/extrasmall/format_increaseindent.gif" commandName="incIndent"}
 {if $multilingual}{formcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl}{/if}
-{if $access.pageDeleteAllowed}{formcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deletePage' __confirmMessage='Delete'}{/if}
 {if $enableVersioning}{formcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history'}{/if}
+{if $access.pageDeleteAllowed}
+{formcontextmenuseparator}
+{formcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deletePage' __confirmMessage='Delete'}
+{/if}
 {/formcontextmenu}
 
 {gt text="Click to activate this page" assign=activate}
