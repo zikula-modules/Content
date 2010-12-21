@@ -55,14 +55,18 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         pnSessionSetVar('directory_yournotthefirst', true);
         $options = array('makeTree' => true);
         $options['orderBy'] = 'setLeft';
-        if ($this->includeSubpage && $this->pid != 0) {
-            $options['filter']['superParentId'] = $this->pid;
-        } elseif (!$this->includeSubpage && $this->pid == 0) {
+        // if includeHeading and includeSubpage are set to false, show direct child pages
+        if (!$this->includeSubpage && $this->pid == 0) {
             $pntable = pnDBGetTables();
             $pageColumn = $pntable['content_page_column'];
             $options['filter']['where'] = "$pageColumn[level] = 0";
-        } elseif (!$this->includeSubpage && $this->pid != 0)
+        } elseif (!$this->includeSubpage && $this->pid != 0 && $this->includeHeading) {
             $options['filter']['pageId'] = $this->pid;
+        } elseif ($this->includeSubpage && $this->pid != 0) {
+            $options['filter']['superParentId'] = $this->pid;
+        } elseif ($this->pid != 0) {
+            $options['filter']['parentId'] = $this->pid;
+        }
 
         if (!$this->includeNotInMenu) {
             $options['filter']['checkInMenu'] = true;
@@ -74,7 +78,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         if (!$work)
             pnSessionDelVar('directory_yournotthefirst');
 
-        if ($this->pid == 0) {
+        if ($this->pid == 0 || ($this->pid != 0 && !$this->includeSubpage && !$this->includeHeading)) {
             $directory = array();
             foreach (array_keys($pages) as $page) {
                 $directory['directory'][] = $this->_genDirectoryRecursive($pages[$page]);
@@ -97,7 +101,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
-                    if ($plugin['plugin']->getModule() == 'content' && $plugin['plugin']->getName() == 'heading') {
+                    if ($plugin['plugin']!= null && $plugin['plugin']->getModule() == 'content' && $plugin['plugin']->getName() == 'heading') {
                         $directory[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id']);
                     }
                 }
