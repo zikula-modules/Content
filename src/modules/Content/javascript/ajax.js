@@ -92,7 +92,7 @@ content.editPageHandleUpdate = function(portal, widget)
     // Start AJAX request
     var pars = "pid=" + content.pageId + "&cid=" + contentId + "&cai=" + contentAreaIndex + "&pos=" + position;
     var url = "ajax.php?module=Content&func=dragcontent";
-  
+      
     new Ajax.Request(url, { method: "post", 
                             parameters: pars, 
                             onSuccess: function(response) { content.handleDragContentOk(response); },
@@ -142,12 +142,10 @@ content.pageInfo.toggle = function(id)
     return false;
 }
 
-
 content.pageInfo.mouseover = function()
 {
     clearTimeout(content.pageInfo.clearTimer);
 }
-
 
 content.pageInfo.mouseout = function()
 {
@@ -183,6 +181,7 @@ function togglepagestate(id)
         "ajax.php?module=Content&func=togglepagestate",
         {
             method: 'post',
+            /*authid: 'contentauthid',*/
             parameters: pars,
             onComplete: togglepagestate_response
         });

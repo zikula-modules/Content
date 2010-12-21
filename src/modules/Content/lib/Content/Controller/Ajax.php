@@ -32,19 +32,26 @@ class Content_Controller_Ajax extends Zikula_Controller
      */
     public function togglepagestate($args)
     {
+//        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
+/*
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            LogUtil::registerPermissionError(null,true);
-            throw new Zikula_Exception_Forbidden();
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
+*/
+//        $this->throwForbiddenUnless(SecurityUtil::confirmAuthKey(), LogUtil::getErrorMsgAuthid());
+/*
+        if (!SecurityUtil::confirmAuthKey()) {
+            LogUtil::registerAuthidError();
+            throw new Zikula_Exception_Fatal();
+        }
+*/
         
-        $id = FormUtil::getPassedValue('id', -1);
-        $active = (bool)FormUtil::getPassedValue('active', 'false');
-//        $id = FormUtil::getPassedValue('id', -1, 'GET');
+        $id = (int)FormUtil::getPassedValue('id', -1, 'post');
+        $active = (bool)FormUtil::getPassedValue('active', false, 'post');
         if ($id == -1) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
         
-//        $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'active' => ((bool)FormUtil::getPassedValue('active', 'false', 'GET'))));
         $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'active' => $active));
         if (!$ok) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
@@ -63,20 +70,18 @@ class Content_Controller_Ajax extends Zikula_Controller
      */
     public function togglepageinmenu($args)
     {
-        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            LogUtil::registerPermissionError(null,true);
-            throw new Zikula_Exception_Forbidden();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
         
-        $id = FormUtil::getPassedValue('id', -1, 'GET');
+        $id = (int)FormUtil::getPassedValue('id', -1, 'post');
+        $inMenu = (bool)FormUtil::getPassedValue('inmenu', 'false', 'post');
         if ($id == -1) {
             return AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
         
-        $ok = ModUtil::apiFunc('Content', 'page', 'updateState', array('pageId' => $id, 'inMenu' => ((bool)FormUtil::getPassedValue('inmenu', 'false', 'GET'))));
+        $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'inMenu' => $inMenu));
         if (!$ok) {
             return AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }
-        AjaxUtil::output(array('id' => $id));
+        return new Zikula_Response_Ajax(array('id' => $id));
     }
 }
