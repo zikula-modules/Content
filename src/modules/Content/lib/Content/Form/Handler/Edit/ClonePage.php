@@ -45,9 +45,9 @@ class Content_Form_Handler_Edit_ClonePage extends Form_Handler
             return $view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
         }
 
-        $url = ModUtil::url('Content', 'edit', 'main');
+        $url = ModUtil::url('Content', 'Edit', 'Main');
 
-        if ($args['commandName'] == 'clonepage') {
+        if ($args['commandName'] == 'clonePage') {
             if (!$view->isValid()) {
                 return false;
             }
@@ -57,7 +57,7 @@ class Content_Form_Handler_Edit_ClonePage extends Form_Handler
             if ($id === false) {
                 return $view->registerError(null);
             }
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $id));
+            $url = ModUtil::url('Content', 'Edit', 'editPage', array('pid' => $id));
         } else if ($args['commandName'] == 'cancel') {
         }
         return $view->redirect($url);
