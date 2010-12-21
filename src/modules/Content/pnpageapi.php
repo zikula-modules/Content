@@ -280,6 +280,10 @@ function contentGetPageListRestrictions($filter, &$restrictions, &$join)
         $restrictions[] = $where;
     }
 
+    if (!empty($filter['parentId'])) {
+        $restrictions[] = " $pageColumn[parentPageId]= ".(int)$filter['parentId'];
+    }
+
     if (isset($filter['expandedPageIds']) && is_array($filter['expandedPageIds'])) {
         $pageIdStr = '-1';
         foreach (array_keys($filter['expandedPageIds']) as $pageId)
