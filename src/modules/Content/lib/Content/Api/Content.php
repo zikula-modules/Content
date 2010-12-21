@@ -167,7 +167,7 @@ WHERE page.$pageColumn[id] = $pageId";
         for ($i = 0, $cou = count($content); $i < $cou; ++$i) {
             $c = &$content[$i];
             $c['data'] = (empty($c['data']) ? null : unserialize($c['data']));
-            $contentPlugin = ModUtil::apiFunc('Content', 'Content', 'getContentPlugin', $c);
+            $contentPlugin = $this->getContentPlugin($c);
             if ($contentPlugin === false)
                 return LogUtil::registerError($this->__("Error! Can't load content plugin"));
             $content[$i]['plugin'] = $contentPlugin;
@@ -346,7 +346,7 @@ VALUES
         $tables = DBUtil::getTables();
         $translatedColumn = $tables['content_translatedcontent_column'];
 
-        $content = ModUtil::apiFunc('Content', 'Content', 'GetSimplePageContent', array('pageId' => $fromPage));
+        $content = $this->GetSimplePageContent(array('pageId' => $fromPage));
         for ($i = 0; $i < count($content); $i++) {
             $contentData = $content[$i];
             $contentData['id'] = null;
@@ -378,11 +378,11 @@ VALUES
         $contentId = (int) $args['contentId'];
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
-        $content = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $contentId));
+        $content = $this->getContent(array('id' => $contentId));
         if ($content === false)
             return false;
 
-        $contentType = ModUtil::apiFunc('Content', 'Content', 'getContentType', $content);
+        $contentType = $this->getContentType($content);
         if ($contentType === false)
             return false;
 
@@ -400,7 +400,7 @@ VALUES
         $sql = "DELETE FROM $searchTable WHERE $searchColumn[contentId] = $contentId";
         DBUtil::executeSQL($sql);
 
-        $ok = ModUtil::apiFunc('Content', 'Content', 'deleteTranslation', array('contentId' => $contentId, 'includeHistory' => false));
+        $ok = $this->deleteTranslation(array('contentId' => $contentId, 'includeHistory' => false));
         if ($ok === false)
             return false;
 
@@ -419,7 +419,7 @@ VALUES
         $pageId = (int) $args['pageId'];
 
         // Get all content items on this page and all it's sub pages
-        $contentItems = ModUtil::apiFunc('Content', 'Content', 'getPageAndSubPageContent', array('pageId' => $pageId));
+        $contentItems = $this->getPageAndSubPageContent(array('pageId' => $pageId));
         if ($contentItems === false)
             return false;
 
@@ -544,7 +544,7 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
 
 
         if ($contentId != null) {
-            $contentItem = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $contentId));
+            $contentItem = $this->getContent(array('id' => $contentId));
             if ($contentItem === false)
                 return false;
 
@@ -656,7 +656,7 @@ WHERE c.$contentColumn[pageId] = $pageId";
     // Remove content from content area, but do not delete it
     protected function contentRemoveContent($contentId)
     {
-        $contentData = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $contentId));
+        $contentData = $this->getContent(array('id' => $contentId));
         if ($contentData === false)
             return false;
 
@@ -684,7 +684,7 @@ WHERE     $contentColumn[pageId] = $pageId
     // Insert content in content area
     protected function contentInsertContent($contentId, $position, $contentAreaIndex, $pageId)
     {
-        $contentData = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $contentId));
+        $contentData = $this->getContent(array('id' => $contentId));
         if ($contentData === false)
             return false;
 
