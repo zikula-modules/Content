@@ -249,7 +249,7 @@ function content_user_sitemap($args)
     if (!contentHasPageViewAccess())
         return LogUtil::registerPermissionError();
 
-    $pages = pnModAPIFunc('content', 'page', 'getPages', array('orderBy' => 'setLeft', 'makeTree' => true));
+    $pages = pnModAPIFunc('content', 'page', 'getPages', array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array('checkInMenu' => true)));
     if ($pages === false)
         return false;
 
