@@ -22,6 +22,7 @@ function content_tables()
         'nohooks'       => 'page_nohooks',    // page w/o hooks
         'layout'        => 'page_layout',     // Name of page layout
         'categoryId'    => 'page_categoryid', // Primary category ID
+        'views'         => 'page_views',      // # views of page
         'active'        => 'page_active',     // Bool flag: active or not?
         'activeFrom'    => 'page_activefrom', // Date - publish start
         'activeTo'      => 'page_activeto',   // Date - publish end
@@ -40,6 +41,7 @@ function content_tables()
         'nohooks'       => "I1 NOTNULL DEFAULT 0",
         'layout'        => "C(100) NOTNULL",
         'categoryId'    => "I NOT NULL DEFAULT 0",
+        'views'         => "I NOT NULL DEFAULT 0",
         'active'        => "I1 NOTNULL DEFAULT 1",
         'activeFrom'    => "T",
         'activeTo'      => "T",
