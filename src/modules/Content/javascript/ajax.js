@@ -56,7 +56,7 @@ content.editPageOnLoad = function()
             e.content = e.content.replace(/ srcXXX=/g, ' src=');
             e.content = e.content.replace(/ hrefXXX=/g, ' href=');
       
-            var widget = new Xilinus.Widget("widget", "widget_"+e.contentId).setTitle(e.title).setContent(e.content).setActive(e.active);
+            var widget = new Xilinus.Widget("widget", "widget_"+e.contentId).setTitle(e.title).setContent(e.content).setVisibleFor(e.visiblefor).setActive(e.active);
             content.portal.add(widget, e.column); 
         }
     );

@@ -17,6 +17,10 @@
         {formlabel for='active' __text='Active'}
         {formcheckbox id='active' checked=$content.active}
     </div>
+    <div class="z-formrow">
+        {formlabel for='visiblefor' __text='Visible for'}
+        {formdropdownlist id='visiblefor' items=$visiblefors group='content'}
+    </div>
 </fieldset>
 {/formtabbedpanel}
 
