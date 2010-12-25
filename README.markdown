@@ -5,8 +5,8 @@ Content is a page editing module for Zikula. With it you can insert and edit var
 
 Each page has a specific layout - single column, two or three columns, with and without headers and footers (and you can easily add your own).
 
-This master branch is for Zikula 1.3.x
+This master branch is for Zikula 1.3.x and will not work in Zikula 1.2.x
 
-The issue tracker can be found at http://code.zikula.org/content/
+The issue tracker can be found at [http://code.zikula.org/content/](http://code.zikula.org/content/)
 
 
