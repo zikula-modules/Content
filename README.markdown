@@ -7,6 +7,6 @@ Each page has a specific layout - single column, two or three columns, with and 
 
 This release-3.2.x branch is for Zikula 1.2.x
 
-The issue tracker can be found at http://code.zikula.org/content/
+The issue tracker can be found at [http://code.zikula.org/content/](http://code.zikula.org/content/)
 
 
