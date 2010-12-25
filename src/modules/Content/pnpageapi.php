@@ -274,11 +274,6 @@ function contentGetPageListRestrictions($filter, &$restrictions, &$join)
         $restrictions[] = "$pageColumn[inMenu] = 1";
     }
 
-    if (array_key_exists('includeViews', $filter) && $filter['includeViews']) {
-        $restrictions[] = "z_content_reads.userid = 1 and views > 0";
-        $join .= "NATURAL JOIN z_content_reads\n";
-    }
-
     if (!empty($filter['superParentId'])) {
         $pageData = DBUtil::selectObjectByID('content_page', $filter['superParentId'], 'id', array('setLeft', 'setRight'));
         $where = "$pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
