@@ -91,7 +91,7 @@ class Content_Api_Content extends Zikula_Api
             $restriction = "$contentColumn[pageId] = $id";
         }
         if (!$editing) {
-            $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] ".(pnUserLoggedIn()?'<=1':'>=1');
+            $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] ".(UserUtil::isLoggedIn()?'<=1':'>=1');
         }
 
         $language = DataUtil::formatForStore($language);
