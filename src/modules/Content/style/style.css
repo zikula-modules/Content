@@ -98,18 +98,19 @@ div.content-page-path {
 }
 
 div.content-editthis a {
-    display:block;
+    display: block;
     font-size: 0.9em;
-    color:#444;
-    padding:1px;
-    margin:1px 0;
-    border: 1px #ddd solid;
-    background: #fafafa;
+    color: #467aa7;
+    padding: 1px 1px 1px 5px;
+    margin: 1px 0;
+    border: 1px #eef solid;
+    background: #dde;
 }
 
 div.content-editthis a:hover {
-    color:#000;
-    border:1px solid #AAAAAA;
+    color: #2a5a8a;
+    border: 1px solid #aab;
+    background: #d0d0e0;
 }
 
 div.z-pager * {
