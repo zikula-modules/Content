@@ -27,7 +27,7 @@ class Content_Form_Handler_Edit_DeletedPages extends Form_Handler
 
     function handleCommand($view, &$args)
     {
-        $url = ModUtil::url('Content', 'edit', 'main');
+        $url = ModUtil::url('Content', 'Edit', 'main');
 
         if ($args['commandName'] == 'restore') {
             $ok = ModUtil::apiFunc('Content', 'History', 'restoreVersion', array('id' => $args['commandArgument']));

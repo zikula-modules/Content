@@ -59,7 +59,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
         if ($this->backref != null) {
             $returnUrl = $this->backref;
         } else {
-            $returnUrl = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $returnUrl = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
         }
         ModUtil::apiFunc('PageLock', 'user', 'pageLock', array('lockName' => "contentContent{$this->contentId}", 'returnUrl' => $returnUrl));
 
@@ -90,7 +90,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
                 return $view->registerError(null);
             }
             if ($args['commandName'] == 'translate') {
-                $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $this->contentId, 'back' => 1));
+                $url = ModUtil::url('Content', 'Edit', 'translatecontent', array('cid' => $this->contentId, 'back' => 1));
             }
         } else if ($args['commandName'] == 'delete') {
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteContent', array('contentId' => $this->contentId));
@@ -104,7 +104,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
             $url = $this->backref;
         }
         if (empty($url)) {
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
         }
         ModUtil::apiFunc('PageLock', 'user', 'releaseLock', array('lockName' => "contentContent{$this->contentId}"));
 

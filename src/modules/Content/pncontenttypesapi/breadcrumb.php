@@ -41,7 +41,7 @@ class content_contenttypesapi_breadcrumbPlugin extends contentTypeBase
         $path = array();
         $pageid = $this->pageid;
         while ($pageid > 0) {
-            $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $pageid, 'includeContent' => false, 'translate' => false));
+            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageid, 'includeContent' => false, 'translate' => false));
             array_unshift($path, $page);
             $pageid = $page['parentPageId'];
         }

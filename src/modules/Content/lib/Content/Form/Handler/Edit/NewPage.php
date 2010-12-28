@@ -25,7 +25,7 @@ class Content_Form_Handler_Edit_NewPage extends Form_Handler
         }
 
         if ($this->pageId != null) {
-            $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
+            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
             if ($page === false) {
                 return $view->registerError(null);
             }
@@ -33,7 +33,7 @@ class Content_Form_Handler_Edit_NewPage extends Form_Handler
             $page = null;
         }
 
-        $layouts = ModUtil::apiFunc('Content', 'layout', 'getLayouts');
+        $layouts = ModUtil::apiFunc('Content', 'Layout', 'getLayouts');
         if ($layouts === false) {
             return $view->registerError(null);
         }
@@ -68,10 +68,10 @@ class Content_Form_Handler_Edit_NewPage extends Form_Handler
             if ($id === false) {
                 return false;
             }
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $id));
+            $url = ModUtil::url('Content', 'Edit', 'editPage', array('pid' => $id));
         } else if ($args['commandName'] == 'cancel') {
             $id = null;
-            $url = ModUtil::url('Content', 'edit', 'main');
+            $url = ModUtil::url('Content', 'Edit', 'main');
         }
 
         return $view->redirect($url);

@@ -37,7 +37,7 @@ class Content_Form_Handler_Edit_TranslatePage extends Form_Handler
         if ($this->backref != null) {
             $returnUrl = $this->backref;
         } else {
-            $returnUrl = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $returnUrl = ModUtil::url('Content', 'Edit', 'editPage', array('pid' => $this->pageId));
         }
         ModUtil::apiFunc('PageLock', 'user', 'pageLock',
                      array('lockName' => "contentTranslatePage{$this->pageId}",
@@ -71,11 +71,11 @@ class Content_Form_Handler_Edit_TranslatePage extends Form_Handler
             }
 
             if ($args['commandName'] == 'next' && $translationInfo['nextContentId'] != null) {
-                $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $translationInfo['nextContentId']));
+                $url = ModUtil::url('Content', 'Edit', 'translateContent', array('cid' => $translationInfo['nextContentId']));
             }
         } else if ($args['commandName'] == 'skip') {
             if ($translationInfo['nextContentId'] != null) {
-              $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $translationInfo['nextContentId']));
+              $url = ModUtil::url('Content', 'Edit', 'translateContent', array('cid' => $translationInfo['nextContentId']));
             }
         } else if ($args['commandName'] == 'delete') {
             $ok = ModUtil::apiFunc('Content', 'Page', 'deleteTranslation',
@@ -90,7 +90,7 @@ class Content_Form_Handler_Edit_TranslatePage extends Form_Handler
             $url = $this->backref;
         }
         if (empty($url)) {
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $url = ModUtil::url('Content', 'Edit', 'editPage', array('pid' => $this->pageId));
         }
         ModUtil::apiFunc('PageLock', 'user', 'releaseLock',
                    array('lockName' => "contentTranslatePage{$this->pageId}"));

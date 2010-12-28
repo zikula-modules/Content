@@ -35,16 +35,16 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
 
     function handleCommand($view, &$args)
     {
-        $url = ModUtil::url('Content', 'edit', 'main');
+        $url = ModUtil::url('Content', 'Edit', 'main');
 
         if ($args['commandName'] == 'edit') {
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $args['commandArgument']));
+            $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'newSubPage') {
-            $url = ModUtil::url('Content', 'edit', 'newpage', array('pid' => $args['commandArgument'], 'loc' => 'sub'));
+            $url = ModUtil::url('Content', 'Edit', 'newpage', array('pid' => $args['commandArgument'], 'loc' => 'sub'));
         } else if ($args['commandName'] == 'newPage') {
-            $url = ModUtil::url('Content', 'edit', 'newpage', array('pid' => $args['commandArgument']));
+            $url = ModUtil::url('Content', 'Edit', 'newpage', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'clonePage') {
-            $url = ModUtil::url('Content', 'edit', 'clonepage', array('pid' => $args['commandArgument']));
+            $url = ModUtil::url('Content', 'Edit', 'clonepage', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'drag') {
             $srcId = FormUtil::getPassedValue('contentTocDragSrcId', null, 'POST');
             $dstId = FormUtil::getPassedValue('contentTocDragDstId', null, 'POST');
@@ -84,7 +84,7 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
             }
         } else if ($args['commandName'] == 'history') {
             $pageId = (int) $args['commandArgument'];
-            $url = ModUtil::url('Content', 'edit', 'history', array('pid' => $pageId));
+            $url = ModUtil::url('Content', 'Edit', 'history', array('pid' => $pageId));
         } else if ($args['commandName'] == 'toggleExpand') {
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             contentMainEditExpandToggle($pageId);

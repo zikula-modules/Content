@@ -58,7 +58,7 @@ class Content_Form_Handler_Edit_HistoryContent extends Form_Handler
             $url = $this->backref;
         }
         if (empty($url)) {
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
         }
 
         return $view->redirect($url);

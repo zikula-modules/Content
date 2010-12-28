@@ -10,7 +10,7 @@ class Content_Form_Plugin_ClassSelector extends Form_Plugin_DropdownList
     function load($view, &$params)
     {
         if (!$view->isPostBack()) {
-            $classes = ModUtil::apiFunc('Content', 'admin', 'getStyleClasses');
+            $classes = ModUtil::apiFunc('Content', 'Admin', 'getStyleClasses');
             $empty = array(array('text' => '', 'value' => ''));
             $classes = array_merge($empty, $classes);
             $this->setItems($classes);

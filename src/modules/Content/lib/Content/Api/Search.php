@@ -82,7 +82,7 @@ WHERE $where and $contentColumn[active] = 1";
         $datarow = &$args['datarow'];
         $pageId = (int) $datarow['extra'];
 
-        $datarow['url'] = ModUtil::url('Content', 'user', 'view', array('pid' => $pageId));
+        $datarow['url'] = ModUtil::url('Content', 'User', 'view', array('pid' => $pageId));
 
         return true;
     }

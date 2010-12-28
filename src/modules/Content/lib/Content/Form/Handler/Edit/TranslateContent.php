@@ -73,7 +73,7 @@ class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
         if ($this->backref != null) {
             $returnUrl = $this->backref;
         } else {
-            $returnUrl = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $returnUrl = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
         }
         ModUtil::apiFunc('PageLock', 'user', 'pageLock', array('lockName' => "contentTranslateContent{$this->contentId}", 'returnUrl' => $returnUrl));
 
@@ -100,17 +100,17 @@ class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
                 return $view->registerError(null);
             }
             if ($args['commandName'] == null) {
-                $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $contentData['translationStep']));
+                $url = ModUtil::url('Content', 'Edit', 'translatecontent', array('cid' => $contentData['translationStep']));
             } else if ($args['commandName'] == 'next' && $translationInfo['nextContentId'] != null) {
-                $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $translationInfo['nextContentId']));
+                $url = ModUtil::url('Content', 'Edit', 'translatecontent', array('cid' => $translationInfo['nextContentId']));
             } else if ($args['commandName'] == 'prev' && $translationInfo['prevContentId'] == null) {
-                $url = ModUtil::url('Content', 'edit', 'translatepage', array('pid' => $this->pageId));
+                $url = ModUtil::url('Content', 'Edit', 'translatepage', array('pid' => $this->pageId));
             } else if ($args['commandName'] == 'prev' && $translationInfo['prevContentId'] != null) {
-                $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $translationInfo['prevContentId']));
+                $url = ModUtil::url('Content', 'Edit', 'translatecontent', array('cid' => $translationInfo['prevContentId']));
             }
         } else if ($args['commandName'] == 'skip') {
             if ($translationInfo['nextContentId'] != null) {
-                $url = ModUtil::url('Content', 'edit', 'translatecontent', array('cid' => $translationInfo['nextContentId']));
+                $url = ModUtil::url('Content', 'Edit', 'translatecontent', array('cid' => $translationInfo['nextContentId']));
             }
         } else if ($args['commandName'] == 'delete') {
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteTranslation', array('contentId' => $this->contentId, 'language' => $this->language));
@@ -122,9 +122,9 @@ class Content_Form_Handler_Edit_TranslateContent extends Form_Handler
             $url = $this->backref;
         }
         if (empty($url)) {
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
         }
-        ModUtil::apiFunc('PageLock', 'user', 'releaseLock', array('lockName' => "contentTranslateContent{$this->contentId}"));
+        ModUtil::apiFunc('PageLock', 'User', 'releaseLock', array('lockName' => "contentTranslateContent{$this->contentId}"));
 
         return $view->redirect($url);
     }

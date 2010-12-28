@@ -78,10 +78,10 @@ class Content_Form_Handler_Edit_NewContent extends Form_Handler
                 return $view->registerError(null);
             }
 
-            $url = ModUtil::url('Content', 'edit', 'editcontent', array('cid' => $id));
+            $url = ModUtil::url('Content', 'Edit', 'editcontent', array('cid' => $id));
         } else if ($args['commandName'] == 'cancel') {
             $id = null;
-            $url = ModUtil::url('Content', 'edit', 'editpage', array('pid' => $this->pageId));
+            $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
         }
 
         return $view->redirect($url);

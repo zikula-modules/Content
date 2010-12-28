@@ -8,7 +8,7 @@ class Content_Form_Plugin_LayoutSelector extends Form_Plugin_DropdownList
         if (array_key_exists('layouts', $params)) {
             $layouts = $params['layouts'];
         } else {
-            $layouts = ModUtil::apiFunc('Content', 'layout', 'getLayouts');
+            $layouts = ModUtil::apiFunc('Content', 'Layout', 'getLayouts');
             if ($layouts === false) {
                 return false;
             }
