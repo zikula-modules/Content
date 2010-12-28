@@ -241,7 +241,7 @@ class Content_Controller_User extends Zikula_Controller
         if (!contentHasPageViewAccess())
             return LogUtil::registerPermissionError();
 
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('orderBy' => 'setLeft', 'makeTree' => true));
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array('checkInMenu' => true)));
         if ($pages === false)
             return false;
 
