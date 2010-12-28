@@ -28,7 +28,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     }
     function getDescription()
     {
-        return $this->__("A table of contents of headings and subpages (build from this module's pages).");
+        return $this->__('A table of contents of headings and subpages (built from the available Content pages).');
     }
     function isTranslatable()
     {
@@ -44,8 +44,9 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     function display()
     {
         $work = SessionUtil::getVar('directory_yournotthefirst', false);
-        if ($work)
+        if ($work) {
             return '';
+        }
         SessionUtil::setVar('directory_yournotthefirst', true);
         $options = array('makeTree' => true);
         $options['orderBy'] = 'setLeft';
@@ -55,8 +56,9 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             $table = DBUtil::getTables();
             $pageColumn = $table['content_page_column'];
             $options['filter']['where'] = "$pageColumn[level] = 0";
-        } elseif (!$this->includeSubpage && $this->pid != 0)
+        } elseif (!$this->includeSubpage && $this->pid != 0) {
             $options['filter']['pageId'] = $this->pid;
+        }
 
         if (!$this->includeNotInMenu) {
             $options['filter']['checkInMenu'] = true;
@@ -65,7 +67,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         if ($this->includeHeading) {
             $options['includeContent'] = true;
         }
-        $pages = ModUtil::apiFunc('Content', 'page', 'getPages', $options);
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
         if (!$work) {
             SessionUtil::delVar('directory_yournotthefirst');
         }
@@ -81,13 +83,12 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('directory', $directory);
-        $view->assign('contentId', $this->contentId);
         return $view->fetch('contenttype/directory_view.html');
     }
     function _genDirectoryRecursive(&$pages)
     {
         $directory = array();
-        $pageurl = ModUtil::url('Content', 'user', 'view', array('pid' => $pages['id']));
+        $pageurl = ModUtil::url('Content', 'User', 'view', array('pid' => $pages['id']));
         if ($pages['content']) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
@@ -109,8 +110,13 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     }
     function displayEditing()
     {
-        $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false));
-        return "<h3>" . $this->__f('Table of contents of %1$s', array("title" => $page['title'])) . "</h3>";
+        if ($this->pid == 0) {
+            $title = $this->__('All pages');
+        } else {
+            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false, 'filter' => array('checkActive' => false)));
+            $title = $page['title'];
+        }
+        return "<h3>" . $this->__f('Table of contents of %s', $title) . "</h3>";
     }
     function getDefaultData()
     {
@@ -119,7 +125,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     }
     function startEditing(&$view)
     {
-        $pages = ModUtil::apiFunc('Content', 'page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'filter' => array('checkActive' => false)));
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'filter' => array('checkActive' => false)));
         $pidItems = array();
         $pidItems[] = array('text' => $this->__('All pages'), 'value' => "0");
         foreach ($pages as $page) {
