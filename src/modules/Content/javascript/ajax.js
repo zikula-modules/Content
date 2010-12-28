@@ -175,26 +175,15 @@ function togglepagestate(id)
 {
     var pars = {
         id: id,
-        active: $('inactive_' + id).visible()
+        active: $('active_' + id).visible()
     };
     new Zikula.Ajax.Request(
         "ajax.php?module=Content&func=togglepagestate",
         {
             method: 'post',
-            /*authid: 'contentauthid',*/
             parameters: pars,
             onComplete: togglepagestate_response
         });
-/*
-    var pars = "module=Content&func=togglepagestate&id=" + id + "&active=" + $('inactive_' + id).visible();
-    var myAjax = new Ajax.Request(
-        "ajax.php",
-        {
-            method: 'get',
-            parameters: pars,
-            onComplete: togglepagestate_response
-        });
-*/
 }
 
 /**
@@ -212,6 +201,7 @@ function togglepagestate_response(req)
     }
     var data = req.getData();
 
+    // switch the leds and adapt the text
     $('active_' + data.id).toggle();
     $('inactive_' + data.id).toggle();
     $('activity_' + data.id).update((($('activity_' + data.id).innerHTML == msgPageStatusOffline) ? msgPageStatusOnline : msgPageStatusOffline));
@@ -228,7 +218,7 @@ function togglepageinmenu(id)
 {
     var pars = {
         id: id,
-        inmenu:  $('outmenu_' + id).visible()
+        inMenu:  $('inmenu_' + id).visible()
     };
     new Zikula.Ajax.Request(
         "ajax.php?module=Content&func=togglepageinmenu",
@@ -237,16 +227,6 @@ function togglepageinmenu(id)
             parameters: pars,
             onComplete: togglepageinmenu_response
         });
-/*
-    var pars = "module=Content&func=togglepageinmenu&id=" + id + "&inmenu=" + $('outmenu_' + id).visible();
-    var myAjax = new Ajax.Request(
-        "ajax.php",
-        {
-            method: 'get',
-            parameters: pars,
-            onComplete: togglepageinmenu_response
-        });
-*/
 }
 
 /**
@@ -264,6 +244,7 @@ function togglepageinmenu_response(req)
     }
     var data = req.getData();
 
+    // switch the leds and adapt the text
     $('inmenu_' + data.id).toggle();
     $('outmenu_' + data.id).toggle();
     $('menustatus_' + data.id).update((($('menustatus_' + data.id).innerHTML == msgPageOutMenu) ? msgPageInMenu : msgPageOutMenu));

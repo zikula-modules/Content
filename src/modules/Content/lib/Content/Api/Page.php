@@ -1388,29 +1388,30 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         return $path;
     }
     
+    /**
+     * Update the status of the page 
+     *
+     * @param int pageId
+     * @param string active (optional)
+     * @param string inMenu (optional)
+     *
+     * @return true
+     */
     public function updateState($args)
     {
         // Argument check
         if (!isset($args['pageId'])) {
             return LogUtil::registerArgsError();
         }
-
-        $page = array('id' => (int) $args['pageId']);
+        
+        $page = array('id' => $args['pageId']);
         if (isset($args['active'])) {
-            if ($args['active']) {
-                $page['active'] = 1;
-            } else {
-                $page['active'] = 0;
-            }
+            $page['active'] = ($args['active'] == 'true') ? 0 : 1;
         }
         if (isset($args['inMenu'])) {
-            if ($args['inMenu']) {
-                $page['inMenu'] = 1;
-            } else {
-                $page['inMenu'] = 0;
-            }
+            $page['inMenu'] = ($args['inMenu'] == 'true') ? 0 : 1;
         }
-        
+
         DBUtil::updateObject($page, 'content_page');
         return true;
     }
