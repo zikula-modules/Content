@@ -10,26 +10,28 @@ var content = {};
 
 /*=[ Drag/drop page ]============================================================*/
 
-content.tocAddPage = function(id)
+content.addDraggablePage = function(id)
 {
     var pageId = "page_" + id;
-    var anchorId = "anchor_" + id;
+    var droppableId = "droppable_" + id;
   
     new Draggable(pageId,
     {
-        handle: "dragable"
+        handle: 'draggable',
+        revert: true,
+        scroll: window
     });
   
-    Droppables.add(anchorId, 
+    Droppables.add(droppableId, 
     {
-        onDrop: function(drag, drop, evt) 
+        hoverclass: 'hoverdrop',
+        onDrop: function(dragged, dropped, event) 
         {
-            Event.stop(evt);
-            $('contentTocDragSrcId').value = drag.id;
-            $('contentTocDragDstId').value = drop.id;
-            content.tocPageDrag();
-        },
-        hoverclass: "hover"
+            Event.stop(event);
+            $('contentTocDragSrcId').value = dragged.id;
+            $('contentTocDragDstId').value = dropped.id;
+            content.pageListDrag();
+        }
      });
 }
 
@@ -50,7 +52,7 @@ content.editPageOnLoad = function()
     content.items.each(
         function(e) 
         { 
-            // Remove XXX's added to avoid bad short URL handling in PN's short URL output filter
+            // Remove XXX's added to avoid bad short URL handling in Zikula short URL output filter
             e.title = e.title.replace(/ srcXXX=/g, ' src=');
             e.title = e.title.replace(/ hrefXXX=/g, ' href=');
             e.content = e.content.replace(/ srcXXX=/g, ' src=');
@@ -72,8 +74,9 @@ content.editPageHandleUpdate = function(portal, widget)
     var position = 0;
     for (var i=0; i<contentArea.childNodes.length; ++i) {
         // Found the passed widget?
-        if (contentArea.childNodes[i] == widget)
-          break;
+        if (contentArea.childNodes[i] == widget) {
+            break;
+        }
     
         // Found any widget?
         if (contentArea.childNodes[i].nodeType == 1 && contentArea.childNodes[i].className == 'widget') {
@@ -88,31 +91,39 @@ content.editPageHandleUpdate = function(portal, widget)
     var contentId = widget.id.substr(7);
   
     //alert("New position for " + contentId + " = (" + contentAreaIndex + "," + position + ")");
-  
+
     // Start AJAX request
-    var pars = "pid=" + content.pageId + "&cid=" + contentId + "&cai=" + contentAreaIndex + "&pos=" + position;
-    var url = "ajax.php?module=Content&func=dragcontent";
-      
-    new Ajax.Request(url, { method: "post", 
-                            parameters: pars, 
-                            onSuccess: function(response) { content.handleDragContentOk(response); },
-                            onFailure: content.handleAjaxError});
+    var pars = {
+        pid: content.pageId,
+        cid: contentId,
+        cai: contentAreaIndex,
+        pos: position
+    };
+    new Zikula.Ajax.Request(
+        "ajax.php?module=Content&func=dragContent",
+        {
+            method: 'post',
+            parameters: pars,
+            onComplete: content.handleDragContentOk
+        });
+
 }
 
-
-content.handleDragContentOk = function(response)
+content.handleDragContentOk = function(req)
 {
-    var result = pndejsonize(response.responseText);
-    if (!result.ok) {
-        alert(result.message);
+    if (!req.isSuccess()) {
+        Zikula.showajaxerror(req.getMessage());
+        return;
+    }
+    var data = req.getData();
+
+    // check for success
+    if (!data.ok) {
+        alert(data.message);
     }
 }
 
-
-content.handleAjaxError = function(response)
-{
-    alert(response.responseText);
-}
+/*=[ preview a page ]============================================================*/
 
 content.popupPreviewWindow = function(commandArgument)
 {
@@ -154,7 +165,7 @@ content.pageInfo.mouseout = function()
 
 
 /**
- * activate all buttons to (de-)activate blocks
+ * activate the icon leds for active/inmenu status of pages
  *
  */
 function initcontentactivationbuttons()
@@ -178,7 +189,7 @@ function togglepagestate(id)
         active: $('active_' + id).visible()
     };
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=togglepagestate",
+        "ajax.php?module=Content&func=togglePageState",
         {
             method: 'post',
             parameters: pars,
@@ -221,7 +232,7 @@ function togglepageinmenu(id)
         inMenu:  $('inmenu_' + id).visible()
     };
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=togglepageinmenu",
+        "ajax.php?module=Content&func=togglePageInMenu",
         {
             method: 'post',
             parameters: pars,

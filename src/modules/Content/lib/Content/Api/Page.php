@@ -968,7 +968,7 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         return true;
     }
 
-    public function drag($args)
+    public function pageDrop($args)
     {
         $srcId = (int) $args['srcId'];
         $dstId = (int) $args['dstId'];
@@ -977,9 +977,11 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         $dstPage = DBUtil::selectObjectByID('content_page', $dstId);
 
         // Is $src a parent of $dst? This is not allowed
-        if ($srcPage['setLeft'] < $dstPage['setLeft'] && $srcPage['setRight'] > $dstPage['setRight'])
+        if ($srcPage['setLeft'] < $dstPage['setLeft'] && $srcPage['setRight'] > $dstPage['setRight']) {
             return LogUtil::registerError($this->__('Error! It is not possible to move a parent page beneath one of its descendants.'));
-
+        }
+        
+        // Remove the src page and reinsert later on.
         $ok = $this->removePage(array('id' => $srcId));
         if ($ok === false) {
             return false;
@@ -988,17 +990,23 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
 
         // Get destination again so we get an updated position after the above "removePage"
         $dstPage = DBUtil::selectObjectByID('content_page', $dstId);
-//        $dstPage = DBUtil::selectObjectByID('content_page', $dstId, 'id', null, null, null, false);
 
         $test = $this->isUniqueUrlnameByParentID(array('urlname' => $srcPage['urlname'], 'parentId' => $dstPage['parentPageId'], 'currentPageId' => $srcId));
         if (!$test) {
+            // not unique name so reinsert at src position
             $this->insertPage(array('pageId' => $srcId, 'position' => $srcPage['position'], 'parentPageId' => $srcPage['parentPageId']));
             // FIXME: This causes a "page not found". But I don't know why. Pls help ;)
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
         }
-        $ok = $this->insertPage(array('pageId' => $srcId, 'position' => $dstPage['position'] + 1, 'parentPageId' => $dstPage['parentPageId']));
-        if ($ok === false)
+        // insert the srcPage as subpage of the dstPage
+        $ok = $this->insertPage(array('pageId' => $srcId, 'position' => $dstPage['position']+1, 'parentPageId' => $dstPage['id']));
+//        $ok = $this->insertPage(array('pageId' => $srcId, 'position' => $dstPage['position']+1, 'parentPageId' => $dstPage['parentPageId']));
+        if ($ok === false) {
             return false;
+        } else {
+            // Expand the destination page
+            contentMainEditExpandSet($dstPage['id'], true);
+        }
 
         contentClearCaches();
         return true;
@@ -1007,12 +1015,12 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
     public function increaseIndent($args)
     {
         $pageId = (int) $args['pageId'];
-
         $page = DBUtil::selectObjectByID('content_page', $pageId);
 
         // Cannot indent topmost page
-        if ($page['position'] == 0)
+        if ($page['position'] == 0) {
             return true;
+        }
 
         $parentPageId = $page['parentPageId'];
         $position = $page['position'];
@@ -1021,16 +1029,15 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         $pageTable = $dbtables['content_page'];
         $pageColumn = $dbtables['content_page_column'];
 
-        $where = "
-                $pageColumn[parentPageId] = $parentPageId
-AND $pageColumn[position] = $position-1";
+        $where = "$pageColumn[parentPageId] = $parentPageId AND $pageColumn[position] = $position-1";
 
         $previousPage = DBUtil::selectObject('content_page', $where);
-
         $thisPage = DBUtil::selectObjectByID('content_page', $pageId);
+        if (!isset($previousPage['id']) || !isset($thisPage['urlname'])) {
+            return LogUtil::registerError($this->__('Error! The indentation of this page cannot be increased.'));
+        }
 
         $ok = $this->isUniqueUrlnameByParentID(array('urlname' => $thisPage['urlname'], 'parentId' => $previousPage['id']));
-        // FIXME: This causes a "page not found" if $ok == false. But I don't know why. Pls help ;)
         if (!$ok) {
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
         }
@@ -1049,22 +1056,23 @@ FROM $pageTable
 WHERE $pageColumn[parentPageId] = $previousPage[id]";
 
         $newPosition = DBUtil::selectScalar($sql);
-        if ($newPosition == null)
+        if ($newPosition == null) {
             $newPosition = 0;
-
+        }
         $ok = $this->insertPage(array('pageId' => $pageId, 'position' => $newPosition, 'parentPageId' => $previousPage['id']));
+        if ($ok === false) {
+            return false;
+        }
+        /*
+        $ok = $this->updateNestedSetValues();
         if ($ok === false)
             return false;
-        /*
-  $ok = $this->updateNestedSetValues();
-  if ($ok === false)
-    return false;
         */
         contentClearCaches();
         return true;
     }
 
-// Remove page from hierarchy, but don't delete it
+    // Remove page from hierarchy, but don't delete it
     public function removePage($args)
     {
         $id = (int) $args['id'];
@@ -1116,7 +1124,7 @@ WHERE $pageColumn[setRight] > $pageData[setRight]";
         return true;
     }
 
-// Insert page into hierarchy
+    // Insert page into hierarchy
     public function insertPage($args)
     {
         $pageId = (int) $args['pageId'];
@@ -1137,8 +1145,6 @@ WHERE     $pageColumn[parentPageId] = $parentPageId
 
         // *** Update all left/right values for all pages "right of this page"
         // Assume "this page" has left/right values that matches it's subtree (but with a wrong offset)
-
-
         $pageData = DBUtil::selectObjectByID('content_page', $pageId);
         if ($parentPageId > 0) {
             $parentPageData = DBUtil::selectObjectByID('content_page', $parentPageId);
@@ -1158,12 +1164,12 @@ WHERE     $pageColumn[parentPageId] = $parentPageId
                 ";
 
         $maxLeftOfthis = DBUtil::selectScalar($sql);
-        if (empty($maxLeftOfthis))
+        if (empty($maxLeftOfthis)) {
             $maxLeftOfthis = -1;
-
-        if ($parentPageData != null && $parentPageData['setLeft'] > $maxLeftOfthis)
+        }
+        if ($parentPageData != null && $parentPageData['setLeft'] > $maxLeftOfthis) {
             $maxLeftOfthis = $parentPageData['setLeft'];
-
+        }
         //echo "maxLeftOfthis=$maxLeftOfthis. ";
         $diff = $pageData['setRight'] - $pageData['setLeft'] + 1;
         //var_dump($pageData);
@@ -1183,8 +1189,6 @@ WHERE $pageColumn[setLeft] > $maxLeftOfthis AND $pageColumn[id] != $pageId";
         DBUtil::executeSQL($sql);
 
         // *** Update level/left/right values for this page and all pages below
-
-
         $levelDiff = $pageData['level'] - ($parentLevel + 1);
         $diff2 = $pageData['setLeft'] - $maxLeftOfthis - 1;
         //echo "diff2=$diff2. ";
@@ -1216,8 +1220,9 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
      */
     public function isUniqueUrlnameByParentID($args)
     {
-        if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['parentId']))
+        if (!isset($args['urlname']) || empty($args['urlname']) || !isset($args['parentId'])) {
             return LogUtil::registerArgsError();
+        }
 
         $currentPageId = isset($args['currentPageId']) ? (int) $args['currentPageId'] : -1;
         $url = $args['urlname'];
@@ -1230,8 +1235,9 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $pageId = $this->solveURLPath(array('urlname' => $url));
 
         // It is unique if no other page exists OR the found page is the same as we are testing from
-        if ($pageId == false || $pageId == $currentPageId)
+        if ($pageId == false || $pageId == $currentPageId) {
             return true;
+        }
 
         return false;
     }

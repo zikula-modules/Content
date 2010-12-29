@@ -1,4 +1,4 @@
-{ajaxheader modname='Content' filename='ajax.js' dragdrop=true nobehaviour=1}
+{ajaxheader modname='Content' filename='ajax.js'}
 {form cssClass='z-form'}
 
 <h2>{gt text="Page list and content structure"}</h2>
@@ -23,7 +23,9 @@
 {/if}
 
 <script type="text/javascript">
-    {{include file=content_include_tocedit3.html pages=$pages}}
+{{foreach from=$pages item=page}}
+  content.addDraggablePage({{$page.id}});
+{{/foreach}}
 </script>
 
 <div>
@@ -31,6 +33,6 @@
     <input type="hidden" name="contentTocDragDstId" id="contentTocDragDstId"/>
 </div>
 
-{formpostbackfunction function="content.tocPageDrag" commandName='drag'}
+{formpostbackfunction function="content.pageListDrag" commandName='pageDrop'}
 
 {/form}

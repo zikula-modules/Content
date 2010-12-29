@@ -3,7 +3,7 @@
 {ajaxheader modname='Content' filename='ajax.js' nobehaviour=1}
 {usergetvar name=uname uid=$page.cr_uid assign=authorName}
 {usergetvar name=uname uid=$page.lu_uid assign=updaterName}
-{modapifunc modname='Content' type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
+{modapifunc modname='Content' type=History func=getPageVersionNo pageId=$page.id assign=versionNo}
 <div class="content-pageinfo">
     <a href="#" onclick="return content.pageInfo.toggle({$page.id})" class="info" >{img src=utilities.gif modname=core set=icons/extrasmall alt=Properties }</a>
     <div class="content" id="contentPageInfo-{$page.id}" style="display: none" onmouseover="content.pageInfo.mouseover()" onmouseout="content.pageInfo.mouseout()">

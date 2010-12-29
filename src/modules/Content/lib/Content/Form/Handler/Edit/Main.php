@@ -40,32 +40,34 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
         if ($args['commandName'] == 'edit') {
             $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'newSubPage') {
-            $url = ModUtil::url('Content', 'Edit', 'newpage', array('pid' => $args['commandArgument'], 'loc' => 'sub'));
+            $url = ModUtil::url('Content', 'Edit', 'newPage', array('pid' => $args['commandArgument'], 'loc' => 'sub'));
         } else if ($args['commandName'] == 'newPage') {
-            $url = ModUtil::url('Content', 'Edit', 'newpage', array('pid' => $args['commandArgument']));
+            $url = ModUtil::url('Content', 'Edit', 'newPage', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'clonePage') {
             $url = ModUtil::url('Content', 'Edit', 'clonepage', array('pid' => $args['commandArgument']));
-        } else if ($args['commandName'] == 'drag') {
+        } else if ($args['commandName'] == 'pageDrop') {
             $srcId = FormUtil::getPassedValue('contentTocDragSrcId', null, 'POST');
             $dstId = FormUtil::getPassedValue('contentTocDragDstId', null, 'POST');
             list ($dummy, $srcId) = explode('_', $srcId);
             list ($dummy, $dstId) = explode('_', $dstId);
-
-            $ok = ModUtil::apiFunc('Content', 'Page', 'drag', array('srcId' => $srcId, 'dstId' => $dstId));
+            
+            $ok = ModUtil::apiFunc('Content', 'Page', 'pageDrop', array('srcId' => $srcId, 'dstId' => $dstId));
             if (!$ok) {
                 return $view->registerError(null);
             }
         } else if ($args['commandName'] == 'decIndent') {
             // Decreasing indent is the same as dragging it onto parent page
-
             $srcId = (int) $args['commandArgument'];
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $srcId));
             if ($page === false) {
                 return $view->registerError(null);
             }
-            $dstId = (int) $page['parentPageId'];
+            $parentPage = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $page['parentPageId']));
+            $dstId = (int) $parentPage['parentPageId'];
+//            $dstId = (int) $page['parentPageId'];
+
             if ($dstId != 0) {
-                $ok = ModUtil::apiFunc('Content', 'Page', 'drag', array('srcId' => $srcId, 'dstId' => $dstId));
+                $ok = ModUtil::apiFunc('Content', 'Page', 'pageDrop', array('srcId' => $srcId, 'dstId' => $dstId));
                 if (!$ok) {
                     return $view->registerError(null);
                 }

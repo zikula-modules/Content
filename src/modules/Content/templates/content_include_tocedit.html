@@ -1,8 +1,7 @@
 <script type="text/javascript">
     //<![CDATA[
-    {{modurl modname='Content' type=user func=view preview=1 pid=__PID__ assign=previewUrl}}
+    {{modurl modname=Content type=User func=view preview=1 pid=__PID__ assign=previewUrl}}
     content.previewUrl = "{{$previewUrl}}";
-
     function contentToggle(id)
     {
         $('contentTogglePageId').value = id;
@@ -15,7 +14,7 @@
 <div>
     <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
 </div>
-{modurl modname='Content' type=edit func=translatepage pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
+{modurl modname='Content' type=Edit func=translatePage pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
 
 {formcontextmenu id="contentTocMenu" width="auto"}
 {formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"}
@@ -69,10 +68,10 @@
                         {/if}
 
                         {if $access.pageEditAllowed}
-                        <img src="images/icons/extrasmall/folder_blank.gif" alt="{gt text="Page dragable"}" title="{gt text="Page dragable"}" class="dragable"/>
+                        <img src="images/icons/extrasmall/folder_blank.gif" alt="{gt text="Page draggable"}" title="{gt text="Page draggable"}" class="draggable"/>
                         {/if}
 
-                        <a href="{modurl modname=content type=edit func=editpage pid=$page.id}" id="anchor_{$page.id}">{$page.title} [{$page.id}{* {$page.position}|{$page.setLeft}/{$page.setRight}  *}]</a>
+                        <a href="{modurl modname=Content type=Edit func=editPage pid=$page.id}" id="droppable_{$page.id}">{$page.title} [{$page.id}{* {$page.position}|{$page.setLeft}/{$page.setRight}  *}]</a>
                         {if $access.pageEditAllowed}&nbsp;{formcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="modules/Content/images/contextarrow.png"}{/if}
                     </div>
                 </td>
@@ -100,7 +99,7 @@
                 </td>
                 <td>{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datebrief' tag2=$updaterName|userprofilelink}
                     {if $enableVersioning}
-                    {modapifunc modname=content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
+                    {modapifunc modname=Content type=History func=getPageVersionNo pageId=$page.id assign=versionNo}
                     (#{$versionNo})
                     {/if}
                 </td>

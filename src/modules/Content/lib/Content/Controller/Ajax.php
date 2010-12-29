@@ -9,20 +9,31 @@
 
 class Content_Controller_Ajax extends Zikula_Controller
 {
-    public function dragcontent($args)
+    /**
+     * dragContent
+     * This function stores the moving of content items in the edit page mode
+     *
+     * @param id int  id of page to toggle
+     * @param active  string "true"/"false"
+     * @return mixed true or Ajax error
+     */
+    public function dragContent($args)
     {
-        $ok = ModUtil::apiFunc('Content', 'Content', 'dragContent', array('pageId' => FormUtil::getPassedValue('pid', null, 'POST'), 
-                'contentId' => FormUtil::getPassedValue('cid', null, 'P'), 
-                'contentAreaIndex' => FormUtil::getPassedValue('cai', null, 'P'),
-                'position' => FormUtil::getPassedValue('pos', null, 'P')));
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
+
+        $ok = ModUtil::apiFunc('Content', 'Content', 'dragContent', 
+            array('pageId' => FormUtil::getPassedValue('pid', null, 'POST'), 
+                'contentId' => FormUtil::getPassedValue('cid', null, 'POST'), 
+                'contentAreaIndex' => FormUtil::getPassedValue('cai', null, 'POST'),
+                'position' => FormUtil::getPassedValue('pos', null, 'POST')));
         if (!$ok) {
             return new Zikula_Response_Ajax(array('ok' => false, 'message' => LogUtil::getErrorMessagesText()));
         }
-        return new Zikula_Response_Ajax(array('ok' => true, 'message' => $this->__('OK')));
+        return new Zikula_Response_Ajax(array('ok' => true, 'message' => $this->__('Ok')));
     }
 
     /**
-     * togglepagestate
+     * togglePageState
      * This function toggles active/inactive
      *
      * @author Erik Spaan & Sven Strickroth
@@ -30,7 +41,7 @@ class Content_Controller_Ajax extends Zikula_Controller
      * @param active  string "true"/"false"
      * @return mixed true or Ajax error
      */
-    public function togglepagestate($args)
+    public function togglePageState($args)
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
         
@@ -48,7 +59,7 @@ class Content_Controller_Ajax extends Zikula_Controller
     }
     
     /**
-     * togglepageinmenu
+     * togglePageInMenu
      * This function toggles inmenu/outmenu
      *
      * @author Erik Spaan & Sven Strickroth
@@ -56,7 +67,7 @@ class Content_Controller_Ajax extends Zikula_Controller
      * @param inmenu  string "true"/"false"
      * @return mixed true or Ajax error
      */
-    public function togglepageinmenu($args)
+    public function togglePageInMenu($args)
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
         

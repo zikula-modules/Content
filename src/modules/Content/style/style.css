@@ -44,14 +44,15 @@ div.content-page-heading h3 {
     padding-top: 0px;
 }
 
-div.content-toc img.dragable {
+div.content-toc img.draggable {
     cursor: move;
     vertical-align: middle;
 }
 
-div.content-toc a.hover {
-    background-color: #AAA;
-    border: 1px solid #888;
+div.content-toc a.hoverdrop {
+    background-color: #dde;
+    border: 1px solid #aab;
+    border-width: 1px 0;
 }
 
 div.content-label-help {
