@@ -20,6 +20,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 // VERSION 1.1-trunk
+//
+// http://blog.xilinus.com/2007/8/26/prototype-portal-class
+// http://blog.xilinus.com/2007/9/4/prototype-portal-class-2
+//
 
 if(typeof Draggable == 'undefined')
   throw("widget.js requires including script.aculo.us' dragdrop.js library");
@@ -78,6 +82,7 @@ Object.extend(Xilinus.Widget.prototype, {
     return $(this._footerDiv)
   },
   
+  // setActive function added to original portal.js
   setActive: function(active) {
     if (!active) {
       $(this._contentDiv).addClassName('inactive');
@@ -275,6 +280,8 @@ Object.extend(Xilinus.Portal.prototype, {
       widget.setStyle({top: 0, left: 0, width: "100%", height: widget._originalHeight, zIndex: null, opacity: null, position: "relative"})
     else
       widget.setStyle({top: null, left: null, width: null, height: widget._originalHeight, zIndex: 'auto', opacity: null, position: "relative"})
+// In original portal.js      
+// widget.setStyle({top: null, left: null, width: null, height: widget._originalHeight, zIndex: null, opacity: null, position: "relative"})
     
     widget.ghost = null;    
     widget.widget.updateHeight();
@@ -287,6 +294,8 @@ Object.extend(Xilinus.Portal.prototype, {
       
       if (this.options.onUpdate)
         this.options.onUpdate(this, widget);
+// In original portal.js      
+// this.options.onUpdate(this, widget);
     }
   },
 
@@ -349,6 +358,7 @@ Object.extend(Xilinus.Portal.prototype, {
   },                
   
   // PRIVATE FUNCTIONS
+  // return; is added in this version, was not in original portal.js
   _updateColumnsHeight: function() {      return;
     var h = 0;
     this._columns.each(function(col) {
@@ -365,4 +375,5 @@ Object.extend(Xilinus.Portal.prototype, {
       this._outTimer = null;
     }                        
   }
-});     
+});
+
