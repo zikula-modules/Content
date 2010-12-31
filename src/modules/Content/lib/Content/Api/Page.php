@@ -284,8 +284,10 @@ FROM $pageTable
         if (!empty($filter['superParentId'])) {
             // get the setLeft/Right of the selected parent for filtering
             $pageData = DBUtil::selectObjectByID('content_page', $filter['superParentId'], 'id', array('setLeft', 'setRight'));
-            $where = " $pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
-            $restrictions[] = $where;
+            if ($pageData) {
+                $where = " $pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
+                $restrictions[] = $where;
+            }
         }
 
         if (isset($filter['expandedPageIds']) && is_array($filter['expandedPageIds'])) {
