@@ -988,7 +988,7 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         }
         DBUtil::flushCache('content_page');
 
-        // Get destination again so we get an updated position after the above "removePage"
+        // Get destination again so we get an updated position after the above "removePage" and DB flush
         $dstPage = DBUtil::selectObjectByID('content_page', $dstId);
 
         $test = $this->isUniqueUrlnameByParentID(array('urlname' => $srcPage['urlname'], 'parentId' => $dstPage['parentPageId'], 'currentPageId' => $srcId));
@@ -1000,12 +1000,44 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         }
         // insert the srcPage as subpage of the dstPage
         $ok = $this->insertPage(array('pageId' => $srcId, 'position' => $dstPage['position']+1, 'parentPageId' => $dstPage['id']));
-//        $ok = $this->insertPage(array('pageId' => $srcId, 'position' => $dstPage['position']+1, 'parentPageId' => $dstPage['parentPageId']));
         if ($ok === false) {
             return false;
         } else {
-            // Expand the destination page
+            // Expand the destination page to show the new nested page
             contentMainEditExpandSet($dstPage['id'], true);
+        }
+
+        contentClearCaches();
+        return true;
+    }
+
+    public function decreaseIndent($args)
+    {
+        $pageId = (int) $args['pageId'];
+        $page = DBUtil::selectObjectByID('content_page', $pageId);
+        $parentPage = DBUtil::selectObjectByID('content_page', $page['parentPageId']);
+
+        // Remove the src page and reinsert later on.
+        $ok = $this->removePage(array('id' => $pageId));
+        if ($ok === false) {
+            return false;
+        }
+        DBUtil::flushCache('content_page');
+
+        // Get destination again so we get an updated position after the above "removePage"
+        $parentPage = DBUtil::selectObjectByID('content_page', $page['parentPageId']);
+
+        $test = $this->isUniqueUrlnameByParentID(array('urlname' => $page['urlname'], 'parentId' => $parentPage['parentPageId'], 'currentPageId' => $pageId));
+        if (!$test) {
+            // not unique name so reinsert at src position
+            $this->insertPage(array('pageId' => $pageId, 'position' => $page['position'], 'parentPageId' => $page['parentPageId']));
+            // FIXME: This causes a "page not found". But I don't know why. Pls help ;)
+            return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
+        }
+        // move the page up in the tree
+        $ok = $this->insertPage(array('pageId' => $pageId, 'position' => $parentPage['position']+1, 'parentPageId' => $parentPage['parentPageId']));
+        if ($ok === false) {
+            return false;
         }
 
         contentClearCaches();
@@ -1046,7 +1078,6 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
         if ($ok === false) {
             return false;
         }
-
         DBUtil::flushCache('content_page');
 
         // Find new position (last in existing sub-pages)

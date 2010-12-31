@@ -56,21 +56,10 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
                 return $view->registerError(null);
             }
         } else if ($args['commandName'] == 'decIndent') {
-            // Decreasing indent is the same as dragging it onto parent page
-            $srcId = (int) $args['commandArgument'];
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $srcId));
-            if ($page === false) {
+            $pageId = (int) $args['commandArgument'];
+            $ok = ModUtil::apiFunc('Content', 'Page', 'decreaseIndent', array('pageId' => $pageId));
+            if (!$ok) {
                 return $view->registerError(null);
-            }
-            $parentPage = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $page['parentPageId']));
-            $dstId = (int) $parentPage['parentPageId'];
-//            $dstId = (int) $page['parentPageId'];
-
-            if ($dstId != 0) {
-                $ok = ModUtil::apiFunc('Content', 'Page', 'pageDrop', array('srcId' => $srcId, 'dstId' => $dstId));
-                if (!$ok) {
-                    return $view->registerError(null);
-                }
             }
         } else if ($args['commandName'] == 'incIndent') {
             $pageId = (int) $args['commandArgument'];
