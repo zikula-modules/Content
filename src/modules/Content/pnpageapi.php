@@ -276,8 +276,10 @@ function contentGetPageListRestrictions($filter, &$restrictions, &$join)
 
     if (!empty($filter['superParentId'])) {
         $pageData = DBUtil::selectObjectByID('content_page', $filter['superParentId'], 'id', array('setLeft', 'setRight'));
-        $where = "$pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
-        $restrictions[] = $where;
+        if ($pageData) {
+            $where = "$pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
+            $restrictions[] = $where;
+        }
     }
 
     if (isset($filter['expandedPageIds']) && is_array($filter['expandedPageIds'])) {
