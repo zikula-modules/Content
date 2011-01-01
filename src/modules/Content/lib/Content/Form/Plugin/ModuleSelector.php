@@ -10,10 +10,12 @@ class Content_Form_Plugin_ModuleSelector extends Form_Plugin_DropdownList
     function load($view, &$params)
     {
         if (!$view->isPostBack()) {
-            $moduleList = ModUtil::apiFunc('Modules', 'admin', 'listmodules', array());
+            // Find the active modules
+            $moduleList = ModUtil::apiFunc('Modules', 'Admin', 'listmodules', array('state' => ModUtil::STATE_ACTIVE));
             $modules = array();
+            // Only list modules that have a User view
             foreach ($moduleList as $module) {
-                if ($module['user_capable'] && $module['state'] == PNMODULE_STATE_ACTIVE) {
+                if (isset($module['capabilities']['user'])) {
                     $modules[] = array('text' => $module['displayname'], 'value' => $module['name']);
                 }
             }
