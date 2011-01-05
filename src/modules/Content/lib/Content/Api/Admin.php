@@ -36,7 +36,7 @@ class Content_Api_Admin extends Zikula_Api
     public function getStyleClasses($args)
     {
         $classes = array();
-        $userClasses = ModUtil::getVar('Content', 'styleClasses');
+        $userClasses = $this->getVar('styleClasses');
         $userClasses = explode("\n", $userClasses);
 
         foreach ($userClasses as $class)

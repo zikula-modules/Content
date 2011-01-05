@@ -40,7 +40,7 @@ class content_contenttypesapi_FlickrPlugin extends contentTypeBase
     }
     function isActive()
     {
-        $apiKey = ModUtil::getVar('Content', 'flickrApiKey');
+        $apiKey = $this->getVar('flickrApiKey');
         if (!empty($apiKey)) {
             return true;
         }
@@ -54,7 +54,7 @@ class content_contenttypesapi_FlickrPlugin extends contentTypeBase
     }
     function display()
     {
-        $this->flickr = new phpFlickr(ModUtil::getVar('Content', 'flickrApiKey'));
+        $this->flickr = new phpFlickr($this->getVar('flickrApiKey'));
         $this->flickr->enableCache("fs", System::getVar('temp'));
 
         // Find the NSID of the username
@@ -85,7 +85,7 @@ class content_contenttypesapi_FlickrPlugin extends contentTypeBase
     }
     function startEditing(&$view)
     {
-        $view->assign('flickrApiKey', ModUtil::getVar('Content', 'flickrApiKey'));
+        $view->assign('flickrApiKey', $this->getVar('flickrApiKey'));
     }
     function decode($s)
     {

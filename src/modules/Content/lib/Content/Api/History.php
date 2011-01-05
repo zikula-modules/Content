@@ -122,7 +122,7 @@ class Content_Api_History extends Zikula_Api
 
     public function addPageVersion($args)
     {
-        if (!ModUtil::getVar('Content', 'enableVersioning')) {
+        if (!$this->getVar('enableVersioning')) {
             return true;
         }
 
@@ -437,7 +437,7 @@ class Content_Api_History extends Zikula_Api
 /*
     public function deletePage($args)
     {
-        if (!ModUtil::getVar('Content', 'enableVersioning'))
+        if (!$this->getVar('enableVersioning'))
             return true;
 
         $pageId = (int)$args['pageId'];

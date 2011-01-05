@@ -42,7 +42,7 @@ class Content_Api_User extends Zikula_Api
         {
             $url = ModUtil::apiFunc('Content', 'Page', 'getURLPath', array('pageId' => $args['args']['pid']));
             if (strtolower($args['func']) == 'view') {
-                $suffix = ModUtil::getVar('Content', 'shorturlsuffix');
+                $suffix = $this->getVar('shorturlsuffix');
                 $url .= $suffix;
             }
 
@@ -59,7 +59,7 @@ class Content_Api_User extends Zikula_Api
      * @return bool true if succeded false otherwise
      */
     public function decodeurl($args) {
-        $suffix = ModUtil::getVar('Content', 'shorturlsuffix');
+        $suffix = $this->getVar('shorturlsuffix');
 
         $supportedfunctions = array('list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
         $argsnum = count($args['vars']);

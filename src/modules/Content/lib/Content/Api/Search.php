@@ -12,7 +12,7 @@ class Content_Api_Search extends Zikula_Api
 {
     public function info()
     {
-        return array('title' => 'content', 'functions' => array('Content' => 'search'));
+        return array('title' => 'Content', 'functions' => array('Content' => 'search'));
     }
 
     /**
@@ -21,9 +21,8 @@ class Content_Api_Search extends Zikula_Api
     public function options($args)
     {
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_READ)) {
-            $view = Zikula_View::getInstance('Content');
-            $view->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
-            return $view->fetch('content_search_options.html');
+            $this->view->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
+            return $this->view->fetch('content_search_options.html');
         }
 
         return '';
@@ -34,17 +33,17 @@ class Content_Api_Search extends Zikula_Api
         $dom = ZLanguage::getModuleDomain('Content');
         ModUtil::dbInfoLoad('Content');
         ModUtil::dbInfoLoad('Search');
-        $dbconn = DBConnectionStack::getConnection*(true);
-        $pntable = DBUtil::getTables();
+        $dbconn = DBConnectionStack::getConnection(true);
+        $dbtables = DBUtil::getTables();
 
-        $searchTable = $pntable['search_result'];
-        $searchColumn = $pntable['search_result_column'];
-        $pageTable = $pntable['content_page'];
-        $pageColumn = $pntable['content_page_column'];
-        $contentTable = $pntable['content_content'];
-        $contentColumn = $pntable['content_content_column'];
-        $contentSearchTable = $pntable['content_searchable'];
-        $contentSearchColumn = $pntable['content_searchable_column'];
+        $searchTable = $dbtables['search_result'];
+        $searchColumn = $dbtables['search_result_column'];
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
+        $contentTable = $dbtables['content_content'];
+        $contentColumn = $dbtables['content_content_column'];
+        $contentSearchTable = $dbtables['content_searchable'];
+        $contentSearchColumn = $dbtables['content_searchable_column'];
 
         $sessionId = session_id();
 

@@ -7,7 +7,7 @@
     <!--[getbaseurl assign="baseURL"]-->
     <url>
         <loc><!--[$baseURL]--></loc>
-        <lastmod><!--[$smarty.now|pndate_format:"%Y-%m-%d"]--></lastmod>
+        <lastmod><!--[$smarty.now|dateformat:'%Y-%m-%d']--></lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

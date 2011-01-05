@@ -9,7 +9,6 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
 
     function initialize($view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         if (!contentHasPageEditAccess()) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
@@ -20,13 +19,13 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
             return $view->registerError(null);
         }
 
-        PageUtil::setVar('title', __('Page list and content structure', $dom));
+        PageUtil::setVar('title', $this->__('Page list and content structure'));
         $csssrc = ThemeUtil::getModuleStylesheet('admin', 'admin.css');
         PageUtil::addVar('stylesheet', $csssrc);
 
         $view->assign('pages', $pages);
         $view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
-        $view->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
+        $view->assign('enableVersioning', $this->getVar('enableVersioning'));
         $view->assign('language', ZLanguage::getLanguageCode());
         contentAddAccess($view, null);
 

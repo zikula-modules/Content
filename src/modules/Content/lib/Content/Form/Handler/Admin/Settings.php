@@ -28,7 +28,6 @@ class Content_Form_Handler_Admin_Settings extends Form_Handler
 
     function handleCommand($view, &$args)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         if ($args['commandName'] == 'save') {
             if (!$view->isValid()) {
                 return false;
