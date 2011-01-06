@@ -40,7 +40,7 @@ class content_contenttypesapi_FlickrPlugin extends contentTypeBase
     }
     function isActive()
     {
-        $apiKey = $this->getVar('flickrApiKey');
+        $apiKey =  ModUtil::getVar('Content', 'flickrApiKey');
         if (!empty($apiKey)) {
             return true;
         }

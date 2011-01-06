@@ -25,8 +25,8 @@ class Content_Form_Handler_Edit_Page extends Form_Handler
         }
 
         // load the category registry util
-        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', $this->getVar('categoryPropPrimary'), 30);
-        $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', $this->getVar('categoryPropSecondary'));
+        $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page',  ModUtil::getVar('Content', 'categoryPropPrimary'), 30);
+        $secondCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page',  ModUtil::getVar('Content', 'categoryPropSecondary'));
         $multilingual = ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual');
         if ($page['language'] == ZLanguage::getLanguageCode()) {
             $multilingual = false;
@@ -51,8 +51,8 @@ class Content_Form_Handler_Edit_Page extends Form_Handler
         $view->assign('multilingual', $multilingual);
         $view->assign('layouts', $layouts);
         $view->assign('pagelayout', $pagelayout);
-        $view->assign('enableVersioning', $this->getVar('enableVersioning'));
-        $view->assign('categoryUsage', $this->getVar('categoryUsage'));
+        $view->assign('enableVersioning',  ModUtil::getVar('Content', 'enableVersioning'));
+        $view->assign('categoryUsage',  ModUtil::getVar('Content', 'categoryUsage'));
         contentAddAccess($view, $this->pageId);
 
         if (!$this->view->isPostBack() && FormUtil::getPassedValue('back', 0)) {

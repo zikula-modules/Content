@@ -25,7 +25,7 @@ class Content_Form_Handler_Edit_Main extends Form_Handler
 
         $view->assign('pages', $pages);
         $view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
-        $view->assign('enableVersioning', $this->getVar('enableVersioning'));
+        $view->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
         $view->assign('language', ZLanguage::getLanguageCode());
         contentAddAccess($view, null);
 

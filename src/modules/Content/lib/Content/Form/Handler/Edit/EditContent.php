@@ -50,7 +50,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
         $view->assign('data', $content['data']);
         $view->assign('contentType', $this->contentType);
         $view->assign('multilingual', $multilingual);
-        $view->assign('enableVersioning', $this->getVar('enableVersioning'));
+        $view->assign('enableVersioning',  ModUtil::getVar('Content', 'enableVersioning'));
         contentAddAccess($view, $this->pageId);
 
         if (!$this->view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
