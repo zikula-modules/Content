@@ -85,19 +85,20 @@ Object.extend(Xilinus.Widget.prototype, {
   // setActive function added to original portal.js
   setActive: function(active) {
     if (!active) {
-      $(this._contentDiv).addClassName('inactive');
+      $(this._contentDiv).addClassName('widget_inactive');
     } else {
-      $(this._contentDiv).removeClassName('inactive');
+      $(this._contentDiv).removeClassName('widget_inactive');
     }
     return this;
   },
+  // setVisibleFor function added to original portal.js
   setVisibleFor: function(visiblefor) {
     if (visiblefor == 2) {
-      $(this._contentDiv).addClassName('onlynonmembers');
-      $(this._contentDiv).removeClassName('onlymembers');
+      $(this._contentDiv).addClassName('widget_onlynonmembers');
+      $(this._contentDiv).removeClassName('widget_onlymembers');
     } else if (visiblefor == 0) {
-      $(this._contentDiv).addClassName('onlymembers');
-      $(this._contentDiv).removeClassName('onlynonmembers');
+      $(this._contentDiv).addClassName('widget_onlymembers');
+      $(this._contentDiv).removeClassName('widget_onlynonmembers');
     }
     return this;
   },

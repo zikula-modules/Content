@@ -46,7 +46,7 @@ class Content_Form_Handler_Edit_EditContent extends Form_Handler
         $template = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_edit.html';
         $view->assign('contentTypeTemplate', $template);
         $view->assign('page', $page);
-        $view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only non logged in people'), 'value' => '2')));
+        $view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only not logged in people'), 'value' => '2')));
         $view->assign('content', $content);
         $view->assign('data', $content['data']);
         $view->assign('contentType', $this->contentType);

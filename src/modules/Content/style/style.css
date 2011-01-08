@@ -259,16 +259,16 @@ table.content-layout-edit td.content-area {
 .widget_sw {
 }
 
-.onlymembers {
-    background-color: lightblue;
+.widget_onlymembers {
+    background-color: #cdf;
 }
 
-.onlynonmembers {
-    background-color: grey;
+.widget_onlynonmembers {
+    background-color: #fdc;
 }
 
-.inactive {
-    background-color: orange;
+.widget_inactive {
+    background-color: #ccc;
 }
 
 .widget_title {
