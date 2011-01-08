@@ -50,14 +50,18 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         SessionUtil::setVar('directory_yournotthefirst', true);
         $options = array('makeTree' => true);
         $options['orderBy'] = 'setLeft';
-        if ($this->includeSubpage && $this->pid != 0) {
-            $options['filter']['superParentId'] = $this->pid;
-        } elseif (!$this->includeSubpage && $this->pid == 0) {
+
+        // if includeHeading and includeSubpage are set to false, show direct child pages
+        if (!$this->includeSubpage && $this->pid == 0) {
             $table = DBUtil::getTables();
             $pageColumn = $table['content_page_column'];
             $options['filter']['where'] = "$pageColumn[level] = 0";
-        } elseif (!$this->includeSubpage && $this->pid != 0) {
+        } elseif (!$this->includeSubpage && $this->pid != 0 && $this->includeHeading) {
             $options['filter']['pageId'] = $this->pid;
+        } elseif ($this->includeSubpage && $this->pid != 0) {
+            $options['filter']['superParentId'] = $this->pid;
+        } elseif ($this->pid != 0) {
+            $options['filter']['parentId'] = $this->pid;
         }
 
         if (!$this->includeNotInMenu) {
@@ -72,7 +76,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             SessionUtil::delVar('directory_yournotthefirst');
         }
 
-        if ($this->pid == 0) {
+        if ($this->pid == 0 || ($this->pid != 0 && !$this->includeSubpage && !$this->includeHeading)) {
             $directory = array();
             foreach (array_keys($pages) as $page) {
                 $directory['directory'][] = $this->_genDirectoryRecursive($pages[$page]);
@@ -83,6 +87,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('directory', $directory);
+        $view->assign('contentId', $this->contentId);
         return $view->fetch('contenttype/directory_view.html');
     }
     function _genDirectoryRecursive(&$pages)
@@ -93,7 +98,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
-                    if ($plugin['plugin']->getModule() == 'Content' && $plugin['plugin']->getName() == 'heading') {
+                    if ($plugin['plugin']!= null && $plugin['plugin']->getModule() == 'Content' && $plugin['plugin']->getName() == 'heading') {
                         $directory[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id']);
                     }
                 }
