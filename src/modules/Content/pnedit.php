@@ -544,6 +544,7 @@ class content_edit_editContentHandler extends pnFormHandler
         $template = 'file:' . getcwd() . "/modules/$content[module]/pntemplates/contenttype/" . $content['type'] . '_edit.html';
         $render->assign('contentTypeTemplate', $template);
         $render->assign('page', $page);
+        $render->assign('visiblefors', array(array('text' => 'public (all)', 'value' => '1'), array('text' => 'only logged in members', 'value' => '0'), array('text' => 'only non logged in people', 'value' => '2')));
         $render->assign('content', $content);
         $render->assign('data', $content['data']);
         $render->assign('contentType', $this->contentType);
