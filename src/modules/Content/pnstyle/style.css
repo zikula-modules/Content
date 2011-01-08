@@ -258,11 +258,11 @@ table.content-layout-edit td.content-area {
 }
 
 .onlymembers {
-    background-color: lightblue;
+    background-color: #cdf;
 }
 
 .onlynonmembers {
-    background-color: grey;
+    background-color: #fdc;
 }
 
 .inactive {
