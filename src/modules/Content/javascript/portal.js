@@ -91,7 +91,16 @@ Object.extend(Xilinus.Widget.prototype, {
     }
     return this;
   },
-  
+  setVisibleFor: function(visiblefor) {
+    if (visiblefor == 2) {
+      $(this._contentDiv).addClassName('onlynonmembers');
+      $(this._contentDiv).removeClassName('onlymembers');
+    } else if (visiblefor == 0) {
+      $(this._contentDiv).addClassName('onlymembers');
+      $(this._contentDiv).removeClassName('onlynonmembers');
+    }
+    return this;
+  },
   setContent: function(title) {
     $(this._contentDiv).update(title);  
     return this;
