@@ -13,7 +13,7 @@ Loader::requireOnce('modules/content/common.php');
 function content_menublock_init()
 {
     // Security
-    pnSecAddSchema('content:menublock:', 'Block title::');
+    SecurityUtil::registerPermissionSchema('content:menublock:', 'Block title::');
 }
 
 function content_menublock_info()
