@@ -285,11 +285,11 @@ table.content-layout-edit td.content-area {
 }
 
 .widget_ghost {
-    background: #AAA;
+    background: #dcc;
     opacity: 0.5;
     filter: alpha(opacity=50);
     position: relative;
-    border: 1px dashed #700;
+    border: 2px dashed #f00;
 }
 
 #layout_preview img {
