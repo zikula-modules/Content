@@ -22,6 +22,6 @@ class Content_Controller_Admin extends Zikula_Controller
     public function settings()
     {
         $view = FormUtil::newForm('Content', $this);
-        return $this->view->execute('content_admin_settings.html', new Content_Form_Handler_Admin_Settings(array()));
+        return $view->execute('content_admin_settings.html', new Content_Form_Handler_Admin_Settings(array()));
     }
 }
