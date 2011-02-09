@@ -9,7 +9,7 @@
 
 require_once 'modules/Content/common.php';
 
-class Content_Block_Menu extends Zikula_Block
+class Content_Block_Menu extends Zikula_Controller_Block
 {
     public function init()
     {
@@ -35,7 +35,7 @@ class Content_Block_Menu extends Zikula_Block
         if (!SecurityUtil::checkPermission('Content:menublock:', "$blockinfo[title]::", ACCESS_READ)) {
             return;
         }
-        
+
         // Break out options from our content field
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
         // --- Setting of the Defaults
@@ -45,7 +45,7 @@ class Content_Block_Menu extends Zikula_Block
         if (!isset($vars['root'])) {
             $vars['root'] = 0;
         }
-        
+
         if ($vars['usecaching']) {
             $this->view->setCaching(true);
             $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
