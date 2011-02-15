@@ -391,25 +391,8 @@ function content_pageapi_newPage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-    // set the state of new pages
-    switch (pnModGetVar('content', 'newPageState')) {
-        case '1':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 1;
-            break;
-        case '2':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 1;
-            break;
-        case '3':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 0;
-            break;
-        case '4':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 0;
-            break;
-    }
+
+    contentSetInitialPageState($pageData);
 
     $newPage = DBUtil::insertObject($pageData, 'content_page');
     contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -688,25 +671,8 @@ function content_pageapi_clonePage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-    // set the state of new pages
-    switch (pnModGetVar('content', 'newPageState')) {
-        case '1':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 1;
-            break;
-        case '2':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 1;
-            break;
-        case '3':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 0;
-            break;
-        case '4':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 0;
-            break;
-    }
+
+    contentSetInitialPageState($pageData);
 
     $newPage = DBUtil::insertObject($pageData, 'content_page');
     contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -773,25 +739,8 @@ function content_pageapi_reinsertPage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-    // set the state of new pages
-    switch (pnModGetVar('content', 'newPageState')) {
-        case '1':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 1;
-            break;
-        case '2':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 1;
-            break;
-        case '3':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 0;
-            break;
-        case '4':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 0;
-            break;
-    }
+
+    contentSetInitialPageState($pageData);
 
     $newPage = DBUtil::insertObject($pageData, 'content_page', true);
     contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -1404,4 +1353,27 @@ function content_pageapi_updateState($args)
     }
 
     return DBUtil::updateObject($page, 'content_page');
+}
+
+function contentSetInitialPageState(&$page)
+{
+    // set the state of new pages
+    switch (pnModGetVar('content', 'newPageState')) {
+        case '1':
+            $page['active'] = 1;
+            $page['inMenu'] = 1;
+            break;
+        case '2':
+            $page['active'] = 0;
+            $page['inMenu'] = 1;
+            break;
+        case '3':
+            $page['active'] = 1;
+            $page['inMenu'] = 0;
+            break;
+        case '4':
+            $page['active'] = 0;
+            $page['inMenu'] = 0;
+            break;
+    }
 }
