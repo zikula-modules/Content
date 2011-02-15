@@ -76,6 +76,7 @@ function content_pageapi_getPages($args)
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
     $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
     $includeContent = (array_key_exists('includeContent', $args) ? $args['includeContent'] : false);
+    $expandContent = (array_key_exists('expandContent', $args) ? $args['expandContent'] : true);
     $includeCategories = (array_key_exists('includeCategories', $args) ? $args['includeCategories'] : false);
     $includeVersionNo = (array_key_exists('includeVersionNo', $args) ? $args['includeVersionNo'] : false);
     $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
@@ -165,7 +166,7 @@ $orderBy";
         $p['isInMenu'] = $p['isOnline'] && $p['inMenu'];
 
         if ($includeContent) {
-            $content = pnModAPIFunc('content', 'content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
+            $content = pnModAPIFunc('content', 'content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate, 'expandContent' => $expandContent));
             if ($content === false)
                 return false;
         } else

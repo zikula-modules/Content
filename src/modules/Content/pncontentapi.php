@@ -290,6 +290,7 @@ function content_contentapi_getPageContent($args)
     $pageId = (int) $args['pageId'];
     $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
+    $expandContent = (array_key_exists('expandContent', $args) ? $args['expandContent'] : true);
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
     $contentList = contentGetContent('page', $pageId, $editing, $language, $translate);
@@ -298,13 +299,15 @@ function content_contentapi_getPageContent($args)
     foreach ($contentList as $c) {
         $c['title'] = $c['plugin']->getTitle();
         $c['isTranslatable'] = $c['plugin']->isTranslatable();
-        $output = $c['plugin']->displayStart();
-        if ($editing) {
-            $output .= $c['plugin']->displayEditing();
-        } else {
-            $output .= $c['plugin']->display();
+        if ($expandContent) {
+            $output = $c['plugin']->displayStart();
+            if ($editing) {
+                $output .= $c['plugin']->displayEditing();
+            } else {
+                $output .= $c['plugin']->display();
+            }
+            $output .= $c['plugin']->displayEnd();
         }
-        $output .= $c['plugin']->displayEnd();
         $c['output'] = $output;
         $content[$c['areaIndex']][] = $c;
     }

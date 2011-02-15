@@ -49,11 +49,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
     function display()
     {
-        $work = pnSessionGetVar('directory_yournotthefirst', false);
-        if ($work)
-            return '';
-        pnSessionSetVar('directory_yournotthefirst', true);
-        $options = array('makeTree' => true);
+        $options = array('makeTree' => true, 'expandContent' => false);
         $options['orderBy'] = 'setLeft';
         // if includeHeading and includeSubpage are set to false, show direct child pages
         if (!$this->includeSubpage && $this->pid == 0) {
@@ -75,8 +71,6 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         if ($this->includeHeading)
             $options['includeContent'] = true;
         $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
-        if (!$work)
-            pnSessionDelVar('directory_yournotthefirst');
 
         if ($this->pid == 0 || ($this->pid != 0 && !$this->includeSubpage && !$this->includeHeading)) {
             $directory = array();
