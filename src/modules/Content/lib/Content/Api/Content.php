@@ -44,17 +44,14 @@ class Content_Api_Content extends Zikula_Api
         foreach ($contentList as $c) {
             $c['title'] = $c['plugin']->getTitle();
             $c['isTranslatable'] = $c['plugin']->isTranslatable();
+            $output = $c['plugin']->displayStart();
             if ($editing) {
-                $output = $c['plugin']->displayStart();
                 $output .= $c['plugin']->displayEditing();
-                $output .= $c['plugin']->displayEnd();
-                $c['output'] = $output;
             } else {
-                $output = $c['plugin']->displayStart();
                 $output .= $c['plugin']->display();
-                $output .= $c['plugin']->displayEnd();
-                $c['output'] = $output;
             }
+            $output .= $c['plugin']->displayEnd();
+            $c['output'] = $output;
             $content[$c['areaIndex']][] = $c;
         }
 
