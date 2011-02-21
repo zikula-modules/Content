@@ -43,12 +43,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     }
     function display()
     {
-        $work = SessionUtil::getVar('directory_yournotthefirst', false);
-        if ($work) {
-            return '';
-        }
-        SessionUtil::setVar('directory_yournotthefirst', true);
-        $options = array('makeTree' => true);
+        $options = array('makeTree' => true, 'expandContent' => false);
         $options['orderBy'] = 'setLeft';
 
         // if includeHeading and includeSubpage are set to false, show direct child pages
@@ -72,9 +67,6 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             $options['includeContent'] = true;
         }
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
-        if (!$work) {
-            SessionUtil::delVar('directory_yournotthefirst');
-        }
 
         if ($this->pid == 0 || ($this->pid != 0 && !$this->includeSubpage && !$this->includeHeading)) {
             $directory = array();
