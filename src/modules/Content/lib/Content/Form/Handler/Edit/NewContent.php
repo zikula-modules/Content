@@ -34,7 +34,7 @@ class Content_Form_Handler_Edit_NewContent extends Zikula_Form_Handler
             $this->position = ($this->above ? $content['position'] : $content['position'] + 1);
         }
 
-        if (!contentHasPageEditAccess($this->pageId)) {
+        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
         if ($this->pageId == null) {
@@ -54,7 +54,7 @@ class Content_Form_Handler_Edit_NewContent extends Zikula_Form_Handler
 
         $view->assign('page', $page);
         $view->assign('htmlBody', 'content_edit_newcontent.html');
-        contentAddAccess($view, $this->pageId);
+        Content_Util::contentAddAccess($view, $this->pageId);
 
         return true;
     }

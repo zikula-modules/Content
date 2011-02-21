@@ -7,8 +7,6 @@
  * @license See license.txt
  */
 
-require_once 'modules/Content/common.php';
-
 class Content_Block_Menu extends Zikula_Controller_Block
 {
     public function init()

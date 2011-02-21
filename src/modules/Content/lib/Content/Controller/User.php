@@ -27,7 +27,7 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function categories($args)
     {
-        if (!contentHasPageViewAccess()) {
+        if (!Content_Util::contentHasPageViewAccess()) {
             return LogUtil::registerPermissionError();
         }
 
@@ -69,7 +69,7 @@ class Content_Controller_User extends Zikula_Controller
         }
 
         $versionHtml = '';
-        $hasEditAccess = contentHasPageEditAccess($pageId);
+        $hasEditAccess = Content_Util::contentHasPageEditAccess($pageId);
 
         if ($versionId !== null && $hasEditAccess) {
             $preview = true;
@@ -87,7 +87,7 @@ class Content_Controller_User extends Zikula_Controller
             System::queryStringSetVar('pid', $pageId);
         }
 
-        if (!contentHasPageViewAccess($pageId))
+        if (!Content_Util::contentHasPageViewAccess($pageId))
             return LogUtil::registerPermissionError();
 
         if ($pageId !== null && $versionId === null) {
@@ -112,7 +112,7 @@ class Content_Controller_User extends Zikula_Controller
         $this->view->assign('multilingual', $multilingual);
         $this->view->assign('enableVersioning', $this->getVar('enableVersioning'));
 
-        contentAddAccess($this->view, $pageId);
+        Content_Util::contentAddAccess($this->view, $pageId);
 
         // exclude writers from statistics
         if (!$hasEditAccess && !$preview && !$editmode && $this->getVar('countViews')) {
@@ -166,7 +166,7 @@ class Content_Controller_User extends Zikula_Controller
      */
     protected function contentCommonList($args, $template, $includeContent)
     {
-        if (!contentHasPageViewAccess())
+        if (!Content_Util::contentHasPageViewAccess())
             return LogUtil::registerPermissionError();
 
         $category = isset($args['cat']) ? $args['cat'] : (string) FormUtil::getPassedValue('cat');
@@ -194,7 +194,7 @@ class Content_Controller_User extends Zikula_Controller
         $this->view->assign('pageSize', $pageSize);
         $this->view->assign('pageCount', $pageCount);
         $this->view->assign('preview', false);
-        contentAddAccess($this->view, null);
+        Content_Util::contentAddAccess($this->view, null);
         return $this->view->fetch($template);
     }
 
@@ -218,7 +218,7 @@ class Content_Controller_User extends Zikula_Controller
         if ($pageId === null) {
             return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
         }
-        if (!contentHasPageViewAccess($pageId)) {
+        if (!Content_Util::contentHasPageViewAccess($pageId)) {
             return LogUtil::registerPermissionError();
         }
 
@@ -238,7 +238,7 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function sitemap($args)
     {
-        if (!contentHasPageViewAccess())
+        if (!Content_Util::contentHasPageViewAccess())
             return LogUtil::registerPermissionError();
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array('checkInMenu' => true)));
@@ -248,7 +248,7 @@ class Content_Controller_User extends Zikula_Controller
         PageUtil::setVar('title', $this->__('Sitemap'));
 
         $this->view->assign('pages', $pages);
-        contentAddAccess($this->view, null);
+        Content_Util::contentAddAccess($this->view, null);
 
         $tpl = FormUtil::getPassedValue('tpl', '', 'GET');
         if ($tpl == 'xml') {

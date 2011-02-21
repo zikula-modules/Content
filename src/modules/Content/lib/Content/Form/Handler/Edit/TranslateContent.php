@@ -30,7 +30,7 @@ class Content_Form_Handler_Edit_TranslateContent extends Zikula_Form_Handler
         }
         $this->pageId = $content['pageId'];
 
-        if (!contentHasPageEditAccess($this->pageId)) {
+        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
 
@@ -65,7 +65,7 @@ class Content_Form_Handler_Edit_TranslateContent extends Zikula_Form_Handler
         $view->assign('translationStep', $this->contentId);
         $view->assign('language', $this->language);
         $view->assign('contentType', $this->contentType);
-        contentAddAccess($view, $this->pageId);
+        Content_Util::contentAddAccess($view, $this->pageId);
 
         if (!$view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;

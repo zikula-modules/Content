@@ -7,8 +7,6 @@
  * @license See license.txt
  */
 
-require_once 'modules/Content/common.php';
-
 class Content_Api_Page extends Zikula_Api
 {
     /*=[ Fetch pages ]===============================================================*/
@@ -409,7 +407,7 @@ function dumpTree($pages)
         $this->setInitialPageState($pageData);
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
-        contentMainEditExpandSet($pageData['parentPageId'], true);
+        Content_Util::contentMainEditExpandSet($pageData['parentPageId'], true);
 
         $ok = $this->insertPage(array('pageId' => $pageData['id'], 'position' => $pageData['position'], 'parentPageId' => $pageData['parentPageId']));
         if ($ok === false)
@@ -424,7 +422,7 @@ function dumpTree($pages)
         $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
         $this->eventManager->notify($event);
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return $pageData['id'];
     }
 
@@ -472,7 +470,7 @@ function dumpTree($pages)
         $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
         $this->eventManager->notify($event);
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -509,7 +507,7 @@ WHERE $contentColumn[pageId] = $pageId
             DBUtil::executeSQL($sql);
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -605,7 +603,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
                 return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -636,7 +634,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
                 return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -696,7 +694,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $this->setInitialPageState($pageData);
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
-        $this->contentMainEditExpandSet($pageData['parentPageId'], true);
+        Content_Util::contentMainEditExpandSet($pageData['parentPageId'], true);
     
         $ok = $this->insertPage(array('pageId' => $pageData['id'], 'position' => $sourcePageData['position']+1, 'parentPageId' => $pageData['parentPageId']));
         if ($ok === false) {
@@ -725,7 +723,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
         $this->eventManager->notify($event);
     
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return $pageData['id'];
     }
     
@@ -768,7 +766,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $this->setInitialPageState($pageData);
 
         $newPage = DBUtil::insertObject($pageData, 'content_page', true);
-        $this->contentMainEditExpandSet($pageData['parentPageId'], true);
+        Content_Util::contentMainEditExpandSet($pageData['parentPageId'], true);
     
         $ok = $this->insertPage(array('pageId' => $pageData['id'], 'position' => $pageData['position'], 'parentPageId' => $pageData['parentPageId']));
         if ($ok === false) {
@@ -780,7 +778,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
         $this->eventManager->notify($event);
     
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return array('id' => $pageData['id'], 'urlname' => $pageData['urlname']);
     }
     
@@ -835,7 +833,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $event = new Zikula_Event('content.hook.pages.process.delete', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
         $this->eventManager->notify($event);
         
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -960,10 +958,10 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
             return false;
         } else {
             // Expand the destination page to show the new nested page
-            contentMainEditExpandSet($dstPage['id'], true);
+            Content_Util::contentMainEditExpandSet($dstPage['id'], true);
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -996,7 +994,7 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
             return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -1055,7 +1053,7 @@ WHERE $pageColumn[parentPageId] = $previousPage[id]";
         if ($ok === false)
             return false;
         */
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 

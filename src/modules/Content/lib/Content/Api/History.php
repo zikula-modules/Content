@@ -7,8 +7,6 @@
  * @license See license.txt
  */
 
-require_once 'modules/Content/common.php';
-
 class Content_Api_History extends Zikula_Api
 {
     public function getPageVersions($args)

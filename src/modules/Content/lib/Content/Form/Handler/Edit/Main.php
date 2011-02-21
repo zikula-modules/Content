@@ -9,11 +9,11 @@ class Content_Form_Handler_Edit_Main extends Zikula_Form_Handler
 
     public function initialize(Zikula_Form_View $view)
     {
-        if (!contentHasPageEditAccess()) {
+        if (!Content_Util::contentHasPageEditAccess()) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
 
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('editing' => true, 'filter' => array('checkActive' => false, 'expandedPageIds' => contentMainEditExpandGet()), 'enableEscape' => true, 'translate' => false, 'includeLanguages' => true,
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('editing' => true, 'filter' => array('checkActive' => false, 'expandedPageIds' => Content_Util::contentMainEditExpandGet()), 'enableEscape' => true, 'translate' => false, 'includeLanguages' => true,
             'orderBy' => 'setLeft'));
         if ($pages === false) {
             return $view->registerError(null);
@@ -27,7 +27,7 @@ class Content_Form_Handler_Edit_Main extends Zikula_Form_Handler
         $view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
         $view->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
         $view->assign('language', ZLanguage::getLanguageCode());
-        contentAddAccess($view, null);
+        Content_Util::contentAddAccess($view, null);
 
         return true;
     }
@@ -77,7 +77,7 @@ class Content_Form_Handler_Edit_Main extends Zikula_Form_Handler
             $url = ModUtil::url('Content', 'Edit', 'history', array('pid' => $pageId));
         } else if ($args['commandName'] == 'toggleExpand') {
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
-            contentMainEditExpandToggle($pageId);
+            Content_Util::contentMainEditExpandToggle($pageId);
         }
         $view->redirect($url);
         return true;

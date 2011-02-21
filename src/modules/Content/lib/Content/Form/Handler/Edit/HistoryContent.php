@@ -14,7 +14,7 @@ class Content_Form_Handler_Edit_HistoryContent extends Zikula_Form_Handler
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $offset = (int)FormUtil::getPassedValue('offset');
 
-        if (!contentHasPageEditAccess($this->pageId)) {
+        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
@@ -30,7 +30,7 @@ class Content_Form_Handler_Edit_HistoryContent extends Zikula_Form_Handler
 
         $view->assign('page', $page);
         $view->assign('versions', $versions);
-        contentAddAccess($view, $this->pageId);
+        Content_Util::contentAddAccess($view, $this->pageId);
         // Assign the values for the smarty plugin to produce a pager
         $view->assign('numitems', $versionscnt);
 

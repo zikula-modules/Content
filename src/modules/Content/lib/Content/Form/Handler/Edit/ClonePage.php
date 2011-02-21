@@ -14,10 +14,10 @@ class Content_Form_Handler_Edit_ClonePage extends Zikula_Form_Handler
     {
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
 
-        if (!contentHasPageCreateAccess()) {
+        if (!Content_Util::contentHasPageCreateAccess()) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
-        if (!contentHasPageEditAccess($this->pageId)) {
+        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
             return LogUtil::registerPermissionError();
         }
 
@@ -27,21 +27,21 @@ class Content_Form_Handler_Edit_ClonePage extends Zikula_Form_Handler
         }
 
         // Only allow subpages if edit access on parent page
-        if (!contentHasPageEditAccess($page['id'])) {
+        if (!Content_Util::contentHasPageEditAccess($page['id'])) {
             return LogUtil::registerPermissionError();
         }
 
         PageUtil::setVar('title', $this->__('Clone page') . ' : ' . $page['title']);
 
         $view->assign('page', $page);
-        contentAddAccess($view, $this->pageId);
+        Content_Util::contentAddAccess($view, $this->pageId);
 
         return true;
     }
 
     public function handleCommand(Zikula_Form_View $view, &$args)
     {
-        if (!contentHasPageCreateAccess()) {
+        if (!Content_Util::contentHasPageCreateAccess()) {
             return $view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
         }
 

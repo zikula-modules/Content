@@ -7,7 +7,6 @@
  * @license See license.txt
  */
 
-require_once 'modules/Content/common.php';
 include_once 'modules/Content/includes/contentTypeBase.php';
 
 class Content_Api_Content extends Zikula_Api
@@ -209,7 +208,7 @@ WHERE page.$pageColumn[id] = $pageId";
                 return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return $contentData['id'];
     }
 
@@ -280,7 +279,7 @@ WHERE $contentColumn[pageId] = $pageId";
             }
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return $contentData['id'];
     }
     
@@ -311,7 +310,7 @@ WHERE $contentColumn[pageId] = $pageId";
                 return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -367,7 +366,7 @@ VALUES
                 DBUtil::insertObject($searchData, 'content_searchable');
             }
         }
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -410,7 +409,7 @@ VALUES
                 return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -431,7 +430,7 @@ VALUES
             DBUtil::deleteObjectByID('content_content', $contentItems[$i]['id']);
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -466,7 +465,7 @@ VALUES
                 return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -498,7 +497,7 @@ VALUES
                 return false;
         }
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -527,7 +526,7 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
 
         $dbresult = DBUtil::executeSQL($sql);
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -649,7 +648,7 @@ WHERE c.$contentColumn[pageId] = $pageId";
             return false;
         }
         
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -677,7 +676,7 @@ WHERE     $contentColumn[pageId] = $pageId
 
         DBUtil::executeSQL($sql);
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -698,7 +697,7 @@ WHERE     $contentColumn[pageId] = $pageId
         $contentData = array('id' => $contentId, 'position' => $position, 'areaIndex' => $contentAreaIndex);
         DBUtil::updateObject($contentData, 'content_content');
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 
@@ -717,7 +716,7 @@ WHERE     $contentColumn[pageId] = $pageId
 
         DBUtil::executeSQL($sql);
 
-        contentClearCaches();
+        Content_Util::contentClearCaches();
         return true;
     }
 

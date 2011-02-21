@@ -15,7 +15,7 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
         $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = (int) FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : -1);
 
-        if (!contentHasPageEditAccess($this->pageId)) {
+        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
 
@@ -53,7 +53,7 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
         $view->assign('pagelayout', $pagelayout);
         $view->assign('enableVersioning',  ModUtil::getVar('Content', 'enableVersioning'));
         $view->assign('categoryUsage',  ModUtil::getVar('Content', 'categoryUsage'));
-        contentAddAccess($view, $this->pageId);
+        Content_Util::contentAddAccess($view, $this->pageId);
 
         if (!$this->view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;

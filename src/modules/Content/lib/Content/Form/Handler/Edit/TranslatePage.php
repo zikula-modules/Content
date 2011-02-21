@@ -10,7 +10,7 @@ class Content_Form_Handler_Edit_TranslatePage extends Zikula_Form_Handler
         $this->pageId = (int) FormUtil::getPassedValue('pid', -1);
         $this->language = ZLanguage::getLanguageCode();
 
-        if (!contentHasPageEditAccess($this->pageId)) {
+        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
             return $view->registerError(LogUtil::registerPermissionError());
         }
 
@@ -28,7 +28,7 @@ class Content_Form_Handler_Edit_TranslatePage extends Zikula_Form_Handler
         $view->assign('page', $page);
         $view->assign('translated', $page['translated']);
         $view->assign('language', $this->language);
-        contentAddAccess($view, $this->pageId);
+        Content_Util::contentAddAccess($view, $this->pageId);
 
         if (!$this->view->isPostBack() && FormUtil::getPassedValue('back',0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;

@@ -7,7 +7,6 @@
  * @license See license.txt
  */
 
-require_once 'modules/Content/common.php';
 include_once 'modules/Content/includes/contentLayoutBase.php';
 
 class Content_Api_Layout extends Zikula_Api
