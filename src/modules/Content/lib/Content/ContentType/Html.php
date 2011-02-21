@@ -18,7 +18,7 @@ class Content_ContentType_Html extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'html';
+        return 'Html';
     }
     function getTitle()
     {

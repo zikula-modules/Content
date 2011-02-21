@@ -20,7 +20,7 @@ class Content_ContentType_ModuleFunc extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'modulefunc';
+        return 'ModuleFunc';
     }
     function getTitle()
     {

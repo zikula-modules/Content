@@ -20,7 +20,7 @@ class Content_ContentType_Directory extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'directory';
+        return 'Directory';
     }
     function getTitle()
     {

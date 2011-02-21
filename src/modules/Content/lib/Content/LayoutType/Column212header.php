@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_LayoutType_Column2_1_2header extends Content_LayoutType_Base
+class Content_LayoutType_Column212header extends Content_LayoutType_Base
 {
     var $contentAreaTitles = array();
 
@@ -25,7 +25,7 @@ class Content_LayoutType_Column2_1_2header extends Content_LayoutType_Base
     }
     function getName()
     {
-        return 'column2_1_2header';
+        return 'Column212header';
     }
     function getTitle()
     {

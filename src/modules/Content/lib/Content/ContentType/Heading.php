@@ -18,7 +18,7 @@ class Content_ContentType_Heading extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'heading';
+        return 'Heading';
     }
     function getTitle()
     {

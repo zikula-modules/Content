@@ -73,4 +73,35 @@ class Content_Util
     {
         return SessionUtil::getVar('contentExpandedPageIds', array());
     }
+
+    public static function getPlugins($type='Content')
+    {
+        $type = in_array($type, array('Content', 'Layout')) ? trim(ucwords(strtolower($type))) . "Type" : 'ContentType';
+        $modules = ModUtil::getAllMods();
+        $plugins = array();
+        foreach ($modules as $module) {
+            $dir = "modules/{$module['directory']}/lib/{$module['directory']}/$type";
+            if (is_dir($dir)) {
+                $files = FileUtil::getFiles($dir, false, false, "php");
+                foreach ($files as $file) {
+                    $parts = explode('/', $file);
+                    $filename = array_pop($parts);
+                    $pluginname = substr($filename, 0, -4);
+                    $classname = $module['directory'] . "_" . $type . "_" . $pluginname;
+                    $baseclass = "Content_" . $type . "_Base";
+                    $instance = new $classname();
+                    if ($instance instanceof $baseclass) {
+                        $plugins[] = $instance;
+                    }
+                }
+            }
+        }
+        usort($plugins, array('Content_Util', 'pluginSort'));
+        return $plugins;
+    }
+
+    protected static function pluginSort($a, $b)
+    {
+        return strcmp($a->getTitle(), $b->getTitle());
+    }
 }

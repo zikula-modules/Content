@@ -22,7 +22,7 @@ class Content_ContentType_Camtasia extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'camtasia';
+        return 'Camtasia';
     }
     function getTitle()
     {

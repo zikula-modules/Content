@@ -18,7 +18,7 @@ class Content_LayoutType_Column2header extends Content_LayoutType_Base
     }
     function getName()
     {
-        return 'column2header';
+        return 'Column2header';
     }
     function getTitle()
     {

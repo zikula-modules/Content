@@ -21,7 +21,7 @@ class Content_ContentType_Flickr extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'flickr';
+        return 'Flickr';
     }
     function getTitle()
     {

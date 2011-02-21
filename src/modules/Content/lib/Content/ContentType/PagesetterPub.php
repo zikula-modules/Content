@@ -12,7 +12,7 @@ class Content_ContentType_PagesetterPub extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'pagesetter_pub';
+        return 'PagesetterPub';
     }
     function getTitle()
     {

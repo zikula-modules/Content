@@ -7,38 +7,11 @@
  * @license See license.txt
  */
 
-include_once 'modules/Content/includes/contentLayoutBase.php';
-
 class Content_Api_Layout extends Zikula_Api
 {
-    function &getLayoutPlugins($args)
-    {
-        $modules = ModUtil::getAllMods();
-        $plugins = array();
-        foreach ($modules as $module) {
-            if (ModUtil::loadApi($module['name'], 'layouttypes')) {
-                // TODO: old style layouttypes plugins directory, maybe changed later
-                $dir = "modules/$module[directory]/pnlayouttypesapi";
-                if (is_dir($dir) && $dh = opendir($dir)) {
-                    while (($filename = readdir($dh)) !== false) {
-                        if (preg_match('/^([-a-zA-Z0-9_]+).php$/', $filename, $matches)) {
-                            $layoutName = $matches[1];
-                            if (SecurityUtil::checkPermission('Content:plugins:layout', $layoutName . '::', ACCESS_READ))
-                                $plugins[] = ModUtil::apiFunc($module['name'], 'layouttypes', $layoutName);
-                        }
-                    }
-
-                    closedir($dh);
-                }
-            }
-        }
-
-        return $plugins;
-    }
-
     public function getLayouts($args)
     {
-        $plugins = $this->getLayoutPlugins(array());
+        $plugins = Content_Util::getPlugins('Layout');
         $layouts = array();
         $names = array();
 
@@ -55,7 +28,8 @@ class Content_Api_Layout extends Zikula_Api
 
     public function getLayoutPlugin($args)
     {
-        return ModUtil::apiFunc('Content', 'layouttypes', $args['layout']);
+        $classname = "Content_LayoutType_" . $args['layout'];
+        return new $classname;
     }
 
     public function getLayout($args)

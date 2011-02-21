@@ -17,7 +17,7 @@ class Content_ContentType_JoinPosition extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'joinposition';
+        return 'JoinPosition';
     }
     function getTitle()
     {

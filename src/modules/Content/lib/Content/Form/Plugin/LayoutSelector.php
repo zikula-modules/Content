@@ -2,7 +2,7 @@
 
 class Content_Form_Plugin_LayoutSelector extends Zikula_Form_Plugin_DropdownList
 {
-    function load(Zikula_Form_View $view, &$params)
+    function load($view, &$params)
     {
         // get all layouts if needed
         if (array_key_exists('layouts', $params)) {

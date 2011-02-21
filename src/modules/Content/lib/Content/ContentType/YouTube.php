@@ -22,7 +22,7 @@ class Content_ContentType_YouTube extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'youtube';
+        return 'Youtube';
     }
     function getTitle()
     {

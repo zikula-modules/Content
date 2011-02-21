@@ -17,7 +17,7 @@ class Content_ContentType_ComputerCode extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'computercode';
+        return 'ComputerCode';
     }
     function getTitle()
     {

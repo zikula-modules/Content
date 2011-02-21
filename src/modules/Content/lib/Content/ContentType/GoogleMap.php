@@ -24,7 +24,7 @@ class Content_ContentType_GoogleMap extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'googlemap';
+        return 'GoogleMap';
     }
     function getTitle()
     {

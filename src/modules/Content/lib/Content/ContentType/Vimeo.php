@@ -22,7 +22,7 @@ class Content_ContentType_Vimeo extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'vimeo';
+        return 'Vimeo';
     }
     function getTitle()
     {

@@ -15,7 +15,7 @@ class Content_Form_Plugin_PagesetterPubTypeSelector extends Zikula_Form_Plugin_D
         return __FILE__;
     }
 
-    function load(Zikula_Form_View $view, &$params)
+    function load($view, &$params)
     {
         if (!ModUtil::loadApi('pagesetter', 'admin')) {
             return false;

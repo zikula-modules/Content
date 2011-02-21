@@ -23,7 +23,7 @@ class Content_ContentType_PagesetterPublist extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'pagesetter_publist';
+        return 'PagesetterPublist';
     }
     function getTitle()
     {

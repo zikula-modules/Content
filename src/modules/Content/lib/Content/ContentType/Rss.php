@@ -19,7 +19,7 @@ class Content_ContentType_Rss extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'rss';
+        return 'Rss';
     }
     function getTitle()
     {

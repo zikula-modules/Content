@@ -18,7 +18,7 @@ class Content_LayoutType_Column1topheader extends Content_LayoutType_Base
     }
     function getName()
     {
-        return 'column1topheader';
+        return 'Column1topheader';
     }
     function getTitle()
     {

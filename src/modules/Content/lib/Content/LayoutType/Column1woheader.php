@@ -18,7 +18,7 @@ class Content_LayoutType_Column1woheader extends Content_LayoutType_Base
     }
     function getName()
     {
-        return 'column1woheader';
+        return 'Column1woheader';
     }
     function getTitle()
     {

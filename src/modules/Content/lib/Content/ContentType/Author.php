@@ -17,7 +17,7 @@ class Content_ContentType_Author extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'author';
+        return 'Author';
     }
     function getTitle()
     {

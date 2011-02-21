@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,13 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
-include_once 'modules/Content/includes/contentTypeBase.php';
-
 class Content_Api_Content extends Zikula_Api
 {
-
-    /*=[ Standard CRUD methods ]=====================================================*/
+    /* =[ Standard CRUD methods ]===================================================== */
 
     public function getContent($args)
     {
@@ -90,7 +87,7 @@ class Content_Api_Content extends Zikula_Api
             $restriction = "$contentColumn[pageId] = $id";
         }
         if (!$editing) {
-            $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] ".(UserUtil::isLoggedIn()?'<=1':'>=1');
+            $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
         }
 
         $language = DataUtil::formatForStore($language);
@@ -175,7 +172,7 @@ WHERE page.$pageColumn[id] = $pageId";
         return $content;
     }
 
-    /*=[ Create new content element ]================================================*/
+    /* =[ Create new content element ]================================================ */
 
     public function newContent($args)
     {
@@ -189,7 +186,8 @@ WHERE page.$pageColumn[id] = $pageId";
             return false;
         }
 
-        $contentPlugin = ModUtil::apiFunc($contentData['module'], 'contenttypes', $contentData['type'], null);
+        $classname = $contentData['module'] . "_ContentType_" . $contentData['type'];
+        $contentPlugin = new $classname();
 
         $contentData['pageId'] = $pageId;
         $contentData['areaIndex'] = $contentAreaIndex;
@@ -230,11 +228,12 @@ WHERE $contentColumn[pageId] = $pageId";
         return $pos === null ? -1 : (int) $pos;
     }
 
-    /*=[ Clone content element on same page ]====================================================*/
+    /* =[ Clone content element on same page ]==================================================== */
+
     // TODO: maybe reuse in/with copyContentOfPageToPage
     public function cloneContent($args)
     {
-        $contentId = (int)$args['id'];
+        $contentId = (int) $args['id'];
         $cloneTranslation = isset($newPage['translation']) ? $newPage['translation'] : true;
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
@@ -251,7 +250,7 @@ WHERE $contentColumn[pageId] = $pageId";
         if ($cloneTranslation) {
             $tables = DBUtil::getTables();
             $translatedColumn = $tables['content_translatedcontent_column'];
-            $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'].'='.$contentId);
+            $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'] . '=' . $contentId);
         }
 
         if (!$this->contentMoveContentDown($contentData['position'], $contentData['areaIndex'], $contentData['pageId'])) {
@@ -282,8 +281,9 @@ WHERE $contentColumn[pageId] = $pageId";
         Content_Util::contentClearCaches();
         return $contentData['id'];
     }
-    
-    /*=[ Update content element ]====================================================*/
+
+    /* =[ Update content element ]==================================================== */
+
     public function updateContent($args)
     {
         $contentData = $args['content'];
@@ -333,15 +333,17 @@ VALUES
         return true;
     }
 
-    /*=[ Copy content ]====================================================*/
-    
+    /* =[ Copy content ]==================================================== */
+
     public function copyContentOfPageToPage($args)
-    {    
-        $fromPage = (int)$args['fromPageId'];
-        $toPage = (int)$args['toPageId'];
-        if ($fromPage <= 0 || $toPage <= 0) { return false; }
+    {
+        $fromPage = (int) $args['fromPageId'];
+        $toPage = (int) $args['toPageId'];
+        if ($fromPage <= 0 || $toPage <= 0) {
+            return false;
+        }
         $cloneTranslation = isset($args['cloneTranslation']) ? $args['cloneTranslation'] : true;
-    
+
         $tables = DBUtil::getTables();
         $translatedColumn = $tables['content_translatedcontent_column'];
 
@@ -352,7 +354,7 @@ VALUES
             $contentData['pageId'] = $toPage;
             DBUtil::insertObject($contentData, 'content_content', 'id');
             if ($cloneTranslation) {
-                $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'].'='.$contentData['id']);
+                $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'] . '=' . $contentData['id']);
                 if (!($translations === false) && count($translations) > 0) {
                     foreach ($translations as &$t) {
                         $t['contentId'] = $contentData['id'];
@@ -370,7 +372,7 @@ VALUES
         return true;
     }
 
-    /*=[ Delete content element ]====================================================*/
+    /* =[ Delete content element ]==================================================== */
 
     public function deleteContent($args)
     {
@@ -434,7 +436,7 @@ VALUES
         return true;
     }
 
-    /*=[ Translate content ]=========================================================*/
+    /* =[ Translate content ]========================================================= */
 
     public function updateTranslation($args)
     {
@@ -624,7 +626,7 @@ WHERE c.$contentColumn[pageId] = $pageId";
         return $translations;
     }
 
-    /*=[ Moving content ]============================================================*/
+    /* =[ Moving content ]============================================================ */
 
     public function dragContent($args)
     {
@@ -647,7 +649,7 @@ WHERE c.$contentColumn[pageId] = $pageId";
         if ($ok === false) {
             return false;
         }
-        
+
         Content_Util::contentClearCaches();
         return true;
     }
@@ -720,47 +722,12 @@ WHERE     $contentColumn[pageId] = $pageId
         return true;
     }
 
-    /*=[ Scanning and loading content type plugins ]=================================*/
-
-    function getContentPlugins($args)
-    {
-        $modules = ModUtil::getAllMods();
-        $plugins = array();
-        foreach ($modules as $module) {
-            if (ModUtil::loadApi($module['name'], 'contenttypes')) {
-//                $dir = "modules/$module[directory]/lib/$module[directory]/ContentType";
-// TODO: Find a new solution for this plugin directory!!!
-                $dir = "modules/$module[directory]/pncontenttypesapi";
-                if (is_dir($dir) && $dh = opendir($dir)) {
-                    while (($filename = readdir($dh)) !== false) {
-                        if (preg_match('/^([a-zA-Z0-9_]+).php$/', $filename, $matches)) {
-                            $contentTypeName = $matches[1];
-                            // check permissions for this contentType plugin
-                            if (SecurityUtil::checkPermission('Content:plugins:content', $contentTypeName . '::', ACCESS_READ)) {
-                                $plugins[] = ModUtil::apiFunc($module['name'], 'contenttypes', $contentTypeName, null);
-                            }
-                        }
-                    }
-
-                    closedir($dh);
-                }
-            }
-        }
-
-        usort($plugins, array($this, 'contentPluginCompare'));
-
-        return $plugins;
-    }
-
-    protected function contentPluginCompare($a, $b)
-    {
-        return strcmp($a->getTitle(), $b->getTitle());
-    }
+    /* =[ Scanning and loading content type plugins ]================================= */
 
     public function getContentTypes($args)
     {
         $includeInactive = isset($args['includeInactive']) ? $args['includeInactive'] : false;
-        $plugins = $this->getContentPlugins(array());
+        $plugins = Content_Util::getPlugins('Content');
         $contentTypes = array();
 
         for ($i = 0, $cou = count($plugins); $i < $cou; ++$i) {
@@ -775,12 +742,14 @@ WHERE     $contentColumn[pageId] = $pageId
 
     public function getContentPlugin($args)
     {
-        $plugin = ModUtil::apiFunc($args['module'], 'contenttypes', $args['type'], $args);
+        //$plugin = ModUtil::apiFunc($args['module'], 'contenttypes', $args['type'], $args);
+        $classname = $args['module'] . "_ContentType_" . $args['type'];
+        $plugin = new $classname($args);
         if (empty($plugin)) {
             if (!ModUtil::available($args['module'])) {
-                return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args[type], $args[module])));
+                return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args['type'], $args['module'])));
             }
-            return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason.', array($args[type], $args[module])));
+            return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason.', array($args['type'], $args['module'])));
         }
         $plugin->contentId = $args['id'];
         $plugin->pageId = $args['pageId'];
@@ -803,4 +772,5 @@ WHERE     $contentColumn[pageId] = $pageId
         }
         return array('plugin' => &$plugin, 'module' => $plugin->getModule(), 'name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'adminInfo' => $plugin->getAdminInfo(), 'isActive' => $plugin->isActive());
     }
+
 }

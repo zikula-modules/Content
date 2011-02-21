@@ -21,7 +21,7 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'openstreetmap';
+        return 'OpenStreetMap';
     }
     function getTitle()
     {

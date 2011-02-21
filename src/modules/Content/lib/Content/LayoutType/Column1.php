@@ -18,7 +18,7 @@ class Content_LayoutType_Column1 extends Content_LayoutType_Base
     }
     function getName()
     {
-        return 'column1';
+        return 'Column1';
     }
     function getTitle()
     {

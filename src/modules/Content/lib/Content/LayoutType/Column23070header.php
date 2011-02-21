@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_LayoutType_Column2_6238_header extends Content_LayoutType_Base
+class Content_LayoutType_Column23070header extends Content_LayoutType_Base
 {
     var $contentAreaTitles = array();
 
@@ -18,17 +18,17 @@ class Content_LayoutType_Column2_6238_header extends Content_LayoutType_Base
     }
     function getName()
     {
-        return 'column2_6238_header';
+        return 'Column23070header';
     }
     function getTitle()
     {
         $dom = ZLanguage::getModuleDomain('Content');
-        return __('2 columns (62|38)', $dom);
+        return __('2 columns (30|70)', $dom);
     }
     function getDescription()
     {
         $dom = ZLanguage::getModuleDomain('Content');
-        return __('Header + two columns (62|38) + footer', $dom);
+        return __('Header + two columns (30|70) + footer', $dom);
     }
     function getNumberOfContentAreas()
     {
@@ -40,6 +40,6 @@ class Content_LayoutType_Column2_6238_header extends Content_LayoutType_Base
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layout/column2_6238_header.png';
+    	return System::getBaseUrl().'/modules/Content/images/layout/column2_3070_header.png';
     }
 }

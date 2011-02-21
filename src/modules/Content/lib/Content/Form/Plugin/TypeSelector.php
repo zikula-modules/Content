@@ -7,7 +7,7 @@ class Content_Form_Plugin_TypeSelector extends Zikula_Form_Plugin_DropdownList
         return __FILE__;
     }
 
-    function load(Zikula_Form_View $view, &$params)
+    function load($view, &$params)
     {
         parent::load($view, $params);
 

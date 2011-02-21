@@ -20,7 +20,7 @@ class Content_ContentType_Breadcrumb extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'breadcrumb';
+        return 'Breadcrumb';
     }
     function getTitle()
     {

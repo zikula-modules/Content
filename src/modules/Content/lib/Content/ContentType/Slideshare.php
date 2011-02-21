@@ -22,7 +22,7 @@ class Content_ContentType_Slideshare extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'slideshare';
+        return 'Slideshare';
     }
     function getTitle()
     {

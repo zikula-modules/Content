@@ -16,7 +16,7 @@ class Content_ContentType_PageNavigation extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'pagenavigation';
+        return 'PageNavigation';
     }
     function getTitle()
     {

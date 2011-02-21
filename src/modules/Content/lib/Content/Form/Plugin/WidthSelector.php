@@ -7,7 +7,7 @@ class Content_Form_Plugin_WidthSelector extends Zikula_Form_Plugin_DropdownList
         return __FILE__;
     }
 
-    function load(Zikula_Form_View $view, &$params)
+    function load($view, &$params)
     {
         $this->addItem('auto', 'wauto');
         $this->addItem('1/1', 'w100');

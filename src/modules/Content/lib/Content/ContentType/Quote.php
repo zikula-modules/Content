@@ -18,7 +18,7 @@ class Content_ContentType_Quote extends Content_ContentType_Base
     }
     function getName()
     {
-        return 'quote';
+        return 'Quote';
     }
     function getTitle()
     {
