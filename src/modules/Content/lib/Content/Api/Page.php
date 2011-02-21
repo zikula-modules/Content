@@ -75,6 +75,7 @@ class Content_Api_Page extends Zikula_Api
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
         $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
         $includeContent = (array_key_exists('includeContent', $args) ? $args['includeContent'] : false);
+        $expandContent = (array_key_exists('expandContent', $args) ? $args['expandContent'] : true);
         $includeCategories = (array_key_exists('includeCategories', $args) ? $args['includeCategories'] : false);
         $includeVersionNo = (array_key_exists('includeVersionNo', $args) ? $args['includeVersionNo'] : false);
         $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
@@ -169,7 +170,7 @@ LEFT JOIN $userTable usr
             $p['isInMenu'] = $p['isOnline'] && $p['inMenu'];
 
             if ($includeContent) {
-                $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
+                $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate, 'expandContent' => $expandContent));
                 if ($content === false) {
                     return false;
                 }
@@ -404,25 +405,8 @@ function dumpTree($pages)
 
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-        // set the state of new pages
-        switch ($this->getVar('newPageState')) {
-            case '1':
-                $pageData['active'] = 1;
-                $pageData['inMenu'] = 1;
-                break;
-            case '2':
-                $pageData['active'] = 0;
-                $pageData['inMenu'] = 1;
-                break;
-            case '3':
-                $pageData['active'] = 1;
-                $pageData['inMenu'] = 0;
-                break;
-            case '4':
-                $pageData['active'] = 0;
-                $pageData['inMenu'] = 0;
-                break;
-        }
+
+        setInitialPageState($pageData);
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -708,26 +692,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-        // set the state of new pages
-        switch ($this->getVar('newPageState')) {
-            case '1':
-                $pageData['active'] = 1;
-                $pageData['inMenu'] = 1;
-                break;
-            case '2':
-                $pageData['active'] = 0;
-                $pageData['inMenu'] = 1;
-                break;
-            case '3':
-                $pageData['active'] = 1;
-                $pageData['inMenu'] = 0;
-                break;
-            case '4':
-                $pageData['active'] = 0;
-                $pageData['inMenu'] = 0;
-                break;
-        }
-    
+
+        setInitialPageState($pageData);
+
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
     
@@ -797,26 +764,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
     
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
-        // set the state of new pages
-        switch ($this->getVar('newPageState')) {
-            case '1':
-                $pageData['active'] = 1;
-                $pageData['inMenu'] = 1;
-                break;
-            case '2':
-                $pageData['active'] = 0;
-                $pageData['inMenu'] = 1;
-                break;
-            case '3':
-                $pageData['active'] = 1;
-                $pageData['inMenu'] = 0;
-                break;
-            case '4':
-                $pageData['active'] = 0;
-                $pageData['inMenu'] = 0;
-                break;
-        }
-    
+
+        setInitialPageState($pageData);
+
         $newPage = DBUtil::insertObject($pageData, 'content_page', true);
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
     
@@ -1457,5 +1407,28 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
 
         DBUtil::updateObject($page, 'content_page');
         return true;
+    }
+
+    protected function function setInitialPageState(&$page)
+    {
+        // set the state of new pages
+        switch (pnModGetVar('content', 'newPageState')) {
+            case '1':
+                $page['active'] = 1;
+                $page['inMenu'] = 1;
+                break;
+            case '2':
+                $page['active'] = 0;
+                $page['inMenu'] = 1;
+                break;
+            case '3':
+                $page['active'] = 1;
+                $page['inMenu'] = 0;
+                break;
+            case '4':
+                $page['active'] = 0;
+                $page['inMenu'] = 0;
+                break;
+        }
     }
 }
