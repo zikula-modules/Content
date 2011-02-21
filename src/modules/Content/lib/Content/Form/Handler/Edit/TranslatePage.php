@@ -5,7 +5,7 @@ class Content_Form_Handler_Edit_TranslatePage extends Zikula_Form_Handler
     var $language;
     var $backref;
 
-    function initialize($view)
+    public function initialize(Zikula_Form_View $view)
     {
         $this->pageId = (int) FormUtil::getPassedValue('pid', -1);
         $this->language = ZLanguage::getLanguageCode();
@@ -46,7 +46,7 @@ class Content_Form_Handler_Edit_TranslatePage extends Zikula_Form_Handler
         return true;
     }
 
-    function handleCommand($view, &$args)
+    public function handleCommand(Zikula_Form_View $view, &$args)
     {
         $url = null;
 

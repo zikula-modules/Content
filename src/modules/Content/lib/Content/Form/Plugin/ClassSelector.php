@@ -1,13 +1,13 @@
 <?php
 
-class Content_Form_Plugin_ClassSelector extends Form_Plugin_DropdownList
+class Content_Form_Plugin_ClassSelector extends Zikula_Form_Plugin_DropdownList
 {
-    function getFilename()
+    public function getFilename()
     {
         return __FILE__;
     }
 
-    function load($view, &$params)
+    public function load(Zikula_Form_View $view, &$params)
     {
         if (!$view->isPostBack()) {
             $classes = ModUtil::apiFunc('Content', 'Admin', 'getStyleClasses');

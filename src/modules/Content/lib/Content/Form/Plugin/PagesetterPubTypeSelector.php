@@ -8,14 +8,14 @@
  * <!--[pagesetter_pubtypeselector id="tid"]-->
  * </code>
  */
-class Content_Form_Plugin_PagesetterPubTypeSelector extends Form_Plugin_DropdownList
+class Content_Form_Plugin_PagesetterPubTypeSelector extends Zikula_Form_Plugin_DropdownList
 {
-    function getFilename()
+    public function getFilename()
     {
         return __FILE__;
     }
 
-    function load($view, &$params)
+    public function load(Zikula_Form_View $view, &$params)
     {
         if (!ModUtil::loadApi('pagesetter', 'admin')) {
             return false;

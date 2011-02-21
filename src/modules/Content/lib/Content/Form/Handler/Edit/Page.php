@@ -5,12 +5,12 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
     var $pageId;
     var $backref;
 
-    function __construct($args)
+    public function __construct($args)
     {
         $this->args = $args;
     }
 
-    function initialize($view)
+    public function initialize(Zikula_Form_View $view)
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = (int) FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : -1);
@@ -68,7 +68,7 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
         return true;
     }
 
-    function handleCommand($view, &$args)
+    public function handleCommand(Zikula_Form_View $view, &$args)
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $url = null;

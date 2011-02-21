@@ -10,7 +10,7 @@
 
 function smarty_block_contentFormFrame($params, $content, &$view)
 {
-    $result = $view->registerPlugin('Form_Plugin_ValidationSummary', $params);
+    $result = $view->registerPlugin('Zikula_Form_Plugin_ValidationSummary', $params);
     $result .= $view->registerBlock('Content_Form_Plugin_FormFrame', $params, $content);
 
     return $result;

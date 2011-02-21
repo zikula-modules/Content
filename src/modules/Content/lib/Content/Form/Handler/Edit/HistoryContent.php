@@ -4,12 +4,12 @@ class Content_Form_Handler_Edit_HistoryContent extends Zikula_Form_Handler
     var $pageId;
     var $backref;
 
-    function __construct($args)
+    public function __construct($args)
     {
         $this->args = $args;
     }
 
-    function initialize($view)
+    public function initialize(Zikula_Form_View $view)
     {
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $offset = (int)FormUtil::getPassedValue('offset');
@@ -43,7 +43,7 @@ class Content_Form_Handler_Edit_HistoryContent extends Zikula_Form_Handler
         return true;
     }
 
-    function handleCommand($view, &$args)
+    public function handleCommand(Zikula_Form_View $view, &$args)
     {
         $url = null;
 

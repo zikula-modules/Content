@@ -2,7 +2,7 @@
 
 class Content_Form_Handler_Admin_Settings extends Zikula_Form_Handler
 {
-    function initialize($view)
+    public function initialize(Zikula_Form_View $view)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
             return $view->registerError(LogUtil::registerPermissionError());
@@ -26,7 +26,7 @@ class Content_Form_Handler_Admin_Settings extends Zikula_Form_Handler
         return true;
     }
 
-    function handleCommand($view, &$args)
+    public function handleCommand(Zikula_Form_View $view, &$args)
     {
         if ($args['commandName'] == 'save') {
             if (!$view->isValid()) {

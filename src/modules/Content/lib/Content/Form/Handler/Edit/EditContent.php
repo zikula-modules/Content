@@ -6,12 +6,12 @@ class Content_Form_Handler_Edit_EditContent extends Zikula_Form_Handler
     var $pageId;
     var $backref;
 
-    function __construct($args)
+    public function __construct($args)
     {
         $this->args = $args;
     }
 
-    function initialize($view)
+    public function initialize(Zikula_Form_View $view)
     {
         $this->contentId = (int) FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
 
@@ -67,7 +67,7 @@ class Content_Form_Handler_Edit_EditContent extends Zikula_Form_Handler
         return true;
     }
 
-    function handleCommand($view, &$args)
+    public function handleCommand(Zikula_Form_View $view, &$args)
     {
         $url = null;
 
@@ -112,7 +112,7 @@ class Content_Form_Handler_Edit_EditContent extends Zikula_Form_Handler
         return $view->redirect($url);
     }
 
-    function handleSomethingChanged(&$view, &$args)
+    public function handleSomethingChanged(&$view, &$args)
     {
         $contentData = $view->getValues();
         $this->contentType['plugin']->handleSomethingChanged($view, $contentData['data']);

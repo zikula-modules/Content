@@ -1,27 +1,27 @@
 <?php
 
-class Content_Form_Plugin_FormFrame extends Form_Plugin
+class Content_Form_Plugin_FormFrame extends Zikula_Form_Plugin
 {
     var $useTabs;
     var $cssClass = 'tabs';
 
-    function getFilename()
+    public function getFilename()
     {
         return __FILE__; // FIXME: may be found in smarty's data???
     }
 
-    function create($view, &$params)
+    public function create(Zikula_Form_View $view, &$params)
     {
         $this->useTabs = (array_key_exists('useTabs', $params) ? $params['useTabs'] : false);
     }
 
-    function renderBegin($view)
+    public function renderBegin(Zikula_Form_View $view)
     {
         $tabClass = $this->useTabs ? ' '.$this->cssClass : '';
         return "<div class=\"content-form{$tabClass}\">\n";
     }
 
-    function renderEnd($view)
+    public function renderEnd(Zikula_Form_View $view)
     {
         return "</div>\n";
     }

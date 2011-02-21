@@ -1,8 +1,8 @@
 <?php
 
-class Content_Form_Plugin_LayoutSelector extends Form_Plugin_DropdownList
+class Content_Form_Plugin_LayoutSelector extends Zikula_Form_Plugin_DropdownList
 {
-    function load($view, &$params)
+    public function load(Zikula_Form_View $view, &$params)
     {
         // get all layouts if needed
         if (array_key_exists('layouts', $params)) {
@@ -14,7 +14,7 @@ class Content_Form_Plugin_LayoutSelector extends Form_Plugin_DropdownList
             }
         }
         foreach ($layouts as $layout) {
-            $this->addItem($layout['title'], $layout['name'], $layout['image']);
+            $this->_addItem($layout['title'], $layout['name'], $layout['image']);
         }
         parent::load($view, $params);
     }
@@ -28,7 +28,7 @@ class Content_Form_Plugin_LayoutSelector extends Form_Plugin_DropdownList
      *
      * @return void
      */
-    function addItem($text, $value, $image = null)
+    private function _addItem($text, $value, $image = null)
     {
         $item = array(
             'text' => $text,

@@ -2,12 +2,12 @@
 
 class Content_Form_Handler_Edit_Main extends Zikula_Form_Handler
 {
-    function __construct($args)
+    public function __construct($args)
     {
         $this->args = $args;
     }
 
-    function initialize($view)
+    public function initialize(Zikula_Form_View $view)
     {
         if (!contentHasPageEditAccess()) {
             return $view->registerError(LogUtil::registerPermissionError());
@@ -32,7 +32,7 @@ class Content_Form_Handler_Edit_Main extends Zikula_Form_Handler
         return true;
     }
 
-    function handleCommand($view, &$args)
+    public function handleCommand(Zikula_Form_View $view, &$args)
     {
         $url = ModUtil::url('Content', 'Edit', 'main');
 

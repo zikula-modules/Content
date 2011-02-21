@@ -1,13 +1,13 @@
 <?php
 
-class Content_Form_Plugin_WidthSelector extends Form_Plugin_DropdownList
+class Content_Form_Plugin_WidthSelector extends Zikula_Form_Plugin_DropdownList
 {
-    function getFilename()
+    public function getFilename()
     {
         return __FILE__;
     }
 
-    function load($view, &$params)
+    public function load(Zikula_Form_View $view, &$params)
     {
         $this->addItem('auto', 'wauto');
         $this->addItem('1/1', 'w100');

@@ -11,12 +11,12 @@ class Content_Form_Handler_Edit_NewContent extends Zikula_Form_Handler
     var $contentId; // ID of content we are creating new item relative to
     var $above; // Position relative to $contentid (above=0 => below)
 
-    function __construct($args)
+    public function __construct($args)
     {
         $this->args = $args;
     }
 
-    function initialize($view)
+    public function initialize(Zikula_Form_View $view)
     {
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $this->contentAreaIndex = FormUtil::getPassedValue('cai', isset($this->args['cai']) ? $this->args['cai'] : null);
@@ -59,7 +59,7 @@ class Content_Form_Handler_Edit_NewContent extends Zikula_Form_Handler
         return true;
     }
 
-    function handleCommand($view, &$args)
+    public function handleCommand(Zikula_Form_View $view, &$args)
     {
         if ($args['commandName'] == 'create') {
             if (!$view->isValid()) {

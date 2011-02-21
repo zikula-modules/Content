@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Plugin_PositionSelector extends Form_Plugin
+class Content_Form_Plugin_PositionSelector extends Zikula_Form_Plugin
 {
     var $inputName;
     var $dataBased;
@@ -8,24 +8,24 @@ class Content_Form_Plugin_PositionSelector extends Form_Plugin
     var $group;
     var $value;
 
-    function getFilename()
+    public function getFilename()
     {
         return __FILE__;
     }
 
-    function create($view, &$params)
+    public function create(Zikula_Form_View $view, &$params)
     {
         $this->inputName = $this->id;
         $this->dataBased = (array_key_exists('dataBased', $params) ? $params['dataBased'] : true);
         $this->dataField = (array_key_exists('dataField', $params) ? $params['dataField'] : $this->id);
     }
 
-    function load($view, &$params)
+    public function load(Zikula_Form_View $view, &$params)
     {
         $this->loadValue($view, $view->get_template_vars());
     }
 
-    function render($view)
+    public function render(Zikula_Form_View $view)
     {
         $dom = ZLanguage::getModuleDomain('Content');
         $nameHtml = " name=\"{$this->inputName}\"";
@@ -76,7 +76,7 @@ class Content_Form_Plugin_PositionSelector extends Form_Plugin
         return $html;
     }
 
-    function decode($view)
+    public function decode(Zikula_Form_View $view)
     {
         $this->value = FormUtil::getPassedValue($this->inputName, null, 'POST');
         if (get_magic_quotes_gpc()) {
@@ -84,7 +84,7 @@ class Content_Form_Plugin_PositionSelector extends Form_Plugin
         }
     }
 
-    function saveValue($view, &$data)
+    public function saveValue(Zikula_Form_View $view, &$data)
     {
         if ($this->dataBased) {
             if ($this->group == null) {
@@ -98,7 +98,7 @@ class Content_Form_Plugin_PositionSelector extends Form_Plugin
         }
     }
 
-    function loadValue($view, &$values)
+    public function loadValue(Zikula_Form_View $view, &$values)
     {
         if ($this->dataBased) {
             if ($this->group == null) {
