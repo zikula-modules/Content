@@ -1,7 +1,7 @@
 <h2>{gt text="Subpages of %s" tag1=$title}</h2>
 <ul>
     {foreach from=$subPages item=page}
-    {include file="content_include_subpagelistitem.html page=$page}
+    {include file="content_include_subpagelistitem.tpl page=$page}
     {foreachelse}
     <li>{gt text="No subpages available"}</li>
     {/foreach}

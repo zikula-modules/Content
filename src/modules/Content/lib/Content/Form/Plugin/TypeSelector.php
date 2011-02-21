@@ -7,7 +7,7 @@ class Content_Form_Plugin_TypeSelector extends Zikula_Form_Plugin_DropdownList
         return __FILE__;
     }
 
-    public function load(Zikula_Form_View $view, &$params)
+    function load(Zikula_Form_View $view, &$params)
     {
         parent::load($view, $params);
 
@@ -21,7 +21,7 @@ class Content_Form_Plugin_TypeSelector extends Zikula_Form_Plugin_DropdownList
         $this->attributes['onkeyup'] = "content.handleContenTypeSelected ('$this->id')";
     }
 
-    public function render(Zikula_Form_View $view)
+    function render(Zikula_Form_View $view)
     {
         $scripts = array('javascript/ajax/prototype.js', 'modules/Content/javascript/ajax.js');
         PageUtil::addVar('javascript', $scripts);

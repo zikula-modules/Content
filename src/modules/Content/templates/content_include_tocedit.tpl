@@ -68,7 +68,7 @@
                         {/if}
 
                         {if $access.pageEditAllowed}
-                        <img src="images/icons/extrasmall/folder_blank.png" alt="{gt text="Page draggable"}" title="{gt text="Page draggable"}" class="draggable"/>
+                        <img src="images/icons/extrasmall/move.png" alt="{gt text="Page draggable"}" title="{gt text="Page draggable"}" class="draggable"/>
                         {/if}
 
                         <a href="{modurl modname=Content type=Edit func=editPage pid=$page.id}" id="droppable_{$page.id}">{$page.title} [{$page.id}{* {$page.position}|{$page.setLeft}/{$page.setRight}  *}]</a>

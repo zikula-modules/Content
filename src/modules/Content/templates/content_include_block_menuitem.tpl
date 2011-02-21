@@ -2,7 +2,7 @@
     {if $page.subPages}
     <ul>
         {foreach from=$page.subPages item=subpage}
-        {include file=content_include_block_menuitem.html page=$subpage}
+        {include file=content_include_block_menuitem.tpl page=$subpage}
         {/foreach}
     </ul>
     {/if}

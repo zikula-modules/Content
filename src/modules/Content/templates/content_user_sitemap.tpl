@@ -13,5 +13,5 @@
 {/if}
 
 <div class="content-sitemap">
-    {include file=content_include_sitemap.html pages=$pages}
+    {include file=content_include_sitemap.tpl pages=$pages}
 </div>
