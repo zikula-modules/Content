@@ -17,21 +17,21 @@
 {modurl modname='Content' type=Edit func=translatePage pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
 
 {formcontextmenu id="contentTocMenu" width="auto"}
-{formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.gif" commandName="edit"}
-{formcontextmenuitem __title='Preview' imageURL="images/icons/extrasmall/14_layer_visible.gif" commandScript="content.popupPreviewWindow(commandArgument)"}
+{formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.png" commandName="edit"}
+{formcontextmenuitem __title='Preview' imageURL="images/icons/extrasmall/14_layer_visible.png" commandScript="content.popupPreviewWindow(commandArgument)"}
 {formcontextmenuseparator}
 {if $access.pageCreateAllowed}
-{formcontextmenuitem __title='Clone page' imageURL="images/icons/extrasmall/editcopy.gif" commandName="clonePage"}
-{formcontextmenuitem __title='New page' imageURL="images/icons/extrasmall/insert_table_row.gif" commandName="newPage"}
-{formcontextmenuitem __title='New sub-page' imageURL="images/icons/extrasmall/insertcell.gif" commandName="newSubPage"}
+{formcontextmenuitem __title='Clone page' imageURL="images/icons/extrasmall/editcopy.png" commandName="clonePage"}
+{formcontextmenuitem __title='New page' imageURL="images/icons/extrasmall/insert_table_row.png" commandName="newPage"}
+{formcontextmenuitem __title='New sub-page' imageURL="images/icons/extrasmall/insertcell.png" commandName="newSubPage"}
 {/if}
-{formcontextmenuitem __title='Decrease indent' imageURL="images/icons/extrasmall/format_decreaseindent.gif" commandName="decIndent"}
-{formcontextmenuitem __title='Increase indent' imageURL="images/icons/extrasmall/format_increaseindent.gif" commandName="incIndent"}
-{if $multilingual}{formcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl}{/if}
-{if $enableVersioning}{formcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history'}{/if}
+{formcontextmenuitem __title='Decrease indent' imageURL="images/icons/extrasmall/format_decreaseindent.png" commandName="decIndent"}
+{formcontextmenuitem __title='Increase indent' imageURL="images/icons/extrasmall/format_increaseindent.png" commandName="incIndent"}
+{if $multilingual}{formcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.png" commandRedirect=$translateUrl}{/if}
+{if $enableVersioning}{formcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.png" commandName='history'}{/if}
 {if $access.pageDeleteAllowed}
 {formcontextmenuseparator}
-{formcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deletePage' __confirmMessage='Delete'}
+{formcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.png" commandName='deletePage' __confirmMessage='Delete'}
 {/if}
 {/formcontextmenu}
 
@@ -68,7 +68,7 @@
                         {/if}
 
                         {if $access.pageEditAllowed}
-                        <img src="images/icons/extrasmall/folder_blank.gif" alt="{gt text="Page draggable"}" title="{gt text="Page draggable"}" class="draggable"/>
+                        <img src="images/icons/extrasmall/folder_blank.png" alt="{gt text="Page draggable"}" title="{gt text="Page draggable"}" class="draggable"/>
                         {/if}
 
                         <a href="{modurl modname=Content type=Edit func=editPage pid=$page.id}" id="droppable_{$page.id}">{$page.title} [{$page.id}{* {$page.position}|{$page.setLeft}/{$page.setRight}  *}]</a>
@@ -78,22 +78,22 @@
                 <td class="z-center z-nowrap">
                     {if $page.active}
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate({$page.id})">{img src="page-greenled.gif" modname="Content" title=$deactivate alt=$deactivate id="active_`$page.id`"}{img src="page-redled.gif" modname="Content" title=$activate alt=$activate style="display: none;" id="inactive_`$page.id`"}</a>
-                    <noscript><div>{img src=greenled.gif modname=core set=icons/extrasmall __title="Active" __alt="Active" }</div></noscript>
+                    <noscript><div>{img src=greenled.png modname=core set=icons/extrasmall __title="Active" __alt="Active" }</div></noscript>
                     <span id="activity_{$page.id}">{gt text="Active"}</span>
                     {else}
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepagestate({$page.id})">{img src="page-greenled.gif" modname="Content" title=$deactivate alt=$deactivate style="display: none;" id="active_`$page.id`"}{img src="page-redled.gif" modname="Content" title=$activate alt=$activate id="inactive_`$page.id`"}</a>
-                    <noscript><div>{img src=redled.gif modname=core set=icons/extrasmall __title="Inactive" __alt="Inactive" }</div></noscript>
+                    <noscript><div>{img src=redled.png modname=core set=icons/extrasmall __title="Inactive" __alt="Inactive" }</div></noscript>
                     <span id="activity_{$page.id}">{gt text="Inactive"}</span>
                     {/if}
                 </td>
                 <td class="z-center z-nowrap">
                     {if $page.inMenu}
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu({$page.id})">{img src="page-greenled.gif" modname="Content" title=$outmenu alt=$outmenu id="inmenu_`$page.id`"}{img src="page-redled.gif" modname="Content" title=$inmenu alt=$inmenu style="display: none;" id="outmenu_`$page.id`"}</a>
-                    <noscript><div>{img src=greenled.gif modname=core set=icons/extrasmall __title="In" __alt="In" }</div></noscript>
+                    <noscript><div>{img src=greenled.png modname=core set=icons/extrasmall __title="In" __alt="In" }</div></noscript>
                     <span id="menustatus_{$page.id}">{gt text="In"}</span>
                     {else}
                     <a class="content_activationbutton" href="javascript:void(0);" onclick="togglepageinmenu({$page.id})">{img src="page-greenled.gif" modname="Content" title=$outmenu alt=$outmenu style="display: none;" id="inmenu_`$page.id`"}{img src="page-redled.gif" modname="Content" title=$inmenu alt=$inmenu id="outmenu_`$page.id`"}</a>
-                    <noscript><div>{img src=redled.gif modname=core set=icons/extrasmall __title="Out" __alt="Out" }</div></noscript>
+                    <noscript><div>{img src=redled.png modname=core set=icons/extrasmall __title="Out" __alt="Out" }</div></noscript>
                     <span id="menustatus_{$page.id}">{gt text="Out"}</span>
                     {/if}
                 </td>

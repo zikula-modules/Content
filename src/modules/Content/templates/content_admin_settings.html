@@ -8,7 +8,7 @@
 </div>
 
 <div class="z-admincontainer z-clearfix">
-    <div class="z-adminpageicon">{img modname=core src=windowlist.gif set=icons/large alt=$templatetitle}</div>
+    <div class="z-adminpageicon">{img modname=core src=windowlist.png set=icons/large alt=$templatetitle}</div>
     <h3>{$templatetitle}</h3>
 
     <p>{gt text="This is where you configure various parts of the content module."}</p>
@@ -90,21 +90,21 @@
                 <td>
                     {modavailable modname="scribite" assign="scribite"}
                     {if !$scribite}
-                    {img src=redled.gif modname=core set=icons/extrasmall __alt='Not installed' }
+                    {img src=redled.png modname=core set=icons/extrasmall __alt='Not installed' }
                     {else}
-                    {img src=greenled.gif modname=core set=icons/extrasmall __alt='Installed' }
+                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Installed' }
                     {/if}
                 </td>
                 <td>
                     {modapifunc modname="scribite" type="user" func="getModuleConfig" modulename="Content" assign="scribite_config"}
                     {if !isset($scribite_config)}
                     {if !$scribite}
-                    {img src=redled.gif modname=core set=icons/extrasmall __alt='Inactive' }
+                    {img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }
                     {else}
-                    <a href="{modurl modname="scribite" type="admin" func="newmodule"}">{img src=redled.gif modname=core set=icons/extrasmall __alt='Inactive' }</a>
+                    <a href="{modurl modname="scribite" type="admin" func="newmodule"}">{img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }</a>
                     {/if}
                     {else}
-                    {img src=greenled.gif modname=core set=icons/extrasmall __alt='Active' }
+                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Active' }
                     {/if}
                 </td>
                 <td><strong>{gt text="Scribite"}</strong></td>
@@ -115,22 +115,22 @@
                 <td>
                     {modavailable modname="bbcode" assign="bbcode"}
                     {if !$bbcode}
-                    {img src=redled.gif modname=core set=icons/extrasmall __alt='Not installed' }
+                    {img src=redled.png modname=core set=icons/extrasmall __alt='Not installed' }
                     {else}
-                    {img src=greenled.gif modname=core set=icons/extrasmall __alt='Installed' }
+                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Installed' }
                     {/if}
                 </td>
                 <td>
                     {modishooked tmodname="bbcode" smodname="Content" assign="bbcode_config"}
                     {if !$bbcode_config}
                     {if !$bbcode}
-                    {img src=redled.gif modname=core set=icons/extrasmall __alt='Inactive' }
+                    {img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }
                     {else}
                     {modgetinfo modname='Content' info=all assign=module}
-                    <a href="{modurl modname="modules" type="admin" func="hooks" id=$module.id}">{img src=redled.gif modname=core set=icons/extrasmall __alt='Inactive' }</a>
+                    <a href="{modurl modname="modules" type="admin" func="hooks" id=$module.id}">{img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }</a>
                     {/if}
                     {else}
-                    {img src=greenled.gif modname=core set=icons/extrasmall __alt='Active' }
+                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Active' }
                     {/if}
                 </td>
                 <td><strong>{gt text="BBCode"}</strong></td>
@@ -140,12 +140,12 @@
             {modapifunc modname="Content" type="Content" func="getContentTypes" includeInactive=1 assign="plugins"}
             {foreach from=$plugins item=plugin}
             <tr class="{cycle values="z-odd,z-even"}">
-                <td>{img src=greenled.gif modname=core set=icons/extrasmall __alt='Installed' }</td>
+                <td>{img src=greenled.png modname=core set=icons/extrasmall __alt='Installed' }</td>
                 <td>
                     {if $plugin.isActive}
-                    {img src=greenled.gif modname=core set=icons/extrasmall __alt='Active' }
+                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Active' }
                     {else}
-                    {img src=redled.gif modname=core set=icons/extrasmall __alt='Inactive' }
+                    {img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }
                     {/if}
                 </td>
                 <td><strong>{$plugin.module}</strong></td>

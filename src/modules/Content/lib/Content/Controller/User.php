@@ -80,7 +80,7 @@ class Content_Controller_User extends Zikula_Controller
 
             //var_dump($version);
             $translatable = array('revisionNo' => $version['revisionNo'], 'date' => $version['date'], 'action' => constant($version['action']), 'userName' => $version['userName'], 'ipno' => $version['ipno']);
-            $iconSrc = 'images/icons/extrasmall/clock.gif';
+            $iconSrc = 'images/icons/extrasmall/clock.png';
             $versionHtml = "<p class=\"content-versionpreview\"><img alt=\"\" src=\"$iconSrc\"/> " . $this->__f('Version #%1$s - %2$s - %3$s by %4$s from %5$s', $translatable) . "</p>";
         } else if ($pageId === null && !empty($urlname)) {
             $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', compact('urlname'));

@@ -432,7 +432,7 @@ dl.content-video dd {
 }
 
 .content-video .play-icon {
-    background: url(../../../images/icons/extrasmall/agt_forward.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/agt_forward.png) no-repeat 0 50%;
     margin: 0 0.5em;
     font-size: 1em;
     padding: 2px 0 2px 19px;
@@ -471,25 +471,25 @@ div.content-pageinfo .content button.con_image {
     display: block !important;
 }
 div.content-pageinfo .content a.translate {
-    background: url(../../../images/icons/extrasmall/voice-support.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/voice-support.png) no-repeat 0 50%;
 }
 div.content-pageinfo .content a.edit {
-    background: url(../../../images/icons/extrasmall/edit.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/edit.png) no-repeat 0 50%;
 }
 div.content-pageinfo .content a.insertsub {
-    background: url(../../../images/icons/extrasmall/insertcell.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/insertcell.png) no-repeat 0 50%;
 }
 div.content-pageinfo .content a.insertpage {
-    background: url(../../../images/icons/extrasmall/insert_table_row.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/insert_table_row.png) no-repeat 0 50%;
 }
 div.content-pageinfo .content a.pagelist {
-    background: url(../../../images/icons/extrasmall/enumList.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/enumList.png) no-repeat 0 50%;
 }
 div.content-pageinfo .content a.editoff {
-    background: url(../../../images/icons/extrasmall/redled.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/redled.png) no-repeat 0 50%;
 }
 div.content-pageinfo .content a.editon {
-    background: url(../../../images/icons/extrasmall/greenled.gif) no-repeat 0 50%;
+    background: url(../../../images/icons/extrasmall/greenled.png) no-repeat 0 50%;
 }
 
 .contextMenu {
@@ -518,127 +518,127 @@ div.content-pageinfo .content a.editon {
 }
 
 .z-buttons input.con-bt-clone {
-    background: url("../../../images/icons/extrasmall/editcopy.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-clone:hover {
-    background: url("../../../images/icons/extrasmall/editcopy.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-clone:active {
-    background: url("../../../images/icons/extrasmall/editcopy.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/editcopy.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/editcopy.png") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }
 
 .z-buttons input.con-bt-translate {
-    background: url("../../../images/icons/extrasmall/voice-support.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-translate:hover {
-    background: url("../../../images/icons/extrasmall/voice-support.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-translate:active {
-    background: url("../../../images/icons/extrasmall/voice-support.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/voice-support.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/voice-support.png") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }
 
 .z-buttons input.con-bt-next {
-    background: url("../../../images/icons/extrasmall/next.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/forward.png") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-next:hover {
-    background: url("../../../images/icons/extrasmall/next.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/forward.png") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-next:active {
-    background: url("../../../images/icons/extrasmall/next.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/next.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/forward.png") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/forward.png") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }
 
 .z-buttons input.con-bt-prev {
-    background: url("../../../images/icons/extrasmall/previous.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/previous.png") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-prev:hover {
-    background: url("../../../images/icons/extrasmall/previous.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/previous.png") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-prev:active {
-    background: url("../../../images/icons/extrasmall/previous.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/previous.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/previous.png") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/previous.png") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }
 
 .z-buttons input.con-bt-skip {
-    background: url("../../../images/icons/extrasmall/redo.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-skip:hover {
-    background: url("../../../images/icons/extrasmall/redo.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-skip:active {
-    background: url("../../../images/icons/extrasmall/redo.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/redo.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/agt_reload.png") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }
 
 .z-buttons input.con-bt-view {
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") #dfdfdf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, -moz-linear-gradient(center top , #ffffff, #dfdfdf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dfdfdf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, linear-gradient(#ffffff, #dfdfdf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-view:hover {
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") #cfcfcf 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #fafafa, #cfcfcf) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#cfcfcf)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, linear-gradient(#fafafa, #cfcfcf); /*CSS3*/
 }
 
 .z-buttons input.con-bt-view:active {
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
-    background: url("../../../images/icons/extrasmall/14_layer_visible.gif") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") #fafafa 10px 50% no-repeat; /*non-CSS3 browsers*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, -moz-linear-gradient(top,  #cfcfcf, #fafafa) repeat scroll 0 0 transparent; /*gecko*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#cfcfcf), to(#fafafa)) repeat scroll 0 0 transparent; /*webkit*/
+    background: url("../../../images/icons/extrasmall/14_layer_visible.png") 10px 50% no-repeat, linear-gradient(#cfcfcf, #fafafa); /*CSS3*/
 }
