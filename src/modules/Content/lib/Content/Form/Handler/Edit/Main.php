@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Handler_Edit_Main extends Form_Handler
+class Content_Form_Handler_Edit_Main extends Zikula_Form_Handler
 {
     function __construct($args)
     {

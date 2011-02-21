@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Handler_Admin_Settings extends Form_Handler
+class Content_Form_Handler_Admin_Settings extends Zikula_Form_Handler
 {
     function initialize($view)
     {

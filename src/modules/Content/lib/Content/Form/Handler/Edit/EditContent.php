@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Handler_Edit_EditContent extends Form_Handler
+class Content_Form_Handler_Edit_EditContent extends Zikula_Form_Handler
 {
     var $contentId;
     var $pageId;
