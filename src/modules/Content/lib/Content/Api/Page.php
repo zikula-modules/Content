@@ -406,7 +406,7 @@ function dumpTree($pages)
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
 
-        setInitialPageState($pageData);
+        $this->setInitialPageState($pageData);
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -693,7 +693,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
 
-        setInitialPageState($pageData);
+        $this->setInitialPageState($pageData);
 
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -765,7 +765,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageData['setLeft'] = -2;
         $pageData['setRight'] = -1;
 
-        setInitialPageState($pageData);
+        $this->setInitialPageState($pageData);
 
         $newPage = DBUtil::insertObject($pageData, 'content_page', true);
         $this->contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -1409,10 +1409,14 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         return true;
     }
 
-    protected function function setInitialPageState(&$page)
+    /**
+     * set appropriate array values based on modvar
+     * @param array $page
+     */
+    protected function setInitialPageState(&$page)
     {
         // set the state of new pages
-        switch (pnModGetVar('content', 'newPageState')) {
+        switch (ModUtil::getVar('Content', 'newPageState')) {
             case '1':
                 $page['active'] = 1;
                 $page['inMenu'] = 1;
