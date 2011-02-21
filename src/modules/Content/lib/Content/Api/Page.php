@@ -793,7 +793,7 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
             return false;
         }
     
-        $table = pnDBGetTables();
+        $table = DBUtil::getTables();
         $pageTable = $table['content_page'];
         $pageColumn = $table['content_page_column'];
     
