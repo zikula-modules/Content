@@ -34,7 +34,7 @@ class Content_ContentType_JoinPosition extends Content_ContentType_Base
 
     function loadData(&$data)
     {
-        if (!isset($data['clear']) || in_array($data['clear'], array('both','left','right'))) {
+        if (!isset($data['clear']) || !in_array($data['clear'], array('both','left','right'))) {
             $data['clear'] = 'both';
         }
         $this->clear = $data['clear'];
