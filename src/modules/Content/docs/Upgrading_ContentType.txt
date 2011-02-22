@@ -1,53 +1,151 @@
 DEVELOPER CONTENTTYPE/LAYOUTTYPE UPGRADE 3.x -> 4.x
 ===================================================
 
-The structure and naming schemes have changed for Content 4.x
+The structure and naming schemes have changed for Content 4.x. This document
+explains changes that must be made in other third-party modules in orde to
+maintain compatibility with the newest versions of Content. There are four
+important areas to cover:
+
+  - Filenames and Classnames (Zikula standard naming schemes)
+  - ContentType and LayoutType classfiles
+  - Templates (including custom naming options)
+  - Module upgrade routine
+
+
+## Filenames & Classnames
 
 The rules in Zikula 1.3 require classnames to begin with uppercase letters and
-for underscores only used to indicate directories. Each word must be capitalized
+for underscores only used to indicate directory structure. Each word must be capitalized
 and you cannot use other characters (numbers and letters only, but must begin
 with a capital letter). For example:
 
-Content_Form_Handler_Admin_Settings
+    Content_Form_Handler_Admin_Settings
 
 is found in
 
-modules/Content/lib/Content/Form/Handler/Admin/Settings.php
+    modules/Content/lib/Content/Form/Handler/Admin/Settings.php
 
 you can see the relationship between the classname and the directory structure.
 Additional underscores, etc, are not allowed.
 
 
-## Classfiles
+## ContentType and LayoutType classfiles
 
 Move your existing pncontenttypesapi files to
 
-  ModuleName/lib/ModuleName/ContentType/Filename.php
+    ModuleName/lib/ModuleName/ContentType/Filename.php
 
 rename the classes within to
 
-  ModuleName_ContentType_Pluginname extends Content_ContentType_Base
+    ModuleName_ContentType_Pluginname extends Content_ContentType
 
 
 Move your existing pnlayouttypesapi files to
 
-  ModuleName/lib/ModuleName/LayoutType/Filename.php
+    ModuleName/lib/ModuleName/LayoutType/Filename.php
 
 rename the classes within to
 
-  ModuleName_LayoutType_Pluginname extends Content_LayoutType_Base
+    ModuleName_LayoutType_Pluginname extends Content_LayoutType
 
-Please note that the word 'Plugin' has been removed from classnames. Filenames
-may not contain spaces or underscores and should also be corrected in the
-getName method within the class.
+(replace the 'ModuleName' with your *actual* module name - with Caps)
+
+Please note that the word 'Plugin' and 'Base' have been removed from classnames.
+Filenames may not contain spaces or underscores.
+
+Be sure your filename and plugin name are exactly the same. They must begin with
+a capital letter and contain only a-z/A-Z/0-9 (no spaces or underscores).
+Correct the getName method within the class to return the new name.
+
+Remove the function at the bottom of your plugin file that instanciated the
+classfile. This is no longer required.
 
 
 ## Templates
 
-contentype templates may remain in the templates/contentype/ directory but must
+Contentype templates may remain in the templates/contentype/ directory but must
 be renamed with a .tpl suffix
 
 The layout/ templates directory must be renamed to layouttype/ and all files
 within renamed with a .tpl suffix
 
-spaces are not allowed in any filenames.
+The default name of the template should reflect the name of the plugin, but be
+all lowercase.
+
+ContentType plugins should have a '_view' and '_edit' suffix versions.
+
+for example:
+    Plugin name: GoogleMap.php
+    View template: googlemap_view.tpl
+    Edit template: googlemap_edit.tpl
+
+Translation templates should use the same naming scheme, but contain the
+appropriate suffixes:
+
+    New template: googlemap_translate_new.tpl
+    Original template: googlemap_translate_original.tpl
+
+Layout templates typically require only the template and an '_edit' version:
+
+    Plugin name: Column1woheader.php
+    template: column1woheader.tpl
+    edit template: column1woheader_edit.tpl
+
+### Custom template naming
+
+If you prefer, you can now (since Content v4.0.0) name your templates anything
+you like and set the template name in the plugin class.
+
+See the Content_ContentType and Content_LayoutType classes for the methods. All
+you need to do is override these methods:
+
+For LayoutType:
+    getTemplate()
+    getEditTemplate()
+
+For ContentType:
+    getTemplate()
+    getEditTemplate()
+    getTranslationTemplates
+
+Override these methods in your plugin class and change them to return the name
+of the template you wish instead of the default naming scheme. Using this
+override, you can name the templates anything you like, including changing the
+directory and suffix if you require it.
+
+
+## Module upgrade routine
+
+The names of your plugins are stored in the Content module's database tables.
+These must be updated or existing templates will no longer function.
+
+In your Installer upgrade routine, add the following lines:
+
+    Content_Installer::updateLayout('modulename');
+    Content_Installer::updateContentType('modulename');
+
+(replace the 'modulename' with your *actual* module name)
+
+Also, you must create two methods within your module's installer class to map
+the old plugin names to the new plugin names. They should look like this:
+
+    protected function LegacyContentTypeMap()
+    {
+        $oldToNew = array(
+            'author' => 'Author',
+            'block' => 'Block'
+        );
+        return $oldToNew;
+    }
+
+    protected function LegacyLayoutTypeMap()
+    {
+        $oldToNew = array(
+            'column2_2575_header' => 'Column22575header',
+            'column2header' => 'Column2header',
+            'column3_252550_header' => 'Column3252550header'
+        );
+        return $oldToNew;
+    }
+
+See the Content_Installer class for complete examples.
