@@ -1,16 +1,16 @@
-<!--[php]-->header("Content-Type: text/xml");<!--[/php]-->
+{php}header("Content-Type: text/xml");{/php}
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.google.com/schemas/sitemap/0.84"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.google.com/schemas/sitemap/0.84
     http://www.google.com/schemas/sitemap/0.84/sitemap.xsd">
-    <!--[getbaseurl assign="baseURL"]-->
+    {getbaseurl assign="baseURL"}
     <url>
-        <loc><!--[$baseURL]--></loc>
-        <lastmod><!--[$smarty.now|dateformat:'%Y-%m-%d']--></lastmod>
+        <loc>{$baseURL}</loc>
+        <lastmod>{$smarty.now|dateformat:'%Y-%m-%d'}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
-    <!--[include file='content_include_sitemap.xml' pages=$pages baseURL=$baseURL]-->
+    {include file='user/sitemapinc.xml' pages=$pages baseURL=$baseURL}
 </urlset>
 

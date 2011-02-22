@@ -5,5 +5,5 @@
 </div>
 
 <div class="content-sitemap">
-    {include file=content_include_sitemap.tpl pages=$pages}
+    {include file='user/sitemapinc.tpl' pages=$pages}
 </div>

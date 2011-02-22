@@ -53,7 +53,7 @@ class Content_Form_Handler_Edit_NewContent extends Zikula_Form_Handler
         PageUtil::setVar('title', $this->__("Add new content to page") . ' : ' . $page['title']);
 
         $view->assign('page', $page);
-        $view->assign('htmlBody', 'content_edit_newcontent.tpl');
+        $view->assign('htmlBody', 'edit/newcontent.tpl');
         Content_Util::contentAddAccess($view, $this->pageId);
 
         return true;

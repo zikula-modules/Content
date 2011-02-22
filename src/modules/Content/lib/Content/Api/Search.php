@@ -22,7 +22,7 @@ class Content_Api_Search extends Zikula_Api
     {
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_READ)) {
             $this->view->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
-            return $this->view->fetch('content_search_options.tpl');
+            return $this->view->fetch('search/options.tpl');
         }
 
         return '';

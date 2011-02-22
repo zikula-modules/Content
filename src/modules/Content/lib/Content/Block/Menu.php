@@ -51,7 +51,7 @@ class Content_Block_Menu extends Zikula_Controller_Block
             $this->view->setCaching(false);
             $cacheId = null;
         }
-        if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('content_block_menu.tpl', $cacheId))) {
+        if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/menu.tpl', $cacheId))) {
             $options = array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array());
             if ($vars['root'] > 0) {
                 $options['filter']['superParentId'] = $vars['root'];
@@ -64,7 +64,7 @@ class Content_Block_Menu extends Zikula_Controller_Block
             }
             $this->view->assign('subPages', $pages);
         }
-        $blockinfo['content'] = $this->view->fetch('content_block_menu.tpl', $cacheId);
+        $blockinfo['content'] = $this->view->fetch('block/menu.tpl', $cacheId);
         return BlockUtil::themeBlock($blockinfo);
     }
 
@@ -85,7 +85,7 @@ class Content_Block_Menu extends Zikula_Controller_Block
             $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
         }
         $this->view->assign('pidItems', $pidItems);
-        return $this->view->fetch('content_block_menu_modify.tpl');
+        return $this->view->fetch('block/menu_modify.tpl');
     }
 
     public function update($blockinfo)
@@ -96,7 +96,7 @@ class Content_Block_Menu extends Zikula_Controller_Block
         $blockinfo['content'] = BlockUtil::varsToContent($vars);
 
         // clear the block cache
-        $this->view->clear_cache('content_block_menu.tpl');
+        $this->view->clear_cache('block/menu.tpl');
         return $blockinfo;
     }
 }

@@ -4,6 +4,6 @@
     <loc>{$baseURL}{modurl modname='Content' type=user func=view pid=$page.id}</loc>
     <changefreq>daily</changefreq>
 </url>
-{include file='content_include_sitemap.xml' pages=$page.subPages baseURL=$baseURL}
+{include file='user/sitemapinc.xml' pages=$page.subPages baseURL=$baseURL}
 {/foreach}
 {/if}

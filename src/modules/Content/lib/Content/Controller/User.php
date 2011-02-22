@@ -42,7 +42,7 @@ class Content_Controller_User extends Zikula_Controller
         $this->view->assign('shorturls', System::getVar('shorturls'));
         $this->view->assign('shorturlstype', System::getVar('shorturlstype'));
 
-        return $this->view->fetch('content_user_main.tpl');
+        return $this->view->fetch('user/main.tpl');
     }
 
     /**
@@ -122,7 +122,7 @@ class Content_Controller_User extends Zikula_Controller
             }
         }
 
-        return $versionHtml . $this->view->fetch('content_user_page.tpl');
+        return $versionHtml . $this->view->fetch('user/page.tpl');
     }
 
     /**
@@ -132,7 +132,7 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function listpages($args)
     {
-        return $this->contentCommonList($args, 'content_user_list.tpl', false);
+        return $this->contentCommonList($args, 'user/list.tpl', false);
     }
 
     /**
@@ -142,7 +142,7 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function extlist($args)
     {
-        return $this->contentCommonList($args, 'content_user_extlist.tpl', true);
+        return $this->contentCommonList($args, 'user/extlist.tpl', true);
     }
 
     /**
@@ -152,7 +152,7 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function pagelist($args)
     {
-        return $this->contentCommonList($args, 'content_user_pagelist.tpl', true);
+        return $this->contentCommonList($args, 'user/pagelist.tpl', true);
     }
 
     /**
@@ -227,7 +227,7 @@ class Content_Controller_User extends Zikula_Controller
         }
 
         $this->view->assign(reset($topPage));
-        return $this->view->fetch('content_user_subpages.tpl');
+        return $this->view->fetch('user/subpages.tpl');
     }
 
     /**
@@ -251,10 +251,10 @@ class Content_Controller_User extends Zikula_Controller
 
         $tpl = FormUtil::getPassedValue('tpl', '', 'GET');
         if ($tpl == 'xml') {
-            $this->view->display('content_user_sitemap.xml');
+            $this->view->display('user/sitemap.xml');
             return true;
         }
 
-        return $this->view->fetch('content_user_sitemap.tpl');
+        return $this->view->fetch('user/sitemap.tpl');
     }
 }

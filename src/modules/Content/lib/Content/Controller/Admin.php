@@ -16,12 +16,12 @@ class Content_Controller_Admin extends Zikula_Controller
             return LogUtil::registerPermissionError();
         }
 
-        return $this->view->fetch('content_admin_main.tpl');
+        return $this->view->fetch('admin/main.tpl');
     }
 
     public function settings()
     {
         $view = FormUtil::newForm('Content', $this);
-        return $view->execute('content_admin_settings.tpl', new Content_Form_Handler_Admin_Settings(array()));
+        return $view->execute('admin/settings.tpl', new Content_Form_Handler_Admin_Settings(array()));
     }
 }
