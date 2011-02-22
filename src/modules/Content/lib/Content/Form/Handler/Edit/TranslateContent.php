@@ -53,8 +53,9 @@ class Content_Form_Handler_Edit_TranslateContent extends Zikula_Form_Handler
 
         PageUtil::setVar('title', $this->__("Translate content item") . ' : ' . $page['title']);
 
-        $templateOriginal = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_translate_original.html';
-        $templateNew = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_translate_new.html';
+        $templates = $this->contentType['plugin']->getTranslationTemplates();
+        $templateOriginal = 'file:' . getcwd() . "/modules/$content[module]/templates/" . $templates['original'];
+        $templateNew = 'file:' . getcwd() . "/modules/$content[module]/templates/" . $templates['new'];
         $view->assign('translateOriginalTemplate', $templateOriginal);
         $view->assign('translateNewTemplate', $templateNew);
         $view->assign('page', $page);

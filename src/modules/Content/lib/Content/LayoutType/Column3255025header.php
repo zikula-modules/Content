@@ -40,6 +40,6 @@ class Content_LayoutType_Column3255025header extends Content_LayoutType_Base
     }
     function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layout/column3_255025_header.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column3_255025_header.png';
     }
 }

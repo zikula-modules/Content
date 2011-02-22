@@ -146,7 +146,8 @@ LEFT JOIN $userTable usr
             $p = &$pages[$i];
             $p['translated'] = array('title' => $p['translatedTitle']);
             $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array('layout' => $p['layout']));
-            $p['layoutTemplate'] = 'layout/' . $p['layoutData']['name'] . '.html';
+            $p['layoutTemplate'] = $p['layoutData']['template'];
+            $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
             if ($includeCategories) {
                 $p['categories'] = $this->contentGetPageCategories($p['id']);
             }

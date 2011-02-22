@@ -57,7 +57,7 @@ class Content_ContentType_Html extends Content_ContentType_Base
         $view->assign('inputType', $this->inputType);
         $view->assign('text', $text);
 
-        return $view->fetch('contenttype/paragraph_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
@@ -97,5 +97,9 @@ class Content_ContentType_Html extends Content_ContentType_Base
             ) , $text);
         }
         return $text;
+    }
+    public function getTemplate()
+    {
+        return 'contenttype/paragraph_view.tpl';
     }
 }

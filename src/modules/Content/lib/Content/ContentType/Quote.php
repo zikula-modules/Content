@@ -46,8 +46,6 @@ class Content_ContentType_Quote extends Content_ContentType_Base
         $source = DataUtil::formatForDisplayHTML($this->source);
         $desc = DataUtil::formatForDisplayHTML($this->desc);
 
-//        $text = ModUtil::callHooks('item', 'transform', '', array($text));
-//        $text = $text[0];
         $view = Zikula_View::getInstance('Content');
         $event = new Zikula_Event('content.hook.contentitem.ui.filter', $view, array('caller' => $this->getModule()), $text);
         $text = $view->getEventManager()->notify($event)->getData();
@@ -55,7 +53,7 @@ class Content_ContentType_Quote extends Content_ContentType_Base
         $view->assign('text', $text);
         $view->assign('desc', $desc);
 
-        return $view->fetch('contenttype/quote_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

@@ -50,7 +50,7 @@ class Content_ContentType_Breadcrumb extends Content_ContentType_Base
         $view->assign('thispage', $this->pageid);
         $view->assign('path', $path);
 
-        return $view->fetch('contenttype/breadcrumb_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

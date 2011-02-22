@@ -38,4 +38,4 @@
         {/if}
     </div>
 </div>
-{include file="layout/footer.html" pid=$page.id}
+{include file="layouttype/footer.tpl" pid=$page.id}

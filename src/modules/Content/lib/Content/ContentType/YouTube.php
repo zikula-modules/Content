@@ -55,7 +55,7 @@ class Content_ContentType_YouTube extends Content_ContentType_Base
         $view->assign('videoId', $this->videoId);
         $view->assign('displayMode', $this->displayMode);
 
-        return $view->fetch('contenttype/youtube_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

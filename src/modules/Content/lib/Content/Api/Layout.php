@@ -17,7 +17,12 @@ class Content_Api_Layout extends Zikula_Api
 
         for ($i = 0, $cou = count($plugins); $i < $cou; ++$i) {
             $plugin = &$plugins[$i];
-            $layouts[$i] = array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage());
+            $layouts[$i] = array(
+                'name' => $plugin->getName(),
+                'title' => $plugin->getTitle(),
+                'description' => $plugin->getDescription(),
+                'numberOfContentAreas' => $plugin->getNumberOfContentAreas(),
+                'image' => $plugin->getImage());
             $names[$i] = $layouts[$i]['name'];
         }
         // sort the layouts array by the name
@@ -35,6 +40,14 @@ class Content_Api_Layout extends Zikula_Api
     public function getLayout($args)
     {
         $plugin = $this->getLayoutPlugin($args);
-        return array('name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(), 'image' => $plugin->getImage(), 'plugin' => $plugin);
+        return array(
+            'name' => $plugin->getName(),
+            'title' => $plugin->getTitle(),
+            'description' => $plugin->getDescription(),
+            'numberOfContentAreas' => $plugin->getNumberOfContentAreas(),
+            'image' => $plugin->getImage(),
+            'template' => $plugin->getTemplate(),
+            'editTemplate' => $plugin->getEditTemplate(),
+            'plugin' => $plugin);
     }
 }

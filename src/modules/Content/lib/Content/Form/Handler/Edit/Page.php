@@ -43,7 +43,7 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
             return $view->registerError(null);
         }
         
-        $layoutTemplate = 'layout/' . $page['layoutData']['name'] . '_edit.html';
+        $layoutTemplate = $page['layoutEditTemplate'];
         $view->assign('layoutTemplate', $layoutTemplate);
         $view->assign('mainCategory', $mainCategory);
         $view->assign('secondCategory', $secondCategory);

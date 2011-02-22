@@ -317,4 +317,19 @@ class Content_ContentType_Base implements Zikula_Translatable
     {
         return null;
     }
+    public function getTemplate()
+    {
+        return 'contenttype/' . strtolower($this->getName()) . '_view.tpl';
+    }
+    public function getEditTemplate()
+    {
+        return 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
+    }
+    public function getTranslationTemplates()
+    {
+        $templates = array(
+            'original' => 'contenttype/' . strtolower($this->getName()) . '_translate_original.tpl',
+            'new' => 'contenttype/' . strtolower($this->getName()) . '_translate_new.tpl');
+        return $templates;
+    }
 }

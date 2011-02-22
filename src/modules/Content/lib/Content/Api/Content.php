@@ -742,7 +742,6 @@ WHERE     $contentColumn[pageId] = $pageId
 
     public function getContentPlugin($args)
     {
-        //$plugin = ModUtil::apiFunc($args['module'], 'contenttypes', $args['type'], $args);
         $classname = $args['module'] . "_ContentType_" . $args['type'];
         $plugin = new $classname($args);
         if (empty($plugin)) {
@@ -770,7 +769,14 @@ WHERE     $contentColumn[pageId] = $pageId
         if ($plugin === false) {
             return false;
         }
-        return array('plugin' => &$plugin, 'module' => $plugin->getModule(), 'name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'adminInfo' => $plugin->getAdminInfo(), 'isActive' => $plugin->isActive());
+        return array(
+            'plugin' => &$plugin,
+            'module' => $plugin->getModule(),
+            'name' => $plugin->getName(),
+            'title' => $plugin->getTitle(),
+            'description' => $plugin->getDescription(),
+            'adminInfo' => $plugin->getAdminInfo(),
+            'isActive' => $plugin->isActive());
     }
 
 }

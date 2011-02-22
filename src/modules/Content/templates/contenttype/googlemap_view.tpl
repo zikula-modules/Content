@@ -68,12 +68,12 @@
 
             {{* This code is for displaying an traffic and/or bicycle overlay
             // overlay the map with a traficlayer if available in your region:
-            // http://code.google.com/apis/maps/documentation/javascript/overlays.html#TrafficLayer
+            // http://code.google.com/apis/maps/documentation/javascript/overlays.tpl#TrafficLayer
             var trafficLayer = new google.maps.TrafficLayer();
             trafficLayer.setMap(map);
 
             // overlay the map with a bicyclelayer (currently ony in the US)
-            // http://code.google.com/apis/maps/documentation/javascript/overlays.html#BicyclingLayer
+            // http://code.google.com/apis/maps/documentation/javascript/overlays.tpl#BicyclingLayer
             var bikeLayer = new google.maps.BicyclingLayer();
             bikeLayer.setMap(map);
             *}}

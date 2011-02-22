@@ -67,7 +67,7 @@ class Content_ContentType_PageNavigation extends Content_ContentType_Base
         $view->assign('loggedin', UserUtil::isLoggedIn());
         $view->assign('prevpage', $prevpage);
         $view->assign('nextpage', $nextpage);
-        return $view->fetch('contenttype/pagenavigation_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

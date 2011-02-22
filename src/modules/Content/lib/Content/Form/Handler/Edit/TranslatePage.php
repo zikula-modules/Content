@@ -19,9 +19,11 @@ class Content_Form_Handler_Edit_TranslatePage extends Zikula_Form_Handler
             return $view->registerError(null);
         }
 
-        if ($this->language == $page['language']) {
-            return $this->view->registerError(LogUtil::registerError($this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%1$s"). Change the current site language ("%1$s") to some other language on the <a href="%2$s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual')))));
-        }
+//        can't seem to make this work...
+//        TODO! craig
+//        if ($this->language == $page['language']) {
+//            return $view->registerError($this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%1$s"). Change the current site language ("%2$s") to some other language on the <a href="%2$s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual'))));
+//        }
 
         PageUtil::setVar('title', $this->__("Translate page") . ' : ' . $page['title']);
 
@@ -30,7 +32,7 @@ class Content_Form_Handler_Edit_TranslatePage extends Zikula_Form_Handler
         $view->assign('language', $this->language);
         Content_Util::contentAddAccess($view, $this->pageId);
 
-        if (!$this->view->isPostBack() && FormUtil::getPassedValue('back',0)) {
+        if (!$view->isPostBack() && FormUtil::getPassedValue('back',0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
         }
 

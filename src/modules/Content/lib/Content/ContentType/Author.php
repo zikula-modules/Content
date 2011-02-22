@@ -42,7 +42,7 @@ class Content_ContentType_Author extends Content_ContentType_Base
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('uid', DataUtil::formatForDisplayHTML($this->uid));
         $view->assign('contentId', $this->contentId);
-        return $view->fetch('contenttype/author_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

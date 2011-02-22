@@ -1,13 +1,4 @@
 <div class="content-layout column1">
-    <div class="content-area-topheader">
-        {if !empty($page.content[1])}
-        {foreach from=$page.content[1] item=c}
-        {contenteditthis data=$c access=$access type='content'}
-        {$c.output}
-        {/foreach}
-        {/if}
-    </div>
-
     <h2>{$page.title}</h2>
 
     <div class="content-area-top">
@@ -20,12 +11,12 @@
     </div>
 
     <div class="content-area-center">
-        {if !empty($page.content[2])}
-        {foreach from=$page.content[2] item=c}
+        {if !empty($page.content[1])}
+        {foreach from=$page.content[1] item=c}
         {contenteditthis data=$c access=$access type='content'}
         {$c.output}
         {/foreach}
         {/if}
     </div>
 </div>
-{include file="layout/footer.html" pid=$page.id}
+{include file="layouttype/footer.tpl" pid=$page.id}

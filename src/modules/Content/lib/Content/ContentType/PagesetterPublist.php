@@ -74,7 +74,7 @@ class Content_ContentType_PagesetterPublist extends Content_ContentType_Base
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('publications', $publications);
 
-        return $view->fetch('contenttype/pagesetter_publist_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

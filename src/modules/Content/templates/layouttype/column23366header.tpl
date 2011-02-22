@@ -1,4 +1,4 @@
-<div class="content-layout column3">
+<div class="content-layout column2">
     <h2>{$page.title}</h2>
 
     <div class="content-area-top">
@@ -19,7 +19,7 @@
         {/if}
     </div>
 
-    <div class="content-area-center w33">
+    <div class="content-area-right w66">
         {if !empty($page.content[2])}
         {foreach from=$page.content[2] item=c}
         {contenteditthis data=$c access=$access type='content'}
@@ -28,7 +28,8 @@
         {/if}
     </div>
 
-    <div class="content-area-right w33">
+
+    <div class="content-area-bottom">
         {if !empty($page.content[3])}
         {foreach from=$page.content[3] item=c}
         {contenteditthis data=$c access=$access type='content'}
@@ -36,15 +37,5 @@
         {/foreach}
         {/if}
     </div>
-
-    <div class="content-area-bottom">
-        {if !empty($page.content[4])}
-        {foreach from=$page.content[4] item=c}
-        {contenteditthis data=$c access=$access type='content'}
-        {$c.output}
-        {/foreach}
-        {/if}
-    </div>
-
 </div>
-{include file="layout/footer.html" pid=$page.id}
+{include file="layouttype/footer.tpl" pid=$page.id}

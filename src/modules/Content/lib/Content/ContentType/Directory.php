@@ -80,7 +80,7 @@ class Content_ContentType_Directory extends Content_ContentType_Base
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('directory', $directory);
         $view->assign('contentId', $this->contentId);
-        return $view->fetch('contenttype/directory_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function _genDirectoryRecursive(&$pages)
     {

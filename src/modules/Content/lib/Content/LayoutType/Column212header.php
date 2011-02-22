@@ -47,6 +47,6 @@ class Content_LayoutType_Column212header extends Content_LayoutType_Base
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layout/column2_1_2header.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_1_2header.png';
     }
 }

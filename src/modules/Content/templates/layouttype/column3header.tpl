@@ -10,7 +10,7 @@
         {/if}
     </div>
 
-    <div class="content-area-left w25">
+    <div class="content-area-left w33">
         {if !empty($page.content[1])}
         {foreach from=$page.content[1] item=c}
         {contenteditthis data=$c access=$access type='content'}
@@ -19,7 +19,7 @@
         {/if}
     </div>
 
-    <div class="content-area-center w50">
+    <div class="content-area-center w33">
         {if !empty($page.content[2])}
         {foreach from=$page.content[2] item=c}
         {contenteditthis data=$c access=$access type='content'}
@@ -28,7 +28,7 @@
         {/if}
     </div>
 
-    <div class="content-area-right w25">
+    <div class="content-area-right w33">
         {if !empty($page.content[3])}
         {foreach from=$page.content[3] item=c}
         {contenteditthis data=$c access=$access type='content'}
@@ -47,4 +47,4 @@
     </div>
 
 </div>
-{include file="layout/footer.html" pid=$page.id}
+{include file="layouttype/footer.tpl" pid=$page.id}

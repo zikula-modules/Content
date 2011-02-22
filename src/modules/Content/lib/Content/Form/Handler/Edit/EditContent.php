@@ -43,7 +43,7 @@ class Content_Form_Handler_Edit_EditContent extends Zikula_Form_Handler
 
         PageUtil::setVar('title', $this->__("Edit content item") . ' : ' . $page['title']);
 
-        $template = 'file:' . getcwd() . "/modules/$content[module]/templates/contenttype/" . $content['type'] . '_edit.html';
+        $template = 'file:' . getcwd() . "/modules/$content[module]/templates/" . $this->contentType['plugin']->getEditTemplate();
         $view->assign('contentTypeTemplate', $template);
         $view->assign('page', $page);
         $view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only not logged in people'), 'value' => '2')));

@@ -55,7 +55,7 @@ class Content_ContentType_Slideshare extends Content_ContentType_Base
         $view->assign('width', $this->width);
         $view->assign('height', $this->height);
 
-        return $view->fetch('contenttype/slideshare_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

@@ -57,7 +57,7 @@ class Content_ContentType_Vimeo extends Content_ContentType_Base
         $view->assign('clipId', $this->clipId);
         $view->assign('displayMode', $this->displayMode);
 
-        return $view->fetch('contenttype/vimeo_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

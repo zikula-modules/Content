@@ -71,7 +71,7 @@ class Content_ContentType_GoogleMap extends Content_ContentType_Base
         $view->assign('contentId', $this->contentId);
         $view->assign('language', ZLanguage::getLanguageCode());
 
-        return $view->fetch('contenttype/googlemap_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

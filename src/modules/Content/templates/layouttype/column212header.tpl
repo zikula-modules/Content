@@ -28,8 +28,7 @@
         {/if}
     </div>
 
-
-    <div class="content-area-bottom">
+    <div class="content-area-middle">
         {if !empty($page.content[3])}
         {foreach from=$page.content[3] item=c}
         {contenteditthis data=$c access=$access type='content'}
@@ -37,5 +36,32 @@
         {/foreach}
         {/if}
     </div>
+
+    <div class="content-area-left w50">
+        {if !empty($page.content[4])}
+        {foreach from=$page.content[4] item=c}
+        {contenteditthis data=$c access=$access type='content'}
+        {$c.output}
+        {/foreach}
+        {/if}
+    </div>	
+	
+	<div class="content-area-right w50">
+        {if !empty($page.content[5])}
+        {foreach from=$page.content[5] item=c}
+        {contenteditthis data=$c access=$access type='content'}
+        {$c.output}
+        {/foreach}
+        {/if}
+    </div>	
+	
+	<div class="content-area-bottom">
+        {if !empty($page.content[6])}
+        {foreach from=$page.content[6] item=c}
+        {contenteditthis data=$c access=$access type='content'}
+        {$c.output}
+        {/foreach}
+        {/if}
+    </div>	
 </div>
-{include file="layout/footer.html" pid=$page.id}
+{include file="layouttype/footer.tpl" pid=$page.id}

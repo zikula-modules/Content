@@ -40,6 +40,6 @@ class Content_LayoutType_Column1woheader extends Content_LayoutType_Base
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layout/column1woheader.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column1woheader.png';
     }
 }

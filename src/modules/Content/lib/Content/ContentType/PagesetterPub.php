@@ -51,7 +51,7 @@ class Content_ContentType_PagesetterPub extends Content_ContentType_Base
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('publication', $publication);
 
-        return $view->fetch('contenttype/pagesetter_pub_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
@@ -70,7 +70,7 @@ class Content_ContentType_PagesetterPub extends Content_ContentType_Base
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('publication', $publication);
 
-        return $view->fetch('contenttype/pagesetter_pub_view.html');
+        return $view->fetch($this->getTemplate()); // not getEditTemplate??
     }
     function getDefaultData()
     {

@@ -65,7 +65,7 @@ class Content_ContentType_Rss extends Content_ContentType_Base
         $view->assign('feed', $this->feedData);
         $view->assign('includeContent', $this->includeContent);
 
-        return $view->fetch('contenttype/rss_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

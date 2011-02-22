@@ -45,7 +45,7 @@ class Content_ContentType_Block extends Content_ContentType_Base
         $text = BlockUtil::show($modinfo['name'], $blockinfo['bkey'], $blockinfo);
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('content', $text);
-        return $view->fetch('contenttype/block_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

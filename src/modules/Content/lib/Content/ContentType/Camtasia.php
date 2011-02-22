@@ -55,7 +55,7 @@ class Content_ContentType_Camtasia extends Content_ContentType_Base
         $view->assign('displayMode', $this->displayMode);
         $view->assign('folder', $this->folder);
 
-        return $view->fetch('contenttype/camtasia_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

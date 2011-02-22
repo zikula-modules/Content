@@ -2,28 +2,36 @@
 
 class Content_LayoutType_Base
 {
-    function getName()
+    public function getName()
     {
         return 'unknown';
     }
-    function getTitle()
+    public function getTitle()
     {
         return 'Unknown layout';
     }
-    function getDescription()
+    public function getDescription()
     {
         return 'This is the base class for layouts - do not use!';
     }
-    function getNumberOfContentAreas()
+    public function getNumberOfContentAreas()
     {
         return 0;
     }
-    function getContentAreaTitle($areaIndex)
+    public function getContentAreaTitle($areaIndex)
     {
         return $areaIndex;
     }
-    function getImage()
+    public function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layout_nopreview.png';
+    	return System::getBaseUrl() . '/modules/Content/images/layout_nopreview.png';
+    }
+    public function getTemplate()
+    {
+        return 'layouttype/' . strtolower($this->getName()) . ".tpl";
+    }
+    public function getEditTemplate()
+    {
+        return 'layouttype/' . strtolower($this->getName()) . "_edit.tpl";
     }
 }

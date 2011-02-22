@@ -72,7 +72,7 @@ class Content_ContentType_Flickr extends Content_ContentType_Base
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('photos', $photoData);
 
-        return $view->fetch('contenttype/flickr_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

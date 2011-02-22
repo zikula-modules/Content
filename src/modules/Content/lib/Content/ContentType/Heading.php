@@ -48,7 +48,7 @@ class Content_ContentType_Heading extends Content_ContentType_Base
         $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
         $view->assign('contentId', $this->contentId);
-        return $view->fetch('contenttype/heading_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
@@ -56,7 +56,7 @@ class Content_ContentType_Heading extends Content_ContentType_Base
         $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
         $view->assign('contentId', $this->contentId);
-        return $view->fetch('contenttype/heading_view.html');
+        return $view->fetch($this->getTemplate()); // not getEditTemplate??
     }
     function getDefaultData()
     {

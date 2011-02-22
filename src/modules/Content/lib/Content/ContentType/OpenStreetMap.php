@@ -68,7 +68,7 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType_Base
         $view->assign('contentId', $this->contentId);
         $view->assign('language', ZLanguage::getLanguageCode());
 
-        return $view->fetch('contenttype/openstreetmap_view.html');
+        return $view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

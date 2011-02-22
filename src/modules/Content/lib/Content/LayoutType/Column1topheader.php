@@ -40,6 +40,6 @@ class Content_LayoutType_Column1topheader extends Content_LayoutType_Base
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layout/column1topheader.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column1topheader.png';
     }
 }
