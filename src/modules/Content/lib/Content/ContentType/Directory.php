@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_Directory extends Content_ContentType_Base
+class Content_ContentType_Directory extends Content_ContentType
 {
     var $pid;
     var $includeHeading;

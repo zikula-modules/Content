@@ -1,6 +1,6 @@
 <?php
 
-class Content_LayoutType_Base
+class Content_LayoutType
 {
     public function getName()
     {

@@ -8,7 +8,7 @@
  * has submitted data after editing plugin. The constructor should initialize
  * object data based on the input.
  */
-class Content_ContentType_Base implements Zikula_Translatable
+class Content_ContentType implements Zikula_Translatable
 {
     public $pageId;
     public $contentAreaIndex;

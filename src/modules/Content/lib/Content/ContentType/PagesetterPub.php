@@ -1,6 +1,6 @@
 <?php
 
-class Content_ContentType_PagesetterPub extends Content_ContentType_Base
+class Content_ContentType_PagesetterPub extends Content_ContentType
 {
     var $tid;
     var $pid;

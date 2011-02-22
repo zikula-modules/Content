@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_Breadcrumb extends Content_ContentType_Base
+class Content_ContentType_Breadcrumb extends Content_ContentType
 {
     var $pageid;
     function Content_ContentType_breadcrumbPlugin($data)

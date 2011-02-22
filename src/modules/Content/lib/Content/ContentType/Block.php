@@ -5,7 +5,7 @@
  * @copyright (C) 2008, Markus Gr��ing
  */
 
-class Content_ContentType_Block extends Content_ContentType_Base
+class Content_ContentType_Block extends Content_ContentType
 {
     var $text;
     var $blockid;

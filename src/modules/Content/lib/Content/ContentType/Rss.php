@@ -6,7 +6,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-class Content_ContentType_Rss extends Content_ContentType_Base
+class Content_ContentType_Rss extends Content_ContentType
 {
     var $url;
     var $includeContent;

@@ -8,7 +8,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_PageNavigation extends Content_ContentType_Base
+class Content_ContentType_PageNavigation extends Content_ContentType
 {
     function getModule()
     {

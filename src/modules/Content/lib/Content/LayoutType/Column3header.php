@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_LayoutType_Column3header extends Content_LayoutType_Base
+class Content_LayoutType_Column3header extends Content_LayoutType
 {
     var $contentAreaTitles = array();
 
