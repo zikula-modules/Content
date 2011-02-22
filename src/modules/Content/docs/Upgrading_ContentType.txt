@@ -1,0 +1,53 @@
+DEVELOPER CONTENTTYPE/LAYOUTTYPE UPGRADE 3.x -> 4.x
+===================================================
+
+The structure and naming schemes have changed for Content 4.x
+
+The rules in Zikula 1.3 require classnames to begin with uppercase letters and
+for underscores only used to indicate directories. Each word must be capitalized
+and you cannot use other characters (numbers and letters only, but must begin
+with a capital letter). For example:
+
+Content_Form_Handler_Admin_Settings
+
+is found in
+
+modules/Content/lib/Content/Form/Handler/Admin/Settings.php
+
+you can see the relationship between the classname and the directory structure.
+Additional underscores, etc, are not allowed.
+
+
+## Classfiles
+
+Move your existing pncontenttypesapi files to
+
+  ModuleName/lib/ModuleName/ContentType/Filename.php
+
+rename the classes within to
+
+  ModuleName_ContentType_Pluginname extends Content_ContentType_Base
+
+
+Move your existing pnlayouttypesapi files to
+
+  ModuleName/lib/ModuleName/LayoutType/Filename.php
+
+rename the classes within to
+
+  ModuleName_LayoutType_Pluginname extends Content_LayoutType_Base
+
+Please note that the word 'Plugin' has been removed from classnames. Filenames
+may not contain spaces or underscores and should also be corrected in the
+getName method within the class.
+
+
+## Templates
+
+contentype templates may remain in the templates/contentype/ directory but must
+be renamed with a .tpl suffix
+
+The layout/ templates directory must be renamed to layouttype/ and all files
+within renamed with a .tpl suffix
+
+spaces are not allowed in any filenames.
