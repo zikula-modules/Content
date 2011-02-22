@@ -280,6 +280,8 @@ class Content_Installer extends Zikula_Installer
             }
             ModUtil::delVar('Content');
         }
+        self::updateLayout();
+        self::updateContentType();
 
         // clear compiled templates and Content cache
         ModUtil::apiFunc('view', 'user', 'clear_compiled');
@@ -387,5 +389,122 @@ class Content_Installer extends Zikula_Installer
                 DBUtil::insertObject($contentitem, 'content_content');
             }
         }
+    }
+    /**
+     * update the DB to reflect new names of Layouts
+     * can be called as static method from any module with correct args
+     * will expect LegacyLayoutTypeMap() method in module installer
+     *
+     * @param string $modname
+     * @return boolean
+     */
+    public static function updateLayout($modname="Content")
+    {
+        $installerclass = $modname . "_Installer";
+        $installer = new $installerclass;
+        $legacyMap = $installer->LegacyLayoutTypeMap();
+
+        $tables = DBUtil::getTables();
+        $table = $tables['content_page'];
+        $columns = $tables['content_page_column'];
+        $columnArray = array('id', 'layout');
+        $items = DBUtil::selectObjectArray($table, '', '', -1, -1, '', null, null, $columnArray);
+
+        foreach ($items as $item) {
+            $newitem = $item;
+            $newitem['layout'] = in_array($item['layout'], $legacyMap) ? $legacyMap($item['layout']) : false;
+            if ($newitem['layout']) {
+                DBUtil::updateObject($newitem, $table);
+            }
+        }
+        return true;
+    }
+    /**
+     * update the DB to reflect new names of ContentTypes
+     * can be called as static method from any modules with correct args
+     * will expect LegacyContentTypeMap() method in module installer
+     * 
+     * @param string $modname
+     * @return boolean
+     */
+    public static function updateContentType($modname="Content")
+    {
+        $installerclass = $modname . "_Installer";
+        $installer = new $installerclass;
+        $legacyMap = $installer->LegacyContentTypeMap();
+
+        $tables = DBUtil::getTables();
+        $table = $tables['content_content'];
+        $columns = $tables['content_content_column'];
+        $where = "WHERE " . $columns['module'] . "='" . $modname . "'";
+        $columnArray = array('id', 'module', 'type');
+        $items = DBUtil::selectObjectArray($table, $where, '', -1, -1, '', null, null, $columnArray);
+
+        foreach ($items as $item) {
+            $newitem = $item;
+            $newitem['type'] = in_array($item['type'], $legacyMap) ? $legacyMap($item['type']) : false;
+            if ($newitem['type']) {
+                DBUtil::updateObject($newitem, $table);
+            }
+        }
+        return true;
+    }
+    /**
+     * map old LayoutType names to new
+     * @return array
+     */
+    protected function LegacyLayoutTypeMap()
+    {
+        $oldToNew = array(
+            'column1' => 'Column1',
+            'column1topheader' => 'Column1',
+            'column1woheader' => 'Column1woheader',
+            'column2_1_2header' => 'Column212header',
+            'column2_2575_header' => 'Column22575header',
+            'column2_3070_header' => 'Column23070header',
+            'column2_3366_header' => 'Column23366header',
+            'column2_3862_header' => 'Column23862header',
+            'column2_6238_header' => 'Column26238header',
+            'column2_6633_header' => 'Column26633header',
+            'column2_7030_header' => 'Column27030header',
+            'column2_7525_header' => 'Column27525header',
+            'column2header' => 'Column2header',
+            'column3_252550_header' => 'Column3252550header',
+            'column3_255025_header' => 'Column3255025header',
+            'column3_502525_header' => 'Column3502525header',
+            'column3header' => 'Column3header',
+        );
+        return $oldToNew;
+    }
+    /**
+     * map old ContentType names to new
+     * @return array
+     */
+    protected function LegacyContentTypeMap()
+    {
+        $oldToNew = array(
+            'author' => 'Author',
+            'block' => 'Block',
+            'breadcrumb' => 'Breadcrumb',
+            'camtasia' => 'Camtasia',
+            'computercode' => 'Computercode',
+            'directory' => 'Directory',
+            'flickr' => 'Flickr',
+            'googlemap' => 'GoogleMap',
+            'heading' => 'Heading',
+            'html' => 'Html',
+            'joinposition' => 'JoinPosition',
+            'modulefunc' => 'ModuleFunc',
+            'openstreetmap' => 'OpenStreetMap',
+            'pagenavigation' => 'PageNavigation',
+            'pagesetter_pub' => 'PagesetterPub',
+            'pagesetter_publist' => 'PagesetterPublist',
+            'quote' => 'Quote',
+            'rss' => 'Rss',
+            'slideshare' => 'Slideshare',
+            'vimeo' => 'Vimeo',
+            'youtube' => 'YouTube',
+        );
+        return $oldToNew;
     }
 }
