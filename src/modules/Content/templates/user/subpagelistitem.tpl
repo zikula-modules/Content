@@ -2,7 +2,7 @@
     {if $page.subPages}
     <ul>
         {foreach from=$page.subPages item=subpage}
-        {include file=content_include_subpagelistitem.tpl page=$subpage}
+        {include file='user/subpagelistitem.tpl' page=$subpage}
         {/foreach}
     </ul>
     {/if}
