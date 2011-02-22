@@ -1,16 +1,8 @@
 {contentpageheading __header='Sitemap'}
 
-{if $access.pageCreateAllowed}
-<div class="z-menu">
-    <span class="z-menuitem-title">
-        [ <a href="{modurl modname=Content type=edit func=newpage}">{gt text="Add new page"}</a>
-        {if $access.pageEditAllowed}
-        | <a href="{modurl modname=Content type=edit func=main}">{gt text="Page list"}</a>
-        {/if}
-        ]
-    </span>
+<div class="z-adminbox">
+    {modulelinks modname='Content' type='user'}
 </div>
-{/if}
 
 <div class="content-sitemap">
     {include file=content_include_sitemap.tpl pages=$pages}

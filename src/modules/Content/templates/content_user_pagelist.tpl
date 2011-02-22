@@ -1,3 +1,7 @@
+<div class="z-adminbox">
+    {modulelinks modname='Content' type='user'}
+</div>
+
 {gt text="Complete page list" assign=title}
 {pagesetvar name='title' value=$title}
 

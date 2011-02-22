@@ -10,6 +10,28 @@
 class Content_Api_User extends Zikula_Api
 {
     /**
+     * get available module links
+     *
+     * @return array array of admin links
+     */
+    public function getlinks()
+    {
+        $links = array();
+
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
+            $links[] = array('url' => ModUtil::url('Content', 'admin', 'main'), 'text' => $this->__('Administration'), 'class' => 'z-icon-es-cubes');
+        }
+        if (Content_Util::contentHasPageCreateAccess()) {
+			$links[] = array('url' => ModUtil::url('Content', 'edit', 'newPage'), 'text' => $this->__('Add new page'), 'class' => 'z-icon-es-new');
+        }
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
+            $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Page list'), 'class' => 'z-icon-es-edit');
+        }
+
+        return $links;
+    }
+
+    /**
      * form custom url string
      *
      * @author Philipp Niethammer <webmaster@nochwer.de>
