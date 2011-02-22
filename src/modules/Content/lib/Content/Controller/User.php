@@ -105,7 +105,6 @@ class Content_Controller_User extends Zikula_Controller
         $pageTitle = html_entity_decode($page['title']);
         PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
 
-        //$layoutTemplate = 'layouttype/' . $page['layoutData']['name'] . '.tpl';
         $this->view->assign('page', $page);
         $this->view->assign('preview', $preview);
         $this->view->assign('editmode', $editmode);
