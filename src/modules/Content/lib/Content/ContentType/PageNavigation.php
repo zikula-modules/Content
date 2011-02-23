@@ -39,7 +39,7 @@ class Content_ContentType_PageNavigation extends Content_ContentType
         $options['pageSize'] = 1;
         $options['filter']['superParentId'] = $page['parentPageId'];
 
-        if ($page[position] > 0) {
+        if ($page['position'] > 0) {
             $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] < $page[position]";
     
             $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
