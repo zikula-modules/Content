@@ -1,13 +1,13 @@
 <?php
 /**
- * Content 2 column layout plugin
+ * Content 3 column layout plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
 
-class Content_LayoutType_Column23070header extends Content_LayoutType
+class Content_LayoutType_Column3d502525 extends Content_LayoutType
 {
     var $contentAreaTitles = array();
 
@@ -17,20 +17,21 @@ class Content_LayoutType_Column23070header extends Content_LayoutType
         $this->contentAreaTitles = array(
             $this->__('Header'),
             $this->__('Left column'),
+            $this->__('Centre column'),
             $this->__('Right column'),
             $this->__('Footer'));
     }
     function getTitle()
     {
-        return $this->__('2 columns (30|70)');
+        return $this->__('3 columns (50|25|25)');
     }
     function getDescription()
     {
-        return $this->__('Header + two columns (30|70) + footer');
+        return $this->__('Header + three columns (50|25|25) + footer');
     }
     function getNumberOfContentAreas()
     {
-        return 4;
+        return 5;
     }
     function getContentAreaTitle($areaIndex)
     {
@@ -38,6 +39,6 @@ class Content_LayoutType_Column23070header extends Content_LayoutType
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_3070_header.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column3_502525_header.png';
     }
 }

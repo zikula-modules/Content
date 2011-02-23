@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_LayoutType_Column26633header extends Content_LayoutType
+class Content_LayoutType_Column2d3862 extends Content_LayoutType
 {
     var $contentAreaTitles = array();
 
@@ -22,11 +22,11 @@ class Content_LayoutType_Column26633header extends Content_LayoutType
     }
     function getTitle()
     {
-        return $this->__('2 columns (66|33)');
+        return $this->__('2 columns (38|62)');
     }
     function getDescription()
     {
-        return $this->__('Header + two columns (66|33) + footer');
+        return $this->__('Header + two columns (38|62) + footer');
     }
     function getNumberOfContentAreas()
     {
@@ -38,6 +38,6 @@ class Content_LayoutType_Column26633header extends Content_LayoutType
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_6633_header.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_3862_header.png';
     }
 }

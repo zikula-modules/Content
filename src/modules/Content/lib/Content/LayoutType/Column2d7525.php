@@ -1,13 +1,13 @@
 <?php
 /**
- * Content 2-1-2 column layout plugin
+ * Content 2 column layout plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
 
-class Content_LayoutType_Column212header extends Content_LayoutType
+class Content_LayoutType_Column2d7525 extends Content_LayoutType
 {
     var $contentAreaTitles = array();
 
@@ -16,25 +16,21 @@ class Content_LayoutType_Column212header extends Content_LayoutType
         parent::__construct();
         $this->contentAreaTitles = array(
             $this->__('Header'),
-            $this->__('Left column1'),
-            $this->__('Right column1'),
-            $this->__('center1'),
-            $this->__('Left column2'),
-            $this->__('Right column2'),
-            $this->__('Footer')
-		);
+            $this->__('Left column'),
+            $this->__('Right column'),
+            $this->__('Footer'));
     }
     function getTitle()
     {
-        return $this->__('2-1-2 columns (50|50)');
+        return $this->__('2 columns (75|25)');
     }
     function getDescription()
     {
-        return $this->__('Header + two-one-two columns (50|50) + footer');
+        return $this->__('Header + two columns (75|25) + footer');
     }
     function getNumberOfContentAreas()
     {
-        return 7;
+        return 4;
     }
     function getContentAreaTitle($areaIndex)
     {
@@ -42,6 +38,6 @@ class Content_LayoutType_Column212header extends Content_LayoutType
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_1_2header.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_7525_header.png';
     }
 }

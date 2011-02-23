@@ -1,13 +1,13 @@
 <?php
 /**
- * Content 1 column layout with top header plugin
+ * Content 2 column layout plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
 
-class Content_LayoutType_Column1topheader extends Content_LayoutType
+class Content_LayoutType_Column2d2575 extends Content_LayoutType
 {
     var $contentAreaTitles = array();
 
@@ -16,20 +16,21 @@ class Content_LayoutType_Column1topheader extends Content_LayoutType
         parent::__construct();
         $this->contentAreaTitles = array(
             $this->__('Header'),
-            $this->__('Header above page headline'),
-            $this->__('Centre column'));
+            $this->__('Left column'),
+            $this->__('Right column'),
+            $this->__('Footer'));
     }
     function getTitle()
     {
-        return $this->__('1 column, header above page headline');
+        return $this->__('2 columns (25|75)');
     }
     function getDescription()
     {
-        return $this->__('Single 100% wide column and a top-header above the page headline (for e.g. breadcrumbs or author-information above the title)');
+        return $this->__('Header + two columns (25|75) + footer');
     }
     function getNumberOfContentAreas()
     {
-        return 3;
+        return 4;
     }
     function getContentAreaTitle($areaIndex)
     {
@@ -37,6 +38,6 @@ class Content_LayoutType_Column1topheader extends Content_LayoutType
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column1topheader.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_2575_header.png';
     }
 }
