@@ -12,23 +12,13 @@ class Content_ContentType_Heading extends Content_ContentType
     var $text;
     var $headerSize;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Heading';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Heading', $dom);
+        return $this->__('Heading');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Section heading for structuring larger amounts of text.', $dom);
+        return $this->__('Section heading for structuring larger amounts of text.');
     }
     function isTranslatable()
     {
@@ -60,8 +50,7 @@ class Content_ContentType_Heading extends Content_ContentType
     }
     function getDefaultData()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return array('text' => __('Heading', $dom), 'headerSize' => 'h3');
+        return array('text' => $this->__('Heading'), 'headerSize' => 'h3');
     }
     function startEditing(&$view)
     {

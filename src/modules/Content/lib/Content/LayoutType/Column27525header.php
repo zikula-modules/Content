@@ -13,22 +13,20 @@ class Content_LayoutType_Column27525header extends Content_LayoutType
 
     function __construct()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        $this->contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Right column', $dom), __('Footer', $dom));
-    }
-    function getName()
-    {
-        return 'Column27525header';
+        parent::__construct();
+        $this->contentAreaTitles = array(
+            $this->__('Header'),
+            $this->__('Left column'),
+            $this->__('Right column'),
+            $this->__('Footer'));
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('2 columns (75|25)', $dom);
+        return $this->__('2 columns (75|25)');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Header + two columns (75|25) + footer', $dom);
+        return $this->__('Header + two columns (75|25) + footer');
     }
     function getNumberOfContentAreas()
     {

@@ -8,13 +8,12 @@
  * has submitted data after editing plugin. The constructor should initialize
  * object data based on the input.
  */
-class Content_ContentType implements Zikula_Translatable
+class Content_ContentType extends Content_Type
 {
     public $pageId;
     public $contentAreaIndex;
     public $position;
     public $contentId;
-    public $domain;
 
     /**
      * Style position (none, above, topLeft, topRight, aboveLeft, aboveRight)
@@ -38,104 +37,6 @@ class Content_ContentType implements Zikula_Translatable
      * Flag indicating if a styling <div> has been added
      */
     public $addedStyle = false;
-
-    /**
-     * Constructor
-     */
-	public function __construct()
-	{
-        $this->domain = ZLanguage::getModuleDomain('Content');
-	}
-
-    /**
-     * Translate.
-     *
-     * @param string $msgid String to be translated.
-     *
-     * @return string The $msgid translated by gettext.
-     */
-    public function __($msgid)
-    {
-        return __($msgid, $this->domain);
-    }
-
-    /**
-     * Translate with sprintf().
-     *
-     * @param string       $msgid  String to be translated.
-     * @param string|array $params Args for sprintf().
-     *
-     * @return string The $msgid translated by gettext.
-     */
-    public function __f($msgid, $params)
-    {
-        return __f($msgid, $params, $this->domain);
-    }
-
-    /**
-     * Translate plural string.
-     *
-     * @param string $singular Singular instance.
-     * @param string $plural   Plural instance.
-     * @param string $count    Object count.
-     *
-     * @return string Translated string.
-     */
-    public function _n($singular, $plural, $count)
-    {
-        return _n($singular, $plural, $count, $this->domain);
-    }
-
-    /**
-     * Translate plural string with sprintf().
-     *
-     * @param string       $sin    Singular instance.
-     * @param string       $plu    Plural instance.
-     * @param string       $n      Object count.
-     * @param string|array $params Sprintf() arguments.
-     *
-     * @return string The $sin or $plu translated by gettext, based on $n.
-     */
-    public function _fn($sin, $plu, $n, $params)
-    {
-        return _fn($sin, $plu, $n, $params, $this->domain);
-    }
-	
-    /**
-     * Get module name (for use in ModUtil::apiFunc() calls)
-     * @return string
-     */
-    public function getModule()
-    {
-        return 'unknown';
-    }
-
-    /**
-     * Get plugin name (use same casing as in the filename of the plugin)
-     * @return string
-     */
-    public function getName()
-    {
-        return 'unknown';
-    }
-
-    /**
-     * Get displayed title
-     * @return string
-     */
-    public function getTitle()
-    {
-        return '- no title defined -';
-    }
-
-    /**
-     * Get displayed description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return '';
-    }
 
     /**
      * Get extended plugin information to display on admin module dependency list
@@ -317,14 +218,26 @@ class Content_ContentType implements Zikula_Translatable
     {
         return null;
     }
+    /**
+     * return the default view template name as a string
+     * @return string
+     */
     public function getTemplate()
     {
         return 'contenttype/' . strtolower($this->getName()) . '_view.tpl';
     }
+    /**
+     * return the default edit template name as a string
+     * @return string
+     */
     public function getEditTemplate()
     {
         return 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
     }
+    /**
+     * return the default translation templates names in an array
+     * @return array
+     */
     public function getTranslationTemplates()
     {
         $templates = array(

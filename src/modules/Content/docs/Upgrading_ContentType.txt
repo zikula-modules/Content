@@ -51,14 +51,29 @@ rename the classes within to
 (replace the 'ModuleName' with your *actual* module name - with Caps)
 
 Please note that the word 'Plugin' and 'Base' have been removed from classnames.
-Filenames may not contain spaces or underscores.
 
-Be sure your filename and plugin name are exactly the same. They must begin with
-a capital letter and contain only a-z/A-Z/0-9 (no spaces or underscores).
-Correct the getName method within the class to return the new name.
+Be sure your filename and the last part of your class name are exactly the same.
+They must begin with a capital letter and contain only a-z/A-Z/0-9
+(no spaces or underscores).
 
-Remove the function at the bottom of your plugin file that instanciated the
+Remove the getModule method. It is no longer required.
+Remove the getName method. It is no longer required.
+*Both the module name and the plugin name are derived from the class name*
+
+If you use a constructor method in your class, be sure to call the parent
+constructor within:
+
+    parent::__construct();
+
+Remove the function at the bottom of your plugin file that instantiated the
 classfile. This is no longer required.
+
+### GetText usage within classes
+There is no need to assign the translation domain to a variable ($dom) and
+include it as a function argument. You can do the same thing you would do in
+a module controller instead:
+
+    $this->__('my translated text');
 
 
 ## Templates

@@ -14,14 +14,6 @@ class Content_ContentType_ModuleFunc extends Content_ContentType
     var $func;
     var $query;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'ModuleFunc';
-    }
     function getTitle()
     {
         return $this->__('Module display');

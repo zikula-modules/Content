@@ -14,14 +14,6 @@ class Content_ContentType_Directory extends Content_ContentType
     var $includeSubpage;
     var $includeNotInMenu;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Directory';
-    }
     function getTitle()
     {
         return $this->__('Table of contents');

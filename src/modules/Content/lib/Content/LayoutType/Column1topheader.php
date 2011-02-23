@@ -13,22 +13,19 @@ class Content_LayoutType_Column1topheader extends Content_LayoutType
 
     function __construct()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        $this->contentAreaTitles = array(__('Header', $dom), __('Header above page headline', $dom), __('Centre column', $dom));
-    }
-    function getName()
-    {
-        return 'Column1topheader';
+        parent::__construct();
+        $this->contentAreaTitles = array(
+            $this->__('Header'),
+            $this->__('Header above page headline'),
+            $this->__('Centre column'));
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('1 column, header above page headline', $dom);
+        return $this->__('1 column, header above page headline');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Single 100% wide column and a top-header above the page headline (for e.g. breadcrumbs or author-information above the title)', $dom);
+        return $this->__('Single 100% wide column and a top-header above the page headline (for e.g. breadcrumbs or author-information above the title)');
     }
     function getNumberOfContentAreas()
     {

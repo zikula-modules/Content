@@ -12,23 +12,13 @@ class Content_ContentType_Quote extends Content_ContentType
     var $text;
     var $inputType;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Quote';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Quote', $dom);
+        return $this->__('Quote');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('A highlighted quote with source.', $dom);
+        return $this->__('A highlighted quote with source.');
     }
     function isTranslatable()
     {
@@ -73,8 +63,10 @@ class Content_ContentType_Quote extends Content_ContentType
     }
     function getDefaultData()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return array('text' => __('Add quote text here...', $dom), 'source' => 'http://', 'desc' => __('Name of the Source', $dom));
+        return array(
+            'text' => $this->__('Add quote text here...'),
+            'source' => 'http://',
+            'desc' => $this->__('Name of the Source'));
     }
     function startEditing(&$view)
     {

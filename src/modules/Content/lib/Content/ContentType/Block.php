@@ -11,23 +11,13 @@ class Content_ContentType_Block extends Content_ContentType
     var $blockid;
     var $inputType;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'block';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Blocks', $dom);
+        return $this->__('Blocks');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display Zikula blocks.', $dom);
+        return $this->__('Display Zikula blocks.');
     }
     function isTranslatable()
     {

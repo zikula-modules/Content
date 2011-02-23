@@ -16,14 +16,6 @@ class Content_ContentType_YouTube extends Content_ContentType
     var $videoId;
     var $displayMode;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Youtube';
-    }
     function getTitle()
     {
         return $this->__('YouTube video clip');

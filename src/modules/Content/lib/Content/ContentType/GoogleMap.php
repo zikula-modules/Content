@@ -18,14 +18,6 @@ class Content_ContentType_GoogleMap extends Content_ContentType
     var $streetviewcontrol;
     var $directionslink;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'GoogleMap';
-    }
     function getTitle()
     {
         return $this->__('Google map');

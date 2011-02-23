@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content camtasia plugin
  *
@@ -6,36 +7,31 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
 class Content_ContentType_Camtasia extends Content_ContentType
 {
+
     var $text;
     var $width;
     var $height;
     var $videoPath;
     var $displayMode;
-	var $folder;
+    var $folder;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Camtasia';
-    }
     function getTitle()
     {
         return $this->__('camtasia-Flash video');
     }
+
     function getDescription()
     {
         return $this->__('Display camtasia-Flash video.');
     }
+
     function isTranslatable()
     {
         return true;
     }
+
     function loadData(&$data)
     {
         $this->text = $data['text'];
@@ -45,6 +41,7 @@ class Content_ContentType_Camtasia extends Content_ContentType
         $this->displayMode = isset($data['displayMode']) ? $data['displayMode'] : 'inline';
         $this->folder = $data['folder'];
     }
+
     function display()
     {
         $view = Zikula_View::getInstance('Content', false);
@@ -57,33 +54,43 @@ class Content_ContentType_Camtasia extends Content_ContentType
 
         return $view->fetch($this->getTemplate());
     }
+
     function displayEditing()
     {
         $output = '<div style="background-color:grey; width:320px; height:200px; margin:0 auto; padding:10px;">Flash Video-Path : ' . $this->folder . '/' . $this->videoPath . ',<br />Size in pixels: ' . $this->width . ' x ' . $this->height . '</div>';
         $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
+
     function getDefaultData()
     {
-        return array('text' => '', 'videoPath' => '', 'displayMode' => 'inline', 'width' => '640', 'height' => '498', 'folder' => 'camtasia');
+        return array('text' => '',
+            'videoPath' => '',
+            'displayMode' => 'inline',
+            'width' => '640',
+            'height' => '498',
+            'folder' => 'camtasia');
     }
+
     function isValid(&$data)
     {
-        if (is_file($data['folder'].'/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf')) {
+        if (is_file($data['folder'] . '/' . $data['videoPath'] . '/' . $data['videoPath'] . '_controller.swf')) {
             $this->videoPath = $data['videoPath'];
             return true;
         }
         return false;
     }
-	function altisValid(&$data)
-	{
-	    $videoPath = $data['folder'].'/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf';
-    	//'camtasia/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf';
-	
+
+    function altisValid(&$data)
+    {
+        $videoPath = $data['folder'] . '/' . $data['videoPath'] . '/' . $data['videoPath'] . '_controller.swf';
+        //'camtasia/'.$data['videoPath'].'/'.$data['videoPath'].'_controller.swf';
+
         if (is_file($data['videoPath'])) {
             $this->videoPath = $data['videoPath'];
             return true;
         }
         return false;
     }
+
 }

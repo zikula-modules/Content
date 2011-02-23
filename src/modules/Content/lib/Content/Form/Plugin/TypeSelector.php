@@ -21,7 +21,7 @@ class Content_Form_Plugin_TypeSelector extends Zikula_Form_Plugin_DropdownList
         $this->attributes['onkeyup'] = "content.handleContenTypeSelected ('$this->id')";
     }
 
-    function render(Zikula_Form_View $view)
+    function render($view)
     {
         $scripts = array('javascript/ajax/prototype.js', 'modules/Content/javascript/ajax.js');
         PageUtil::addVar('javascript', $scripts);

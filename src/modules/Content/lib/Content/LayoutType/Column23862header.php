@@ -13,22 +13,20 @@ class Content_LayoutType_Column23862header extends Content_LayoutType
 
     function __construct()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        $this->contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Right column', $dom), __('Footer', $dom));
-    }
-    function getName()
-    {
-        return 'Column23862header';
+        parent::__construct();
+        $this->contentAreaTitles = array(
+            $this->__('Header'),
+            $this->__('Left column'),
+            $this->__('Right column'),
+            $this->__('Footer'));
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('2 columns (38|62)', $dom);
+        return $this->__('2 columns (38|62)');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Header + two columns (38|62) + footer', $dom);
+        return $this->__('Header + two columns (38|62) + footer');
     }
     function getNumberOfContentAreas()
     {

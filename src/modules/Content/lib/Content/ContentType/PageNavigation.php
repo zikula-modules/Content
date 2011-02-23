@@ -10,14 +10,6 @@
 
 class Content_ContentType_PageNavigation extends Content_ContentType
 {
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'PageNavigation';
-    }
     function getTitle()
     {
         return $this->__('Page navigation');

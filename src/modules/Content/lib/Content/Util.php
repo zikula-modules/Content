@@ -88,7 +88,7 @@ class Content_Util
                     $filename = array_pop($parts);
                     $pluginname = substr($filename, 0, -4);
                     $classname = $module['directory'] . "_" . $type . "_" . $pluginname;
-                    $baseclass = "Content_" . $type . "_Base";
+                    $baseclass = "Content_" . $type;
                     $instance = new $classname();
                     if ($instance instanceof $baseclass) {
                         $plugins[] = $instance;

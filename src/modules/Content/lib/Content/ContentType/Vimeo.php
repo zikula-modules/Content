@@ -16,23 +16,13 @@ class Content_ContentType_Vimeo extends Content_ContentType
     var $clipId;
     var $displayMode;
 
-    function getModule()
-    { 
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Vimeo';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Vimeo video clip', $dom);
+        return $this->__('Vimeo video clip');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display Vimeo video clip.', $dom);
+        return $this->__('Display Vimeo video clip.');
     }
     function isTranslatable() 
     { 
@@ -83,7 +73,7 @@ class Content_ContentType_Vimeo extends Content_ContentType
             return true;
         }
        
-        //$message = $this->__('Error! Unrecognized Vimeo URL', $dom);
+        //$message = $this->__('Error! Unrecognized Vimeo URL');
         return false;
     }
 }

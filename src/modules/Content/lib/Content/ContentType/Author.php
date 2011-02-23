@@ -11,23 +11,13 @@ class Content_ContentType_Author extends Content_ContentType
 {
     var $uid;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Author';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Author Infobox', $dom);
+        return $this->__('Author Infobox');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Various information about the author of the page.', $dom);
+        return $this->__('Various information about the author of the page.');
     }
     function isTranslatable()
     {

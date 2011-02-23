@@ -10,27 +10,17 @@
 class Content_ContentType_Breadcrumb extends Content_ContentType
 {
     var $pageid;
-    function Content_ContentType_breadcrumbPlugin($data)
-    {
-        $this->pageid = $data['pageId'];
-    }
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Breadcrumb';
+    function  __construct(array $data = array()) {
+        parent::__construct();
+        $this->pageid = isset($data['pageId']) ? $data['pageId'] : null;
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('BreadCrumb', $dom);
+        return $this->__('BreadCrumb');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Show breadcrumbs for hierarchical pages', $dom);
+        return $this->__('Show breadcrumbs for hierarchical pages');
     }
     function isTranslatable()
     {
@@ -41,7 +31,10 @@ class Content_ContentType_Breadcrumb extends Content_ContentType
         $path = array();
         $pageid = $this->pageid;
         while ($pageid > 0) {
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageid, 'includeContent' => false, 'translate' => false));
+            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+                'id' => $pageid,
+                'includeContent' => false,
+                'translate' => false));
             array_unshift($path, $page);
             $pageid = $page['parentPageId'];
         }

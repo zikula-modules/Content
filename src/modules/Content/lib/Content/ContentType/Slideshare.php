@@ -16,14 +16,6 @@ class Content_ContentType_Slideshare extends Content_ContentType
     var $width;
     var $height;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Slideshare';
-    }
     function getTitle()
     {
         return $this->__('Slideshare');

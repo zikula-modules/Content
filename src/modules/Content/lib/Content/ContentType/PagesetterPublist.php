@@ -17,23 +17,13 @@ class Content_ContentType_PagesetterPublist extends Content_ContentType
     var $order;
     var $tpl;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'PagesetterPublist';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Pagesetter publication list', $dom);
+        return $this->__('Pagesetter publication list');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Pagesetter list of filtered, ordered, and/or formatted publications.', $dom);
+        return $this->__('Pagesetter list of filtered, ordered, and/or formatted publications.');
     }
     function isTranslatable()
     {
@@ -51,7 +41,12 @@ class Content_ContentType_PagesetterPublist extends Content_ContentType
     function display()
     {
         // retrieve filtered and ordered publication list
-        $plargs = array('tid' => $this->tid, 'noOfItems' => $this->numpubs, 'offsetItems' => $this->offset, 'language' => ZLanguage::getLanguageCode(), 'orderByStr' => $this->order);
+        $plargs = array(
+            'tid' => $this->tid,
+            'noOfItems' => $this->numpubs,
+            'offsetItems' => $this->offset,
+            'language' => ZLanguage::getLanguageCode(),
+            'orderByStr' => $this->order);
 
         $filters = preg_split("/\s*&\s*/", $this->filter);
         if (is_array($filters) && strlen(trim($filters[0]))) {
@@ -64,7 +59,11 @@ class Content_ContentType_PagesetterPublist extends Content_ContentType
         $publications = array();
         if ($publist !== false) {
             foreach ($publist['publications'] as $pub) {
-                $pub = ModUtil::apiFunc('pagesetter', 'user', 'getPubFormatted', array('tid' => $this->tid, 'pid' => $pub['pid'], 'format' => $this->tpl, 'updateHitCount' => false));
+                $pub = ModUtil::apiFunc('pagesetter', 'user', 'getPubFormatted', array(
+                    'tid' => $this->tid,
+                    'pid' => $pub['pid'],
+                    'format' => $this->tpl,
+                    'updateHitCount' => false));
                 if ($pub !== false)
                     $publications[] = $pub;
             }
@@ -88,6 +87,12 @@ class Content_ContentType_PagesetterPublist extends Content_ContentType
     function getDefaultData()
     {
         // deault values
-        return array('tid' => ModUtil::getVar('pagesetter', 'frontpagePubType'), 'numpubs' => 5, 'offset' => 0, 'filter' => '', 'order' => '', 'tpl' => 'inlineList');
+        return array(
+            'tid' => ModUtil::getVar('pagesetter', 'frontpagePubType'),
+            'numpubs' => 5,
+            'offset' => 0,
+            'filter' => '',
+            'order' => '',
+            'tpl' => 'inlineList');
     }
 }

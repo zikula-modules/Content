@@ -1,19 +1,7 @@
 <?php
 
-class Content_LayoutType
+class Content_LayoutType extends Content_Type
 {
-    public function getName()
-    {
-        return 'unknown';
-    }
-    public function getTitle()
-    {
-        return 'Unknown layout';
-    }
-    public function getDescription()
-    {
-        return 'This is the base class for layouts - do not use!';
-    }
     public function getNumberOfContentAreas()
     {
         return 0;
@@ -26,10 +14,18 @@ class Content_LayoutType
     {
     	return System::getBaseUrl() . '/modules/Content/images/layout_nopreview.png';
     }
+    /**
+     * return the default template name as a string
+     * @return string
+     */
     public function getTemplate()
     {
         return 'layouttype/' . strtolower($this->getName()) . ".tpl";
     }
+    /**
+     * return the default edit template name as a string
+     * @return string
+     */
     public function getEditTemplate()
     {
         return 'layouttype/' . strtolower($this->getName()) . "_edit.tpl";

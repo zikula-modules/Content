@@ -12,14 +12,6 @@ class Content_ContentType_Html extends Content_ContentType
     var $text;
     var $inputType;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Html';
-    }
     function getTitle()
     {
         return $this->__('HTML text');

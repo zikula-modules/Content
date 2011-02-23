@@ -15,28 +15,17 @@ class Content_ContentType_Flickr extends Content_ContentType
     var $tags;
     var $photoCount;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Flickr';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Photos from Flickr.com', $dom);
+        return $this->__('Photos from Flickr.com');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display thumbnails from specific Flickr user or tags.', $dom);
+        return $this->__('Display thumbnails from specific Flickr user or tags.');
     }
     function getAdminInfo()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href="http://www.flickr.com/api">flickr.com</a>.', $dom);
+        return $this->__('If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href="http://www.flickr.com/api">flickr.com</a>.');
     }
     function isActive()
     {
@@ -62,11 +51,17 @@ class Content_ContentType_Flickr extends Content_ContentType
 
         // Get the photos
         //$photos = $this->flickr->people_getPublicPhotos($person['id'], NULL, $this->photoCount);
-        $photos = $this->flickr->photos_search(array('user_id' => $person['id'], 'tags' => $this->tags, 'per_page' => $this->photoCount));
+        $photos = $this->flickr->photos_search(array(
+            'user_id' => $person['id'],
+            'tags' => $this->tags,
+            'per_page' => $this->photoCount));
 
         $photoData = array();
         foreach ((array) $photos['photo'] as $photo) {
-            $photoData[] = array('title' => DataUtil::formatForDisplayHTML($this->decode($photo['title'])), 'src' => $this->flickr->buildPhotoURL($photo, "Square"), 'url' => "http://www.flickr.com/photos/$photo[owner]/$photo[id]");
+            $photoData[] = array(
+                'title' => DataUtil::formatForDisplayHTML($this->decode($photo['title'])),
+                'src' => $this->flickr->buildPhotoURL($photo, "Square"),
+                'url' => "http://www.flickr.com/photos/$photo[owner]/$photo[id]");
         }
 
         $view = Zikula_View::getInstance('Content', false);
@@ -76,8 +71,7 @@ class Content_ContentType_Flickr extends Content_ContentType
     }
     function displayEditing()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __f('Flickr photos from user %1$s associated with tags %2$s', array($this->userName, $this->tags), $dom);
+        return $this->__f('Flickr photos from user %1$s associated with tags %2$s', array($this->userName, $this->tags));
     }
     function getDefaultData()
     {

@@ -15,28 +15,17 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType
     var $text;
     var $height;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'OpenStreetMap';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('OpenStreetMap map', $dom);
+        return $this->__('OpenStreetMap map');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display OpenStreetMap map position.', $dom);
+        return $this->__('Display OpenStreetMap map position.');
     }
     function getAdminInfo()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('If you want to add OpenStreetMap maps to your content you don\'t need an API key.', $dom);
+        return $this->__('If you want to add OpenStreetMap maps to your content you don\'t need an API key.');
     }
     function isTranslatable()
     {
@@ -56,7 +45,11 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType
     }
     function display()
     {
-        $scripts = array('javascript/ajax/proto_scriptaculous.combined.min.js', 'http://www.openlayers.org/api/OpenLayers.js', 'http://www.openstreetmap.org/openlayers/OpenStreetMap.js', 'modules/Content/javascript/openstreetmap.js');
+        $scripts = array(
+            'javascript/ajax/proto_scriptaculous.combined.min.js',
+            'http://www.openlayers.org/api/OpenLayers.js',
+            'http://www.openstreetmap.org/openlayers/OpenStreetMap.js',
+            'modules/Content/javascript/openstreetmap.js');
         PageUtil::addVar('javascript', $scripts);
 
         $view = Zikula_View::getInstance('Content', false);
@@ -76,11 +69,20 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType
     }
     function getDefaultData()
     {
-        return array('latitude' => '52.518611', 'longitude' => '13.408056', 'zoom' => 5, 'text' => '', 'height' => 300);
+        return array(
+            'latitude' => '52.518611',
+            'longitude' => '13.408056',
+            'zoom' => 5,
+            'text' => '',
+            'height' => 300);
     }
     function startEditing(&$view)
     {
-        $scripts = array('javascript/ajax/proto_scriptaculous.combined.min.js', 'http://www.openlayers.org/api/OpenLayers.js', 'http://www.openstreetmap.org/openlayers/OpenStreetMap.js', 'modules/Content/javascript/openstreetmap.js');
+        $scripts = array(
+            'javascript/ajax/proto_scriptaculous.combined.min.js',
+            'http://www.openlayers.org/api/OpenLayers.js',
+            'http://www.openstreetmap.org/openlayers/OpenStreetMap.js',
+            'modules/Content/javascript/openstreetmap.js');
         PageUtil::addVar('javascript', $scripts);
         
         $view->assign('language', ZLanguage::getLanguageCode());

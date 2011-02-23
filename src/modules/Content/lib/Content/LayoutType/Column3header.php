@@ -13,22 +13,21 @@ class Content_LayoutType_Column3header extends Content_LayoutType
 
     function __construct()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        $this->contentAreaTitles = array(__('Header', $dom), __('Left column', $dom), __('Centre column', $dom), __('Right column', $dom), __('Footer', $dom));
-    }
-    function getName()
-    {
-        return 'Column3header';
+        parent::__construct();
+        $this->contentAreaTitles = array(
+            $this->__('Header'),
+            $this->__('Left column'),
+            $this->__('Centre column'),
+            $this->__('Right column'),
+            $this->__('Footer'));
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('3 columns (33|33|33)', $dom);
+        return $this->__('3 columns (33|33|33)');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Header + three columns (33|33|33) + footer', $dom);
+        return $this->__('Header + three columns (33|33|33) + footer');
     }
     function getNumberOfContentAreas()
     {

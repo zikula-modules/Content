@@ -11,23 +11,13 @@ class Content_ContentType_ComputerCode extends Content_ContentType
 {
     var $text;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'ComputerCode';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Computer Code', $dom);
+        return $this->__('Computer Code');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.', $dom);
+        return $this->__('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.');
     }
     function loadData(&$data)
     {

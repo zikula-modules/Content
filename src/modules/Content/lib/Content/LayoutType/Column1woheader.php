@@ -13,22 +13,17 @@ class Content_LayoutType_Column1woheader extends Content_LayoutType
 
     function __construct()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        $this->contentAreaTitles = array(__('Centre column', $dom));
-    }
-    function getName()
-    {
-        return 'Column1woheader';
+        parent::__construct();
+        $this->contentAreaTitles = array(
+            $this->__('Centre column'));
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('1 column no header', $dom);
+        return $this->__('1 column no header');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Single 100% wide column without header', $dom);
+        return $this->__('Single 100% wide column without header');
     }
     function getNumberOfContentAreas()
     {

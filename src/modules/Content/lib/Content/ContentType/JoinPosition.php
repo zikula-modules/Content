@@ -11,14 +11,6 @@ class Content_ContentType_JoinPosition extends Content_ContentType
 {
     var $clear;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'JoinPosition';
-    }
     function getTitle()
     {
         return $this->__('Join Position');

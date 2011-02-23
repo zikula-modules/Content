@@ -13,23 +13,13 @@ class Content_ContentType_Rss extends Content_ContentType
     var $refreshTime;
     var $maxNoOfItems;
 
-    function getModule()
-    {
-        return 'Content';
-    }
-    function getName()
-    {
-        return 'Rss';
-    }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('RSS feed', $dom);
+        return $this->__('RSS feed');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Display list of items in an RSS feed. Needs the ZFeed system plugin.', $dom);
+        return $this->__('Display list of items in an RSS feed. Needs the ZFeed system plugin.');
     }
     function isActive()
     {
@@ -56,10 +46,17 @@ class Content_ContentType_Rss extends Content_ContentType
         $itemsData = array();
         foreach ($items as $item) {
             if (count($itemsData) < $this->maxNoOfItems) {
-                $itemsData[] = array('title' => $this->decode($item->get_title()), 'description' => $this->decode($item->get_description()), 'permalink' => $item->get_permalink());
+                $itemsData[] = array(
+                    'title' => $this->decode($item->get_title()),
+                    'description' => $this->decode($item->get_description()),
+                    'permalink' => $item->get_permalink());
             }
         }
-        $this->feedData = array('title' => $this->decode($this->feed->get_title()), 'description' => $this->decode($this->feed->get_description()), 'permalink' => $this->feed->get_permalink(), 'items' => $itemsData);
+        $this->feedData = array(
+            'title' => $this->decode($this->feed->get_title()),
+            'description' => $this->decode($this->feed->get_description()),
+            'permalink' => $this->feed->get_permalink(),
+            'items' => $itemsData);
 
         $view = Zikula_View::getInstance('Content', false);
         $view->assign('feed', $this->feedData);

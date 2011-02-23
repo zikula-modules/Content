@@ -13,22 +13,18 @@ class Content_LayoutType_Column1 extends Content_LayoutType
 
     function __construct()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        $this->contentAreaTitles = array(__('Header', $dom), __('Centre column', $dom));
-    }
-    function getName()
-    {
-        return 'Column1';
+        parent::__construct();
+        $this->contentAreaTitles = array(
+            $this->__('Header'),
+            $this->__('Centre column'));
     }
     function getTitle()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('1 column', $dom);
+        return $this->__('1 column');
     }
     function getDescription()
     {
-        $dom = ZLanguage::getModuleDomain('Content');
-        return __('Header + single 100% wide column', $dom);
+        return $this->__('Header + single 100% wide column');
     }
     function getNumberOfContentAreas()
     {
