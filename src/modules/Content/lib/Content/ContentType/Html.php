@@ -38,9 +38,6 @@ class Content_ContentType_Html extends Content_ContentType
     function display()
     {
         $text = DataUtil::formatForDisplayHTML($this->text);
-
-//        $text = ModUtil::callHooks('item', 'transform', '', array($text));
-//        $text = $text[0];
         $view = Zikula_View::getInstance('Content');
         $event = new Zikula_Event('content.hook.contentitem.ui.filter', $view, array('caller' => $this->getModule()), $text);
         $text = $view->getEventManager()->notify($event)->getData();
