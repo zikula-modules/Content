@@ -2,22 +2,27 @@ DEVELOPER CONTENTTYPE/LAYOUTTYPE UPGRADE 3.x -> 4.x
 ===================================================
 
 The structure and naming schemes have changed for Content 4.x. This document
-explains changes that must be made in other third-party modules in orde to
-maintain compatibility with the newest versions of Content. There are four
-important areas to cover:
+explains changes that must be made in other third-party modules in order to
+maintain compatibility with the newest versions of Content. There is no
+possibility for complete backward compatibility (i.e. with no changes to your
+files). You will, however, be able reuse most of what you already have.
+There are four important areas to cover:
 
   - Filenames and Classnames (Zikula standard naming schemes)
   - ContentType and LayoutType classfiles
   - Templates (including custom naming options)
   - Module upgrade routine
 
+Remember, Content 4.x is for Zikula 1.3 and higher and therefore your module
+must also be Zikula 1.3-compatible (or native).
+
 
 ## Filenames & Classnames
 
 The rules in Zikula 1.3 require classnames to begin with uppercase letters and
-for underscores only used to indicate directory structure. Each word must be capitalized
-and you cannot use other characters (numbers and letters only, but must begin
-with a capital letter). For example:
+for underscores only used to indicate directory structure. Each word must be
+capitalized and you cannot use other characters (numbers and letters only, but
+must begin with a capital letter). For example:
 
     Content_Form_Handler_Admin_Settings
 
@@ -25,15 +30,15 @@ is found in
 
     modules/Content/lib/Content/Form/Handler/Admin/Settings.php
 
-you can see the relationship between the classname and the directory structure.
+You can see the relationship between the classname and the directory structure.
 Additional underscores, etc, are not allowed.
 
 
-## ContentType and LayoutType classfiles
+## ContentType and LayoutType class files
 
 Move your existing pncontenttypesapi files to
 
-    ModuleName/lib/ModuleName/ContentType/Filename.php
+    ModuleName/lib/ModuleName/ContentType/Pluginname.php
 
 rename the classes within to
 
@@ -42,7 +47,7 @@ rename the classes within to
 
 Move your existing pnlayouttypesapi files to
 
-    ModuleName/lib/ModuleName/LayoutType/Filename.php
+    ModuleName/lib/ModuleName/LayoutType/Pluginname.php
 
 rename the classes within to
 
@@ -56,17 +61,17 @@ Be sure your filename and the last part of your class name are exactly the same.
 They must begin with a capital letter and contain only a-z/A-Z/0-9
 (no spaces or underscores).
 
-Remove the getModule method. It is no longer required.
-Remove the getName method. It is no longer required.
-*Both the module name and the plugin name are derived from the class name*
+  - Remove the getModule method. It is no longer required.
+  - Remove the getName method. It is no longer required.
+  - *Both the module name and the plugin name are derived from the class name*
 
-If you use a constructor method in your class, be sure to call the parent
+  - If you use a constructor method in your class, be sure to call the parent
 constructor within:
 
     parent::__construct();
 
-Remove the function at the bottom of your plugin file that instantiated the
-classfile. This is no longer required.
+  - Remove the function at the bottom of your plugin file that instantiates the
+class. This is no longer required.
 
 ### GetText usage within classes
 There is no need to assign the translation domain to a variable ($dom) and
@@ -84,10 +89,10 @@ be renamed with a .tpl suffix
 The layout/ templates directory must be renamed to layouttype/ and all files
 within renamed with a .tpl suffix
 
-The default name of the template should reflect the name of the plugin, but be
+The default name of the template should duplicate the name of the plugin, but be
 all lowercase.
 
-ContentType plugins should have a '_view' and '_edit' suffix versions.
+ContentType plugins should have '_view' and '_edit' suffix versions.
 
 for example:
     Plugin name: GoogleMap.php
@@ -100,7 +105,7 @@ appropriate suffixes:
     New template: googlemap_translate_new.tpl
     Original template: googlemap_translate_original.tpl
 
-Layout templates typically require only the template and an '_edit' version:
+Layout templates require only the template and an '_edit' version:
 
     Plugin name: Column1woheader.php
     template: column1woheader.tpl
@@ -134,7 +139,8 @@ directory and suffix if you require it.
 The names of your plugins are stored in the Content module's database tables.
 These must be updated or existing templates will no longer function.
 
-In your Installer upgrade routine, add the following lines:
+In your Installer upgrade routine, add the following lines for your newest
+version:
 
     Content_Installer::updateLayout('modulename');
     Content_Installer::updateContentType('modulename');
@@ -142,7 +148,8 @@ In your Installer upgrade routine, add the following lines:
 (replace the 'modulename' with your *actual* module name)
 
 Also, you must create two methods within your module's installer class to map
-the old plugin names to the new plugin names. They should look like this:
+the old plugin names to the new plugin names. Using **your own** legacy plugin 
+names, they should look something like this:
 
     protected function LegacyContentTypeMap()
     {
@@ -164,3 +171,6 @@ the old plugin names to the new plugin names. They should look like this:
     }
 
 See the Content_Installer class for complete examples.
+
+All the Plugins in the Content module have been converted and are good examples.
+Please take a look therefor further ideas.
