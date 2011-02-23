@@ -5,7 +5,7 @@
 {usergetvar name=uname uid=$page.lu_uid assign=updaterName}
 {modapifunc modname='Content' type=History func=getPageVersionNo pageId=$page.id assign=versionNo}
 <div class="content-pageinfo">
-    <a href="#" onclick="return content.pageInfo.toggle({$page.id})" class="info" >{img src=utilities.png modname=core set=icons/extrasmall alt=Properties }</a>
+    <a href="#" onclick="return content.pageInfo.toggle({$page.id})" class="info" >{img src=info.png modname=core set=icons/extrasmall alt=Properties }</a>
     <div class="content" id="contentPageInfo-{$page.id}" style="display: none" onmouseover="content.pageInfo.mouseover()" onmouseout="content.pageInfo.mouseout()">
         <h4>{$page.title|truncate:200|safetext}</h4>
         <ul>
