@@ -36,14 +36,14 @@ class Content_ContentType_Quote extends Content_ContentType
         $source = DataUtil::formatForDisplayHTML($this->source);
         $desc = DataUtil::formatForDisplayHTML($this->desc);
 
-        $view = Zikula_View::getInstance('Content');
-        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $view, array('caller' => $this->getModule()), $text);
-        $text = $view->getEventManager()->notify($event)->getData();
-        $view->assign('source', $source);
-        $view->assign('text', $text);
-        $view->assign('desc', $desc);
+        // this event should be moved to the template
+        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $this->view, array('caller' => $this->getModule()), $text);
+        $text = $this->view->getEventManager()->notify($event)->getData();
+        $this->view->assign('source', $source);
+        $this->view->assign('text', $text);
+        $this->view->assign('desc', $desc);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
@@ -51,11 +51,9 @@ class Content_ContentType_Quote extends Content_ContentType
         $source = DataUtil::formatForDisplayHTML($this->source);
         $desc = DataUtil::formatForDisplayHTML($this->desc);
 
-//        $text = ModUtil::callHooks('item', 'transform', '', array($text));
-//        $text = trim($text[0]);
-        $view = Zikula_View::getInstance('Content');
-        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $view, array('caller' => $this->getModule()), $text);
-        $text = $view->getEventManager()->notify($event)->getData();
+        // this event should be moved to the template
+        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $this->view, array('caller' => $this->getModule()), $text);
+        $text = $this->view->getEventManager()->notify($event)->getData();
 
         $text = '<div class="content-quote"><blockquote>' . $text . '</blockquote><p>-- ' . $desc . '</p></div>';
 

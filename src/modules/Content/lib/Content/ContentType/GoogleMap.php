@@ -51,19 +51,18 @@ class Content_ContentType_GoogleMap extends Content_ContentType
     }
     function display()
     {
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('longitude', $this->longitude);
-        $view->assign('latitude', $this->latitude);
-        $view->assign('zoom', $this->zoom);
-        $view->assign('height', $this->height);
-        $view->assign('text', $this->text);
-        $view->assign('infotext', $this->infotext);
-        $view->assign('streetviewcontrol', $this->streetviewcontrol);
-        $view->assign('directionslink', $this->directionslink);
-        $view->assign('contentId', $this->contentId);
-        $view->assign('language', ZLanguage::getLanguageCode());
+        $this->view->assign('longitude', $this->longitude);
+        $this->view->assign('latitude', $this->latitude);
+        $this->view->assign('zoom', $this->zoom);
+        $this->view->assign('height', $this->height);
+        $this->view->assign('text', $this->text);
+        $this->view->assign('infotext', $this->infotext);
+        $this->view->assign('streetviewcontrol', $this->streetviewcontrol);
+        $this->view->assign('directionslink', $this->directionslink);
+        $this->view->assign('contentId', $this->contentId);
+        $this->view->assign('language', ZLanguage::getLanguageCode());
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

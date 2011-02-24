@@ -22,6 +22,12 @@ class Content_Type implements Zikula_Translatable
      * @var string|'Content'
      */
     public $modname = 'Content';
+    /**
+     * Instance of Zikula_View.
+     *
+     * @var Zikula_View
+     */
+    public $view;
 
     /**
      * Plugin name
@@ -38,7 +44,10 @@ class Content_Type implements Zikula_Translatable
         $this->modname = $parts[0];
         $this->pluginname = array_pop($parts);
         $this->domain = ZLanguage::getModuleDomain($this->modname);
-	}
+        if (!($this->view instanceof Zikula_View)) {
+            $this->view = Zikula_View::getInstance($this->modname);
+        }
+    }
 
     /**
      * Translate.

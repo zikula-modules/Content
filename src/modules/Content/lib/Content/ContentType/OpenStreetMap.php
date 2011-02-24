@@ -52,16 +52,15 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType
             'modules/Content/javascript/openstreetmap.js');
         PageUtil::addVar('javascript', $scripts);
 
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('latitude', $this->latitude);
-        $view->assign('longitude', $this->longitude);
-        $view->assign('zoom', $this->zoom);
-        $view->assign('height', $this->height);
-        $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $view->assign('contentId', $this->contentId);
-        $view->assign('language', ZLanguage::getLanguageCode());
+        $this->view->assign('latitude', $this->latitude);
+        $this->view->assign('longitude', $this->longitude);
+        $this->view->assign('zoom', $this->zoom);
+        $this->view->assign('height', $this->height);
+        $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $this->view->assign('contentId', $this->contentId);
+        $this->view->assign('language', ZLanguage::getLanguageCode());
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

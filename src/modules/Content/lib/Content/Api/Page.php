@@ -126,8 +126,6 @@ LEFT JOIN $userTable usr
                 $where
                 $orderBy";
 
-        //echo "<pre>$sql</pre>";
-
         if ($pageSize > 0) {
             $dbresult = DBUtil::executeSQL($sql, $pageSize * $pageIndex, $pageSize);
         } else {

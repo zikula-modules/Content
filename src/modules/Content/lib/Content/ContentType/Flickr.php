@@ -64,10 +64,9 @@ class Content_ContentType_Flickr extends Content_ContentType
                 'url' => "http://www.flickr.com/photos/$photo[owner]/$photo[id]");
         }
 
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('photos', $photoData);
+        $this->view->assign('photos', $photoData);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

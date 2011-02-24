@@ -58,11 +58,10 @@ class Content_ContentType_Rss extends Content_ContentType
             'permalink' => $this->feed->get_permalink(),
             'items' => $itemsData);
 
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('feed', $this->feedData);
-        $view->assign('includeContent', $this->includeContent);
+        $this->view->assign('feed', $this->feedData);
+        $this->view->assign('includeContent', $this->includeContent);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

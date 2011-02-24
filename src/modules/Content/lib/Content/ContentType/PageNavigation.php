@@ -55,11 +55,10 @@ class Content_ContentType_PageNavigation extends Content_ContentType
             $nextpage = $pages[0];
         }
 
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('loggedin', UserUtil::isLoggedIn());
-        $view->assign('prevpage', $prevpage);
-        $view->assign('nextpage', $nextpage);
-        return $view->fetch($this->getTemplate());
+        $this->view->assign('loggedin', UserUtil::isLoggedIn());
+        $this->view->assign('prevpage', $prevpage);
+        $this->view->assign('nextpage', $nextpage);
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
@@ -68,5 +67,8 @@ class Content_ContentType_PageNavigation extends Content_ContentType
     function getSearchableText()
     {
         return;
+    }
+    function getEditTemplate() {
+        return 'contenttype/blank_edit.tpl';
     }
 }

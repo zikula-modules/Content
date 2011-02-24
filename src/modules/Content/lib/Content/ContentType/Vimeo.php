@@ -39,15 +39,14 @@ class Content_ContentType_Vimeo extends Content_ContentType
     }
     function display()
     {
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('url', $this->url);
-        $view->assign('width', $this->width);
-        $view->assign('height', $this->height);
-        $view->assign('text', $this->text);
-        $view->assign('clipId', $this->clipId);
-        $view->assign('displayMode', $this->displayMode);
+        $this->view->assign('url', $this->url);
+        $this->view->assign('width', $this->width);
+        $this->view->assign('height', $this->height);
+        $this->view->assign('text', $this->text);
+        $this->view->assign('clipId', $this->clipId);
+        $this->view->assign('displayMode', $this->displayMode);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

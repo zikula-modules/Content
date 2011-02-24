@@ -44,15 +44,14 @@ class Content_ContentType_Camtasia extends Content_ContentType
 
     function display()
     {
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('text', $this->text);
-        $view->assign('width', $this->width);
-        $view->assign('height', $this->height);
-        $view->assign('videoPath', $this->videoPath);
-        $view->assign('displayMode', $this->displayMode);
-        $view->assign('folder', $this->folder);
+        $this->view->assign('text', $this->text);
+        $this->view->assign('width', $this->width);
+        $this->view->assign('height', $this->height);
+        $this->view->assign('videoPath', $this->videoPath);
+        $this->view->assign('displayMode', $this->displayMode);
+        $this->view->assign('folder', $this->folder);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
 
     function displayEditing()

@@ -70,6 +70,23 @@ constructor within:
 
     parent::__construct();
 
+  - In the display() method within your plugin, change the return value to look
+    like so:
+
+    return $view->fetch($this->getTemplate());
+
+  - Instantiating the Zikula_View object is not required. Remove these lines:
+
+    $view = Zikula_View::getInstance('ModuleName', false);
+
+and replace
+
+    $view->foo()
+
+with
+
+    $this->view->foo()
+
   - Remove the function at the bottom of your plugin file that instantiates the
 class. This is no longer required.
 

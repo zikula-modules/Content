@@ -39,15 +39,14 @@ class Content_ContentType_Slideshare extends Content_ContentType
     }
     function display()
     {
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('url', $this->url);
-        $view->assign('text', $this->text);
-        $view->assign('slideId', $this->slideId);
-        $view->assign('playerType', $this->playerType);
-        $view->assign('width', $this->width);
-        $view->assign('height', $this->height);
+        $this->view->assign('url', $this->url);
+        $this->view->assign('text', $this->text);
+        $this->view->assign('slideId', $this->slideId);
+        $this->view->assign('playerType', $this->playerType);
+        $this->view->assign('width', $this->width);
+        $this->view->assign('height', $this->height);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

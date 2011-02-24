@@ -39,11 +39,10 @@ class Content_ContentType_Breadcrumb extends Content_ContentType
             $pageid = $page['parentPageId'];
         }
 
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('thispage', $this->pageid);
-        $view->assign('path', $path);
+        $this->view->assign('thispage', $this->pageid);
+        $this->view->assign('path', $path);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
@@ -52,5 +51,8 @@ class Content_ContentType_Breadcrumb extends Content_ContentType
     function getDefaultData()
     {
         return array();
+    }
+    function getEditTemplate() {
+        return 'contenttype/blank_edit.tpl';
     }
 }

@@ -34,19 +34,17 @@ class Content_ContentType_Heading extends Content_ContentType
     }
     function display()
     {
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
-        $view->assign('contentId', $this->contentId);
-        return $view->fetch($this->getTemplate());
+        $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $this->view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
+        $this->view->assign('contentId', $this->contentId);
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
-        $view->assign('contentId', $this->contentId);
-        return $view->fetch($this->getTemplate()); // not getEditTemplate??
+        $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
+        $this->view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
+        $this->view->assign('contentId', $this->contentId);
+        return $this->view->fetch($this->getTemplate()); // not getEditTemplate??
     }
     function getDefaultData()
     {

@@ -69,11 +69,9 @@ class Content_ContentType_PagesetterPublist extends Content_ContentType
             }
         }
 
-        // render instance - assign publications
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('publications', $publications);
+        $this->view->assign('publications', $publications);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {

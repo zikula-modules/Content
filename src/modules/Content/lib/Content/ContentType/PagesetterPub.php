@@ -45,10 +45,9 @@ class Content_ContentType_PagesetterPub extends Content_ContentType
                 'format' => $tpl)));
 
         // render instance - assign publication
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('publication', $publication);
+        $this->view->assign('publication', $publication);
 
-        return $view->fetch($this->getTemplate());
+        return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
@@ -70,11 +69,9 @@ class Content_ContentType_PagesetterPub extends Content_ContentType
                 'baseURL' => $url,
                 'format' => $tpl)));
 
-        // render instance - assign publication
-        $view = Zikula_View::getInstance('Content', false);
-        $view->assign('publication', $publication);
+        $this->view->assign('publication', $publication);
 
-        return $view->fetch($this->getTemplate()); // not getEditTemplate??
+        return $this->view->fetch($this->getTemplate()); // not getEditTemplate??
     }
     function getDefaultData()
     {
