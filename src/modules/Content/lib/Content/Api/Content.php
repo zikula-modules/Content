@@ -734,7 +734,13 @@ WHERE     $contentColumn[pageId] = $pageId
         for ($i = 0, $cou = count($plugins); $i < $cou; ++$i) {
             $plugin = &$plugins[$i];
             if ($includeInactive || $plugin->isActive()) {
-                $contentTypes[] = array('module' => $plugin->getModule(), 'name' => $plugin->getName(), 'title' => $plugin->getTitle(), 'description' => $plugin->getDescription(), 'adminInfo' => $plugin->getAdminInfo(), 'isActive' => $plugin->isActive());
+                $contentTypes[] = array(
+                    'module' => $plugin->getModule(),
+                    'name' => $plugin->getName(),
+                    'title' => $plugin->getTitle(),
+                    'description' => $plugin->getDescription(),
+                    'adminInfo' => $plugin->getAdminInfo(),
+                    'isActive' => $plugin->isActive());
             }
         }
 

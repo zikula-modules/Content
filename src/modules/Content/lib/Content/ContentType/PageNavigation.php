@@ -68,7 +68,4 @@ class Content_ContentType_PageNavigation extends Content_ContentType
     {
         return;
     }
-    function getEditTemplate() {
-        return 'contenttype/blank_edit.tpl';
-    }
 }

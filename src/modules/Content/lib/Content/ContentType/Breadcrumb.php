@@ -52,7 +52,4 @@ class Content_ContentType_Breadcrumb extends Content_ContentType
     {
         return array();
     }
-    function getEditTemplate() {
-        return 'contenttype/blank_edit.tpl';
-    }
 }

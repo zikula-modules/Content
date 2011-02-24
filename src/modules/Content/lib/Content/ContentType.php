@@ -224,7 +224,14 @@ class Content_ContentType extends Content_Type
      */
     public function getTemplate()
     {
-        return 'contenttype/' . strtolower($this->getName()) . '_view.tpl';
+        $template = 'contenttype/' . strtolower($this->getName()) . '_view.tpl';
+//        return $template;
+
+        if ($this->view->template_exists($template)) {
+            return $template;
+        } else {
+            return 'contenttype/blank.tpl';
+        }
     }
     /**
      * return the default edit template name as a string
@@ -232,7 +239,14 @@ class Content_ContentType extends Content_Type
      */
     public function getEditTemplate()
     {
-        return 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
+        $template = 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
+//        return $template;
+
+        if ($this->view->template_exists($template)) {
+            return $template;
+        } else {
+            return 'contenttype/blank.tpl';
+        }
     }
     /**
      * return the default translation templates names in an array
@@ -240,9 +254,24 @@ class Content_ContentType extends Content_Type
      */
     public function getTranslationTemplates()
     {
-        $templates = array(
-            'original' => 'contenttype/' . strtolower($this->getName()) . '_translate_original.tpl',
-            'new' => 'contenttype/' . strtolower($this->getName()) . '_translate_new.tpl');
+//        $templates = array(
+//            'original' => 'contenttype/' . strtolower($this->getName()) . '_translate_original.tpl',
+//            'new' => 'contenttype/' . strtolower($this->getName()) . '_translate_new.tpl');
+//        return $templates;
+
+        $templates = array();
+        $template = 'contenttype/' . strtolower($this->getName()) . '_translate_original.tpl';
+        if ($this->view->template_exists($template)) {
+            $templates['original'] = $template;
+        } else {
+            $templates['original'] = 'contenttype/blank.tpl';
+        }
+        $template = 'contenttype/' . strtolower($this->getName()) . '_translate_new.tpl';
+        if ($this->view->template_exists($template)) {
+            $templates['new'] = $template;
+        } else {
+            $templates['new'] = 'contenttype/blank.tpl';
+        }
         return $templates;
     }
 }
