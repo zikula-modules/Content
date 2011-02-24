@@ -27,7 +27,7 @@ class Content_Type implements Zikula_Translatable
      *
      * @var Zikula_View
      */
-    public $view;
+    protected $view;
 
     /**
      * Plugin name
