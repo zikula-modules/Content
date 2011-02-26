@@ -273,7 +273,7 @@ class Content_Installer extends Zikula_Installer
         HookUtil::registerHookSubscriberBundles($this->version);
         
         // convert module vars
-        $modvars = ModUtil::getVar('Content');
+        $modvars = $this->getVars();
         if ($modvars) {
             foreach ($modvars as $key => $value) {
                 $this->setVar($key, $value);

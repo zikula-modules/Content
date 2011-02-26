@@ -1413,7 +1413,7 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
     protected function setInitialPageState(&$page)
     {
         // set the state of new pages
-        switch (ModUtil::getVar('Content', 'newPageState')) {
+        switch ($this->getVar('newPageState')) {
             case '1':
                 $page['active'] = 1;
                 $page['inMenu'] = 1;

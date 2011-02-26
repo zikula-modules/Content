@@ -25,7 +25,7 @@ class Content_Form_Handler_Edit_Main extends Zikula_Form_Handler
 
         $view->assign('pages', $pages);
         $view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
-        $view->assign('enableVersioning', ModUtil::getVar('Content', 'enableVersioning'));
+        $view->assign('enableVersioning', $this->getVar('enableVersioning'));
         $view->assign('language', ZLanguage::getLanguageCode());
         Content_Util::contentAddAccess($view, null);
 
