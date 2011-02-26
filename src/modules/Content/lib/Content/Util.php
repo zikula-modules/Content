@@ -80,11 +80,11 @@ class Content_Util
         $modules = ModUtil::getAllMods();
         $plugins = array();
         foreach ($modules as $module) {
-            $dir = "modules/{$module['directory']}/lib/{$module['directory']}/$type";
+            $dir = DataUtil::formatForOS("modules/{$module['directory']}/lib/{$module['directory']}/$type");
             if (is_dir($dir)) {
                 $files = FileUtil::getFiles($dir, false, false, "php");
                 foreach ($files as $file) {
-                    $parts = explode('/', $file);
+                    $parts = explode(DIRECTORY_SEPARATOR, $file);
                     $filename = array_pop($parts);
                     $pluginname = substr($filename, 0, -4);
                     $classname = $module['directory'] . "_" . $type . "_" . $pluginname;
