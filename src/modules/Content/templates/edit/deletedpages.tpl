@@ -5,8 +5,7 @@
     </span>
 </div>
 
-{modgetvar module="Content" name="enableVersioning" assign=enableVersioning}
-{if empty($enableVersioning)}
+{if empty($modvars.Content.enableVersioning)}
 <p class="z-warningmsg">{gt text="Version history is currently disabled and no new entries will be recorded."}</p>
 {/if}
 

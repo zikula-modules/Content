@@ -1,6 +1,5 @@
-{gt text="Module settings" assign=templatetitle}
+{zdebug}{gt text="Module settings" assign=templatetitle}
 {admincategorymenu}
-{modgetinfo module='Content' info=all assign=modinfo}
 
 <div class="z-adminbox">
     <h2>{$modinfo.displayname}</h2>
