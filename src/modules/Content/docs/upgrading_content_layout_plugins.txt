@@ -6,6 +6,11 @@ explains changes that must be made in other third-party modules in order to
 maintain compatibility with the newest versions of Content. There is no
 possibility for complete backward compatibility (i.e. with no changes to your
 files). You will, however, be able reuse most of what you already have.
+
+Previously, LayoutTypes had to be placed in the Content Module to be seen and
+used. This is no longer required. You may place them in your own module just as
+you would do with ContentTypes.
+
 There are four important areas to cover:
 
   - Filenames and Classnames (Zikula standard naming schemes)
@@ -87,6 +92,9 @@ with
 
     $this->view->foo()
 
+  - Change your property declarations from 'var' to 'public' and make all your
+    methods 'public' as well.
+
   - Remove the function at the bottom of your plugin file that instantiates the
 class. This is no longer required.
 
@@ -103,8 +111,8 @@ a module controller instead:
 Contentype templates may remain in the templates/contentype/ directory but must
 be renamed with a .tpl suffix
 
-The layout/ templates directory must be renamed to layouttype/ and all files
-within renamed with a .tpl suffix
+layouts should be placed in the layouttype/ and all files within named with
+a .tpl suffix
 
 The default name of the template should duplicate the name of the plugin, but be
 all lowercase.
@@ -157,7 +165,7 @@ The names of your plugins are stored in the Content module's database tables.
 These must be updated or existing templates will no longer function.
 
 In your Installer upgrade routine, add the following lines for your newest
-version:
+version (you only need each line as appropriate):
 
     Content_Installer::updateLayout('modulename');
     Content_Installer::updateContentType('modulename');
@@ -190,4 +198,7 @@ names, they should look something like this:
 See the Content_Installer class for complete examples.
 
 All the Plugins in the Content module have been converted and are good examples.
-Please take a look therefor further ideas.
+Please take a look there for further ideas. In addition, the following modules
+have already been converted as of this writing:
+  - News
+  - PostCalendar

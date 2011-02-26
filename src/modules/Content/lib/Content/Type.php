@@ -38,15 +38,14 @@ class Content_Type implements Zikula_Translatable
      * Constructor
      */
     
-	public function __construct()
-	{
+    public function __construct()
+    {
         $parts = explode('_', get_class($this));
         $this->modname = $parts[0];
         $this->pluginname = array_pop($parts);
         $this->domain = ZLanguage::getModuleDomain($this->modname);
-        if (!($this->view instanceof Zikula_View)) {
-            $this->view = Zikula_View::getInstance($this->modname);
-        }
+        $this->view = Zikula_View::getInstance($this->modname);
+        //$this->view = Zikula_View::getInstance('Content', false);
     }
 
     /**

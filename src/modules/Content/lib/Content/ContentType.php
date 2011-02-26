@@ -225,7 +225,6 @@ class Content_ContentType extends Content_Type
     public function getTemplate()
     {
         $template = 'contenttype/' . strtolower($this->getName()) . '_view.tpl';
-//        return $template;
 
         if ($this->view->template_exists($template)) {
             return $template;
@@ -240,7 +239,6 @@ class Content_ContentType extends Content_Type
     public function getEditTemplate()
     {
         $template = 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
-//        return $template;
 
         if ($this->view->template_exists($template)) {
             return $template;
@@ -254,11 +252,6 @@ class Content_ContentType extends Content_Type
      */
     public function getTranslationTemplates()
     {
-//        $templates = array(
-//            'original' => 'contenttype/' . strtolower($this->getName()) . '_translate_original.tpl',
-//            'new' => 'contenttype/' . strtolower($this->getName()) . '_translate_new.tpl');
-//        return $templates;
-
         $templates = array();
         $template = 'contenttype/' . strtolower($this->getName()) . '_translate_original.tpl';
         if ($this->view->template_exists($template)) {
