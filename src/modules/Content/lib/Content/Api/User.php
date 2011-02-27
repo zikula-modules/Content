@@ -19,14 +19,27 @@ class Content_Api_User extends Zikula_Api
     {
         $links = array();
 
-        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
-            $links[] = array('url' => ModUtil::url('Content', 'admin', 'main'), 'text' => $this->__('Administration'), 'class' => 'z-icon-es-cubes');
-        }
         if (Content_Util::contentHasPageCreateAccess()) {
-            $links[] = array('url' => ModUtil::url('Content', 'edit', 'newPage'), 'text' => $this->__('Add new page'), 'class' => 'z-icon-es-new');
+            $links[] = array(
+                'url' => ModUtil::url('Content', 'edit', 'newPage'),
+                'text' => $this->__('Add new page'),
+                'class' => 'z-icon-es-new');
         }
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Page list'), 'class' => 'z-icon-es-edit');
+            $links[] = array(
+                'url' => ModUtil::url('Content', 'edit', 'main'),
+                'text' => $this->__('Page list'),
+                'class' => 'z-icon-es-edit',
+                'links' => array(
+                    array('url' => ModUtil::url('Content', 'user', 'sitemap'),
+                        'text' => $this->__('Sitemap')),
+                    array('url' => ModUtil::url('Content', 'user', 'extlist'),
+                        'text' => $this->__('Extended')),
+                    array('url' => ModUtil::url('Content', 'user', 'pagelist'),
+                        'text' => $this->__('Complete')),
+                    array('url' => ModUtil::url('Content', 'user', 'categories'),
+                        'text' => $this->__('Category list')),
+                ));
         }
 
         return $links;

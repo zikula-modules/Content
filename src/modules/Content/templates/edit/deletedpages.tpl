@@ -1,9 +1,8 @@
 {contentpageheading __header='Restore deleted pages'}
-<div class="z-menu">
-    <span class="z-menuitem-title">
-        [ <a href="{modurl modname=Content type=edit func=main}">{gt text="Page list"}</a> ]
-    </span>
+<div class="z-adminbox">
+    {modulelinks modname='Content' type='edit'}
 </div>
+
 
 {if empty($modvars.Content.enableVersioning)}
 <p class="z-warningmsg">{gt text="Version history is currently disabled and no new entries will be recorded."}</p>

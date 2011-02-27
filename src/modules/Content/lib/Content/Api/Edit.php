@@ -7,7 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-class Content_Api_Admin extends Zikula_Api
+class Content_Api_Edit extends Zikula_Api
 {
 
     /**
@@ -35,7 +35,9 @@ class Content_Api_Admin extends Zikula_Api
                         'text' => $this->__('Category list')),
                     array('url' => ModUtil::url('Content', 'edit', 'deletedpages'),
                         'text' => $this->__('Restore pages')),
-                ));
+                    ));
+        }
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADD)) {
             $links[] = array(
                 'url' => ModUtil::url('Content', 'edit', 'newPage'),
                 'text' => $this->__('Add new page'),
@@ -49,25 +51,6 @@ class Content_Api_Admin extends Zikula_Api
         }
 
         return $links;
-    }
-
-    public function getStyleClasses($args)
-    {
-        $classes = array();
-        $userClasses = $this->getVar('styleClasses');
-        $userClasses = explode("\n", $userClasses);
-
-        foreach ($userClasses as $class)
-        {
-            list($value, $text) = explode('|', $class);
-            $value = trim($value);
-            $text = trim($text);
-            if (!empty($text) && !empty($value)) {
-                $classes[] = array('text' => $text, 'value' => $value);
-            }
-        }
-
-        return $classes;
     }
 
 }

@@ -16,7 +16,8 @@ class Content_Controller_Admin extends Zikula_Controller
             return LogUtil::registerPermissionError();
         }
 
-        return $this->view->fetch('admin/main.tpl');
+        //return $this->view->fetch('admin/main.tpl');
+        $this->redirect(ModUtil::url('Content', 'edit', 'main'));
     }
 
     public function settings()
