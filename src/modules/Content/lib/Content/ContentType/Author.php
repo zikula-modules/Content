@@ -9,7 +9,17 @@
 
 class Content_ContentType_Author extends Content_ContentType
 {
-    var $uid;
+    protected $uid;
+
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+    }
 
     function getTitle()
     {

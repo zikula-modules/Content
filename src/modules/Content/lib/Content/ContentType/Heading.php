@@ -9,8 +9,28 @@
 
 class Content_ContentType_Heading extends Content_ContentType
 {
-    var $text;
-    var $headerSize;
+    protected $text;
+    protected $headerSize;
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    public function getHeaderSize()
+    {
+        return $this->headerSize;
+    }
+
+    public function setHeaderSize($headerSize)
+    {
+        $this->headerSize = $headerSize;
+    }
 
     function getTitle()
     {

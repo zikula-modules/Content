@@ -2,9 +2,39 @@
 
 class Content_ContentType_PagesetterPub extends Content_ContentType
 {
-    var $tid;
-    var $pid;
-    var $tpl;
+    protected $tid;
+    protected $pid;
+    protected $tpl;
+
+    public function getTid()
+    {
+        return $this->tid;
+    }
+
+    public function setTid($tid)
+    {
+        $this->tid = $tid;
+    }
+
+    public function getPid()
+    {
+        return $this->pid;
+    }
+
+    public function setPid($pid)
+    {
+        $this->pid = $pid;
+    }
+
+    public function getTpl()
+    {
+        return $this->tpl;
+    }
+
+    public function setTpl($tpl)
+    {
+        $this->tpl = $tpl;
+    }
 
     function getTitle()
     {

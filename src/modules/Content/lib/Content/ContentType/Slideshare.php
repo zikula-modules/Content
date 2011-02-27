@@ -9,12 +9,72 @@
 
 class Content_ContentType_Slideshare extends Content_ContentType
 {
-    var $url;
-    var $text;
-    var $slideId;
-    var $playerType;
-    var $width;
-    var $height;
+    protected $url;
+    protected $text;
+    protected $slideId;
+    protected $playerType;
+    protected $width;
+    protected $height;
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    public function getSlideId()
+    {
+        return $this->slideId;
+    }
+
+    public function setSlideId($slideId)
+    {
+        $this->slideId = $slideId;
+    }
+
+    public function getPlayerType()
+    {
+        return $this->playerType;
+    }
+
+    public function setPlayerType($playerType)
+    {
+        $this->playerType = $playerType;
+    }
+
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
 
     function getTitle()
     {

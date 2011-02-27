@@ -9,10 +9,50 @@
 
 class Content_ContentType_ModuleFunc extends Content_ContentType
 {
-    var $module;
-    var $type;
-    var $func;
-    var $query;
+    protected $module;
+    protected $type;
+    protected $func;
+    protected $query;
+
+    public function getModule()
+    {
+        return $this->module;
+    }
+
+    public function setModule($module)
+    {
+        $this->module = $module;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    public function getFunc()
+    {
+        return $this->func;
+    }
+
+    public function setFunc($func)
+    {
+        $this->func = $func;
+    }
+
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    public function setQuery($query)
+    {
+        $this->query = $query;
+    }
 
     function getTitle()
     {

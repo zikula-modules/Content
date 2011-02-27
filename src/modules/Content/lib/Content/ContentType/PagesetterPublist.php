@@ -10,12 +10,72 @@
 
 class Content_ContentType_PagesetterPublist extends Content_ContentType
 {
-    var $tid;
-    var $numpubs;
-    var $offset;
-    var $filter;
-    var $order;
-    var $tpl;
+    protected $tid;
+    protected $numpubs;
+    protected $offset;
+    protected $filter;
+    protected $order;
+    protected $tpl;
+
+    public function getTid()
+    {
+        return $this->tid;
+    }
+
+    public function setTid($tid)
+    {
+        $this->tid = $tid;
+    }
+
+    public function getNumpubs()
+    {
+        return $this->numpubs;
+    }
+
+    public function setNumpubs($numpubs)
+    {
+        $this->numpubs = $numpubs;
+    }
+
+    public function getOffset()
+    {
+        return $this->offset;
+    }
+
+    public function setOffset($offset)
+    {
+        $this->offset = $offset;
+    }
+
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
+
+    public function getTpl()
+    {
+        return $this->tpl;
+    }
+
+    public function setTpl($tpl)
+    {
+        $this->tpl = $tpl;
+    }
 
     function getTitle()
     {

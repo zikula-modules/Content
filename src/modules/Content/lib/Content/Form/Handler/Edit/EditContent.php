@@ -2,13 +2,43 @@
 
 class Content_Form_Handler_Edit_EditContent extends Zikula_Form_Handler
 {
-    var $contentId;
-    var $pageId;
-    var $backref;
+    protected $contentId;
+    protected $pageId;
+    protected $backref;
 
     public function __construct($args)
     {
         $this->args = $args;
+    }
+
+    public function getContentId()
+    {
+        return $this->contentId;
+    }
+
+    public function setContentId($contentId)
+    {
+        $this->contentId = $contentId;
+    }
+
+    public function getPageId()
+    {
+        return $this->pageId;
+    }
+
+    public function setPageId($pageId)
+    {
+        $this->pageId = $pageId;
+    }
+
+    public function getBackref()
+    {
+        return $this->backref;
+    }
+
+    public function setBackref($backref)
+    {
+        $this->backref = $backref;
     }
 
     public function initialize(Zikula_Form_View $view)

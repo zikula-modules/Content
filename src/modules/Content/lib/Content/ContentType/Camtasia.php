@@ -9,13 +9,72 @@
  */
 class Content_ContentType_Camtasia extends Content_ContentType
 {
+    protected $text;
+    protected $width;
+    protected $height;
+    protected $videoPath;
+    protected $displayMode;
+    protected $folder;
 
-    var $text;
-    var $width;
-    var $height;
-    var $videoPath;
-    var $displayMode;
-    var $folder;
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    public function getVideoPath()
+    {
+        return $this->videoPath;
+    }
+
+    public function setVideoPath($videoPath)
+    {
+        $this->videoPath = $videoPath;
+    }
+
+    public function getDisplayMode()
+    {
+        return $this->displayMode;
+    }
+
+    public function setDisplayMode($displayMode)
+    {
+        $this->displayMode = $displayMode;
+    }
+
+    public function getFolder()
+    {
+        return $this->folder;
+    }
+
+    public function setFolder($folder)
+    {
+        $this->folder = $folder;
+    }
 
     function getTitle()
     {

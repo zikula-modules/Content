@@ -11,9 +11,39 @@ require_once 'modules/Content/lib/vendor/phpFlickr/phpFlickr.php';
 
 class Content_ContentType_Flickr extends Content_ContentType
 {
-    var $userName;
-    var $tags;
-    var $photoCount;
+    protected $userName;
+    protected $tags;
+    protected $photoCount;
+
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+    }
+
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    public function getPhotoCount()
+    {
+        return $this->photoCount;
+    }
+
+    public function setPhotoCount($photoCount)
+    {
+        $this->photoCount = $photoCount;
+    }
 
     function getTitle()
     {

@@ -8,10 +8,50 @@
  */
 class Content_ContentType_Rss extends Content_ContentType
 {
-    var $url;
-    var $includeContent;
-    var $refreshTime;
-    var $maxNoOfItems;
+    protected $url;
+    protected $includeContent;
+    protected $refreshTime;
+    protected $maxNoOfItems;
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    public function getIncludeContent()
+    {
+        return $this->includeContent;
+    }
+
+    public function setIncludeContent($includeContent)
+    {
+        $this->includeContent = $includeContent;
+    }
+
+    public function getRefreshTime()
+    {
+        return $this->refreshTime;
+    }
+
+    public function setRefreshTime($refreshTime)
+    {
+        $this->refreshTime = $refreshTime;
+    }
+
+    public function getMaxNoOfItems()
+    {
+        return $this->maxNoOfItems;
+    }
+
+    public function setMaxNoOfItems($maxNoOfItems)
+    {
+        $this->maxNoOfItems = $maxNoOfItems;
+    }
 
     function getTitle()
     {

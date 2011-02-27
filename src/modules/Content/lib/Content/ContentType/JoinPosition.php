@@ -9,7 +9,17 @@
 
 class Content_ContentType_JoinPosition extends Content_ContentType
 {
-    var $clear;
+    protected $clear;
+
+    public function getClear()
+    {
+        return $this->clear;
+    }
+
+    public function setClear($clear)
+    {
+        $this->clear = $clear;
+    }
 
     function getTitle()
     {

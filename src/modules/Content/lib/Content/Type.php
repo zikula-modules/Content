@@ -15,7 +15,7 @@ class Content_Type implements Zikula_Translatable
      *
      * @var string
      */
-    protected  $domain;
+    protected $domain;
 
     /**
      * Instance of Zikula_View.
@@ -27,16 +27,16 @@ class Content_Type implements Zikula_Translatable
     /**
      * Module name
      * 
-     * @var string|'Content'
+     * @var string
      */
-    public $modname = 'Content';
+    protected $modname = 'Content';
 
     /**
      * Plugin name
      * 
-     * @var string|null 
+     * @var string
      */
-    protected $pluginname = null;
+    protected $pluginname;
 
     /**
      * Constructor.

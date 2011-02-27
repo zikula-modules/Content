@@ -9,11 +9,61 @@
 
 class Content_ContentType_OpenStreetMap extends Content_ContentType
 {
-    var $longitude;
-    var $latitude;
-    var $zoom;
-    var $text;
-    var $height;
+    protected $longitude;
+    protected $latitude;
+    protected $zoom;
+    protected $text;
+    protected $height;
+
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+    }
+
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+    }
+
+    public function getZoom()
+    {
+        return $this->zoom;
+    }
+
+    public function setZoom($zoom)
+    {
+        $this->zoom = $zoom;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
 
     function getTitle()
     {

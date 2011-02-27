@@ -9,12 +9,72 @@
 
 class Content_ContentType_Vimeo extends Content_ContentType
 {
-    var $url;
-    var $width;
-    var $height;
-    var $text;
-    var $clipId;
-    var $displayMode;
+    protected $url;
+    protected $width;
+    protected $height;
+    protected $text;
+    protected $clipId;
+    protected $displayMode;
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    public function getClipId()
+    {
+        return $this->clipId;
+    }
+
+    public function setClipId($clipId)
+    {
+        $this->clipId = $clipId;
+    }
+
+    public function getDisplayMode()
+    {
+        return $this->displayMode;
+    }
+
+    public function setDisplayMode($displayMode)
+    {
+        $this->displayMode = $displayMode;
+    }
 
     function getTitle()
     {

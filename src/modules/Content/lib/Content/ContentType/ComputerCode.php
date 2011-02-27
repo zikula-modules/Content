@@ -9,7 +9,17 @@
 
 class Content_ContentType_ComputerCode extends Content_ContentType
 {
-    var $text;
+    protected $text;
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
 
     function getTitle()
     {

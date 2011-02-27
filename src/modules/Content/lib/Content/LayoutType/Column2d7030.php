@@ -9,7 +9,7 @@
 
 class Content_LayoutType_Column2d7030 extends Content_LayoutType
 {
-    var $contentAreaTitles = array();
+    protected $contentAreaTitles = array();
 
     function __construct(Zikula_View $view)
     {

@@ -7,9 +7,39 @@
 
 class Content_ContentType_Block extends Content_ContentType
 {
-    var $text;
-    var $blockid;
-    var $inputType;
+    protected $text;
+    protected $blockid;
+    protected $inputType;
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    public function getBlockid()
+    {
+        return $this->blockid;
+    }
+
+    public function setBlockid($blockid)
+    {
+        $this->blockid = $blockid;
+    }
+
+    public function getInputType()
+    {
+        return $this->inputType;
+    }
+
+    public function setInputType($inputType)
+    {
+        $this->inputType = $inputType;
+    }
 
     function getTitle()
     {

@@ -10,33 +10,33 @@
  */
 class Content_ContentType extends Content_Type
 {
-    public $pageId;
-    public $contentAreaIndex;
-    public $position;
-    public $contentId;
+    protected $pageId;
+    protected $contentAreaIndex;
+    protected $position;
+    protected $contentId;
 
     /**
      * Style position (none, above, topLeft, topRight, aboveLeft, aboveRight)
      * @var string
      */
-    public $stylePosition;
+    protected $stylePosition;
 
     /**
      * Style width (percentage)
      * @var int
      */
-    public $styleWidth;
+    protected $styleWidth;
 
     /**
      * Style class (CSS class name)
      * @var int
      */
-    public $styleClass;
+    protected $styleClass;
 
     /**
      * Flag indicating if a styling <div> has been added
      */
-    public $addedStyle = false;
+    protected $addedStyle = false;
 
     public function getPageId()
     {

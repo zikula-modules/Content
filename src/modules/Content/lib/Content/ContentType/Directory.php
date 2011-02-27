@@ -9,10 +9,50 @@
 
 class Content_ContentType_Directory extends Content_ContentType
 {
-    var $pid;
-    var $includeHeading;
-    var $includeSubpage;
-    var $includeNotInMenu;
+    protected $pid;
+    protected $includeHeading;
+    protected $includeSubpage;
+    protected $includeNotInMenu;
+
+    public function getPid()
+    {
+        return $this->pid;
+    }
+
+    public function setPid($pid)
+    {
+        $this->pid = $pid;
+    }
+
+    public function getIncludeHeading()
+    {
+        return $this->includeHeading;
+    }
+
+    public function setIncludeHeading($includeHeading)
+    {
+        $this->includeHeading = $includeHeading;
+    }
+
+    public function getIncludeSubpage()
+    {
+        return $this->includeSubpage;
+    }
+
+    public function setIncludeSubpage($includeSubpage)
+    {
+        $this->includeSubpage = $includeSubpage;
+    }
+
+    public function getIncludeNotInMenu()
+    {
+        return $this->includeNotInMenu;
+    }
+
+    public function setIncludeNotInMenu($includeNotInMenu)
+    {
+        $this->includeNotInMenu = $includeNotInMenu;
+    }
 
     function getTitle()
     {

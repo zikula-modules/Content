@@ -9,8 +9,28 @@
 
 class Content_ContentType_Quote extends Content_ContentType
 {
-    var $text;
-    var $inputType;
+    protected $text;
+    protected $inputType;
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    public function getInputType()
+    {
+        return $this->inputType;
+    }
+
+    public function setInputType($inputType)
+    {
+        $this->inputType = $inputType;
+    }
 
     function getTitle()
     {
