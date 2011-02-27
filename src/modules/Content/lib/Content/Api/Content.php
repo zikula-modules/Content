@@ -188,7 +188,8 @@ WHERE page.$pageColumn[id] = $pageId";
         }
 
         $classname = $contentData['module'] . "_ContentType_" . $contentData['type'];
-        $contentPlugin = new $classname();
+        $view = Zikula_View::getInstance($contentData['module']);
+        $contentPlugin = new $classname($view);
 
         $contentData['pageId'] = $pageId;
         $contentData['areaIndex'] = $contentAreaIndex;
@@ -751,7 +752,8 @@ WHERE     $contentColumn[pageId] = $pageId
     public function getContentPlugin($args)
     {
         $classname = $args['module'] . "_ContentType_" . $args['type'];
-        $plugin = new $classname();
+        $view = Zikula_View::getInstance($args['module']);
+        $plugin = new $classname($view);
         if (empty($plugin)) {
             if (!ModUtil::available($args['module'])) {
                 return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args['type'], $args['module'])));

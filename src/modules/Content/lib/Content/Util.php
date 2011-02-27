@@ -89,7 +89,8 @@ class Content_Util
                     $pluginname = substr($filename, 0, -4);
                     $classname = $module['directory'] . "_" . $type . "_" . $pluginname;
                     $baseclass = "Content_" . $type;
-                    $instance = new $classname();
+                    $view = Zikula_View::getInstance($module['directory']);
+                    $instance = new $classname($view);
                     if ($instance instanceof $baseclass) {
                         $plugins[] = $instance;
                     }
