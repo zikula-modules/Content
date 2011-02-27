@@ -64,7 +64,12 @@ class Content_Form_Handler_Edit_NewPage extends Zikula_Form_Handler
                 return false;
             }
             $pageData = $view->getValues();
-            $id = ModUtil::apiFunc('Content', 'Page', 'newPage', array('page' => $pageData, 'pageId' => $this->pageId, 'location' => $this->location));
+            list($pageData['module'], $pageData['layout']) = explode(":", $pageData['layout']);
+
+            $id = ModUtil::apiFunc('Content', 'Page', 'newPage', array(
+                'page' => $pageData,
+                'pageId' => $this->pageId,
+                'location' => $this->location));
             if ($id === false) {
                 return false;
             }

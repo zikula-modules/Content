@@ -19,6 +19,7 @@ class Content_Api_Layout extends Zikula_Api
             $plugin = &$plugins[$i];
             $layouts[$i] = array(
                 'name' => $plugin->getName(),
+                'module' => $plugin->getModule(),
                 'title' => $plugin->getTitle(),
                 'description' => $plugin->getDescription(),
                 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(),
@@ -33,7 +34,7 @@ class Content_Api_Layout extends Zikula_Api
 
     public function getLayoutPlugin($args)
     {
-        $classname = "Content_LayoutType_" . $args['layout'];
+        $classname = $args['module'] . "_LayoutType_" . $args['layout'];
         return new $classname;
     }
 

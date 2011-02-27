@@ -19,7 +19,14 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
             return $view->registerError(LogUtil::registerPermissionError());
         }
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'editing' => true, 'filter' => array('checkActive' => false), 'enableEscape' => false, 'translate' => false, 'includeContent' => true, 'includeCategories' => true));
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+            'id' => $this->pageId,
+            'editing' => true,
+            'filter' => array('checkActive' => false),
+            'enableEscape' => false,
+            'translate' => false,
+            'includeContent' => true,
+            'includeCategories' => true));
         if ($page === false) {
             return $view->registerError(null);
         }
@@ -34,7 +41,9 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
 
         PageUtil::setVar('title', $this->__("Edit page") . ' : ' . $page['title']);
 
-        $pagelayout = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array('layout' => $page['layout']));
+        $pagelayout = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array(
+            'module' => $page['module'],
+            'layout' => $page['layout']));
         if ($pagelayout === false) {
             return $view->registerError(null);
         }

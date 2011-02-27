@@ -143,7 +143,9 @@ LEFT JOIN $userTable usr
         for ($i = 0, $cou = count($pages); $i < $cou; ++$i) {
             $p = &$pages[$i];
             $p['translated'] = array('title' => $p['translatedTitle']);
-            $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array('layout' => $p['layout']));
+            $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array(
+                'module' => $p['module'],
+                'layout' => $p['layout']));
             $p['layoutTemplate'] = $p['layoutData']['template'];
             $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
             if ($includeCategories) {
@@ -167,7 +169,11 @@ LEFT JOIN $userTable usr
             $p['isInMenu'] = $p['isOnline'] && $p['inMenu'];
 
             if ($includeContent) {
-                $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate, 'expandContent' => $expandContent));
+                $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array(
+                    'pageId' => $p['id'],
+                    'editing' => $editing,
+                    'translate' => $translate,
+                    'expandContent' => $expandContent));
                 if ($content === false) {
                     return false;
                 }
@@ -369,15 +375,18 @@ function dumpTree($pages)
         $pageId = (int) $args['pageId'];
         $location = $args['location'];
 
-        if ($location == 'sub' && $pageId <= 0)
+        if ($location == 'sub' && $pageId <= 0) {
             return LogUtil::registerError($this->__("Error! Cannot create sub-page without parent page ID"));
-
+        }
+        
         if ($pageId > 0) {
             $sourcePageData = $this->getPage(array('id' => $pageId, 'includeContent' => false));
-            if ($sourcePageData === false)
+            if ($sourcePageData === false) {
                 return false;
-        } else
+            }
+        } else {
             $sourcePageData = null;
+        }
 
         $pageData['language'] = ZLanguage::getLanguageCode();
 
@@ -391,8 +400,9 @@ function dumpTree($pages)
             $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level']);
         }
 
-        if (!isset($pageData['urlname']) || empty($pageData['urlname']))
+        if (!isset($pageData['urlname']) || empty($pageData['urlname'])) {
             $pageData['urlname'] = $pageData['title'];
+        }
         $pageData['urlname'] = DataUtil::formatPermalink($pageData['urlname']);
 
         $ok = $this->isUniqueUrlnameByParentID(array('urlname' => $pageData['urlname'], 'parentId' => $pageData['parentPageId']));
@@ -408,11 +418,16 @@ function dumpTree($pages)
         $newPage = DBUtil::insertObject($pageData, 'content_page');
         Content_Util::contentMainEditExpandSet($pageData['parentPageId'], true);
 
-        $ok = $this->insertPage(array('pageId' => $pageData['id'], 'position' => $pageData['position'], 'parentPageId' => $pageData['parentPageId']));
+        $ok = $this->insertPage(array(
+            'pageId' => $pageData['id'],
+            'position' => $pageData['position'],
+            'parentPageId' => $pageData['parentPageId']));
         if ($ok === false)
             return false;
 
-        $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageData['id'], 'action' => '_CONTENT_HISTORYPAGEADDED' /* delayed translation */));
+        $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array(
+            'pageId' => $pageData['id'],
+            'action' => '_CONTENT_HISTORYPAGEADDED' /* delayed translation */));
         if ($ok === false)
             return false;
 
