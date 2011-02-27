@@ -75,7 +75,7 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType
             'text' => '',
             'height' => 300);
     }
-    function startEditing(&$view)
+    function startEditing($view)
     {
         $scripts = array(
             'javascript/ajax/proto_scriptaculous.combined.min.js',

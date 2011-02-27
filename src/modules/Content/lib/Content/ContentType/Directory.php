@@ -111,7 +111,7 @@ class Content_ContentType_Directory extends Content_ContentType
         return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => false);
 
     }
-    function startEditing(&$view)
+    function startEditing($view)
     {
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'filter' => array('checkActive' => false)));
         $pidItems = array();

@@ -80,7 +80,7 @@ class Content_ContentType_GoogleMap extends Content_ContentType
             'streetviewcontrol' => false,
             'directionslink' => false);
     }
-    function startEditing(&$view)
+    function startEditing($view)
     {
         $view->assign('language', ZLanguage::getLanguageCode());
         $view->assign('longitude', $this->longitude);
