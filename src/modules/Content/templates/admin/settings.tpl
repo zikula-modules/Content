@@ -1,4 +1,4 @@
-{zdebug}{gt text="Module settings" assign=templatetitle}
+{gt text="Module settings" assign=templatetitle}
 {admincategorymenu}
 
 <div class="z-adminbox">
