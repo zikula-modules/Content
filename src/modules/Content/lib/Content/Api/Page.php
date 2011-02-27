@@ -330,38 +330,20 @@ NOT EXISTS (SELECT 1 FROM $pageTable parentPage
 
         for ($cou = count($pages); $i < $cou; ++$i) {
             $page = $pages[$i];
-            //echo "($page[id]: $level, $i, $page[level]) ";
 
             if ($page['level'] == $level) {
-                //echo "Append ";
                 $page['subPages'] = array();
                 $newPages[] = $page;
             } else if ($page['level'] > $level) {
-                //echo "Sub{ ";
                 $newPages[count($newPages) - 1]['subPages'] = $this->contentMakePageTree($pages, $i, $page['level']);
-                //echo " } ";
             } else if ($page['level'] < $level) {
-                //echo "None ";
                 --$i;
                 break;
             }
         }
 
-        //echo " |"; dumpTree($newPages); echo "|";
         return $newPages;
     }
-
-    /*
-      function dumpTree($pages)
-      {
-      foreach ($pages as $p)
-      {
-      echo "Page: $p[title] ($p[id]) {";
-      dumpTree($p['subPages']);
-      echo "} ";
-      }
-      }
-     */
 
     protected function contentEscapePageData(&$page)
     {
