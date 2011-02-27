@@ -56,7 +56,7 @@ class Content_ContentType_Html extends Content_ContentType
     {
         return array('text' => $this->__('Add text here ...'), 'inputType' => (ModUtil::available('Scribite') ? 'html' : 'text'));
     }
-    function startEditing($view)
+    function startEditing()
     {
         $scripts = array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js');
         PageUtil::addVar('javascript', $scripts);

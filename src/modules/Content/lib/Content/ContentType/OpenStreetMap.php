@@ -75,7 +75,7 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType
             'text' => '',
             'height' => 300);
     }
-    function startEditing($view)
+    function startEditing()
     {
         $scripts = array(
             'javascript/ajax/proto_scriptaculous.combined.min.js',
@@ -83,8 +83,6 @@ class Content_ContentType_OpenStreetMap extends Content_ContentType
             'http://www.openstreetmap.org/openlayers/OpenStreetMap.js',
             'modules/Content/javascript/openstreetmap.js');
         PageUtil::addVar('javascript', $scripts);
-        
-        $view->assign('language', ZLanguage::getLanguageCode());
     }
     function getSearchableText()
     {

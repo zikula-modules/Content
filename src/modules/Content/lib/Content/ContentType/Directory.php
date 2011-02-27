@@ -111,7 +111,7 @@ class Content_ContentType_Directory extends Content_ContentType
         return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => false);
 
     }
-    function startEditing($view)
+    function startEditing()
     {
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'filter' => array('checkActive' => false)));
         $pidItems = array();
@@ -120,7 +120,7 @@ class Content_ContentType_Directory extends Content_ContentType
             $pidItems[] = array('text' => str_repeat('+', $page['level']) . " " . $page['title'], 'value' => $page['id']);
         }
 
-        $view->assign('pidItems', $pidItems);
+        $this->view->assign('pidItems', $pidItems);
     }
     function getSearchableText()
     {

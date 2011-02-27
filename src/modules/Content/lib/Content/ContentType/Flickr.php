@@ -76,9 +76,9 @@ class Content_ContentType_Flickr extends Content_ContentType
     {
         return array('userName' => '', 'tags' => '', 'photoCount' => 8);
     }
-    function startEditing($view)
+    function startEditing()
     {
-        $view->assign('flickrApiKey', $this->getVar('flickrApiKey'));
+        $this->view->assign('flickrApiKey', $this->getVar('flickrApiKey'));
     }
     function decode($s)
     {

@@ -11,9 +11,9 @@ class Content_LayoutType_Column1 extends Content_LayoutType
 {
     var $contentAreaTitles = array();
 
-    function __construct()
+    function __construct(Zikula_View $view)
     {
-        parent::__construct();
+        parent::__construct($view);
         $this->contentAreaTitles = array(
             $this->__('Header'),
             $this->__('Centre column'));

@@ -10,8 +10,8 @@
 class Content_ContentType_Breadcrumb extends Content_ContentType
 {
     var $pageid;
-    function  __construct(array $data = array()) {
-        parent::__construct();
+    function  __construct(Zikula_View $view, array $data = array()) {
+        parent::__construct($view);
         $this->pageid = isset($data['pageId']) ? $data['pageId'] : null;
     }
     function getTitle()

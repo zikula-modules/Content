@@ -66,7 +66,7 @@ class Content_ContentType_Quote extends Content_ContentType
             'source' => 'http://',
             'desc' => $this->__('Name of the Source'));
     }
-    function startEditing($view)
+    function startEditing()
     {
         $scripts = array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js');
         PageUtil::addVar('javascript', $scripts);

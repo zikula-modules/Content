@@ -50,7 +50,7 @@ class Content_ContentType_Heading extends Content_ContentType
     {
         return array('text' => $this->__('Heading'), 'headerSize' => 'h3');
     }
-    function startEditing($view)
+    function startEditing()
     {
         $scripts = array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js');
         PageUtil::addVar('javascript', $scripts);

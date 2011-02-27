@@ -252,15 +252,16 @@ class Content_ContentType extends Content_Type
      * Event handler called when plugin is loaded for use in editing window
      *
      * Can be used to include JavaScript using PageUtil::addVar() or assign
-     * values to the render using $view->assign().
-     * @return nothing
+     * values to the render using $this->view->assign().
+     * 
+     * @return void
      */
-    public function startEditing(&$view)
+    public function startEditing()
     {
     }
 
     /* UNUSED ??? */
-    public function handleSomethingChanged(&$view, $data)
+    public function handleSomethingChanged(Zikula_View $view, $data)
     {
     }
 

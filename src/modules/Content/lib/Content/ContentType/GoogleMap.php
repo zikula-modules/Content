@@ -80,12 +80,12 @@ class Content_ContentType_GoogleMap extends Content_ContentType
             'streetviewcontrol' => false,
             'directionslink' => false);
     }
-    function startEditing($view)
+    function startEditing()
     {
-        $view->assign('language', ZLanguage::getLanguageCode());
-        $view->assign('longitude', $this->longitude);
-        $view->assign('latitude', $this->latitude);
-        $view->assign('zoom', $this->zoom);
+        $this->view->assign('language', ZLanguage::getLanguageCode());
+        $this->view->assign('longitude', $this->longitude);
+        $this->view->assign('latitude', $this->latitude);
+        $this->view->assign('zoom', $this->zoom);
     }
     function getSearchableText()
     {
