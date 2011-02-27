@@ -38,6 +38,86 @@ class Content_ContentType extends Content_Type
      */
     public $addedStyle = false;
 
+    public function getPageId()
+    {
+        return $this->pageId;
+    }
+
+    public function setPageId($pageId)
+    {
+        $this->pageId = $pageId;
+    }
+
+    public function getContentAreaIndex()
+    {
+        return $this->contentAreaIndex;
+    }
+
+    public function setContentAreaIndex($contentAreaIndex)
+    {
+        $this->contentAreaIndex = $contentAreaIndex;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    public function getContentId()
+    {
+        return $this->contentId;
+    }
+
+    public function setContentId($contentId)
+    {
+        $this->contentId = $contentId;
+    }
+
+    public function getStylePosition()
+    {
+        return $this->stylePosition;
+    }
+
+    public function setStylePosition($stylePosition)
+    {
+        $this->stylePosition = $stylePosition;
+    }
+
+    public function getStyleWidth()
+    {
+        return $this->styleWidth;
+    }
+
+    public function setStyleWidth($styleWidth)
+    {
+        $this->styleWidth = $styleWidth;
+    }
+
+    public function getStyleClass()
+    {
+        return $this->styleClass;
+    }
+
+    public function setStyleClass($styleClass)
+    {
+        $this->styleClass = $styleClass;
+    }
+
+    public function getAddedStyle()
+    {
+        return $this->addedStyle;
+    }
+
+    public function setAddedStyle($addedStyle)
+    {
+        $this->addedStyle = $addedStyle;
+    }
+
     /**
      * Get extended plugin information to display on admin module dependency list
      * @return string

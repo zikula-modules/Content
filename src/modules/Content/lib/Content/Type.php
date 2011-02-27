@@ -13,31 +13,34 @@ class Content_Type implements Zikula_Translatable
     /**
      * Translation domain.
      *
-     * @var string|null
+     * @var string
      */
-    public $domain = null;
+    protected  $domain;
+
     /**
      * Instance of Zikula_View.
      *
      * @var Zikula_View
      */
     protected $view;
+
     /**
      * Module name
      * 
      * @var string|'Content'
      */
     public $modname = 'Content';
+
     /**
      * Plugin name
      * 
      * @var string|null 
      */
-    public $pluginname = null;
+    protected $pluginname = null;
+
     /**
-     * Constructor
+     * Constructor.
      */
-    
     public function __construct()
     {
         $parts = explode('_', get_class($this));
