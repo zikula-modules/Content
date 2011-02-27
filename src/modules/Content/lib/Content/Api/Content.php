@@ -751,20 +751,20 @@ WHERE     $contentColumn[pageId] = $pageId
     public function getContentPlugin($args)
     {
         $classname = $args['module'] . "_ContentType_" . $args['type'];
-        $plugin = new $classname($args);
+        $plugin = new $classname();
         if (empty($plugin)) {
             if (!ModUtil::available($args['module'])) {
                 return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args['type'], $args['module'])));
             }
             return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason.', array($args['type'], $args['module'])));
         }
-        $plugin->contentId = $args['id'];
-        $plugin->pageId = $args['pageId'];
-        $plugin->contentAreaIndex = $args['areaIndex'];
-        $plugin->position = $args['position'];
-        $plugin->stylePosition = $args['stylePosition'];
-        $plugin->styleWidth = $args['styleWidth'];
-        $plugin->styleClass = $args['styleClass'];
+        $plugin->setcontentId($args['id']);
+        $plugin->setPageId($args['pageId']);
+        $plugin->setContentAreaIndex($args['areaIndex']);
+        $plugin->setPosition($args['position']);
+        $plugin->setStylePosition($args['stylePosition']);
+        $plugin->setStyleWidth($args['styleWidth']);
+        $plugin->setStyleClass($args['styleClass']);
         if (isset($args['data'])) {
             $plugin->loadData($args['data']);
         }
