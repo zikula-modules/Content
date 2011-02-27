@@ -193,18 +193,19 @@ WHERE page.$pageColumn[id] = $pageId";
         $contentData['pageId'] = $pageId;
         $contentData['areaIndex'] = $contentAreaIndex;
         $contentData['position'] = $position;
-        if (!isset($contentData['data']))
+        if (!isset($contentData['data'])) {
             $contentData['data'] = serialize($contentPlugin->getDefaultData());
-        else
+        } else {
             $contentData['data'] = serialize($contentData['data']);
+        }
 
         DBUtil::insertObject($contentData, 'content_content', 'id', true); // true => preserve values (id-column)
 
-
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
-            if ($ok === false)
+            if ($ok === false) {
                 return false;
+            }
         }
 
         Content_Util::contentClearCaches();
