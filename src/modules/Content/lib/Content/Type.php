@@ -10,27 +10,25 @@
  */
 class Content_Type implements Zikula_Translatable
 {
+
     /**
      * Translation domain.
      *
      * @var string
      */
     protected $domain;
-
     /**
      * Instance of Zikula_View.
      *
      * @var Zikula_View
      */
     protected $view;
-
     /**
      * Module name
      * 
      * @var string
      */
     protected $modname = 'Content';
-
     /**
      * Plugin name
      * 
@@ -105,7 +103,7 @@ class Content_Type implements Zikula_Translatable
     {
         return _fn($sin, $plu, $n, $params, $this->domain);
     }
-	
+
     /**
      * Get module name
      * @return string
@@ -141,4 +139,5 @@ class Content_Type implements Zikula_Translatable
     {
         return '';
     }
+
 }

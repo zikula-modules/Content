@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,9 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
 class Content_Api_Layout extends Zikula_Api
 {
+
     public function getLayouts($args)
     {
         $plugins = Content_Util::getPlugins('Layout');
@@ -35,7 +36,7 @@ class Content_Api_Layout extends Zikula_Api
     public function getLayoutPlugin($args)
     {
         $classname = $args['module'] . "_LayoutType_" . $args['layout'];
-        $view = Zikula_View::getInstance('Content');
+        $view = Zikula_View::getInstance($args['module']);
         return new $classname($view);
     }
 
@@ -52,4 +53,5 @@ class Content_Api_Layout extends Zikula_Api
             'editTemplate' => $plugin->getEditTemplate(),
             'plugin' => $plugin);
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,9 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
 class Content_Controller_Ajax extends Zikula_Controller
 {
+
     /**
      * dragContent
      * This function stores the moving of content items in the edit page mode
@@ -21,11 +22,11 @@ class Content_Controller_Ajax extends Zikula_Controller
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
-        $ok = ModUtil::apiFunc('Content', 'Content', 'dragContent', 
-            array('pageId' => FormUtil::getPassedValue('pid', null, 'POST'), 
-                'contentId' => FormUtil::getPassedValue('cid', null, 'POST'), 
-                'contentAreaIndex' => FormUtil::getPassedValue('cai', null, 'POST'),
-                'position' => FormUtil::getPassedValue('pos', null, 'POST')));
+        $ok = ModUtil::apiFunc('Content', 'Content', 'dragContent',
+                        array('pageId' => FormUtil::getPassedValue('pid', null, 'POST'),
+                            'contentId' => FormUtil::getPassedValue('cid', null, 'POST'),
+                            'contentAreaIndex' => FormUtil::getPassedValue('cai', null, 'POST'),
+                            'position' => FormUtil::getPassedValue('pos', null, 'POST')));
         if (!$ok) {
             return new Zikula_Response_Ajax(array('ok' => false, 'message' => LogUtil::getErrorMessagesText()));
         }
@@ -44,20 +45,20 @@ class Content_Controller_Ajax extends Zikula_Controller
     public function togglePageState($args)
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
-        
-        $id = (int)FormUtil::getPassedValue('id', -1, 'POST');
+
+        $id = (int) FormUtil::getPassedValue('id', -1, 'POST');
         $active = FormUtil::getPassedValue('active', null, 'POST');
         if ($id == -1) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
 
         $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'active' => $active));
-        if (!$ok) {      
+        if (!$ok) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }
         return new Zikula_Response_Ajax(array('id' => $id));
     }
-    
+
     /**
      * togglePageInMenu
      * This function toggles inmenu/outmenu
@@ -70,17 +71,18 @@ class Content_Controller_Ajax extends Zikula_Controller
     public function togglePageInMenu($args)
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
-        
-        $id = (int)FormUtil::getPassedValue('id', -1, 'POST');
+
+        $id = (int) FormUtil::getPassedValue('id', -1, 'POST');
         $inMenu = FormUtil::getPassedValue('inMenu', null, 'POST');
         if ($id == -1) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
-        
+
         $ok = ModUtil::apiFunc('Content', 'Page', 'updateState', array('pageId' => $id, 'inMenu' => $inMenu));
         if (!$ok) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! Could not update state.')));
         }
         return new Zikula_Response_Ajax(array('id' => $id));
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Search plugin info
  *
@@ -6,10 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
-
 class Content_Api_Search extends Zikula_Api
 {
+
     public function info()
     {
         return array('title' => 'Content', 'functions' => array('Content' => 'search'));
@@ -17,7 +17,7 @@ class Content_Api_Search extends Zikula_Api
 
     /**
      * Search form component
-     **/
+     * */
     public function options($args)
     {
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_READ)) {
@@ -67,12 +67,12 @@ JOIN $contentTable
      ON $contentColumn[pageId] = $pageColumn[id]
 JOIN $contentSearchTable
      ON $contentSearchColumn[contentId] = $contentColumn[id]
-WHERE $where and $contentColumn[active] = 1 and $contentColumn[visiblefor] ".(UserUtil::isLoggedIn()?'<=1':'>=1');
+WHERE $where and $contentColumn[active] = 1 and $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
 
         $dbresult = DBUtil::executeSQL($sql);
-        if (!$dbresult)
+        if (!$dbresult) {
             return LogUtil::registerError(__('Error! Could not load items.', $dom));
-
+        }
         return true;
     }
 
@@ -85,4 +85,5 @@ WHERE $where and $contentColumn[active] = 1 and $contentColumn[visiblefor] ".(Us
 
         return true;
     }
+
 }

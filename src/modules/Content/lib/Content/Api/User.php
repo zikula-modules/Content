@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,9 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
 class Content_Api_User extends Zikula_Api
 {
+
     /**
      * get available module links
      *
@@ -22,7 +23,7 @@ class Content_Api_User extends Zikula_Api
             $links[] = array('url' => ModUtil::url('Content', 'admin', 'main'), 'text' => $this->__('Administration'), 'class' => 'z-icon-es-cubes');
         }
         if (Content_Util::contentHasPageCreateAccess()) {
-			$links[] = array('url' => ModUtil::url('Content', 'edit', 'newPage'), 'text' => $this->__('Add new page'), 'class' => 'z-icon-es-new');
+            $links[] = array('url' => ModUtil::url('Content', 'edit', 'newPage'), 'text' => $this->__('Add new page'), 'class' => 'z-icon-es-new');
         }
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
             $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Page list'), 'class' => 'z-icon-es-edit');
@@ -54,7 +55,7 @@ class Content_Api_User extends Zikula_Api
 
         if (isset($args['args']['cat']) && !empty($args['args']['cat'])) {
             $cat = CategoryUtil::getCategoryByID($args['args']['cat']);
-            unset ($args['args']['cat']);
+            unset($args['args']['cat']);
             if (count($args['args'] > 0))
                 return '';
             return $args['modname'] . '/' . DataUtil::formatForURL($cat['name']);
@@ -90,29 +91,30 @@ class Content_Api_User extends Zikula_Api
             return true;
         }
 
-        if (in_array($args['vars'][2], $supportedfunctions))
+        if (in_array($args['vars'][2], $supportedfunctions)) {
             return false;
-
+        }
         $lastarg = end($args['vars']);
 
         $urlname = '';
 
-        if (substr($lastarg, strlen($lastarg)-strlen($suffix)) == $suffix) {
-            for ($i=2; $i<$argsnum; $i++) {
-                if (!empty($urlname))
+        if (substr($lastarg, strlen($lastarg) - strlen($suffix)) == $suffix) {
+            for ($i = 2; $i < $argsnum; $i++) {
+                if (!empty($urlname)) {
                     $urlname .= '/';
+                }
                 $urlname .= $args['vars'][$i];
             }
-            if (($suffixLen = strlen($suffix)) > 0)
+            if (($suffixLen = strlen($suffix)) > 0) {
                 $urlname = substr($urlname, 0, -$suffixLen);
-
+            }
             System::queryStringSetVar('func', 'view');
             System::queryStringSetVar('name', $urlname);
             return true;
         }
 
         if (!isset($args['vars'][3]) || empty($args['vars'][3])) {
-            $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory ('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+            $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
             $cats = CategoryUtil::getCategoriesByParentID($mainCategory);
             foreach ($cats as $cat) {
                 if ($args['vars'][2] == $cat['name'] || $args['vars'][2] == DataUtil::formatForURL($cat['name'])) {
@@ -123,9 +125,10 @@ class Content_Api_User extends Zikula_Api
             }
         }
 
-        for ($i=2; $i<$argsnum; $i++) {
-            if (!empty($urlname))
+        for ($i = 2; $i < $argsnum; $i++) {
+            if (!empty($urlname)) {
                 $urlname .= '/';
+            }
             $urlname .= $args['vars'][$i];
         }
 
@@ -135,17 +138,17 @@ class Content_Api_User extends Zikula_Api
         return true;
     }
 
-    /** 
+    /**
      * get a specific item 
      * @param $args['pid'] id of example item to get 
      * @return mixed item array, or false on failure 
-     */ 
-    public function get($args) 
-    { 
-        if ((!isset($args['pid']) || !is_numeric($args['pid']))) { 
-            return LogUtil::registerArgsError(); 
+     */
+    public function get($args)
+    {
+        if ((!isset($args['pid']) || !is_numeric($args['pid']))) {
+            return LogUtil::registerArgsError();
         }
-        $pageId = $args['pid']; 
+        $pageId = $args['pid'];
 
         if (!isset($args['includeContent'])) {
             $args['includeContent'] = false;
@@ -154,20 +157,21 @@ class Content_Api_User extends Zikula_Api
             return false;
         }
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => false)); 
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => false));
         if ($page !== false) {
             return $page;
         }
         return false;
-    } 
-    
+    }
+
     /**
      * get meta data for the module
      */
     public function getmodulemeta()
     {
         return array('displayfunc' => 'view',
-                     'titlefield'  => 'title',
-                     'itemid'      => 'pid');
+            'titlefield' => 'title',
+            'itemid' => 'pid');
     }
+
 }

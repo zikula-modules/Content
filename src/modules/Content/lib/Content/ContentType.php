@@ -10,29 +10,26 @@
  */
 class Content_ContentType extends Content_Type
 {
+
     protected $pageId;
     protected $contentAreaIndex;
     protected $position;
     protected $contentId;
-
     /**
      * Style position (none, above, topLeft, topRight, aboveLeft, aboveRight)
      * @var string
      */
     protected $stylePosition;
-
     /**
      * Style width (percentage)
      * @var int
      */
     protected $styleWidth;
-
     /**
      * Style class (CSS class name)
      * @var int
      */
     protected $styleClass;
-
     /**
      * Flag indicating if a styling <div> has been added
      */
@@ -170,9 +167,9 @@ class Content_ContentType extends Content_Type
         $style = '';
         $class = '';
 
-        if (!empty($this->styleClass))
+        if (!empty($this->styleClass)) {
             $class .= $this->styleClass . ' ';
-
+        }
         switch ($this->stylePosition) {
             case 'above':
                 $style .= "margin-left: auto; margin-right: auto;";
@@ -193,13 +190,14 @@ class Content_ContentType extends Content_Type
 
         if ($this->stylePosition != 'none') {
             $class .= "figure-$this->stylePosition ";
-            if (!empty($this->styleWidth))
+            if (!empty($this->styleWidth)) {
                 $class .= "$this->styleWidth ";
+            }
         }
 
-        if (empty($style) && empty($class))
+        if (empty($style) && empty($class)) {
             return '';
-
+        }
         $styleHtml = empty($style) ? '' : " style=\"$style\"";
         $classHtml = empty($class) ? '' : " class=\"$class\"";
 
@@ -222,10 +220,11 @@ class Content_ContentType extends Content_Type
      */
     public function displayEnd()
     {
-        if (!$this->addedStyle)
+        if (!$this->addedStyle) {
             return '';
-        else
+        } else {
             return '</div>';
+        }
     }
 
     /**
@@ -258,11 +257,14 @@ class Content_ContentType extends Content_Type
      */
     public function startEditing()
     {
+
     }
 
     /* UNUSED ??? */
+
     public function handleSomethingChanged(Zikula_View $view, $data)
     {
+
     }
 
     /**
@@ -273,6 +275,7 @@ class Content_ContentType extends Content_Type
      */
     public function delete()
     {
+
     }
 
     /**
@@ -299,6 +302,7 @@ class Content_ContentType extends Content_Type
     {
         return null;
     }
+
     /**
      * return the default view template name as a string
      * @return string
@@ -313,6 +317,7 @@ class Content_ContentType extends Content_Type
             return 'contenttype/blank.tpl';
         }
     }
+
     /**
      * return the default edit template name as a string
      * @return string
@@ -327,6 +332,7 @@ class Content_ContentType extends Content_Type
             return 'contenttype/blank.tpl';
         }
     }
+
     /**
      * return the default translation templates names in an array
      * @return array
@@ -348,4 +354,5 @@ class Content_ContentType extends Content_Type
         }
         return $templates;
     }
+
 }

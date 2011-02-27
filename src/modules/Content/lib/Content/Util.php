@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Content
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
-  * @license See license.txt
+ * @license See license.txt
  */
 class Content_Util
 {
@@ -31,9 +32,9 @@ class Content_Util
 
     public static function contentAddAccess(&$view, $pageId)
     {
-        $access = array('pageCreateAllowed'    => self::contentHasPageCreateAccess($pageId),
-                        'pageEditAllowed'      => self::contentHasPageEditAccess($pageId),
-                        'pageDeleteAllowed'    => self::contentHasPageDeleteAccess($pageId));
+        $access = array('pageCreateAllowed' => self::contentHasPageCreateAccess($pageId),
+            'pageEditAllowed' => self::contentHasPageEditAccess($pageId),
+            'pageDeleteAllowed' => self::contentHasPageDeleteAccess($pageId));
         $view->assign('access', $access);
     }
 
@@ -105,4 +106,5 @@ class Content_Util
     {
         return strcmp($a->getTitle(), $b->getTitle());
     }
+
 }

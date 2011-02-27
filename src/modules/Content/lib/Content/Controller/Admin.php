@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,10 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
-
 class Content_Controller_Admin extends Zikula_Controller
 {
+
     public function main()
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
@@ -24,4 +24,5 @@ class Content_Controller_Admin extends Zikula_Controller
         $view = FormUtil::newForm('Content', $this);
         return $view->execute('admin/settings.tpl', new Content_Form_Handler_Admin_Settings(array()));
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,10 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
-
 class Content_Controller_User extends Zikula_Controller
 {
+
     /**
      * Show sitemap
      *
@@ -87,21 +87,21 @@ class Content_Controller_User extends Zikula_Controller
             System::queryStringSetVar('pid', $pageId);
         }
 
-        if (!Content_Util::contentHasPageViewAccess($pageId))
+        if (!Content_Util::contentHasPageViewAccess($pageId)) {
             return LogUtil::registerPermissionError();
-
+        }
         if ($pageId !== null && $versionId === null) {
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true, 'filter' => array('checkActive' => !($preview && $hasEditAccess))));
         } else if ($versionId === null)
             return LogUtil::registerArgsError();
 
-        if ($page === false)
+        if ($page === false) {
             return false;
-
+        }
         $multilingual = ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual');
-        if ($page['language'] == ZLanguage::getLanguageCode())
+        if ($page['language'] == ZLanguage::getLanguageCode()) {
             $multilingual = false;
-
+        }
         $pageTitle = html_entity_decode($page['title']);
         PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
 
@@ -165,9 +165,9 @@ class Content_Controller_User extends Zikula_Controller
      */
     protected function contentCommonList($args, $template, $includeContent)
     {
-        if (!Content_Util::contentHasPageViewAccess())
+        if (!Content_Util::contentHasPageViewAccess()) {
             return LogUtil::registerPermissionError();
-
+        }
         $category = isset($args['cat']) ? $args['cat'] : (string) FormUtil::getPassedValue('cat');
         $pageIndex = isset($args['page']) ? $args['page'] : (int) FormUtil::getPassedValue('page');
         $orderBy = isset($args['orderby']) ? $args['orderby'] : (string) FormUtil::getPassedValue('orderby');
@@ -180,9 +180,9 @@ class Content_Controller_User extends Zikula_Controller
         --$pageIndex; // API is zero-based
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('filter' => array('category' => $category), 'pageIndex' => $pageIndex, 'pageSize' => $pageSize, 'orderBy' => $orderBy, 'orderDir' => $orderDir, 'includeContent' => $includeContent));
-        if ($pages === false)
+        if ($pages === false) {
             return false;
-
+        }
         $pageCount = ModUtil::apiFunc('Content', 'Page', 'getPageCount', array('category' => $category));
         if ($pageCount === false) {
             return false;
@@ -237,9 +237,9 @@ class Content_Controller_User extends Zikula_Controller
      */
     public function sitemap($args)
     {
-        if (!Content_Util::contentHasPageViewAccess())
+        if (!Content_Util::contentHasPageViewAccess()) {
             return LogUtil::registerPermissionError();
-
+        }
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array('checkInMenu' => true)));
         if ($pages === false)
             return false;
@@ -257,4 +257,5 @@ class Content_Controller_User extends Zikula_Controller
 
         return $this->view->fetch('user/sitemap.tpl');
     }
+
 }

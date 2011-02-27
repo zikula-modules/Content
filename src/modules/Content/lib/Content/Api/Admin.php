@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,9 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
 class Content_Api_Admin extends Zikula_Api
 {
+
     /**
      * get available admin panel links
      *
@@ -23,7 +24,7 @@ class Content_Api_Admin extends Zikula_Api
         }
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
             $links[] = array('url' => ModUtil::url('Content', 'edit', 'main'), 'text' => $this->__('Page list'), 'class' => 'z-icon-es-edit');
-			$links[] = array('url' => ModUtil::url('Content', 'edit', 'newPage'), 'text' => $this->__('Add new page'), 'class' => 'z-icon-es-new');
+            $links[] = array('url' => ModUtil::url('Content', 'edit', 'newPage'), 'text' => $this->__('Add new page'), 'class' => 'z-icon-es-new');
         }
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
             $links[] = array('url' => ModUtil::url('Content', 'admin', 'settings'), 'text' => $this->__('Settings'), 'class' => 'z-icon-es-config');
@@ -31,7 +32,6 @@ class Content_Api_Admin extends Zikula_Api
 
         return $links;
     }
-
 
     public function getStyleClasses($args)
     {
@@ -41,13 +41,15 @@ class Content_Api_Admin extends Zikula_Api
 
         foreach ($userClasses as $class)
         {
-            list($value,$text) = explode('|', $class);
+            list($value, $text) = explode('|', $class);
             $value = trim($value);
             $text = trim($text);
-            if (!empty($text) && !empty($value))
+            if (!empty($text) && !empty($value)) {
                 $classes[] = array('text' => $text, 'value' => $value);
+            }
         }
 
         return $classes;
     }
+
 }

@@ -19,11 +19,12 @@ class Content_Api_Content extends Zikula_Api
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
         $content = $this->contentGetContent('content', $id, true, $language, $translate);
-        if ($content === false)
+        if ($content === false) {
             return false;
-        if (count($content) == 0)
+        }
+        if (count($content) == 0) {
             return LogUtil::registerError($this->__("Error! Unknown content-ID"));
-
+        }
         return $content[0];
     }
 
@@ -106,9 +107,9 @@ LEFT JOIN $translatedTable t
         AND t.$translatedColumn[language] = '$language'
 WHERE $restriction";
 
-        if (empty($orderBy))
+        if (empty($orderBy)) {
             $orderBy = "$contentColumn[areaIndex], $contentColumn[position]";
-
+        }
         $sql .= " ORDER BY $orderBy";
 
         $dbresult = DBUtil::executeSQL($sql);
@@ -120,9 +121,11 @@ WHERE $restriction";
             $c['data'] = (empty($c['data']) ? null : unserialize($c['data']));
             $c['translated'] = (empty($c['translated']) ? null : unserialize($c['translated']));
 
-            if ($translate)
-                if (is_array($c['translated']) && is_array($c['data']))
+            if ($translate) {
+                if (is_array($c['translated']) && is_array($c['data'])) {
                     $c['data'] = array_merge($c['data'], $c['translated']);
+                }
+            }
 
             $contentPlugin = $this->getContentPlugin($c);
             if ($contentPlugin === false) {
@@ -165,8 +168,9 @@ WHERE page.$pageColumn[id] = $pageId";
             $c = &$content[$i];
             $c['data'] = (empty($c['data']) ? null : unserialize($c['data']));
             $contentPlugin = $this->getContentPlugin($c);
-            if ($contentPlugin === false)
+            if ($contentPlugin === false) {
                 return LogUtil::registerError($this->__("Error! Can't load content plugin"));
+            }
             $content[$i]['plugin'] = $contentPlugin;
         }
 
@@ -293,24 +297,27 @@ WHERE $contentColumn[pageId] = $pageId";
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
         $contentData['id'] = $args['id'];
-        if (isset($contentData['data']))
+        if (isset($contentData['data'])) {
             $contentData['data'] = serialize($contentData['data']);
+        }
 
         DBUtil::updateObject($contentData, 'content_content');
 
         if (!empty($args['searchableText'])) {
-            if (!$this->contentUpdateSearchableText((int) $args['id'], $args['searchableText']))
+            if (!$this->contentUpdateSearchableText((int) $args['id'], $args['searchableText'])) {
                 return false;
+            }
         }
 
         $content = $this->getContent(array('id' => $contentData['id']));
-        if ($content === false)
+        if ($content === false) {
             return false;
-
+        }
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYCONTENTUPDATED' /* delayed translation */));
-            if ($ok === false)
+            if ($ok === false) {
                 return false;
+            }
         }
 
         Content_Util::contentClearCaches();
@@ -383,18 +390,18 @@ VALUES
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
         $content = $this->getContent(array('id' => $contentId));
-        if ($content === false)
+        if ($content === false) {
             return false;
-
+        }
         $contentType = $this->getContentType($content);
-        if ($contentType === false)
+        if ($contentType === false) {
             return false;
-
+        }
         $contentType['plugin']->delete();
 
-        if (!$this->contentRemoveContent($contentId))
+        if (!$this->contentRemoveContent($contentId)) {
             return false;
-
+        }
         DBUtil::deleteObjectByID('content_content', $contentId);
 
         $table = DBUtil::getTables();
@@ -405,13 +412,14 @@ VALUES
         DBUtil::executeSQL($sql);
 
         $ok = $this->deleteTranslation(array('contentId' => $contentId, 'includeHistory' => false));
-        if ($ok === false)
+        if ($ok === false) {
             return false;
-
+        }
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYCONTENTDELETED' /* delayed translation */));
-            if ($ok === false)
+            if ($ok === false) {
                 return false;
+            }
         }
 
         Content_Util::contentClearCaches();
@@ -424,9 +432,9 @@ VALUES
 
         // Get all content items on this page and all it's sub pages
         $contentItems = $this->getPageAndSubPageContent(array('pageId' => $pageId));
-        if ($contentItems === false)
+        if ($contentItems === false) {
             return false;
-
+        }
         for ($i = 0, $cou = count($contentItems); $i < $cou; ++$i) {
             // Make sure content items get a chance to delete themselves
             $contentItems[$i]['plugin']->delete();
@@ -461,13 +469,15 @@ VALUES
         DBUtil::insertObject($translatedData, 'content_translatedcontent');
 
         $content = $this->getContent(array('id' => $contentId));
-        if ($content === false)
+        if ($content === false) {
             return false;
+        }
 
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYTRANSLATED' /* delayed translation */));
-            if ($ok === false)
+            if ($ok === false) {
                 return false;
+            }
         }
 
         Content_Util::contentClearCaches();
@@ -484,22 +494,23 @@ VALUES
         $translatedColumn = $table['content_translatedcontent_column'];
 
         // Delete existing translation
-        if ($language != null)
+        if ($language != null) {
             $where = "$translatedColumn[contentId] = $contentId AND $translatedColumn[language] = '" . DataUtil::formatForStore($language) . "'";
-        else
+        } else {
             $where = "$translatedColumn[contentId] = $contentId";
-
+        }
         DBUtil::deleteWhere('content_translatedcontent', $where);
 
         // Get content to find page ID
         if ($includeHistory) {
             $content = $this->getContent(array('id' => $contentId));
-            if ($content === false)
+            if ($content === false) {
                 return false;
-
+            }
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYTRANSLATIONDEL' /* delayed translation */));
-            if ($ok === false)
+            if ($ok === false) {
                 return false;
+            }
         }
 
         Content_Util::contentClearCaches();
@@ -517,11 +528,11 @@ VALUES
         $translatedTable = $table['content_translatedcontent'];
         $translatedColumn = $table['content_translatedcontent_column'];
 
-        if ($language != null)
+        if ($language != null) {
             $restriction = "AND t.$translatedColumn[language] = '" . DataUtil::formatForStore($language) . "'";
-        else
+        } else {
             $restriction = '';
-
+        }
         $sql = "
 DELETE t
 FROM $translatedTable t, $contentTable c
@@ -549,28 +560,29 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
 
         if ($contentId != null) {
             $contentItem = $this->getContent(array('id' => $contentId));
-            if ($contentItem === false)
+            if ($contentItem === false) {
                 return false;
-
+            }
             $pageId = $contentItem['pageId'];
         }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId));
-        if ($page === false)
+        if ($page === false) {
             return false;
-
+        }
         $layout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array('layout' => $page['layout']));
-        if ($layout === false)
+        if ($layout === false) {
             return false;
-
+        }
         $contentItems = $this->contentGetContent('page', $pageId, $editing, null, false);
-        if ($contentItems === false)
+        if ($contentItems === false) {
             return false;
-
+        }
         $translatableItems = array();
         foreach ($contentItems as $item) {
-            if ($item['plugin']->isTranslatable())
+            if ($item['plugin']->isTranslatable()) {
                 $translatableItems[] = $item;
+            }
         }
 
         $translationItems = array();
@@ -580,8 +592,9 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
         foreach ($translatableItems as $item) {
             if ($item['plugin']->isTranslatable()) {
                 $translationItems[] = array('text' => $layout->getContentAreaTitle($item['areaIndex']) . ": $item[type] ($i/$count)", 'value' => $item['id']);
-                if ($item['id'] == $contentId)
+                if ($item['id'] == $contentId) {
                     $currentIndex = $i - 1;
+                }
                 ++$i;
             }
         }
@@ -590,13 +603,16 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
         $prevContentId = null;
 
         if ($contentId != null) {
-            if ($currentIndex < count($translationItems) - 1)
+            if ($currentIndex < count($translationItems) - 1) {
                 $nextContentId = $translatableItems[$currentIndex + 1]['id'];
-            if ($currentIndex > 0)
+            }
+            if ($currentIndex > 0) {
                 $prevContentId = $translatableItems[$currentIndex - 1]['id'];
+            }
         } else {
-            if (count($translatableItems) > 0)
+            if (count($translatableItems) > 0) {
                 $nextContentId = $translatableItems[0]['id'];
+            }
         }
 
         return array('items' => $translationItems, 'nextContentId' => $nextContentId, 'prevContentId' => $prevContentId);
@@ -661,9 +677,9 @@ WHERE c.$contentColumn[pageId] = $pageId";
     protected function contentRemoveContent($contentId)
     {
         $contentData = $this->getContent(array('id' => $contentId));
-        if ($contentData === false)
+        if ($contentData === false) {
             return false;
-
+        }
         $pageId = (int) $contentData['pageId'];
         $contentAreaIndex = (int) $contentData['areaIndex'];
         $position = (int) $contentData['position'];
@@ -689,12 +705,12 @@ WHERE     $contentColumn[pageId] = $pageId
     protected function contentInsertContent($contentId, $position, $contentAreaIndex, $pageId)
     {
         $contentData = $this->getContent(array('id' => $contentId));
-        if ($contentData === false)
+        if ($contentData === false) {
             return false;
-
-        if (!$this->contentMoveContentDown($position, $contentAreaIndex, $pageId))
+        }
+        if (!$this->contentMoveContentDown($position, $contentAreaIndex, $pageId)) {
             return false;
-
+        }
         $table = DBUtil::getTables();
         $contentTable = $table['content_content'];
         $contentColumn = $table['content_content_column'];
