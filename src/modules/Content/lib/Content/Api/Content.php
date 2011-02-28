@@ -570,11 +570,13 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
         if ($page === false) {
             return false;
         }
-        $layout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array('layout' => $page['layout']));
+        $layout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array(
+            'layout' => $page['layout'],
+            'module' => $page['module']));
         if ($layout === false) {
             return false;
         }
-        $contentItems = $this->contentGetContent('page', $pageId, $editing, null, false);
+        $contentItems = $this->contentGetContent('page', $pageId, false, null, false);
         if ($contentItems === false) {
             return false;
         }

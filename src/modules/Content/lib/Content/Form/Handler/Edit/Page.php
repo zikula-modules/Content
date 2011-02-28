@@ -51,7 +51,8 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
         if ($layouts === false) {
             return $view->registerError(null);
         }
-        
+
+        // TODO this template cannot be found because it is looking in the content module.
         $layoutTemplate = $page['layoutEditTemplate'];
         $view->assign('layoutTemplate', $layoutTemplate);
         $view->assign('mainCategory', $mainCategory);
@@ -70,7 +71,7 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
         if ($this->backref != null) {
             $returnUrl = $this->backref;
         } else {
-            $returnUrl = ModUtil::url('Content', 'Edit', 'main');
+            $returnUrl = ModUtil::url('Content', 'admin', 'main');
         }
         ModUtil::apiFunc('PageLock', 'User', 'pageLock', array('lockName' => "contentPage{$this->pageId}", 'returnUrl' => $returnUrl));
 
@@ -100,11 +101,11 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
             }
 
             if ($args['commandName'] == 'translate') {
-                $url = ModUtil::url('Content', 'Edit', 'translatepage', array('pid' => $this->pageId));
+                $url = ModUtil::url('Content', 'admin', 'translatepage', array('pid' => $this->pageId));
             } else if ($args['commandName'] == 'saveAndView') {
                 $url = ModUtil::url('Content', 'User', 'view', array('pid' => $this->pageId));
             } else if ($oldPageData['layout'] != $pageData['page']['layout']) {
-                $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
+                $url = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $this->pageId));
                 LogUtil::registerStatus(__('Layout changed', $dom));
             }
         } else if ($args['commandName'] == 'deleteContent') {
@@ -112,19 +113,19 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
             if ($ok === false) {
                 return $view->registerError(null);
             }
-            $url = ModUtil::url('Content', 'Edit', 'editpage', array('pid' => $this->pageId));
+            $url = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $this->pageId));
         } else if ($args['commandName'] == 'cloneContent') {
             $clonedId = ModUtil::apiFunc('Content', 'Content', 'cloneContent', array('id' => (int) $args['commandArgument'], 'translation' => true));
             if ($clonedId === false) {
                 return $view->registerError(null);
             }
-            $url = ModUtil::url('Content', 'Edit', 'editcontent', array('cid' => $clonedId));
+            $url = ModUtil::url('Content', 'admin', 'editcontent', array('cid' => $clonedId));
         } else if ($args['commandName'] == 'deletePage') {
             $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $this->pageId));
             if ($ok === false) {
                 return $view->registerError(null);
             }
-            $url = ModUtil::url('Content', 'Edit', 'main');
+            $url = ModUtil::url('Content', 'admin', 'main');
         } else if ($args['commandName'] == 'cancel') {
         }
 
@@ -134,7 +135,7 @@ class Content_Form_Handler_Edit_Page extends Zikula_Form_Handler
             $url = $this->backref;
         }
         if ($url == null) {
-            $url = ModUtil::url('Content', 'Edit', 'main');
+            $url = ModUtil::url('Content', 'admin', 'main');
         }
         return $view->redirect($url);
     }
