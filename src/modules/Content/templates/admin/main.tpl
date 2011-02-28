@@ -1,30 +1,31 @@
-{gt text="Module administration" assign=templatetitle}
-{admincategorymenu}
+{ajaxheader modname='Content' filename='ajax.js'}
+{include file="admin/menu.tpl"}
+<div class="z-admincontainer z-clearfix">
+    <div class="z-adminpageicon">{icon type="view" size="large"}</div>
+    <h2>{gt text="Page list and content structure"}</h2>
 
-<div class="z-adminbox">
-    <h2>{$modinfo.displayname}</h2>
-    {modulelinks modname='Content' type='admin'}
-</div>
+    {form cssClass='z-form'}
 
-<div class="z-admincontainer">
-    <div class="z-adminpageicon">{img modname=core src=windowlist.png set=icons/large alt=$templatetitle}</div>
-    <h3>{$templatetitle}</h3>
+    <p>{gt text="This is where you manage all your pages. You can add/edit/delete/translate pages (depending on permission rights) as well as drag them around to get the content structure right."}</p>
 
-    <p>{gt text="Welcome to your content administration. We have split the editing and administrative setup into separate systems. So please select from the list below or the menu above."}</p>
+    {include file='admin/tocedit.tpl'}
 
-    <ul>
-        <li><a href="{modurl modname='Content' type=edit}">{gt text="Page list"}</a></li>
-        {checkpermissionblock component='Content::' instance='::' level=ACCESS_ADMIN}
-        <li><a href="{modurl modname='Content' type=admin func=settings}">{gt text="Settings"}</a></li>
-        {/checkpermissionblock}
-        <li><a href="{modurl modname='Content' type=user func=sitemap}">{gt text="Sitemap"}</a></li>
-        <li><a href="{modurl modname='Content' type=user func=extlist}">{gt text="Extended page list (showing page headers)"}</a></li>
-        <li><a href="{modurl modname='Content' type=user func=pagelist}">{gt text="Complete page list (showing complete pages)"}</a></li>
-        <li><a href="{modurl modname='Content' type=user func=categories}">{gt text="Show content by category"}</a></li>
-    </ul>
+    {if $access.pageEditAllowed}
+    <p class="z-sub">{gt text="Click on the arrow right of a page title for the options of that page. To drag and drop a page you must select the folder icon left of the title and drop it on the title of another page. A page with sub-pages can be expanded or contracted by clicking on the plus or minus left of the page title. To activate/deactive pages or make pages (not) available in the menu click on the led icons."}</p>
+    {/if}
 
-    <p class="z-center">
-        <a href="http://code.zikula.org/content/" title="Content">{$modinfo.name} v{$modinfo.version}</a>
-    </p>
+    <script type="text/javascript">
+    {{foreach from=$pages item=page}}
+      content.addDraggablePage({{$page.id}});
+    {{/foreach}}
+    </script>
 
+    <div>
+        <input type="hidden" name="contentTocDragSrcId" id="contentTocDragSrcId"/>
+        <input type="hidden" name="contentTocDragDstId" id="contentTocDragDstId"/>
+    </div>
+
+    {formpostbackfunction function="content.pageListDrag" commandName='pageDrop'}
+
+    {/form}
 </div>

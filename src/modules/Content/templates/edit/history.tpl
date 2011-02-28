@@ -1,7 +1,7 @@
 {contentpagepath pageId=$page.id language=$page.language assign='subheader'}
 {contentpageheading __header='Page history' subheader=$subheader noescape=true}
 <div class="z-adminbox">
-    {modulelinks modname='Content' type='edit'}
+    {modulelinks modname='Content' type='admin'}
 </div>
 
 

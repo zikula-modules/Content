@@ -21,7 +21,7 @@ class Content_Api_Admin extends Zikula_Api
 
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
             $links[] = array(
-                'url' => ModUtil::url('Content', 'edit', 'main'),
+                'url' => ModUtil::url('Content', 'admin', 'main'),
                 'text' => $this->__('Page list'),
                 'class' => 'z-icon-es-view',
                 'links' => array(
@@ -33,11 +33,13 @@ class Content_Api_Admin extends Zikula_Api
                         'text' => $this->__('Complete')),
                     array('url' => ModUtil::url('Content', 'user', 'categories'),
                         'text' => $this->__('Category list')),
-                    array('url' => ModUtil::url('Content', 'edit', 'deletedpages'),
+                    array('url' => ModUtil::url('Content', 'admin', 'deletedpages'),
                         'text' => $this->__('Restore pages')),
                 ));
+        }
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_ADD)) {
             $links[] = array(
-                'url' => ModUtil::url('Content', 'edit', 'newPage'),
+                'url' => ModUtil::url('Content', 'admin', 'newPage'),
                 'text' => $this->__('Add new page'),
                 'class' => 'z-icon-es-new');
         }

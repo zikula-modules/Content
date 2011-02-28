@@ -3,7 +3,7 @@
 <script type="text/javascript">
     //<![CDATA[
     {{foreach from=$content[$contentAreaIndex] item=c}}
-    {{modurl modname='Content' type=edit func=editcontent cid=$c.id fqurl=1 assign=editUrl}}
+    {{modurl modname='Content' type=admin func=editcontent cid=$c.id fqurl=1 assign=editUrl}}
     {{formcontextmenureference menuId="contentEditMenu" commandArgument=$c.id imageURL="modules/Content/images/contextarrow.png" assign='menuHandle'}}
     var extrainfo = ((!{{$c.active}})?"<strong><em>&rArr; {{gt text='Item not Active'}} &lArr;</em></strong>":({{$c.visiblefor}}==0)?"<strong><em>&rArr; {{gt text='only logged in members'}} &lArr;</em></strong>":({{$c.visiblefor}}==2)?"<strong><em>&rArr; {{gt text='only not logged in people'}} &lArr;</em></strong>":"");
     content.items.push

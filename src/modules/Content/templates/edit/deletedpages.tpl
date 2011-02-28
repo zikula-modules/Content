@@ -1,6 +1,6 @@
 {contentpageheading __header='Restore deleted pages'}
 <div class="z-adminbox">
-    {modulelinks modname='Content' type='edit'}
+    {modulelinks modname='Content' type='admin'}
 </div>
 
 

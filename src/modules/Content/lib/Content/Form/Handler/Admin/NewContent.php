@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Handler_Edit_NewContent extends Zikula_Form_Handler
+class Content_Form_Handler_Admin_NewContent extends Zikula_Form_Handler
 {
     // Set these three for new content in empty area (or always first position)
     var $pageId; // ID of page to insert content on

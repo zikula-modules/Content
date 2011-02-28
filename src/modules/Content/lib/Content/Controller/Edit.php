@@ -13,80 +13,80 @@ class Content_Controller_Edit extends Zikula_Controller
 
     public function main($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/main.tpl', new Content_Form_Handler_Edit_Main($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'main', $args));
     }
 
     /* =[ Create new page ]=========================================================== */
 
     public function newpage($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/newpage.tpl', new Content_Form_Handler_Edit_NewPage($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'newpage', $args));
     }
 
     /* =[ Edit single page ]========================================================== */
 
     public function editpage($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/editpage.tpl', new Content_Form_Handler_Edit_Page($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'editpage', $args));
     }
 
     /* =[ Clone single page ]========================================================== */
 
     public function clonepage($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/clonepage.tpl', new Content_Form_Handler_Edit_ClonePage($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'clonepage', $args));
     }
 
     /* =[ New content element ]======================================================= */
 
     public function newcontent($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/newcontent.tpl', new Content_Form_Handler_Edit_NewContent($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'newcontent', $args));
     }
 
     /* =[ Edit single content item ]================================================== */
 
     public function editcontent($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/editcontent.tpl', new Content_Form_Handler_Edit_EditContent($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'editcontent', $args));
     }
 
     /* =[ Translate page ]============================================================ */
 
     public function translatepage($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/translatepage.tpl', new Content_Form_Handler_Edit_TranslatePage($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'translatepage', $args));
     }
 
     /* =[ Translate content item ]==================================================== */
 
     public function translatecontent($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/translatecontent.tpl', new Content_Form_Handler_Edit_TranslateContent($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'translatecontent', $args));
     }
 
     /* =[ History ]=================================================================== */
 
     public function history($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/history.tpl', new Content_Form_Handler_Edit_HistoryContent($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'history', $args));
     }
 
     /* =[ Restore deleted pages ]===================================================== */
 
     public function deletedpages($args)
     {
-        $view = FormUtil::newForm('Content', $this);
-        return $view->execute('edit/deletedpages.tpl', new Content_Form_Handler_Edit_DeletedPages($args));
+        LogUtil::log($this->__f('Warning! %1$s is deprecated. Please use the Admin controller instead.', array(__CLASS__ . '::' . __FUNCTION__)), E_USER_DEPRECATED);
+        $this->redirect(ModUtil::url('Content', 'admin', 'deletedpages', $args));
     }
 
 }

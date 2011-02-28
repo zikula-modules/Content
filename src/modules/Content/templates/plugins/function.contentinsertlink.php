@@ -13,7 +13,7 @@ function smarty_function_contentinsertlink($params, &$view)
     $pageId = $params['pageId'];
     $contentAreaIndex = $params['contentAreaIndex'];
     $position = isset($params['position']) ? $params['position'] : 0;
-    $url = ModUtil::url('Content', 'Edit', 'newContent',
+    $url = ModUtil::url('Content', 'admin', 'newContent',
             array('pid' => $pageId,
             'cai' => $contentAreaIndex,
             'position' => $position));

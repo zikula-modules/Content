@@ -27,7 +27,7 @@ class Content_Api_Account extends Zikula_Api
 
         // Create an array of links to return
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            $items[] = array('url' => ModUtil::url('Content', 'Edit', 'newpage'),
+            $items[] = array('url' => ModUtil::url('Content', 'admin', 'newpage'),
                 'module' => 'Content',
                 'title' => $this->__('Add a new page'),
                 'icon' => 'content_add.gif');

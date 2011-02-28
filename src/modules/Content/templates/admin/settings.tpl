@@ -1,14 +1,8 @@
-{gt text="Module settings" assign=templatetitle}
-{admincategorymenu}
-
-<div class="z-adminbox">
-    <h2>{$modinfo.displayname}</h2>
-    {modulelinks modname='Content'}
-</div>
+{include file="admin/menu.tpl"}
 
 <div class="z-admincontainer z-clearfix">
-    <div class="z-adminpageicon">{img modname=core src=windowlist.png set=icons/large alt=$templatetitle}</div>
-    <h3>{$templatetitle}</h3>
+    <div class="z-adminpageicon">{icon type="view" size="large"}</div>
+    <h2>{gt text="Module settings"}</h2>
 
     <p>{gt text="This is where you configure various parts of the content module."}</p>
 

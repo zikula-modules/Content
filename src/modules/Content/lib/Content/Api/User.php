@@ -21,13 +21,13 @@ class Content_Api_User extends Zikula_Api
 
         if (Content_Util::contentHasPageCreateAccess()) {
             $links[] = array(
-                'url' => ModUtil::url('Content', 'edit', 'newPage'),
+                'url' => ModUtil::url('Content', 'admin', 'newPage'),
                 'text' => $this->__('Add new page'),
                 'class' => 'z-icon-es-new');
         }
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
             $links[] = array(
-                'url' => ModUtil::url('Content', 'edit', 'main'),
+                'url' => ModUtil::url('Content', 'admin', 'main'),
                 'text' => $this->__('Page list'),
                 'class' => 'z-icon-es-edit',
                 'links' => array(

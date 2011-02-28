@@ -4,12 +4,12 @@
 <h2>{gt text="Page list and content structure"}</h2>
 
 <div class="z-adminbox">
-    {modulelinks modname='Content' type='edit'}
+    {modulelinks modname='Content' type='admin'}
 </div>
 
 <p>{gt text="This is where you manage all your pages. You can add/edit/delete/translate pages (depending on permission rights) as well as drag them around to get the content structure right."}</p>
 
-{include file='edit/tocedit.tpl'}
+{include file='admin/tocedit.tpl'}
 
 {if $access.pageEditAllowed}
 <p class="z-sub">{gt text="Click on the arrow right of a page title for the options of that page. To drag and drop a page you must select the folder icon left of the title and drop it on the title of another page. A page with sub-pages can be expanded or contracted by clicking on the plus or minus left of the page title. To activate/deactive pages or make pages (not) available in the menu click on the led icons."}</p>
