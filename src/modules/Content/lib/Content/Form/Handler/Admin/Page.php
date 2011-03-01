@@ -12,7 +12,6 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
 
     public function initialize(Zikula_Form_View $view)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $this->pageId = (int) FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : -1);
 
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
@@ -80,7 +79,6 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
 
     public function handleCommand(Zikula_Form_View $view, &$args)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         $url = null;
 
         if ($args['commandName'] == 'save' || $args['commandName'] == 'saveAndView' || $args['commandName'] == 'translate') {
@@ -106,7 +104,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
                 $url = ModUtil::url('Content', 'User', 'view', array('pid' => $this->pageId));
             } else if ($oldPageData['layout'] != $pageData['page']['layout']) {
                 $url = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $this->pageId));
-                LogUtil::registerStatus(__('Layout changed', $dom));
+                LogUtil::registerStatus($this->__('Layout changed'));
             }
         } else if ($args['commandName'] == 'deleteContent') {
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteContent', array('contentId' => $args['commandArgument']));
