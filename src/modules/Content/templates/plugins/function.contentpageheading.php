@@ -17,8 +17,6 @@ function smarty_function_contentpageheading($params, &$view)
         } else {
             $html .= "<h3>".DataUtil::formatForDisplay($params['subheader'])."</h3>\n";
         }
-    } else {
-        $html .= "<h3>&nbsp;</h3>\n";
     }
     $html .= "</div>\n";
 
