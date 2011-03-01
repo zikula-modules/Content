@@ -163,7 +163,7 @@
         <legend>{gt text="Page layout"}</legend>
         <div class="z-formrow">
             {formlabel for='layout' __text='Page layout'}
-            {contentlayoutselector id='layout' group='page'}
+            {contentlayoutselector id='layout' group='page' selectedValue=$page.module|cat:':'|cat:$page.layout}
         </div>
         <div class="z-formrow">
             {formlabel for='layout_preview' __text='Layout preview and description'}

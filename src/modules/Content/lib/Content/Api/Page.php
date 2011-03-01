@@ -444,9 +444,10 @@ NOT EXISTS (SELECT 1 FROM $pageTable parentPage
         if ($oldPageData === false) {
             return false;
         }
+        list($pageData['module'], $pageData['layout']) = explode(":", $pageData['layout']);
 
         if ($oldPageData['layout'] != $pageData['layout']) {
-            if (!$this->contentUpdateLayout($pageId, $oldPageData['layout'], $pageData['layout'], $pageData['module'])) {
+            if (!$this->contentUpdateLayout($pageId, $oldPageData['layout'], $pageData['layout'], $oldPageData['module'], $pageData['module'])) {
                 return false;
             }
         }
@@ -472,14 +473,14 @@ NOT EXISTS (SELECT 1 FROM $pageTable parentPage
     }
 
     // Update layout
-    protected function contentUpdateLayout($pageId, $oldLayoutName, $newLayoutName, $module='Content')
+    protected function contentUpdateLayout($pageId, $oldLayoutName, $newLayoutName, $oldModule='Content', $newModule='Content')
     {
         $oldLayout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array(
             'layout' => $oldLayoutName,
-            'module' => $module));
+            'module' => $oldModule));
         $newLayout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array(
             'layout' => $newLayoutName,
-            'module' => $module));
+            'module' => $newModule));
 
         $dbtables = DBUtil::getTables();
         $contentTable = $dbtables['content_content'];
