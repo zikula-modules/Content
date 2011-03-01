@@ -55,7 +55,7 @@ class Content_Form_Handler_Admin_Settings extends Zikula_Form_Handler
         } else if ($args['commandName'] == 'cancel') {
         }
 
-        $url = ModUtil::url('Content', 'Admin', 'main');
+        $url = ModUtil::url('Content', 'admin', 'main');
 
         return $view->redirect($url);
     }
