@@ -73,13 +73,21 @@ class Content_Controller_User extends Zikula_Controller
 
         if ($versionId !== null && $hasEditAccess) {
             $preview = true;
-            $version = ModUtil::apiFunc('Content', 'History', 'getPageVersion', array('id' => $versionId, 'preview' => $preview, 'includeContent' => true));
+            $version = ModUtil::apiFunc('Content', 'History', 'getPageVersion', array(
+                'id' => $versionId,
+                'preview' => $preview,
+                'includeContent' => true));
             $versionData = & $version['data'];
             $page = & $versionData['page'];
             $pageId = $page['id'];
 
             //var_dump($version);
-            $translatable = array('revisionNo' => $version['revisionNo'], 'date' => $version['date'], 'action' => constant($version['action']), 'userName' => $version['userName'], 'ipno' => $version['ipno']);
+            $translatable = array(
+                'revisionNo' => $version['revisionNo'],
+                'date' => $version['date'],
+                'action' => constant($version['action']),
+                'userName' => $version['userName'],
+                'ipno' => $version['ipno']);
             $iconSrc = 'images/icons/extrasmall/clock.png';
             $versionHtml = "<p class=\"content-versionpreview\"><img alt=\"\" src=\"$iconSrc\"/> " . $this->__f('Version #%1$s - %2$s - %3$s by %4$s from %5$s', $translatable) . "</p>";
         } else if ($pageId === null && !empty($urlname)) {
@@ -91,7 +99,12 @@ class Content_Controller_User extends Zikula_Controller
             return LogUtil::registerPermissionError();
         }
         if ($pageId !== null && $versionId === null) {
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => $preview, 'includeContent' => true, 'filter' => array('checkActive' => !($preview && $hasEditAccess))));
+            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+                'id' => $pageId,
+                'preview' => $preview,
+                'includeContent' => true,
+                'filter' => array(
+                    'checkActive' => !($preview && $hasEditAccess))));
         } else if ($versionId === null)
             return LogUtil::registerArgsError();
 
@@ -179,7 +192,13 @@ class Content_Controller_User extends Zikula_Controller
         }
         --$pageIndex; // API is zero-based
 
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('filter' => array('category' => $category), 'pageIndex' => $pageIndex, 'pageSize' => $pageSize, 'orderBy' => $orderBy, 'orderDir' => $orderDir, 'includeContent' => $includeContent));
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
+            'filter' => array('category' => $category),
+            'pageIndex' => $pageIndex,
+            'pageSize' => $pageSize,
+            'orderBy' => $orderBy,
+            'orderDir' => $orderDir,
+            'includeContent' => $includeContent));
         if ($pages === false) {
             return false;
         }
@@ -221,7 +240,10 @@ class Content_Controller_User extends Zikula_Controller
             return LogUtil::registerPermissionError();
         }
 
-        $topPage = ModUtil::apiFunc('Content', 'Page', 'getPages', array('filter' => array('superParentId' => $pageId), 'orderBy' => 'setLeft', 'makeTree' => true));
+        $topPage = ModUtil::apiFunc('Content', 'Page', 'getPages', array('filter' => array(
+            'superParentId' => $pageId),
+            'orderBy' => 'setLeft',
+            'makeTree' => true));
         if ($topPage === false) {
             return false;
         }
@@ -240,7 +262,10 @@ class Content_Controller_User extends Zikula_Controller
         if (!Content_Util::contentHasPageViewAccess()) {
             return LogUtil::registerPermissionError();
         }
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array('checkInMenu' => true)));
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
+            'orderBy' => 'setLeft',
+            'makeTree' => true,
+            'filter' => array('checkInMenu' => true)));
         if ($pages === false)
             return false;
 
