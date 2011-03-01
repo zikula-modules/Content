@@ -52,9 +52,9 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
             return $view->registerError(null);
         }
 
-        // TODO this template cannot be found because it is looking in the content module.
-        $layoutTemplate = $page['layoutEditTemplate'];
-        $view->assign('layoutTemplate', $layoutTemplate);
+        $renderedEditTemplate = Zikula_View::getInstance($page['module'])->fetch($page['layoutEditTemplate']);
+        $this->view->assign('renderedEditTemplate', $renderedEditTemplate);
+
         $view->assign('mainCategory', $mainCategory);
         $view->assign('secondCategory', $secondCategory);
         $view->assign('page', $page);

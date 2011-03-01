@@ -59,7 +59,7 @@
 
     {formtabbedpanel __title='Content'}
     <p>{gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."}</p>
-    {include file=$layoutTemplate}
+    {$renderedEditTemplate}
     {/formtabbedpanel}
 
     {formtabbedpanel __title='Options'}

@@ -38,7 +38,6 @@ class Content_Controller_User extends Zikula_Controller
         $this->view->assign('rootCategory', $rootCategory);
         $this->view->assign('categories', $categories);
         $this->view->assign('lang', ZLanguage::getLanguageCode());
-        //$view->assign(ModUtil::getVar('Pages'));
         $this->view->assign('shorturls', System::getVar('shorturls'));
         $this->view->assign('shorturlstype', System::getVar('shorturlstype'));
 
@@ -81,7 +80,6 @@ class Content_Controller_User extends Zikula_Controller
             $page = & $versionData['page'];
             $pageId = $page['id'];
 
-            //var_dump($version);
             $translatable = array(
                 'revisionNo' => $version['revisionNo'],
                 'date' => $version['date'],
@@ -119,6 +117,8 @@ class Content_Controller_User extends Zikula_Controller
         PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
 
         $this->view->assign('page', $page);
+        $renderedTemplate = Zikula_View::getInstance($page['module'])->fetch($page['layoutTemplate']);
+        $this->view->assign('renderedTemplate', $renderedTemplate);
         $this->view->assign('preview', $preview);
         $this->view->assign('editmode', $editmode);
         $this->view->assign('multilingual', $multilingual);
