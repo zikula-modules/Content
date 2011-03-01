@@ -1,6 +1,4 @@
-<div class="z-adminbox">
-    {modulelinks modname='Content' type='user'}
-</div>
+{modulelinks modname='Content' type='user'}
 
 {gt text="Complete page list" assign=title}
 {pagesetvar name='title' value=$title}
