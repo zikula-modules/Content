@@ -11,28 +11,28 @@ class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_Handler
         $this->language = ZLanguage::getLanguageCode();
 
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
-            return $view->registerError(LogUtil::registerPermissionError());
+            return $this->view->registerError(LogUtil::registerPermissionError());
         }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false), 'translate' => false));
         if ($page === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
 //        can't seem to make this work...
 //        TODO! craig
 //        if ($this->language == $page['language']) {
-//            return $view->registerError($this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%1$s"). Change the current site language ("%2$s") to some other language on the <a href="%2$s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual'))));
+//            return $this->view->registerError($this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%1$s"). Change the current site language ("%2$s") to some other language on the <a href="%2$s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual'))));
 //        }
 
         PageUtil::setVar('title', $this->__("Translate page") . ' : ' . $page['title']);
 
-        $view->assign('page', $page);
-        $view->assign('translated', $page['translated']);
-        $view->assign('language', $this->language);
-        Content_Util::contentAddAccess($view, $this->pageId);
+        $this->view->assign('page', $page);
+        $this->view->assign('translated', $page['translated']);
+        $this->view->assign('language', $this->language);
+        Content_Util::contentAddAccess($this->view, $this->pageId);
 
-        if (!$view->isPostBack() && FormUtil::getPassedValue('back',0)) {
+        if (!$this->view->isPostBack() && FormUtil::getPassedValue('back',0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
         }
 
@@ -54,22 +54,22 @@ class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_Handler
 
         $translationInfo = ModUtil::apiFunc('Content', 'Content', 'getTranslationInfo', array('pageId' => $this->pageId));
         if ($translationInfo === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         if ($args['commandName'] == 'next' || $args['commandName'] == 'quit') {
-            if (!$view->isValid()) {
+            if (!$this->view->isValid()) {
                 return false;
             }
 
-            $pageData = $view->getValues();
+            $pageData = $this->view->getValues();
 
             $ok = ModUtil::apiFunc('Content', 'Page', 'updateTranslation',
                                array('translated' => $pageData['translated'],
                                      'pageId' => $this->pageId,
                                      'language' => $this->language));
             if ($ok === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
 
             if ($args['commandName'] == 'next' && $translationInfo['nextContentId'] != null) {
@@ -84,7 +84,7 @@ class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_Handler
                                array('pageId' => $this->pageId,
                                      'language' => $this->language));
             if ($ok === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
         }
 
@@ -97,7 +97,7 @@ class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_Handler
         ModUtil::apiFunc('PageLock', 'user', 'releaseLock',
                    array('lockName' => "contentTranslatePage{$this->pageId}"));
 
-        return $view->redirect($url);
+        return $this->view->redirect($url);
     }
 }
 

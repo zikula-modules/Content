@@ -16,7 +16,7 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_Handler
         $this->location = FormUtil::getPassedValue('loc', isset($this->args['loc']) ? $this->args['loc'] : null);
 
         if (!Content_Util::contentHasPageCreateAccess()) {
-            return $view->registerError(LogUtil::registerPermissionError());
+            return $this->view->registerError(LogUtil::registerPermissionError());
         }
 
         // Only allow subpages if edit access on parent page
@@ -27,7 +27,7 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_Handler
         if ($this->pageId != null) {
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
             if ($page === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
         } else {
             $page = null;
@@ -35,20 +35,20 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_Handler
 
         $layouts = ModUtil::apiFunc('Content', 'Layout', 'getLayouts');
         if ($layouts === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         PageUtil::setVar('title', $this->__('Add new page'));
 
-        $view->assign('layouts', $layouts);
-        $view->assign('page', $page);
-        $view->assign('location', $this->location);
+        $this->view->assign('layouts', $layouts);
+        $this->view->assign('page', $page);
+        $this->view->assign('location', $this->location);
         if ($this->location == 'sub') {
-            $view->assign('locationLabel', $this->__('Located below:'));
+            $this->view->assign('locationLabel', $this->__('Located below:'));
         } else {
-            $view->assign('locationLabel', $this->__('Located after:'));
+            $this->view->assign('locationLabel', $this->__('Located after:'));
         }
-        Content_Util::contentAddAccess($view, $this->pageId);
+        Content_Util::contentAddAccess($this->view, $this->pageId);
 
         return true;
     }
@@ -56,14 +56,14 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_Handler
     public function handleCommand(Zikula_Form_View $view, &$args)
     {
         if (!Content_Util::contentHasPageCreateAccess()) {
-            return $view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
+            return $this->view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
         }
 
         if ($args['commandName'] == 'create') {
-            if (!$view->isValid()) {
+            if (!$this->view->isValid()) {
                 return false;
             }
-            $pageData = $view->getValues();
+            $pageData = $this->view->getValues();
 
             $id = ModUtil::apiFunc('Content', 'Page', 'newPage', array(
                 'page' => $pageData,
@@ -78,6 +78,6 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_Handler
             $url = ModUtil::url('Content', 'admin', 'main');
         }
 
-        return $view->redirect($url);
+        return $this->view->redirect($url);
     }
 }

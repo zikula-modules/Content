@@ -15,7 +15,7 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_Handler
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
 
         if (!Content_Util::contentHasPageCreateAccess()) {
-            return $view->registerError(LogUtil::registerPermissionError());
+            return $this->view->registerError(LogUtil::registerPermissionError());
         }
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
             return LogUtil::registerPermissionError();
@@ -23,7 +23,7 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_Handler
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'filter' => array('checkActive' => false), 'includeContent' => false));
         if ($page === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         // Only allow subpages if edit access on parent page
@@ -33,8 +33,8 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_Handler
 
         PageUtil::setVar('title', $this->__('Clone page') . ' : ' . $page['title']);
 
-        $view->assign('page', $page);
-        Content_Util::contentAddAccess($view, $this->pageId);
+        $this->view->assign('page', $page);
+        Content_Util::contentAddAccess($this->view, $this->pageId);
 
         return true;
     }
@@ -42,24 +42,24 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_Handler
     public function handleCommand(Zikula_Form_View $view, &$args)
     {
         if (!Content_Util::contentHasPageCreateAccess()) {
-            return $view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
+            return $this->view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
         }
 
         $url = ModUtil::url('Content', 'admin', 'Main');
 
         if ($args['commandName'] == 'clonePage') {
-            if (!$view->isValid()) {
+            if (!$this->view->isValid()) {
                 return false;
             }
 
-            $pageData = $view->getValues();
+            $pageData = $this->view->getValues();
             $id = ModUtil::apiFunc('Content', 'Page', 'clonePage', array('page' => $pageData, 'pageId' => $this->pageId));
             if ($id === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
             $url = ModUtil::url('Content', 'admin', 'editPage', array('pid' => $id));
         } else if ($args['commandName'] == 'cancel') {
         }
-        return $view->redirect($url);
+        return $this->view->redirect($url);
     }
 }
