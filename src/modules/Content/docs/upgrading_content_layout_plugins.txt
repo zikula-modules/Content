@@ -1,5 +1,5 @@
-DEVELOPER CONTENTTYPE/LAYOUTTYPE UPGRADE 3.x -> 4.x
-===================================================
+DEVELOPER CONTENTTYPE UPGRADE 3.x -> 4.x
+========================================
 
 The structure and naming schemes have changed for Content 4.x. This document
 explains changes that must be made in other third-party modules in order to
@@ -7,14 +7,10 @@ maintain compatibility with the newest versions of Content. There is no
 possibility for complete backward compatibility (i.e. with no changes to your
 files). You will, however, be able reuse most of what you already have.
 
-Previously, LayoutTypes had to be placed in the Content Module to be seen and
-used. This is no longer required. You may place them in your own module just as
-you would do with ContentTypes.
-
 There are four important areas to cover:
 
   - Filenames and Classnames (Zikula standard naming schemes)
-  - ContentType and LayoutType classfiles
+  - ContentType class files
   - Templates (including custom naming options)
   - Module upgrade routine
 
@@ -22,9 +18,9 @@ Remember, Content 4.x is for Zikula 1.3 and higher and therefore your module
 must also be Zikula 1.3-compatible (or native).
 
 
-## Filenames & Classnames
+## Filenames & Class names
 
-The rules in Zikula 1.3 require classnames to begin with uppercase letters and
+The rules in Zikula 1.3 require class names to begin with uppercase letters and
 for underscores only used to indicate directory structure. Each word must be
 capitalized and you cannot use other characters (numbers and letters only, but
 must begin with a capital letter). For example:
@@ -35,11 +31,11 @@ is found in
 
     modules/Content/lib/Content/Form/Handler/Admin/Settings.php
 
-You can see the relationship between the classname and the directory structure.
+You can see the relationship between the class name and the directory structure.
 Additional underscores, etc, are not allowed.
 
 
-## ContentType and LayoutType class files
+## ContentType class files
 
 Move your existing pncontenttypesapi files to
 
@@ -49,18 +45,9 @@ rename the classes within to
 
     ModuleName_ContentType_Pluginname extends Content_ContentType
 
-
-Move your existing pnlayouttypesapi files to
-
-    ModuleName/lib/ModuleName/LayoutType/Pluginname.php
-
-rename the classes within to
-
-    ModuleName_LayoutType_Pluginname extends Content_LayoutType
-
 (replace the 'ModuleName' with your *actual* module name - with Caps)
 
-Please note that the word 'Plugin' and 'Base' have been removed from classnames.
+Please note that the word 'Plugin' and 'Base' have been removed from class names.
 
 Be sure your filename and the last part of your class name are exactly the same.
 They must begin with a capital letter and contain only a-z/A-Z/0-9
@@ -92,15 +79,15 @@ with
 
     $this->view->foo()
 
-  - Change your property declarations from 'var' to 'public' and make all your
-    methods 'public' as well.
+  - Change your property declarations from 'var' to 'protected' unless
+    specifically required. Make all your methods 'public'.
 
   - Remove the function at the bottom of your plugin file that instantiates the
-class. This is no longer required.
+    class. This is no longer required.
 
 ### GetText usage within classes
 There is no need to assign the translation domain to a variable ($dom) and
-include it as a function argument. You can do the same thing you would do in
+include it as a method argument. You can do the same thing you would do in
 a module controller instead:
 
     $this->__('my translated text');
@@ -110,9 +97,6 @@ a module controller instead:
 
 Contentype templates may remain in the templates/contentype/ directory but must
 be renamed with a .tpl suffix
-
-layouts should be placed in the layouttype/ and all files within named with
-a .tpl suffix
 
 The default name of the template should duplicate the name of the plugin, but be
 all lowercase.
@@ -130,28 +114,17 @@ appropriate suffixes:
     New template: googlemap_translate_new.tpl
     Original template: googlemap_translate_original.tpl
 
-Layout templates require only the template and an '_edit' version:
-
-    Plugin name: Column1woheader.php
-    template: column1woheader.tpl
-    edit template: column1woheader_edit.tpl
-
 ### Custom template naming
 
-If you prefer, you can now (since Content v4.0.0) name your templates anything
+If you prefer, you can (since Content v4.0.0) name your templates anything
 you like and set the template name in the plugin class.
 
-See the Content_ContentType and Content_LayoutType classes for the methods. All
-you need to do is override these methods:
+See the Content_ContentType class for the methods. All you need to do is
+override any or all of these methods:
 
-For LayoutType:
-    getTemplate()
-    getEditTemplate()
-
-For ContentType:
-    getTemplate()
-    getEditTemplate()
-    getTranslationTemplates
+  - getTemplate()
+  - getEditTemplate()
+  - getTranslationTemplates()
 
 Override these methods in your plugin class and change them to return the name
 of the template you wish instead of the default naming scheme. Using this
@@ -164,33 +137,22 @@ directory and suffix if you require it.
 The names of your plugins are stored in the Content module's database tables.
 These must be updated or existing templates will no longer function.
 
-In your Installer upgrade routine, add the following lines for your newest
+In your Installer upgrade routine, add the following line for your newest
 version (you only need each line as appropriate):
 
-    Content_Installer::updateLayout('modulename');
     Content_Installer::updateContentType('modulename');
 
 (replace the 'modulename' with your *actual* module name)
 
-Also, you must create two methods within your module's installer class to map
+Also, you must create a method within your module's installer class to map
 the old plugin names to the new plugin names. Using **your own** legacy plugin 
-names, they should look something like this:
+names, it should look something like this:
 
     protected function LegacyContentTypeMap()
     {
         $oldToNew = array(
             'author' => 'Author',
             'block' => 'Block'
-        );
-        return $oldToNew;
-    }
-
-    protected function LegacyLayoutTypeMap()
-    {
-        $oldToNew = array(
-            'column2_2575_header' => 'Column22575header',
-            'column2header' => 'Column2header',
-            'column3_252550_header' => 'Column3252550header'
         );
         return $oldToNew;
     }

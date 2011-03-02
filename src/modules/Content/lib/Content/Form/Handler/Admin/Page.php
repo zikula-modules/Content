@@ -40,9 +40,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
 
         PageUtil::setVar('title', $this->__("Edit page") . ' : ' . $page['title']);
 
-        $pagelayout = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array(
-            'module' => $page['module'],
-            'layout' => $page['layout']));
+        $pagelayout = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array('layout' => $page['layout']));
         if ($pagelayout === false) {
             return $view->registerError(null);
         }
@@ -51,9 +49,8 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
             return $view->registerError(null);
         }
 
-        $renderedEditTemplate = Zikula_View::getInstance($page['module'])->fetch($page['layoutEditTemplate']);
-        $this->view->assign('renderedEditTemplate', $renderedEditTemplate);
-
+        $layoutTemplate = $page['layoutEditTemplate'];
+        $view->assign('layoutTemplate', $layoutTemplate);
         $view->assign('mainCategory', $mainCategory);
         $view->assign('secondCategory', $secondCategory);
         $view->assign('page', $page);

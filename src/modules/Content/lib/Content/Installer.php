@@ -325,7 +325,6 @@ class Content_Installer extends Zikula_Installer
         $page = array('title'   => $this->__('Content introduction page'),
                 'urlname'       => $this->__('content-introduction-page'),
                 'layout'        => 'Column2d6238',
-                'module'        => 'Content',
                 'setLeft'       => '0',
                 'setRight'      => '1',
                 'language'      => ZLanguage::getLanguageCode());

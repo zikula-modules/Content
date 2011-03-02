@@ -14,7 +14,7 @@ class Content_Form_Plugin_LayoutSelector extends Zikula_Form_Plugin_DropdownList
             }
         }
         foreach ($layouts as $layout) {
-            $this->_addItem($layout['title'], $layout['module'] . ":" . $layout['name'], $layout['image']);
+            $this->_addItem($layout['title'], $layout['name'], $layout['image']);
         }
         parent::load($view, $params);
     }
