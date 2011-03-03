@@ -1,6 +1,6 @@
 <script type="text/javascript">
     //<![CDATA[
-    {{modurl modname=Content type=User func=view preview=1 pid=__PID__ assign=previewUrl}}
+    {{modurl modname=Content type=user func=view preview=1 pid=__PID__ assign=previewUrl}}
     content.previewUrl = "{{$previewUrl}}";
     function contentToggle(id)
     {
