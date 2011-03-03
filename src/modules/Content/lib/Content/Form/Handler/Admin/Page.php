@@ -101,7 +101,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
             if ($args['commandName'] == 'translate') {
                 $url = ModUtil::url('Content', 'admin', 'translatepage', array('pid' => $this->pageId));
             } else if ($args['commandName'] == 'saveAndView') {
-                $url = ModUtil::url('Content', 'User', 'view', array('pid' => $this->pageId));
+                $url = ModUtil::url('Content', 'user', 'view', array('pid' => $this->pageId));
             } else if ($oldPageData['layout'] != $pageData['page']['layout']) {
                 $url = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $this->pageId));
                 LogUtil::registerStatus($this->__('Layout changed'));

@@ -116,7 +116,7 @@ class Content_ContentType_Directory extends Content_ContentType
     function _genDirectoryRecursive(&$pages)
     {
         $directory = array();
-        $pageurl = ModUtil::url('Content', 'User', 'view', array('pid' => $pages['id']));
+        $pageurl = ModUtil::url('Content', 'user', 'view', array('pid' => $pages['id']));
         if ($pages['content']) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {

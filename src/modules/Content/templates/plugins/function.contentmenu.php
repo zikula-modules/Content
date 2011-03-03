@@ -27,7 +27,7 @@ function smarty_function_contentmenurec(&$pages)
         $html .= '<ul>';
         foreach ($pages as $page) {
             $html .= '<li>';
-            $url = ModUtil::url('Content', 'User', 'view',
+            $url = ModUtil::url('Content', 'user', 'view',
             array('pid' => $page['id']));
             $url = DataUtil::formatForDisplay($url);
             $html .= "<a href=\"$url\">$page[title]</a>";
