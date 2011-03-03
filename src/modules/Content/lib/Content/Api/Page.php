@@ -145,7 +145,6 @@ LEFT JOIN $userTable usr
             $p = &$pages[$i];
             $p['translated'] = array('title' => $p['translatedTitle']);
             $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array(
-                        'module' => $p['module'],
                         'layout' => $p['layout']));
             $p['layoutTemplate'] = $p['layoutData']['template'];
             $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
@@ -444,10 +443,9 @@ NOT EXISTS (SELECT 1 FROM $pageTable parentPage
         if ($oldPageData === false) {
             return false;
         }
-        list($pageData['module'], $pageData['layout']) = explode(":", $pageData['layout']);
 
         if ($oldPageData['layout'] != $pageData['layout']) {
-            if (!$this->contentUpdateLayout($pageId, $oldPageData['layout'], $pageData['layout'], $oldPageData['module'], $pageData['module'])) {
+            if (!$this->contentUpdateLayout($pageId, $oldPageData['layout'], $pageData['layout'])) {
                 return false;
             }
         }
@@ -473,14 +471,12 @@ NOT EXISTS (SELECT 1 FROM $pageTable parentPage
     }
 
     // Update layout
-    protected function contentUpdateLayout($pageId, $oldLayoutName, $newLayoutName, $oldModule='Content', $newModule='Content')
+    protected function contentUpdateLayout($pageId, $oldLayoutName, $newLayoutName)
     {
         $oldLayout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array(
-            'layout' => $oldLayoutName,
-            'module' => $oldModule));
+            'layout' => $oldLayoutName));
         $newLayout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array(
-            'layout' => $newLayoutName,
-            'module' => $newModule));
+            'layout' => $newLayoutName));
 
         $dbtables = DBUtil::getTables();
         $contentTable = $dbtables['content_content'];

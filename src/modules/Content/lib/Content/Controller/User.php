@@ -117,8 +117,6 @@ class Content_Controller_User extends Zikula_Controller
         PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
 
         $this->view->assign('page', $page);
-        $renderedTemplate = Zikula_View::getInstance($page['module'])->fetch($page['layoutTemplate']);
-        $this->view->assign('renderedTemplate', $renderedTemplate);
         $this->view->assign('preview', $preview);
         $this->view->assign('editmode', $editmode);
         $this->view->assign('multilingual', $multilingual);

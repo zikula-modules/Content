@@ -10,24 +10,24 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_Handler
     public function initialize(Zikula_Form_View $view)
     {
         if (!Content_Util::contentHasPageEditAccess()) {
-            return $view->registerError(LogUtil::registerPermissionError());
+            return $this->view->registerError(LogUtil::registerPermissionError());
         }
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('editing' => true, 'filter' => array('checkActive' => false, 'expandedPageIds' => Content_Util::contentMainEditExpandGet()), 'enableEscape' => true, 'translate' => false, 'includeLanguages' => true,
             'orderBy' => 'setLeft'));
         if ($pages === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         PageUtil::setVar('title', $this->__('Page list and content structure'));
         $csssrc = ThemeUtil::getModuleStylesheet('admin', 'admin.css');
         PageUtil::addVar('stylesheet', $csssrc);
 
-        $view->assign('pages', $pages);
-        $view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
-        $view->assign('enableVersioning', $this->getVar('enableVersioning'));
-        $view->assign('language', ZLanguage::getLanguageCode());
-        Content_Util::contentAddAccess($view, null);
+        $this->view->assign('pages', $pages);
+        $this->view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
+        $this->view->assign('enableVersioning', $this->getVar('enableVersioning'));
+        $this->view->assign('language', ZLanguage::getLanguageCode());
+        Content_Util::contentAddAccess($this->view, null);
 
         return true;
     }
@@ -52,25 +52,25 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_Handler
             
             $ok = ModUtil::apiFunc('Content', 'Page', 'pageDrop', array('srcId' => $srcId, 'dstId' => $dstId));
             if (!$ok) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
         } else if ($args['commandName'] == 'decIndent') {
             $pageId = (int) $args['commandArgument'];
             $ok = ModUtil::apiFunc('Content', 'Page', 'decreaseIndent', array('pageId' => $pageId));
             if (!$ok) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
         } else if ($args['commandName'] == 'incIndent') {
             $pageId = (int) $args['commandArgument'];
             $ok = ModUtil::apiFunc('Content', 'Page', 'increaseIndent', array('pageId' => $pageId));
             if (!$ok) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
         } else if ($args['commandName'] == 'deletePage') {
             $pageId = (int) $args['commandArgument'];
             $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $pageId));
             if ($ok === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
         } else if ($args['commandName'] == 'history') {
             $pageId = (int) $args['commandArgument'];
@@ -79,7 +79,7 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_Handler
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             Content_Util::contentMainEditExpandToggle($pageId);
         }
-        $view->redirect($url);
+        $this->view->redirect($url);
         return true;
     }
 }

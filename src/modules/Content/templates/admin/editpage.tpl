@@ -59,7 +59,7 @@
 
     {formtabbedpanel __title='Content'}
     <p>{gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."}</p>
-    {$renderedEditTemplate}
+    {include file=$layoutTemplate}
     {/formtabbedpanel}
 
     {formtabbedpanel __title='Options'}
@@ -163,7 +163,7 @@
         <legend>{gt text="Page layout"}</legend>
         <div class="z-formrow">
             {formlabel for='layout' __text='Page layout'}
-            {contentlayoutselector id='layout' group='page' selectedValue=$page.module|cat:':'|cat:$page.layout}
+            {contentlayoutselector id='layout' group='page'}
         </div>
         <div class="z-formrow">
             {formlabel for='layout_preview' __text='Layout preview and description'}

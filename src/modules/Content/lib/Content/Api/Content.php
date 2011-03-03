@@ -571,8 +571,7 @@ WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
             return false;
         }
         $layout = ModUtil::apiFunc('Content', 'Layout', 'getLayoutPlugin', array(
-            'layout' => $page['layout'],
-            'module' => $page['module']));
+            'layout' => $page['layout']));
         if ($layout === false) {
             return false;
         }

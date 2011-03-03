@@ -47,24 +47,24 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
 
         $content = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $this->contentId, 'translate' => false));
         if ($content === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         $this->contentType = ModUtil::apiFunc('Content', 'Content', 'getContentType', $content);
         if ($this->contentType === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
-        $this->contentType['plugin']->startEditing($view);
+        $this->contentType['plugin']->startEditing($this->view);
         $this->pageId = $content['pageId'];
 
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
-            return $view->registerError(LogUtil::registerPermissionError());
+            return $this->view->registerError(LogUtil::registerPermissionError());
         }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
         if ($page === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         $multilingual = ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual');
@@ -74,15 +74,15 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
         PageUtil::setVar('title', $this->__("Edit content item") . ' : ' . $page['title']);
 
         $template = 'file:' . getcwd() . "/modules/$content[module]/templates/" . $this->contentType['plugin']->getEditTemplate();
-        $view->assign('contentTypeTemplate', $template);
-        $view->assign('page', $page);
-        $view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only not logged in people'), 'value' => '2')));
-        $view->assign('content', $content);
-        $view->assign('data', $content['data']);
-        $view->assign('contentType', $this->contentType);
-        $view->assign('multilingual', $multilingual);
-        $view->assign('enableVersioning',  $this->getVar('enableVersioning'));
-        Content_Util::contentAddAccess($view, $this->pageId);
+        $this->view->assign('contentTypeTemplate', $template);
+        $this->view->assign('page', $page);
+        $this->view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only not logged in people'), 'value' => '2')));
+        $this->view->assign('content', $content);
+        $this->view->assign('data', $content['data']);
+        $this->view->assign('contentType', $this->contentType);
+        $this->view->assign('multilingual', $multilingual);
+        $this->view->assign('enableVersioning',  $this->getVar('enableVersioning'));
+        Content_Util::contentAddAccess($this->view, $this->pageId);
 
         if (!$this->view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
@@ -102,14 +102,14 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
         $url = null;
 
         if ($args['commandName'] == 'save' || $args['commandName'] == 'translate') {
-            if (!$view->isValid()) {
+            if (!$this->view->isValid()) {
                 return false;
             }
-            $contentData = $view->getValues();
+            $contentData = $this->view->getValues();
 
             $message = null;
             if (!$this->contentType['plugin']->isValid($contentData['data'], $message)) {
-                $errorPlugin = &$view->getPluginById('error');
+                $errorPlugin = &$this->view->getPluginById('error');
                 $errorPlugin->message = $message;
                 return false;
             }
@@ -118,7 +118,7 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
 
             $ok = ModUtil::apiFunc('Content', 'Content', 'updateContent', array('content' => $contentData + $contentData['content'], 'searchableText' => $this->contentType['plugin']->getSearchableText(), 'id' => $this->contentId));
             if ($ok === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
             if ($args['commandName'] == 'translate') {
                 $url = ModUtil::url('Content', 'admin', 'translatecontent', array('cid' => $this->contentId, 'back' => 1));
@@ -126,7 +126,7 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
         } else if ($args['commandName'] == 'delete') {
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteContent', array('contentId' => $this->contentId));
             if ($ok === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
         } else if ($args['commandName'] == 'cancel') {
         }
@@ -139,12 +139,12 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
         }
         ModUtil::apiFunc('PageLock', 'user', 'releaseLock', array('lockName' => "contentContent{$this->contentId}"));
 
-        return $view->redirect($url);
+        return $this->view->redirect($url);
     }
 
     public function handleSomethingChanged(&$view, &$args)
     {
-        $contentData = $view->getValues();
-        $this->contentType['plugin']->handleSomethingChanged($view, $contentData['data']);
+        $contentData = $this->view->getValues();
+        $this->contentType['plugin']->handleSomethingChanged($this->view, $contentData['data']);
     }
 }

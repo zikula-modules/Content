@@ -21,7 +21,6 @@ function content_tables()
         'urlname'       => 'page_urlname',    // URL name for this page
         'nohooks'       => 'page_nohooks',    // page w/o hooks
         'layout'        => 'page_layout',     // Name of page layout
-        'module'        => 'page_module',     // module where layout is retrieved
         'categoryId'    => 'page_categoryid', // Primary category ID
         'views'         => 'page_views',      // # views of page
         'active'        => 'page_active',     // Bool flag: active or not?
@@ -41,7 +40,6 @@ function content_tables()
         'urlname'       => "C(255) NOTNULL DEFAULT ''",
         'nohooks'       => "I1 NOTNULL DEFAULT 0",
         'layout'        => "C(100) NOTNULL",
-        'module'        => "C(100) NOTNULL DEFAULT 'Content'",
         'categoryId'    => "I NOT NULL DEFAULT 0",
         'views'         => "I NOT NULL DEFAULT 0",
         'active'        => "I1 NOTNULL DEFAULT 1",

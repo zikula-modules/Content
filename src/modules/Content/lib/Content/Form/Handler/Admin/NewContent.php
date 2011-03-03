@@ -27,7 +27,7 @@ class Content_Form_Handler_Admin_NewContent extends Zikula_Form_Handler
         if ($this->contentId != null) {
             $content = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $this->contentId));
             if ($content === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
             $this->pageId = $content['pageId'];
             $this->contentAreaIndex = $content['areaIndex'];
@@ -35,26 +35,26 @@ class Content_Form_Handler_Admin_NewContent extends Zikula_Form_Handler
         }
 
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
-            return $view->registerError(LogUtil::registerPermissionError());
+            return $this->view->registerError(LogUtil::registerPermissionError());
         }
         if ($this->pageId == null) {
-            return $view->setErrorMsg($this->__("Missing page ID (pid) in URL"));
+            return $this->view->setErrorMsg($this->__("Missing page ID (pid) in URL"));
         }
 
         if ($this->contentAreaIndex == null) {
-            return $view->setErrorMsg($this->__("Missing content area index (cai) in URL"));
+            return $this->view->setErrorMsg($this->__("Missing content area index (cai) in URL"));
         }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'filter' => array('checkActive' => false)));
         if ($page === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         PageUtil::setVar('title', $this->__("Add new content to page") . ' : ' . $page['title']);
 
-        $view->assign('page', $page);
-        $view->assign('htmlBody', 'admin/newcontent.tpl');
-        Content_Util::contentAddAccess($view, $this->pageId);
+        $this->view->assign('page', $page);
+        $this->view->assign('htmlBody', 'admin/newcontent.tpl');
+        Content_Util::contentAddAccess($this->view, $this->pageId);
 
         return true;
     }
@@ -62,11 +62,11 @@ class Content_Form_Handler_Admin_NewContent extends Zikula_Form_Handler
     public function handleCommand(Zikula_Form_View $view, &$args)
     {
         if ($args['commandName'] == 'create') {
-            if (!$view->isValid()) {
+            if (!$this->view->isValid()) {
                 return false;
             }
 
-            $contentData = $view->getValues();
+            $contentData = $this->view->getValues();
             list ($module, $type) = explode(':', $contentData['contentType']);
             $contentData['module'] = $module;
             $contentData['type'] = $type;
@@ -75,7 +75,7 @@ class Content_Form_Handler_Admin_NewContent extends Zikula_Form_Handler
 
             $id = ModUtil::apiFunc('Content', 'Content', 'newContent', array('content' => $contentData, 'pageId' => $this->pageId, 'contentAreaIndex' => $this->contentAreaIndex, 'position' => $this->position));
             if ($id === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
 
             $url = ModUtil::url('Content', 'admin', 'editcontent', array('cid' => $id));
@@ -84,6 +84,6 @@ class Content_Form_Handler_Admin_NewContent extends Zikula_Form_Handler
             $url = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $this->pageId));
         }
 
-        return $view->redirect($url);
+        return $this->view->redirect($url);
     }
 }

@@ -21,17 +21,17 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
                                       'language' => $this->language,
                                       'translate' => false));
         if ($content === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         $this->contentType = ModUtil::apiFunc('Content', 'Content', 'getContentType', $content);
         if ($this->contentType === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
         $this->pageId = $content['pageId'];
 
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
-            return $view->registerError(LogUtil::registerPermissionError());
+            return $this->view->registerError(LogUtil::registerPermissionError());
         }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage',
@@ -39,7 +39,7 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
                                    'includeContent' => false,
                                    'filter' => array('checkActive' => false)));
         if ($page === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         if ($this->language == $page['language']) {
@@ -48,7 +48,7 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
 
         $translationInfo = ModUtil::apiFunc('Content', 'Content', 'getTranslationInfo', array('contentId' => $this->contentId));
         if ($translationInfo === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         PageUtil::setVar('title', $this->__("Translate content item") . ' : ' . $page['title']);
@@ -56,19 +56,19 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
         $templates = $this->contentType['plugin']->getTranslationTemplates();
         $templateOriginal = 'file:' . getcwd() . "/modules/$content[module]/templates/" . $templates['original'];
         $templateNew = 'file:' . getcwd() . "/modules/$content[module]/templates/" . $templates['new'];
-        $view->assign('translateOriginalTemplate', $templateOriginal);
-        $view->assign('translateNewTemplate', $templateNew);
-        $view->assign('page', $page);
-        $view->assign('data', $content['data']);
-        $view->assign('isTranslatable', $content['isTranslatable']);
-        $view->assign('translated', $content['translated']);
-        $view->assign('translationInfo', $translationInfo);
-        $view->assign('translationStep', $this->contentId);
-        $view->assign('language', $this->language);
-        $view->assign('contentType', $this->contentType);
-        Content_Util::contentAddAccess($view, $this->pageId);
+        $this->view->assign('translateOriginalTemplate', $templateOriginal);
+        $this->view->assign('translateNewTemplate', $templateNew);
+        $this->view->assign('page', $page);
+        $this->view->assign('data', $content['data']);
+        $this->view->assign('isTranslatable', $content['isTranslatable']);
+        $this->view->assign('translated', $content['translated']);
+        $this->view->assign('translationInfo', $translationInfo);
+        $this->view->assign('translationStep', $this->contentId);
+        $this->view->assign('language', $this->language);
+        $this->view->assign('contentType', $this->contentType);
+        Content_Util::contentAddAccess($this->view, $this->pageId);
 
-        if (!$view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
+        if (!$this->view->isPostBack() && FormUtil::getPassedValue('back', 0)) {
             $this->backref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
         }
         if ($this->backref != null) {
@@ -87,18 +87,18 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
 
         $translationInfo = ModUtil::apiFunc('Content', 'Content', 'getTranslationInfo', array('contentId' => $this->contentId));
         if ($translationInfo === false) {
-            return $view->registerError(null);
+            return $this->view->registerError(null);
         }
 
         if ($args['commandName'] == 'next' || $args['commandName'] == 'prev' || $args['commandName'] == 'quit' || $args['commandName'] == null /* Auto postback */) {
-            if (!$view->isValid()) {
+            if (!$this->view->isValid()) {
                 return false;
             }
-            $contentData = $view->getValues();
+            $contentData = $this->view->getValues();
 
             $ok = ModUtil::apiFunc('Content', 'Content', 'updateTranslation', array('translated' => $contentData['translated'], 'contentId' => $this->contentId, 'language' => $this->language));
             if ($ok === false) {
-                return $view->registerError(null);
+                return $this->view->registerError(null);
             }
             if ($args['commandName'] == null) {
                 $url = ModUtil::url('Content', 'admin', 'translatecontent', array('cid' => $contentData['translationStep']));
@@ -116,7 +116,7 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
         } else if ($args['commandName'] == 'delete') {
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteTranslation', array('contentId' => $this->contentId, 'language' => $this->language));
             if ($ok === false)
-                return $view->registerError(null);
+                return $this->view->registerError(null);
         }
 
         if ($url == null) {
@@ -127,6 +127,6 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
         }
         ModUtil::apiFunc('PageLock', 'User', 'releaseLock', array('lockName' => "contentTranslateContent{$this->contentId}"));
 
-        return $view->redirect($url);
+        return $this->view->redirect($url);
     }
 }
