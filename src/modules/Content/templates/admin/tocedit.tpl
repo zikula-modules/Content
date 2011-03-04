@@ -17,7 +17,7 @@
 {modurl modname='Content' type=admin func=translatePage pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
 
 {formcontextmenu id="contentTocMenu" width="auto"}
-{formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.png" commandName="edit"}
+{formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.png" commandName="editPage"}
 {formcontextmenuitem __title='Preview' imageURL="images/icons/extrasmall/14_layer_visible.png" commandScript="content.popupPreviewWindow(commandArgument)"}
 {formcontextmenuseparator}
 {if $access.pageCreateAllowed}
