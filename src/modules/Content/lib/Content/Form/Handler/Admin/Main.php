@@ -36,8 +36,8 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_Handler
     {
         $url = ModUtil::url('Content', 'admin', 'main');
 
-        if ($args['commandName'] == 'edit') {
-            $url = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $args['commandArgument']));
+        if ($args['commandName'] == 'editPage') {
+            $url = ModUtil::url('Content', 'admin', 'editPage', array('pid' => $args['commandArgument']));
         } else if ($args['commandName'] == 'newSubPage') {
             $url = ModUtil::url('Content', 'admin', 'newPage', array('pid' => $args['commandArgument'], 'loc' => 'sub'));
         } else if ($args['commandName'] == 'newPage') {
