@@ -82,6 +82,9 @@ with
   - Change your property declarations from 'var' to 'protected' unless
     specifically required. Make all your methods 'public'.
 
+  - Check your method arguments against the base class to be sure that the
+    declarations are consistent to avoid E_STRICT warnings.
+
   - Remove the function at the bottom of your plugin file that instantiates the
     class. This is no longer required.
 
