@@ -113,19 +113,19 @@ class Content_Api_Page extends Zikula_Api
         $ca[] = 'uname';
 
         $sql = "
-SELECT DISTINCT
-                $cols,
-                $translatedColumn[title],
-                $userColumn[uname]
-FROM $pageTable
-LEFT JOIN $translatedTable t
-     ON     t.$translatedColumn[pageId] = $pageColumn[id]
-        AND t.$translatedColumn[language] = '$language'
-LEFT JOIN $userTable usr
-     ON usr.$userColumn[uid] = $pageColumn[lu_uid]
-                $join
-                $where
-                $orderBy";
+            SELECT DISTINCT
+            $cols,
+            $translatedColumn[title],
+            $userColumn[uname]
+            FROM $pageTable
+            LEFT JOIN $translatedTable t
+            ON t.$translatedColumn[pageId] = $pageColumn[id]
+            AND t.$translatedColumn[language] = '$language'
+            LEFT JOIN $userTable usr
+            ON usr.$userColumn[uid] = $pageColumn[lu_uid]
+            $join
+            $where
+            $orderBy";
 
         if ($pageSize > 0) {
             $dbresult = DBUtil::executeSQL($sql, $pageSize * $pageIndex, $pageSize);
@@ -228,10 +228,10 @@ LEFT JOIN $userTable usr
             $where = '';
         }
         $sql = "
-SELECT COUNT(*)
-FROM $pageTable
-                $join
-                $where";
+            SELECT COUNT(*)
+            FROM $pageTable
+            $join
+            $where";
 
         $count = DBUtil::selectScalar($sql);
 
@@ -305,11 +305,10 @@ FROM $pageTable
             }
 
             // Only select pages that do not have a collapsed (not expanded) page above it
-            $restriction = "
-NOT EXISTS (SELECT 1 FROM $pageTable parentPage
-            WHERE     parentPage.$pageColumn[setLeft] < $pageTable.$pageColumn[setLeft]
-                  AND $pageTable.$pageColumn[setRight] < parentPage.$pageColumn[setRight]
-                  AND parentPage.$pageColumn[id] NOT IN ($pageIdStr))";
+            $restriction = "NOT EXISTS (SELECT 1 FROM $pageTable parentPage
+                WHERE parentPage.$pageColumn[setLeft] < $pageTable.$pageColumn[setLeft]
+                AND $pageTable.$pageColumn[setRight] < parentPage.$pageColumn[setRight]
+                AND parentPage.$pageColumn[id] NOT IN ($pageIdStr))";
 
             // MySQL 4.x users should remove the line below
             $restrictions[] = $restriction;
@@ -484,23 +483,21 @@ NOT EXISTS (SELECT 1 FROM $pageTable parentPage
 
         for ($i = $newLayout->getNumberOfContentAreas(); $i < $oldLayout->getNumberOfContentAreas(); ++$i) {
             $sql = "
-SELECT MAX($contentColumn[position])
-FROM $contentTable
-WHERE $contentColumn[pageId] = $pageId
-      AND $contentColumn[areaIndex] = " . ($newLayout->getNumberOfContentAreas() - 1);
+                SELECT MAX($contentColumn[position])
+                FROM $contentTable
+                WHERE $contentColumn[pageId] = $pageId
+                AND $contentColumn[areaIndex] = " . ($newLayout->getNumberOfContentAreas() - 1);
 
             $maxPos = DBUtil::selectScalar($sql);
             if ($maxPos == null) {
                 $maxPos = -1;
             }
             $sql = "
-UPDATE $contentTable SET
-                    $contentColumn[areaIndex] = " . ($newLayout->getNumberOfContentAreas() - 1) . ",
-                    $contentColumn[position] = $contentColumn[position] + $maxPos + 1
-WHERE $contentColumn[pageId] = $pageId
-      AND $contentColumn[areaIndex] = $i";
-            //echo "UPDATE: $sql\n ";
-
+                UPDATE $contentTable SET
+                $contentColumn[areaIndex] = " . ($newLayout->getNumberOfContentAreas() - 1) . ",
+                $contentColumn[position] = $contentColumn[position] + $maxPos + 1
+                WHERE $contentColumn[pageId] = $pageId
+                AND $contentColumn[areaIndex] = $i";
 
             DBUtil::executeSQL($sql);
         }
@@ -525,10 +522,9 @@ WHERE $contentColumn[pageId] = $pageId
             foreach ($pageData['categories'] as $categoryId) {
                 $categoryId = (int) $categoryId;
                 $sql = "
-INSERT INTO $pageCategoryTable
-  ($pageCategoryColumn[pageId], $pageCategoryColumn[categoryId])
-VALUES
-  ($pageId, $categoryId)";
+                    INSERT INTO $pageCategoryTable
+                    ($pageCategoryColumn[pageId], $pageCategoryColumn[categoryId])
+                    VALUES ($pageId, $categoryId)";
 
                 DBUtil::executeSQL($sql);
             }
@@ -545,8 +541,8 @@ VALUES
         $pageId = (int) $pageId;
 
         $sql = "
-DELETE FROM $pageCategoryTable
-WHERE $pageCategoryColumn[pageId] = $pageId";
+            DELETE FROM $pageCategoryTable
+            WHERE $pageCategoryColumn[pageId] = $pageId";
 
         DBUtil::executeSQL($sql);
 
@@ -561,9 +557,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageId = (int) $pageId;
 
         $sql = "
-SELECT $pageCategoryColumn[categoryId]
-FROM $pageCategoryTable
-WHERE $pageCategoryColumn[pageId] = $pageId";
+            SELECT $pageCategoryColumn[categoryId]
+            FROM $pageCategoryTable
+            WHERE $pageCategoryColumn[pageId] = $pageId";
 
         $result = DBUtil::executeSQL($sql);
         $objectArray = DBUtil::marshallObjects($result);
@@ -849,9 +845,9 @@ WHERE $pageCategoryColumn[pageId] = $pageId";
         $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
-SELECT MAX($pageColumn[position])
-FROM $pageTable
-WHERE $pageColumn[parentPageId] = $pageId";
+            SELECT MAX($pageColumn[position])
+            FROM $pageTable
+            WHERE $pageColumn[parentPageId] = $pageId";
 
         $pos = DBUtil::selectScalar($sql);
         return $pos === null ? -1 : (int) $pos;
@@ -866,11 +862,11 @@ WHERE $pageColumn[parentPageId] = $pageId";
         $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
-SELECT MAX(page.$pageColumn[position])
-FROM $pageTable page
-JOIN $pageTable orgPage
-     ON orgPage.$pageColumn[id] = $pageId
-WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
+            SELECT MAX(page.$pageColumn[position])
+            FROM $pageTable page
+            JOIN $pageTable orgPage
+            ON orgPage.$pageColumn[id] = $pageId
+            WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
 
         $pos = DBUtil::selectScalar($sql);
         return $pos === null ? -1 : (int) $pos;
@@ -914,8 +910,8 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
 
         $sql = "UPDATE $pageTable
           SET $pageColumn[setLeft] = $left,
-                $pageColumn[setRight] = $right,
-                $pageColumn[level] = $level
+          $pageColumn[setRight] = $right,
+          $pageColumn[level] = $level
           WHERE $pageColumn[id] = $pageId";
 
         DBUtil::executeSQL($sql);
@@ -1037,9 +1033,9 @@ WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
 
         // Find new position (last in existing sub-pages)
         $sql = "
-SELECT MAX($pageColumn[position])
-FROM $pageTable
-WHERE $pageColumn[parentPageId] = $previousPage[id]";
+            SELECT MAX($pageColumn[position])
+            FROM $pageTable
+            WHERE $pageColumn[parentPageId] = $previousPage[id]";
 
         $newPosition = DBUtil::selectScalar($sql);
         if ($newPosition == null) {
@@ -1071,10 +1067,10 @@ WHERE $pageColumn[parentPageId] = $previousPage[id]";
         $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
-UPDATE $pageTable
-SET $pageColumn[position] = $pageColumn[position]-1
-WHERE     $pageColumn[parentPageId] = $pageData[parentPageId]
-      AND $pageColumn[position] > $pageData[position]";
+            UPDATE $pageTable
+            SET $pageColumn[position] = $pageColumn[position]-1
+            WHERE $pageColumn[parentPageId] = $pageData[parentPageId]
+            AND $pageColumn[position] > $pageData[position]";
 
         DBUtil::executeSQL($sql);
 
@@ -1083,10 +1079,10 @@ WHERE     $pageColumn[parentPageId] = $pageData[parentPageId]
         //echo "diff=$diff. ";
         //var_dump($pageData);
         $sql = "
-UPDATE $pageTable SET
-                $pageColumn[setLeft] = $pageColumn[setLeft]-$diff,
-                $pageColumn[setRight] = $pageColumn[setRight]-$diff
-WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
+            UPDATE $pageTable SET
+            $pageColumn[setLeft] = $pageColumn[setLeft]-$diff,
+            $pageColumn[setRight] = $pageColumn[setRight]-$diff
+            WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
 
         DBUtil::executeSQL($sql);
 
@@ -1094,16 +1090,16 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $diff = $pageData['setRight'] - $pageData['setLeft'] + 1;
 
         $sql = "
-UPDATE $pageTable SET
-                $pageColumn[setLeft] = $pageColumn[setLeft]-$diff
-WHERE $pageColumn[setLeft] > $pageData[setRight]";
+            UPDATE $pageTable SET
+            $pageColumn[setLeft] = $pageColumn[setLeft]-$diff
+            WHERE $pageColumn[setLeft] > $pageData[setRight]";
 
         DBUtil::executeSQL($sql);
 
         $sql = "
-UPDATE $pageTable SET
-                $pageColumn[setRight] = $pageColumn[setRight]-$diff
-WHERE $pageColumn[setRight] > $pageData[setRight]";
+            UPDATE $pageTable SET
+            $pageColumn[setRight] = $pageColumn[setRight]-$diff
+            WHERE $pageColumn[setRight] > $pageData[setRight]";
 
         DBUtil::executeSQL($sql);
 
@@ -1122,10 +1118,10 @@ WHERE $pageColumn[setRight] > $pageData[setRight]";
         $pageColumn = $dbtables['content_page_column'];
 
         $sql = "
-UPDATE $pageTable
-SET $pageColumn[position] = $pageColumn[position]+1
-WHERE     $pageColumn[parentPageId] = $parentPageId
-      AND $pageColumn[position] >= $position";
+            UPDATE $pageTable
+            SET $pageColumn[position] = $pageColumn[position]+1
+            WHERE $pageColumn[parentPageId] = $parentPageId
+            AND $pageColumn[position] >= $position";
 
         DBUtil::executeSQL($sql);
 
@@ -1142,12 +1138,11 @@ WHERE     $pageColumn[parentPageId] = $parentPageId
 
         // Fetch largest left/right value left of this page's new position
         $sql = "
-SELECT MAX($pageColumn[setRight])
-FROM $pageTable
-WHERE     $pageColumn[parentPageId] = $parentPageId
-      AND $pageColumn[position] < $position
-      AND $pageColumn[id] != $pageId
-                ";
+            SELECT MAX($pageColumn[setRight])
+            FROM $pageTable
+            WHERE $pageColumn[parentPageId] = $parentPageId
+            AND $pageColumn[position] < $position
+            AND $pageColumn[id] != $pageId";
 
         $maxLeftOfthis = DBUtil::selectScalar($sql);
         if (empty($maxLeftOfthis)) {
@@ -1156,21 +1151,18 @@ WHERE     $pageColumn[parentPageId] = $parentPageId
         if ($parentPageData != null && $parentPageData['setLeft'] > $maxLeftOfthis) {
             $maxLeftOfthis = $parentPageData['setLeft'];
         }
-        //echo "maxLeftOfthis=$maxLeftOfthis. ";
         $diff = $pageData['setRight'] - $pageData['setLeft'] + 1;
-        //var_dump($pageData);
-        //echo "diff=$diff. ";
         $sql = "
-UPDATE $pageTable SET
-                $pageColumn[setRight] = $pageColumn[setRight]+$diff
-WHERE $pageColumn[setRight] > $maxLeftOfthis AND $pageColumn[id] != $pageId";
+            UPDATE $pageTable SET
+            $pageColumn[setRight] = $pageColumn[setRight]+$diff
+            WHERE $pageColumn[setRight] > $maxLeftOfthis AND $pageColumn[id] != $pageId";
 
         DBUtil::executeSQL($sql);
 
         $sql = "
-UPDATE $pageTable SET
-                $pageColumn[setLeft] = $pageColumn[setLeft]+$diff
-WHERE $pageColumn[setLeft] > $maxLeftOfthis AND $pageColumn[id] != $pageId";
+            UPDATE $pageTable SET
+            $pageColumn[setLeft] = $pageColumn[setLeft]+$diff
+            WHERE $pageColumn[setLeft] > $maxLeftOfthis AND $pageColumn[id] != $pageId";
 
         DBUtil::executeSQL($sql);
 
@@ -1179,11 +1171,11 @@ WHERE $pageColumn[setLeft] > $maxLeftOfthis AND $pageColumn[id] != $pageId";
         $diff2 = $pageData['setLeft'] - $maxLeftOfthis - 1;
         //echo "diff2=$diff2. ";
         $sql = "
-UPDATE $pageTable SET
-                $pageColumn[setLeft] = $pageColumn[setLeft]-$diff2,
-                $pageColumn[setRight] = $pageColumn[setRight]-$diff2,
-                $pageColumn[level] = $pageColumn[level]-$levelDiff
-WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
+            UPDATE $pageTable SET
+            $pageColumn[setLeft] = $pageColumn[setLeft]-$diff2,
+            $pageColumn[setRight] = $pageColumn[setRight]-$diff2,
+            $pageColumn[level] = $pageColumn[level]-$levelDiff
+            WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
 
         DBUtil::executeSQL($sql);
 
@@ -1274,12 +1266,12 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $pageColumn = $dbtables['content_page_column'];
 
         $sql = "SELECT parentPage.$pageColumn[urlname]
-          FROM $pageTable parentPage
-          LEFT OUTER JOIN $pageTable page
-               ON     page.$pageColumn[setLeft] >= parentPage.$pageColumn[setLeft]
-                  AND page.$pageColumn[setRight] <= parentPage.$pageColumn[setRight]
-          WHERE page.$pageColumn[id] = $pageId
-          ORDER BY parentPage.$pageColumn[setLeft]";
+            FROM $pageTable parentPage
+            LEFT OUTER JOIN $pageTable page
+            ON page.$pageColumn[setLeft] >= parentPage.$pageColumn[setLeft]
+            AND page.$pageColumn[setRight] <= parentPage.$pageColumn[setRight]
+            WHERE page.$pageColumn[id] = $pageId
+            ORDER BY parentPage.$pageColumn[setLeft]";
 
         $result = DBUtil::executeSQL($sql);
 
@@ -1337,9 +1329,9 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
 
         $lastelement = $count - 1;
         $sql = "SELECT tbl$lastelement.$pageColumn[id]
-          FROM $tablesql
-          WHERE tbl0.$pageColumn[parentPageId] = 0
-          AND $parentsql";
+            FROM $tablesql
+            WHERE tbl0.$pageColumn[parentPageId] = 0
+            AND $parentsql";
 
         $result = DBUtil::executeSQL($sql);
         $objectArray = DBUtil::marshallObjects($result);
@@ -1363,13 +1355,13 @@ WHERE $pageData[setLeft] <= $pageColumn[setLeft] AND $pageColumn[setRight] <= $p
         $pageColumn = $dbtables['content_page_column'];
 
         $sql = "SELECT parentPage.$pageColumn[id],
-                 parentPage.$pageColumn[title]
-          FROM $pageTable parentPage
-          LEFT OUTER JOIN $pageTable page
-               ON     page.$pageColumn[setLeft] >= parentPage.$pageColumn[setLeft]
-                  AND page.$pageColumn[setRight] <= parentPage.$pageColumn[setRight]
-          WHERE page.$pageColumn[id] = $pageId
-          ORDER BY parentPage.$pageColumn[setLeft]";
+            parentPage.$pageColumn[title]
+            FROM $pageTable parentPage
+            LEFT OUTER JOIN $pageTable page
+            ON page.$pageColumn[setLeft] >= parentPage.$pageColumn[setLeft]
+            AND page.$pageColumn[setRight] <= parentPage.$pageColumn[setRight]
+            WHERE page.$pageColumn[id] = $pageId
+            ORDER BY parentPage.$pageColumn[setLeft]";
 
         $result = DBUtil::executeSQL($sql);
         if (!$result) {

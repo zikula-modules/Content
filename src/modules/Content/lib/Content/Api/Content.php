@@ -41,7 +41,7 @@ class Content_Api_Content extends Zikula_Api
         $content = array();
         foreach ($contentList as $c) {
             $c['title'] = $c['plugin']->getTitle();
-            $c['isTranslatable'] = $c['plugin']->isTranslatable();
+            $c['isTranslatable'] = $c['plugin']->isTranslatable(); // dup line 135?
             $output = '';
             if ($expandContent) {
                 $output = $c['plugin']->displayStart();
@@ -99,13 +99,13 @@ class Content_Api_Content extends Zikula_Api
         $ca[] = 'translated';
 
         $sql = "
-SELECT $cols,
+            SELECT $cols,
                 $translatedColumn[data] AS translated
-FROM $contentTable c
-LEFT JOIN $translatedTable t
-     ON     t.$translatedColumn[contentId] = $contentColumn[id]
-        AND t.$translatedColumn[language] = '$language'
-WHERE $restriction";
+            FROM $contentTable c
+            LEFT JOIN $translatedTable t
+            ON t.$translatedColumn[contentId] = $contentColumn[id]
+            AND t.$translatedColumn[language] = '$language'
+            WHERE $restriction";
 
         if (empty($orderBy)) {
             $orderBy = "$contentColumn[areaIndex], $contentColumn[position]";
@@ -132,7 +132,7 @@ WHERE $restriction";
                 return LogUtil::registerError($this->__("Error! Can't load content plugin"));
             }
             $content[$i]['plugin'] = $contentPlugin;
-            $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable();
+            $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable(); // dup line 44?
         }
 
         return $content;
@@ -150,14 +150,14 @@ WHERE $restriction";
 
         // Fetch all content items that belongs to page X or any of it's sub pages
         $sql = "
-SELECT co.*
-FROM $pageTable page
-JOIN $pageTable subPage
-     ON     subPage.$pageColumn[setLeft] >= page.$pageColumn[setLeft]
-        AND subPage.$pageColumn[setRight] <= page.$pageColumn[setRight]
-JOIN $contentTable co
-     ON co.$contentColumn[pageId] = subPage.$pageColumn[id]
-WHERE page.$pageColumn[id] = $pageId";
+            SELECT co.*
+            FROM $pageTable page
+            JOIN $pageTable subPage
+            ON subPage.$pageColumn[setLeft] >= page.$pageColumn[setLeft]
+            AND subPage.$pageColumn[setRight] <= page.$pageColumn[setRight]
+            JOIN $contentTable co
+            ON co.$contentColumn[pageId] = subPage.$pageColumn[id]
+            WHERE page.$pageColumn[id] = $pageId";
 
         $dbresult = DBUtil::executeSQL($sql);
 
@@ -227,9 +227,9 @@ WHERE page.$pageColumn[id] = $pageId";
         $contentColumn = $table['content_content_column'];
 
         $sql = "
-SELECT MAX($contentColumn[position])
-FROM $contentTable
-WHERE $contentColumn[pageId] = $pageId";
+            SELECT MAX($contentColumn[position])
+            FROM $contentTable
+            WHERE $contentColumn[pageId] = $pageId";
 
         $pos = DBUtil::selectScalar($sql);
         return $pos === null ? -1 : (int) $pos;
@@ -334,10 +334,8 @@ WHERE $contentColumn[pageId] = $pageId";
         DBUtil::executeSQL($sql);
 
         $sql = "
-INSERT INTO $searchTable
-  ($searchColumn[contentId], $searchColumn[text])
-VALUES
-  ($contentId, '" . DataUtil::formatForStore($text) . "')";
+            INSERT INTO $searchTable ($searchColumn[contentId], $searchColumn[text])
+            VALUES ($contentId, '" . DataUtil::formatForStore($text) . "')";
         DBUtil::executeSQL($sql);
 
         return true;
@@ -534,11 +532,11 @@ VALUES
             $restriction = '';
         }
         $sql = "
-DELETE t
-FROM $translatedTable t, $contentTable c
-WHERE     t.$translatedColumn[contentId] = c.$contentColumn[id]
-                $restriction
-      AND c.$contentColumn[pageId] = $pageId";
+            DELETE t
+            FROM $translatedTable t, $contentTable c
+            WHERE t.$translatedColumn[contentId] = c.$contentColumn[id]
+            $restriction
+            AND c.$contentColumn[pageId] = $pageId";
 
         $dbresult = DBUtil::executeSQL($sql);
 
@@ -730,11 +728,11 @@ WHERE     $contentColumn[pageId] = $pageId
         $contentColumn = $table['content_content_column'];
 
         $sql = "
-UPDATE $contentTable
-SET $contentColumn[position] = $contentColumn[position]+1
-WHERE     $contentColumn[pageId] = $pageId
-      AND $contentColumn[areaIndex] = $contentAreaIndex
-      AND $contentColumn[position] >= $position";
+            UPDATE $contentTable
+            SET $contentColumn[position] = $contentColumn[position]+1
+            WHERE $contentColumn[pageId] = $pageId
+            AND $contentColumn[areaIndex] = $contentAreaIndex
+            AND $contentColumn[position] >= $position";
 
         DBUtil::executeSQL($sql);
 
