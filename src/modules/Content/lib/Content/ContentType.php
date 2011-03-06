@@ -305,6 +305,9 @@ class Content_ContentType extends Content_Type
 
     /**
      * return the default view template name as a string
+     * in view mode, the $view instance is a regular Zikula_View and therefore,
+     * it can be assumed that it is being called from the 'owner' module
+     * 
      * @return string
      */
     public function getTemplate()
@@ -320,22 +323,29 @@ class Content_ContentType extends Content_Type
 
     /**
      * return the default edit template name as a string
+     * in editing mode the $view instance is a Zikula_Form_View and could be
+     * called from within Content or within the 'owner' module
+     *
      * @return string
      */
     public function getEditTemplate()
     {
+        $blanktemplate = "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl";
         if ($this->view->moduleName == $this->modname) {
             $template = 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
+            if (!$this->view->template_exists($template)) {
+                $template = $blanktemplate;
+            }
         } else {
-            $template = "file:" . getcwd() . "/modules/" . $this->modname . "/templates/contenttype/" . strtolower($this->getName()) . '_edit.tpl';
+            $filepath = getcwd() . "/modules/" . $this->modname . "/templates/contenttype/" . strtolower($this->getName()) . '_edit.tpl';
+            if (file_exists($filepath)) {
+                $template = "file:" . $filepath;
+            } else {
+                $template = $blanktemplate;
+            }
         }
-
-//        if ($this->view->template_exists($template)) {
+    
         return $template;
-//        } else {
-//            // assume within the Content module
-//            return 'contenttype/blank.tpl';
-//        }
     }
 
     /**
