@@ -17,8 +17,9 @@ class Content_Api_Content extends Zikula_Api
         $id = (int) $args['id'];
         $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
+        $view = isset($args['view']) ? $args['view'] : null;
 
-        $content = $this->contentGetContent('content', $id, true, $language, $translate);
+        $content = $this->contentGetContent('content', $id, true, $language, $translate, null, $view);
         if ($content === false) {
             return false;
         }
@@ -73,7 +74,7 @@ class Content_Api_Content extends Zikula_Api
         return $content;
     }
 
-    protected function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy = null)
+    protected function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy = null, $view = null)
     {
         $id = (int) $id;
 
@@ -99,8 +100,7 @@ class Content_Api_Content extends Zikula_Api
         $ca[] = 'translated';
 
         $sql = "
-            SELECT $cols,
-                $translatedColumn[data] AS translated
+            SELECT $cols, $translatedColumn[data] AS translated
             FROM $contentTable c
             LEFT JOIN $translatedTable t
             ON t.$translatedColumn[contentId] = $contentColumn[id]
@@ -127,7 +127,7 @@ class Content_Api_Content extends Zikula_Api
                 }
             }
 
-            $contentPlugin = $this->getContentPlugin($c);
+            $contentPlugin = $this->getContentPlugin($c, $view);
             if ($contentPlugin === false) {
                 return LogUtil::registerError($this->__("Error! Can't load content plugin"));
             }
@@ -631,11 +631,11 @@ class Content_Api_Content extends Zikula_Api
         $ca = DBUtil::getColumnsArray('content_translatedcontent');
 
         $sql = "
-SELECT $cols
-FROM $translatedTable t
-LEFT JOIN $contentTable c
-     ON c.$contentColumn[id] = t.$translatedColumn[contentId]
-WHERE c.$contentColumn[pageId] = $pageId";
+            SELECT $cols
+            FROM $translatedTable t
+            LEFT JOIN $contentTable c
+            ON c.$contentColumn[id] = t.$translatedColumn[contentId]
+            WHERE c.$contentColumn[pageId] = $pageId";
 
         $dbresult = DBUtil::executeSQL($sql);
 
@@ -688,11 +688,11 @@ WHERE c.$contentColumn[pageId] = $pageId";
         $contentColumn = $table['content_content_column'];
 
         $sql = "
-UPDATE $contentTable
-SET $contentColumn[position] = $contentColumn[position]-1
-WHERE     $contentColumn[pageId] = $pageId
-      AND $contentColumn[areaIndex] = $contentAreaIndex
-      AND $contentColumn[position] > $position";
+            UPDATE $contentTable
+            SET $contentColumn[position] = $contentColumn[position]-1
+            WHERE $contentColumn[pageId] = $pageId
+            AND $contentColumn[areaIndex] = $contentAreaIndex
+            AND $contentColumn[position] > $position";
 
         DBUtil::executeSQL($sql);
 
@@ -764,10 +764,16 @@ WHERE     $contentColumn[pageId] = $pageId
         return $contentTypes;
     }
 
-    public function getContentPlugin($args)
+    // the passed $view argument is a Zikula_Form_View passed from the EditContent Form Handler
+    public function getContentPlugin($args, $view = null)
     {
         $classname = $args['module'] . "_ContentType_" . $args['type'];
-        $view = Zikula_View::getInstance($args['module']);
+        $type = FormUtil::getPassedValue('type', 'user');
+        if ($type == 'user') {
+            $view = Zikula_View::getInstance($args['module']);
+        } elseif ($type == 'admin' && $view == null) {
+            $view = new Zikula_Form_View($this->getServiceManager(), $args['module']);
+        }
         $plugin = new $classname($view);
         if (empty($plugin)) {
             if (!ModUtil::available($args['module'])) {

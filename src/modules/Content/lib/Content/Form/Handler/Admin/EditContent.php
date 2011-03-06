@@ -5,6 +5,7 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
     protected $contentId;
     protected $pageId;
     protected $backref;
+    protected $contentType;
 
     public function __construct($args)
     {
@@ -45,17 +46,27 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
     {
         $this->contentId = (int) FormUtil::getPassedValue('cid', isset($this->args['cid']) ? $this->args['cid'] : -1);
 
-        $content = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $this->contentId, 'translate' => false));
+        $content = ModUtil::apiFunc('Content', 'Content', 'getContent', array(
+            'id' => $this->contentId,
+            'translate' => false,
+            'view' => $this->view));
         if ($content === false) {
             return $this->view->registerError(null);
         }
 
-        $this->contentType = ModUtil::apiFunc('Content', 'Content', 'getContentType', $content);
+        $this->contentType['plugin'] = $content['plugin'];
+        $this->contentType['module'] = $content['plugin']->getModule();
+        $this->contentType['name'] = $content['plugin']->getName();
+        $this->contentType['title'] = $content['plugin']->getTitle();
+        $this->contentType['description'] = $content['plugin']->getDescription();
+        $this->contentType['adminInfo'] = $content['plugin']->getAdminInfo();
+        $this->contentType['isActive'] = $content['plugin']->isActive();
+
         if ($this->contentType === false) {
             return $this->view->registerError(null);
         }
 
-        $this->contentType['plugin']->startEditing($this->view);
+        $this->contentType['plugin']->startEditing();
         $this->pageId = $content['pageId'];
 
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
@@ -73,8 +84,8 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
 
         PageUtil::setVar('title', $this->__("Edit content item") . ' : ' . $page['title']);
 
-        $template = 'file:' . getcwd() . "/modules/$content[module]/templates/" . $this->contentType['plugin']->getEditTemplate();
-        $this->view->assign('contentTypeTemplate', $template);
+        $this->view->assign('contentTypeTemplate', $this->contentType['plugin']->getEditTemplate());
+
         $this->view->assign('page', $page);
         $this->view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only not logged in people'), 'value' => '2')));
         $this->view->assign('content', $content);

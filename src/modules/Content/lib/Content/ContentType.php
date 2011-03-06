@@ -324,13 +324,18 @@ class Content_ContentType extends Content_Type
      */
     public function getEditTemplate()
     {
-        $template = 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
-
-        if ($this->view->template_exists($template)) {
-            return $template;
+        if ($this->view->moduleName == $this->modname) {
+            $template = 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
         } else {
-            return 'contenttype/blank.tpl';
+            $template = "file:" . getcwd() . "/modules/" . $this->modname . "/templates/contenttype/" . strtolower($this->getName()) . '_edit.tpl';
         }
+
+//        if ($this->view->template_exists($template)) {
+        return $template;
+//        } else {
+//            // assume within the Content module
+//            return 'contenttype/blank.tpl';
+//        }
     }
 
     /**
