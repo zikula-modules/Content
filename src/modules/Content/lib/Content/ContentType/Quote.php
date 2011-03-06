@@ -10,7 +10,6 @@
 class Content_ContentType_Quote extends Content_ContentType
 {
     protected $text;
-    protected $inputType;
 
     public function getText()
     {
@@ -21,17 +20,6 @@ class Content_ContentType_Quote extends Content_ContentType
     {
         $this->text = $text;
     }
-
-    public function getInputType()
-    {
-        return $this->inputType;
-    }
-
-    public function setInputType($inputType)
-    {
-        $this->inputType = $inputType;
-    }
-
     function getTitle()
     {
         return $this->__('Quote');

@@ -9,7 +9,6 @@ class Content_ContentType_Block extends Content_ContentType
 {
     protected $text;
     protected $blockid;
-    protected $inputType;
 
     public function getText()
     {
@@ -29,16 +28,6 @@ class Content_ContentType_Block extends Content_ContentType
     public function setBlockid($blockid)
     {
         $this->blockid = $blockid;
-    }
-
-    public function getInputType()
-    {
-        return $this->inputType;
-    }
-
-    public function setInputType($inputType)
-    {
-        $this->inputType = $inputType;
     }
 
     function getTitle()
