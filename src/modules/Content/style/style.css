@@ -1,26 +1,24 @@
-/* $Id$ */
-
 input.date {
     width: 8em;
 }
 
-#FormForm ul.contentPositionSelector {
+ul.contentPositionSelector {
     list-style: none;
     margin: 0px 0px 10px 0px;
     padding: 0px;
     float: left;
 }
 
-#FormForm ul.contentPositionSelector li {
+ul.contentPositionSelector li {
     float: left;
 }
 
-#FormForm ul.contentPositionSelector label {
+ul.contentPositionSelector label {
     display: block;
     float: none;
 }
 
-#FormForm ul.content-subtabs {
+ul.content-subtabs {
     list-style: none;
     display: block;
     margin: -30px 0px 0px 0px; /* -30 = move above Forms tabs */
@@ -28,7 +26,7 @@ input.date {
     float: right;
 }
 
-#FormForm ul.content-subtabs li {
+ul.content-subtabs li {
     display: inline;
 }
 
