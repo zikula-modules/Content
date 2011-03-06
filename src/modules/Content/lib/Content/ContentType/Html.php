@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content html plugin
  *
@@ -6,9 +7,9 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
 class Content_ContentType_Html extends Content_ContentType
 {
+
     protected $text;
     protected $inputType;
 
@@ -36,14 +37,17 @@ class Content_ContentType_Html extends Content_ContentType
     {
         return $this->__('HTML text');
     }
+
     function getDescription()
     {
         return $this->__('A rich HTML editor for adding text to your page.');
     }
+
     function isTranslatable()
     {
         return true;
     }
+
     function loadData(&$data)
     {
         if (!isset($data['inputType'])) {
@@ -55,6 +59,7 @@ class Content_ContentType_Html extends Content_ContentType
         $this->text = $data['text'];
         $this->inputType = $data['inputType'];
     }
+
     function display()
     {
         $text = DataUtil::formatForDisplayHTML($this->text);
@@ -68,19 +73,26 @@ class Content_ContentType_Html extends Content_ContentType
 
         return $this->view->fetch($this->getTemplate());
     }
+
     function displayEditing()
     {
         return $this->display();
     }
+
     function getDefaultData()
     {
         return array('text' => $this->__('Add text here ...'), 'inputType' => (ModUtil::available('Scribite') ? 'html' : 'text'));
     }
+
     function startEditing()
     {
         $scripts = array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js');
         PageUtil::addVar('javascript', $scripts);
+        if (isset($this->inputType)) {
+            $this->view->assign('pluginInputType', $this->inputType);
+        }
     }
+
     function getSearchableText()
     {
         return html_entity_decode(strip_tags($this->activateinternallinks($this->text)));
@@ -89,26 +101,28 @@ class Content_ContentType_Html extends Content_ContentType
     function activateinternallinks($text)
     {
         $text = preg_replace_callback("/\[\[link-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
-          '$treffer',
-          'if ($treffer[2]) { return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $treffer[1]))."\">".$treffer[2]."</a>"; } else {
+                                '$treffer',
+                                'if ($treffer[2]) { return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $treffer[1]))."\">".$treffer[2]."</a>"; } else {
           $page = ModUtil::apiFunc("Content", "page", "getPage", array("pid" => $treffer[1]));
           if ($page === false) return "";
           return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $treffer[1]))."\">".$page["title"]."</a>";
           }'
-        ) , $text);
+                        ), $text);
         if (ModUtil::available('crptag')) {
             $text = preg_replace_callback("/\[\[tag-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
-              '$treffer',
-              '$title = $treffer[1];
+                                    '$treffer',
+                                    '$title = $treffer[1];
               if ($treffer[2]) { $title = $treffer[2]; }
               return "<a href=\"".ModUtil::url("crpTag", "user", "display", array("id" => $treffer[1]))."\">".$title."</a>";
               '
-            ) , $text);
+                            ), $text);
         }
         return $text;
     }
+
     public function getTemplate()
     {
         return 'contenttype/paragraph_view.tpl';
     }
+
 }

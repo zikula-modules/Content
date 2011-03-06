@@ -18,5 +18,5 @@
             {formlabel for='rawButton' __text='Unformatted text'}
         </div>
     </div>
-    {contenthtmleditor inputId='text' htmlradioid='htmlButton' textradioid='textButton' inputtype=$contentType.plugin->getInputType()}
+    {contenthtmleditor inputId='text' htmlradioid='htmlButton' textradioid='textButton' inputtype=$pluginInputType}
 </div>
