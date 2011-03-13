@@ -21,8 +21,9 @@ class Content_Api_Search extends Zikula_Api
     public function options($args)
     {
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_READ)) {
-            $this->view->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
-            return $this->view->fetch('search/options.tpl');
+            $render = Zikula_View::getInstance('Content');
+            $render->assign('active', (isset($args['active']) && isset($args['active']['content'])) || (!isset($args['active'])));
+            return $render->fetch('search/options.tpl');
         }
 
         return '';
@@ -30,7 +31,6 @@ class Content_Api_Search extends Zikula_Api
 
     public function search($args)
     {
-        $dom = ZLanguage::getModuleDomain('Content');
         ModUtil::dbInfoLoad('Content');
         ModUtil::dbInfoLoad('Search');
         $dbconn = DBConnectionStack::getConnection(true);
@@ -50,27 +50,28 @@ class Content_Api_Search extends Zikula_Api
         $where = search_construct_where($args, array($contentSearchColumn['text']), null);
 
         $sql = "INSERT INTO $searchTable
-  ($searchColumn[title],
-                $searchColumn[text],
-                $searchColumn[module],
-                $searchColumn[extra],
-                $searchColumn[created],
-                $searchColumn[session])
-SELECT $pageColumn[title],
-                $contentSearchColumn[text],
-       'content',
-                $pageColumn[id],
-                $pageColumn[cr_date] AS createdDate,
-       '" . DataUtil::formatForStore($sessionId) . "'
-FROM $pageTable
-JOIN $contentTable
-     ON $contentColumn[pageId] = $pageColumn[id]
-JOIN $contentSearchTable
-     ON $contentSearchColumn[contentId] = $contentColumn[id]
-WHERE $where and $contentColumn[active] = 1 and $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
+            ($searchColumn[title],
+            $searchColumn[text],
+            $searchColumn[module],
+            $searchColumn[extra],
+            $searchColumn[created],
+            $searchColumn[session])
+            SELECT $pageColumn[title],
+            $contentSearchColumn[text],
+            'content',
+            $pageColumn[id],
+            $pageColumn[cr_date] AS createdDate,
+            '" . DataUtil::formatForStore($sessionId) . "'
+            FROM $pageTable
+            JOIN $contentTable
+            ON $contentColumn[pageId] = $pageColumn[id]
+            JOIN $contentSearchTable
+            ON $contentSearchColumn[contentId] = $contentColumn[id]
+            WHERE $where AND $contentColumn[active] = 1 AND $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
 
         $dbresult = DBUtil::executeSQL($sql);
         if (!$dbresult) {
+            $dom = ZLanguage::getModuleDomain('Content');
             return LogUtil::registerError(__('Error! Could not load items.', $dom));
         }
         return true;
