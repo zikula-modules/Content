@@ -9,7 +9,7 @@ files). You will, however, be able reuse most of what you already have.
 
 There are five important areas to cover:
 
-  - Filenames and Classnames (Zikula standard naming schemes)
+  - File names and Class names (Zikula standard naming schemes)
   - ContentType class files
   - Templates (including custom naming options)
   - Adding a 'discovery' persistent event handler
@@ -19,12 +19,12 @@ Remember, Content 4.x is for Zikula 1.3 and higher and therefore your module
 must also be Zikula 1.3-compatible (or native).
 
 
-## Filenames & Class names
+## File names & Class names
 
-The rules in Zikula 1.3 require class names to begin with uppercase letters and
-for underscores only used to indicate directory structure. Each word must be
-capitalized and you cannot use other characters (numbers and letters only, but
-must begin with a capital letter). For example:
+The coding standards in Zikula 1.3 require class names to begin with uppercase
+letters and for underscores only used to indicate directory structure. Each word
+must be capitalized and you cannot use other characters (numbers and letters
+only, but must begin with a capital letter). For example:
 
     Content_Form_Handler_Admin_Settings
 
@@ -85,6 +85,7 @@ with
 
   - Check your method arguments against the base class to be sure that the
     declarations are consistent to avoid E_STRICT warnings.
+    - The startEditing() method no longer requires the references $view instance
 
   - Remove the function at the bottom of your plugin file that instantiates the
     class. This is no longer required.
@@ -194,3 +195,4 @@ Please take a look there for further ideas. In addition, the following modules
 have already been converted as of this writing:
   - News
   - PostCalendar
+  - Banners
