@@ -78,33 +78,57 @@ class Content_Util
     public static function getPlugins($type='Content')
     {
         $type = in_array($type, array('Content', 'Layout')) ? trim(ucwords(strtolower($type))) . "Type" : 'ContentType';
-        $modules = ModUtil::getAllMods();
-        $plugins = array();
-        foreach ($modules as $module) {
-            $dir = DataUtil::formatForOS("modules/{$module['directory']}/lib/{$module['directory']}/$type");
-            if (is_dir($dir)) {
-                $files = FileUtil::getFiles($dir, false, false, "php");
-                foreach ($files as $file) {
-                    $parts = explode(DIRECTORY_SEPARATOR, $file);
-                    $filename = array_pop($parts);
-                    $pluginname = substr($filename, 0, -4);
-                    $classname = $module['directory'] . "_" . $type . "_" . $pluginname;
-                    $baseclass = "Content_" . $type;
-                    $view = Zikula_View::getInstance($module['directory']);
-                    $instance = new $classname($view);
-                    if ($instance instanceof $baseclass) {
-                        $plugins[] = $instance;
-                    }
-                }
-            }
-        }
-        usort($plugins, array('Content_Util', 'pluginSort'));
+
+        // trigger event
+        $event = new Zikula_Event('module.content.getTypes', new Content_Types());
+        $plugins = EventUtil::getManager()->notify($event)->getSubject()->getValidatedPlugins($type);
+
         return $plugins;
     }
 
-    protected static function pluginSort($a, $b)
-    {
-        return strcmp($a->getTitle(), $b->getTitle());
+    public static function getTypes(Zikula_Event $event) {
+        $types = $event->getSubject();
+        // add content types
+        $types->add('Content_ContentType_Author');
+        $types->add('Content_ContentType_Block');
+        $types->add('Content_ContentType_Breadcrumb');
+        $types->add('Content_ContentType_Camtasia');
+        $types->add('Content_ContentType_ComputerCode');
+        $types->add('Content_ContentType_Directory');
+        $types->add('Content_ContentType_Flickr');
+        $types->add('Content_ContentType_GoogleMap');
+        $types->add('Content_ContentType_Heading');
+        $types->add('Content_ContentType_Html');
+        $types->add('Content_ContentType_JoinPosition');
+        $types->add('Content_ContentType_ModuleFunc');
+        $types->add('Content_ContentType_OpenStreetMap');
+        $types->add('Content_ContentType_PageNavigation');
+        $types->add('Content_ContentType_PagesetterPub');
+        $types->add('Content_ContentType_PagesetterPublist');
+        $types->add('Content_ContentType_Quote');
+        $types->add('Content_ContentType_Rss');
+        $types->add('Content_ContentType_Slideshare');
+        $types->add('Content_ContentType_Vimeo');
+        $types->add('Content_ContentType_YouTube');
+
+        // add layout types
+        $types->add('Content_LayoutType_Column1');
+        $types->add('Content_LayoutType_Column1top');
+        $types->add('Content_LayoutType_Column1woheader');
+        $types->add('Content_LayoutType_Column2d12');
+        $types->add('Content_LayoutType_Column2d2575');
+        $types->add('Content_LayoutType_Column2d3070');
+        $types->add('Content_LayoutType_Column2d3366');
+        $types->add('Content_LayoutType_Column2d3862');
+        $types->add('Content_LayoutType_Column2d6238');
+        $types->add('Content_LayoutType_Column2d6633');
+        $types->add('Content_LayoutType_Column2d7030');
+        $types->add('Content_LayoutType_Column2d7525');
+        $types->add('Content_LayoutType_Column2header');
+        $types->add('Content_LayoutType_Column3d252550');
+        $types->add('Content_LayoutType_Column3d255025');
+        $types->add('Content_LayoutType_Column3d502525');
+        $types->add('Content_LayoutType_Column3header');
     }
 
 }

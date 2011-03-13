@@ -7,11 +7,12 @@ maintain compatibility with the newest versions of Content. There is no
 possibility for complete backward compatibility (i.e. with no changes to your
 files). You will, however, be able reuse most of what you already have.
 
-There are four important areas to cover:
+There are five important areas to cover:
 
   - Filenames and Classnames (Zikula standard naming schemes)
   - ContentType class files
   - Templates (including custom naming options)
+  - Adding a 'discovery' persistent event handler
   - Module upgrade routine
 
 Remember, Content 4.x is for Zikula 1.3 and higher and therefore your module
@@ -62,11 +63,6 @@ constructor within:
 
     parent::__construct();
 
-  - In the display() method within your plugin, change the return value to look
-    like so:
-
-    return $view->fetch($this->getTemplate());
-
   - Instantiating the Zikula_View object is not required. Remove these lines:
 
     $view = Zikula_View::getInstance('ModuleName', false);
@@ -79,8 +75,13 @@ with
 
     $this->view->foo()
 
+  - In the display() method within your plugin, change the return value to look
+    like so:
+
+    return $this->view->fetch($this->getTemplate());
+
   - Change your property declarations from 'var' to 'protected' unless
-    specifically required. Make all your methods 'public'.
+    specifically otherwise required. Make all your methods 'public'.
 
   - Check your method arguments against the base class to be sure that the
     declarations are consistent to avoid E_STRICT warnings.
@@ -135,13 +136,39 @@ override, you can name the templates anything you like, including changing the
 directory and suffix if you require it.
 
 
+## Adding a 'discovery' persistent event handler
+
+In order for Content to 'discover' the existence of your plugin, you must
+register a persistent event handler in your module installer (and upgrade)
+method. In your Installer class add a line like so:
+
+    EventUtil::registerPersistentModuleHandler('ModuleName', 'module.content.getTypes', array('Module_ClassName', 'moduleMethodName'));
+
+Replace the Module*Name strings with your own. Create the class and method you
+reference in the call above. Your method should then look something like this:
+
+    public static function moduleMethodName(Zikula_Event $event) {
+        $types = $event->getSubject();
+        // add content types
+        $types->add('ModuleName_ContentType_PluginName1');
+        $types->add('ModuleName_ContentType_PluginName2');
+        $types->add('ModuleName_ContentType_PluginName3');
+    }
+
+You can find examples of these in the Content module as it uses the exact same
+methodology to add its own plugins. See
+    Content_Installer::install() and Content_Installer::contentUpgrade_4_0_0()
+    and
+    Content_Util::getTypes()
+
+
 ## Module upgrade routine
 
 The names of your plugins are stored in the Content module's database tables.
 These must be updated or existing templates will no longer function.
 
 In your Installer upgrade routine, add the following line for your newest
-version (you only need each line as appropriate):
+version:
 
     Content_Installer::updateContentType('modulename');
 

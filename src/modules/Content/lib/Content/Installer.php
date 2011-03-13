@@ -53,6 +53,8 @@ class Content_Installer extends Zikula_Installer
 
         // Register for hooks subscribing
         HookUtil::registerHookSubscriberBundles($this->version);
+        // register handlers
+        EventUtil::registerPersistentModuleHandler('Content', 'module.content.getTypes', array('Content_Util', 'getTypes'));
 
         // create the default data for the Content module
         $this->defaultdata();        
@@ -283,6 +285,9 @@ class Content_Installer extends Zikula_Installer
         self::updateLayout();
         self::updateContentType();
 
+        // register handlers
+        EventUtil::registerPersistentModuleHandler('Content', 'module.content.getTypes', array('Content_Util', 'getTypes'));
+
         // clear compiled templates and Content cache
         ModUtil::apiFunc('view', 'user', 'clear_compiled');
         ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
@@ -308,6 +313,7 @@ class Content_Installer extends Zikula_Installer
         $this->delVars();
 
         // unregister handlers
+        EventUtil::unregisterPersistentModuleHandlers('Content');
         HookUtil::unregisterHookSubscriberBundles($this->version);
 
         // Deletion successful
