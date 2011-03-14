@@ -150,7 +150,7 @@ reference in the call above. Your method should then look something like this:
 
     public static function moduleMethodName(Zikula_Event $event) {
         $types = $event->getSubject();
-        // add content types
+        // add content types with add('classname')
         $types->add('ModuleName_ContentType_PluginName1');
         $types->add('ModuleName_ContentType_PluginName2');
         $types->add('ModuleName_ContentType_PluginName3');
