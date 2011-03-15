@@ -52,7 +52,7 @@ class Content_Api_History extends Zikula_Api
         $tables = DBUtil::getTables();
         $historyColumn = $tables['content_history_column'];
         $pageColumn = $tables['content_page_column'];
-        $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $tables[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'";
+        $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $tables[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'"; /* related to delayed translation */
         return DBUtil::selectObjectArray('content_history', $where, 'date DESC', $offset, $pageSize); // TODO: distinct
     }
 
@@ -61,7 +61,7 @@ class Content_Api_History extends Zikula_Api
         $tables = DBUtil::getTables();
         $historyColumn = $tables['content_history_column'];
         $pageColumn = $tables['content_page_column'];
-        $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $tables[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'";
+        $where = "$historyColumn[pageId] not in (select $pageColumn[id] from $tables[content_page]) and $historyColumn[action] = '_CONTENT_HISTORYPAGEDELETED'"; /* related to delayed translation */
         return DBUtil::selectObjectCount('content_history', $where, 'pageId'); // TODO: distinct
     }
 
@@ -80,6 +80,7 @@ class Content_Api_History extends Zikula_Api
         }
 
         switch ($text) {
+             /* all the apparent lang defines below are related to a delayed translation */
             case '_CONTENT_HISTORYCONTENTUPDATED':
                 $ActionTranslated = $this->__("Content updated");
                 break;
@@ -459,9 +460,9 @@ class Content_Api_History extends Zikula_Api
         $historyColumn = $tables['content_history_column'];
 
         $sql = "
-SELECT MAX($historyColumn[revisionNo])
-FROM $historyTable
-WHERE $historyColumn[pageId] = $pageId";
+            SELECT MAX($historyColumn[revisionNo])
+            FROM $historyTable
+            WHERE $historyColumn[pageId] = $pageId";
 
         // FIXME: how to avoid concurrency problems?
         $pos = DBUtil::selectScalar($sql);
