@@ -14,16 +14,6 @@ class Content_ContentType_ModuleFunc extends Content_ContentType
     protected $func;
     protected $query;
 
-    public function getModule()
-    {
-        return $this->module;
-    }
-
-    public function setModule($module)
-    {
-        $this->module = $module;
-    }
-
     public function getType()
     {
         return $this->type;
