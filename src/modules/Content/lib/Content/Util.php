@@ -103,8 +103,6 @@ class Content_Util
         $types->add('Content_ContentType_ModuleFunc');
         $types->add('Content_ContentType_OpenStreetMap');
         $types->add('Content_ContentType_PageNavigation');
-        $types->add('Content_ContentType_PagesetterPub');
-        $types->add('Content_ContentType_PagesetterPublist');
         $types->add('Content_ContentType_Quote');
         $types->add('Content_ContentType_Rss');
         $types->add('Content_ContentType_Slideshare');
