@@ -7,7 +7,7 @@
     <p class="source">-- {$source|activatelinks}</p>
     {/if}
     {else}
-    <blockquote><p>&raquo;{$text|nl2br}&laquo;</p></blockquote>
+    <blockquote><p>&raquo;{$text|nl2br|notifyfilters:'content.hook.contentitem.ui.filter'}&laquo;</p></blockquote>
     {if $desc}
     <p class="source">-- {$desc}</p>
     {/if}

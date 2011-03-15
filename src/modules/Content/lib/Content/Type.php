@@ -3,10 +3,6 @@
 /**
  * Base class for content plugins
  *
- * You must add a constructor taking an array of the plugin's data. This array
- * corresponds to what is return by Form_View::getValues() when user
- * has submitted data after editing plugin. The constructor should initialize
- * object data based on the input.
  */
 class Content_Type implements Zikula_Translatable
 {

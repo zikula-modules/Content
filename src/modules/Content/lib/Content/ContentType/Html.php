@@ -63,9 +63,6 @@ class Content_ContentType_Html extends Content_ContentType
     function display()
     {
         $text = DataUtil::formatForDisplayHTML($this->text);
-        // this event should be moved to the template
-        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $this->view, array('caller' => $this->getModule()), $text);
-        $text = $this->view->getEventManager()->notify($event)->getData();
 
         $this->view = Zikula_View::getInstance('Content', false);
         $this->view->assign('inputType', $this->inputType);

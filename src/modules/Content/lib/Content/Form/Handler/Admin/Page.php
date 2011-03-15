@@ -79,9 +79,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
         $url = null;
 
         if ($args['commandName'] == 'save' || $args['commandName'] == 'saveAndView' || $args['commandName'] == 'translate') {
-            if (!$this->view->isValid()) {
-                return false;
-            }
+
             $pageData = $this->view->getValues();
 
             // fetch old data *before* updating
@@ -89,10 +87,16 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
             if ($oldPageData === false) {
                 return $this->view->registerError(null);
             }
-
-            $ok = ModUtil::apiFunc('Content', 'Page', 'updatePage', array('page' => $pageData['page'], 'pageId' => $this->pageId));
-            if ($ok === false) {
-                return $this->view->registerError(null);
+            $validators = $this->notifyHooks('content.hook.pages.validate.edit', $pageData, $this->pageId, array(), new Zikula_Collection_HookValidationProviders())->getData();
+            if (!$validators->hasErrors() && $this->view->isValid()) {
+                $ok = ModUtil::apiFunc('Content', 'Page', 'updatePage', array('page' => $pageData['page'], 'pageId' => $this->pageId));
+                if ($ok === false) {
+                    return $this->view->registerError(null);
+                }
+                // notify any hooks they may now commit the as the original form has been committed.
+                $this->notifyHooks('content.hook.pages.process.edit', $pageData, $this->pageId);
+            } else {
+                return false;
             }
 
             if ($args['commandName'] == 'translate') {
@@ -116,9 +120,14 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
             }
             $url = ModUtil::url('Content', 'admin', 'editcontent', array('cid' => $clonedId));
         } else if ($args['commandName'] == 'deletePage') {
-            $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $this->pageId));
-            if ($ok === false) {
-                return $this->view->registerError(null);
+            $validators = $this->notifyHooks('content.hook.pages.validate.delete', null, $this->pageId, array(), new Zikula_Collection_HookValidationProviders())->getData();
+            if (!$validators->hasErrors()) {
+                $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $this->pageId));
+                if ($ok === false) {
+                    return $this->view->registerError(null);
+                }
+                // notify any hooks they may now commit the as the original form has been committed.
+                $this->notifyHooks('content.hook.pages.process.delete', null, $this->pageId);
             }
             $url = ModUtil::url('Content', 'admin', 'main');
         } else if ($args['commandName'] == 'cancel') {

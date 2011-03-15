@@ -45,7 +45,5 @@ class Content_Version extends Zikula_Version
         $bundle = new Zikula_Version_HookSubscriberBundle('modulehook_area.news.contentitem', $this->__('Content Filter Hooks'));
         $bundle->addType('ui.filter', 'content.hook.contentitem.ui.filter');
         $this->registerHookSubscriberBundle($bundle);
-
-        // Register separate hooks for Content items, OPTIONAL
     }
 }

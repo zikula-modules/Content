@@ -412,10 +412,6 @@ class Content_Api_Page extends Zikula_Api
         if ($ok === false) {
             return false;
         }
-        // Let any hooks know that we have created an item.
-//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
-        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
-        $this->eventManager->notify($event);
 
         Content_Util::contentClearCaches();
         return $pageData['id'];
@@ -459,11 +455,6 @@ class Content_Api_Page extends Zikula_Api
         if ($ok === false) {
             return false;
         }
-
-        // Let any hooks know that we have updated an item.
-//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
-        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
-        $this->eventManager->notify($event);
 
         Content_Util::contentClearCaches();
         return true;
@@ -715,11 +706,6 @@ class Content_Api_Page extends Zikula_Api
         }
         $this->contentUpdatePageRelations($pageData['id'], $pageData);
 
-        // Let any hooks know that we have created an item.
-//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
-        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
-        $this->eventManager->notify($event);
-
         Content_Util::contentClearCaches();
         return $pageData['id'];
     }
@@ -770,11 +756,6 @@ class Content_Api_Page extends Zikula_Api
             return false;
         }
 
-        // Let any hooks know that we have updated an item.
-//        $this->notifyHooks('content.hook.pages.process.edit', $pageData, $pageData['id']);
-        $event = new Zikula_Event('content.hook.pages.process.edit', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
-        $this->eventManager->notify($event);
-
         Content_Util::contentClearCaches();
         return array('id' => $pageData['id'], 'urlname' => $pageData['urlname']);
     }
@@ -824,11 +805,6 @@ class Content_Api_Page extends Zikula_Api
         DBUtil::deleteObjectByID('content_page', $pageId);
 
         $this->contentDeletePageRelations($pageId);
-
-        // Let any hooks know that we have deleted an item.
-//        $this->notifyHooks('content.hook.pages.process.delete', $pageData, $pageId);
-        $event = new Zikula_Event('content.hook.pages.process.delete', $pageData, array('id' => $pageData['id'], 'module' => 'Content'));
-        $this->eventManager->notify($event);
 
         Content_Util::contentClearCaches();
         return true;

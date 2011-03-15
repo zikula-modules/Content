@@ -44,9 +44,6 @@ class Content_ContentType_Quote extends Content_ContentType
         $source = DataUtil::formatForDisplayHTML($this->source);
         $desc = DataUtil::formatForDisplayHTML($this->desc);
 
-        // this event should be moved to the template
-        $event = new Zikula_Event('content.hook.contentitem.ui.filter', $this->view, array('caller' => $this->getModule()), $text);
-        $text = $this->view->getEventManager()->notify($event)->getData();
         $this->view->assign('source', $source);
         $this->view->assign('text', $text);
         $this->view->assign('desc', $desc);

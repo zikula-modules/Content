@@ -90,7 +90,7 @@
         </div>
     </fieldset>
 
-    {notifydisplayhooks eventname='content.hook.pages.ui.edit' area='modulehook_area.content.pages' subject=$page id=$page.id caller="Content"}
+    {notifydisplayhooks eventname='content.hook.pages.ui.edit' area='modulehook_area.content.pages' subject=$page id=$page.id}
 
     <fieldset>
         <legend>{gt text="Page state"}</legend>

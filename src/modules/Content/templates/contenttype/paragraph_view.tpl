@@ -1,7 +1,7 @@
 <div class="content-paragraph">
     {if $inputType!="raw"}
-    {$text|paragraph}
+    {$text|paragraph|notifyfilters:'content.hook.contentitem.ui.filter'}
     {else}
-    {$text}
+    {$text|notifyfilters:'content.hook.contentitem.ui.filter'}
     {/if}
 </div>

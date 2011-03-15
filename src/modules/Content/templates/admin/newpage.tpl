@@ -52,7 +52,7 @@
         <p id="layout_preview_desc" class="z-formnote">{$layouts.0.description}</p>
     </fieldset>
 
-    {notifydisplayhooks eventname='content.hook.pages.ui.edit' area='modulehook_area.content.pages' subject=null id=null caller="Content"}
+    {notifydisplayhooks eventname='content.hook.pages.ui.edit' area='modulehook_area.content.pages' subject=null id=null}
 
     <div class="z-buttons z-formbuttons">
         {formbutton class="z-bt-new" commandName="create" __text="Create"}

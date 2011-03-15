@@ -60,16 +60,21 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_Handler
         }
 
         if ($args['commandName'] == 'create') {
-            if (!$this->view->isValid()) {
-                return false;
-            }
+
             $pageData = $this->view->getValues();
 
-            $id = ModUtil::apiFunc('Content', 'Page', 'newPage', array(
-                'page' => $pageData,
-                'pageId' => $this->pageId,
-                'location' => $this->location));
-            if ($id === false) {
+            $validators = $this->notifyHooks('content.hook.pages.validate.edit', $pageData, $this->pageId, array(), new Zikula_Collection_HookValidationProviders())->getData();
+            if (!$validators->hasErrors() && $this->view->isValid()) {
+                $id = ModUtil::apiFunc('Content', 'Page', 'newPage', array(
+                    'page' => $pageData,
+                    'pageId' => $this->pageId,
+                    'location' => $this->location));
+                if ($id === false) {
+                    return false;
+                }
+                // notify any hooks they may now commit the as the original form has been committed.
+                $this->notifyHooks('content.hook.pages.process.edit', $pageData, $this->pageId);
+            } else {
                 return false;
             }
             $url = ModUtil::url('Content', 'admin', 'editPage', array('pid' => $id));
