@@ -113,9 +113,9 @@
 </div>
 
 <script type="text/javascript">
-    var msgPageStatusOnline = '{{gt text="Active"}}';
-    var msgPageStatusOffline = '{{gt text="Inactive"}}';
-    var msgPageInMenu = '{{gt text="In"}}';
-    var msgPageOutMenu = '{{gt text="Out"}}';
+    var msgPageStatusOnline = Zikula.__('Active','module_Content');
+    var msgPageStatusOffline = Zikula.__('Inactive','module_Content');
+    var msgPageInMenu = Zikula.__('In','module_Content');
+    var msgPageOutMenu = Zikula.__('Out','module_Content');
     Event.observe(window, 'load', initcontentactivationbuttons, false);
 </script>
