@@ -15,7 +15,8 @@
     <dd>{$text}</dd>
 </dl>
 {else}
-{pageaddvar name="javascript" value="javascript/ajax/prototype.js,javascript/ajax/scriptaculous.js?load=effects,modules/Content/lib/vendor/lightwindow/javascript/lightwindow.js"}
+{pageaddvar name="javascript" value="prototype"}
+{pageaddvar name="javascript" value="modules/Content/lib/vendor/lightwindow/javascript/lightwindow.js"}
 {pageaddvar name="stylesheet" value="modules/Content/lib/vendor/lightwindow/css/lightwindow.css"}
 
 {assign var="image" value='images/icons/large/agt_Multimedia.png'}
