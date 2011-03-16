@@ -215,7 +215,7 @@ function togglepagestate_response(req)
     // switch the leds and adapt the text
     $('active_' + data.id).toggle();
     $('inactive_' + data.id).toggle();
-    $('activity_' + data.id).update((($('activity_' + data.id).innerHTML == msgPageStatusOffline) ? msgPageStatusOnline : msgPageStatusOffline));
+    $('activity_' + data.id).update((($('activity_' + data.id).innerHTML == Zikula.__('Inactive','module_Content')) ? Zikula.__('Active','module_Content') : Zikula.__('Inactive','module_Content')));
 }
 
 /**
@@ -258,5 +258,5 @@ function togglepageinmenu_response(req)
     // switch the leds and adapt the text
     $('inmenu_' + data.id).toggle();
     $('outmenu_' + data.id).toggle();
-    $('menustatus_' + data.id).update((($('menustatus_' + data.id).innerHTML == msgPageOutMenu) ? msgPageInMenu : msgPageOutMenu));
+    $('menustatus_' + data.id).update((($('menustatus_' + data.id).innerHTML == Zikula.__('Out','module_Content')) ? Zikula.__('In','module_Content') : Zikula.__('Out','module_Content')));
 }
