@@ -65,7 +65,7 @@
     </fieldset>
     {/formtabbedpanel}
 
-    {formtabbedpanel __title='Module Dependencies'}
+    {formtabbedpanel __title='Available Plugins'}
     <p class="z-informationmsg">{gt text="Content includes an API that other modules can use to provide their content. Moreover some modules introduce extra functions to plugins delivered with Content."}</p>
 
     <table id="modules" class="z-admintable">
@@ -79,57 +79,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="z-odd">
-                <td>
-                    {modavailable modname="scribite" assign="scribite"}
-                    {if !$scribite}
-                    {img src=redled.png modname=core set=icons/extrasmall __alt='Not installed' }
-                    {else}
-                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Installed' }
-                    {/if}
-                </td>
-                <td>
-                    {modapifunc modname="scribite" type="user" func="getModuleConfig" modulename="Content" assign="scribite_config"}
-                    {if !isset($scribite_config)}
-                    {if !$scribite}
-                    {img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }
-                    {else}
-                    <a href="{modurl modname="scribite" type="admin" func="newmodule"}">{img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }</a>
-                    {/if}
-                    {else}
-                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Active' }
-                    {/if}
-                </td>
-                <td><strong>{gt text="Scribite"}</strong></td>
-                <td>{gt text="WYSIWYG"}</td>
-                <td>{gt text='Scribite integrated WYSIWYG JavaScript editors like Xinha, TinyMCE, FCKeditor, openWYSIWYG or NicEdit into Zikula.<br /><a href="http://code.zikula.org/scribite">Download</a>'}</td>
-            </tr>
-            <tr class="z-even">
-                <td>
-                    {modavailable modname="bbcode" assign="bbcode"}
-                    {if !$bbcode}
-                    {img src=redled.png modname=core set=icons/extrasmall __alt='Not installed' }
-                    {else}
-                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Installed' }
-                    {/if}
-                </td>
-                <td>
-                    {modishooked tmodname="bbcode" smodname="Content" assign="bbcode_config"}
-                    {if !$bbcode_config}
-                    {if !$bbcode}
-                    {img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }
-                    {else}
-                    {modgetinfo modname='Content' info=all assign=module}
-                    <a href="{modurl modname="modules" type="admin" func="hooks" id=$module.id}">{img src=redled.png modname=core set=icons/extrasmall __alt='Inactive' }</a>
-                    {/if}
-                    {else}
-                    {img src=greenled.png modname=core set=icons/extrasmall __alt='Active' }
-                    {/if}
-                </td>
-                <td><strong>{gt text="BBCode"}</strong></td>
-                <td>{gt text="Buttons"}</td>
-                <td>{gt text='BBCode is an abbreviation for Bulletin Board Code, the lightweight markup language used to format posts in many message boards. (<a href="http://en.wikipedia.org/wiki/Bbcode">Wikipedia</a>)<br /><a href="http://code.zikula.org/bbcode">Download</a>'}</td>
-            </tr>
             {modapifunc modname="Content" type="Content" func="getContentTypes" includeInactive=1 assign="plugins"}
             {foreach from=$plugins item=plugin}
             <tr class="{cycle values="z-odd,z-even"}">
