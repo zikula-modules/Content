@@ -62,9 +62,12 @@ class Content_ContentType_Html extends Content_ContentType
 
     function display()
     {
-        $text = DataUtil::formatForDisplayHTML($this->text);
+        if ($this->inputType == 'raw') {
+            $text = DataUtil::formatForDisplay($this->text);
+        } else {
+            $text = DataUtil::formatForDisplayHTML($this->text);
+        }
 
-        $this->view = Zikula_View::getInstance('Content', false);
         $this->view->assign('inputType', $this->inputType);
         $this->view->assign('text', $text);
 
