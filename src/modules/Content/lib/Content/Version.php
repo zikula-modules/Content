@@ -26,6 +26,13 @@ class Content_Version extends Zikula_Version
                 'Content:plugins:layout' => 'Layout name::',
                 'Content:plugins:content' => 'Content type name::',
                 'Content:page:' => 'Page id::');
+        // Module depedencies
+        $meta['dependencies'] = array(
+                array('modname'    => 'Scribite',
+                      'minversion' => '4.2.1',
+                      'maxversion' => '',
+                      'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
+        );
         return $meta;
     }
 
