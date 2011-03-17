@@ -12,13 +12,13 @@
     <fieldset id="contentTranslateOriginal" class="z-linear">
         <legend>{gt text="Original content"}</legend>
         <div class="z-formrow">
-            {include file=$translateOriginalTemplate}
+            {include file=$translationtemplates.original}
         </div>
     </fieldset>
 
     <fieldset id="contentTranslateNew" class="z-linear">
         <legend>{gt text="Translated content"} ({$language})</legend>
-        {include file=$translateNewTemplate}
+        {include file=$translationtemplates.new}
     </fieldset>
 
     <div class="z-buttons">

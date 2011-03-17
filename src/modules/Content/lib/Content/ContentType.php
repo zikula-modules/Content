@@ -330,21 +330,13 @@ class Content_ContentType extends Content_Type
      */
     public function getEditTemplate()
     {
-        $blanktemplate = "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl";
-        if ($this->view->moduleName == $this->modname) {
-            $template = 'contenttype/' . strtolower($this->getName()) . '_edit.tpl';
-            if (!$this->view->template_exists($template)) {
-                $template = $blanktemplate;
-            }
+        $filepath = getcwd() . "/modules/" . $this->modname . "/templates/contenttype/" . strtolower($this->getName()) . '_edit.tpl';
+        if (file_exists($filepath)) {
+            $template = "file:" . $filepath;
         } else {
-            $filepath = getcwd() . "/modules/" . $this->modname . "/templates/contenttype/" . strtolower($this->getName()) . '_edit.tpl';
-            if (file_exists($filepath)) {
-                $template = "file:" . $filepath;
-            } else {
-                $template = $blanktemplate;
-            }
+            $template = "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl";
         }
-    
+
         return $template;
     }
 
@@ -354,18 +346,22 @@ class Content_ContentType extends Content_Type
      */
     public function getTranslationTemplates()
     {
-        $templates = array();
-        $template = 'contenttype/' . strtolower($this->getName()) . '_translate_original.tpl';
-        if ($this->view->template_exists($template)) {
-            $templates['original'] = $template;
+        $templates = array(
+            'original' => "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl",
+            'new' => "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl");
+        $filepath_translate_original = getcwd() . "/modules/" . $this->modname . "/templates/contenttype/" . strtolower($this->getName()) . '_translate_original.tpl';
+        $filepath_translate_new = getcwd() . "/modules/" . $this->modname . "/templates/contenttype/" . strtolower($this->getName()) . '_translate_new.tpl';
+
+        if (file_exists($filepath_translate_original)) {
+            $templates['original'] = "file:" . $filepath_translate_original;
         } else {
-            $templates['original'] = 'contenttype/blank.tpl';
+            $this->view->registerError($this->__('Unable to locate original translation template.'));
         }
-        $template = 'contenttype/' . strtolower($this->getName()) . '_translate_new.tpl';
-        if ($this->view->template_exists($template)) {
-            $templates['new'] = $template;
+
+        if (file_exists($filepath_translate_new)) {
+            $templates['new'] = "file:" . $filepath_translate_new;
         } else {
-            $templates['new'] = 'contenttype/blank.tpl';
+            $this->view->registerError($this->__('Unable to locate new translation template.'));
         }
         return $templates;
     }
