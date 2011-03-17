@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content
  *
@@ -6,8 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
-function smarty_function_contenthtmleditor($params, &$view) 
+function smarty_function_contenthtmleditor($params, &$view)
 {
     $dom = ZLanguage::getModuleDomain('Content');
     $inputId = $params['inputId'];
@@ -16,8 +16,8 @@ function smarty_function_contenthtmleditor($params, &$view)
     // Get reference to optional radio button that enables the editor (a hack for the HTML plugin).
     // It would have been easier just to read a $var in the template, but this won't work with a
     // Forms plugin - you would just get the initial value from when the page was loaded
-    $htmlRadioButton = (isset($params['htmlRadioId']) ? $view->getPluginById($params['htmlRadioId']) : null);
-    $textRadioButton = (isset($params['textRadioId']) ? $view->getPluginById($params['textRadioId']) : null);
+    $htmlRadioButton = (isset($params['htmlradioid']) ? $view->getPluginById($params['htmlradioid']) : null);
+    $textRadioButton = (isset($params['textradioid']) ? $view->getPluginById($params['textradioid']) : null);
 
     $html = '';
 
@@ -30,7 +30,9 @@ function smarty_function_contenthtmleditor($params, &$view)
 
     if ($useWysiwyg && ModUtil::available('scribite'))
     {
-        $scribite = ModUtil::func('scribite','user','loader', array('modulename' => 'Content', 'areas' => array($inputId)));
+        $scribite = ModUtil::apiFunc('scribite', 'user', 'loader', array(
+                    'modulename' => 'Content',
+                    'areas' => array($inputId)));
         PageUtil::AddVar('rawtext', $scribite);
     } else if ($useWysiwyg && !ModUtil::available('scribite')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
