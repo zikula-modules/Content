@@ -283,7 +283,10 @@ class Content_Installer extends Zikula_Installer
             ModUtil::delVar('Content');
         }
         self::updateLayout();
+        // upgrade the Content module's ContentTypes
         self::updateContentType();
+        // upgrade other module's ContentTypes if available
+        ModUtil::apiFunc('Content', 'admin', 'upgradecontenttypes');
 
         // register handlers
         EventUtil::registerPersistentModuleHandler('Content', 'module.content.getTypes', array('Content_Util', 'getTypes'));

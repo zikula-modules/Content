@@ -139,20 +139,9 @@ class Content_Controller_Admin extends Zikula_Controller
      */
     public function upgradecontenttypes($modname=null)
     {
-        if ($modname == null) {
-            $modules = ModUtil::getModules();
-            $count = 0;
-            foreach ($modules as $module) {
-                // there is no need to upgrade Content ContentTypes because they are done on module upgrade.
-                if ($module['name'] <> 'Content') {
-                    $count += Content_Installer::updateContentType($module['name']);
-                }
-            }
-        } else {
-            $count = Content_Installer::updateContentType($modname);
-        }
+        $count = ModUtil::apiFunc('Content', 'admin', 'upgradecontenttypes', $modname);
         if ($count == 0) {
-            LogUtil::registerError($this->__f('%1$s ContentTypes upgraded (there were no matches found).', array($count)));
+            LogUtil::registerStatus($this->__('No ContentTypes upgraded (there were no matches found).'));
         }
         $this->redirect(ModUtil::url('Content', 'admin'));
     }

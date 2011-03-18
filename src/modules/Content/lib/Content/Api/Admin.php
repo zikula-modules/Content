@@ -76,4 +76,24 @@ class Content_Api_Admin extends Zikula_Api
         return $classes;
     }
 
+    /**
+     * perform a ContentType upgrade on all modules
+     * @param string $modname (optional and unused at the moment)
+     */
+    public function upgradecontenttypes($modname=null)
+    {
+        if ($modname == null) {
+            $modules = ModUtil::getModules();
+            $count = 0;
+            foreach ($modules as $module) {
+                // there is no need to upgrade Content ContentTypes because they are done on module upgrade.
+                if ($module['name'] <> 'Content') {
+                    $count += Content_Installer::updateContentType($module['name']);
+                }
+            }
+        } else {
+            $count = Content_Installer::updateContentType($modname);
+        }
+        return $count;
+    }
 }

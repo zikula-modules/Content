@@ -168,6 +168,10 @@ methodology to add its own plugins. See
 The names of your plugins are stored in the Content module's database tables.
 These must be updated or existing templates will no longer function.
 
+Content will attempt to upgrade existing module's if the methods mentioned here
+exist (e.g. other modules have been upgraded already). But, if you upgrade your
+modules *after* content, then these methods should fix the problem.
+
 In your Installer upgrade routine, add the following line for your newest
 version:
     if (ModUtil::available('Content')) {
@@ -190,6 +194,9 @@ names, it should look something like this:
     }
 
 See the Content_Installer class for complete examples.
+
+In addition, the site admin has the option to run the upgrade routine manually
+from the admin interface, which triggers these same methods.
 
 All the Plugins in the Content module have been converted and are good examples.
 Please take a look there for further ideas. In addition, the following modules
