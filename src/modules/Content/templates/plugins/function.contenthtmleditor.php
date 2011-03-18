@@ -38,11 +38,11 @@ function smarty_function_contenthtmleditor($params, &$view)
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
         $html .= '(' . __("Please install Scribite to get a real HTML editor.", $dom) . ')';
         $html .= "</em></div>";
-    } else if ($useBBCode && ModUtil::available('bbcode')) {
+    } else if ($useBBCode && ModUtil::available('BBCode')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
-        $html .= ModUtil::func('bbcode', 'user', 'bbcodes', array('textfieldid' => $inputId, 'images' => 0));
+        $html .= ModUtil::func('BBCode', 'user', 'bbcodes', array('textfieldid' => $inputId, 'images' => 0));
         $html .= "</em></div>";
-    } else if ($useBBCode && !ModUtil::available('bbcode')) {
+    } else if ($useBBCode && !ModUtil::available('BBCode')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
         $html .= '(' . __("Please install the hook BBCode to enable bbcode filtering.", $dom) . ')';
         $html .= "</em></div>";
