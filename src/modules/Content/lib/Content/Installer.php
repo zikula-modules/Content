@@ -454,16 +454,20 @@ class Content_Installer extends Zikula_Installer
         $columnArray = array('id', 'module', 'type');
         $items = DBUtil::selectObjectArray('content_content', $where, '', -1, -1, '', null, null, $columnArray);
 
+        $count = 0;
         foreach ($items as $item) {
             $newitem = $item;
-            $newitem['type'] = in_array($item['type'], $legacyMap) ? $legacyMap($item['type']) : false;
+            $newitem['type'] = array_key_exists($item['type'], $legacyMap) ? $legacyMap[$item['type']] : false;
             if ($newitem['type']) {
                 DBUtil::updateObject($newitem, 'content_content');
+                $count++;
             }
         }
-        $dom = ZLanguage::getModuleDomain('Content');
-        LogUtil::registerStatus(__f('ContentTypes upgraded for %s', $modname, $dom));
-        return true;
+        if ($count > 0) {
+            $dom = ZLanguage::getModuleDomain('Content');
+            LogUtil::registerStatus(__f('%1$s ContentTypes upgraded for %2$s', array($count, $modname), $dom));
+        }
+        return $count;
     }
     /**
      * map old LayoutType names to new
