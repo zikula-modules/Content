@@ -436,9 +436,17 @@ class Content_Installer extends Zikula_Installer
     public static function updateContentType($modname="Content")
     {
         $installerclass = $modname . "_Installer";
-        $installer = new $installerclass;
-        $legacyMap = $installer->LegacyContentTypeMap();
-
+        if (class_exists($installerclass)) {
+            $installer = new $installerclass;
+        } else {
+            return;
+        }
+        if (method_exists($installer, 'LegacyContentTypeMap')) {
+            $legacyMap = $installer->LegacyContentTypeMap();
+        } else {
+            return;
+        }
+        
         $tables = DBUtil::getTables();
         $table = $tables['content_content'];
         $columns = $tables['content_content_column'];
@@ -453,6 +461,7 @@ class Content_Installer extends Zikula_Installer
                 DBUtil::updateObject($newitem, $table);
             }
         }
+        LogUtil::registerStatus($this->__f('ContentTypes upgraded for %s', $modname));
         return true;
     }
     /**
