@@ -437,7 +437,7 @@ class Content_Installer extends Zikula_Installer
     {
         $installerclass = $modname . "_Installer";
         if (class_exists($installerclass)) {
-            $installer = new $installerclass;
+            $installer = new $installerclass(ServiceUtil::getManager());
         } else {
             return;
         }
@@ -446,22 +446,23 @@ class Content_Installer extends Zikula_Installer
         } else {
             return;
         }
-        
+        ModUtil::dbInfoLoad('Content');
         $tables = DBUtil::getTables();
         $table = $tables['content_content'];
         $columns = $tables['content_content_column'];
         $where = "WHERE " . $columns['module'] . "='" . $modname . "'";
         $columnArray = array('id', 'module', 'type');
-        $items = DBUtil::selectObjectArray($table, $where, '', -1, -1, '', null, null, $columnArray);
+        $items = DBUtil::selectObjectArray('content_content', $where, '', -1, -1, '', null, null, $columnArray);
 
         foreach ($items as $item) {
             $newitem = $item;
             $newitem['type'] = in_array($item['type'], $legacyMap) ? $legacyMap($item['type']) : false;
             if ($newitem['type']) {
-                DBUtil::updateObject($newitem, $table);
+                DBUtil::updateObject($newitem, 'content_content');
             }
         }
-        LogUtil::registerStatus($this->__f('ContentTypes upgraded for %s', $modname));
+        $dom = ZLanguage::getModuleDomain('Content');
+        LogUtil::registerStatus(__f('ContentTypes upgraded for %s', $modname, $dom));
         return true;
     }
     /**

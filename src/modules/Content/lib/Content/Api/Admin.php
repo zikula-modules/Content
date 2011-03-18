@@ -48,6 +48,10 @@ class Content_Api_Admin extends Zikula_Api
                 'url' => ModUtil::url('Content', 'admin', 'settings'),
                 'text' => $this->__('Settings'),
                 'class' => 'z-icon-es-config');
+            $links[] = array(
+                'url' => ModUtil::url('Content', 'admin', 'upgradecontenttypes'),
+                'text' => $this->__('Upgrade ContentTypes'),
+                'class' => 'z-icon-es-gears');
         }
 
         return $links;

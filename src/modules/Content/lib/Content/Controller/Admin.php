@@ -133,4 +133,23 @@ class Content_Controller_Admin extends Zikula_Controller
         return $view->execute('admin/deletedpages.tpl', new Content_Form_Handler_Admin_DeletedPages($args));
     }
 
+    /**
+     * perform a ContentType upgrade on all modules
+     * @param <type> $modname
+     */
+    public function upgradecontenttypes($modname=null)
+    {
+        if ($modname == null) {
+            $modules = ModUtil::getModules();
+            foreach ($modules as $module) {
+                if ($module['name'] <> 'Content') {
+                    Content_Installer::updateContentType($module['name']);
+                }
+            }
+        } else {
+            Content_Installer::updateContentType($modname);
+        }
+        $this->redirect(ModUtil::url('Content', 'admin'));
+    }
+
 }
