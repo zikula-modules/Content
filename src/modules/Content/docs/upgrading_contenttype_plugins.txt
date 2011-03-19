@@ -184,7 +184,7 @@ Also, you must create a method within your module's installer class to map
 the old plugin names to the new plugin names. Using **your own** legacy plugin 
 names, it should look something like this:
 
-    protected function LegacyContentTypeMap()
+    protected static function LegacyContentTypeMap()
     {
         $oldToNew = array(
             'author' => 'Author',

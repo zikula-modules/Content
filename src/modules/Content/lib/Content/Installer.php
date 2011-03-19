@@ -410,8 +410,14 @@ class Content_Installer extends Zikula_Installer
     public static function updateLayout($modname="Content")
     {
         $installerclass = $modname . "_Installer";
-        $installer = new $installerclass;
-        $legacyMap = $installer->LegacyLayoutTypeMap(ServiceUtil::getManager());
+        if (!class_exists($installerclass)) {
+            return;
+        }
+        if (method_exists($installer, 'LegacyContentTypeMap')) {
+            $legacyMap = $installer::LegacyLayoutTypeMap();
+        } else {
+            return;
+        }
 
         $tables = DBUtil::getTables();
         $table = $tables['content_page'];
@@ -439,13 +445,11 @@ class Content_Installer extends Zikula_Installer
     public static function updateContentType($modname="Content")
     {
         $installerclass = $modname . "_Installer";
-        if (class_exists($installerclass)) {
-            $installer = new $installerclass(ServiceUtil::getManager());
-        } else {
+        if (!class_exists($installerclass)) {
             return;
         }
         if (method_exists($installer, 'LegacyContentTypeMap')) {
-            $legacyMap = $installer->LegacyContentTypeMap();
+            $legacyMap = $installer::LegacyContentTypeMap();
         } else {
             return;
         }
@@ -476,7 +480,7 @@ class Content_Installer extends Zikula_Installer
      * map old LayoutType names to new
      * @return array
      */
-    protected function LegacyLayoutTypeMap()
+    protected static function LegacyLayoutTypeMap()
     {
         $oldToNew = array(
             'column1' => 'Column1',
@@ -503,7 +507,7 @@ class Content_Installer extends Zikula_Installer
      * map old ContentType names to new
      * @return array
      */
-    protected function LegacyContentTypeMap()
+    protected static function LegacyContentTypeMap()
     {
         $oldToNew = array(
             'author' => 'Author',
