@@ -466,7 +466,8 @@ class Content_Installer extends Zikula_Installer
         foreach ($items as $item) {
             $newitem = $item;
             $newitem['type'] = array_key_exists($item['type'], $legacyMap) ? $legacyMap[$item['type']] : false;
-            if ($newitem['type']) {
+            $newitem['module'] = (strcmp($newitem['module'], $modname) == 0) ? false : $modname;
+            if ($newitem['type'] || $newitem['module']) {
                 DBUtil::updateObject($newitem, 'content_content');
                 $count++;
             }
