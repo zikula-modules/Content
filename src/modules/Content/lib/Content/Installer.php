@@ -411,7 +411,7 @@ class Content_Installer extends Zikula_Installer
     {
         $installerclass = $modname . "_Installer";
         $installer = new $installerclass;
-        $legacyMap = $installer->LegacyLayoutTypeMap();
+        $legacyMap = $installer->LegacyLayoutTypeMap(ServiceUtil::getManager());
 
         $tables = DBUtil::getTables();
         $table = $tables['content_page'];
