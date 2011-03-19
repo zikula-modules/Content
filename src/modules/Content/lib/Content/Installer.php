@@ -413,8 +413,8 @@ class Content_Installer extends Zikula_Installer
         if (!class_exists($installerclass)) {
             return;
         }
-        if (method_exists($installer, 'LegacyLayoutTypeMap')) {
-            $legacyMap = call_user_func(array($installer, 'LegacyLayoutTypeMap'));
+        if (method_exists($installerclass, 'LegacyLayoutTypeMap')) {
+            $legacyMap = call_user_func(array($installerclass, 'LegacyLayoutTypeMap'));
         } else {
             return;
         }
@@ -448,8 +448,8 @@ class Content_Installer extends Zikula_Installer
         if (!class_exists($installerclass)) {
             return;
         }
-        if (method_exists($installer, 'LegacyContentTypeMap')) {
-            $legacyMap = call_user_func(array($installer, 'LegacyContentTypeMap'));
+        if (method_exists($installerclass, 'LegacyContentTypeMap')) {
+            $legacyMap = call_user_func(array($installerclass, 'LegacyContentTypeMap'));
         } else {
             return;
         }
