@@ -419,6 +419,7 @@ class Content_Installer extends Zikula_Installer
             return;
         }
 
+        ModUtil::dbInfoLoad('Content');
         $tables = DBUtil::getTables();
         $table = $tables['content_page'];
         $columns = $tables['content_page_column'];
