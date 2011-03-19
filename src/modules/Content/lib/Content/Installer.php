@@ -428,7 +428,7 @@ class Content_Installer extends Zikula_Installer
 
         foreach ($items as $item) {
             $newitem = $item;
-            $newitem['layout'] = in_array($item['layout'], $legacyMap) ? $legacyMap($item['layout']) : false;
+            $newitem['layout'] = in_array($item['layout'], $legacyMap) ? $legacyMap[$item['layout']] : false;
             if ($newitem['layout']) {
                 DBUtil::updateObject($newitem, 'content_page');
             }
