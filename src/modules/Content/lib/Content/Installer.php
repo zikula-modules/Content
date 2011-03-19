@@ -424,13 +424,13 @@ class Content_Installer extends Zikula_Installer
         $table = $tables['content_page'];
         $columns = $tables['content_page_column'];
         $columnArray = array('id', 'layout');
-        $items = DBUtil::selectObjectArray($table, '', '', -1, -1, '', null, null, $columnArray);
+        $items = DBUtil::selectObjectArray('content_page', '', '', -1, -1, '', null, null, $columnArray);
 
         foreach ($items as $item) {
             $newitem = $item;
             $newitem['layout'] = in_array($item['layout'], $legacyMap) ? $legacyMap($item['layout']) : false;
             if ($newitem['layout']) {
-                DBUtil::updateObject($newitem, $table);
+                DBUtil::updateObject($newitem, 'content_page');
             }
         }
         return true;
