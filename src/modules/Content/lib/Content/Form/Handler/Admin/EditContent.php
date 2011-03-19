@@ -54,19 +54,31 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
             return $this->view->registerError(null);
         }
 
-        $this->contentType['plugin'] = $content['plugin'];
-        $this->contentType['module'] = $content['plugin']->getModule();
-        $this->contentType['name'] = $content['plugin']->getName();
-        $this->contentType['title'] = $content['plugin']->getTitle();
-        $this->contentType['description'] = $content['plugin']->getDescription();
-        $this->contentType['adminInfo'] = $content['plugin']->getAdminInfo();
-        $this->contentType['isActive'] = $content['plugin']->isActive();
+        if (isset($content['plugin'])) {
+            $this->contentType['plugin'] = $content['plugin'];
+            $this->contentType['module'] = $content['plugin']->getModule();
+            $this->contentType['name'] = $content['plugin']->getName();
+            $this->contentType['title'] = $content['plugin']->getTitle();
+            $this->contentType['description'] = $content['plugin']->getDescription();
+            $this->contentType['adminInfo'] = $content['plugin']->getAdminInfo();
+            $this->contentType['isActive'] = $content['plugin']->isActive();
+        } else {
+            $this->contentType['name'] = $this->__('Unknown');
+            $this->contentType['title'] = $this->__('Unknown plugin - requires upgrade');
+            $this->contentType['description'] = $this->__('Disabled plugin - requires upgrade');
+            $this->contentType['adminInfo'] = $this->__('Disabled plugin - requires upgrade');
+            $this->contentType['isActive'] = false;
+        }
 
         if ($this->contentType === false) {
             return $this->view->registerError(null);
         }
 
-        $this->contentType['plugin']->startEditing();
+        $editTemplate = "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl";
+        if (isset($content['plugin'])) {
+            $this->contentType['plugin']->startEditing();
+            $editTemplate = $this->contentType['plugin']->getEditTemplate();
+        }
         $this->pageId = $content['pageId'];
 
         if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
@@ -84,7 +96,7 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_Handler
 
         PageUtil::setVar('title', $this->__("Edit content item") . ' : ' . $page['title']);
 
-        $this->view->assign('contentTypeTemplate', $this->contentType['plugin']->getEditTemplate());
+        $this->view->assign('contentTypeTemplate', $editTemplate);
 
         $this->view->assign('page', $page);
         $this->view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only not logged in people'), 'value' => '2')));

@@ -41,19 +41,25 @@ class Content_Api_Content extends Zikula_Api
 
         $content = array();
         foreach ($contentList as $c) {
-            $c['title'] = $c['plugin']->getTitle();
-            $c['isTranslatable'] = $c['plugin']->isTranslatable(); // dup line 135?
-            $output = '';
-            if ($expandContent) {
-                $output = $c['plugin']->displayStart();
-                if ($editing) {
-                    $output .= $c['plugin']->displayEditing();
-                } else {
-                    $output .= $c['plugin']->display();
+            if (isset($c['plugin'])) {
+                $c['title'] = $c['plugin']->getTitle();
+                $c['isTranslatable'] = $c['plugin']->isTranslatable(); // dup line 135?
+                $output = '';
+                if ($expandContent) {
+                    $output = $c['plugin']->displayStart();
+                    if ($editing) {
+                        $output .= $c['plugin']->displayEditing();
+                    } else {
+                        $output .= $c['plugin']->display();
+                    }
+                    $output .= $c['plugin']->displayEnd();
                 }
-                $output .= $c['plugin']->displayEnd();
+                $c['output'] = $output;
+            } else {
+                $c['title'] = $this->__('disabled plugin');
+                $c['isTranslatable'] = false;
+                $c['output'] = $this->__f('Disabled: Inaccessible plugin output (%1$s, %2$s).', array($c['module'], $c['type']));
             }
-            $c['output'] = $output;
             $content[$c['areaIndex']][] = $c;
         }
 
@@ -128,11 +134,12 @@ class Content_Api_Content extends Zikula_Api
             }
 
             $contentPlugin = $this->getContentPlugin($c, $view);
-            if ($contentPlugin === false) {
-                return LogUtil::registerError($this->__("Error! Can't load content plugin"));
+            if ($contentPlugin) {
+                $content[$i]['plugin'] = $contentPlugin;
+                $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable(); // dup line 44?
+            } else {
+                $content[$i]['isTranslatable'] = false;
             }
-            $content[$i]['plugin'] = $contentPlugin;
-            $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable(); // dup line 44?
         }
 
         return $content;
@@ -768,17 +775,20 @@ class Content_Api_Content extends Zikula_Api
     public function getContentPlugin($args, $view = null)
     {
         $classname = $args['module'] . "_ContentType_" . $args['type'];
+        if (!class_exists($classname)) {
+            return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the class is not defined. Upgrade of %2$s module required.', array($args['type'], $args['module'])));
+        }
         $type = FormUtil::getPassedValue('type', 'user');
         if ($type == 'user') {
             $view = Zikula_View::getInstance($args['module']);
         } elseif ($type == 'admin' && $view == null) {
             $view = new Zikula_Form_View($this->getServiceManager(), $args['module']);
         }
+        if (!ModUtil::available($args['module'])) {
+            return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args['type'], $args['module'])));
+        }
         $plugin = new $classname($view);
         if (empty($plugin)) {
-            if (!ModUtil::available($args['module'])) {
-                return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args['type'], $args['module'])));
-            }
             return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason.', array($args['type'], $args['module'])));
         }
         $plugin->setcontentId($args['id']);
