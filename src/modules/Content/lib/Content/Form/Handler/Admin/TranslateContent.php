@@ -122,7 +122,7 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
         if (empty($url)) {
             $url = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $this->pageId));
         }
-        ModUtil::apiFunc('PageLock', 'User', 'releaseLock', array('lockName' => "contentTranslateContent{$this->contentId}"));
+        ModUtil::apiFunc('PageLock', 'user', 'releaseLock', array('lockName' => "contentTranslateContent{$this->contentId}"));
 
         return $this->view->redirect($url);
     }

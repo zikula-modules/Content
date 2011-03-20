@@ -69,7 +69,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
         } else {
             $returnUrl = ModUtil::url('Content', 'admin', 'main');
         }
-        ModUtil::apiFunc('PageLock', 'User', 'pageLock', array('lockName' => "contentPage{$this->pageId}", 'returnUrl' => $returnUrl));
+        ModUtil::apiFunc('PageLock', 'user', 'pageLock', array('lockName' => "contentPage{$this->pageId}", 'returnUrl' => $returnUrl));
 
         return true;
     }
@@ -133,7 +133,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_Handler
         } else if ($args['commandName'] == 'cancel') {
         }
 
-        ModUtil::apiFunc('PageLock', 'User', 'releaseLock', array('lockName' => "contentPage{$this->pageId}"));
+        ModUtil::apiFunc('PageLock', 'user', 'releaseLock', array('lockName' => "contentPage{$this->pageId}"));
 
         if ($url == null) {
             $url = $this->backref;
