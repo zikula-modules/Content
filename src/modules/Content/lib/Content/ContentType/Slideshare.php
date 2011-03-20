@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_Slideshare extends Content_ContentType
+class Content_ContentType_Slideshare extends Content_AbstractContentType
 {
     protected $url;
     protected $text;

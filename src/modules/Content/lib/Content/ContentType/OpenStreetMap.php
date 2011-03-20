@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_OpenStreetMap extends Content_ContentType
+class Content_ContentType_OpenStreetMap extends Content_AbstractContentType
 {
     protected $longitude;
     protected $latitude;

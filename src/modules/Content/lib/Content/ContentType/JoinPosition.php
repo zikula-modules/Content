@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_JoinPosition extends Content_ContentType
+class Content_ContentType_JoinPosition extends Content_AbstractContentType
 {
     protected $clear;
 

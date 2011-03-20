@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_LayoutType_Column3d255025 extends Content_LayoutType
+class Content_LayoutType_Column3d255025 extends Content_AbstractLayoutType
 {
     protected $contentAreaTitles = array();
 

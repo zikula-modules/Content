@@ -4,7 +4,7 @@
  * Base class for content plugins
  *
  */
-class Content_Type implements Zikula_TranslatableInterface
+abstract class Content_AbstractType implements Zikula_TranslatableInterface
 {
 
     /**

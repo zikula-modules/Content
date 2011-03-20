@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_Quote extends Content_ContentType
+class Content_ContentType_Quote extends Content_AbstractContentType
 {
     protected $text;
 

@@ -9,7 +9,7 @@
 
 require_once 'modules/Content/lib/vendor/phpFlickr/phpFlickr.php';
 
-class Content_ContentType_Flickr extends Content_ContentType
+class Content_ContentType_Flickr extends Content_AbstractContentType
 {
     protected $userName;
     protected $tags;

@@ -8,7 +8,7 @@
  * has submitted data after editing plugin. The constructor should initialize
  * object data based on the input.
  */
-class Content_ContentType extends Content_Type
+abstract class Content_AbstractContentType extends Content_AbstractType
 {
 
     protected $pageId;

@@ -7,7 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-class Content_ContentType_Html extends Content_ContentType
+class Content_ContentType_Html extends Content_AbstractContentType
 {
 
     protected $text;

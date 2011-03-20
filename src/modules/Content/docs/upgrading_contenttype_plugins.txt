@@ -44,7 +44,7 @@ Move your existing pncontenttypesapi files to
 
 rename the classes within to
 
-    ModuleName_ContentType_Pluginname extends Content_ContentType
+    ModuleName_ContentType_Pluginname extends Content_AbstractContentType
 
 (replace the 'ModuleName' with your *actual* module name - with Caps)
 

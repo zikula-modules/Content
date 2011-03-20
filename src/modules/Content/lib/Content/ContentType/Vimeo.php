@@ -7,7 +7,7 @@
 * @license See license.txt
 */
 
-class Content_ContentType_Vimeo extends Content_ContentType
+class Content_ContentType_Vimeo extends Content_AbstractContentType
 {
     protected $url;
     protected $width;

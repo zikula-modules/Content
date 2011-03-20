@@ -1,6 +1,6 @@
 <?php
 
-class Content_LayoutType extends Content_Type
+abstract class Content_AbstractLayoutType extends Content_AbstractType
 {
 
     public function getNumberOfContentAreas()

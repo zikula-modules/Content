@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_ContentType_ModuleFunc extends Content_ContentType
+class Content_ContentType_ModuleFunc extends Content_AbstractContentType
 {
     protected $module;
     protected $type;

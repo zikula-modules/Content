@@ -5,7 +5,7 @@
  * @copyright (C) 2008, Markus Gr��ing
  */
 
-class Content_ContentType_Block extends Content_ContentType
+class Content_ContentType_Block extends Content_AbstractContentType
 {
     protected $text;
     protected $blockid;
