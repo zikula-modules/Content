@@ -1,5 +1,5 @@
 <?php
-class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_Handler
+class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_AbstractHandler
 {
     var $contentId;
     var $pageId;

@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Plugin_PositionSelector extends Zikula_Form_Plugin
+class Content_Form_Plugin_PositionSelector extends Zikula_Form_AbstractPlugin
 {
     var $inputName;
     var $dataBased;

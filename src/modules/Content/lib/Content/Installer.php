@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_Installer extends Zikula_Installer
+class Content_Installer extends Zikula_AbstractInstaller
 {
 
     public function install()
@@ -37,7 +37,7 @@ class Content_Installer extends Zikula_Installer
         }
 
         if (!$this->_content_setCategoryRoot()) {
-            LogUtil::registerStatus($this->__('Warning! Could not create the default Content category tree. If you want to use categorisation with Content, register at least one property for the module in the Category Registry.')); 
+            LogUtil::registerStatus($this->__('Warning! Could not create the default Content category tree. If you want to use categorisation with Content, register at least one property for the module in the Category Registry.'));
         }
 
         $this->setVar('shorturlsuffix', '.html');
@@ -57,7 +57,7 @@ class Content_Installer extends Zikula_Installer
         EventUtil::registerPersistentModuleHandler('Content', 'module.content.getTypes', array('Content_Util', 'getTypes'));
 
         // create the default data for the Content module
-        $this->defaultdata();        
+        $this->defaultdata();
 
         return true;
     }
@@ -225,13 +225,13 @@ class Content_Installer extends Zikula_Installer
         DBUtil::changeTable('content_translatedpage');
         DBUtil::changeTable('content_translatedcontent');
         DBUtil::changeTable('content_history');
-        
+
         // add new variable(s)
         $this->setVar('categoryUsage', '1');
         $this->setVar('categoryPropPrimary', 'primary');
         $this->setVar('categoryPropSecondary', 'primary');
         $this->setVar('newPageState', '1');
-        
+
         return true;
     }
 
@@ -241,7 +241,7 @@ class Content_Installer extends Zikula_Installer
         DBUtil::changeTable('content_page');
         DBUtil::changeTable('content_content');
         DBUtil::changeTable('content_translatedcontent');
-        
+
         // add new variable(s)
         $this->setVar('countViews', '0');
 
@@ -251,7 +251,7 @@ class Content_Installer extends Zikula_Installer
 
         return true;
     }
-    
+
     protected function contentUpgrade_4_0_0($oldVersion)
     {
         // update tables with new indexes
@@ -270,10 +270,10 @@ class Content_Installer extends Zikula_Installer
         if (!DBUtil::changeTable('content_history')) {
             return false;
         }
-                
+
         // Register for hook subscribing
         HookUtil::registerHookSubscriberBundles($this->version);
-        
+
         // convert module vars
         $modvars = $this->getVars();
         if ($modvars) {
@@ -337,7 +337,7 @@ class Content_Installer extends Zikula_Installer
                 'setLeft'       => '0',
                 'setRight'      => '1',
                 'language'      => ZLanguage::getLanguageCode());
-        
+
         // Insert the default page
         if (!($obj = DBUtil::insertObject($page, 'content_page'))) {
             LogUtil::registerStatus($this->__('Warning! Could not create the default Content introductory page.'));
@@ -439,7 +439,7 @@ class Content_Installer extends Zikula_Installer
      * update the DB to reflect new names of ContentTypes
      * can be called as static method from any modules with correct args
      * will expect LegacyContentTypeMap() method in module installer
-     * 
+     *
      * @param string $modname
      * @return boolean
      */

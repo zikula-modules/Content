@@ -9,7 +9,7 @@
 
 // The following information is used by the Modules module
 // for display and upgrade purposes
-class Content_Version extends Zikula_Version
+class Content_Version extends Zikula_AbstractVersion
 {
     public function getMetaData()
     {

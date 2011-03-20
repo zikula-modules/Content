@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_Handler
+class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
 {
     var $pageId; // Parent or previous page ID or null for new top page
     var $backref;

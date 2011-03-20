@@ -7,7 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-class Content_Api_Page extends Zikula_Api
+class Content_Api_Page extends Zikula_AbstractApi
 {
     /* =[ Fetch pages ]=============================================================== */
 
@@ -1352,7 +1352,7 @@ class Content_Api_Page extends Zikula_Api
     }
 
     /**
-     * Update the status of the page 
+     * Update the status of the page
      *
      * @param int pageId
      * @param string active (optional)

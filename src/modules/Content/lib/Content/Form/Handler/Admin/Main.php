@@ -1,6 +1,6 @@
 <?php
 
-class Content_Form_Handler_Admin_Main extends Zikula_Form_Handler
+class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
 {
     public function __construct($args)
     {
@@ -49,7 +49,7 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_Handler
             $dstId = FormUtil::getPassedValue('contentTocDragDstId', null, 'POST');
             list ($dummy, $srcId) = explode('_', $srcId);
             list ($dummy, $dstId) = explode('_', $dstId);
-            
+
             $ok = ModUtil::apiFunc('Content', 'Page', 'pageDrop', array('srcId' => $srcId, 'dstId' => $dstId));
             if (!$ok) {
                 return $this->view->registerError(null);

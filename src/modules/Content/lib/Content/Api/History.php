@@ -7,7 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-class Content_Api_History extends Zikula_Api
+class Content_Api_History extends Zikula_AbstractApi
 {
 
     public function getPageVersions($args)

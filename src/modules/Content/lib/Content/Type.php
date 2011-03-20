@@ -4,7 +4,7 @@
  * Base class for content plugins
  *
  */
-class Content_Type implements Zikula_Translatable
+class Content_Type implements Zikula_TranslatableInterface
 {
 
     /**
@@ -21,13 +21,13 @@ class Content_Type implements Zikula_Translatable
     protected $view;
     /**
      * Module name
-     * 
+     *
      * @var string
      */
     protected $modname = 'Content';
     /**
      * Plugin name
-     * 
+     *
      * @var string
      */
     protected $pluginname;

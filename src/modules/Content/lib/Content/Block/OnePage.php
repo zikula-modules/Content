@@ -7,7 +7,7 @@
  * @license See license.txt
  * @author N.Petkov, based on block menu.php
  */
-class Content_Block_OnePage extends Zikula_Controller_Block
+class Content_Block_OnePage extends Zikula_Controller_AbstractBlock
 {
 
     public function init()

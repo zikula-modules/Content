@@ -7,7 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-class Content_Api_User extends Zikula_Api
+class Content_Api_User extends Zikula_AbstractApi
 {
 
     /**
@@ -152,9 +152,9 @@ class Content_Api_User extends Zikula_Api
     }
 
     /**
-     * get a specific item 
-     * @param $args['pid'] id of example item to get 
-     * @return mixed item array, or false on failure 
+     * get a specific item
+     * @param $args['pid'] id of example item to get
+     * @return mixed item array, or false on failure
      */
     public function get($args)
     {

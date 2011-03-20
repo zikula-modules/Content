@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_Block_Menu extends Zikula_Controller_Block
+class Content_Block_Menu extends Zikula_Controller_AbstractBlock
 {
     public function init()
     {

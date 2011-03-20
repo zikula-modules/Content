@@ -1,12 +1,12 @@
 <?php
 
-class Content_Form_Handler_Admin_DeletedPages extends Zikula_Form_Handler
+class Content_Form_Handler_Admin_DeletedPages extends Zikula_Form_AbstractHandler
 {
     public function __construct($args)
     {
         $this->args = $args;
     }
-    
+
     public function initialize(Zikula_Form_View $view)
     {
         $offset = (int)FormUtil::getPassedValue('offset');

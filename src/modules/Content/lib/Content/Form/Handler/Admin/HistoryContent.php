@@ -1,5 +1,5 @@
 <?php
-class Content_Form_Handler_Admin_HistoryContent extends Zikula_Form_Handler
+class Content_Form_Handler_Admin_HistoryContent extends Zikula_Form_AbstractHandler
 {
     var $pageId;
     var $backref;
