@@ -7,7 +7,7 @@ class Content_Form_Plugin_ModuleSelector extends Zikula_Form_Plugin_DropdownList
         return __FILE__;
     }
 
-    function load($view, &$params)
+    function load(Zikula_Form_View $view, &$params)
     {
         if (!$view->isPostBack()) {
             // Find the active modules
