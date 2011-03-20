@@ -10,25 +10,25 @@
         <h4>{$page.title|truncate:200|safetext}</h4>
         <ul>
             {if $editmode}
-            <li><a class="con_image editoff" href="{modurl modname='Content' type=user func=view pid=$page.id editmode="0"}">{gt text="Edit-mode off" domain="module_content"}</a></li>
+            <li><a class="con_image editoff" href="{modurl modname='Content' type='user' func='view' pid=$page.id editmode="0"}">{gt text="Edit-mode off" domain="module_Content"}</a></li>
             {else}
-            <li><a class="con_image editon" href="{modurl modname='Content' type=user func=view pid=$page.id editmode="1"}">{gt text="Edit-mode on" domain="module_content"}</a></li>
+            <li><a class="con_image editon" href="{modurl modname='Content' type='user' func='view' pid=$page.id editmode="1"}">{gt text="Edit-mode on" domain="module_Content"}</a></li>
             {/if}
-            <li><a class="con_image edit" href="{modurl modname='Content' type=admin func=editpage pid=$page.id back=1}">{gt text="Edit page" domain="module_content"}</a></li>
+            <li><a class="con_image edit" href="{modurl modname='Content' type='admin' func='editpage' pid=$page.id back=1}">{gt text="Edit page" domain="module_Content"}</a></li>
             {if $multilingual}
-            <li><a class="con_image translate" href="{modurl modname='Content' type=admin func=translatepage pid=$page.id back=1}">{gt text="Translate page" domain="module_content"}</a></li>
+            <li><a class="con_image translate" href="{modurl modname='Content' type='admin' func='translatepage' pid=$page.id back='1'}">{gt text="Translate page" domain="module_Content"}</a></li>
             {/if}
             {if $access.pageCreateAllowed}
-            <li><a class="con_image insertsub" href="{modurl modname='Content' type=admin func=newpage pid=$page.id loc=sub}">{gt text="New sub-page" domain="module_content"}</a></li>
-            <li><a class="con_image insertpage" href="{modurl modname='Content' type=admin func=newpage pid=$page.id}">{gt text="Add new page" domain="module_content"}</a></li>
+            <li><a class="con_image insertsub" href="{modurl modname='Content' type='admin' func='newpage' pid=$page.id loc=sub}">{gt text="New sub-page" domain="module_Content"}</a></li>
+            <li><a class="con_image insertpage" href="{modurl modname='Content' type='admin' func='newpage' pid=$page.id}">{gt text="Add new page" domain="module_Content"}</a></li>
             {/if}
-            <li><a class="con_image pagelist" href="{modurl modname='Content' type=admin func=main}">{gt text="Page list" domain="module_content"}</a></li>
+            <li><a class="con_image pagelist" href="{modurl modname='Content' type='admin' func='main'}">{gt text="Page list" domain="module_Content"}</a></li>
         </ul>
         <ul>
-            <li>{gt text='Created by %1$s on %2$s' tag1=$authorName|userprofilelink tag2=$page.cr_date|dateformat:"datebrief" domain="module_content"}</li>
-            <li>{gt text='Last updated by %1$s on %2$s' tag1=$updaterName|userprofilelink tag2=$page.lu_date|dateformat:"datebrief" domain="module_content"}</li>
-            {if $enableVersioning}<li>{gt text="Version" domain="module_content"} #{$versionNo}</li>{/if}
-            {if $multilingual}<li>{gt text="Language" domain="module_content"}: {$page.language}</li>{/if}
+            <li>{gt text='Created by %1$s on %2$s' tag1=$authorName|userprofilelink tag2=$page.cr_date|dateformat:"datebrief" domain="module_Content"}</li>
+            <li>{gt text='Last updated by %1$s on %2$s' tag1=$updaterName|userprofilelink tag2=$page.lu_date|dateformat:"datebrief" domain="module_Content"}</li>
+            {if $enableVersioning}<li>{gt text="Version" domain="module_Content"} #{$versionNo}</li>{/if}
+            {if $multilingual}<li>{gt text="Language" domain="module_Content"}: {$page.language}</li>{/if}
         </ul>
     </div>
 </div>

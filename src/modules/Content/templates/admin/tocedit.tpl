@@ -1,6 +1,6 @@
 <script type="text/javascript">
     //<![CDATA[
-    {{modurl modname=Content type=user func=view preview=1 pid=__PID__ assign=previewUrl}}
+    {{modurl modname='Content' type='user' func='view' preview='1' pid='__PID__' assign='previewUrl'}}
     content.previewUrl = "{{$previewUrl}}";
     function contentToggle(id)
     {
@@ -14,7 +14,7 @@
 <div>
     <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
 </div>
-{modurl modname='Content' type=admin func=translatePage pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
+{modurl modname='Content' type='admin' func='translatePage' pid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign='translateUrl'}
 
 {formcontextmenu id="contentTocMenu" width="auto"}
 {formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.png" commandName="editPage"}
@@ -35,10 +35,10 @@
 {/if}
 {/formcontextmenu}
 
-{gt text="Click to activate this page" assign=activate}
-{gt text="Click to deactivate this page" assign=deactivate}
-{gt text="Click to put this page in the menu" assign=inmenu}
-{gt text="Click to pull this page from the menu" assign=outmenu}
+{gt text="Click to activate this page" assign='activate'}
+{gt text="Click to deactivate this page" assign='deactivate'}
+{gt text="Click to put this page in the menu" assign='inmenu'}
+{gt text="Click to pull this page from the menu" assign='outmenu'}
 
 <div class="content-toc">
     <table class="z-datatable">
@@ -71,7 +71,7 @@
                         <img src="images/icons/extrasmall/move.png" alt="{gt text="Page draggable"}" title="{gt text="Page draggable"}" class="draggable"/>
                         {/if}
 
-                        <a href="{modurl modname=Content type=admin func=editPage pid=$page.id}" id="droppable_{$page.id}">{$page.title} [{$page.id}{* {$page.position}|{$page.setLeft}/{$page.setRight}  *}]</a>
+                        <a href="{modurl modname='Content' type='admin' func='editPage' pid=$page.id}" id="droppable_{$page.id}">{$page.title} [{$page.id}{* {$page.position}|{$page.setLeft}/{$page.setRight}  *}]</a>
                         {if $access.pageEditAllowed}&nbsp;{formcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="modules/Content/images/contextarrow.png"}{/if}
                     </div>
                 </td>

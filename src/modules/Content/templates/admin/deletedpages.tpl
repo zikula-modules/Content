@@ -22,7 +22,7 @@
         <tbody>
             {foreach from=$versions item=version}
             <tr class="{cycle values="z-odd,z-even"}">
-                <td class="z-nowrap"><a href="{modurl modname=Content type=user func=view vid=$version.id}">{$version.date|dateformat:'datetimebrief'}</a></td>
+                <td class="z-nowrap"><a href="{modurl modname='Content' type='user' func='view' vid=$version.id}">{$version.date|dateformat:'datetimebrief'}</a></td>
                 <td>{$version.userId|userprofilelink}</td>
                 <td>{$version.ipno}</td>
                 <td>{formbutton __text="Restore" commandName="restore" commandArgument=$version.id __confirmMessage='Restore'}</td>

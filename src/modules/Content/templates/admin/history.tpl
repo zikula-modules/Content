@@ -27,7 +27,7 @@
             {foreach from=$versions item=version}
             <tr class="{cycle values="z-odd,z-even"}">
                 <td>{$version.revisionNo}</td>
-                <td class="z-nowrap"><a href="{modurl modname='Content' type=user func=view vid=$version.id}">{$version.date|date_format:datetimebrief}</a></td>
+                <td class="z-nowrap"><a href="{modurl modname='Content' type='user' func='view' vid=$version.id}">{$version.date|date_format:datetimebrief}</a></td>
                 <td>{$version.action}</td>
                 <td>{$version.userName|userprofilelink}</td>
                 <td>{$version.ipno}</td>

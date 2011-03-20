@@ -7,7 +7,7 @@
     <div class="content-pagelist">
         {foreach from=$pages item=page}
         {include file=$page.layoutTemplate inlist=1}
-        <a class="content-pagemore" href="{modurl modname=Content func=view pid=$page.id}">{gt text="View full page"}</a>
+        <a class="content-pagemore" href="{modurl modname='Content' func='view' pid=$page.id}">{gt text="View full page"}</a>
         {/foreach}
     </div>
 {else}

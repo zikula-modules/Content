@@ -3,13 +3,13 @@
 
 {if !empty($pages)}
     {foreach from=$pages item=page}
-        <h2><a href="{modurl modname='Content' func=view pid=$page.id}">{$page.title}</a></h2>
+        <h2><a href="{modurl modname='Content' func='view' pid=$page.id}">{$page.title}</a></h2>
         {if !empty($page.content[0])}
         {foreach from=$page.content[0] item=c}
         {contenteditthis data=$c access=$access type='content'}
         {$c.output}
         {/foreach}
-        <p><a href="{modurl modname='Content' func=view pid=$page.id}">{gt text="more"}</a></p>
+        <p><a href="{modurl modname='Content' func='view' pid=$page.id}">{gt text="more"}</a></p>
         {/if}
     {/foreach}
 {else}

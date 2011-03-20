@@ -23,10 +23,10 @@
     <h2>{gt text="Edit page"}</h2>
     <h3>{$subheader}</h3>
 
-    {modurl modname='Content' type=admin func=editcontent cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=editUrl}
-    {modurl modname='Content' type=admin func=newcontent above=1 cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=aboveUrl}
-    {modurl modname='Content' type=admin func=newcontent above=0 cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=belowUrl}
-    {modurl modname='Content' type=admin func=translatecontent cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign=translateUrl}
+    {modurl modname='Content' type='admin' func='editcontent' cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign='editUrl'}
+    {modurl modname='Content' type='admin' func='newcontent' above=1 cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign='aboveUrl'}
+    {modurl modname='Content' type='admin' func='newcontent' above=0 cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign='belowUrl'}
+    {modurl modname='Content' type='admin' func='translatecontent' cid=$smarty.ldelim|cat:"commandArgument"|cat:$smarty.rdelim assign='translateUrl'}
 
     {insert name="getstatusmsg"}
 
@@ -43,7 +43,7 @@
     {if $multilingual==1}{formcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.png" commandRedirect=$translateUrl}{/if}
     {/formcontextmenu}
 
-    {modurl modname='Content' type=admin func=editcontent cid="commandArgument" assign=editUrl}
+    {modurl modname='Content' type='admin' func='editcontent' cid="commandArgument" assign='editUrl'}
 
     {formerrormessage id='error'}
 
@@ -53,7 +53,7 @@
 
     {if $enableVersioning}
     <ul class="content-subtabs">
-        <li><a href="{modurl modname='Content' type=admin func=history pid=$page.id}">{gt text="History"}</a></li>
+        <li><a href="{modurl modname='Content' type='admin' func='history' pid=$page.id}">{gt text="History"}</a></li>
     </ul>
     {/if}
 

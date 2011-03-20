@@ -6,7 +6,7 @@
         {if $access.pageEditAllowed}
         <img src="modules/Content/images/drag.gif" alt="" class="draggable"/>
         {/if}
-        <a href="{modurl modname='Content' func=page pid=$page.id}" id="droppable_{$page.id}">{$page.title}</a>
+        <a href="{modurl modname='Content' func='page' pid=$page.id}" id="droppable_{$page.id}">{$page.title}</a>
         {if $access.pageEditAllowed}
         {formcontextmenureference menuId="contentTocMenu" commandArgument=$page.id imageURL="modules/Content/images/contextarrow.png"}
         {/if}
