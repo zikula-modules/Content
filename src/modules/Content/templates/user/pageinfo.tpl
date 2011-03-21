@@ -16,7 +16,7 @@
             {/if}
             <li><a class="con_image edit" href="{modurl modname='Content' type='admin' func='editpage' pid=$page.id back=1}">{gt text="Edit page" domain="module_Content"}</a></li>
             {if $multilingual}
-            <li><a class="con_image translate" href="{modurl modname='Content' type='admin' func='translatepage' pid=$page.id back='1'}">{gt text="Translate page" domain="module_Content"}</a></li>
+            <li><a class="con_image translate" href="{modurl modname='Content' type='admin' func='translatepage' pid=$page.id back=1}">{gt text="Translate page" domain="module_Content"}</a></li>
             {/if}
             {if $access.pageCreateAllowed}
             <li><a class="con_image insertsub" href="{modurl modname='Content' type='admin' func='newpage' pid=$page.id loc=sub}">{gt text="New sub-page" domain="module_Content"}</a></li>
