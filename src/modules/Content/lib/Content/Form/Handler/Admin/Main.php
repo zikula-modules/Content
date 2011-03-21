@@ -13,8 +13,15 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
             return $this->view->registerError(LogUtil::registerPermissionError());
         }
 
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('editing' => true, 'filter' => array('checkActive' => false, 'expandedPageIds' => Content_Util::contentMainEditExpandGet()), 'enableEscape' => true, 'translate' => false, 'includeLanguages' => true,
-            'orderBy' => 'setLeft'));
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
+            'editing' => true,
+            'filter' => array(
+                'checkActive' => false,
+                'expandedPageIds' => Content_Util::contentMainEditExpandGet()),
+                'enableEscape' => true,
+                'translate' => false,
+                'includeLanguages' => true,
+                'orderBy' => 'setLeft'));
         if ($pages === false) {
             return $this->view->registerError(null);
         }
