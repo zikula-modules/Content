@@ -85,7 +85,10 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
             return $this->view->registerError(LogUtil::registerPermissionError());
         }
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false)));
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+            'id' => $this->pageId,
+            'includeContent' => false,
+            'filter' => array('checkActive' => false)));
         if ($page === false) {
             return $this->view->registerError(null);
         }
@@ -99,7 +102,13 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
         $this->view->assign('contentTypeTemplate', $editTemplate);
 
         $this->view->assign('page', $page);
-        $this->view->assign('visiblefors', array(array('text' => $this->__('public (all)'), 'value' => '1'), array('text' => $this->__('only logged in members'), 'value' => '0'), array('text' => $this->__('only not logged in people'), 'value' => '2')));
+        $this->view->assign('visiblefors', array(
+            array('text' => $this->__('public (all)'),
+                'value' => '1'),
+            array('text' => $this->__('only logged in members'),
+                'value' => '0'),
+            array('text' => $this->__('only not logged in people'),
+                'value' => '2')));
         $this->view->assign('content', $content);
         $this->view->assign('data', $content['data']);
         $this->view->assign('contentType', $this->contentType);
@@ -115,7 +124,9 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
         } else {
             $returnUrl = ModUtil::url('Content', 'admin', 'editpage', array('pid' => $this->pageId));
         }
-        ModUtil::apiFunc('PageLock', 'user', 'pageLock', array('lockName' => "contentContent{$this->contentId}", 'returnUrl' => $returnUrl));
+        ModUtil::apiFunc('PageLock', 'user', 'pageLock', array(
+            'lockName' => "contentContent{$this->contentId}",
+            'returnUrl' => $returnUrl));
 
         return true;
     }
@@ -139,12 +150,17 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
 
             $this->contentType['plugin']->loadData($contentData['data']);
 
-            $ok = ModUtil::apiFunc('Content', 'Content', 'updateContent', array('content' => $contentData + $contentData['content'], 'searchableText' => $this->contentType['plugin']->getSearchableText(), 'id' => $this->contentId));
+            $ok = ModUtil::apiFunc('Content', 'Content', 'updateContent', array(
+                'content' => $contentData + $contentData['content'],
+                'searchableText' => $this->contentType['plugin']->getSearchableText(),
+                'id' => $this->contentId));
             if ($ok === false) {
                 return $this->view->registerError(null);
             }
             if ($args['commandName'] == 'translate') {
-                $url = ModUtil::url('Content', 'admin', 'translatecontent', array('cid' => $this->contentId, 'back' => 1));
+                $url = ModUtil::url('Content', 'admin', 'translatecontent', array(
+                    'cid' => $this->contentId,
+                    'back' => 1));
             }
         } else if ($args['commandName'] == 'delete') {
             $ok = ModUtil::apiFunc('Content', 'Content', 'deleteContent', array('contentId' => $this->contentId));
