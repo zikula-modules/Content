@@ -10,23 +10,6 @@
 class Content_ContentType_Breadcrumb extends Content_AbstractContentType
 {
 
-    protected $pageid;
-
-    function __construct(Zikula_View $view, array $data = array()) {
-        parent::__construct($view);
-        $this->pageid = isset($data['pageId']) ? $data['pageId'] : null;
-    }
-
-    public function getPageid()
-    {
-        return $this->pageid;
-    }
-
-    public function setPageid($pageid)
-    {
-        $this->pageid = $pageid;
-    }
-
     function getTitle()
     {
         return $this->__('BreadCrumb');
