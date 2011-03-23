@@ -22,11 +22,11 @@
 {formcontextmenuseparator}
 {if $access.pageCreateAllowed}
 {formcontextmenuitem __title='Clone page' imageURL="images/icons/extrasmall/editcopy.png" commandName="clonePage"}
-{formcontextmenuitem __title='New page' imageURL="images/icons/extrasmall/insert_table_row.png" commandName="newPage"}
-{formcontextmenuitem __title='New sub-page' imageURL="images/icons/extrasmall/insertcell.png" commandName="newSubPage"}
+{formcontextmenuitem __title='New page' imageURL="images/icons/extrasmall/filenew.png" commandName="newPage"}
+{formcontextmenuitem __title='New sub-page' imageURL="images/icons/extrasmall/insert_table_row.png" commandName="newSubPage"}
 {/if}
-{formcontextmenuitem __title='Decrease indent' imageURL="images/icons/extrasmall/1rightarrow.png" commandName="decIndent"}
-{formcontextmenuitem __title='Increase indent' imageURL="images/icons/extrasmall/1leftarrow.png" commandName="incIndent"}
+{formcontextmenuitem __title='Decrease indent' imageURL="images/icons/extrasmall/1leftarrow.png" commandName="decIndent"}
+{formcontextmenuitem __title='Increase indent' imageURL="images/icons/extrasmall/1rightarrow.png" commandName="incIndent"}
 {if $multilingual}{formcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.png" commandRedirect=$translateUrl}{/if}
 {if $enableVersioning}{formcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.png" commandName='history'}{/if}
 {if $access.pageDeleteAllowed}
