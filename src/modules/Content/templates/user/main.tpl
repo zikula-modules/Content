@@ -1,4 +1,4 @@
-{zdebug}{gt text="Contents" assign=title}
+{gt text="Contents" assign=title}
 {pagesetvar name='title' value=$title}
 <h2>{gt text='Welcome to the contents for %s' tag1=$modvars.ZConfig.sitename}</h2>
 
