@@ -28,7 +28,7 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
     function display()
     {
         $path = array();
-        $pageid = $this->pageid;
+        $pageid = $this->getPageId();
         while ($pageid > 0) {
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
                         'id' => $pageid,
@@ -38,7 +38,7 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
             $pageid = $page['parentPageId'];
         }
 
-        $this->view->assign('thispage', $this->pageid);
+        $this->view->assign('thispage', $this->getPageId());
         $this->view->assign('path', $path);
 
         return $this->view->fetch($this->getTemplate());
