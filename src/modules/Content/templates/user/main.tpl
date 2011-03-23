@@ -1,7 +1,6 @@
-{gt text="Contents" assign=title}
+{zdebug}{gt text="Contents" assign=title}
 {pagesetvar name='title' value=$title}
-{sitename assign=sitename}
-<h2>{gt text='Welcome to the contents for %s' tag1=$sitename}</h2>
+<h2>{gt text='Welcome to the contents for %s' tag1=$modvars.ZConfig.sitename}</h2>
 
 {if !empty($categories)}
     <p>{gt text="The available sections are as follows:"}</p>
