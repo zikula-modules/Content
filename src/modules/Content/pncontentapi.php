@@ -389,8 +389,6 @@ WHERE $restriction";
         $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable();
     }
 
-    $dbresult->close();
-
     return $content;
 }
 
