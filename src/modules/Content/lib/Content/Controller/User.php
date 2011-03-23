@@ -27,9 +27,7 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     public function categories($args)
     {
-        if (!Content_Util::contentHasPageViewAccess()) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
         $mainCategoryId = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
         $categories = CategoryUtil::getCategoriesByParentID($mainCategoryId);
@@ -68,7 +66,7 @@ class Content_Controller_User extends Zikula_AbstractController
         }
 
         $versionHtml = '';
-        $hasEditAccess = Content_Util::contentHasPageEditAccess($pageId);
+        $hasEditAccess = SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_EDIT);
 
         if ($versionId !== null && $hasEditAccess) {
             $preview = true;
@@ -93,9 +91,8 @@ class Content_Controller_User extends Zikula_AbstractController
             System::queryStringSetVar('pid', $pageId);
         }
 
-        if (!Content_Util::contentHasPageViewAccess($pageId)) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+
         if ($pageId !== null && $versionId === null) {
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
                 'id' => $pageId,
@@ -176,9 +173,8 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     protected function contentCommonList($args, $template, $includeContent)
     {
-        if (!Content_Util::contentHasPageViewAccess()) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+
         $category = isset($args['cat']) ? $args['cat'] : (string) FormUtil::getPassedValue('cat');
         $pageIndex = isset($args['page']) ? $args['page'] : (int) FormUtil::getPassedValue('page');
         $orderBy = isset($args['orderby']) ? $args['orderby'] : (string) FormUtil::getPassedValue('orderby');
@@ -234,9 +230,8 @@ class Content_Controller_User extends Zikula_AbstractController
         if ($pageId === null) {
             return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
         }
-        if (!Content_Util::contentHasPageViewAccess($pageId)) {
-            return LogUtil::registerPermissionError();
-        }
+
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
         $topPage = ModUtil::apiFunc('Content', 'Page', 'getPages', array('filter' => array(
             'superParentId' => $pageId),
@@ -257,9 +252,8 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     public function sitemap($args)
     {
-        if (!Content_Util::contentHasPageViewAccess()) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
             'orderBy' => 'setLeft',
             'makeTree' => true,

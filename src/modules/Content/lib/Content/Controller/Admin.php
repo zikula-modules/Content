@@ -16,9 +16,7 @@ class Content_Controller_Admin extends Zikula_Controller
      */
     public function main($args)
     {
-        if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
-            return LogUtil::registerPermissionError();
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
         $view = FormUtil::newForm('Content', $this);
         return $view->execute('admin/main.tpl', new Content_Form_Handler_Admin_Main($args));

@@ -5,7 +5,7 @@ class Content_Form_Handler_Admin_Settings extends Zikula_Form_AbstractHandler
     public function initialize(Zikula_Form_View $view)
     {
         if (!SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN)) {
-            return $this->view->registerError(LogUtil::registerPermissionError());
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
         $catoptions = array( array('text' => $this->__('Use 2 category levels (1st level single, 2nd level multi selection)'), 'value' => '1'),
                              array('text' => $this->__('Use 2 category levels (both single selection)'), 'value' => '2'),

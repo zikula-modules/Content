@@ -9,32 +9,13 @@
  */
 class Content_Util
 {
-
-    public static function contentHasPageViewAccess($pageId = null)
+    public static function contentAddAccess(&$view, $pageId = null)
     {
-        return SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ);
-    }
-
-    public static function contentHasPageCreateAccess($pageId = null)
-    {
-        return SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD);
-    }
-
-    public static function contentHasPageEditAccess($pageId = null)
-    {
-        return SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_EDIT);
-    }
-
-    public static function contentHasPageDeleteAccess($pageId = null)
-    {
-        return SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_DELETE);
-    }
-
-    public static function contentAddAccess(&$view, $pageId)
-    {
-        $access = array('pageCreateAllowed' => self::contentHasPageCreateAccess($pageId),
-            'pageEditAllowed' => self::contentHasPageEditAccess($pageId),
-            'pageDeleteAllowed' => self::contentHasPageDeleteAccess($pageId));
+        $access = array(
+            'pageCreateAllowed' => SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD),
+            'pageEditAllowed' => SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_EDIT),
+            'pageDeleteAllowed' => SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_DELETE)
+            );
         $view->assign('access', $access);
     }
 
@@ -68,11 +49,6 @@ class Content_Util
             unset($expandedPageIds[$pageId]);
         }
         SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
-    }
-
-    public static function contentMainEditExpandGet()
-    {
-        return SessionUtil::getVar('contentExpandedPageIds', array());
     }
 
     public static function getPlugins($type='Content')

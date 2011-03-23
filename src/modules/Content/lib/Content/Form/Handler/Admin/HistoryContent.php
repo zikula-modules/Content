@@ -14,8 +14,8 @@ class Content_Form_Handler_Admin_HistoryContent extends Zikula_Form_AbstractHand
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $offset = (int)FormUtil::getPassedValue('offset');
 
-        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
-            return $this->view->registerError(LogUtil::registerPermissionError());
+        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
         if ($page === false) {

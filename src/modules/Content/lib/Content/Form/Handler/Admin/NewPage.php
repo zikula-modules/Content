@@ -15,13 +15,13 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_AbstractHandler
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $this->location = FormUtil::getPassedValue('loc', isset($this->args['loc']) ? $this->args['loc'] : null);
 
-        if (!Content_Util::contentHasPageCreateAccess()) {
-            return $this->view->registerError(LogUtil::registerPermissionError());
+        if (!SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD)) {
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
 
         // Only allow subpages if edit access on parent page
-        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
-            return LogUtil::registerPermissionError();
+        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
 
         if ($this->pageId != null) {
@@ -55,8 +55,8 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_AbstractHandler
 
     public function handleCommand(Zikula_Form_View $view, &$args)
     {
-        if (!Content_Util::contentHasPageCreateAccess()) {
-            return $this->view->setErrorMsg($this->__('Error! You have not been granted access to create pages.'));
+        if (!SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD)) {
+            throw new Zikula_Exception_Forbidden($this->__('Error! You have not been granted access to create pages.'));
         }
 
         if ($args['commandName'] == 'create') {

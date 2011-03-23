@@ -10,8 +10,8 @@ class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_AbstractHandl
         $this->pageId = (int) FormUtil::getPassedValue('pid', -1);
         $this->language = ZLanguage::getLanguageCode();
 
-        if (!Content_Util::contentHasPageEditAccess($this->pageId)) {
-            return $this->view->registerError(LogUtil::registerPermissionError());
+        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'filter' => array('checkActive' => false), 'translate' => false));

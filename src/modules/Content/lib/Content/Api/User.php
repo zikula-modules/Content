@@ -19,7 +19,7 @@ class Content_Api_User extends Zikula_AbstractApi
     {
         $links = array();
 
-        if (Content_Util::contentHasPageCreateAccess()) {
+        if (SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD)) {
             $links[] = array(
                 'url' => ModUtil::url('Content', 'admin', 'newPage'),
                 'text' => $this->__('Add new page'),
@@ -166,9 +166,7 @@ class Content_Api_User extends Zikula_AbstractApi
         if (!isset($args['includeContent'])) {
             $args['includeContent'] = false;
         }
-        if (!Content_Util::contentHasPageViewAccess($pageId)) {
-            return false;
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => false));
         if ($page !== false) {

@@ -30,9 +30,7 @@ class Content_Block_Menu extends Zikula_Controller_AbstractBlock
     public function display($blockinfo)
     {
         // security check
-        if (!SecurityUtil::checkPermission('Content:menublock:', "$blockinfo[title]::", ACCESS_READ)) {
-            return;
-        }
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:menublock:', "$blockinfo[title]::", ACCESS_READ), LogUtil::getErrorMsgPermission());
 
         // Break out options from our content field
         $vars = BlockUtil::varsFromContent($blockinfo['content']);

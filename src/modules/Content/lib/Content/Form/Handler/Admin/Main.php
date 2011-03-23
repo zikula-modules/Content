@@ -9,19 +9,19 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
 
     public function initialize(Zikula_Form_View $view)
     {
-        if (!Content_Util::contentHasPageEditAccess()) {
-            return $this->view->registerError(LogUtil::registerPermissionError());
+        if (!SecurityUtil::checkPermission('Content:page:', '::', ACCESS_EDIT)) {
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
 
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
             'editing' => true,
             'filter' => array(
                 'checkActive' => false,
-                'expandedPageIds' => Content_Util::contentMainEditExpandGet()),
-                'enableEscape' => true,
-                'translate' => false,
-                'includeLanguages' => true,
-                'orderBy' => 'setLeft'));
+                'expandedPageIds' => SessionUtil::getVar('contentExpandedPageIds', array())),
+            'enableEscape' => true,
+            'translate' => false,
+            'includeLanguages' => true,
+            'orderBy' => 'setLeft'));
         if ($pages === false) {
             return $this->view->registerError(null);
         }
