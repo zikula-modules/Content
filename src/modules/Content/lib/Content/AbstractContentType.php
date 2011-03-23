@@ -292,7 +292,7 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     /**
      * Return searchable text
      *
-     * This function should return all the text that is searchable through PostNuke's standard
+     * This function should return all the text that is searchable through Zikula's standard
      * search interface. You must strip the text of any HTML tags and other structural information
      * before returning the text. If you have multiple searchable text fields then concatenate all
      * the text from these and return the full string.
