@@ -315,6 +315,11 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         $this->delVars();
 
+        // Delete entries from category registry
+        ModUtil::dbInfoLoad('Categories');
+        DBUtil::deleteWhere('categories_registry', "crg_modname='Content'");
+        DBUtil::deleteWhere('categories_mapobj', "cmo_modname='Content'");
+
         // unregister handlers
         EventUtil::unregisterPersistentModuleHandlers('Content');
         HookUtil::unregisterHookSubscriberBundles($this->version);
