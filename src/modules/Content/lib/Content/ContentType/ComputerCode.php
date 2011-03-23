@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Content computer code plugin
  *
@@ -6,10 +7,11 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-
 class Content_ContentType_ComputerCode extends Content_AbstractContentType
 {
+
     protected $text;
+    protected $codeFilter;
 
     public function getText()
     {
@@ -25,38 +27,56 @@ class Content_ContentType_ComputerCode extends Content_AbstractContentType
     {
         return $this->__('Computer Code');
     }
+
     function getDescription()
     {
         return $this->__('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.');
     }
+
     function loadData(&$data)
     {
+        if (!isset($data['codeFilter'])) {
+            $data['codeFilter'] = 'native';
+        }
         $this->text = $data['text'];
+        $this->codeFilter = $data['codeFilter'];
     }
+
     function display()
     {
-        if (ModUtil::isHooked('bbcode', 'Content')) {
+        if (ModUtil::available('BBCode') && ($this->codeFilter == 'bbcode')) {
             $code = '[code]' . $this->text . '[/code]';
-            $code = ModUtil::apiFunc('bbcode', 'user', 'transform', array('extrainfo' => array($code), 'objectid' => 999));
-            $this->$code = $code[0];
-            return $this->$code;
+            PageUtil::addVar('stylesheet', 'modules/BBCode/style/style.css');
+            return ModUtil::apiFunc('BBCode', 'User', 'transform', array('message' => $code));
         } else {
             return $this->transformCode($this->text, true);
         }
     }
+
     function displayEditing()
     {
         // <pre> does not work in IE 7 with the portal javascript
-        return $this->transformCode($this->text, false); 
+        return $this->transformCode($this->text, false);
     }
+    
+    public function startEditing() {
+        if (isset($this->codeFilter)) {
+            $this->view->assign('codeFilter', $this->codeFilter);
+        }
+    }
+
     function getDefaultData()
     {
-        return array('text' => '');
+        return array(
+            'text' => '',
+            'codeFilter' => 'native');
     }
+
     function getSearchableText()
     {
         return html_entity_decode(strip_tags($this->text));
     }
+
     function transformCode($code, $usePre)
     {
         $lines = explode("\n", $code);
@@ -78,4 +98,5 @@ class Content_ContentType_ComputerCode extends Content_AbstractContentType
 
         return $html;
     }
+
 }

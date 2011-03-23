@@ -3,10 +3,19 @@
         {formlabel for='text' __text='Computer code lines'}
         {formtextinput id='text' textMode='multiline' group='data' cols='60' rows='20'}
     </div>
-    {modishooked tmodname="bbcode" smodname="Content" assign="bbok"}
-    {if !$bbok}
     <div class="z-formrow">
-        <em class="z-sub">{gt text="If you register the module BBCode as a hook for Content then you can get your computer code better formatted."}</em>
+        <div>
+            {formradiobutton id='usenative' value='native' dataField='codeFilter' group='data' mandatory='1' checked='true' autoPostBack='1'}
+            {formlabel for='usenative' __text='Use native code filter'}
+            {modavailable modname='BBCode' assign='bbcode'}
+            {if $bbcode}
+            {formradiobutton id='usebbcode' value='bbcode' dataField='codeFilter' group='data' mandatory='1' autoPostBack='1'}
+            {formlabel for='usebbcode' __text='Use BBCode filter'}
+            {else}
+            <p class="z-sub">{gt text="If the BBCode module is available, you can filter your code with BBCode instead."}</p>
+            <p class="z-sub">{gt text="There is no need to 'hook' BBCode to Content for this functionality."}</p>
+            {/if}
+        </div>
     </div>
-    {/if}
+    {contentcodeeditor inputId='text' htmlradioid='usenative' textradioid='usebbcode' inputtype=$codeFilter}
 </div>
