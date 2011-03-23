@@ -30,21 +30,23 @@ function smarty_function_contenthtmleditor($params, &$view)
 
     if ($useWysiwyg && ModUtil::available('scribite'))
     {
-        $scribite = ModUtil::apiFunc('scribite', 'user', 'loader', array(
+        $scribite = ModUtil::apiFunc('Scribite', 'User', 'loader', array(
                     'modulename' => 'Content',
                     'areas' => array($inputId)));
         PageUtil::AddVar('rawtext', $scribite);
     } else if ($useWysiwyg && !ModUtil::available('scribite')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
-        $html .= '(' . __("Please install Scribite to get a real HTML editor.", $dom) . ')';
+        $html .= '(' . __("Please install the Scribite module to use the javascript HTML editor.", $dom) . ')';
         $html .= "</em></div>";
     } else if ($useBBCode && ModUtil::available('BBCode')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
-        $html .= ModUtil::func('BBCode', 'user', 'bbcodes', array('textfieldid' => $inputId, 'images' => 0));
+        $html .= ModUtil::func('BBCode', 'User', 'bbcodes', array(
+                    'textfieldid' => $inputId,
+                    'images' => 0));
         $html .= "</em></div>";
     } else if ($useBBCode && !ModUtil::available('BBCode')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
-        $html .= '(' . __("Please install the hook BBCode to enable bbcode filtering.", $dom) . ')';
+        $html .= '(' . __("Please install the BBCode module to enable BBCodes display.", $dom) . ')';
         $html .= "</em></div>";
     }
 

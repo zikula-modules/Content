@@ -81,7 +81,9 @@ class Content_ContentType_Html extends Content_AbstractContentType
 
     function getDefaultData()
     {
-        return array('text' => $this->__('Add text here ...'), 'inputType' => (ModUtil::available('Scribite') ? 'html' : 'text'));
+        return array(
+            'text' => $this->__('Add text here ...'),
+            'inputType' => (ModUtil::available('Scribite') ? 'html' : 'text'));
     }
 
     function startEditing()
