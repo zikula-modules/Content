@@ -43,7 +43,7 @@ class Content_Types
      */
     public function getValidatedPlugins($type) {
         $plugins = array();
-        $baseclass = "Content_" . $type;
+        $baseclass = "Content_Abstract" . $type;
         foreach ($this->types[$type] as $type) {
             $view = Zikula_View::getInstance($type['module']);
             $instance = new $type['class']($view);
