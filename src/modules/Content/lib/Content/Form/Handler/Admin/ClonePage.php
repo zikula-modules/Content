@@ -50,7 +50,7 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
         if ($args['commandName'] == 'clonePage') {
             $pageData = $this->view->getValues();
 
-            $validators = $this->notifyHooks('content.hook.pages.validate.edit', $pageData, $this->pageId, array(), new Zikula_Collection_HookValidationProviders())->getData();
+            $validators = $this->notifyHooks('content.hook.pages.validate.edit', $pageData, $this->pageId, array(), new Zikula_Hook_ValidationProviders())->getData();
             if (!$validators->hasErrors() && $this->view->isValid()) {
                 $id = ModUtil::apiFunc('Content', 'Page', 'clonePage', array('page' => $pageData, 'pageId' => $this->pageId));
                 if ($id === false) {
