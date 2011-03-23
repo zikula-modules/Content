@@ -36,7 +36,7 @@
     {formcontextmenuitem __title='Edit' imageURL="images/icons/extrasmall/edit.png" commandRedirect=$editUrl}
     {if $access.pageCreateAllowed}
     {formcontextmenuitem __title='Clone content' imageURL="images/icons/extrasmall/editcopy.png" commandName="cloneContent"}
-    {formcontextmenuitem __title='Add new content above' imageURL="images/icons/extrasmall/insert_table_row_above.png" commandRedirect=$aboveUrl}
+    {formcontextmenuitem __title='Add new content above' imageURL="modules/Content/images/insert_table_row_above.gif" commandRedirect=$aboveUrl}
     {formcontextmenuitem __title='Add new content below' imageURL="images/icons/extrasmall/insert_table_row.png" commandRedirect=$belowUrl}
     {/if}
     {if $access.pageDeleteAllowed}{formcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.png" commandName='deleteContent' __confirmMessage='Delete'}{/if}
