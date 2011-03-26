@@ -56,7 +56,7 @@ class Content_Util
         $type = in_array($type, array('Content', 'Layout')) ? trim(ucwords(strtolower($type))) . "Type" : 'ContentType';
 
         // trigger event
-        $event = new Zikula_Event('module.content.getTypes', new Content_Types());
+        $event = new Zikula_Event('module.content.gettypes', new Content_Types());
         $plugins = EventUtil::getManager()->notify($event)->getSubject()->getValidatedPlugins($type);
 
         return $plugins;

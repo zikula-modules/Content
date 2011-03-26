@@ -143,7 +143,7 @@ In order for Content to 'discover' the existence of your plugin, you must
 register a persistent event handler in your module installer (and upgrade)
 method. In your Installer class add a line like so:
 
-    EventUtil::registerPersistentModuleHandler('ModuleName', 'module.content.getTypes', array('Module_ClassName', 'moduleMethodName'));
+    EventUtil::registerPersistentModuleHandler('ModuleName', 'module.content.gettypes', array('Module_ClassName', 'moduleMethodName'));
 
 Replace the Module*Name strings with your own. Create the class and method you
 reference in the call above. Your method should then look something like this:

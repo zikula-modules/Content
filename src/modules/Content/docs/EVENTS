@@ -1,6 +1,6 @@
 ## Events notified in Content
 
-### `module.content.getTypes`
+### `module.content.gettypes`
 
 This event occurs when the Content module is 'searching' for Content plugins.
 The subject is an instance of Content_Types and the calling module

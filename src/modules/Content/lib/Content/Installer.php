@@ -54,7 +54,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         // Register for hooks subscribing
         HookUtil::registerHookSubscriberBundles($this->version);
         // register handlers
-        EventUtil::registerPersistentModuleHandler('Content', 'module.content.getTypes', array('Content_Util', 'getTypes'));
+        EventUtil::registerPersistentModuleHandler('Content', 'module.content.gettypes', array('Content_Util', 'getTypes'));
 
         // create the default data for the Content module
         $this->defaultdata();
@@ -289,7 +289,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         ModUtil::apiFunc('Content', 'admin', 'upgradecontenttypes');
 
         // register handlers
-        EventUtil::registerPersistentModuleHandler('Content', 'module.content.getTypes', array('Content_Util', 'getTypes'));
+        EventUtil::registerPersistentModuleHandler('Content', 'module.content.gettypes', array('Content_Util', 'getTypes'));
 
         // clear compiled templates and Content cache
         ModUtil::apiFunc('view', 'user', 'clear_compiled');
