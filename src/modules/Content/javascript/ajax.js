@@ -102,7 +102,6 @@ content.editPageHandleUpdate = function(portal, widget)
     new Zikula.Ajax.Request(
         "ajax.php?module=Content&func=dragContent",
         {
-            method: 'post',
             parameters: pars,
             onComplete: content.handleDragContentOk
         });
@@ -191,7 +190,6 @@ function togglepagestate(id)
     new Zikula.Ajax.Request(
         "ajax.php?module=Content&func=togglePageState",
         {
-            method: 'post',
             parameters: pars,
             onComplete: togglepagestate_response
         });
@@ -234,7 +232,6 @@ function togglepageinmenu(id)
     new Zikula.Ajax.Request(
         "ajax.php?module=Content&func=togglePageInMenu",
         {
-            method: 'post',
             parameters: pars,
             onComplete: togglepageinmenu_response
         });

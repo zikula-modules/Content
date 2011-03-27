@@ -23,10 +23,10 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
         $ok = ModUtil::apiFunc('Content', 'Content', 'dragContent',
-                        array('pageId' => FormUtil::getPassedValue('pid', null, 'POST'),
-                            'contentId' => FormUtil::getPassedValue('cid', null, 'POST'),
-                            'contentAreaIndex' => FormUtil::getPassedValue('cai', null, 'POST'),
-                            'position' => FormUtil::getPassedValue('pos', null, 'POST')));
+                        array('pageId' => $this->request->getPost()->get('pid', null),
+                            'contentId' => $this->request->getPost()->get('cid', null),
+                            'contentAreaIndex' => $this->request->getPost()->get('cai', null),
+                            'position' => $this->request->getPost()->get('pos', null)));
         if (!$ok) {
             return new Zikula_Response_Ajax(array('ok' => false, 'message' => LogUtil::getErrorMessagesText()));
         }
@@ -46,8 +46,8 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
-        $id = (int) FormUtil::getPassedValue('id', -1, 'POST');
-        $active = FormUtil::getPassedValue('active', null, 'POST');
+        $id = (int) $this->request->getPost()->get('id', -1);
+        $active = $this->request->getPost()->get('active', null);
         if ($id == -1) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }
@@ -72,8 +72,8 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
-        $id = (int) FormUtil::getPassedValue('id', -1, 'POST');
-        $inMenu = FormUtil::getPassedValue('inMenu', null, 'POST');
+        $id = (int) $this->request->getPost()->get('id', -1);
+        $inMenu = $this->request->getPost()->get('inMenu', null);
         if ($id == -1) {
             AjaxUtil::error(LogUtil::registerError($this->__('Error! No page ID passed.')));
         }

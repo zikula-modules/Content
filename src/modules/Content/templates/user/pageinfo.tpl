@@ -1,11 +1,11 @@
 {insert name="getstatusmsg"}
 {if $access.pageEditAllowed && !$preview}
-{ajaxheader modname='Content' filename='ajax.js' nobehaviour=1}
-{usergetvar name=uname uid=$page.cr_uid assign=authorName}
-{usergetvar name=uname uid=$page.lu_uid assign=updaterName}
-{modapifunc modname='Content' type=History func=getPageVersionNo pageId=$page.id assign=versionNo}
+{ajaxheader modname='Content' filename='ajax.js'}
+{usergetvar name='uname' uid=$page.cr_uid assign='authorName'}
+{usergetvar name='uname' uid=$page.lu_uid assign='updaterName'}
+{modapifunc modname='Content' type='History' func='getPageVersionNo' pageId=$page.id assign='versionNo'}
 <div class="content-pageinfo">
-    <a href="#" onclick="return content.pageInfo.toggle({$page.id})" class="info" >{img src=info.png modname=core set=icons/extrasmall alt=Properties }</a>
+    <a href="#" onclick="return content.pageInfo.toggle({$page.id})" class="info" >{img src='info.png' modname='core' set='icons/extrasmall' __alt='Properties' }</a>
     <div class="content" id="contentPageInfo-{$page.id}" style="display: none" onmouseover="content.pageInfo.mouseover()" onmouseout="content.pageInfo.mouseout()">
         <h4>{$page.title|truncate:200|safetext}</h4>
         <ul>
