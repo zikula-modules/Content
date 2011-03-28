@@ -49,7 +49,7 @@ function contentClearCaches()
 
 function contentMainEditExpandToggle($pageId)
 {
-    $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
+    $expandedPageIds = contentMainEditExpandGet();
     if (isset($expandedPageIds[$pageId]))
         unset($expandedPageIds[$pageId]);
     else
@@ -59,7 +59,7 @@ function contentMainEditExpandToggle($pageId)
 
 function contentMainEditExpandSet($pageId, $value)
 {
-    $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
+    $expandedPageIds = contentMainEditExpandGet();
     if ($value)
         $expandedPageIds[$pageId] = 1;
     else
