@@ -41,6 +41,9 @@
 {formcontextmenuseparator}
 {formcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.png" commandName='deletePage' __confirmMessage='Delete'}
 {/if}
+{formcontextmenuseparator}
+{formcontextmenuitem __title='Expand All' imageURL='modules/Content/images/page-collapsed3.gif' commandName='expandAllBelow'}
+{formcontextmenuitem __title='Collapse All' imageURL='modules/Content/images/page-expanded3.gif' commandName='collapseAllBelow'}
 {/formcontextmenu}
 
 {gt text="Click to activate this page" assign='activate'}

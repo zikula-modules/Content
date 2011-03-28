@@ -51,22 +51,39 @@ class Content_Util
         SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
     }
 
-    public static function contentMainEditCollapseAll()
+    public static function contentMainEditCollapseAll($belowPageId = null)
     {
-        SessionUtil::setVar('contentExpandedPageIds', array());
+        if ($belowPageId == null) {
+            SessionUtil::setVar('contentExpandedPageIds', array());
+        } else {
+            $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
+            foreach(Content_Util::contentMainEditGetPagesList($belowPageId) as $page) {
+                unset($expandedPageIds[$page['id']]);
+            }
+            SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
+        }
     }
 
-    public static function contentMainEditExpandAll()
+    public static function contentMainEditExpandAll($belowPageId = null)
     {
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
-                    'editing' => true,
-                    'filter' => array('checkActive' => false),
-                    'translate' => false));
-        $expandedPageIds = array();
-        foreach($pages as $page) {
+        $expandedPageIds = contentMainEditExpandGet();
+        foreach(Content_Util::contentMainEditGetPagesList($belowPageId) as $page) {
             $expandedPageIds[$page['id']] = 1;
         }
         SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
+    }
+
+
+    public static function contentMainEditGetPagesList($belowPageId = null)
+    {
+        $filter = array('checkActive' => false);
+        if ($belowPageId != null) {
+            $filter['superParentId'] = $belowPageId;
+        }
+        return ModUtil::apiFunc('Content', 'Page', 'getPages', array(
+                    'editing' => true,
+                    'filter' => $filter,
+                    'translate' => false));
     }
 
     public static function getPlugins($type='Content')
