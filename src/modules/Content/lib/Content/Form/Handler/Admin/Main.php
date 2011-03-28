@@ -85,6 +85,10 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
         } else if ($args['commandName'] == 'toggleExpand') {
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             Content_Util::contentMainEditExpandToggle($pageId);
+        } else if ($args['commandName'] == 'expandAll') {
+            Content_Util::contentMainEditExpandAll();
+        } else if ($args['commandName'] == 'collapseAll') {
+            Content_Util::contentMainEditCollapseAll();
         }
         $this->view->redirect($url);
         return true;

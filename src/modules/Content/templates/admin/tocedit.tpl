@@ -7,9 +7,17 @@
         $('contentTogglePageId').value = id;
         contentTogglePageIdPost();
     }
-    //]]>
+    function expandAllPages()
+    {
+        contentExpandAllPost();
+    }
+    function collapseAllPages()
+    {
+        contentCollapseAllPost();
+    }    //]]>
 </script>
-
+{formpostbackfunction function='contentExpandAllPost' commandName='expandAll'}
+{formpostbackfunction function='contentCollapseAllPost' commandName='collapseAll'}
 {formpostbackfunction function='contentTogglePageIdPost' commandName='toggleExpand'}
 <div>
     <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />

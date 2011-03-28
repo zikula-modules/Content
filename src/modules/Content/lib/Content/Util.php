@@ -51,6 +51,24 @@ class Content_Util
         SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
     }
 
+    public static function contentMainEditCollapseAll()
+    {
+        SessionUtil::setVar('contentExpandedPageIds', array());
+    }
+
+    public static function contentMainEditExpandAll()
+    {
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
+                    'editing' => true,
+                    'filter' => array('checkActive' => false),
+                    'translate' => false));
+        $expandedPageIds = array();
+        foreach($pages as $page) {
+            $expandedPageIds[$page['id']] = 1;
+        }
+        SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
+    }
+
     public static function getPlugins($type='Content')
     {
         $type = in_array($type, array('Content', 'Layout')) ? trim(ucwords(strtolower($type))) . "Type" : 'ContentType';
