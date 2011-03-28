@@ -1,4 +1,4 @@
-{ajaxheader modname='content' noscriptaculous=true}
+{ajaxheader modname='content'}
 
 <script type="text/javascript" 
     src="http://maps.google.com/maps/api/js?v=3&language={$language}&sensor=false">

@@ -1,4 +1,4 @@
-{ajaxheader modname='Content' filename='ajax.js' noscriptaculous=1}
+{ajaxheader modname='Content' filename='ajax.js'}
 {contentpagepath pageId=$page.id language=$page.language assign='subheader'}
 
 {pageaddvar name="javascript" value="modules/Content/javascript/portal.js"}

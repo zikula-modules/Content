@@ -1,4 +1,4 @@
-{ajaxheader modname='Content' filename='pagelayout.js' noscriptaculous=1}
+{ajaxheader modname='Content' filename='pagelayout.js'}
 {include file="admin/menu.tpl"}
 <div class="z-admincontainer z-clearfix">
     <div class="z-adminpageicon">{icon type="view" size="large"}</div>
