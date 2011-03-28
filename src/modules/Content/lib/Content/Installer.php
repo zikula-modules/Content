@@ -274,14 +274,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         // Register for hook subscribing
         HookUtil::registerHookSubscriberBundles($this->version);
 
-        // convert module vars
-        $modvars = $this->getVars();
-        if ($modvars) {
-            foreach ($modvars as $key => $value) {
-                $this->setVar($key, $value);
-            }
-            ModUtil::delVar('Content');
-        }
+        // upgrade Content's layoutTypes
         self::updateLayout();
         // upgrade the Content module's ContentTypes
         self::updateContentType();
