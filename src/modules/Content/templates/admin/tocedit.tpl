@@ -5,12 +5,12 @@
     function contentToggle(id)
     {
         $('contentTogglePageId').value = id;
-        contentPost();
+        contentTogglePageIdPost();
     }
     //]]>
 </script>
 
-{formpostbackfunction function='contentPost' commandName='toggleExpand'}
+{formpostbackfunction function='contentTogglePageIdPost' commandName='toggleExpand'}
 <div>
     <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
 </div>
