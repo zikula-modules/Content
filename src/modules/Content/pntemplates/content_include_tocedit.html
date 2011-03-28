@@ -8,9 +8,20 @@
         $('contentTogglePageId').value = id;
         contentTogglePageIdPost();
     }
+
+    function expandAllPages()
+    {
+        contentExpandAllPost();
+    }
+
+    function collapseAllPages()
+    {
+        contentCollapseAllPost();
+    }
     //]]>
 </script>
-
+<!--[pnformpostbackfunction function='contentExpandAllPost' commandName='expandAll']-->
+<!--[pnformpostbackfunction function='contentCollapseAllPost' commandName='collapseAll']-->
 <!--[pnformpostbackfunction function='contentTogglePageIdPost' commandName='toggleExpand']-->
 <div>
     <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
@@ -117,3 +128,4 @@
     var msgPageOutMenu = '<!--[gt text="Out"]-->';
     Event.observe(window, 'load', initcontentactivationbuttons, false);
 </script>
+<p><a href="javascript:void(0);" onclick="expandAllPages()"><!--[gt text="Expand All"]--></a> - <a href="javascript:void(0);" onclick="collapseAllPages()"><!--[gt text="Collapse All"]--></a></p>

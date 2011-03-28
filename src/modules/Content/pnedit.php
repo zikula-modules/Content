@@ -104,6 +104,10 @@ class content_edit_mainHandler extends pnFormHandler
         } else if ($args['commandName'] == 'toggleExpand') {
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             contentMainEditExpandToggle($pageId);
+        } else if ($args['commandName'] == 'expandAll') {
+            contentMainEditExpandAll();
+        } else if ($args['commandName'] == 'collapseAll') {
+            contentMainEditCollapseAll();
         }
 
         $render->pnFormRedirect($url);

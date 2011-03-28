@@ -67,6 +67,24 @@ function contentMainEditExpandSet($pageId, $value)
     SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
 }
 
+function contentMainEditCollapseAll()
+{
+    SessionUtil::setVar('contentExpandedPageIds', array());
+}
+
+function contentMainEditExpandAll()
+{
+    $pages = pnModAPIFunc('content', 'page', 'getPages', array(
+                'editing' => true,
+                'filter' => array('checkActive' => false),
+                'translate' => false));
+    $expandedSet = array();
+    foreach($pages as $page) {
+        $expandedSet[$page['id']] = 1;
+    }
+    SessionUtil::setVar('contentExpandedPageIds', $expandedSet);
+}
+
 function contentMainEditExpandGet()
 {
     return SessionUtil::getVar('contentExpandedPageIds', array());
