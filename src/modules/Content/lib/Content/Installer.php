@@ -274,6 +274,13 @@ class Content_Installer extends Zikula_AbstractInstaller
         // Register for hook subscribing
         HookUtil::registerHookSubscriberBundles($this->version);
 
+        // convert modname in module vars (correct casing 'content' to 'Content'
+        $tables = DBUtil::getTables();
+        $table = $tables['module_vars'];
+        $columns = $tables['module_vars_column'];
+        $sql = "UPDATE {$table} SET {$columns['modname']}='Content' WHERE {$columns['modname']}='content'";
+        DBUtil::executeSQL($sql);
+
         // upgrade Content's layoutTypes
         self::updateLayout();
         // upgrade the Content module's ContentTypes
