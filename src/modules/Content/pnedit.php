@@ -106,8 +106,12 @@ class content_edit_mainHandler extends pnFormHandler
             contentMainEditExpandToggle($pageId);
         } else if ($args['commandName'] == 'expandAll') {
             contentMainEditExpandAll();
+        } else if ($args['commandName'] == 'expandAllBelow') {
+            contentMainEditExpandAll($args['commandArgument']);
         } else if ($args['commandName'] == 'collapseAll') {
             contentMainEditCollapseAll();
+        } else if ($args['commandName'] == 'collapseAllBelow') {
+            contentMainEditCollapseAll($args['commandArgument']);
         }
 
         $render->pnFormRedirect($url);
