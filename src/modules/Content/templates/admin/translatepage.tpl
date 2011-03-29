@@ -24,6 +24,14 @@
             {formlabel for='title' __text='Page title'}
             {formtextinput id='title' mandatory='1' maxLength='255' group='translated'}
         </div>
+        <div class="z-formrow">
+            {formlabel for='metadescription' __text='Description'}
+            {formtextinput id='metadescription' mandatory=false textMode='multiline' rows='6' cols='50' group='translated'}
+        </div>
+        <div class="z-formrow">
+            {formlabel for='metakeywords' __text='Keywords'}
+            {formtextinput id='metakeywords' mandatory=false textMode='multiline' rows='4' cols='50' group='translated'}
+        </div>
     </fieldset>
 
     <div class="z-buttons">

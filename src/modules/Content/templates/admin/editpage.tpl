@@ -90,6 +90,18 @@
         </div>
     </fieldset>
 
+    <fieldset>
+        <legend>{gt text='Meta tags'}</legend>
+        <div class="z-formrow">
+            {formlabel for='metadescription' __text='Description'}
+            {formtextinput id='metadescription' mandatory=false textMode='multiline' rows='6' cols='50' group='page'}
+        </div>
+        <div class="z-formrow">
+            {formlabel for='metakeywords' __text='Keywords'}
+            {formtextinput id='metakeywords' mandatory=false textMode='multiline' rows='4' cols='50' group='page'}
+        </div>
+    </fieldset>
+
     {notifydisplayhooks eventname='content.hook.pages.ui.edit' area='modulehook_area.content.pages' subject=$page id=$page.id}
 
     <fieldset>

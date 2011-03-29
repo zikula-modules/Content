@@ -15,42 +15,46 @@ function content_tables()
     // Page setup (pages can be nested beneath each other)
     $tables['content_page'] = DBUtil::getLimitedTablename('content_page');
     $tables['content_page_column'] = array(
-        'id'            => 'page_id',         // Page ID
-        'parentPageId'  => 'page_ppid',       // Parent (containing) page ID
-        'title'         => 'page_title',      // Display title for this page
-        'urlname'       => 'page_urlname',    // URL name for this page
-        'nohooks'       => 'page_nohooks',    // page w/o hooks
-        'layout'        => 'page_layout',     // Name of page layout
-        'categoryId'    => 'page_categoryid', // Primary category ID
-        'views'         => 'page_views',      // # views of page
-        'active'        => 'page_active',     // Bool flag: active or not?
-        'activeFrom'    => 'page_activefrom', // Date - publish start
-        'activeTo'      => 'page_activeto',   // Date - publish end
-        'inMenu'        => 'page_inmenu',     // Bool flag: include in menu?
-        'position'      => 'page_pos',        // Position inside current level of pages (sorting order)
-        'level'         => 'page_level',      // Nested set level
-        'setLeft'       => 'page_setleft',    // Nested set left
-        'setRight'      => 'page_setright',   // Nested set right
-        'language'      => 'page_language'    // Language of initial version
+        'id'                => 'page_id',               // Page ID
+        'parentPageId'      => 'page_ppid',             // Parent (containing) page ID
+        'title'             => 'page_title',            // Display title for this page
+        'urlname'           => 'page_urlname',          // URL name for this page
+        'metadescription'   => 'page_metadescription',  // Meta description
+        'metakeywords'      => 'page_metakeywords',     // Meta keywords
+        'nohooks'           => 'page_nohooks',          // Page w/o hooks
+        'layout'            => 'page_layout',           // Name of page layout
+        'categoryId'        => 'page_categoryid',       // Primary category ID
+        'views'             => 'page_views',            // # views of page
+        'active'            => 'page_active',           // Bool flag: active or not?
+        'activeFrom'        => 'page_activefrom',       // Date - publish start
+        'activeTo'          => 'page_activeto',         // Date - publish end
+        'inMenu'            => 'page_inmenu',           // Bool flag: include in menu?
+        'position'          => 'page_pos',              // Position inside current level of pages (sorting order)
+        'level'             => 'page_level',            // Nested set level
+        'setLeft'           => 'page_setleft',          // Nested set left
+        'setRight'          => 'page_setright',         // Nested set right
+        'language'          => 'page_language'          // Language of initial version
     );
     $tables['content_page_column_def'] = array(
-        'id'            => "I NOTNULL AUTO PRIMARY",
-        'parentPageId'  => "I NOTNULL DEFAULT 0",
-        'title'         => "C(255) NOTNULL DEFAULT ''",
-        'urlname'       => "C(255) NOTNULL DEFAULT ''",
-        'nohooks'       => "I1 NOTNULL DEFAULT 0",
-        'layout'        => "C(100) NOTNULL",
-        'categoryId'    => "I NOT NULL DEFAULT 0",
-        'views'         => "I NOT NULL DEFAULT 0",
-        'active'        => "I1 NOTNULL DEFAULT 1",
-        'activeFrom'    => "T",
-        'activeTo'      => "T",
-        'inMenu'        => "I1 NOTNULL DEFAULT 1",
-        'position'      => 'I NOTNULL DEFAULT 0',
-        'level'         => 'I NOTNULL DEFAULT 0',
-        'setLeft'       => 'I NOTNULL DEFAULT 0',
-        'setRight'      => 'I NOTNULL DEFAULT 0',
-        'language'      => 'C(10)'
+        'id'                => "I NOTNULL AUTO PRIMARY",
+        'parentPageId'      => "I NOTNULL DEFAULT 0",
+        'title'             => "C(255) NOTNULL DEFAULT ''",
+        'urlname'           => "C(255) NOTNULL DEFAULT ''",
+        'metadescription'   => "X NOTNULL DEFAULT ''",
+        'metakeywords'      => "X NOTNULL DEFAULT ''",
+        'nohooks'           => "I1 NOTNULL DEFAULT 0",
+        'layout'            => "C(100) NOTNULL",
+        'categoryId'        => "I NOT NULL DEFAULT 0",
+        'views'             => "I NOT NULL DEFAULT 0",
+        'active'            => "I1 NOTNULL DEFAULT 1",
+        'activeFrom'        => "T",
+        'activeTo'          => "T",
+        'inMenu'            => "I1 NOTNULL DEFAULT 1",
+        'position'          => 'I NOTNULL DEFAULT 0',
+        'level'             => 'I NOTNULL DEFAULT 0',
+        'setLeft'           => 'I NOTNULL DEFAULT 0',
+        'setRight'          => 'I NOTNULL DEFAULT 0',
+        'language'          => 'C(10)'
     );
     $tables['content_page_primary_key_column'] = 'id';
     // add standard data fields
@@ -130,14 +134,18 @@ function content_tables()
     // Translated pages
     $tables['content_translatedpage'] = DBUtil::getLimitedTablename('content_translatedpage');
     $tables['content_translatedpage_column'] = array(
-        'pageId'    => 'transp_pid',      // Page ID
-        'language'  => 'transp_lang',     // Translated to language
-        'title'     => 'transp_title'     // Translated title
+        'pageId'            => 'transp_pid',                // Page ID
+        'language'          => 'transp_lang',               // Translated to language
+        'title'             => 'transp_title',              // Translated title
+        'metadescription'   => 'transp_metadescription',    // Translated meta description
+        'metakeywords'      => 'transp_metakeywords'        // Translated meta keywords
     );
     $tables['content_translatedpage_column_def'] = array(
-        'pageId'    => 'I NOTNULL DEFAULT 0',
-        'language'  => 'C(10) NOTNULL',
-        'title'     => 'C(255) NOTNULL'
+        'pageId'            => 'I NOTNULL DEFAULT 0',
+        'language'          => 'C(10) NOTNULL',
+        'title'             => 'C(255) NOTNULL',
+        'metadescription'   => "X NOTNULL DEFAULT ''",
+        'metakeywords'      => "X NOTNULL DEFAULT ''"
     );
     ObjectUtil::addStandardFieldsToTableDefinition ($tables['content_translatedpage_column'], 'transp_');
     ObjectUtil::addStandardFieldsToTableDataDefinition($tables['content_translatedpage_column_def']);
