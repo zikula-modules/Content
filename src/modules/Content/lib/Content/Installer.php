@@ -459,11 +459,19 @@ class Content_Installer extends Zikula_AbstractInstaller
         } else {
             return;
         }
+        $modinfo = ModUtil::getInfoFromName($modname);
+        $oldnames = $modinfo['oldnames'];
         ModUtil::dbInfoLoad('Content');
         $tables = DBUtil::getTables();
         $table = $tables['content_content'];
         $columns = $tables['content_content_column'];
+        // SQL is case insensitive on WHERE clauses
         $where = "WHERE " . $columns['module'] . "='" . $modname . "'";
+        foreach ($oldnames as $oldname) {
+            if (strcasecmp($oldname, $modname) != 0) { // case INsensitive comparison
+                $where .= " OR " . $columns['module'] . "='" . $oldname . "'";
+            }
+        }
         $columnArray = array('id', 'module', 'type');
         $items = DBUtil::selectObjectArray('content_content', $where, '', -1, -1, '', null, null, $columnArray);
 
