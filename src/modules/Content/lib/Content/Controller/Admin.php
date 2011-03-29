@@ -7,7 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-class Content_Controller_Admin extends Zikula_Controller
+class Content_Controller_Admin extends Zikula_AbstractController
 {
 
     /**
