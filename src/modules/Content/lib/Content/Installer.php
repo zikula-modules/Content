@@ -470,9 +470,11 @@ class Content_Installer extends Zikula_AbstractInstaller
         $count = 0;
         foreach ($items as $item) {
             $newitem = $item;
-            $newitem['type'] = array_key_exists($item['type'], $legacyMap) ? $legacyMap[$item['type']] : false;
-            $newitem['module'] = (strcmp($newitem['module'], $modname) == 0) ? false : $modname;
-            if ($newitem['type'] || $newitem['module']) {
+            $contentTypeChanged = array_key_exists($item['type'], $legacyMap) ? true : false;
+            $newitem['type'] = $contentTypeChanged ? $legacyMap[$item['type']] : $item['type'];
+            $moduleNameChanged = (strcmp($newitem['module'], $modname) == 0) ? false : true;
+            $newitem['module'] = $modname; // always override to new module name
+            if ($contentTypeChanged || $moduleNameChanged) {
                 DBUtil::updateObject($newitem, 'content_content');
                 $count++;
             }
