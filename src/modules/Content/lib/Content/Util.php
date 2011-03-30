@@ -66,7 +66,7 @@ class Content_Util
 
     public static function contentMainEditExpandAll($belowPageId = null)
     {
-        $expandedPageIds = contentMainEditExpandGet();
+        $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
         foreach(Content_Util::contentMainEditGetPagesList($belowPageId) as $page) {
             $expandedPageIds[$page['id']] = 1;
         }
