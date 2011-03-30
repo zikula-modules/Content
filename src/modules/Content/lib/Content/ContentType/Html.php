@@ -65,7 +65,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
         if ($this->inputType == 'raw') {
             $text = DataUtil::formatForDisplay($this->text);
         } else {
-            $text = DataUtil::formatForDisplayHTML($this->text);
+            $text = $this->activateinternallinks(DataUtil::formatForDisplayHTML($this->text));
         }
 
         $this->view->assign('inputType', $this->inputType);
