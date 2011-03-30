@@ -13,9 +13,9 @@ implemented in this branch.
 
 The release-3.2.x branch is for Zikula 1.2.x and will not work in Zikula 1.3.x.
 
-### Please note: the master branch in constant development. Re-installation of
-module may be required in order to avoid  errors and DB corruption.
-If you are working with this code, keep a backup of your DB at all times! ###
+### Please note: the master branch in constant development (not stable).
+Re-installation of module may be required in order to avoid  errors and DB corruption.
+If you are working with this code, keep a backup of your DB at all times!
 
 The issue tracker can be found at
 [http://code.zikula.org/content/](http://code.zikula.org/content/)
