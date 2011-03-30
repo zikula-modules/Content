@@ -66,6 +66,8 @@ class Content_ContentType_Html extends Content_AbstractContentType
             $text = DataUtil::formatForDisplay($this->text);
         } else {
             $text = $this->activateinternallinks(DataUtil::formatForDisplayHTML($this->text));
+            $text = ModUtil::callHooks('item', 'transform', '', array($text));
+            $text = $text[0];
         }
 
         $this->view->assign('inputType', $this->inputType);
