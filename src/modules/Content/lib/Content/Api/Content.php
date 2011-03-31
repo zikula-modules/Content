@@ -202,6 +202,12 @@ class Content_Api_Content extends Zikula_AbstractApi
         $view = Zikula_View::getInstance($contentData['module']);
         $contentPlugin = new $classname($view);
 
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+            'id' => $pageId,
+            'includeContent' => false,
+            'filter' => array('checkActive' => false)));
+        $contentPlugin->setPageCategoryId($page['categoryId']);
+
         $contentData['pageId'] = $pageId;
         $contentData['areaIndex'] = $contentAreaIndex;
         $contentData['position'] = $position;

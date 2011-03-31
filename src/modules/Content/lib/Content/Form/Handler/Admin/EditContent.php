@@ -53,6 +53,11 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
         if ($content === false) {
             return $this->view->registerError(null);
         }
+        $this->pageId = $content['pageId'];
+
+        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
+            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+        }
 
         if (isset($content['plugin'])) {
             $this->contentType['plugin'] = $content['plugin'];
@@ -74,17 +79,6 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
             return $this->view->registerError(null);
         }
 
-        $editTemplate = "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl";
-        if (isset($content['plugin'])) {
-            $this->contentType['plugin']->startEditing();
-            $editTemplate = $this->contentType['plugin']->getEditTemplate();
-        }
-        $this->pageId = $content['pageId'];
-
-        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
-            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
-        }
-
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
             'id' => $this->pageId,
             'includeContent' => false,
@@ -93,9 +87,16 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
             return $this->view->registerError(null);
         }
 
+        $editTemplate = "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl";
+        if (isset($content['plugin'])) {
+            $this->contentType['plugin']->startEditing();
+            $editTemplate = $this->contentType['plugin']->getEditTemplate();
+        }
+
         $multilingual = ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual');
-        if ($page['language'] == ZLanguage::getLanguageCode())
+        if ($page['language'] == ZLanguage::getLanguageCode()) {
             $multilingual = false;
+        }
 
         PageUtil::setVar('title', $this->__("Edit content item") . ' : ' . $page['title']);
 

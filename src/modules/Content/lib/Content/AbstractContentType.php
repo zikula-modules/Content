@@ -34,6 +34,19 @@ abstract class Content_AbstractContentType extends Content_AbstractType
      * Flag indicating if a styling <div> has been added
      */
     protected $addedStyle = false;
+    /**
+     * the row id of the category (from categories_category > cat_id)
+     * @var integer
+     */
+    protected $pageCategoryId;
+
+    public function setPageCategoryId($id) {
+        $this->pageCategoryId = $id;
+    }
+
+    public function getPageCategoryId() {
+        return $this->pageCategoryId;
+    }
 
     public function getPageId()
     {
