@@ -18,7 +18,7 @@
 <!--[pnpageaddvar name="javascript" value="javascript/ajax/prototype.js,javascript/ajax/scriptaculous.js?load=effects,modules/content/pnincludes/lightwindow/javascript/lightwindow.js"]-->
 <!--[pnpageaddvar name="stylesheet" value="modules/content/pnincludes/lightwindow/css/lightwindow.css"]-->
 
-<!--[assign var="image" value=$folder|'/'|$videoPath|'/FirstFrame.png']-->
+<!--[assign var="image" value=$folder|cat:'/'|cat:$videoPath|cat:'/FirstFrame.png']-->
 <!--[assign var="imageSize" value=$image|getimagesize]-->
 
 <dl class="content-video content-shockwave" style="width:<!--[$imageSize[0]]-->px;">
