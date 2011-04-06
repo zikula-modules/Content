@@ -9,7 +9,7 @@
             <param name="allowFullScreen" value="true"/>
             <param name="scale" value="showall"/>
             <param name="flashVars" value="autostart=false&thumb=<!--[$folder]-->/<!--[$videoPath]-->/FirstFrame.png&thumbscale=75&color=0x000000,0x000000"/>
-            <embed name="csSWF" src="<!-[[$folder]-->/<!--[$videoPath]-->/<!--[$videoPath]-->_controller.swf" width="<!--[$width]-->" height="<!--[$height]-->" bgcolor="#1a1a1a" quality="best" allowScriptAccess="always" allowFullScreen="true" scale="showall" flashVars="autostart=false&thumb=<!--[$folder]-->/<!--[$videoPath]-->/FirstFrame.png&thumbscale=75&color=0x000000,0x000000" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+            <embed name="csSWF" src="<!--[$folder]-->/<!--[$videoPath]-->/<!--[$videoPath]-->_controller.swf" width="<!--[$width]-->" height="<!--[$height]-->" bgcolor="#1a1a1a" quality="best" allowScriptAccess="always" allowFullScreen="true" scale="showall" flashVars="autostart=false&thumb=<!--[$folder]-->/<!--[$videoPath]-->/FirstFrame.png&thumbscale=75&color=0x000000,0x000000" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
         </object>
     </dt>
     <dd><!--[$text]--></dd>
@@ -18,7 +18,7 @@
 <!--[pnpageaddvar name="javascript" value="javascript/ajax/prototype.js,javascript/ajax/scriptaculous.js?load=effects,modules/content/pnincludes/lightwindow/javascript/lightwindow.js"]-->
 <!--[pnpageaddvar name="stylesheet" value="modules/content/pnincludes/lightwindow/css/lightwindow.css"]-->
 
-<!--[assign var="image" value='images/icons/large/agt_Multimedia.gif']-->
+<!--[assign var="image" value=$folder|'/'|$videoPath|'/FirstFrame.png']-->
 <!--[assign var="imageSize" value=$image|getimagesize]-->
 
 <dl class="content-video content-shockwave" style="width:<!--[$imageSize[0]]-->px;">
