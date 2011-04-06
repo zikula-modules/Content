@@ -122,7 +122,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => false);
+        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => true);
 
     }
 
