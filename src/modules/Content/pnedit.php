@@ -104,6 +104,14 @@ class content_edit_mainHandler extends pnFormHandler
         } else if ($args['commandName'] == 'toggleExpand') {
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             contentMainEditExpandToggle($pageId);
+        } else if ($args['commandName'] == 'expandAll') {
+            contentMainEditExpandAll();
+        } else if ($args['commandName'] == 'expandAllBelow') {
+            contentMainEditExpandAll($args['commandArgument']);
+        } else if ($args['commandName'] == 'collapseAll') {
+            contentMainEditCollapseAll();
+        } else if ($args['commandName'] == 'collapseAllBelow') {
+            contentMainEditCollapseAll($args['commandArgument']);
         }
 
         $render->pnFormRedirect($url);
@@ -544,6 +552,7 @@ class content_edit_editContentHandler extends pnFormHandler
         $template = 'file:' . getcwd() . "/modules/$content[module]/pntemplates/contenttype/" . $content['type'] . '_edit.html';
         $render->assign('contentTypeTemplate', $template);
         $render->assign('page', $page);
+        $render->assign('visiblefors', array(array('text' => __('public (all)', $dom), 'value' => '1'), array('text' => __('only logged in members', $dom), 'value' => '0'), array('text' => __('only not logged in people', $dom), 'value' => '2')));
         $render->assign('content', $content);
         $render->assign('data', $content['data']);
         $render->assign('contentType', $this->contentType);

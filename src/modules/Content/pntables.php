@@ -27,6 +27,7 @@ function content_pntables()
           'nohooks'       => 'page_nohooks',    // page w/o hooks
           'layout'        => 'page_layout',     // Name of page layout
           'categoryId'    => 'page_categoryid', // Primary category ID
+          'views'         => 'page_views',      // # views of page
           'active'        => 'page_active',     // Bool flag: active or not?
           'activeFrom'    => 'page_activefrom', // Date - publish start
           'activeTo'      => 'page_activeto',   // Date - publish end
@@ -46,6 +47,7 @@ function content_pntables()
                'nohooks'      => "I1 NOTNULL DEFAULT 0",
                'layout'       => "C(100) NOTNULL",
                'categoryId'   => "I",
+               'views'        => "I NOT NULL DEFAULT 0",
                'active'       => "I1 NOTNULL DEFAULT 1",
                'activeFrom'   => "T",
                'activeTo'     => "T",
@@ -76,6 +78,7 @@ function content_pntables()
           'type'            => 'con_type',        // Content type (depending on module)
           'data'            => 'con_data',        // Data from the content providing module
           'active'          => 'con_active',      // Bool flag: active or not?
+          'visiblefor'      => 'con_visiblefor',  // content only visible for members (0)/non members(2)/both (1)
           'stylePosition'   => 'con_stylepos',    // Styled floating position
           'styleWidth'      => 'con_stylewidth',  // Styled width
           'styleClass'      => 'con_styleclass'); // Styled CSS class
@@ -91,6 +94,7 @@ function content_pntables()
           'type'            => 'C(100) NOTNULL',
           'data'            => 'XL NOTNULL',
           'active'          => "I1 NOTNULL DEFAULT 1",
+          'visiblefor'      => "I1 NOTNULL DEFAULT 1",
           'stylePosition'   => 'C(20) NOTNULL DEFAULT \'none\'',
           'styleWidth'      => 'C(20) NOTNULL DEFAULT \'100\'',
           'styleClass'      => 'C(100) NOTNULL DEFAULT \'\'');

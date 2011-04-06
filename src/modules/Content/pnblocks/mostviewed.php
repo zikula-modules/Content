@@ -14,7 +14,7 @@ Loader::requireOnce('modules/content/common.php');
 function content_mostviewedblock_init()
 {
     // Security
-    pnSecAddSchema('content:mostviewedblock:', 'Block title::');
+    SecurityUtil::registerPermissionSchema('content:mostviewedblock:', 'Block title::');
 }
 
 function content_mostviewedblock_info()

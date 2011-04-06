@@ -76,6 +76,7 @@ function content_pageapi_getPages($args)
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
     $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
     $includeContent = (array_key_exists('includeContent', $args) ? $args['includeContent'] : false);
+    $expandContent = (array_key_exists('expandContent', $args) ? $args['expandContent'] : true);
     $includeCategories = (array_key_exists('includeCategories', $args) ? $args['includeCategories'] : false);
     $includeVersionNo = (array_key_exists('includeVersionNo', $args) ? $args['includeVersionNo'] : false);
     $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
@@ -129,7 +130,6 @@ $orderBy";
 
     //echo "<pre>$sql</pre>";
 
-
     if ($pageSize > 0)
         $dbresult = DBUtil::executeSQL($sql, $pageSize * $pageIndex, $pageSize);
     else
@@ -163,10 +163,10 @@ $orderBy";
         // create page variables that represent the Online and Menu status, much like the old db fields
         $now = DateUtil::getDatetime();
         $p['isOnline'] = $p['active'] && (DateUtil::getDatetimeDiff_AsField($p['activeFrom'], $now, 6) >= 0 || $p['activeFrom'] == null) && (DateUtil::getDatetimeDiff_AsField($p['activeTo'], $now, 6) < 0 || $p['activeTo'] == null);
-        $p['isInMenu'] = $p['isActive'] && $p['inMenu'];
+        $p['isInMenu'] = $p['isOnline'] && $p['inMenu'];
 
         if ($includeContent) {
-            $content = pnModAPIFunc('content', 'content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate));
+            $content = pnModAPIFunc('content', 'content', 'getPageContent', array('pageId' => $p['id'], 'editing' => $editing, 'translate' => $translate, 'expandContent' => $expandContent));
             if ($content === false)
                 return false;
         } else
@@ -270,20 +270,21 @@ function contentGetPageListRestrictions($filter, &$restrictions, &$join)
         $restrictions[] = "$pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
     }
     
-    // only filter explicitely
+    // only filter explicitely, active check is done above
     if (array_key_exists('checkInMenu', $filter) && $filter['checkInMenu']) {
-        $restrictions[] = "$pageColumn[inMenu] = 1 AND $pageColumn[active] = 1 AND ($pageColumn[activeFrom] <= NOW() OR $pageColumn[activeFrom] IS NULL) AND ($pageColumn[activeTo] > NOW() OR $pageColumn[activeTo] IS NULL)";
+        $restrictions[] = "$pageColumn[inMenu] = 1";
     }
 
     if (!empty($filter['superParentId'])) {
-        $pageData = pnModAPIFunc('content', 'page', 'getPage', array('id' => $filter['superParentId']));
-        if ($pageData === false)
-            return false;
+        $pageData = DBUtil::selectObjectByID('content_page', $filter['superParentId'], 'id', array('setLeft', 'setRight'));
+        if ($pageData) {
+            $where = "$pageColumn[setLeft] >= $pageData[setLeft] AND $pageColumn[setRight] <= $pageData[setRight]";
+            $restrictions[] = $where;
+        }
+    }
 
-        $where = "    $pageData[setLeft] <= $pageColumn[setLeft]
-              AND $pageColumn[setRight] <= $pageData[setRight]";
-
-        $restrictions[] = $where;
+    if (!empty($filter['parentId'])) {
+        $restrictions[] = " $pageColumn[parentPageId]= ".(int)$filter['parentId'];
     }
 
     if (isset($filter['expandedPageIds']) && is_array($filter['expandedPageIds'])) {
@@ -391,25 +392,8 @@ function content_pageapi_newPage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-    // set the state of new pages
-    switch (pnModGetVar('content', 'newPageState')) {
-        case '1':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 1;
-            break;
-        case '2':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 1;
-            break;
-        case '3':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 0;
-            break;
-        case '4':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 0;
-            break;
-    }
+
+    contentSetInitialPageState($pageData);
 
     $newPage = DBUtil::insertObject($pageData, 'content_page');
     contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -688,25 +672,8 @@ function content_pageapi_clonePage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-    // set the state of new pages
-    switch (pnModGetVar('content', 'newPageState')) {
-        case '1':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 1;
-            break;
-        case '2':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 1;
-            break;
-        case '3':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 0;
-            break;
-        case '4':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 0;
-            break;
-    }
+
+    contentSetInitialPageState($pageData);
 
     $newPage = DBUtil::insertObject($pageData, 'content_page');
     contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -773,25 +740,8 @@ function content_pageapi_reinsertPage($args)
 
     $pageData['setLeft'] = -2;
     $pageData['setRight'] = -1;
-    // set the state of new pages
-    switch (pnModGetVar('content', 'newPageState')) {
-        case '1':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 1;
-            break;
-        case '2':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 1;
-            break;
-        case '3':
-            $pageData['active'] = 1;
-            $pageData['inMenu'] = 0;
-            break;
-        case '4':
-            $pageData['active'] = 0;
-            $pageData['inMenu'] = 0;
-            break;
-    }
+
+    contentSetInitialPageState($pageData);
 
     $newPage = DBUtil::insertObject($pageData, 'content_page', true);
     contentMainEditExpandSet($pageData['parentPageId'], true);
@@ -1404,4 +1354,27 @@ function content_pageapi_updateState($args)
     }
 
     return DBUtil::updateObject($page, 'content_page');
+}
+
+function contentSetInitialPageState(&$page)
+{
+    // set the state of new pages
+    switch (pnModGetVar('content', 'newPageState')) {
+        case '1':
+            $page['active'] = 1;
+            $page['inMenu'] = 1;
+            break;
+        case '2':
+            $page['active'] = 0;
+            $page['inMenu'] = 1;
+            break;
+        case '3':
+            $page['active'] = 1;
+            $page['inMenu'] = 0;
+            break;
+        case '4':
+            $page['active'] = 0;
+            $page['inMenu'] = 0;
+            break;
+    }
 }

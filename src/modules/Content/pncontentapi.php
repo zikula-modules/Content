@@ -290,6 +290,7 @@ function content_contentapi_getPageContent($args)
     $pageId = (int) $args['pageId'];
     $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
     $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
+    $expandContent = (array_key_exists('expandContent', $args) ? $args['expandContent'] : true);
     $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
     $contentList = contentGetContent('page', $pageId, $editing, $language, $translate);
@@ -298,17 +299,16 @@ function content_contentapi_getPageContent($args)
     foreach ($contentList as $c) {
         $c['title'] = $c['plugin']->getTitle();
         $c['isTranslatable'] = $c['plugin']->isTranslatable();
-        if ($editing) {
+        if ($expandContent) {
             $output = $c['plugin']->displayStart();
-            $output .= $c['plugin']->displayEditing();
+            if ($editing) {
+                $output .= $c['plugin']->displayEditing();
+            } else {
+                $output .= $c['plugin']->display();
+            }
             $output .= $c['plugin']->displayEnd();
-            $c['output'] = $output;
-        } else {
-            $output = $c['plugin']->displayStart();
-            $output .= $c['plugin']->display();
-            $output .= $c['plugin']->displayEnd();
-            $c['output'] = $output;
         }
+        $c['output'] = $output;
         $content[$c['areaIndex']][] = $c;
     }
 
@@ -345,8 +345,9 @@ function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy
     else
         $restriction = "$contentColumn[pageId] = $id";
 
-    if (!$editing)
-        $restriction .= " and c.$contentColumn[active]=1";
+    if (!$editing) {
+        $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] ".(pnUserLoggedIn()?'<=1':'>=1');
+    }
 
     $language = DataUtil::formatForStore($language);
 
@@ -387,8 +388,6 @@ WHERE $restriction";
         $content[$i]['plugin'] = $contentPlugin;
         $content[$i]['isTranslatable'] = $contentPlugin->isTranslatable();
     }
-
-    $dbresult->close();
 
     return $content;
 }

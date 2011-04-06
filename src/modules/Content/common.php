@@ -49,7 +49,7 @@ function contentClearCaches()
 
 function contentMainEditExpandToggle($pageId)
 {
-    $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
+    $expandedPageIds = contentMainEditExpandGet();
     if (isset($expandedPageIds[$pageId]))
         unset($expandedPageIds[$pageId]);
     else
@@ -59,7 +59,7 @@ function contentMainEditExpandToggle($pageId)
 
 function contentMainEditExpandSet($pageId, $value)
 {
-    $expandedPageIds = SessionUtil::getVar('contentExpandedPageIds', array());
+    $expandedPageIds = contentMainEditExpandGet();
     if ($value)
         $expandedPageIds[$pageId] = 1;
     else
@@ -67,7 +67,41 @@ function contentMainEditExpandSet($pageId, $value)
     SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
 }
 
+function contentMainEditCollapseAll($belowPageId = null)
+{
+    if ($belowPageId == null) {
+        SessionUtil::setVar('contentExpandedPageIds', array());
+    } else {
+        $expandedPageIds = contentMainEditExpandGet();
+        foreach(contentMainEditGetPagesList($belowPageId) as $page) {
+            unset($expandedPageIds[$page['id']]);
+        }
+        SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
+    }
+}
+
+function contentMainEditExpandAll($belowPageId = null)
+{
+    $expandedPageIds = contentMainEditExpandGet();
+    foreach(contentMainEditGetPagesList($belowPageId) as $page) {
+        $expandedPageIds[$page['id']] = 1;
+    }
+    SessionUtil::setVar('contentExpandedPageIds', $expandedPageIds);
+}
+
 function contentMainEditExpandGet()
 {
     return SessionUtil::getVar('contentExpandedPageIds', array());
+}
+
+function contentMainEditGetPagesList($belowPageId = null)
+{
+    $filter = array('checkActive' => false);
+    if ($belowPageId != null) {
+        $filter['superParentId'] = $belowPageId;
+    }
+    return pnModAPIFunc('content', 'page', 'getPages', array(
+                'editing' => true,
+                'filter' => $filter,
+                'translate' => false));
 }

@@ -13,7 +13,7 @@ Loader::requireOnce('modules/content/common.php');
 function content_menublock_init()
 {
     // Security
-    pnSecAddSchema('content:menublock:', 'Block title::');
+    SecurityUtil::registerPermissionSchema('content:menublock:', 'Block title::');
 }
 
 function content_menublock_info()
@@ -58,16 +58,13 @@ function content_menublock_display($blockinfo)
         if ($vars['root'] > 0) {
             $options['filter']['superParentId'] = $vars['root'];
         }
+        // checkInMenu
         $options['filter']['checkInMenu'] = true;
         $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
         if ($pages === false) {
             return false;
         }
-        if ($vars['root'] > 0) {
-            $render->assign(reset($pages));
-        } else {
-            $render->assign('subPages', $pages);
-        }
+        $render->assign('subPages', $pages);
     }
     $blockinfo['content'] = $render->fetch('content_block_menu.html', $cacheId);
     return pnBlockThemeBlock($blockinfo);

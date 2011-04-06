@@ -6,12 +6,23 @@
     function contentToggle(id)
     {
         $('contentTogglePageId').value = id;
-        contentPost();
+        contentTogglePageIdPost();
+    }
+
+    function expandAllPages()
+    {
+        contentExpandAllPost();
+    }
+
+    function collapseAllPages()
+    {
+        contentCollapseAllPost();
     }
     //]]>
 </script>
-
-<!--[pnformpostbackfunction function='contentPost' commandName='toggleExpand']-->
+<!--[pnformpostbackfunction function='contentExpandAllPost' commandName='expandAll']-->
+<!--[pnformpostbackfunction function='contentCollapseAllPost' commandName='collapseAll']-->
+<!--[pnformpostbackfunction function='contentTogglePageIdPost' commandName='toggleExpand']-->
 <div>
     <input type="hidden" id="contentTogglePageId" name="contentTogglePageId" />
 </div>
@@ -31,6 +42,9 @@
 <!--[if $multilingual]--><!--[pnformcontextmenuitem __title='Translate' imageURL="images/icons/extrasmall/voice-support.gif" commandRedirect=$translateUrl]--><!--[/if]-->
 <!--[if $access.pageDeleteAllowed]--><!--[pnformcontextmenuitem __title='Delete' imageURL="images/icons/extrasmall/delete_table_row.gif" commandName='deletePage' __confirmMessage='Delete']--><!--[/if]-->
 <!--[if $enableVersioning]--><!--[pnformcontextmenuitem __title='History' imageURL="images/icons/extrasmall/clock.gif" commandName='history']--><!--[/if]-->
+<!--[pnformcontextmenuseparator]-->
+<!--[pnformcontextmenuitem __title='Expand All' imageURL="modules/content/pnimages/page-collapsed3.gif" commandName="expandAllBelow"]-->
+<!--[pnformcontextmenuitem __title='Collapse All' imageURL="modules/content/pnimages/page-expanded3.gif" commandName="collapseAllBelow"]-->
 <!--[/pnformcontextmenu]-->
 
 <!--[gt text="Click to activate this page" assign=activate]-->
@@ -117,3 +131,4 @@
     var msgPageOutMenu = '<!--[gt text="Out"]-->';
     Event.observe(window, 'load', initcontentactivationbuttons, false);
 </script>
+<p><a href="javascript:void(0);" onclick="expandAllPages()"><!--[gt text="Expand All"]--></a> - <a href="javascript:void(0);" onclick="collapseAllPages()"><!--[gt text="Collapse All"]--></a></p>
