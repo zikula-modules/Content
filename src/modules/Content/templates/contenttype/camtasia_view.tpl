@@ -19,7 +19,7 @@
 {pageaddvar name="javascript" value="modules/Content/lib/vendor/lightwindow/javascript/lightwindow.js"}
 {pageaddvar name="stylesheet" value="modules/Content/lib/vendor/lightwindow/css/lightwindow.css"}
 
-{assign var="image" value={$folder}|'/'|{$videoPath}|'/FirstFrame.png'}
+{assign var="image" value=$folder|'/'|$videoPath|'/FirstFrame.png'}
 {assign var="imageSize" value=$image|getimagesize}
 
 <dl class="content-video content-shockwave" style="width:{$imageSize[0]}px;">
