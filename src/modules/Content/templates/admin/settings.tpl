@@ -27,6 +27,7 @@
         <div class="z-formrow">
             {formlabel for='countViews' __text='Count page views'}
             {formcheckbox id='countViews' group="config"}
+            <em class="z-sub z-formnote">{gt text='Page views are only counted when not in preview or edit mode and only when the user has no edit access.'}</em>
         </div>
         <div class="z-formrow">
             {formlabel for='googlemapApiKey' __text='Google maps API key'}
