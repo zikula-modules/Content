@@ -233,11 +233,15 @@ abstract class Content_AbstractContentType extends Content_AbstractType
      */
     public function displayEnd()
     {
-        if (!$this->addedStyle) {
-            return '';
-        } else {
-            return '</div>';
+        $html = '';
+        if ($this->addedStyle) {
+            $html = '</div>';
+            // check for edit mode on and clear the floating elements in that case
+            if (SessionUtil::getVar('ContentEditMode')) {
+                $html .= '<div style="clear: both"></div>';
+            }
         }
+        return $html;
     }
 
     /**
