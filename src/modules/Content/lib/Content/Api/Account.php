@@ -29,12 +29,11 @@ class Content_Api_Account extends Zikula_AbstractApi
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
             $items[] = array('url' => ModUtil::url('Content', 'admin', 'newpage'),
                 'module' => 'Content',
-                'title' => $this->__('Add a new page'),
-                'icon' => 'content_add.gif');
+                'title'  => $this->__('Add a new page'),
+                'icon'   => 'content_add.gif');
         }
 
         // Return the items
         return $items;
     }
-
 }

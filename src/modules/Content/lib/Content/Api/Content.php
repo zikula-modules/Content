@@ -825,5 +825,4 @@ class Content_Api_Content extends Zikula_AbstractApi
             'adminInfo' => $plugin->getAdminInfo(),
             'isActive' => $plugin->isActive());
     }
-
 }

@@ -52,5 +52,4 @@ class Content_Api_Layout extends Zikula_AbstractApi
             'editTemplate' => $plugin->getEditTemplate(),
             'plugin' => $plugin);
     }
-
 }

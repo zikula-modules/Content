@@ -468,5 +468,4 @@ class Content_Api_History extends Zikula_AbstractApi
         $pos = DBUtil::selectScalar($sql);
         return $pos === null ? 1 : (int) $pos + 1;
     }
-
 }
