@@ -1,4 +1,4 @@
-{if $directory.directory}
+{if isset($directory.directory)}
 <ul class="content-directory">
     {foreach from=$directory.directory item="item"}
     <li><a href="{$item.url|safetext}">{$item.title|safetext}</a>

@@ -36,7 +36,7 @@ class Content_Block_Mostviewed extends Zikula_Controller_AbstractBlock
 		$vars = BlockUtil::varsFromContent($blockinfo['content']);
 		// --- Setting of the Defaults
 		if (!isset($vars['usecaching'])) {
-			$vars['usecaching'] = true;
+			$vars['usecaching'] = false;
 		}
 		if (!isset($vars['root'])) {
 			$vars['root'] = 0;
@@ -56,7 +56,12 @@ class Content_Block_Mostviewed extends Zikula_Controller_AbstractBlock
             $cacheId = null;
         }
 		if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/mostviewed.tpl', $cacheId))) {
-			$options = array('orderBy' => 'views', 'orderDir' => 'desc', 'pageSize' => $vars['count'], 'filter' => array());
+			$options = array(
+                'orderBy' => 'views', 
+                'orderDir' => 'desc', 
+                'pageSize' => $vars['count'], 
+                'filter' => array()
+            );
 			if ($vars['root'] > 0) {
 				$options['filter']['superParentId'] = $vars['root'];
 			}
@@ -76,7 +81,7 @@ class Content_Block_Mostviewed extends Zikula_Controller_AbstractBlock
 	{
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
         if (!isset($vars['usecaching'])) {
-            $vars['usecaching'] = true;
+            $vars['usecaching'] = false;
         }
 		if (!isset($vars['count'])) {
 			$vars['count'] = 10;

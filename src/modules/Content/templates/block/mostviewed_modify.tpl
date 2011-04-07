@@ -15,7 +15,7 @@
 </div>
 
 <div class="z-formrow">
-    <label for="Content_usecaching">{gt text="Use caching in the mostviewed block"}</label>
+    <label for="Content_usecaching">{gt text="Use caching in this block"}</label>
     <input id="Content_usecaching" type="checkbox" value="1" name="usecaching"{if $usecaching} checked="checked"{/if} />
 </div>
 
