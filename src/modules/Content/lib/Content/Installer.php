@@ -541,8 +541,6 @@ class Content_Installer extends Zikula_AbstractInstaller
             'modulefunc' => 'ModuleFunc',
             'openstreetmap' => 'OpenStreetMap',
             'pagenavigation' => 'PageNavigation',
-            'pagesetter_pub' => 'PagesetterPub',
-            'pagesetter_publist' => 'PagesetterPublist',
             'quote' => 'Quote',
             'rss' => 'Rss',
             'slideshare' => 'Slideshare',
