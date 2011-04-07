@@ -4,12 +4,12 @@
 </div>
 
 <div class="z-formrow">
-    {formlabel for='includeHeading' __text='Include headings into the table'}
+    {formlabel for='includeHeading' __text='Include headings into the table of contents'}
     {formcheckbox id="includeHeading" group="data"}
 </div>
 
 <div class="z-formrow">
-    {formlabel for='includeSubpage' __text='Include subpages into the table'}
+    {formlabel for='includeSubpage' __text='Include subpages into the table of contents'}
     {formcheckbox id="includeSubpage" group="data"}
 </div>
 

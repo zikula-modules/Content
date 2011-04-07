@@ -1,13 +1,13 @@
 <?php
 /**
- * Content directory plugin
+ * Content table of contents plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
 
-class Content_ContentType_Directory extends Content_AbstractContentType
+class Content_ContentType_TableOfContents extends Content_AbstractContentType
 {
     protected $pid;
     protected $includeHeading;
@@ -101,28 +101,28 @@ class Content_ContentType_Directory extends Content_AbstractContentType
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
 
         if ($this->pid == 0 || ($this->pid != 0 && !$this->includeSubpage && !$this->includeHeading)) {
-            $directory = array();
+            $toc = array();
             foreach (array_keys($pages) as $page) {
-                $directory['directory'][] = $this->_genDirectoryRecursive($pages[$page]);
+                $toc['toc'][] = $this->_genTocRecursive($pages[$page]);
             }
         } else {
-            $directory = $this->_genDirectoryRecursive($pages[0]);
+            $toc = $this->_genTocRecursive($pages[0]);
         }
 
-        $this->view->assign('directory', $directory);
+        $this->view->assign('toc', $toc);
         $this->view->assign('contentId', $this->contentId);
         return $this->view->fetch($this->getTemplate());
     }
-    function _genDirectoryRecursive(&$pages)
+    function _genTocRecursive(&$pages)
     {
-        $directory = array();
+        $toc = array();
         $pageurl = ModUtil::url('Content', 'user', 'view', array('pid' => $pages['id']));
         if ($pages['content']) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
                     if ($plugin['plugin']!= null && $plugin['plugin']->getModule() == 'Content' && $plugin['plugin']->getName() == 'heading') {
-                        $directory[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id']);
+                        $toc[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id']);
                     }
                 }
             }
@@ -130,11 +130,11 @@ class Content_ContentType_Directory extends Content_AbstractContentType
 
         if ($pages['subPages']) {
             foreach (array_keys($pages['subPages']) as $id) {
-                $directory[] = $this->_genDirectoryRecursive($pages['subPages'][$id]);
+                $toc[] = $this->_genTocRecursive($pages['subPages'][$id]);
             }
         }
 
-        return array('title' => $pages['title'], 'url' => $pageurl, 'directory' => $directory);
+        return array('title' => $pages['title'], 'url' => $pageurl, 'toc' => $toc);
     }
     function displayEditing()
     {
