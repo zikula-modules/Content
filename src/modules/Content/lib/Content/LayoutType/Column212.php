@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-class Content_LayoutType_Column2d12 extends Content_AbstractLayoutType
+class Content_LayoutType_Column212 extends Content_AbstractLayoutType
 {
     protected $contentAreaTitles = array();
 
@@ -18,7 +18,7 @@ class Content_LayoutType_Column2d12 extends Content_AbstractLayoutType
             $this->__('Header'),
             $this->__('Left column1'),
             $this->__('Right column1'),
-            $this->__('center1'),
+            $this->__('Center'),
             $this->__('Left column2'),
             $this->__('Right column2'),
             $this->__('Footer')

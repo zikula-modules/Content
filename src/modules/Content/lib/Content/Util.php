@@ -124,7 +124,7 @@ class Content_Util
         $types->add('Content_LayoutType_Column1');
         $types->add('Content_LayoutType_Column1top');
         $types->add('Content_LayoutType_Column1woheader');
-        $types->add('Content_LayoutType_Column2d12');
+        $types->add('Content_LayoutType_Column212');
         $types->add('Content_LayoutType_Column2d2575');
         $types->add('Content_LayoutType_Column2d3070');
         $types->add('Content_LayoutType_Column2d3366');

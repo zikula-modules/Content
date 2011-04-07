@@ -503,7 +503,7 @@ class Content_Installer extends Zikula_AbstractInstaller
             'column1' => 'Column1',
             'column1topheader' => 'Column1top',
             'column1woheader' => 'Column1woheader',
-            'column2_1_2header' => 'Column2d12',
+            'column2_1_2header' => 'Column212',
             'column2_2575_header' => 'Column2d2575',
             'column2_3070_header' => 'Column2d3070',
             'column2_3366_header' => 'Column2d3366',
