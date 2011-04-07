@@ -64,7 +64,6 @@
         </thead>
         <tbody>
             {foreach from=$pages item=page}
-            {usergetvar name=uname uid=$page.lu_uid assign=updaterName}
             <tr class="{cycle values="z-odd,z-even"}">
                 <td style="padding-left: {$page.level*1.5}em">
                     <div id="page_{$page.id}">
@@ -108,7 +107,7 @@
                     <span id="menustatus_{$page.id}">{gt text="Out"}</span>
                     {/if}
                 </td>
-                <td>{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datebrief' tag2=$updaterName|profilelinkbyuname}
+                <td>{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datebrief' tag2=$page.lu_uid|profilelinkbyuid}
                     {if $enableVersioning}
                     {modapifunc modname=Content type=History func=getPageVersionNo pageId=$page.id assign=versionNo}
                     (#{$versionNo})
