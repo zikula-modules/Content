@@ -9,7 +9,6 @@
  */
 class Content_Api_User extends Zikula_AbstractApi
 {
-
     /**
      * get available module links
      *
@@ -21,25 +20,36 @@ class Content_Api_User extends Zikula_AbstractApi
 
         if (SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD)) {
             $links[] = array(
-                'url' => ModUtil::url('Content', 'admin', 'newPage'),
-                'text' => $this->__('Add new page'),
-                'class' => 'z-icon-es-new');
+                'url'   => ModUtil::url('Content', 'admin', 'newPage'),
+                'text'  => $this->__('Add new page'),
+                'class' => 'z-icon-es-new'
+            );
         }
+
         if (SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT)) {
             $links[] = array(
-                'url' => ModUtil::url('Content', 'admin', 'main'),
-                'text' => $this->__('Page list'),
+                'url'   => ModUtil::url('Content', 'admin', 'main'),
+                'text'  => $this->__('Page list'),
                 'class' => 'z-icon-es-edit',
                 'links' => array(
-                    array('url' => ModUtil::url('Content', 'user', 'sitemap'),
-                        'text' => $this->__('Sitemap')),
-                    array('url' => ModUtil::url('Content', 'user', 'extlist'),
-                        'text' => $this->__('Extended')),
-                    array('url' => ModUtil::url('Content', 'user', 'pagelist'),
-                        'text' => $this->__('Complete')),
-                    array('url' => ModUtil::url('Content', 'user', 'categories'),
-                        'text' => $this->__('Category list')),
-                ));
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'sitemap'),
+                        'text' => $this->__('Sitemap')
+                    ),
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'extlist'),
+                        'text' => $this->__('Extended')
+                    ),
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'pagelist'),
+                        'text' => $this->__('Complete')
+                    ),
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'categories'),
+                        'text' => $this->__('Category list')
+                    )
+                )
+            );
         }
 
         return $links;
@@ -51,8 +61,8 @@ class Content_Api_User extends Zikula_AbstractApi
      * @author Philipp Niethammer <webmaster@nochwer.de>
      * @return custom url string
      */
-    public function encodeurl($args) {
-
+    public function encodeurl($args)
+    {
         //check we have the required input
         if (!isset($args['modname']) || !isset($args['func']) || !isset($args['args'])) {
             return LogUtil::registerArgsError();
@@ -63,14 +73,16 @@ class Content_Api_User extends Zikula_AbstractApi
             return '';
         }
 
-        if (isset($args['args']['preview']) || isset($args['args']['editmode']))
+        if (isset($args['args']['preview']) || isset($args['args']['editmode'])) {
             return false;
+        }
 
         if (isset($args['args']['cat']) && !empty($args['args']['cat'])) {
             $cat = CategoryUtil::getCategoryByID($args['args']['cat']);
             unset($args['args']['cat']);
-            if (count($args['args'] > 0))
+            if (count($args['args'] > 0)) {
                 return '';
+            }
             return $args['modname'] . '/' . DataUtil::formatForURL($cat['name']);
         }
 
@@ -94,7 +106,8 @@ class Content_Api_User extends Zikula_AbstractApi
      * @author Philipp Niethammer
      * @return bool true if succeded false otherwise
      */
-    public function decodeurl($args) {
+    public function decodeurl($args)
+    {
         $suffix = $this->getVar('shorturlsuffix');
 
         $supportedfunctions = array('list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
@@ -168,11 +181,7 @@ class Content_Api_User extends Zikula_AbstractApi
         }
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => false));
-        if ($page !== false) {
-            return $page;
-        }
-        return false;
+        return ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'preview' => false, 'includeContent' => false));
     }
 
     /**
@@ -180,9 +189,10 @@ class Content_Api_User extends Zikula_AbstractApi
      */
     public function getmodulemeta()
     {
-        return array('displayfunc' => 'view',
-            'titlefield' => 'title',
-            'itemid' => 'pid');
+        return array(
+            'displayfunc' => 'view',
+            'titlefield'  => 'title',
+            'itemid'      => 'pid'
+        );
     }
-
 }

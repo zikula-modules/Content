@@ -29,15 +29,12 @@ class Content_Api_Page extends Zikula_AbstractApi
         $args['filter']['pageId'] = $args['id'];
 
         $pages = $this->getPages($args);
-        if ($pages === false) {
-            return false;
-        } elseif (count($pages) == 0) {
+
+        if ($pages === false || count($pages) == 0) {
             return false;
         }
 
-        $page = $pages[0];
-
-        return $page;
+        return $pages[0];
     }
 
     /**
@@ -108,7 +105,7 @@ class Content_Api_Page extends Zikula_AbstractApi
         $language = DataUtil::formatForStore($language);
 
         $cols = DBUtil::_getAllColumns('content_page');
-        $ca = DBUtil::getColumnsArray('content_page');
+        $ca   = DBUtil::getColumnsArray('content_page');
         $ca[] = 'translatedTitle';
         $ca[] = 'uname';
 
@@ -144,8 +141,8 @@ class Content_Api_Page extends Zikula_AbstractApi
         for ($i = 0, $cou = count($pages); $i < $cou; ++$i) {
             $p = &$pages[$i];
             $p['translated'] = array('title' => $p['translatedTitle']);
-            $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout', array(
-                        'layout' => $p['layout']));
+            $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout',
+                                                array('layout' => $p['layout']));
             $p['layoutTemplate'] = $p['layoutData']['template'];
             $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
             if ($includeCategories) {
@@ -168,6 +165,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             $p['isOnline'] = $p['active'] && (DateUtil::getDatetimeDiff_AsField($p['activeFrom'], $now, 6) >= 0 || $p['activeFrom'] == null) && (DateUtil::getDatetimeDiff_AsField($p['activeTo'], $now, 6) < 0 || $p['activeTo'] == null);
             $p['isInMenu'] = $p['isOnline'] && $p['inMenu'];
 
+            $content = null;
             if ($includeContent) {
                 $content = ModUtil::apiFunc('Content', 'Content', 'getPageContent', array(
                             'pageId' => $p['id'],
@@ -177,8 +175,6 @@ class Content_Api_Page extends Zikula_AbstractApi
                 if ($content === false) {
                     return false;
                 }
-            } else {
-                $content = null;
             }
 
             $p['content'] = $content;
@@ -403,12 +399,15 @@ class Content_Api_Page extends Zikula_AbstractApi
                     'pageId' => $pageData['id'],
                     'position' => $pageData['position'],
                     'parentPageId' => $pageData['parentPageId']));
+
         if ($ok === false) {
             return false;
         }
+
         $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array(
                     'pageId' => $pageData['id'],
                     'action' => '_CONTENT_HISTORYPAGEADDED' /* delayed translation */));
+
         if ($ok === false) {
             return false;
         }
@@ -554,6 +553,7 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         $result = DBUtil::executeSQL($sql);
         $objectArray = DBUtil::marshallObjects($result);
+
         $categories = array();
         foreach ($objectArray as $object) {
             $categories[] = (int) $object['con_categoryid'];
@@ -614,6 +614,7 @@ class Content_Api_Page extends Zikula_AbstractApi
         if ($ok === false) {
             return false;
         }
+
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => $this->__("Translation deleted") /* delayed translation */));
             if ($ok === false) {
@@ -826,6 +827,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             WHERE $pageColumn[parentPageId] = $pageId";
 
         $pos = DBUtil::selectScalar($sql);
+
         return $pos === null ? -1 : (int) $pos;
     }
 
@@ -845,6 +847,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             WHERE page.$pageColumn[parentPageId] = orgPage.$pageColumn[parentPageId]";
 
         $pos = DBUtil::selectScalar($sql);
+
         return $pos === null ? -1 : (int) $pos;
     }
 
@@ -1405,5 +1408,4 @@ class Content_Api_Page extends Zikula_AbstractApi
                 break;
         }
     }
-
 }

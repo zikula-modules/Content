@@ -86,5 +86,4 @@ class Content_Api_Search extends Zikula_AbstractApi
 
         return true;
     }
-
 }

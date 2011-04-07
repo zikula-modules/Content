@@ -29,7 +29,7 @@
                 <td>{$version.revisionNo}</td>
                 <td class="z-nowrap"><a href="{modurl modname='Content' type='user' func='view' vid=$version.id}">{$version.date|date_format:datetimebrief}</a></td>
                 <td>{$version.action}</td>
-                <td>{$version.userName|userprofilelink}</td>
+                <td>{$version.userName|profilelinkbyuname}</td>
                 <td>{$version.ipno}</td>
                 <td>{formbutton __text="Restore" commandName="restore" commandArgument=$version.id __confirmMessage='Restore'}</td>
             </tr>

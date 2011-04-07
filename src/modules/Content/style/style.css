@@ -138,10 +138,11 @@ div.content-pageinfo {
 
 div.content-pageinfo .content {
     background-color:#FFFFFF;
-    border:2px solid #000000;
+    border:1px outset #333333;
     display:block;
     padding:7px;
     position:absolute;
+    left: 22px;
     z-index:900;
 }
 
