@@ -122,11 +122,11 @@
         <div class="z-formrow">
             {formlabel for='createdBy' __text='Created'}
             {usergetvar name=uname uid=$page.lu_uid assign=updaterName}
-            <span id="createdBy" class="z-formnote">{gt text='on %1$s by %2$s' tag1=$page.cr_date|dateformat:'datetimebrief' tag2=$page.uname|userprofilelink}</span>
+            <span id="createdBy" class="z-formnote">{gt text='on %1$s by %2$s' tag1=$page.cr_date|dateformat:'datetimebrief' tag2=$page.uname|profilelinkbyuname}</span>
         </div>
         <div class="z-formrow">
             {formlabel for='updatedBy' __text='Updated'}
-            <span id="updatedBy" class="z-formnote">{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datetimebrief' tag2=$updaterName|userprofilelink}
+            <span id="updatedBy" class="z-formnote">{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datetimebrief' tag2=$updaterName|profilelinkbyuname}
                 {if $enableVersioning}
                 {modapifunc modname=Content type=history func=getPageVersionNo pageId=$page.id assign=versionNo}
                 (#{$versionNo})

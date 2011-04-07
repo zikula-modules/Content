@@ -25,8 +25,8 @@
             <li><a class="con_image pagelist" href="{modurl modname='Content' type='admin' func='main'}">{gt text="Page list"}</a></li>
         </ul>
         <ul>
-            <li>{gt text='Created by %1$s on %2$s' tag1=$authorName|userprofilelink tag2=$page.cr_date|dateformat:"datebrief"}</li>
-            <li>{gt text='Last updated by %1$s on %2$s' tag1=$updaterName|userprofilelink tag2=$page.lu_date|dateformat:"datebrief"}</li>
+            <li>{gt text='Created by %1$s on %2$s' tag1=$authorName|profilelinkbyuname tag2=$page.cr_date|dateformat:"datebrief"}</li>
+            <li>{gt text='Last updated by %1$s on %2$s' tag1=$updaterName|profilelinkbyuname tag2=$page.lu_date|dateformat:"datebrief"}</li>
             {if $enableVersioning}<li>{gt text="Version"} #{$versionNo}</li>{/if}
             {if $multilingual}<li>{gt text="Language"}: {$page.language}</li>{/if}
         </ul>

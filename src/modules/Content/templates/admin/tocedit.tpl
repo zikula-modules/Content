@@ -108,7 +108,7 @@
                     <span id="menustatus_{$page.id}">{gt text="Out"}</span>
                     {/if}
                 </td>
-                <td>{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datebrief' tag2=$updaterName|userprofilelink}
+                <td>{gt text='on %1$s by %2$s' tag1=$page.lu_date|dateformat:'datebrief' tag2=$updaterName|profilelinkbyuname}
                     {if $enableVersioning}
                     {modapifunc modname=Content type=History func=getPageVersionNo pageId=$page.id assign=versionNo}
                     (#{$versionNo})
