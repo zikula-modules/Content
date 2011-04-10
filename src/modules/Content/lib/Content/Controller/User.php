@@ -17,7 +17,7 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     public function main($args)
     {
-        return $this->sitemap($args);
+		$this->redirect(ModUtil::url('Content', 'user', 'sitemap', $args));
     }
 
     /**

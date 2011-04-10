@@ -141,7 +141,7 @@ class Content_Controller_Admin extends Zikula_AbstractController
         if ($count == 0) {
             LogUtil::registerStatus($this->__('No ContentTypes upgraded (there were no matches found).'));
         }
-        $this->redirect(ModUtil::url('Content', 'admin'));
+        $this->redirect(ModUtil::url('Content', 'admin', 'main'));
     }
 
 }

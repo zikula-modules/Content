@@ -4,7 +4,7 @@
     {if $notfirst}
     &raquo;
     {/if}
-    {if $page.id != $thispage}<a href="{modurl modname="Content" func="view" pid=$page.id}">{/if}{$page.title|safetext}{if $page.id != $thispage}</a>{/if}
+    {if $page.id != $thispage}<a href="{modurl modname="Content" type='user' func="view" pid=$page.id}">{/if}{$page.title|safetext}{if $page.id != $thispage}</a>{/if}
     {assign var="notfirst" value="1"}
     {/foreach}
 </p>

@@ -4,7 +4,7 @@
 {if !empty($pages)}
     <ul>
         {foreach from=$pages item=page}
-        <li><a href="{modurl modname='Content' func='view' pid=$page.id}">{$page.title}</a></li>
+        <li><a href="{modurl modname='Content' type='user' func='view' pid=$page.id}">{$page.title}</a></li>
         {/foreach}
     </ul>
 {else}

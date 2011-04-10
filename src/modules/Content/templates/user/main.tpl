@@ -7,9 +7,9 @@
     <ul>
         {foreach from=$categories item=category}
         {if $shorturls and $shorturlstype==0 and 0}
-        <li><a href="{modurl modname='Content' func='view' cat=$category.path|replace:$rootCategory.path:''}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a></li>
+        <li><a href="{modurl modname='Content' type='user' func='view' cat=$category.path|replace:$rootCategory.path:''}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a></li>
         {else}
-        <li><a href="{modurl modname='Content' func='list' cat=$category.id}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a></li>
+        <li><a href="{modurl modname='Content' type='user' func='list' cat=$category.id}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a></li>
         {/if}
         {/foreach}
     </ul>

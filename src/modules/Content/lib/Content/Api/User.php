@@ -113,7 +113,7 @@ class Content_Api_User extends Zikula_AbstractApi
         $supportedfunctions = array('list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
         $argsnum = count($args['vars']);
         if (!isset($args['vars'][2]) || empty($args['vars'][2])) {
-            System::queryStringSetVar('func', 'main');
+            System::queryStringSetVar('func', 'sitemap');
             return true;
         }
 

@@ -13,7 +13,7 @@
     <p>{gt text="Welcome to your content administration. We have split the editing and administrative setup into separate systems. So please select from the list below or the menu above."}</p>
 
     <ul>
-        <li><a href="{modurl modname='Content' type='admin'}">{gt text="Page list"}</a></li>
+        <li><a href="{modurl modname='Content' type='admin' func='main'}">{gt text="Page list"}</a></li>
         {checkpermissionblock component='Content::' instance='::' level=ACCESS_ADMIN}
         <li><a href="{modurl modname='Content' type='admin' func='settings'}">{gt text="Settings"}</a></li>
         {/checkpermissionblock}

@@ -45,7 +45,7 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
             throw new Zikula_Exception_Forbidden($this->__('Error! You have not been granted access to create pages.'));
         }
 
-        $url = ModUtil::url('Content', 'admin', 'Main');
+        $url = ModUtil::url('Content', 'admin', 'main');
 
         if ($args['commandName'] == 'clonePage') {
             $pageData = $this->view->getValues();
