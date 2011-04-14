@@ -33,7 +33,7 @@ function smarty_function_contenthtmleditor($params, &$view)
         $scribite = ModUtil::apiFunc('Scribite', 'User', 'loader', array(
                     'modulename' => 'Content',
                     'areas' => array($inputId)));
-        PageUtil::AddVar('rawtext', $scribite);
+        PageUtil::AddVar('header', $scribite);
     } else if ($useWysiwyg && !ModUtil::available('scribite')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
         $html .= '(' . __("Please install the Scribite module to use the javascript HTML editor.", $dom) . ')';
