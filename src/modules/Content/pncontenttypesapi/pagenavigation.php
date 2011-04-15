@@ -53,18 +53,20 @@ class content_contenttypesapi_pagenavigationPlugin extends contentTypeBase
 
         if ($page[position] > 0) {
             $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] < $page[position]";
-    
+
             $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
             if (count($pages) > 0) {
                 $prevpage = $pages[0];
             }
         }
 
-        $options['orderDir'] = 'asc';
-        $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
-        $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
-        if (count($pages) > 0) {
-            $nextpage = $pages[0];
+        if ($page[position]) {
+            $options['orderDir'] = 'asc';
+            $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
+            $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
+            if (count($pages) > 0) {
+                $nextpage = $pages[0];
+            }
         }
 
         $render = & pnRender::getInstance('content', false);
