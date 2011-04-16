@@ -51,7 +51,7 @@ class content_contenttypesapi_pagenavigationPlugin extends contentTypeBase
         $options['pageSize'] = 1;
         $options['filter']['superParentId'] = $page['parentPageId'];
 
-        if ($page[position] > 0) {
+        if ($page['position'] > 0) {
             $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] < $page[position]";
 
             $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
@@ -60,7 +60,7 @@ class content_contenttypesapi_pagenavigationPlugin extends contentTypeBase
             }
         }
 
-        if ($page[position]) {
+        if ($page['position']) {
             $options['orderDir'] = 'asc';
             $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
             $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
