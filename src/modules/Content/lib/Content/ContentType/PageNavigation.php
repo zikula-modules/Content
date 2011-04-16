@@ -2,7 +2,7 @@
 /**
  * Content prev- & next-page plugin
  *
- * @copyright (C) 2010 Sven Strickroth
+ * @copyright (C) 2010 - 2011 Sven Strickroth
  * @link http://code.zikula.org/content
  * @version $Id$
  * @license See license.txt
@@ -48,7 +48,7 @@ class Content_ContentType_PageNavigation extends Content_AbstractContentType
             }
         }
 
-        if ($page[position]) {
+        if ($page['position']) {
             $options['orderDir'] = 'asc';
             $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
             $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
