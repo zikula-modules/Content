@@ -156,7 +156,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         } else {
             $toc = array();
             foreach (array_keys($pages) as $page) {
-                $toc['toc'][] = $this->_genTocRecursive($pages[$page], $level);
+                $toc['toc'][] = $this->_genTocRecursive($pages[$page], ($this->pid == 0 ? 1 : 0));
             }
         }
 
