@@ -100,7 +100,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         } else {
             $directory = array();
             foreach (array_keys($pages) as $page) {
-                $directory['directory'][] = $this->_genDirectoryRecursive($pages[$page], $level);
+                $directory['directory'][] = $this->_genDirectoryRecursive($pages[$page], ($this->pid == 0 ? 1 : 0));
             }
         }
 
