@@ -3,6 +3,7 @@
  * Content directory plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
+ * @copyright (C) 2010-2011, Sven Strickroth <email@cs-ware.de>
  * @link http://code.zikula.org/content
  * @version $Id$
  * @license See license.txt
@@ -11,8 +12,9 @@
 class content_contenttypesapi_directoryPlugin extends contentTypeBase
 {
     var $pid;
-    var $includeHeading;
-    var $includeSubpage;
+    var $includeSelf;
+    var $includeHeadingLevel;
+    var $includeSubpageLevel;
     var $includeNotInMenu;
 
     function getModule()
@@ -42,43 +44,55 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     function loadData($data)
     {
         $this->pid = $data['pid'];
-        $this->includeHeading = (bool) $data['includeHeading'];
-        $this->includeSubpage = (bool) $data['includeSubpage'];
+        $this->includeSelf = ((bool) $data['includeSelf']);
         $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
+        $this->includeHeadingLevel = -1;
+        $this->includeSubpageLevel = 0;
+        if ((bool)$data['includeHeading'] && $data['includeHeadingLevel'] >= 0) {
+            $this->includeHeadingLevel = (int) $data['includeHeadingLevel'];
+        }
+        if ($data['includeSubpageLevel'] > 0) {
+            $this->includeSubpageLevel = (int) $data['includeSubpageLevel'];
+        }
     }
 
     function display()
     {
+        $pntable = pnDBGetTables();
+        $pageColumn = $pntable['content_page_column'];
+
         $options = array('makeTree' => true, 'expandContent' => false);
         $options['orderBy'] = 'setLeft';
-        // if includeHeading and includeSubpage are set to false, show direct child pages
-        if (!$this->includeSubpage && $this->pid == 0) {
-            $pntable = pnDBGetTables();
-            $pageColumn = $pntable['content_page_column'];
-            $options['filter']['where'] = "$pageColumn[level] = 0";
-        } elseif (!$this->includeSubpage && $this->pid != 0 && $this->includeHeading) {
-            $options['filter']['pageId'] = $this->pid;
-        } elseif ($this->includeSubpage && $this->pid != 0) {
-            $options['filter']['superParentId'] = $this->pid;
-        } elseif ($this->pid != 0) {
-            $options['filter']['parentId'] = $this->pid;
-        }
 
+        if ($this->pid == 0) {
+            $options['filter']['where'] = "$pageColumn[level] <= ".(int) $this->includeSubpageLevel;
+        } else {
+            if ($this->includeSubpageLevel > 0) {
+                $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pid));
+                if ($page === false) {
+                    return '';
+                }
+                $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
+                $options['filter']['superParentId'] = $this->pid;
+            } else {
+                $options['filter']['parentId'] = $this->pid;
+            }
+        }
         if (!$this->includeNotInMenu) {
             $options['filter']['checkInMenu'] = true;
         }
-
-        if ($this->includeHeading)
+        if ($this->includeHeadingLevel >= 0) {
             $options['includeContent'] = true;
+        }
         $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
 
-        if ($this->pid == 0 || ($this->pid != 0 && !$this->includeSubpage && !$this->includeHeading)) {
+        if ($this->pid != 0 && !$this->includeSelf) {
+            $directory = $this->_genDirectoryRecursive($pages[0], 0);
+        } else {
             $directory = array();
             foreach (array_keys($pages) as $page) {
-                $directory['directory'][] = $this->_genDirectoryRecursive($pages[$page]);
+                $directory['directory'][] = $this->_genDirectoryRecursive($pages[$page], $level);
             }
-        } else {
-            $directory = $this->_genDirectoryRecursive($pages[0]);
         }
 
         $render = & pnRender::getInstance('content', false);
@@ -87,11 +101,11 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         return $render->fetch('contenttype/directory_view.html');
     }
 
-    function _genDirectoryRecursive(&$pages)
+    function _genDirectoryRecursive(&$pages, $level)
     {
         $directory = array();
         $pageurl = pnModUrl('content', 'user', 'view', array('pid' => $pages['id']));
-        if ($pages['content']) {
+        if ($pages['content'] && $this->includeHeadingLevel-$level >= 0) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
@@ -104,7 +118,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
         if ($pages['subPages']) {
             foreach (array_keys($pages['subPages']) as $id) {
-                $directory[] = $this->_genDirectoryRecursive($pages['subPages'][$id]);
+                $directory[] = $this->_genDirectoryRecursive($pages['subPages'][$id], $level+1);
             }
         }
 
@@ -120,7 +134,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => true);
+        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeadingLevel' => 0, 'includeSubpageLevel' => 0, 'includeNotInMenu' => false);
 
     }
 
