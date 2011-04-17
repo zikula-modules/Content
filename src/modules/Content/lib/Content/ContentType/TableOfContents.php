@@ -173,7 +173,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
                     if ($plugin['plugin']!= null && $plugin['plugin']->getModule() == 'Content' && $plugin['plugin']->getName() == 'heading') {
-                        $toc[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id']);
+                        $toc[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id'], 'level' => $level);
                     }
                 }
             }
@@ -185,7 +185,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
             }
         }
 
-        return array('title' => $pages['title'], 'url' => $pageurl, 'toc' => $toc);
+        return array('title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'toc' => $toc);
     }
     function displayEditing()
     {
