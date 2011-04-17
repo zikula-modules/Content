@@ -3,6 +3,7 @@
  * Content table of contents plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
+ * @copyright (C) 2010-2011, Sven Strickroth <email@cs-ware.de>
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
@@ -10,8 +11,9 @@
 class Content_ContentType_TableOfContents extends Content_AbstractContentType
 {
     protected $pid;
-    protected $includeHeading;
-    protected $includeSubpage;
+    protected $includeSelf;
+    protected $includeHeadingLevel;
+    protected $includeSubpageLevel;
     protected $includeNotInMenu;
 
     public function getPid()
@@ -24,24 +26,34 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         $this->pid = $pid;
     }
 
-    public function getIncludeHeading()
+    public function getIncludeSelf)
     {
-        return $this->includeHeading;
+        return $this->includeSelf;
     }
 
-    public function setIncludeHeading($includeHeading)
+    public function setIncludeSelf($includeSelf)
     {
-        $this->includeHeading = $includeHeading;
+        $this->includeSelf = $includeSelf;
     }
 
-    public function getIncludeSubpage()
+    public function getIncludeHeadingLevel()
     {
-        return $this->includeSubpage;
+        return $this->includeHeadingLevel;
     }
 
-    public function setIncludeSubpage($includeSubpage)
+    public function setIncludeHeadingLevel($includeHeadingLevel)
     {
-        $this->includeSubpage = $includeSubpage;
+        $this->includeHeadingLevel = $includeHeadingLevel;
+    }
+
+    public function getIncludeSubpageLevel()
+    {
+        return $this->includeSubpageLevel;
+    }
+
+    public function setIncludeSubpageLevel($includeSubpageLevel)
+    {
+        $this->includeSubpageLevel = $includeSubpageLevel;
     }
 
     public function getIncludeNotInMenu()
@@ -69,44 +81,54 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
     function loadData(&$data)
     {
         $this->pid = $data['pid'];
-        $this->includeHeading = (bool) $data['includeHeading'];
-        $this->includeSubpage = (bool) $data['includeSubpage'];
+        $this->includeSelf = ((bool) $data['includeSelf']);
         $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
+        $this->includeHeadingLevel = -1;
+        $this->includeSubpageLevel = 0;
+        if ((bool)$data['includeHeading'] && $data['includeHeadingLevel'] >= 0) {
+            $this->includeHeadingLevel = (int) $data['includeHeadingLevel'];
+        }
+        if ($data['includeSubpageLevel'] > 0) {
+            $this->includeSubpageLevel = (int) $data['includeSubpageLevel'];
+        }
     }
     function display()
     {
+        $pntable = pnDBGetTables();
+        $pageColumn = $pntable['content_page_column'];
+
         $options = array('makeTree' => true, 'expandContent' => false);
         $options['orderBy'] = 'setLeft';
 
-        // if includeHeading and includeSubpage are set to false, show direct child pages
-        if (!$this->includeSubpage && $this->pid == 0) {
-            $table = DBUtil::getTables();
-            $pageColumn = $table['content_page_column'];
-            $options['filter']['where'] = "$pageColumn[level] = 0";
-        } elseif (!$this->includeSubpage && $this->pid != 0 && $this->includeHeading) {
-            $options['filter']['pageId'] = $this->pid;
-        } elseif ($this->includeSubpage && $this->pid != 0) {
-            $options['filter']['superParentId'] = $this->pid;
-        } elseif ($this->pid != 0) {
-            $options['filter']['parentId'] = $this->pid;
+        if ($this->pid == 0) {
+            $options['filter']['where'] = "$pageColumn[level] <= ".(int) $this->includeSubpageLevel;
+        } else {
+            if ($this->includeSubpageLevel > 0) {
+                $page = ModUtil::apiFunc('content', 'page', 'getPage', array('id' => $this->pid));
+                if ($page === false) {
+                    return '';
+                }
+                $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
+                $options['filter']['superParentId'] = $this->pid;
+            } else {
+                $options['filter']['parentId'] = $this->pid;
+            }
         }
-
         if (!$this->includeNotInMenu) {
             $options['filter']['checkInMenu'] = true;
         }
-
-        if ($this->includeHeading) {
+        if ($this->includeHeadingLevel >= 0) {
             $options['includeContent'] = true;
         }
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
 
-        if ($this->pid == 0 || ($this->pid != 0 && !$this->includeSubpage && !$this->includeHeading)) {
+        if ($this->pid != 0 && !$this->includeSelf) {
+            $toc = $this->_genTocRecursive($pages[0], 0);
+        } else {
             $toc = array();
             foreach (array_keys($pages) as $page) {
-                $toc['toc'][] = $this->_genTocRecursive($pages[$page]);
+                $toc['toc'][] = $this->_genTocRecursive($pages[$page], $level);
             }
-        } else {
-            $toc = $this->_genTocRecursive($pages[0]);
         }
 
         $this->view->assign('toc', $toc);
@@ -117,7 +139,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
     {
         $toc = array();
         $pageurl = ModUtil::url('Content', 'user', 'view', array('pid' => $pages['id']));
-        if ($pages['content']) {
+        if ($pages['content'] && $this->includeHeadingLevel-$level >= 0) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
@@ -130,7 +152,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
 
         if ($pages['subPages']) {
             foreach (array_keys($pages['subPages']) as $id) {
-                $toc[] = $this->_genTocRecursive($pages['subPages'][$id]);
+                $toc[] = $this->_genTocRecursive($pages['subPages'][$id], $level + 1);
             }
         }
 
@@ -148,7 +170,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
     }
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeHeading' => true, 'includeSubpage' => false, 'includeNotInMenu' => false);
+        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeadingLevel' => 0, 'includeSubpageLevel' => 0, 'includeNotInMenu' => false);
 
     }
     function startEditing()
