@@ -16,17 +16,22 @@
 
 <div class="z-formrow">
     {formlabel for='includeHeading' __text='Include headings'}
-    {formcheckbox id="includeHeading" group="data"}
+    {formdropdownlist id="includeHeading" items=$includeHeadingItems group="data"}
 </div>
 
 <div class="z-formrow">
     {formlabel for='includeHeadingLevel' __text='Include headings up to level'}
     {formtextinput id="includeHeadingLevel" group="data"}
-    <span class="z-sub z-formnote">if headings are included; select 0 to include menu only for the selected page</span>
+    <span class="z-sub z-formnote">if headings are included and not unlimited; select 0 to include menu only for the selected page</span>
+</div>
+
+<div class="z-formrow">
+    {formlabel for='includeSubpage' __text='Include subpages'}
+    {formdropdownlist id="includeSubpage" items=$includeSubpageItems group="data"}
 </div>
 
 <div class="z-formrow">
     {formlabel for='includeSubpageLevel' __text='Include subpages into table up to level'}
     {formtextinput id="includeSubpageLevel" group="data"}
-    <span class="z-sub z-formnote">select 0 to include no sublevels</span>
+    <span class="z-sub z-formnote">if subpages are included and not unlimited</span>
 </div>

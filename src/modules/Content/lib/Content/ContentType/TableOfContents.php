@@ -12,7 +12,9 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
 {
     protected $pid;
     protected $includeSelf;
+    protected $includeHeading;
     protected $includeHeadingLevel;
+    protected $includeSubpage;
     protected $includeSubpageLevel;
     protected $includeNotInMenu;
 
@@ -36,6 +38,16 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         $this->includeSelf = $includeSelf;
     }
 
+    public function getIncludeHeading()
+    {
+        return $this->includeHeading;
+    }
+
+    public function setIncludeHeading($includeHeading)
+    {
+        $this->includeHeading = $includeHeading;
+    }
+
     public function getIncludeHeadingLevel()
     {
         return $this->includeHeadingLevel;
@@ -44,6 +56,16 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
     public function setIncludeHeadingLevel($includeHeadingLevel)
     {
         $this->includeHeadingLevel = $includeHeadingLevel;
+    }
+
+    public function getIncludeSubpage()
+    {
+        return $this->includeSubpage;
+    }
+
+    public function setIncludeSubpage($includeSubpage)
+    {
+        $this->includeSubpage = $includeSubpage;
     }
 
     public function getIncludeSubpageLevel()
@@ -83,12 +105,14 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         $this->pid = $data['pid'];
         $this->includeSelf = ((bool) $data['includeSelf']);
         $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
+        $this->includeHeading = $data['includeHeading'];
         $this->includeHeadingLevel = -1;
+        $this->includeSubpage = $data['includeSubpage'];
         $this->includeSubpageLevel = 0;
-        if ((bool)$data['includeHeading'] && $data['includeHeadingLevel'] >= 0) {
+        if ($this->includeHeading && $data['includeHeadingLevel'] >= 0) {
             $this->includeHeadingLevel = (int) $data['includeHeadingLevel'];
         }
-        if ($data['includeSubpageLevel'] > 0) {
+        if ($this->includeSubpage && $data['includeSubpageLevel'] > 0) {
             $this->includeSubpageLevel = (int) $data['includeSubpageLevel'];
         }
     }
@@ -100,17 +124,22 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         $options = array('makeTree' => true, 'expandContent' => false);
         $options['orderBy'] = 'setLeft';
 
-        if ($this->pid == 0) {
-            $options['filter']['where'] = "$pageColumn[level] <= ".(int) $this->includeSubpageLevel;
+        if ($this->pid == 0 && $this->includeSubpage) {
+            if ($this->includeSubpage == 2) {
+                $options['filter']['where'] = "$pageColumn[level] <= ".($this->includeSubpageLevel-1);
+            }
         } else {
-            if ($this->includeSubpageLevel > 0) {
+            if ($this->includeSubpage && $this->includeSubpageLevel > 0) {
                 $page = ModUtil::apiFunc('content', 'page', 'getPage', array('id' => $this->pid));
                 if ($page === false) {
                     return '';
                 }
-                $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
+                if ($this->includeSubpage == 2) {
+                    $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
+                }
                 $options['filter']['superParentId'] = $this->pid;
             } else {
+                // this is a special case, this is also applied if pid==0 and no subpages included, which makes no sense
                 $options['filter']['parentId'] = $this->pid;
             }
         }
@@ -139,7 +168,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
     {
         $toc = array();
         $pageurl = ModUtil::url('Content', 'user', 'view', array('pid' => $pages['id']));
-        if ($pages['content'] && $this->includeHeadingLevel-$level >= 0) {
+        if ($pages['content'] && ($this->includeHeading == 1 || $this->includeHeadingLevel-$level >= 0)) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
@@ -170,7 +199,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
     }
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeadingLevel' => 0, 'includeSubpageLevel' => 0, 'includeNotInMenu' => false);
+        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeading' => 0, 'includeHeadingLevel' => 0, 'includeSubpage' => 1, 'includeSubpageLevel' => 0, 'includeNotInMenu' => false);
 
     }
     function startEditing()
@@ -183,6 +212,8 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         }
 
         $this->view->assign('pidItems', $pidItems);
+        $this->view->assign('includeHeadingItems', array(array('text' => __('No'), 'value' => 0), array('text' => __('Yes, unlimited'), 'value' => 1), array('text' => __('Yes, limited'), 'value' => 2)));
+        $this->view->assign('includeSubpageItems', array(array('text' => __('No'), 'value' => 0), array('text' => __('Yes, unlimited'), 'value' => 1), array('text' => __('Yes, limited'), 'value' => 2)));
     }
     function getSearchableText()
     {
