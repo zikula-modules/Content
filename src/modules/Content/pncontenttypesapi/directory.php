@@ -123,7 +123,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
                     if ($plugin['plugin']!= null && $plugin['plugin']->getModule() == 'content' && $plugin['plugin']->getName() == 'heading') {
-                        $directory[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id']);
+                        $directory[] = array('title' => $plugin['data']['text'], 'url' => $pageurl . "#heading_" . $plugin['id'], 'level' => $level);
                     }
                 }
             }
@@ -135,7 +135,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             }
         }
 
-        return array('title' => $pages['title'], 'url' => $pageurl, 'directory' => $directory);
+        return array('title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'directory' => $directory);
     }
 
     function displayEditing()
