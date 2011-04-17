@@ -73,12 +73,12 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
                 $options['filter']['where'] = "$pageColumn[level] <= ".($this->includeSubpageLevel-1);
             }
         } else {
-            if ($this->includeSubpage && $this->includeSubpageLevel > 0) {
-                $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pid));
-                if ($page === false) {
-                    return '';
-                }
-                if ($this->includeSubpage == 2) {
+            if ($this->includeSubpage) {
+                if ($this->includeSubpage == 2 && $this->includeSubpageLevel > 0) {
+                    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pid));
+                    if ($page === false) {
+                        return '';
+                    }
                     $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
                 }
                 $options['filter']['superParentId'] = $this->pid;
