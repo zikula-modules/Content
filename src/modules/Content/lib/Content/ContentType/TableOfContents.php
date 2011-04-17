@@ -144,7 +144,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false, 'filter' => array('checkActive' => false)));
             $title = $page['title'];
         }
-        return "<h3>" . $this->__f('Table of contents of %s', $title) . "</h3>";
+        return "<h3>" . $this->__f('Table of contents of %s', htmlspecialchars($title)) . "</h3>";
     }
     function getDefaultData()
     {
