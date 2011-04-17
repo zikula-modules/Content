@@ -52,6 +52,10 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $this->includeHeadingLevel = -1;
         $this->includeSubpage = $data['includeSubpage'];
         $this->includeSubpageLevel = 0;
+        if (!$this->includeHeading && !$this->includeSubpage) {
+            // handle really special case from 3.2.0 which limited output to only one level
+            $this->includeSubpageLevel = 1;
+        }
         if ($this->includeHeading && $data['includeHeadingLevel'] >= 0) {
             $this->includeHeadingLevel = (int) $data['includeHeadingLevel'];
         }
