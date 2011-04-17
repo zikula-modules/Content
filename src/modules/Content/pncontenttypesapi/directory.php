@@ -13,7 +13,9 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 {
     var $pid;
     var $includeSelf;
+    var $includeHeading;
     var $includeHeadingLevel;
+    var $includeSubpage;
     var $includeSubpageLevel;
     var $includeNotInMenu;
 
@@ -46,12 +48,14 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $this->pid = $data['pid'];
         $this->includeSelf = ((bool) $data['includeSelf']);
         $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
+        $this->includeHeading = $data['includeHeading'];
         $this->includeHeadingLevel = -1;
+        $this->includeSubpage = $data['includeSubpage'];
         $this->includeSubpageLevel = 0;
-        if ((bool)$data['includeHeading'] && $data['includeHeadingLevel'] >= 0) {
+        if ($this->includeHeading && $data['includeHeadingLevel'] >= 0) {
             $this->includeHeadingLevel = (int) $data['includeHeadingLevel'];
         }
-        if ($data['includeSubpageLevel'] > 0) {
+        if ($this->includeSubpage && $data['includeSubpageLevel'] > 0) {
             $this->includeSubpageLevel = (int) $data['includeSubpageLevel'];
         }
     }
@@ -64,17 +68,22 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         $options = array('makeTree' => true, 'expandContent' => false);
         $options['orderBy'] = 'setLeft';
 
-        if ($this->pid == 0) {
-            $options['filter']['where'] = "$pageColumn[level] <= ".(int) $this->includeSubpageLevel;
+        if ($this->pid == 0 && $this->includeSubpage) {
+            if ($this->includeSubpage == 2) {
+                $options['filter']['where'] = "$pageColumn[level] <= ".($this->includeSubpageLevel-1);
+            }
         } else {
-            if ($this->includeSubpageLevel > 0) {
+            if ($this->includeSubpage && $this->includeSubpageLevel > 0) {
                 $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pid));
                 if ($page === false) {
                     return '';
                 }
-                $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
+                if ($this->includeSubpage == 2) {
+                    $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
+                }
                 $options['filter']['superParentId'] = $this->pid;
             } else {
+                // this is a special case, this is also applied if pid==0 and no subpages included, which makes no sense
                 $options['filter']['parentId'] = $this->pid;
             }
         }
@@ -105,7 +114,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     {
         $directory = array();
         $pageurl = pnModUrl('content', 'user', 'view', array('pid' => $pages['id']));
-        if ($pages['content'] && $this->includeHeadingLevel-$level >= 0) {
+        if ($pages['content'] && ($this->includeHeading == 1 || $this->includeHeadingLevel-$level >= 0)) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
                     $plugin = &$pages['content'][$area][$id];
@@ -134,7 +143,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeadingLevel' => 0, 'includeSubpageLevel' => 0, 'includeNotInMenu' => false);
+        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeading' => 0, 'includeHeadingLevel' => 0, 'includeSubpage' => 1, 'includeSubpageLevel' => 0, 'includeNotInMenu' => false);
 
     }
 
@@ -150,6 +159,8 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         }
 
         $render->assign('pidItems', $pidItems);
+        $render->assign('includeHeadingItems', array(array('text' => __('No'), 'value' => 0), array('text' => __('Yes, unlimited'), 'value' => 1), array('text' => __('Yes, limited'), 'value' => 2)));
+        $render->assign('includeSubpageItems', array(array('text' => __('No'), 'value' => 0), array('text' => __('Yes, unlimited'), 'value' => 1), array('text' => __('Yes, limited'), 'value' => 2)));
     }
 
     function getSearchableText()
