@@ -135,7 +135,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
             }
         }
 
-        return array('title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'css' => '', 'directory' => $directory);
+        return array('pid' => $pages['id'], 'title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'css' => '', 'directory' => $directory);
     }
 
     function displayEditing()

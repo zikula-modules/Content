@@ -1,7 +1,11 @@
 <!--[if $directory.directory]-->
 <ul class="content-directory">
     <!--[foreach from=$directory.directory item="item"]-->
-    <li class="content-directory-level_<!--[$item.level]--> <!--[$item.css]-->"><a href="<!--[$item.url|pnvarprepfordisplay]-->"><!--[$item.title|pnvarprepfordisplay]--></a>
+        <!--[if $item.pid == $page.id]-->
+        <li class="content-directory-level_<!--[$item.level]--> <!--[$item.css]-->"><a href="<!--[$item.url|pnvarprepfordisplay]-->"><!--[$item.title|pnvarprepfordisplay]--></a>
+        <!--[else]-->
+        <li class="level_<!--[$item.level]-->"><a href="<!--[$item.url|pnvarprepfordisplay]-->" class="<!--[if $item.membersOnly && !$loggedin]-->membersonly<!--[/if]-->"><!--[$item.title|pnvarprepfordisplay]--></a>        
+        <!--[/if]-->
         <!--[if !empty($item.directory)]-->
         <!--[include file="contenttype/directory_view.html" directory=$item]-->
         <!--[/if]-->
