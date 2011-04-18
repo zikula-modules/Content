@@ -3,7 +3,7 @@
     <!--[pnformdropdownlist id="pid" items=$pidItems group="data"]-->
 </div>
 
-<div class="z-formrow">
+<div class="z-formrow" id="selectIncludeSelf">
     <!--[pnformlabel for='includeSelf' __text='Include self']-->
     <!--[pnformcheckbox id="includeSelf" group="data"]-->
 	<span class="z-sub z-formnote">if page isn't 'All pages'</span>
@@ -19,7 +19,7 @@
     <!--[pnformdropdownlist id="includeHeading" items=$includeHeadingItems group="data"]-->
 </div>
 
-<div class="z-formrow">
+<div class="z-formrow" id="selectHeadingLevel">
     <!--[pnformlabel for='includeHeadingLevel' __text='Include headings up to level']-->
     <!--[pnformtextinput maxLength=4 id="includeHeadingLevel" group="data"]-->
     <span class="z-sub z-formnote">if headings are included and not unlimited; select 0 to include menu only for the selected page</span>
@@ -30,8 +30,43 @@
     <!--[pnformdropdownlist id="includeSubpage" items=$includeSubpageItems group="data"]-->
 </div>
 
-<div class="z-formrow">
+<div class="z-formrow" id="selectSubpageLevel">
     <!--[pnformlabel for='includeSubpageLevel' __text='Include subpages into table up to level']-->
     <!--[pnformtextinput maxLength=4 id="includeSubpageLevel" group="data"]-->
     <span class="z-sub z-formnote">if subpages are included and not unlimited</span>
 </div>
+
+<script type="text/javascript">
+Event.observe(window,'load', function() {
+    Event.observe('includeHeading', 'change', content_directory_changedselection);
+    Event.observe('includeSubpage', 'change', content_directory_changedselection);
+    Event.observe('pid', 'change', content_directory_changedselection);
+    content_directory_changedselection();
+});
+
+content_directory_changedselection = function() {
+    content_directory_setDisplayState($('selectHeadingLevel'), $('includeHeading').value > 1);
+    content_directory_setDisplayState($('selectSubpageLevel'), $('includeSubpage').value > 1);
+    content_directory_setDisplayState($('selectIncludeSelf'), $('pid').value != 0);
+}
+
+function content_directory_setDisplayState(objcont, show) {
+    if (!show) {
+        if (objcont.getStyle('display') != 'none') {
+            if (typeof(Effect) != "undefined") {
+                Effect.BlindUp(objcont);
+            } else {
+                objcont.hide();
+            }
+        }
+    } else {
+        if (objcont.getStyle('display') == 'none') {
+            if (typeof(Effect) != "undefined") {
+                Effect.BlindDown(objcont);
+            } else {
+                objcont.show();
+            }
+        }
+    }
+}
+</script>
