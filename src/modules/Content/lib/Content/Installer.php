@@ -171,16 +171,10 @@ class Content_Installer extends Zikula_AbstractInstaller
         // Add language column (again since version 1.2.0.1)
         DBUtil::changeTable('content_page');
 
-
-        $dbconn = DBConnectionStack::getConnection();
-        $tables = DBUtil::getTables();
-        $language = ZLanguage::getLanguageCode();
-
         // Assume language of created pages is same as current lang
-        $table = $tables['content_page'];
-        $column = $tables['content_page_column'];
-        $sql = "UPDATE $table SET $column[language] = '" . DataUtil::formatForStore($language) . "'";
-        DBUtil::executeSQL($sql);
+        $language = ZLanguage::getLanguageCode();
+        DBUtil::updateObject(array('language' => $language), 'content_page', 'WHERE 1');
+
         return true;
     }
 
