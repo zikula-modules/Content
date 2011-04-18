@@ -3,7 +3,7 @@
     {formdropdownlist id="pid" items=$pidItems group="data"}
 </div>
 
-<div class="z-formrow">
+<div class="z-formrow" id="selectIncludeSelf">
     {formlabel for='includeSelf' __text='Include self into the table of contents'}
     {formcheckbox id="includeSelf" group="data"}
     <span class="z-sub z-formnote">if page isn't 'All pages'</span>
@@ -19,7 +19,7 @@
     {formdropdownlist id="includeHeading" items=$includeHeadingItems group="data"}
 </div>
 
-<div class="z-formrow">
+<div class="z-formrow" id="selectHeadingLevel">
     {formlabel for='includeHeadingLevel' __text='Include headings up to level'}
     {formtextinput id="includeHeadingLevel" group="data"}
     <span class="z-sub z-formnote">if headings are included and not unlimited; select 0 to include menu only for the selected page</span>
@@ -30,8 +30,43 @@
     {formdropdownlist id="includeSubpage" items=$includeSubpageItems group="data"}
 </div>
 
-<div class="z-formrow">
+<div class="z-formrow" id="selectSubpageLevel">
     {formlabel for='includeSubpageLevel' __text='Include subpages into table up to level'}
     {formtextinput id="includeSubpageLevel" group="data"}
     <span class="z-sub z-formnote">if subpages are included and not unlimited</span>
 </div>
+
+<script type="text/javascript">
+Event.observe(window,'load', function() {
+    Event.observe('includeHeading', 'change', content_toc_changedselection);
+    Event.observe('includeSubpage', 'change', content_toc_changedselection);
+    Event.observe('pid', 'change', content_toc_changedselection);
+    content_toc_changedselection();
+});
+
+content_toc_changedselection = function() {
+    content_toc_setDisplayState($('selectHeadingLevel'), $('includeHeading').value > 1);
+    content_toc_setDisplayState($('selectSubpageLevel'), $('includeSubpage').value > 1);
+    content_toc_setDisplayState($('selectIncludeSelf'), $('pid').value != 0);
+}
+
+function content_toc_setDisplayState(objcont, show) {
+    if (!show) {
+        if (objcont.getStyle('display') != 'none') {
+            if (typeof(Effect) != "undefined") {
+                Effect.BlindUp(objcont);
+            } else {
+                objcont.hide();
+            }
+        }
+    } else {
+        if (objcont.getStyle('display') == 'none') {
+            if (typeof(Effect) != "undefined") {
+                Effect.BlindDown(objcont);
+            } else {
+                objcont.show();
+            }
+        }
+    }
+}
+</script>
