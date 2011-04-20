@@ -28,7 +28,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         $this->pid = $pid;
     }
 
-    public function getIncludeSelf)
+    public function getIncludeSelf()
     {
         return $this->includeSelf;
     }
@@ -185,7 +185,7 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
             }
         }
 
-        return array('pid' => $pages['id'], 'title' => $pages['title'], 'url' => $pageurl, 'level' => $level 'css' => '', 'toc' => $toc);
+        return array('pid' => $pages['id'], 'title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'css' => '', 'toc' => $toc);
     }
     function displayEditing()
     {
