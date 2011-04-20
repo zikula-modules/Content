@@ -6,7 +6,7 @@
 <div class="z-formrow" id="selectIncludeSelf">
     {formlabel for='includeSelf' __text='Include self into the table of contents'}
     {formcheckbox id="includeSelf" group="data"}
-    <span class="z-sub z-formnote">if page isn't 'All pages'</span>
+    {contentlabelhelp __text="(if page isn't 'All pages')"}
 </div>
 
 <div class="z-formrow">
@@ -21,8 +21,8 @@
 
 <div class="z-formrow" id="selectHeadingLevel">
     {formlabel for='includeHeadingLevel' __text='Include headings up to level'}
-    {formtextinput id="includeHeadingLevel" group="data"}
-    <span class="z-sub z-formnote">if headings are included and not unlimited; select 0 to include menu only for the selected page</span>
+    {formtextinput id="includeHeadingLevel" maxLength='10' group="data"}
+    {contentlabelhelp __text='if headings are included and not unlimited; select 0 to include menu only for the selected page'}
 </div>
 
 <div class="z-formrow">
@@ -32,8 +32,8 @@
 
 <div class="z-formrow" id="selectSubpageLevel">
     {formlabel for='includeSubpageLevel' __text='Include subpages into table up to level'}
-    {formtextinput id="includeSubpageLevel" group="data"}
-    <span class="z-sub z-formnote">if subpages are included and not unlimited</span>
+    {formtextinput id="includeSubpageLevel" maxLength='10' group="data"}
+    {contentlabelhelp __text='if subpages are included and not unlimited'}
 </div>
 
 <script type="text/javascript">
