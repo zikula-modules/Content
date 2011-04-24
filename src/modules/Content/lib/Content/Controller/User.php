@@ -57,12 +57,20 @@ class Content_Controller_User extends Zikula_AbstractController
         $versionId = isset($args['vid']) ? $args['vid'] : FormUtil::getPassedValue('vid');
         $urlname = isset($args['name']) ? $args['name'] : FormUtil::getPassedValue('name');
         $preview = isset($args['preview']) ? $args['preview'] : FormUtil::getPassedValue('preview');
-        $editmode = isset($args['editmode']) ? $args['editmode'] : FormUtil::getPassedValue('editmode');
+        $editmode = isset($args['editmode']) ? $args['editmode'] : FormUtil::getPassedValue('editmode', null, 'GET');
 
         if ($editmode !== null) {
             SessionUtil::setVar('ContentEditMode', $editmode);
         } else {
             $editmode = SessionUtil::getVar('ContentEditMode', null);
+        }
+
+        if ($editmode) {
+            $this->view->setCaching(false);
+        }
+        $this->view->setCache_Id($pageId . $versionId);
+        if ($this->view->is_cached('user/page.tpl')) {
+            return $this->view->fetch('user/page.tpl');
         }
 
         $versionHtml = '';
@@ -129,8 +137,6 @@ class Content_Controller_User extends Zikula_AbstractController
                 DBUtil::incrementObjectFieldByID('content_page', 'views', $pageId);
             }
         }
-
-        $this->view->setCache_Id($pageId);
 
         return $versionHtml . $this->view->fetch('user/page.tpl');
     }
