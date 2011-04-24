@@ -182,9 +182,4 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
         return $this->view->redirect($url);
     }
 
-    public function handleSomethingChanged(&$view, &$args)
-    {
-        $contentData = $this->view->getValues();
-        $this->contentType['plugin']->handleSomethingChanged($this->view, $contentData['data']);
-    }
 }

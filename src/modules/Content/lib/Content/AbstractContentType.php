@@ -277,13 +277,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
 
     }
 
-    /* UNUSED ??? */
-
-    public function handleSomethingChanged(Zikula_View $view, $data)
-    {
-
-    }
-
     /**
      * Event handler called when instance of plugin is deleted
      *
