@@ -130,6 +130,8 @@ class Content_Controller_User extends Zikula_AbstractController
             }
         }
 
+        $this->view->setCache_Id($pageId);
+
         return $versionHtml . $this->view->fetch('user/page.tpl');
     }
 
