@@ -12,4 +12,5 @@
 <div class="z-formrow">
     <label for="Content_usecaching">{gt text="Use caching in the menu block"}</label>
     <input id="Content_usecaching" type="checkbox" value="1" name="usecaching"{if $usecaching} checked="checked"{/if} />
+    <em class="z-sub z-formnote">{gt text='Overrides global setting.'}</em>
 </div>
