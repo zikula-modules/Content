@@ -48,14 +48,10 @@ class Content_Block_Mostviewed extends Zikula_Controller_AbstractBlock
 			$vars['checkinmenu'] = true;
 		}
 
-        if ($vars['usecaching']) {
-            $this->view->setCaching(true);
-            $cacheId = 'mostviewed|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
-        } else {
-            $this->view->setCaching(false);
-            $cacheId = null;
-        }
-		if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/mostviewed.tpl', $cacheId))) {
+        $this->view->setCache_Id($blockinfo['bid']);
+        $this->view->setCaching($vars['usecaching']);
+
+		if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/mostviewed.tpl'))) {
 			$options = array(
                 'orderBy' => 'views', 
                 'orderDir' => 'desc', 
@@ -73,7 +69,7 @@ class Content_Block_Mostviewed extends Zikula_Controller_AbstractBlock
 			}
 			$this->view->assign('subPages', $pages);
 		}
-		$blockinfo['content'] = $this->view->fetch('block/mostviewed.tpl', $cacheId);
+		$blockinfo['content'] = $this->view->fetch('block/mostviewed.tpl');
 		return BlockUtil::themeBlock($blockinfo);
 	}
 

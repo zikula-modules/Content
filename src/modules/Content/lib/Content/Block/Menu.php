@@ -34,22 +34,19 @@ class Content_Block_Menu extends Zikula_Controller_AbstractBlock
 
         // Break out options from our content field
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
+
         // --- Setting of the Defaults
         if (!isset($vars['usecaching'])) {
-            $vars['usecaching'] = true;
+            $vars['usecaching'] = false;
         }
         if (!isset($vars['root'])) {
             $vars['root'] = 0;
         }
 
-        if ($vars['usecaching']) {
-            $this->view->setCaching(true);
-            $cacheId = 'menu|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
-        } else {
-            $this->view->setCaching(false);
-            $cacheId = null;
-        }
-        if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/menu.tpl', $cacheId))) {
+        $this->view->setCache_Id($blockinfo['bid']);
+        $this->view->setCaching($vars['usecaching']);
+
+        if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/menu.tpl'))) {
             $options = array('orderBy' => 'setLeft', 'makeTree' => true, 'filter' => array());
             if ($vars['root'] > 0) {
                 $options['filter']['superParentId'] = $vars['root'];
@@ -62,7 +59,7 @@ class Content_Block_Menu extends Zikula_Controller_AbstractBlock
             }
             $this->view->assign('subPages', $pages);
         }
-        $blockinfo['content'] = $this->view->fetch('block/menu.tpl', $cacheId);
+        $blockinfo['content'] = $this->view->fetch('block/menu.tpl');
         return BlockUtil::themeBlock($blockinfo);
     }
 
@@ -70,7 +67,7 @@ class Content_Block_Menu extends Zikula_Controller_AbstractBlock
     {
         $vars = BlockUtil::varsFromContent($blockinfo['content']);
         if (!isset($vars['usecaching'])) {
-            $vars['usecaching'] = true;
+            $vars['usecaching'] = false;
         }
 
         $this->view->assign($vars);

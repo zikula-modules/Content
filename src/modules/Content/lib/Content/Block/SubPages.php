@@ -47,18 +47,12 @@ class Content_Block_SubPages extends Zikula_Controller_AbstractBlock
         $query['module'] = isset($_REQUEST['module']) ? $_REQUEST['module'] : 'notcontent';
         $query['func'] = isset($_REQUEST['func']) ? $_REQUEST['func'] : 'notview';
         $query['pid'] = isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0;
-        
-        if ($vars['usecaching']) {
-            $this->view->setCaching(true);
-            $cacheId = 'subpages|' . $query['pid'] . '|' . $blockinfo[title] . '|' . ZLanguage::getLanguageCode();
-        } else {
-            $this->view->setCaching(false);
-            $cacheId = null;
-        }
-        if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/subpages.tpl', $cacheId))) {
-            if (isset($query['module']) && strtolower($query['module']) == 'content' &&
-                isset($query['func']) && strtolower($query['func']) == 'view' &&
-                isset($query['pid']) && $query['pid'] > 0) {
+
+        $this->view->setCache_Id($blockinfo['bid']);
+        $this->view->setCaching($vars['usecaching']);
+
+        if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/subpages.tpl'))) {
+            if ((strtolower($query['module']) == 'content') && (strtolower($query['func']) == 'view') && ($query['pid'] > 0)) {
                 $options = array(
                     'orderBy' => 'setLeft',
                     'makeTree' => true,
@@ -78,7 +72,7 @@ class Content_Block_SubPages extends Zikula_Controller_AbstractBlock
             }
             $this->view->assign('subPages', $pages);
         }
-        $blockinfo['content'] = $this->view->fetch('block/subpages.tpl', $cacheId);
+        $blockinfo['content'] = $this->view->fetch('block/subpages.tpl');
         return BlockUtil::themeBlock($blockinfo);
     }
 
