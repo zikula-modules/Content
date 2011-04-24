@@ -1,3 +1,5 @@
+{contentpageheading __header='Categories'}
+{nocache}{modulelinks modname='Content' type='user'}{/nocache}
 {gt text="Contents" assign=title}
 {pagesetvar name='title' value=$title}
 <h2>{gt text='Welcome to the contents for %s' tag1=$modvars.ZConfig.sitename}</h2>

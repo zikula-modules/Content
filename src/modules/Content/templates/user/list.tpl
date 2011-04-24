@@ -1,4 +1,6 @@
+{contentpageheading __header='Page list'}
 {gt text="Page list" assign=title}
+{nocache}{modulelinks modname='Content' type='user'}{/nocache}
 {pagesetvar name='title' value=$title}
 
 {if !empty($pages)}
