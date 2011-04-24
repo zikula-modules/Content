@@ -412,7 +412,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             return false;
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return $pageData['id'];
     }
 
@@ -455,7 +455,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             return false;
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 
@@ -492,7 +492,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             DBUtil::executeSQL($sql);
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 
@@ -589,7 +589,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             }
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 
@@ -622,7 +622,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             }
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 
@@ -707,7 +707,7 @@ class Content_Api_Page extends Zikula_AbstractApi
         }
         $this->contentUpdatePageRelations($pageData['id'], $pageData);
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return $pageData['id'];
     }
 
@@ -757,7 +757,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             return false;
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return array('id' => $pageData['id'], 'urlname' => $pageData['urlname']);
     }
 
@@ -807,7 +807,7 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         $this->contentDeletePageRelations($pageId);
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 
@@ -937,7 +937,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             Content_Util::contentMainEditExpandSet($dstPage['id'], true);
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 
@@ -970,7 +970,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             return false;
         }
 
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 
@@ -1029,7 +1029,7 @@ class Content_Api_Page extends Zikula_AbstractApi
           if ($ok === false)
           return false;
          */
-        Content_Util::contentClearCaches();
+        Content_Util::clearCache();
         return true;
     }
 

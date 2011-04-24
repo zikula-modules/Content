@@ -19,14 +19,16 @@ class Content_Util
         $view->assign('access', $access);
     }
 
-    // Clear all Content caches. Call this function whenever something has been changed.
-    // If you add other caching schemes then remember to clear them here
-    public static function contentClearCaches()
+    // Clear Content cache
+    public static function clearCache($template = '')
     {
-        $view = Zikula_View::getInstance('Content', true);
-        // Menu blocks
-        $cacheId = 'menu'; // No language: clear all versions
-        $view->clear_cache(null, $cacheId);
+        $view = Zikula_View::getInstance('Content');
+
+        if (!empty($template)) {
+            $view->clear_cache($template);
+        } else {
+            $view->clear_cache();
+        }
     }
 
     public static function contentMainEditExpandToggle($pageId)
