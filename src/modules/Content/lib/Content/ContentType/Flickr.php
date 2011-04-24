@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-require_once 'modules/Content/lib/vendor/phpFlickr/phpFlickr.php';
+require_once 'modules/Content/lib/vendor/phpFlickr-3.1/phpFlickr.php';
 
 class Content_ContentType_Flickr extends Content_AbstractContentType
 {
