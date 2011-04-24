@@ -1,4 +1,4 @@
-{modulelinks modname='Content' type='user'}
+{nocache}{modulelinks modname='Content' type='user'}{/nocache}
 
 {gt text="Complete page list" assign=title}
 {pagesetvar name='title' value=$title}

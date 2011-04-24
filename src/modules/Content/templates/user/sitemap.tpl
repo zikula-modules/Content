@@ -1,5 +1,5 @@
 {contentpageheading __header='Sitemap'}
-{modulelinks modname='Content' type='user'}
+{nocache}{modulelinks modname='Content' type='user'}{/nocache}
 
 <div class="content-sitemap">
     {include file='user/sitemapinc.tpl' pages=$pages}

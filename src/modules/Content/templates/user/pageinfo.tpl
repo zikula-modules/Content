@@ -1,4 +1,5 @@
 {insert name="getstatusmsg"}
+{nocache}
 {if $access.pageEditAllowed && !$preview}
 {ajaxheader modname='Content' filename='ajax.js'}
 {modapifunc modname='Content' type='History' func='getPageVersionNo' pageId=$page.id assign='versionNo'}
@@ -31,3 +32,4 @@
     </div>
 </div>
 {/if}
+{/nocache}

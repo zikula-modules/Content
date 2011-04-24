@@ -124,6 +124,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
 
     public function getTemplate()
     {
+        $this->view->setCache_Id($this->contentId);
         return 'contenttype/paragraph_view.tpl';
     }
 

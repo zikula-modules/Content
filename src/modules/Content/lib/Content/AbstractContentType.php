@@ -322,6 +322,9 @@ abstract class Content_AbstractContentType extends Content_AbstractType
      */
     public function getTemplate()
     {
+        // if the getTemplate method is overridden, be sure to include this line
+        // setting the cacheid!
+        $this->view->setCache_Id($this->contentId);
         $template = 'contenttype/' . strtolower($this->getName()) . '_view.tpl';
 
         if ($this->view->template_exists($template)) {
