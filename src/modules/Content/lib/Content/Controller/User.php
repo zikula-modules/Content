@@ -59,6 +59,8 @@ class Content_Controller_User extends Zikula_AbstractController
         $preview = isset($args['preview']) ? $args['preview'] : FormUtil::getPassedValue('preview');
         $editmode = isset($args['editmode']) ? $args['editmode'] : FormUtil::getPassedValue('editmode', null, 'GET');
 
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+
         if ($editmode !== null) {
             SessionUtil::setVar('ContentEditMode', $editmode);
         } else {
@@ -98,8 +100,6 @@ class Content_Controller_User extends Zikula_AbstractController
             $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', compact('urlname'));
             System::queryStringSetVar('pid', $pageId);
         }
-
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
         if ($pageId !== null && $versionId === null) {
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
