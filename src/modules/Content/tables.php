@@ -17,7 +17,8 @@ function content_tables()
     $tables['content_page_column'] = array(
         'id'                => 'page_id',               // Page ID
         'parentPageId'      => 'page_ppid',             // Parent (containing) page ID
-        'title'             => 'page_title',            // Display title for this page
+        'title'             => 'page_title',            // Title for this page
+        'showTitle'         => 'page_showtitle',        // Display title on the page
         'urlname'           => 'page_urlname',          // URL name for this page
         'metadescription'   => 'page_metadescription',  // Meta description
         'metakeywords'      => 'page_metakeywords',     // Meta keywords
@@ -39,6 +40,7 @@ function content_tables()
         'id'                => "I NOTNULL AUTO PRIMARY",
         'parentPageId'      => "I NOTNULL DEFAULT 0",
         'title'             => "C(255) NOTNULL DEFAULT ''",
+        'showTitle'         => "I1 NOTNULL DEFAULT 1",
         'urlname'           => "C(255) NOTNULL DEFAULT ''",
         'metadescription'   => "X NOTNULL DEFAULT ''",
         'metakeywords'      => "X NOTNULL DEFAULT ''",

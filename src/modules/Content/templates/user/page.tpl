@@ -7,5 +7,6 @@
 {/if}
 <div id="page{$page.id}" class="z-content-page">
     {include file='user/pageinfo.tpl'}
+    {if $page.showTitle && !$page.titleintemplate}<h2>{$page.title}</h2>{/if}
     {include file=$page.layoutTemplate inlist=0}
 </div>

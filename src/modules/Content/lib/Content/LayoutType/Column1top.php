@@ -10,6 +10,8 @@
 class Content_LayoutType_Column1top extends Content_AbstractLayoutType
 {
     protected $contentAreaTitles = array();
+    
+    public $titleInTemplate = true;
 
     function __construct(Zikula_View $view)
     {

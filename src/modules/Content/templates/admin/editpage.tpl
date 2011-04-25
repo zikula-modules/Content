@@ -70,6 +70,10 @@
             {formtextinput id='title' mandatory='1' maxLength='255' group='page'}
         </div>
         <div class="z-formrow">
+            {formlabel for='showTitle' __text='Display title on page'}
+            {formcheckbox id='showTitle' group='page'}
+        </div>
+        <div class="z-formrow">
             {formlabel for='urlname' __text='Permalink URL name'}
             {formtextinput id='urlname' maxLength='255' group='page'}
             {contentlabelhelp __text='(Used in shorturl mode and generated automatically if left blank)'}

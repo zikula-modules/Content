@@ -2,6 +2,11 @@
 
 abstract class Content_AbstractLayoutType extends Content_AbstractType
 {
+    /**
+     * Is the title displayed in the template?
+     * @var boolean
+     */
+    public $titleInTemplate = false;
 
     public function getNumberOfContentAreas()
     {

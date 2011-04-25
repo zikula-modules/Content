@@ -1,5 +1,4 @@
 <div class="content-layout column1">
-    <h2>{$page.title}</h2>
 
     <div class="content-area-top">
         {if !empty($page.content[0])}

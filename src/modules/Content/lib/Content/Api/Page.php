@@ -145,6 +145,7 @@ class Content_Api_Page extends Zikula_AbstractApi
                                                 array('layout' => $p['layout']));
             $p['layoutTemplate'] = $p['layoutData']['template'];
             $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
+            $p['titleintemplate'] = $p['layoutData']['plugin']->titleInTemplate;
             if ($includeCategories) {
                 $p['categories'] = $this->contentGetPageCategories($p['id']);
             }
