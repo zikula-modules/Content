@@ -68,7 +68,6 @@ class Content_ContentType_Flickr extends Content_AbstractContentType
             return true;
         }
         return false;
-        return true;
     }
 
     function loadData(&$data)
