@@ -52,7 +52,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('countViews', '0');
 
         // Register for hooks subscribing
-        HookUtil::registerHookSubscriberBundles($this->version);
+        HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
         // register handlers
         EventUtil::registerPersistentModuleHandler('Content', 'module.content.gettypes', array('Content_Util', 'getTypes'));
 
@@ -272,7 +272,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         }
 
         // Register for hook subscribing
-        HookUtil::registerHookSubscriberBundles($this->version);
+        HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
 
         // convert modname in module vars (correct casing 'content' to 'Content'
         $tables = DBUtil::getTables();

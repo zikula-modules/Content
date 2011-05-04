@@ -39,7 +39,7 @@ class Content_Version extends Zikula_AbstractVersion
     protected function setupHookBundles()
     {
         // Register hooks for pages
-        $bundle = new Zikula_Version_HookSubscriberBundle('modulehook_area.content.pages', $this->__('Content Display Hooks'));
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'modulehook_area.content.pages', 'ui', $this->__('Content Display Hooks'));
         $bundle->addType('ui.view', 'content.hook.pages.ui.view');
         $bundle->addType('ui.edit', 'content.hook.pages.ui.edit');
         $bundle->addType('ui.delete', 'content.hook.pages.ui.delete');
@@ -49,7 +49,7 @@ class Content_Version extends Zikula_AbstractVersion
         $bundle->addType('process.delete', 'content.hook.pages.process.delete');
         $this->registerHookSubscriberBundle($bundle);
 
-        $bundle = new Zikula_Version_HookSubscriberBundle('modulehook_area.news.contentitem', $this->__('Content Filter Hooks'));
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'modulehook_area.news.contentitem', 'filter', $this->__('Content Filter Hooks'));
         $bundle->addType('ui.filter', 'content.hook.contentitem.ui.filter');
         $this->registerHookSubscriberBundle($bundle);
     }
