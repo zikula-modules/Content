@@ -48,7 +48,7 @@ class Content_Block_SubPages extends Zikula_Controller_AbstractBlock
         $query['func'] = isset($_REQUEST['func']) ? $_REQUEST['func'] : 'notview';
         $query['pid'] = isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0;
 
-        $this->view->setCache_Id($blockinfo['bid']);
+        $this->view->setCacheId($blockinfo['bid']);
         $this->view->setCaching($vars['usecaching']);
 
         if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/subpages.tpl'))) {

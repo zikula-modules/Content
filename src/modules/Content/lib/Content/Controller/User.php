@@ -70,7 +70,7 @@ class Content_Controller_User extends Zikula_AbstractController
         if ($editmode) {
             $this->view->setCaching(false);
         }
-        $this->view->setCache_Id("$pageId|$versionId");
+        $this->view->setCacheId("$pageId|$versionId");
         if ($this->view->is_cached('user/page.tpl')) {
             return $this->view->fetch('user/page.tpl');
         }

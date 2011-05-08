@@ -43,7 +43,7 @@ class Content_Block_Menu extends Zikula_Controller_AbstractBlock
             $vars['root'] = 0;
         }
 
-        $this->view->setCache_Id($blockinfo['bid']);
+        $this->view->setCacheId($blockinfo['bid']);
         $this->view->setCaching($vars['usecaching']);
 
         if (!$vars['usecaching'] || ($vars['usecaching'] && !$this->view->is_cached('block/menu.tpl'))) {
