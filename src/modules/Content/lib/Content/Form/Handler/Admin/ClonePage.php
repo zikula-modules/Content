@@ -58,8 +58,8 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
                     return $this->view->registerError(null);
                 }
                 // notify any hooks they may now commit the as the original form has been committed.
-                $url = new Zikula_ModUrl('Content', 'user', 'view', ZLanguage::getLanguageCode(), array('pid' => $this->pageId));
-                $this->notifyHooks(new Zikula_ProcessHook('content.hook.pages.process.edit', $this->pageId, $url));
+                $objectUrl = new Zikula_ModUrl('Content', 'user', 'view', ZLanguage::getLanguageCode(), array('pid' => $this->pageId));
+                $this->notifyHooks(new Zikula_ProcessHook('content.hook.pages.process.edit', $this->pageId, $objectUrl));
             } else {
                 return false;
             }
