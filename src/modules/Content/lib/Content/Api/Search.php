@@ -68,7 +68,7 @@ class Content_Api_Search extends Zikula_AbstractApi
             ON $contentColumn[pageId] = $pageColumn[id]
             JOIN $contentSearchTable
             ON $contentSearchColumn[contentId] = $contentColumn[id]
-            WHERE ($where or $wheretitle) AND $pageColumn[active] = 1 AND $contentColumn[active] = 1 AND $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
+            WHERE ($where or $wheretitle) AND $pageColumn[active] = 1 AND ($pageColumn[activeFrom] IS NULL OR $pageColumn[activeFrom] <= NOW()) AND ($pageColumn[activeTo] IS NULL OR $pageColumn[activeTo] >= NOW()) AND $contentColumn[active] = 1 AND $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
 
         $dbresult = DBUtil::executeSQL($sql);
         if (!$dbresult) {
