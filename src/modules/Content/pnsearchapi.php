@@ -49,6 +49,7 @@ function content_searchapi_search($args)
     $sessionId = session_id();
 
     $where = search_construct_where($args, array($contentSearchColumn['text']), null);
+    $wheretitle = search_construct_where($args, array($pageColumn['title']), null);
 
     $sql = "INSERT INTO $searchTable
   ($searchColumn[title],
@@ -57,7 +58,7 @@ function content_searchapi_search($args)
    $searchColumn[extra],
    $searchColumn[created],
    $searchColumn[session])
-SELECT $pageColumn[title],
+SELECT distinct $pageColumn[title],
        $contentSearchColumn[text],
        'content',
        $pageColumn[id],
@@ -68,7 +69,7 @@ JOIN $contentTable
      ON $contentColumn[pageId] = $pageColumn[id]
 JOIN $contentSearchTable
      ON $contentSearchColumn[contentId] = $contentColumn[id]
-WHERE $where and $pageColumn[active] = 1 and $contentColumn[active] = 1 and $contentColumn[visiblefor] ".(pnUserLoggedIn()?'<=1':'>=1');
+WHERE ($where or $wheretitle) and $pageColumn[active] = 1 and $contentColumn[active] = 1 and $contentColumn[visiblefor] ".(pnUserLoggedIn()?'<=1':'>=1');
 
     $dbresult = DBUtil::executeSQL($sql);
     if (!$dbresult)
