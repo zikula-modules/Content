@@ -69,7 +69,7 @@ JOIN $contentTable
      ON $contentColumn[pageId] = $pageColumn[id]
 JOIN $contentSearchTable
      ON $contentSearchColumn[contentId] = $contentColumn[id]
-WHERE ($where or $wheretitle) and $pageColumn[active] = 1 and $contentColumn[active] = 1 and $contentColumn[visiblefor] ".(pnUserLoggedIn()?'<=1':'>=1');
+WHERE ($where or $wheretitle) and $pageColumn[active] = 1 and ($pageColumn[activeFrom] IS NULL or $pageColumn[activeFrom] <= NOW()) and ($pageColumn[activeTo] IS NULL or $pageColumn[activeTo] >= NOW()) and $contentColumn[active] = 1 and $contentColumn[visiblefor] ".(pnUserLoggedIn()?'<=1':'>=1');
 
     $dbresult = DBUtil::executeSQL($sql);
     if (!$dbresult)
