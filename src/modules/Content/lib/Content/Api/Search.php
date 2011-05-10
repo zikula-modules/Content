@@ -48,6 +48,7 @@ class Content_Api_Search extends Zikula_AbstractApi
         $sessionId = session_id();
 
         $where = search_construct_where($args, array($contentSearchColumn['text']), null);
+        $wheretitle = search_construct_where($args, array($pageColumn['title']), null);
 
         $sql = "INSERT INTO $searchTable
             ($searchColumn[title],
@@ -56,7 +57,7 @@ class Content_Api_Search extends Zikula_AbstractApi
             $searchColumn[extra],
             $searchColumn[created],
             $searchColumn[session])
-            SELECT $pageColumn[title],
+            SELECT DISTINCT $pageColumn[title],
             $contentSearchColumn[text],
             'content',
             $pageColumn[id],
@@ -67,7 +68,7 @@ class Content_Api_Search extends Zikula_AbstractApi
             ON $contentColumn[pageId] = $pageColumn[id]
             JOIN $contentSearchTable
             ON $contentSearchColumn[contentId] = $contentColumn[id]
-            WHERE $where AND $pageColumn[active] = 1 AND $contentColumn[active] = 1 AND $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
+            WHERE ($where or $wheretitle) AND $pageColumn[active] = 1 AND $contentColumn[active] = 1 AND $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
 
         $dbresult = DBUtil::executeSQL($sql);
         if (!$dbresult) {
