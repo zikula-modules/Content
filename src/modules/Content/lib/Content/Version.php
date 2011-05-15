@@ -49,7 +49,7 @@ class Content_Version extends Zikula_AbstractVersion
         $bundle->addType('process.delete', 'content.hook.pages.process.delete');
         $this->registerHookSubscriberBundle($bundle);
 
-        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber_area.fitler.content.pages', 'filter', $this->__('Content Filter Hooks'));
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber_area.filter.content.pages', 'filter', $this->__('Content Filter Hooks'));
         $bundle->addType('ui.filter', 'content.hook.pages.ui.filter');
         $this->registerHookSubscriberBundle($bundle);
     }
