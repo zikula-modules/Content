@@ -50,7 +50,7 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
         if ($args['commandName'] == 'clonePage') {
             $pageData = $this->view->getValues();
 
-            $validators = $this->notifyHooks(new Zikula_ValidationHook('content.hook.pages.validate.edit', new Zikula_Hook_ValidationProviders()))->getValidators();
+            $validators = $this->notifyHooks(new Zikula_ValidationHook('content.ui_hooks.pages.validate_edit', new Zikula_Hook_ValidationProviders()))->getValidators();
 
             if (!$validators->hasErrors() && $this->view->isValid()) {
                 $id = ModUtil::apiFunc('Content', 'Page', 'clonePage', array('page' => $pageData, 'pageId' => $this->pageId));
@@ -59,7 +59,7 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
                 }
                 // notify any hooks they may now commit the as the original form has been committed.
                 $objectUrl = new Zikula_ModUrl('Content', 'user', 'view', ZLanguage::getLanguageCode(), array('pid' => $this->pageId));
-                $this->notifyHooks(new Zikula_ProcessHook('content.hook.pages.process.edit', $this->pageId, $objectUrl));
+                $this->notifyHooks(new Zikula_ProcessHook('content.ui_hooks.pages.process_edit', $this->pageId, $objectUrl));
             } else {
                 return false;
             }

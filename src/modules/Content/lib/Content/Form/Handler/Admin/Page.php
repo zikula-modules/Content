@@ -87,7 +87,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_AbstractHandler
             if ($oldPageData === false) {
                 return $this->view->registerError(null);
             }
-            $hook = new Zikula_ValidationHook('content.hook.pages.validate.edit', new Zikula_Hook_ValidationProviders());
+            $hook = new Zikula_ValidationHook('content.ui_hooks.pages.validate_edit', new Zikula_Hook_ValidationProviders());
             $this->notifyHooks($hook);
             $validators = $hook->getValidators();
             if (!$validators->hasErrors() && $this->view->isValid()) {
@@ -97,7 +97,7 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_AbstractHandler
                 }
                 // notify any hooks they may now commit the as the original form has been committed.
                 $objectUrl = new Zikula_ModUrl($this->name, 'User', 'view', ZLanguage::getLanguageCode(), array('pid' => $this->pageId));
-                $this->notifyHooks(new Zikula_ProcessHook('content.hook.pages.process.edit', $this->pageId, $objectUrl));
+                $this->notifyHooks(new Zikula_ProcessHook('content.ui_hooks.pages.process_edit', $this->pageId, $objectUrl));
             } else {
                 return false;
             }
@@ -123,14 +123,14 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_AbstractHandler
             }
             $url = ModUtil::url('Content', 'admin', 'editcontent', array('cid' => $clonedId));
         } else if ($args['commandName'] == 'deletePage') {
-            $validators = $this->notifyHooks(new Zikula_ValidationHook('content.hook.pages.validate.delete', $this->pageId, new Zikula_Hook_ValidationProviders()))->getValidators();
+            $validators = $this->notifyHooks(new Zikula_ValidationHook('content.hook.pages.validate_delete', $this->pageId, new Zikula_Hook_ValidationProviders()))->getValidators();
             if (!$validators->hasErrors()) {
                 $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $this->pageId));
                 if ($ok === false) {
                     return $this->view->registerError(null);
                 }
                 // notify any hooks they may now commit the as the original form has been committed.
-                $this->notifyHooks(new Zikula_ProcessHook('content.hook.pages.process.delete', $this->pageId));
+                $this->notifyHooks(new Zikula_ProcessHook('content.hook.pages.process_delete', $this->pageId));
             }
             $url = ModUtil::url('Content', 'admin', 'main');
         } else if ($args['commandName'] == 'cancel') {

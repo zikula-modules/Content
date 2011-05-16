@@ -28,7 +28,7 @@
         </div>
     </fieldset>
 
-    {notifydisplayhooks eventname='content.hook.pages.ui.edit' id=null}
+    {notifydisplayhooks eventname='content.ui_hooks.pages.form_edit' id=null}
 
     <div class="z-buttons z-formbuttons">
     {formbutton class="z-bt-icon con-bt-clone" commandName="clonePage" __text="Clone"}

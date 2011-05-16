@@ -106,7 +106,7 @@
         </div>
     </fieldset>
 
-    {notifydisplayhooks eventname='content.hook.pages.ui.edit' id=$page.id}
+    {notifydisplayhooks eventname='content.ui_hooks.pages.form_edit' id=$page.id}
 
     <fieldset>
         <legend>{gt text="Page state"}</legend>

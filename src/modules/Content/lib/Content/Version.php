@@ -39,18 +39,18 @@ class Content_Version extends Zikula_AbstractVersion
     protected function setupHookBundles()
     {
         // Register hooks for pages
-        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber_area.ui.content.pages', 'ui', $this->__('Content Display Hooks'));
-        $bundle->addType('ui.view', 'content.hook.pages.ui.view');
-        $bundle->addType('ui.edit', 'content.hook.pages.ui.edit');
-        $bundle->addType('ui.delete', 'content.hook.pages.ui.delete');
-        $bundle->addType('validate.edit', 'content.hook.pages.validate.edit');
-        $bundle->addType('validate.delete', 'content.hook.pages.validate.delete');
-        $bundle->addType('process.edit', 'content.hook.pages.process.edit');
-        $bundle->addType('process.delete', 'content.hook.pages.process.delete');
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.ui_hooks.content.pages', 'ui_hooks', $this->__('Content Display Hooks'));
+        $bundle->addEvent('display_view', 'content.ui_hooks.pages.display_view');
+        $bundle->addEvent('form_edit', 'content.ui_hooks.pages.form_edit');
+        $bundle->addEvent('form_delete', 'content.ui_hooks.pages.form_delete');
+        $bundle->addEvent('validate_edit', 'content.ui_hooks.pages.validate_edit');
+        $bundle->addEvent('validate_delete', 'content.ui_hooks.pages.validate_delete');
+        $bundle->addEvent('process_edit', 'content.ui_hooks.pages.process_edit');
+        $bundle->addEvent('process_delete', 'content.ui_hooks.pages.process_delete');
         $this->registerHookSubscriberBundle($bundle);
 
-        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber_area.filter.content.pages', 'filter', $this->__('Content Filter Hooks'));
-        $bundle->addType('ui.filter', 'content.hook.pages.ui.filter');
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.filter_hooks.pages', 'filter_hooks', $this->__('Content Filter Hooks'));
+        $bundle->addEvent(filter', 'content.filter_hooks.pages.filter');
         $this->registerHookSubscriberBundle($bundle);
     }
 }
