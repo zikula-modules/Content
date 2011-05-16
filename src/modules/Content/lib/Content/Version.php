@@ -50,7 +50,7 @@ class Content_Version extends Zikula_AbstractVersion
         $this->registerHookSubscriberBundle($bundle);
 
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.filter_hooks.pages', 'filter_hooks', $this->__('Content Filter Hooks'));
-        $bundle->addEvent(filter', 'content.filter_hooks.pages.filter');
+        $bundle->addEvent('filter', 'content.filter_hooks.pages.filter');
         $this->registerHookSubscriberBundle($bundle);
     }
 }
