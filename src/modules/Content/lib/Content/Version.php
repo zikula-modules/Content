@@ -39,7 +39,7 @@ class Content_Version extends Zikula_AbstractVersion
     protected function setupHookBundles()
     {
         // Register hooks for pages
-        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.ui_hooks.content.pages', 'ui_hooks', $this->__('Content Display Hooks'));
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.ui_hooks.pages', 'ui_hooks', $this->__('Content Display Hooks'));
         $bundle->addEvent('display_view', 'content.ui_hooks.pages.display_view');
         $bundle->addEvent('form_edit', 'content.ui_hooks.pages.form_edit');
         $bundle->addEvent('form_delete', 'content.ui_hooks.pages.form_delete');
