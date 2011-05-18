@@ -128,10 +128,10 @@ class Content_Installer extends Zikula_AbstractInstaller
     protected function contentUpgrade_1_2_0($oldVersion)
     {
         if (!DBUtil::createTable('content_translatedcontent')) {
-            return contentInitError(__FILE__, __LINE__, "Table creation failed for 'content_translatedcontent': " . $dbconn->ErrorMsg());
+            return LogUtil::registerError(__("Table creation failed for 'content_translatedcontent': "));
         }
         if (!DBUtil::createTable('content_translatedpage')) {
-            return contentInitError(__FILE__, __LINE__, "Table creation failed for 'content_translatedpage': " . $dbconn->ErrorMsg());
+            return LogUtil::registerError(__("Table creation failed for 'content_translatedpage': "));
         }
         if (!$this->setVar('shorturlsuffix', '.html')) {
             return false;
@@ -142,12 +142,7 @@ class Content_Installer extends Zikula_AbstractInstaller
     protected function contentUpgrade_1_2_0_1($oldVersion)
     {
         // Drop unused version 1.x column. Some people might have done this manually, so ignore errors.
-        $dbconn = DBConnectionStack::getConnection();
-        $tables = DBUtil::getTables();
-        $dict = NewDataDictionary($dbconn);
-        $table = $tables['content_content'];
-        $sqlarray = $dict->DropColumnSQL($table, array('con_language'));
-        $dict->ExecuteSQLArray($sqlarray);
+        DBUtil::changeTable('content_content');
         return true;
     }
 
@@ -183,7 +178,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         $tables = DBUtil::getTables();
 
 
-        // fix serialisations
+        // Fix serialisations
         foreach (array('content' => 'id', 'history' => 'id', 'translatedcontent' => 'contentId') as $table => $idField) {
             $obj = DBUtil::selectObjectArray('content_' . $table);
             foreach ($obj as $contentItem) {
@@ -193,21 +188,29 @@ class Content_Installer extends Zikula_AbstractInstaller
             }
         }
 
-        // fix language codes
-        foreach (array('page' => 'id', 'translatedcontent' => 'contentId', 'translatedpage' => 'pageId') as $table => $idField) {
-            $obj = DBUtil::selectObjectArray('content_' . $table);
-            if (!count($obj)) {
-                continue;
-            }
-            foreach ($obj as $contentItem) {
-                // translate l3 -> l2
-                $l2 = ZLanguage::translateLegacyCode($contentItem['language']);
-                if (!$l2) {
-                    continue;
+        // Fix language codes
+        // Loop through tables to update
+        foreach (array('page' => 'id', 'translatedcontent' => 'contentId', 'translatedpage' => 'pageId') as $tbl => $idField) {
+            $table = 'content_' . $tbl;
+            $obj = DBUtil::selectObjectArray($table);
+            // if there are records in this table
+            if (count($obj)) {
+                $newobj = array();  // Set up object to insert
+
+                /// Loop through all records in the table
+                foreach ($obj as $contentItem) {
+                    // translate l3 -> l2
+                    $l2 = ZLanguage::translateLegacyCode($contentItem['language']);
+                    if ($l2) {
+                        $newobj[] = array($idField => $contentItem[$idField], 'language' => $l2);
+                    }
                 }
-                $sql = 'UPDATE ' . $tables['content_' . $table] . ' a SET a.' . $tables['content_' . $table . '_column']['language'] . ' = \'' . $l2 . '\' WHERE a.' . $tables['content_' . $table . '_column'][$idField] . ' = \'' . $contentItem[$idField] . '\'';
-                DBUtil::executeSQL($sql);
-            }
+                // If anything was updated, insert the object(s)
+                if(count($newobj)) {
+                    updateObjectArray ($newobj, $table, false, $idField);
+                }
+
+            } // endif count($obj)
         }
         return true;
     }
@@ -269,13 +272,6 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         // Register for hook subscribing
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
-
-        // convert modname in module vars (correct casing 'content' to 'Content'
-        $tables = DBUtil::getTables();
-        $table = $tables['module_vars'];
-        $columns = $tables['module_vars_column'];
-        $sql = "UPDATE {$table} SET {$columns['modname']}='Content' WHERE {$columns['modname']}='content'";
-        DBUtil::executeSQL($sql);
 
         // upgrade Content's layoutTypes
         self::updateLayout();
