@@ -70,6 +70,7 @@ class Content_Api_Page extends Zikula_AbstractApi
         $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
         $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
+        $includeLayout = (array_key_exists('includeLayout', $args) ? $args['includeLayout'] : true);
         $includeContent = (array_key_exists('includeContent', $args) ? $args['includeContent'] : false);
         $expandContent = (array_key_exists('expandContent', $args) ? $args['expandContent'] : true);
         $includeCategories = (array_key_exists('includeCategories', $args) ? $args['includeCategories'] : false);
@@ -141,8 +142,12 @@ class Content_Api_Page extends Zikula_AbstractApi
         for ($i = 0, $cou = count($pages); $i < $cou; ++$i) {
             $p = &$pages[$i];
             $p['translated'] = array('title' => $p['translatedTitle']);
-            $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout',
-                                                array('layout' => $p['layout']));
+            if ($includeLayout) {
+                $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout',
+                                                    array('layout' => $p['layout']));
+            } else {
+                $p['layoutData'] = array();
+            }
             $p['layoutTemplate'] = $p['layoutData']['template'];
             $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
             $p['titleintemplate'] = $p['layoutData']['plugin']->titleInTemplate;
