@@ -145,12 +145,13 @@ class Content_Api_Page extends Zikula_AbstractApi
             if ($includeLayout) {
                 $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout',
                                                     array('layout' => $p['layout']));
+                $p['layoutTemplate'] = $p['layoutData']['template'];
+                $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
+                $p['titleintemplate'] = $p['layoutData']['plugin']->titleInTemplate;
             } else {
                 $p['layoutData'] = array();
+                $p['layoutTemplate'] = $p['layoutEditTemplate'] = '';
             }
-            $p['layoutTemplate'] = $p['layoutData']['template'];
-            $p['layoutEditTemplate'] = $p['layoutData']['editTemplate'];
-            $p['titleintemplate'] = $p['layoutData']['plugin']->titleInTemplate;
             if ($includeCategories) {
                 $p['categories'] = $this->contentGetPageCategories($p['id']);
             }
