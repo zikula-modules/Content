@@ -62,7 +62,7 @@ class content_contenttypesapi_YouTubePlugin extends contentTypeBase
     }
     function displayEditing()
     {
-        $output = '<div style="background-color:grey; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . ',<br />Size in pixels: ' . $this->width . ' x ' . $this->height . ' </div>';
+        $output = '<div style="background-color:Lavender; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . ',<br />Size in pixels: ' . $this->width . ' x ' . $this->height . ' </div>';
         $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
