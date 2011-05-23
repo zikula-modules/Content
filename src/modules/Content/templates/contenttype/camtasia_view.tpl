@@ -13,6 +13,7 @@
         </object>
     </dt>
     <dd>{$text}</dd>
+    <dd>{gt text='by %s' tag1=$author}</dd>
 </dl>
 {else}
 {pageaddvar name="javascript" value="prototype"}
@@ -20,13 +21,12 @@
 {pageaddvar name="stylesheet" value="modules/Content/lib/vendor/lightwindow/css/lightwindow.css"}
 
 {assign var="image" value=$folder|cat:'/'|cat:$videoPath|cat:'/FirstFrame.png'}
-{assign var="imageSize" value=$image|getimagesize}
 
-<dl class="content-video content-shockwave" style="width:{$imageSize[0]}px;">
+<dl class="content-video content-shockwave">
     <dt>
-        <a title="{$text}" href="{$folder}/{$videoPath}/{$videoPath}_controller.swf" class="lightwindow page-options" params="lightwindow_width={$width},lightwindow_height={$height},lightwindow_loading_animation=false"><img src="{$image}" width="48" height="48" alt="{$text}" /></a>
+        <a title="{$videoPath}" caption="{$text}" author="{$author}" href="{$folder}/{$videoPath}/{$videoPath}_controller.swf" class="lightwindow page-options" params="lightwindow_width={$width},lightwindow_height={$height},lightwindow_loading_animation=false"><img src="{$image}" width="{$thumbwidth}" height="{$thumbheight}" alt="{$videoPath}" /></a>
     </dt>
-    <dd>{$text}</dd>
-    <dd><a title="{$text}" href="{$folder}/{$videoPath}/{$videoPath}_controller.swf" class="play-icon lightwindow page-options" params="lightwindow_width={$width},lightwindow_height={$height},lightwindow_loading_animation=false">{ gt text='Play Video'}</a></dd>
+    <dd><a title="{$videoPath}" caption="{$text}" author="{$author}" href="{$folder}/{$videoPath}/{$videoPath}_controller.swf" class="play-icon lightwindow page-options" params="lightwindow_width={$width},lightwindow_height={$height},lightwindow_loading_animation=false" title=>{gt text='Play Video'}</a></dd>
 </dl>
+<p><!--[$text]--></p>
 {/if}
