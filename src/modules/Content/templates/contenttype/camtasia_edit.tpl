@@ -16,8 +16,23 @@
 </div>
 
 <div class="z-formrow">
+    {formlabel for='thumbwidth' __text="Thumbnail display width in popup mode [in pixels]"}
+    {formtextinput id='thumbwidth' group='data' maxLength='10'}
+</div>
+
+<div class="z-formrow">
+    {formlabel for='thumbheight' __text="Thumbnail display height in popup mode [in pixels]"}
+    {formtextinput id='thumbheight' group='data' maxLength='10'}
+</div>
+
+<div class="z-formrow">
     {formlabel for='text' __text='Video description'}
-    {formtextinput id='text' textMode='multiline' cols='40' rows='10' group='data'}
+    {formtextinput id='text' textMode='multiline' cols='40' rows='6' group='data'}
+</div>
+
+<div class="z-formrow">
+    {formlabel for='author' __text="Optional author of the video"}
+    {formtextinput id='author' group='data' maxLength='40'}
 </div>
 
 <div class="z-formrow">
@@ -34,4 +49,3 @@
         {formlabel for='displayModePopup' __text='Show video in popup window'}
     </div>
 </div>
-
