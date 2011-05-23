@@ -36,8 +36,6 @@ class Content_Controller_User extends Zikula_AbstractController
         $this->view->assign('rootCategory', $rootCategory);
         $this->view->assign('categories', $categories);
         $this->view->assign('lang', ZLanguage::getLanguageCode());
-        $this->view->assign('shorturls', System::getVar('shorturls'));
-        $this->view->assign('shorturlstype', System::getVar('shorturlstype'));
 
         return $this->view->fetch('user/main.tpl');
     }

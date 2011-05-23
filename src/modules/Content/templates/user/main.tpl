@@ -8,7 +8,7 @@
     <p>{gt text="The available sections are as follows:"}</p>
     <ul>
         {foreach from=$categories item=category}
-        {if $shorturls and $shorturlstype==0 and 0}
+        {if $modvars.ZConfig.shorturls}
         <li><a href="{modurl modname='Content' type='user' func='view' cat=$category.path|replace:$rootCategory.path:''}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a></li>
         {else}
         <li><a href="{modurl modname='Content' type='user' func='list' cat=$category.id}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a></li>
