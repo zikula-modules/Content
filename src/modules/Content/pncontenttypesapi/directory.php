@@ -46,7 +46,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
     function loadData($data)
     {
         $this->pid = $data['pid'];
-        $this->includeSelf = ((bool) $data['includeSelf']);
+        $this->includeSelf = (bool) $data['includeSelf'];
         $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
         $this->includeHeading = $data['includeHeading'];
         $this->includeHeadingLevel = -1;
@@ -79,7 +79,8 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
         } else {
             if ($this->includeSubpage) {
                 if ($this->includeSubpage == 2 && $this->includeSubpageLevel > 0) {
-                    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pid));
+                    // get the level of the selected page for the TOC
+                    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false));
                     if ($page === false) {
                         return '';
                     }
@@ -147,8 +148,7 @@ class content_contenttypesapi_directoryPlugin extends contentTypeBase
 
     function getDefaultData()
     {
-        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeading' => 0, 'includeHeadingLevel' => 0, 'includeSubpage' => 1, 'includeSubpageLevel' => 0, 'includeNotInMenu' => false);
-
+        return array('pid' => $this->pageId, 'includeSelf' => false, 'includeHeading' => 0, 'includeHeadingLevel' => 0, 'includeSubpage' => 1, 'includeSubpageLevel' => 0, 'includeNotInMenu' => true);
     }
 
     function startEditing(&$render)
