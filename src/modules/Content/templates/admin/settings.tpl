@@ -40,6 +40,11 @@
             <em class="z-sub z-formnote">{gt text='If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href="http://www.flickr.com/api">flickr.com</a>.'}</em>
         </div>
         <div class="z-formrow">
+            {formlabel for='enableRawPlugin' __text='Enable the unfiltered raw text plugin'}
+            {formcheckbox id='enableRawPlugin' group="config"}
+            <em class="z-sub z-formnote">{gt text='Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.'}</em>
+        </div>
+        <div class="z-formrow">
             {formlabel for='styleClasses' __text='Styling'}
             {formtextinput id='styleClasses' group="config" textMode='multiline' rows='6' cols='40'}
             <em class="z-sub z-formnote">{gt text='A list of CSS class names available for styling of content elements. The end user can select one class for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo".'}</em>

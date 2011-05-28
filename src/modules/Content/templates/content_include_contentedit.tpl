@@ -9,7 +9,7 @@
     content.items.push
     ({ {{* XXXs added to avoid wrong short URL handling in the Zikula short URL output filter *}}
         title: "<a hrefXXX=\"{{$editUrl|escape:html}}\">{{$c.title|safetext}} [{{gt text="ID %d" tag1=$c.id}}]</a> {{$menuHandle|replace:src:srcXXX|escape:javascript}}",
-        content: "{{$c.output|replace:" src=":" srcXXX="|replace:" href=":" hrefXXX="|escape:javascript}}"+extrainfo,
+        content: "{{$c.output|replace:" src=":" srcXXX="|replace:" href=":" hrefXXX="|escape:'quotes'|escape:javascript}}"+extrainfo,
         column: {{$contentAreaIndex}},
         active: {{$c.active}},
         visiblefor: {{$c.visiblefor}},

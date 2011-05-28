@@ -50,6 +50,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('categoryPropSecondary', 'primary');
         $this->setVar('newPageState', '1');
         $this->setVar('countViews', '0');
+        $this->setVar('enableRawPlugin', false);
 
         // Register for hooks subscribing
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
@@ -244,6 +245,7 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         // add new variable(s)
         $this->setVar('countViews', '0');
+        $this->setVar('enableRawPlugin', false);
 
         // clear compiled templates and Content cache
         ModUtil::apiFunc('view', 'user', 'clear_compiled');
@@ -544,6 +546,7 @@ class Content_Installer extends Zikula_AbstractInstaller
             'quote' => 'Quote',
             'rss' => 'Rss',
             'slideshare' => 'Slideshare',
+            'unfiltered' => 'Unfiltered',
             'vimeo' => 'Vimeo',
             'youtube' => 'YouTube',
         );
