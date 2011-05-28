@@ -48,6 +48,7 @@ function content_init()
     pnModSetVar('content', 'categoryPropSecondary', 'primary');
     pnModSetVar('content', 'newPageState', '1');
     pnModSetVar('content', 'countViews', '0');
+    pnModSetVar('content', 'enableRawPlugin', false);
 
     // create the default data for the Content module
     content_defaultdata();        
@@ -243,6 +244,7 @@ function contentUpgrade_3_2_1($oldVersion)
     
     // add new variable(s)
     pnModSetVar('content', 'countViews', '0');
+    pnModSetVar('content', 'enableRawPlugin', false);
 
     // clear compiled templates and Content cache
     pnModAPIFunc('pnRender', 'user', 'clear_compiled');

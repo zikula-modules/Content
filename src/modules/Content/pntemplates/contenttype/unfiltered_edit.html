@@ -1,0 +1,82 @@
+<div id="content_unfiltered_textdetails">
+    <div class="z-formrow">
+        <!--[pnformlabel for='text' __text='Unfiltered text']-->
+        <!--[pnformtextinput id='text' textMode='multiline' group='data' cols='60' rows='15']-->
+    </div>
+</div>
+
+<div class="z-formrow">
+    <!--[pnformlabel for='useiframe' __text='Use an iframe instead of the textfield']-->
+    <!--[pnformcheckbox id='useiframe' group='data']-->
+    <!--[contentlabelhelp __text='If this setting is enabled the text field above will be ignored and iframe parameters will be used.']-->
+</div>
+
+<div id="content_unfiltered_iframedetails">
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframesrc' __text='iframe src']-->
+        <!--[pnformtextinput id='iframesrc' group='data' maxLength='150']-->
+        <!--[contentlabelhelp __text='the src parameter of the iframe']-->
+    </div>
+    
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframename' __text='iframe name parameter']-->
+        <!--[pnformtextinput id='iframename' group='data' maxLength='150']-->
+    </div>
+
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframetitle' __text='iframe title parameter']-->
+        <!--[pnformtextinput id='iframetitle' group='data' maxLength='150']-->
+    </div>
+
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframestyle' __text='iframe Style']-->
+        <!--[pnformtextinput id='iframestyle' group='data' maxLength='150']-->
+        <!--[contentlabelhelp __text='the style parameter of the iframe, e.g. "border:0"']-->
+    </div>
+    
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframewidth' __text='iframe Width [in pixels]']-->
+        <!--[pnformtextinput id='iframewidth' group='data' maxLength='20']-->
+        <!--[contentlabelhelp __text='the width parameter of the iframe, e.g. "800"']-->
+    </div>
+    
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframeheight' __text='iframe Height [in pixels]']-->
+        <!--[pnformtextinput id='iframeheight' group='data' maxLength='20']-->
+        <!--[contentlabelhelp __text='the height parameter of the iframe, e.g. "600"']-->
+    </div>
+    
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframeborder' __text='iframe frameborder']-->
+        <!--[pnformtextinput id='iframeborder' group='data' maxLength='20']-->
+        <!--[contentlabelhelp __text='the frameborder parameter of the iframe, e.g. "0"']-->
+    </div>
+    
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframescrolling' __text='iframe scrolling']-->
+        <!--[pnformtextinput id='iframescrolling' group='data' maxLength='20']-->
+        <!--[contentlabelhelp __text='the scrolling parameter of the iframe, e.g. "no"']-->
+    </div>
+
+    <div class="z-formrow">
+        <!--[pnformlabel for='iframeallowtransparancy' __text='Allow transparancy on the iframe']-->
+        <!--[pnformcheckbox id='iframeallowtransparancy' group='data']-->
+    </div>
+</div>
+
+<script type="text/javascript">
+Event.observe(window,'load', content_unfiltered_init_check);
+
+function content_unfiltered_init_check()
+{
+    if ($('useiframe').checked == false) {
+        $('content_unfiltered_iframedetails').hide();
+    }
+    $('useiframe').observe('change', content_unfiltered_useiframe_onchange);
+}
+function content_unfiltered_useiframe_onchange()
+{
+    switchdisplaystate('content_unfiltered_iframedetails');
+    switchdisplaystate('content_unfiltered_textdetails');
+}
+</script>
