@@ -1,6 +1,7 @@
-Content (C) 2007-2010, Content Development Team
+Content (C) 2007-2011, Content Development Team
 ---------------------------
 http://code.zikula.org/content
+http://github.com/zikula-modules/Content
 
 Version 4.0.0
 -------------
@@ -8,6 +9,42 @@ Version 4.0.0
 This version is converted to a pure Zikula 1.3 version. This means it is not compatible with 
 Zikula 1.2.x any more.
 
+Version 3.2.1
+-------------
+
+Summary of changes:
+- Several bugs are solved
+- The table of contents plugin has been extended with more features (thanks mrtux)
+- A new plugin for unfiltered content has been added
+- A RSS template has been added for the extended page list
+
+All tickets:
+* Add #17 new content type: text not passed through output filter
+* Add #29 general backend option: disable output filter
+* Fix #192 Table structure: TEXT to LONGTEXT for con_data field
+* Fix #75 Saving html content deletes content.
+* Fix #173 Content block does not included root of selected subtree
+* Add #197 RSS-Feed for the module
+* Add #204 Add a check for pageData===false in page api
+* Fix #213 interaction with menutree failed
+* Fix #214 camtasia plugin - embedded is not working
+* Add #215 camtasia plugin - use FirstFrame.png as preview picture
+* Add #217 table of content plugin upgrade hides a lot of subpages
+* Add #218 Content plugin for table of content does not included root of selected subtree
+* Fix #221 RSS of Dizkus in Content
+* Add #228 Facebook Like Box
+* Add #229 Generic Iframe Content Type
+* Fix #240 upgrade TOC from 3.1.0 to 3.2.1git shows empty TOC
+* Add #110 Google Calendar Plugin or Iframe Plugin(?)
+* Add #216 camtasia plugin - ugly template for lightwindow
+* Fix #219 Update pnSecAddSchema in menu and mostviewed
+
+UPGRADE INSTRUCTIONS:
+    1) Before upgrading, please make a backup of the old module files and database tables, 
+    since there are changes to the database. The upgrade process has been tested, 
+    but Content is a complex module, so better be safe than sorry.
+    2) After backup you can just run the upgrade to the new version and the database tables 
+    will be updated and new variables will be automatically added.
 
 Version 3.2.0
 -------------
