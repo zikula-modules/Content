@@ -1,31 +1,125 @@
-Content (C) 2007-2010, Content Development Team
+Content (C) 2007-2011, Content Development Team
 ---------------------------
 http://code.zikula.org/content
+http://github.com/zikula-modules/Content
+
+Version 3.2.1
+-------------
+Tickets solved for this milestone
+* Add #17 new content type: text not passed through output filter
+* Add #29 general backend option: disable output filter
+* Fix #192 Table structure: TEXT to LONGTEXT for con_data field
+* Fix #75 Saving html content deletes content.
+* Fix #173 Content block does not included root of selected subtree
+* Add #197 RSS-Feed for the module
+* Add #204 Add a check for pageData===false in page api
+* Fix #213 interaction with menutree failed
+* Fix #214 camtasia plugin - embedded is not working
+* Add #215 camtasia plugin - use FirstFrame.png as preview picture
+* Add #217 table of content plugin upgrade hides a lot of subpages
+* Add #218 Content plugin for table of content does not included root of selected subtree
+* Fix #221 RSS of Dizkus in Content
+* Add #228 Facebook Like Box
+* Add #229 Generic Iframe Content Type
+* Fix #240 upgrade TOC from 3.1.0 to 3.2.1git shows empty TOC
+* Add #110 Google Calendar Plugin or Iframe Plugin(?)
+* Add #216 camtasia plugin - ugly template for lightwindow
+* Fix #219 Update pnSecAddSchema in menu and mostviewed
+
+Version 3.2.0
+-------------
+Summary:
+* Permission checks are updated, more checks on the correct locations and Delete rights are needed for deleting pages
+* New features like cloning of a page and restoring deleted pages
+* New admin setting for new pages (online/offline and used/not used in the menu)
+* New plugin with OpenStreetMap maps (thanks hilope)
+* New basic plugin for camtasia videos (thanks Ralf for the ideas)
+* YouTube and Vimeo video plugin have more options like width and height
+* The Google maps plugin has been updated to the latest JavaScript API version
+* Several minor updates to the permalink generation
+* Category use is now configurable
+* More layout templates to choose from
+* A lot of layout updates and nicer look & feel
+* The page list has ajax enabled green/red buttons for activating pages and placing them in the menu
+* Several database tables now have indexes for more speed (thanks mrtux!)
+* Hook calls are now implemented (to enable for instance crpTag)
+* A new breadcrumb plugin for hierarchical pages (thanks mrtux)
+* A introduction article is created on a fresh install
+Tickets solved in this milestone:
+* fixed #58	Fatal error after Update to 3.0.3
+* fixed #105	admin rights shows no content when editing
+* fixed #109	Is the isActive-query really correct?
+* fixed #113	wrong menu when using content more than one times
+* fixed #119	content doesn't work with other plugins like crpTag
+* fixed #1	Work with Zikula Category Permissions
+* fixed #56	Menu block cache
+* fixed #62	Copy Page feature
+* fixed #83	import from other content modules (News first)
+* fixed #94	if history is stored, make recreate available after deleting a page
+* fixed #106	Slideshare plugin fails
+* fixed #107	Scriptaculous effets don't load on editing a page
+* fixed #108	wrong condition? (isInMenu vs. isActive)
+* fixed #111	+ char in permalink leads to error
+* fixed #117	automatically generated short url wrong
+* fixed #118	css problem
+* fixed #127	add and use indexes
+* fixed #131	Content SVN with ZK1.3 shows datatimebrief on last updated field
+* fixed #136	correctly remember editmode
+* fixed #137	modifier to add local links to content module
+* fixed #145	Add openstreetmap plugin
+* fixed #146	Update the Google Maps plug to v3 and more options
+* fixed #154	Remove Google Maps API key, since it is not required in JS API v3
+* fixed #158	make it work with other hooks
+* fixed #159	Optical bug
+* fixed #160	BreadCrumb plugin
+* fixed #161	Replace br clear=all by clearfix solution
+* fixed #162	Add a plugin for direct inclusion of a SWF video
+* fixed #163	Optimize admin-right-checks
+* fixed #164	fix broken filter-usage
+* fixed #165	New pages should be marked as "offline"
+* fixed #166	Translate-link is always in contextmenu of content_edit_main
+* fixed #167	some layouttypesapi implementations doesn't store the contentArea-titles correctly
+* fixed #168	Show contentArea-titles in editmode
+* fixed #169	Content-Position like top-right breaks edit-view
+* fixed #170	Add new contenttype to join different positions
+* fixed #171	Wrong naming in registration of category registry
+* fixed #176	Restoring from history might set wrong parentpageId
+* fixed #177	History onlyshows the latest 20 events
+* fixed #181	Don't call logerror in pageAPI
+* fixed #182	isUniqueUrlnameByPageId ignores inactive pages
+* fixed #183	Sort array output in contentlayoutselector
+* fixed #186	new pages are offline
+* fixed #187	Make sure Preview and Save & View take Active into account
+* fixed #67	Remove special layout of content when edit
+* fixed #93	edit right are able to delete pages!
+* fixed #148	Add admin links to the sitemap page
+* fixed #174	Defining width and height for youtube plugin
+* fixed #175	Allow to hide content on pages
 
 Version 3.1.0
 -------------
-* IMPORTANT       - Security schema has now been changed to lowercase "content::"  !!!
-                  - Minimum requirements: Core 1.2.1
+* IMPORTANT - Security schema has now been changed to lowercase "content::"  !!!
+- Minimum requirements: Core 1.2.1
 
-* Add #15         - MultiHook Needle support
-* Add #57         - Support for Google Sitemaps
-* Add #51         - Vimeo contenttype
-* Add #86         - More css-classes for each contenttype
-* Add #68         - Add second and third level of Sub-Headings
-* Fix #78         - Converted module to gettext
-* Fix #49         - Fixed bug in paragraph-modifier
-* Fix #76         - Drag&Drop not working in MSIE
-* Fix #65         - Missed translation
-* Fix #24/#60     - Module not showing in admin-panel
+* Add #15- MultiHook Needle support
+* Add #57- Support for Google Sitemaps
+* Add #51- Vimeo contenttype
+* Add #86- More css-classes for each contenttype
+* Add #68- Add second and third level of Sub-Headings
+* Fix #78- Converted module to gettext
+* Fix #49- Fixed bug in paragraph-modifier
+* Fix #76- Drag&Drop not working in MSIE
+* Fix #65- Missed translation
+* Fix #24/#60  - Module not showing in admin-panel
 * Fix #53/#61/#72 - Removed SimplePie and backend errors
-* Fix #85         - Replaced lightboxXL and greybox with Lightwindow
-* Fix #77         - Page title gets sanitized twice
-* Fix #80         - If short URL suffix was empty, short URL didn't work
-* Fix #71         - Problems with directory-based shorturls
-* Fix #59         - Caching bug in menu blocks
-* Fix #87         - Removed Circavie.com plugin
-* Fix #89         - wrong slideshare regex
-* Fix #92         - Not possible to restore old revisions and actions not translated
+* Fix #85- Replaced lightboxXL and greybox with Lightwindow
+* Fix #77- Page title gets sanitized twice
+* Fix #80- If short URL suffix was empty, short URL didn't work
+* Fix #71- Problems with directory-based shorturls
+* Fix #59- Caching bug in menu blocks
+* Fix #87- Removed Circavie.com plugin
+* Fix #89- wrong slideshare regex
+* Fix #92- Not possible to restore old revisions and actions not translated
 
 UPGRADE INSTRUCTIONS:
   If you want to use the new additional CSS classes, you must add them
