@@ -1,6 +1,7 @@
 # /
 .git_externals
-/nbproject
-/.project
-/.settings
-/.buildpath
+nbproject
+./.project
+./.settings
+./.buildpath
+content.git
