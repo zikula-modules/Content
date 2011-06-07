@@ -16,6 +16,14 @@
             <label>{gt text="Page title"}</label>
             <span>{$page.title}</span>
         </div>
+        <div class="z-formrow">
+            <label>{gt text="Meta description"}</label>
+            <span>{$page.metadescription}</span>
+        </div>
+        <div class="z-formrow">
+            <label>{gt text="Meta keywords"}</label>
+            <span>{$page.metakeywords}</span>
+        </div>
     </fieldset>
 
     <fieldset id="contentTranslateNew">
@@ -25,11 +33,11 @@
             {formtextinput id='title' mandatory='1' maxLength='255' group='translated'}
         </div>
         <div class="z-formrow">
-            {formlabel for='metadescription' __text='Description'}
+            {formlabel for='metadescription' __text='Meta description'}
             {formtextinput id='metadescription' mandatory=false textMode='multiline' rows='6' cols='50' group='translated'}
         </div>
         <div class="z-formrow">
-            {formlabel for='metakeywords' __text='Keywords'}
+            {formlabel for='metakeywords' __text='Meta keywords'}
             {formtextinput id='metakeywords' mandatory=false textMode='multiline' rows='4' cols='50' group='translated'}
         </div>
     </fieldset>
