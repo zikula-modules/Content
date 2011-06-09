@@ -368,13 +368,13 @@ abstract class Content_AbstractContentType extends Content_AbstractType
         if (file_exists($filepath_translate_original)) {
             $templates['original'] = "file:" . $filepath_translate_original;
         } else {
-            $this->view->registerError($this->__('Unable to locate original translation template.'));
+            $this->view->registerError(LogUtil::registerError($this->__('Unable to locate original translation template.')));
         }
 
         if (file_exists($filepath_translate_new)) {
             $templates['new'] = "file:" . $filepath_translate_new;
         } else {
-            $this->view->registerError($this->__('Unable to locate new translation template.'));
+            $this->view->registerError(LogUtil::registerError($this->__('Unable to locate new translation template.')));
         }
         return $templates;
     }
