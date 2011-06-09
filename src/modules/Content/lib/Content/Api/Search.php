@@ -33,7 +33,6 @@ class Content_Api_Search extends Zikula_AbstractApi
     {
         ModUtil::dbInfoLoad('Content');
         ModUtil::dbInfoLoad('Search');
-        $dbconn = DBConnectionStack::getConnection(true);
         $dbtables = DBUtil::getTables();
 
         $searchTable = $dbtables['search_result'];
