@@ -34,29 +34,31 @@ class Content_Api_User extends Zikula_AbstractApi
             );
         }
 
-        $links[] = array(
-            'url'   => ModUtil::url('Content', 'user', 'sitemap'),
-            'text'  => $this->__('Page lists'),
-            'class' => 'z-icon-es-view',
-            'links' => array(
-                array(
-                    'url'  => ModUtil::url('Content', 'user', 'sitemap'),
-                    'text' => $this->__('Sitemap')
-                ),
-                array(
-                    'url'  => ModUtil::url('Content', 'user', 'extlist'),
-                    'text' => $this->__('Extended')
-                ),
-                array(
-                    'url'  => ModUtil::url('Content', 'user', 'pagelist'),
-                    'text' => $this->__('Complete')
-                ),
-                array(
-                    'url'  => ModUtil::url('Content', 'user', 'categories'),
-                    'text' => $this->__('Category list')
+        if (SecurityUtil::checkPermission('Content::', '::', ACCESS_READ)) {
+            $links[] = array(
+                'url'   => ModUtil::url('Content', 'user', 'sitemap'),
+                'text'  => $this->__('Page lists'),
+                'class' => 'z-icon-es-view',
+                'links' => array(
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'sitemap'),
+                        'text' => $this->__('Sitemap')
+                    ),
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'extlist'),
+                        'text' => $this->__('Extended')
+                    ),
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'pagelist'),
+                        'text' => $this->__('Complete')
+                    ),
+                    array(
+                        'url'  => ModUtil::url('Content', 'user', 'categories'),
+                        'text' => $this->__('Category list')
+                    )
                 )
-            )
-        );
+            );
+        }
 
         return $links;
     }
