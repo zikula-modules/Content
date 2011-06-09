@@ -1,4 +1,3 @@
-{nocache}{modulelinks modname='Content' type='user'}{/nocache}
 {if $page.metadescription ne ''}
     {setmetatag name='description' value=$page.metadescription|replace:"<br />":"\n"|strip_tags|replace:"\"":""}
 {/if}
