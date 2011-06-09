@@ -864,45 +864,32 @@ class Content_Api_Page extends Zikula_AbstractApi
         $count = -1;
         $level = -1;
 
-        $dbconn = DBConnectionStack::getConnection();
-        $dbtables = DBUtil::getTables();
-
-        $ok = $this->contentUpdateNestedSetValues_Rec(0, $level, $count, $dbconn, $dbtables);
+        $ok = $this->contentUpdateNestedSetValues_Rec(0, $level, $count);
 
         return $ok;
     }
 
     // could not find usage of this method in the module
-    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count, &$dbconn, &$dbtables)
+    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count)
     {
         $pageId = (int) $pageId;
 
-        $pageTable = $dbtables['content_page'];
-        $pageColumn = &$dbtables['content_page_column'];
-
         $left = $count++;
 
-        $sql = "SELECT $pageColumn[id]
-          FROM $pageTable
-          WHERE $pageColumn[parentPageId] = $pageId
-          ORDER BY $pageColumn[position]";
-
-        $result = DBUtil::executeSQL($sql);
-        $objectArray = DBUtil::marshallObjects($result);
-        foreach ($objectArray as $object) {
-            $subPageId = $object['page_id'];
-            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count, $dbconn, $dbtables);
+        $ids = DBUtil::selectFieldArray('content_page', 'id', "parentPageId = $pageId", 'position');
+        foreach ($ids as $subPageId) {
+            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count);
         }
 
         $right = $count++;
 
-        $sql = "UPDATE $pageTable
-          SET $pageColumn[setLeft] = $left,
-          $pageColumn[setRight] = $right,
-          $pageColumn[level] = $level
-          WHERE $pageColumn[id] = $pageId";
-
-        DBUtil::executeSQL($sql);
+        $obj = array(
+            'setLeft'   => $left,
+            'setRight'  => $right,
+            'level'     => $level,
+            'id'        => $pageId
+            );
+        DBUtil::updateObject ($obj, 'content_page');
 
         return true;
     }
