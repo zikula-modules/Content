@@ -1,8 +1,8 @@
 <?php
 class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_AbstractHandler
 {
-    var $pageId;
-    var $language;
+    var $pageId;    // the current page to translate
+    var $language;  // the current active language
     var $backref;
 
     public function initialize(Zikula_Form_View $view)
@@ -19,11 +19,13 @@ class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_AbstractHandl
             return $this->view->registerError(null);
         }
 
-//        can't seem to make this work...
-//        TODO! craig
-//        if ($this->language == $page['language']) {
-//            return $this->view->registerError($this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%1$s"). Change the current site language ("%2$s") to some other language on the <a href="%2$s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual'))));
-//        }
+        // if trying to translate a page into the same language report error and redirect to page list
+        if (!strcmp($this->language, $page['language'])) {
+            return $this->view->registerError(LogUtil::registerError(
+                $this->__f('Sorry, you cannot translate an item to the same language as it\'s default language ("%1$s"). Change the current site language ("%2$s") to some other language on the <a href="%3$s">localisation settings</a> page.<br /> Another way is to add, for instance, <strong>&amp;lang=de</strong> to the url for changing the current site language to German and after that the item can be translated to German.', array($page['language'], $this->language, ModUtil::url('Settings', 'admin', 'multilingual'))),
+                null,
+                ModUtil::url('Content', 'admin', 'main')));
+        }
 
         PageUtil::setVar('title', $this->__("Translate page") . ' : ' . $page['title']);
 

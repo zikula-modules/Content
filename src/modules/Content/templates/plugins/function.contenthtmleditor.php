@@ -28,13 +28,13 @@ function smarty_function_contenthtmleditor($params, &$view)
     $useBBCode = $textRadioButton == null && $inputType == 'text' && !$view->isPostBack()
             || $textRadioButton != null && $textRadioButton->checked;
 
-    if ($useWysiwyg && ModUtil::available('scribite'))
+    if ($useWysiwyg && ModUtil::available('Scribite'))
     {
         $scribite = ModUtil::apiFunc('Scribite', 'User', 'loader', array(
                     'modulename' => 'Content',
                     'areas' => array($inputId)));
         PageUtil::AddVar('header', $scribite);
-    } else if ($useWysiwyg && !ModUtil::available('scribite')) {
+    } else if ($useWysiwyg && !ModUtil::available('Scribite')) {
         $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
         $html .= '(' . __("Please install the Scribite module to use the javascript HTML editor.", $dom) . ')';
         $html .= "</em></div>";

@@ -4,7 +4,7 @@
         {formtextinput id='text' textMode='multiline' group='data' cols='60' rows='20'}
     </div>
 
-    {modavailable modname=scribite assign=scribite}
+    {modavailable modname=Scribite assign=scribite}
 
     <div class="z-formrow">
         <div>
