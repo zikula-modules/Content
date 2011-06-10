@@ -2,7 +2,7 @@
 
 class Content_Migration_Util
 {
-    public function migrate($module) {
+    public static function migrate($module) {
         $classname = "Content_Migration_$module";
         if (class_exists($classname)) {
             $migrationObj = new $classname();

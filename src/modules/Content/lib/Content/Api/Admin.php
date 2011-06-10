@@ -52,6 +52,10 @@ class Content_Api_Admin extends Zikula_AbstractApi
                 'url'   => ModUtil::url('Content', 'admin', 'upgradecontenttypes'),
                 'text'  => $this->__('Upgrade ContentTypes'),
                 'class' => 'z-icon-es-gears');
+            $links[] = array(
+                'url'   => ModUtil::url('Content', 'admin', 'migrate'),
+                'text'  => $this->__('Migrate Data'),
+                'class' => 'z-icon-es-regenerate');
         }
 
         return $links;
