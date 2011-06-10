@@ -143,5 +143,14 @@ class Content_Controller_Admin extends Zikula_AbstractController
         }
         $this->redirect(ModUtil::url('Content', 'admin', 'main'));
     }
+    
+    public function migrate($args)
+    {
+        $module = $this->request->getPost()->get('module', isset($args['module']) ? $args['module'] : null);
+        if (isset($module)) {
+            return Content_Migration_Util::migrate($module);
+        }
+        return $this->view->fetch('admin/migrate.tpl');
+    }
 
 }
