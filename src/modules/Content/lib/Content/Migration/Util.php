@@ -3,6 +3,12 @@
 class Content_Migration_Util
 {
     public function migrate($module) {
-        return true;
+        $classname = "Content_Migration_$module";
+        if (class_exists($classname)) {
+            $migrationObj = new $classname();
+            $migrationObj->execute();
+            return true;
+        }
+        return false;
     }
 }
