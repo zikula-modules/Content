@@ -92,16 +92,13 @@ class Content_Api_Content extends Zikula_AbstractApi
         $translatedTable = $table['content_translatedcontent'];
         $translatedColumn = $table['content_translatedcontent_column'];
 
-
         if ($mode == 'content') {
-            $restriction .= "$contentColumn[id] = $id";
+            $restriction = "$contentColumn[id] = $id";
         } else {
-            $restriction .= "$contentColumn[pageId] = $id";
+            $restriction = "$contentColumn[pageId] = $id";
         }
         if (!$editing) {
-            // $restriction .= " and active = 1 and visiblefor " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
-            $restriction .= " and c.$contentColumn[active] = 1 and $contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
-
+            $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
         }
 
         if (empty($orderBy)) {
