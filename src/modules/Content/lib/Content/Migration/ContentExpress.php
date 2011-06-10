@@ -7,6 +7,8 @@ class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
         $this->dataTable = 'ce_contentitems';
         $this->categoryTable = 'ce_categories';
         $this->contentType = 'Html';
+        $this->migrateCategories = true;
+        $this->rootCategoryLocalId = -1;
         parent::__construct();
     }
     
@@ -46,9 +48,9 @@ class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
     
     public function getCategories()
     {
-        $sql = "SELECT * FROM " . $this->tablePrefix . "_" . $this->categoryTable;
+        $sql = "SELECT * FROM " . $this->tablePrefix . "_" . $this->categoryTable . " ORDER BY mc_parent_id, mc_id";
         $result = DBUtil::executeSQL();
-        $categories = DBUtil::marshallFieldArray($result, true, 'mc_id');
+        $categories = DBUtil::marshallFieldArray($result);
         $reformattedArray = array();
         foreach ($categories as $category) {
             $reformattedArray[] = array(

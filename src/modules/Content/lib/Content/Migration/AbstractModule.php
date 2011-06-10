@@ -9,10 +9,29 @@ abstract class Content_Migration_AbstractModule
     protected $migrateCategories = false;
     
     /**
-     * Map of oldId => newID
+     * Map of oldId => newIdPath
+     * @var array
+     */
+    protected $categoryPathMap = array();
+    
+    /**
+     * Map of oldId => newId
      * @var array
      */
     protected $categoryMap = array();
+    
+    /**
+     * Where are the categories?
+     * @var string
+     */
+    protected $categoryTable;
+    
+    /**
+     * The 'local' category id of the root category in your table
+     * @var integer
+     */
+    protected $rootCategoryLocalId = 0;
+
     /**
      * Zikula's current table prefix
      * @var string
@@ -24,12 +43,6 @@ abstract class Content_Migration_AbstractModule
      * @var string
      */
     protected $dataTable;
-    
-    /**
-     * Where are the categories?
-     * @var string
-     */
-    protected $categoryTable;
     
     /**
      * Which ContentType to use?
@@ -50,6 +63,8 @@ abstract class Content_Migration_AbstractModule
     /**
      * Category data
      * structure return data in array(array('id' => '', 'pid' => '', 'title' => '', 'lang' => ''))
+     * order the categories by parent id so lowest parent category ids are first, then by category id
+     * e.g. ORDER BY pid, cid
      */
     abstract protected function getCategories();
 
@@ -66,20 +81,24 @@ abstract class Content_Migration_AbstractModule
     {
         $this->tablePrefix = System::getVar('prefix');
     }
-    
+
+    /**
+     * migrate the categories provided
+     */
     public function migrateCategories()
     {
         // create module category
-        $rootCat = CategoryUtil::getCategoryByPath('/__SYSTEM__/Modules/Content');
-        if (!$rootCat) {
-            $rootId = $rootCat['id'];
-        } else {
-            $rootId = $this->createRootCategory();
+        if (!CategoryUtil::getCategoryByPath('/__SYSTEM__/Modules/Content')) {
+            $this->createRootCategory();
         }
-        
+
         $oldCategories = $this->getCategories();
         foreach ($oldCategories as $oldCategory) {
-            CategoryUtil::createCategory('/__SYSTEM__/Modules/Content', $oldCategory['title'], null, $oldCategory['title'], $oldCategory['title']);
+            if (isset($this->categoryPathMap[$oldCategory['pid']])) {
+                $id = CategoryUtil::createCategory($this->categoryPathMap[$oldCategory['pid']], $oldCategory['title'], null, $oldCategory['title'], $oldCategory['title']);
+                $this->categoryPathMap[$oldCategory['id']] = CategoryUtil::getCategoryById($id);
+                $this->categoryMap[$oldCategory['id']] = $id;
+            }
 
         }
     }
@@ -93,6 +112,8 @@ abstract class Content_Migration_AbstractModule
         $id = CategoryUtil::createCategory('/__SYSTEM__/Modules', 'Content', null, $this->__('Content'), $this->__('Migrated Content categories'));
         // create an entry in the categories registry to the property
         CategoryRegistryUtil::insertEntry ('Content', 'content_page', 'Migrated', $id);
+        $this->categoryPathMap[$this->rootCategoryLocalId] = CategoryUtil::getCategoryById($id);
+        $this->categoryMap[$this->rootCategoryLocalId] = $id;
         return $id;
     }
 }
