@@ -53,7 +53,7 @@ class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
             $this->recordCount++;
             $i++;
             // create recursive records for all parent categories
-            $this->createRecords($page['mc_id'], ++$lvl);
+            $this->createRecords($page['mc_id'], $lvl + 1);
         }
     }
 
