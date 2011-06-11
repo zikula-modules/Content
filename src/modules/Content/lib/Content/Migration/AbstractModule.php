@@ -60,6 +60,12 @@ abstract class Content_Migration_AbstractModule
     protected $pageMap = array();
 
     /**
+     * array of records to be converted
+     * @var array
+     */
+    protected $records = array();
+
+    /**
      * Category data
      * structure return data in array(array('id' => '', 'pid' => '', 'title' => '', 'lang' => ''))
      * order the categories by parent id so lowest parent category ids are first, then by category id
@@ -68,10 +74,10 @@ abstract class Content_Migration_AbstractModule
     abstract protected function getCategories();
 
     /**
-     * Content data
+     * Content records
      * structure return data as array of arrays by Content field names
      */
-    abstract protected function getData();
+    abstract protected function createRecords();
 
     /**
      * constructor
@@ -97,33 +103,20 @@ abstract class Content_Migration_AbstractModule
      */
     private function importCategories()
     {
-        // create module category
-        if (!CategoryUtil::getCategoryByPath('/__SYSTEM__/Modules/Content')) {
-            $this->createRootCategory();
-        }
+        $rootCatId = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', ModUtil::getVar('Content', 'categoryPropPrimary'));
+        $rootCatObj = CategoryUtil::getCategoryById($rootCatId);
+        $this->categoryPathMap[$this->rootCategoryLocalId] = $rootCatObj['path'];
+        $this->categoryMap[$this->rootCategoryLocalId] = (int)$rootCatId;
 
         $oldCategories = $this->getCategories();
         foreach ($oldCategories as $oldCategory) {
             if (isset($this->categoryPathMap[$oldCategory['pid']])) {
                 $id = CategoryUtil::createCategory($this->categoryPathMap[$oldCategory['pid']], $oldCategory['title'], null, $oldCategory['title'], $oldCategory['title']);
-                $this->categoryPathMap[$oldCategory['id']] = CategoryUtil::getCategoryById($id);
-                $this->categoryMap[$oldCategory['id']] = $id;
+                $catObj = CategoryUtil::getCategoryById($id);
+                $this->categoryPathMap[$oldCategory['id']] = $catObj['path'];
+                $this->categoryMap[$oldCategory['id']] = (int)$id;
             }
         }
-    }
-
-    /**
-     * create the default category tree
-     * @return boolean
-     */
-    private function createRootCategory()
-    {
-        $id = CategoryUtil::createCategory('/__SYSTEM__/Modules', 'Content', null, $this->__('Content'), $this->__('Migrated Content categories'));
-        // create an entry in the categories registry to the property
-        CategoryRegistryUtil::insertEntry('Content', 'content_page', 'Migrated', $id);
-        $this->categoryPathMap[$this->rootCategoryLocalId] = CategoryUtil::getCategoryById($id);
-        $this->categoryMap[$this->rootCategoryLocalId] = $id;
-        return $id;
     }
 
     /**
@@ -131,28 +124,39 @@ abstract class Content_Migration_AbstractModule
      */
     private function importData()
     {
-        $pages = $this->getData();
-        foreach ($pages as $page) {
+        $this->createRecords();
+        $items = $this->records;
+//        echo "<pre>";
+//        var_dump($this->pageMap);
+//        echo "------------<br />";
+//        var_dump($this->categoryMap);
+//        echo "------------<br />";
+//        $i = 100;
+        foreach ($items as $item) {
+//            var_dump($item);
             // create page 
             $page = array(
-                'ppid' => $this->pageMap[$page['ppid']],
-                'title' => $page['title'],
-                'urlname' => DataUtil::formatForURL($page['title']),
+                'parentPageId' => (int)$this->pageMap[(int)$item['ppid']],
+                'level' => $item['level'],
+                'title' => $item['title'],
+                'urlname' => DataUtil::formatForURL($item['title']),
                 'layout' => $this->layoutType,
-                'showtitle' => $page['showtitle'],
-                'views' => $page['views'],
-                'activefrom' => $page['activefrom'],
-                'activeto' => $page['activeto'],
-                'active' => $page['active'],
-                'categoryid' => $this->categoryMap[$page['categoryid']],
+                'showTitle' => $item['showtitle'],
+                'views' => $item['views'],
+                'activeFrom' => $item['activefrom'],
+                'activeTo' => $item['activeto'],
+                'active' => $item['active'],
+                'categoryId' => $this->categoryMap[(int)$item['categoryid']],
+                'position' => $item['position'],
                 'setLeft' => '0',
                 'setRight' => '1',
                 'language' => ZLanguage::getLanguageCode());
+//            var_dump($page);
 
             // insert the page
             $obj = DBUtil::insertObject($page, 'content_page');
 
-            $this->pageMap[$page['id']] = $obj['id'];
+            $this->pageMap[(int)$item['id']] = (int)$obj['id'];
 
             // create the contentitems for this page
             $content = array();
@@ -163,7 +167,7 @@ abstract class Content_Migration_AbstractModule
                 'module' => 'Content',
                 'type' => 'Heading',
                 'data' => serialize(array(
-                    'text' => $page['title'],
+                    'text' => $item['title'],
                     'headerSize' => 'h3')));
             $content[] = array(
                 'pageId' => $obj['id'],
@@ -172,13 +176,17 @@ abstract class Content_Migration_AbstractModule
                 'module' => 'Content',
                 'type' => $this->contentType,
                 'data' => serialize(array(
-                    'text' => $page['data'],
-                    'inputType' => 'html')));
+                    'text' => $item['data'],
+                    'inputType' => 'text')));
 
             // write the items to the dbase
             foreach ($content as $contentitem) {
                 DBUtil::insertObject($contentitem, 'content_content');
             }
+//            $i++;
+//            if ($i == 110) {
+//                var_dump($this->pageMap); die;
+//            }
         }
     }
 

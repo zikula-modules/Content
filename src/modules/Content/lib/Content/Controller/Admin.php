@@ -148,9 +148,13 @@ class Content_Controller_Admin extends Zikula_AbstractController
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_ADMIN), LogUtil::getErrorMsgPermission());
         $migratemodule = $this->request->getPost()->get('migratemodule', isset($args['migratemodule']) ? $args['migratemodule'] : null);
-        if (isset($module)) {
+        if (isset($migratemodule)) {
             $this->checkCsrfToken();
-            Content_Migration_Util::migrate($migratemodule);
+            if (Content_Migration_Util::migrate($migratemodule)) {
+                LogUtil::registerStatus($this->__f("Module '%s' migrated successfully.", $migratemodule));
+            } else {
+                LogUtil::registerError($this->__f("Error: Unable to migrate module '%s'.", $migratemodule));
+            }
             $this->redirect(ModUtil::url('Content', 'admin', 'main'));
         }
         return $this->view->fetch('admin/migrate.tpl');
