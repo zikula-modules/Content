@@ -64,7 +64,7 @@ abstract class Content_Migration_AbstractModule
     public function __construct()
     {
         $this->tablePrefix = System::getVar('prefix');
-        $this->structureIndex = DBUtil::selectFieldMax('content_page', 'page_setright');
+        $this->structureIndex = DBUtil::selectFieldMax('content_page', 'setRight');
     }
 
     /**
@@ -146,7 +146,7 @@ abstract class Content_Migration_AbstractModule
             foreach ($item['contentitems'] as $position => $pageParts) {
                 $content[] = array(
                     'pageId' => $obj['id'],
-                    'areaIndex' => $pageParts['areaindex'],
+                    'areaIndex' => $pageParts['areaIndex'],
                     'position' => $position,
                     'module' => 'Content',
                     'type' => $pageParts['contenttype'],
