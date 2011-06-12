@@ -4,7 +4,7 @@ abstract class Content_Migration_AbstractModule
 {
 
     /**
-     * Should we migrate existing categories?
+     * Should we migrate existing 'local' categories?
      * @var boolean
      */
     protected $migrateCategories = false;
@@ -128,6 +128,7 @@ abstract class Content_Migration_AbstractModule
             // insert the page
             $obj = DBUtil::insertObject($page, 'content_page');
 
+            // add item id to pagemap
             $this->pageMap[(int)$item['id']] = (int)$obj['id'];
 
             // create the contentitems for this page

@@ -3,9 +3,20 @@
 class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
 {
 
+    /**
+     * record index
+     * @var integer
+     */
     private $recordCount = 0;
+    /**
+     * map page level structure
+     * @var array
+     */
     private $recordLevels = array();
 
+    /**
+     * constructor
+     */
     public function __construct()
     {
         $this->migrateCategories = true;
