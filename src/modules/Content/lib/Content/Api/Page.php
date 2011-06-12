@@ -858,7 +858,8 @@ class Content_Api_Page extends Zikula_AbstractApi
         return $pos === null ? -1 : (int) $pos;
     }
 
-    public function updateNestedSetValues($args)
+    // could not find usage of this method in the module
+    public function updateNestedSetValues($args = null)
     {
         $count = -1;
         $level = -1;
@@ -871,6 +872,7 @@ class Content_Api_Page extends Zikula_AbstractApi
         return $ok;
     }
 
+    // could not find usage of this method in the module
     protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count, &$dbconn, &$dbtables)
     {
         $pageId = (int) $pageId;
