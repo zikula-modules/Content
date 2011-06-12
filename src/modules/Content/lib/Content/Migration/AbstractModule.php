@@ -9,61 +9,40 @@ abstract class Content_Migration_AbstractModule
      */
     protected $migrateCategories = false;
     /**
-     * Map of oldId => newIdPath
+     * Map oldId => newIdPath
      * @var array
      */
     private $categoryPathMap = array();
     /**
-     * Map of oldId => newId
+     * Map oldId => newId
      * @var array
      */
     private $categoryMap = array();
-    /**
-     * Where are the categories?
-     * @var string
-     */
-    protected $categoryTable;
     /**
      * The 'local' category id of the root category in your table
      * @var integer
      */
     protected $rootCategoryLocalId = 0;
     /**
-     * The 'local' page id of the root page in your table
-     * @var integer
-     */
-    protected $rootPageLocalId = 0;
-    /**
      * Zikula's current table prefix
      * @var string
      */
     protected $tablePrefix;
     /**
-     * Where is the data stored
-     * @var string
-     */
-    protected $dataTable;
-    /**
-     * Which ContentType to use?
-     * $var string
-     */
-    protected $contentType = 'Html';
-    /**
-     * Which LayoutType to use?
-     * $var string
-     */
-    protected $layoutType = 'Column1';
-    /**
-     * Map of oldPageId => newPageId
+     * Map oldPageId => newPageId
      * @var array
      */
     protected $pageMap = array();
-
     /**
      * array of records to be converted
      * @var array
      */
     protected $records = array();
+    /**
+     * The last existing 'setLeft/setRight' value in the table
+     * @var integer
+     */
+    protected $structureIndex;
 
     /**
      * Category data
@@ -85,6 +64,7 @@ abstract class Content_Migration_AbstractModule
     public function __construct()
     {
         $this->tablePrefix = System::getVar('prefix');
+        $this->structureIndex = DBUtil::selectFieldMax('content_page', 'page_setright');
     }
 
     /**
@@ -126,21 +106,14 @@ abstract class Content_Migration_AbstractModule
     {
         $this->createRecords();
         $items = $this->records;
-//        echo "<pre>";
-//        var_dump($this->pageMap);
-//        echo "------------<br />";
-//        var_dump($this->categoryMap);
-//        echo "------------<br />";
-//        $i = 100;
         foreach ($items as $item) {
-//            var_dump($item);
             // create page 
             $page = array(
                 'parentPageId' => (int)$this->pageMap[(int)$item['ppid']],
                 'level' => $item['level'],
                 'title' => $item['title'],
                 'urlname' => DataUtil::formatForURL($item['title']),
-                'layout' => $this->layoutType,
+                'layout' => $item['layouttype'],
                 'showTitle' => $item['showtitle'],
                 'views' => $item['views'],
                 'activeFrom' => $item['activefrom'],
@@ -148,10 +121,9 @@ abstract class Content_Migration_AbstractModule
                 'active' => $item['active'],
                 'categoryId' => $this->categoryMap[(int)$item['categoryid']],
                 'position' => $item['position'],
-                'setLeft' => '0',
-                'setRight' => '1',
-                'language' => ZLanguage::getLanguageCode());
-//            var_dump($page);
+                'setLeft' => $item['setleft'],
+                'setRight' => $item['setright'],
+                'language' => $item['language']);
 
             // insert the page
             $obj = DBUtil::insertObject($page, 'content_page');
@@ -160,33 +132,33 @@ abstract class Content_Migration_AbstractModule
 
             // create the contentitems for this page
             $content = array();
-            $content[] = array(
-                'pageId' => $obj['id'],
-                'areaIndex' => '0',
-                'position' => '0',
-                'module' => 'Content',
-                'type' => 'Heading',
-                'data' => serialize(array(
-                    'text' => $item['title'],
-                    'headerSize' => 'h3')));
-            $content[] = array(
-                'pageId' => $obj['id'],
-                'areaIndex' => '1',
-                'position' => '0',
-                'module' => 'Content',
-                'type' => $this->contentType,
-                'data' => serialize(array(
-                    'text' => $item['data'],
-                    'inputType' => 'text')));
+            if ($item['useheader']) {
+                $content[] = array(
+                    'pageId' => $obj['id'],
+                    'areaIndex' => '0',
+                    'position' => '0',
+                    'module' => 'Content',
+                    'type' => 'Heading',
+                    'data' => serialize(array(
+                        'text' => $item['title'],
+                        'headerSize' => 'h3')));
+            }
+            foreach ($item['contentitems'] as $position => $pageParts) {
+                $content[] = array(
+                    'pageId' => $obj['id'],
+                    'areaIndex' => $pageParts['areaindex'],
+                    'position' => $position,
+                    'module' => 'Content',
+                    'type' => $pageParts['contenttype'],
+                    'data' => serialize(array(
+                        'text' => $pageParts['data'],
+                        'inputType' => $pageParts['inputType'])));
+            }
 
             // write the items to the dbase
-            foreach ($content as $contentitem) {
-                DBUtil::insertObject($contentitem, 'content_content');
+            foreach ($content as $contentItem) {
+                DBUtil::insertObject($contentItem, 'content_content');
             }
-//            $i++;
-//            if ($i == 110) {
-//                var_dump($this->pageMap); die;
-//            }
         }
     }
 

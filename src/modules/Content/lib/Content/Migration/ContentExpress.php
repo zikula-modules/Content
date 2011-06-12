@@ -2,21 +2,20 @@
 
 class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
 {
+
     private $recordCount = 0;
     private $recordLevels = array();
-    
+
     public function __construct()
     {
-        $this->dataTable = 'ce_contentitems';
-        $this->categoryTable = 'ce_categories';
         $this->migrateCategories = true;
-        $this->pageMap[$this->rootPageLocalId] = 0;
+        $this->pageMap[0] = 0;
         parent::__construct();
     }
 
     protected function getCategories()
     {
-        $sql = "SELECT mc_id, mc_parent_id, mc_title FROM " . $this->tablePrefix . "_" . $this->categoryTable . " ORDER BY mc_parent_id, mc_id";
+        $sql = "SELECT mc_id, mc_parent_id, mc_title FROM " . $this->tablePrefix . "_ce_categories ORDER BY mc_parent_id, mc_id";
         $result = DBUtil::executeSQL($sql);
         $categories = DBUtil::marshallObjects($result);
         $reformattedArray = array();
@@ -35,8 +34,9 @@ class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
 
     protected function createRecords($pid = -1, $lvl = 0)
     {
+        $sql = "SELECT * FROM " . $this->tablePrefix . "_ce_contentitems WHERE mc_parent_id=$pid ORDER BY mc_id";
+        $pid = ($pid == -1) ? 0 : $pid;
         $this->recordLevels[$pid] = $lvl;
-        $sql = "SELECT * FROM " . $this->tablePrefix . "_" . $this->dataTable . " WHERE mc_parent_id=$pid ORDER BY mc_id";
         $result = DBUtil::executeSQL($sql);
         $pages = DBUtil::marshallObjects($result);
         $fieldmap = $this->getFieldMap();
@@ -44,17 +44,33 @@ class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
         foreach ($pages as $page) {
             // correct values to Content appropriate types
             $page['mc_parent_id'] = ($page['mc_parent_id'] == -1) ? 0 : $page['mc_parent_id'];
-            $page['active'] = $page['active'] - 1;
+            $page['mc_status'] = $page['mc_status'] - 1;
+            // remap fieldnames
+            $currentRecordCount = $this->recordCount;
             foreach ($fieldmap as $newfield => $oldfield) {
-                $this->records[$this->recordCount][$newfield] = $page[$oldfield];
+                $this->records[$currentRecordCount][$newfield] = $page[$oldfield];
             }
-            $this->records[$this->recordCount]['position'] = $i;
-            $this->records[$this->recordCount]['level'] = $this->recordLevels[$page['mc_parent_id']];
+            $this->records[$currentRecordCount]['language'] = ZLanguage::getLanguageCode();
+            $this->records[$currentRecordCount]['layouttype'] = 'Column1';
+            $this->records[$currentRecordCount]['position'] = $i;
+            $this->records[$currentRecordCount]['level'] = $this->recordLevels[$page['mc_parent_id']];
+            $this->records[$currentRecordCount]['setleft'] = ++$this->structureIndex; //0; //++$left;
+            // create contenttype items
+            $this->records[$currentRecordCount]['useheader'] = true;
+            // this could loop and create multiple contentitems if needed
+            $this->records[$currentRecordCount]['contentitems'] = array(0 => array(
+                    'contenttype' => 'Html',
+                    'areaIndex' => '1',
+                    'inputType' => 'text',
+                    'data' => $page['mc_text'],
+                    ));
             $this->recordCount++;
-            $i++;
-            // create recursive records for all parent categories
+            $i++; // position index
+            // create recursive records for all child pages
             $this->createRecords($page['mc_id'], $lvl + 1);
+            $this->records[$currentRecordCount]['setright'] = ++$this->structureIndex; //1; //++$left;
         }
+        //return count($pages);
     }
 
     private function getFieldMap()
@@ -69,7 +85,6 @@ class Content_Migration_ContentExpress extends Content_Migration_AbstractModule
             'activeto' => 'mc_end_date',
             'active' => 'mc_status',
             'views' => 'mc_times_read',
-            'data' => 'mc_text',
         );
         return $map;
     }
