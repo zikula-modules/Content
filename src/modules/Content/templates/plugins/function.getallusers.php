@@ -1,6 +1,6 @@
 <?php
 
-function smarty_function_getallusers ($params, &$smarty)
+function smarty_function_getallusers ($params, $view)
 {
     $assign  = isset($params['assign'])  ? $params['assign']   : null;
 
@@ -11,7 +11,7 @@ function smarty_function_getallusers ($params, &$smarty)
         $users[] = array('text' => $userTemp['uname'], 'value' => $userTemp['uid']);
     }
     if ($assign) {
-        $smarty->assign($assign, $users);
+        $view->assign($assign, $users);
     } else {
         return $users;
     }

@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-function smarty_function_contentmenu($params, &$view)
+function smarty_function_contentmenu($params, $view)
 {
     $pages = $params['pages'];
     $html = smarty_function_contentmenurec($pages);

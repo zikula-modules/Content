@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-function smarty_function_contentareatitle($params, &$view) 
+function smarty_function_contentareatitle($params, $view) 
 {
     $dom = ZLanguage::getModuleDomain('Content');
     $areatitle = DataUtil::formatForDisplay($params['page']['layoutData']['plugin']->getContentAreaTitle($params['contentArea']));
