@@ -737,10 +737,10 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         // what does this mean?
         if ($pageData['parentPageId'] > 0) {
-            $pageData['position'] = contentGetLastSubPagePosition($pageData['parentPageId']) + 1;
+            $pageData['position'] = $this->contentGetLastSubPagePosition($pageData['parentPageId']) + 1;
             $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level'] + 1);
         } else {
-            $pageData['position'] = contentGetLastPagePosition($pageData['parentPageId']) + 1;
+            $pageData['position'] = $this->contentGetLastPagePosition($pageData['parentPageId']) + 1;
             $pageData['parentPageId'] = ($sourcePageData == null ? 0 : $sourcePageData['parentPageId']);
             $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level']);
         }
