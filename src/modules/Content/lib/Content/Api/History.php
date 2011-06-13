@@ -263,8 +263,10 @@ class Content_Api_History extends Zikula_AbstractApi
                     $output .= $c['plugin']->displayEnd();
                     $c['output'] = $output;
                 }
+                $c['plugin']->destroyView();
             }
         }
+        $version['data']['page']['layoutData']['plugin']->destroyView(); // cannot see where this is set above :-)
 
         return $version;
     }
