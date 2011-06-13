@@ -7,10 +7,10 @@
  * @license See license.txt
  */
 
-function smarty_function_contentlabelhelp($params, &$view) 
+function smarty_function_contentlabelhelp($params, $view) 
 {
     $text = $params['text'];
-    $text = (strlen($text)>0 && $text[0]=='_' ? constant($text) : $text);
+    $text = (strlen($text)>0 && $text[0]=='_' ? ModUtil::apiFunc('Content', 'History', 'contentHistoryActionTranslate', $text) : $text);
     if (!isset($params['html']) || !$params['html']) {
         $text = DataUtil::formatForDisplay($text);
     }

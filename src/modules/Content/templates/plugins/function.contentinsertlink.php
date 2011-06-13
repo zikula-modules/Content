@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-function smarty_function_contentinsertlink($params, &$view)
+function smarty_function_contentinsertlink($params, $view)
 {
     $dom = ZLanguage::getModuleDomain('Content');
     $pageId = $params['pageId'];

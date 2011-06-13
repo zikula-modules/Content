@@ -136,4 +136,11 @@ abstract class Content_AbstractType implements Zikula_TranslatableInterface
         return '';
     }
 
+    /**
+     * Unset the Zikula_(Form)_View object
+     */
+    public function destroyView()
+    {
+        unset($this->view);
+    }
 }

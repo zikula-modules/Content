@@ -226,15 +226,12 @@ class Content_Api_History extends Zikula_AbstractApi
 
         // Apply content translation
         if (!empty($versionData['contentTranslations'])) {
-            //var_dump($versionData['contentTranslations']);
-            //var_dump($page);
-
             $translationMap = array();
-            for ($i = 0, $cou = count($versionData['contentTranslations']); $i < $cou; ++$i)
+            for ($i = 0, $cou = count($versionData['contentTranslations']); $i < $cou; ++$i) {
                 if ($versionData['contentTranslations'][$i]['language'] == $language) {
                     $translationMap[$versionData['contentTranslations'][$i]['contentId']] = & $versionData['contentTranslations'][$i];
                 }
-
+            }
             foreach (array_keys($page['content']) as $i) {
                 for ($j = 0, $couj = count($page['content'][$i]); $j < $couj; ++$j) {
                     $c = & $page['content'][$i][$j];
@@ -266,8 +263,10 @@ class Content_Api_History extends Zikula_AbstractApi
                     $output .= $c['plugin']->displayEnd();
                     $c['output'] = $output;
                 }
+                $c['plugin']->destroyView();
             }
         }
+        $version['data']['page']['layoutData']['plugin']->destroyView(); // cannot see where this is set above :-)
 
         return $version;
     }

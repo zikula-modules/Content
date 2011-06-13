@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-function smarty_function_contentpageheading($params, &$view) 
+function smarty_function_contentpageheading($params, $view) 
 {
     $html = '<div class="content-page-heading"><h2>' . ($params['header']) . "</h2>\n";
 

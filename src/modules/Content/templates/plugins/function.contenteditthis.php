@@ -7,7 +7,7 @@
  * @license See license.txt
  */
 
-function smarty_function_contenteditthis($params, &$view)
+function smarty_function_contenteditthis($params, $view)
 {
     $dom = ZLanguage::getModuleDomain('Content');
     $data = $params['data'];

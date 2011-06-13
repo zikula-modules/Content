@@ -7,7 +7,7 @@
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
-function smarty_function_contentcodeeditor($params, &$view)
+function smarty_function_contentcodeeditor($params, $view)
 {
     $dom = ZLanguage::getModuleDomain('Content');
     $inputId = $params['inputId'];

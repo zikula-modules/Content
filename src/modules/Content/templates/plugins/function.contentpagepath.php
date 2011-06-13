@@ -1,6 +1,6 @@
 <?php
 
-function smarty_function_contentpagepath($params, &$view)
+function smarty_function_contentpagepath($params, $view)
 {
     if (!isset($params['pageId']))
         return $smarty->trigger_error('contentpagepath: pageId parameter required');
