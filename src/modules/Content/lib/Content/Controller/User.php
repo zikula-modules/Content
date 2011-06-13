@@ -85,11 +85,12 @@ class Content_Controller_User extends Zikula_AbstractController
             $versionData = & $version['data'];
             $page = & $versionData['page'];
             $pageId = $page['id'];
-
+            $action = ModUtil::apiFunc('Content', 'History', 'contentHistoryActionTranslate', $version['action']);
+            
             $translatable = array(
                 'revisionNo' => $version['revisionNo'],
                 'date' => $version['date'],
-                'action' => constant($version['action']),
+                'action' => $action,
                 'userName' => $version['userName'],
                 'ipno' => $version['ipno']);
             $iconSrc = 'images/icons/extrasmall/clock.png';
