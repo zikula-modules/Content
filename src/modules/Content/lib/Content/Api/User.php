@@ -118,7 +118,7 @@ class Content_Api_User extends Zikula_AbstractApi
     {
         $suffix = $this->getVar('shorturlsuffix');
 
-        $supportedfunctions = array('list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
+        $supportedfunctions = array('main', 'list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
         $argsnum = count($args['vars']);
         if (!isset($args['vars'][2]) || empty($args['vars'][2])) {
             System::queryStringSetVar('func', 'sitemap');
