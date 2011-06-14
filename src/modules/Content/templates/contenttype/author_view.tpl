@@ -6,7 +6,7 @@
 
     <div class="z-clearfix">
         {if isset($avatar) AND !empty($avatar) AND $avatar neq 'blank.gif' AND $avatar neq 'gravatar.gif'}
-        <img src="{getbaseurl}images/avatar/{$avatar}" alt="{usergetvar name="_UREALNAME" uid=$uid}" class="authoravatar" />
+        <img src="{$baseurl}images/avatar/{$avatar}" alt="{usergetvar name="_UREALNAME" uid=$uid}" class="authoravatar" />
         {/if}
         {if $extrainfo}
         <p>{usergetvar name="_EXTRAINFO" uid=$uid}</p>
