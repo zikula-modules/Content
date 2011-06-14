@@ -55,6 +55,7 @@ class Content_Api_Content extends Zikula_AbstractApi
                     $output .= $c['plugin']->displayEnd();
                 }
                 $c['output'] = $output;
+                $c['plugin']->destroyView(); // save memory
             } else {
                 $c['title'] = $this->__('disabled plugin');
                 $c['isTranslatable'] = false;
