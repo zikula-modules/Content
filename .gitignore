@@ -1,6 +1,7 @@
 # /
 .git_externals
 nbproject
+nbproject.tar.gz
 ./.project
 ./.settings
 ./.buildpath
