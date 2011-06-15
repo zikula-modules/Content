@@ -33,19 +33,25 @@ function smarty_function_contenthtmleditor($params, $view)
         $scribite = ModUtil::apiFunc('Scribite', 'User', 'loader', array(
                     'modulename' => 'Content',
                     'areas' => array($inputId)));
-        PageUtil::AddVar('header', $scribite);
+        if (isset($scribite)) {
+            PageUtil::AddVar('header', $scribite);
+        } else {
+            $html = "<div class='z-formrow'><em class='z-warningmsg'>";
+            $html .= '(' . __f("The WYSIWYG editor (%s) is installed but no default editor is assigned.", 'Scribite', $dom) . ')';
+            $html .= "</em></div>";
+        }
     } else if ($useWysiwyg && !ModUtil::available('Scribite')) {
-        $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
-        $html .= '(' . __("Please install the Scribite module to use the javascript HTML editor.", $dom) . ')';
+        $html = "<div class='z-formrow'><em class='z-informationmsg'>";
+        $html .= '(' . __f("Please install the %s module to use the WYSIWYG HTML editor.", 'Scribite', $dom) . ')';
         $html .= "</em></div>";
     } else if ($useBBCode && ModUtil::available('BBCode')) {
-        $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
+        $html = "<div class='z-formrow'><em class='z-warningmsg'>";
         $html .= ModUtil::func('BBCode', 'User', 'bbcodes', array(
                     'textfieldid' => $inputId,
                     'images' => 0));
         $html .= "</em></div>";
     } else if ($useBBCode && !ModUtil::available('BBCode')) {
-        $html = "<div class=\"z-formrow\"><em class=\"z-sub\">";
+        $html = "<div class='z-formrow'><em class='z-informationmsg'>";
         $html .= '(' . __("Please install the BBCode module to enable BBCodes display.", $dom) . ')';
         $html .= "</em></div>";
     }
