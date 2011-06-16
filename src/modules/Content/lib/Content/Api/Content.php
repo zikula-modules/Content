@@ -43,7 +43,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         foreach ($contentList as $c) {
             if (isset($c['plugin'])) {
                 $c['title'] = $c['plugin']->getTitle();
-                $c['isTranslatable'] = $c['plugin']->isTranslatable(); // dup line 135?
+                $c['isTranslatable'] = $c['plugin']->isTranslatable(); // dup line 127?
                 $output = '';
                 if ($expandContent) {
                     $output = $c['plugin']->displayStart();
@@ -84,6 +84,7 @@ class Content_Api_Content extends Zikula_AbstractApi
     protected function contentGetContent($mode, $id, $editing, $language, $translate, $orderBy = null, $view = null)
     {
         $id = (int) $id;
+        $language = DataUtil::formatForStore($language);
 
         $table = DBUtil::getTables();
         $contentTable = $table['content_content'];
@@ -100,7 +101,9 @@ class Content_Api_Content extends Zikula_AbstractApi
             $restriction .= " and c.$contentColumn[active] = 1 and c.$contentColumn[visiblefor] " . (UserUtil::isLoggedIn() ? '<=1' : '>=1');
         }
 
-        $language = DataUtil::formatForStore($language);
+        if (empty($orderBy)) {
+            $orderBy = "$contentColumn[areaIndex], $contentColumn[position]";
+        }
 
         $cols = DBUtil::_getAllColumns('content_content');
         $ca = DBUtil::getColumnsArray('content_content');
@@ -112,15 +115,10 @@ class Content_Api_Content extends Zikula_AbstractApi
             LEFT JOIN $translatedTable t
             ON t.$translatedColumn[contentId] = $contentColumn[id]
             AND t.$translatedColumn[language] = '$language'
-            WHERE $restriction";
-
-        if (empty($orderBy)) {
-            $orderBy = "$contentColumn[areaIndex], $contentColumn[position]";
-        }
-        $sql .= " ORDER BY $orderBy";
-
+            WHERE $restriction
+            ORDER BY $orderBy";
+        
         $dbresult = DBUtil::executeSQL($sql);
-
         $content = DBUtil::marshallObjects($dbresult, $ca);
 
         for ($i = 0, $cou = count($content); $i < $cou; ++$i) {
@@ -269,9 +267,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         unset($contentData['id']);
 
         if ($cloneTranslation) {
-            $tables = DBUtil::getTables();
-            $translatedColumn = $tables['content_translatedcontent_column'];
-            $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'] . '=' . $contentId);
+            $translations = DBUtil::selectObjectArray('content_translatedcontent', "contentId = $contentId");
         }
 
         if (!$this->contentMoveContentDown($contentData['position'], $contentData['areaIndex'], $contentData['pageId'])) {
@@ -340,17 +336,12 @@ class Content_Api_Content extends Zikula_AbstractApi
 
     protected function contentUpdateSearchableText($contentId, $text)
     {
-        $table = DBUtil::getTables();
-        $searchTable = $table['content_searchable'];
-        $searchColumn = $table['content_searchable_column'];
 
-        $sql = "DELETE FROM $searchTable WHERE $searchColumn[contentId] = $contentId";
-        DBUtil::executeSQL($sql);
+        // We delete first then insert, since it may not already exist.
+        DBUtil::deleteObjectByID('content_searchable', $contentId, 'contentId');
 
-        $sql = "
-            INSERT INTO $searchTable ($searchColumn[contentId], $searchColumn[text])
-            VALUES ($contentId, '" . DataUtil::formatForStore($text) . "')";
-        DBUtil::executeSQL($sql);
+        $searchObj = array ('contentId' => $contentId, 'text' => $text);
+        DBUtil::insertObject($searchObj, 'content_searchable', true, 'contentId');
 
         return true;
     }
@@ -375,18 +366,20 @@ class Content_Api_Content extends Zikula_AbstractApi
             $contentData['id'] = null;
             $contentData['pageId'] = $toPage;
             DBUtil::insertObject($contentData, 'content_content', 'id');
+            $id = $contentData['id']; // ID of object we just inserted
+
             if ($cloneTranslation) {
-                $translations = DBUtil::selectObjectArray('content_translatedcontent', $translatedColumn['contentId'] . '=' . $contentData['id']);
+                $translations = DBUtil::selectObjectArray('content_translatedcontent', "contentId = $id");
                 if (!($translations === false) && count($translations) > 0) {
                     foreach ($translations as &$t) {
-                        $t['contentId'] = $contentData['id'];
+                        $t['contentId'] = $id;
                     }
                     DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
                 }
             }
-            $searchData = DBUtil::selectObjectByID('content_searchable', $contentData['id'], 'contentId');
+            $searchData = DBUtil::selectObjectByID('content_searchable', $id, 'contentId');
             if ($searchData) {
-                $searchData['contentId'] = $contentData['id'];
+                $searchData['contentId'] = $id;
                 DBUtil::insertObject($searchData, 'content_searchable');
             }
         }
@@ -415,13 +408,7 @@ class Content_Api_Content extends Zikula_AbstractApi
             return false;
         }
         DBUtil::deleteObjectByID('content_content', $contentId);
-
-        $table = DBUtil::getTables();
-        $searchTable = $table['content_searchable'];
-        $searchColumn = $table['content_searchable_column'];
-
-        $sql = "DELETE FROM $searchTable WHERE $searchColumn[contentId] = $contentId";
-        DBUtil::executeSQL($sql);
+        DBUtil::deleteObjectByID('content_searchable', $contentId, 'contentId');
 
         $ok = $this->deleteTranslation(array('contentId' => $contentId, 'includeHistory' => false));
         if ($ok === false) {
@@ -468,16 +455,12 @@ class Content_Api_Content extends Zikula_AbstractApi
         $translated = $args['translated'];
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
-        $table = DBUtil::getTables();
-        $translatedTable = $table['content_translatedcontent'];
-        $translatedColumn = $table['content_translatedcontent_column'];
-
         // Delete optional existing translation
-        $where = "$translatedColumn[contentId] = $contentId AND $translatedColumn[language] = '$language'";
-        DBUtil::deleteWhere('content_translatedcontent', $where);
+        $translatedData = array('contentId' => $contentId, 'language' => $language);
+        DBUtil::deleteObject($translatedData, 'content_translatedcontent', '', 'contentId');
 
         // Insert new
-        $translatedData = array('contentId' => $contentId, 'language' => $language, 'data' => serialize($translated));
+        $translatedData['data'] = serialize($translated);
         DBUtil::insertObject($translatedData, 'content_translatedcontent');
 
         $content = $this->getContent(array('id' => $contentId));
@@ -502,16 +485,11 @@ class Content_Api_Content extends Zikula_AbstractApi
         $language = isset($args['language']) ? $args['language'] : null;
         $includeHistory = isset($args['includeHistory']) ? $args['includeHistory'] : true;
 
-        $table = DBUtil::getTables();
-        $translatedColumn = $table['content_translatedcontent_column'];
-
-        // Delete existing translation
+        $translatedData = array('contentId' => $contentId);
         if ($language != null) {
-            $where = "$translatedColumn[contentId] = $contentId AND $translatedColumn[language] = '" . DataUtil::formatForStore($language) . "'";
-        } else {
-            $where = "$translatedColumn[contentId] = $contentId";
+            $translatedData['language'] = $language;
         }
-        DBUtil::deleteWhere('content_translatedcontent', $where);
+        DBUtil::deleteObject($translatedData, 'content_translatedcontent', '', 'contentId');
 
         // Get content to find page ID
         if ($includeHistory) {
@@ -563,12 +541,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         $contentId = (isset($args['contentId']) ? (int) $args['contentId'] : null);
         $pageId = (isset($args['pageId']) ? (int) $args['pageId'] : null);
 
-        $table = DBUtil::getTables();
-        $contentTable = $table['content_content'];
-        $contentColumn = $table['content_content_column'];
-
         // fetch content + page info
-
 
         if ($contentId != null) {
             $contentItem = $this->getContent(array('id' => $contentId));
@@ -593,7 +566,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
         $translatableItems = array();
         foreach ($contentItems as $item) {
-            if ($item['plugin']->isTranslatable()) {
+            if (isset($item['plugin']) && $item['plugin']->isTranslatable()) {
                 $translatableItems[] = $item;
             }
         }
