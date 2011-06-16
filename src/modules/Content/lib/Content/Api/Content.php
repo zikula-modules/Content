@@ -457,7 +457,7 @@ class Content_Api_Content extends Zikula_AbstractApi
 
         // Delete optional existing translation
         $translatedData = array('contentId' => $contentId, 'language' => $language);
-        DBUtil::deleteObject ($translatedData, 'content_translatedcontent', '', 'contentId');
+        DBUtil::deleteObject($translatedData, 'content_translatedcontent', '', 'contentId');
 
         // Insert new
         $translatedData['data'] = serialize($translated);
@@ -489,7 +489,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         if ($language != null) {
             $translatedData['language'] = $language;
         }
-        DBUtil::deleteObject ($translatedData, 'content_translatedcontent', '', 'contentId');
+        DBUtil::deleteObject($translatedData, 'content_translatedcontent', '', 'contentId');
 
         // Get content to find page ID
         if ($includeHistory) {
