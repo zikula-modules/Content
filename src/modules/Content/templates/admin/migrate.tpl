@@ -19,7 +19,7 @@
 
             <div class="z-formbuttons z-buttons">
                 {button src='button_ok.png' set='icons/extrasmall' __alt='Migrate' __title='Migrate' __text='Migrate'}
-                <a href="{modurl modname='Content' type='admin' func='view'}">{img modname='core' src='button_cancel.png' set='icons/extrasmall' __alt='Cancel'  __title='Cancel'} {gt text='Cancel'}</a>
+                <a href="{modurl modname='Content' type='admin' func='main'}">{img modname='core' src='button_cancel.png' set='icons/extrasmall' __alt='Cancel'  __title='Cancel'} {gt text='Cancel'}</a>
             </div>
         </div>
     </form>
