@@ -143,6 +143,7 @@ class Content_Api_History extends Zikula_AbstractApi
         foreach (array_keys($page['content']) as $i) {
             foreach (array_keys($page['content'][$i]) as $j) {
                 $c = & $page['content'][$i][$j];
+                $c['plugin']->destroyView();
                 unset($c['plugin']);
                 unset($c['output']);
                 unset($c['translated']);
