@@ -13,6 +13,7 @@
     <table class="z-datatable">
         <thead>
             <tr>
+                <th>{gt text="Original page title"}</th>
                 <th>{gt text="Date"}</th>
                 <th>{gt text="User"}</th>
                 <th>{gt text="IP.No."}</th>
@@ -22,6 +23,7 @@
         <tbody>
             {foreach from=$versions item=version}
             <tr class="{cycle values="z-odd,z-even"}">
+                <td>{$version.data.page.title}</td>
                 <td class="z-nowrap"><a href="{modurl modname='Content' type='user' func='view' vid=$version.id}">{$version.date|dateformat:'datetimebrief'}</a></td>
                 <td>{$version.userId|profilelinkbyuid}</td>
                 <td>{$version.ipno}</td>

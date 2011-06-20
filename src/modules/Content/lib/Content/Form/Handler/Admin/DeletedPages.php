@@ -18,8 +18,11 @@ class Content_Form_Handler_Admin_DeletedPages extends Zikula_Form_AbstractHandle
 
         // Assign the values for the smarty plugin to produce a pager
         $this->view->assign('numitems', $versionscnt);
+        foreach ($versions as &$version) {
+            $version['data'] = unserialize($version['data']);
+        }
         $this->view->assign('versions', $versions);
-
+        
         PageUtil::setVar('title', $this->__("Restore deleted pages"));
 
         return true;
