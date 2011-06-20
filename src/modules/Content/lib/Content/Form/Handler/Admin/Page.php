@@ -123,14 +123,15 @@ class Content_Form_Handler_Admin_Page extends Zikula_Form_AbstractHandler
             }
             $url = ModUtil::url('Content', 'admin', 'editcontent', array('cid' => $clonedId));
         } else if ($args['commandName'] == 'deletePage') {
-            $validators = $this->notifyHooks(new Zikula_ValidationHook('content.hook.pages.validate_delete', $this->pageId, new Zikula_Hook_ValidationProviders()))->getValidators();
+            $hook = new Zikula_ValidationHook('content.ui_hooks.pages.validate_delete', new Zikula_Hook_ValidationProviders());
+            $validators = $this->notifyHooks($hook)->getValidators();
             if (!$validators->hasErrors()) {
                 $ok = ModUtil::apiFunc('Content', 'Page', 'deletePage', array('pageId' => $this->pageId));
                 if ($ok === false) {
                     return $this->view->registerError(null);
                 }
                 // notify any hooks they may now commit the as the original form has been committed.
-                $this->notifyHooks(new Zikula_ProcessHook('content.hook.pages.process_delete', $this->pageId));
+                $this->notifyHooks(new Zikula_ProcessHook('content.ui_hooks.pages.process_delete', $this->pageId));
             }
             $url = ModUtil::url('Content', 'admin', 'main');
         } else if ($args['commandName'] == 'cancel') {
