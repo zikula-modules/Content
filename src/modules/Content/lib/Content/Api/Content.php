@@ -369,7 +369,7 @@ class Content_Api_Content extends Zikula_AbstractApi
             $id = $contentData['id']; // ID of object we just inserted
 
             if ($cloneTranslation) {
-                $translations = DBUtil::selectObjectArray('content_translatedcontent', "contentId = $id");
+                $translations = DBUtil::selectObjectArray('content_translatedcontent', "$translatedColumn[contentId] = $id");
                 if (!($translations === false) && count($translations) > 0) {
                     foreach ($translations as &$t) {
                         $t['contentId'] = $id;
