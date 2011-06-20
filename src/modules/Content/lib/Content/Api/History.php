@@ -294,7 +294,14 @@ class Content_Api_History extends Zikula_AbstractApi
         unset($page['layoutTemplate']);
         unset($page['content']);
 
-        $currentPage = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
+        $currentPage = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+            'id' => $pageId, 
+            'editing' => false, 
+            'filter' => array('checkActive' => false), 
+            'enableEscape' => true, 
+            'translate' => false, 
+            'includeContent' => false, 
+            'includeCategories' => false));
         if ($currentPage === false) {
             // is a deleted page
             $retval = ModUtil::apiFunc('Content', 'Page', 'reinsertPage', array('page' => $page));

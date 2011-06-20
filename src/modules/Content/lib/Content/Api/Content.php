@@ -267,7 +267,9 @@ class Content_Api_Content extends Zikula_AbstractApi
         unset($contentData['id']);
 
         if ($cloneTranslation) {
-            $translations = DBUtil::selectObjectArray('content_translatedcontent', "contentId = $contentId");
+            $tables = DBUtil::getTables();
+            $translatedColumn = $tables['content_translatedcontent_column'];
+            $translations = DBUtil::selectObjectArray('content_translatedcontent', "$translatedColumn[contentId] = $contentId");
         }
 
         if (!$this->contentMoveContentDown($contentData['position'], $contentData['areaIndex'], $contentData['pageId'])) {

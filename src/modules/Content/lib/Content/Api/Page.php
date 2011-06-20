@@ -440,7 +440,10 @@ class Content_Api_Page extends Zikula_AbstractApi
             return LogUtil::registerError($this->__('Error! There is already another page registered with the supplied permalink URL.'));
         }
 
-        $oldPageData = $this->getPage(array('id' => $pageId, 'editing' => true, 'filter' => array('checkActive' => false)));
+        $oldPageData = $this->getPage(array(
+            'id' => $pageId, 
+            'editing' => true, 
+            'filter' => array('checkActive' => false)));
         if ($oldPageData === false) {
             return false;
         }
@@ -859,40 +862,40 @@ class Content_Api_Page extends Zikula_AbstractApi
     }
 
     // could not find usage of this method in the module
-    public function updateNestedSetValues($args = null)
-    {
-        $count = -1;
-        $level = -1;
-
-        $ok = $this->contentUpdateNestedSetValues_Rec(0, $level, $count);
-
-        return $ok;
-    }
+//    public function updateNestedSetValues($args = null)
+//    {
+//        $count = -1;
+//        $level = -1;
+//
+//        $ok = $this->contentUpdateNestedSetValues_Rec(0, $level, $count);
+//
+//        return $ok;
+//    }
 
     // could not find usage of this method in the module
-    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count)
-    {
-        $pageId = (int) $pageId;
-
-        $left = $count++;
-
-        $ids = DBUtil::selectFieldArray('content_page', 'id', "parentPageId = $pageId", 'position');
-        foreach ($ids as $subPageId) {
-            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count);
-        }
-
-        $right = $count++;
-
-        $obj = array(
-            'setLeft'   => $left,
-            'setRight'  => $right,
-            'level'     => $level,
-            'id'        => $pageId
-            );
-        DBUtil::updateObject ($obj, 'content_page');
-
-        return true;
-    }
+//    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count)
+//    {
+//        $pageId = (int) $pageId;
+//
+//        $left = $count++;
+//
+//        $ids = DBUtil::selectFieldArray('content_page', 'id', "parentPageId = $pageId", 'position');
+//        foreach ($ids as $subPageId) {
+//            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count);
+//        }
+//
+//        $right = $count++;
+//
+//        $obj = array(
+//            'setLeft'   => $left,
+//            'setRight'  => $right,
+//            'level'     => $level,
+//            'id'        => $pageId
+//            );
+//        DBUtil::updateObject ($obj, 'content_page');
+//
+//        return true;
+//    }
 
     public function pageDrop($args)
     {
