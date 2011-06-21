@@ -17,13 +17,22 @@ class Content_Form_Handler_Admin_HistoryContent extends Zikula_Form_AbstractHand
         if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
             throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'editing' => false, 'filter' => array('checkActive' => false), 'enableEscape' => true, 'translate' => false, 'includeContent' => false, 'includeCategories' => false));
+        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+            'id' => $this->pageId, 
+            'editing' => false, 
+            'filter' => array('checkActive' => false), 
+            'enableEscape' => true, 
+            'translate' => false, 
+            'includeContent' => false, 
+            'includeCategories' => false));
         if ($page === false) {
             return $this->view->registerError(null);
         }
 
         $versionscnt = ModUtil::apiFunc('Content', 'History', 'getPageVersionsCount', array('pageId' => $this->pageId));
-        $versions = ModUtil::apiFunc('Content', 'History', 'getPageVersions', array('pageId' => $this->pageId, 'offset' => $offset));
+        $versions = ModUtil::apiFunc('Content', 'History', 'getPageVersions', array(
+            'pageId' => $this->pageId, 
+            'offset' => $offset));
         if ($versions === false) {
             return $this->view->registerError(null);
         }
