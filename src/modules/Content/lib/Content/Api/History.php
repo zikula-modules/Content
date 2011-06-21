@@ -149,6 +149,7 @@ class Content_Api_History extends Zikula_AbstractApi
                 unset($c['translated']);
             }
         }
+        $page['layoutData']['plugin']->destroyView();
 
         $pageTranslations = ModUtil::apiFunc('Content', 'Page', 'getTranslations',
                         array('pageId' => $pageId));
