@@ -30,9 +30,12 @@ function smarty_function_contenthtmleditor($params, $view)
 
     if ($useWysiwyg && ModUtil::available('Scribite'))
     {
+        $selectedEditor = ModUtil::getVar('Content', 'scribiteEditor', '-');
+        $editor = ($selectedEditor <> '-') ? $selectedEditor : null;
         $scribite = ModUtil::apiFunc('Scribite', 'User', 'loader', array(
                     'modulename' => 'Content',
-                    'areas' => array($inputId)));
+                    'areas' => array($inputId),
+                    'editor' => $editor));
         if (isset($scribite)) {
             PageUtil::AddVar('header', $scribite);
         } else {

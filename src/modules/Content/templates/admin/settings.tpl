@@ -39,6 +39,13 @@
             {formtextinput id='flickrApiKey' group="config" maxLength='255'}
             <em class="z-sub z-formnote">{gt text='If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href="http://www.flickr.com/api">flickr.com</a>.'}</em>
         </div>
+        {if isset($editors)}
+        <div class="z-formrow">
+            {formlabel for='scribiteEditor' __text='Scribite editor'}
+            {formdropdownlist id='scribiteEditor' items=$editors group="config"}
+            <em class="z-sub z-formnote">{gt text='Selecting "-" here will use the scribite default editor. If no default editor is set in scribite, then no editor will display.'}<br />{gt text='Creating Content-specific module settings in the Scribite settings will have no effect.'}</em>
+        </div>
+        {/if}
         <div class="z-formrow">
             {formlabel for='enableRawPlugin' __text='Enable the unfiltered raw text plugin'}
             {formcheckbox id='enableRawPlugin' group="config"}
