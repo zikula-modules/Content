@@ -73,7 +73,7 @@ class Content_Form_Handler_Admin_NewPage extends Zikula_Form_AbstractHandler
                     return false;
                 }
                 // notify any hooks they may now commit the as the original form has been committed.
-                $objectUrl = new Zikula_ModUrl('Content', 'User', 'view', ZLanguage::getLanguageCode(), array('pid' => $this->pageId));
+                $objectUrl = new Zikula_ModUrl('Content', 'user', 'view', ZLanguage::getLanguageCode(), array('pid' => $this->pageId));
                 $this->notifyHooks(new Zikula_ProcessHook('content.ui_hooks.pages.process_edit', $this->pageId, $objectUrl));
             } else {
                 return false;
