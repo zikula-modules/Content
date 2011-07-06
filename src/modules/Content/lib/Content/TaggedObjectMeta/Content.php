@@ -24,7 +24,7 @@ class Content_TaggedObjectMeta_Content extends Tag_AbstractTaggedObjectMeta
             $this->setObjectDate($page['cr_date']);
             $this->setObjectTitle(html_entity_decode($page['title']));
             // do not use default objectURL to compensate for shortUrl handling
-            $this->setObjectUrl(ModUtil::url('News', 'user', 'display', array('sid' => $this->getObjectId())));
+            $this->setObjectUrl(ModUtil::url('Content', 'user', 'view', array('pid' => $this->getObjectId())));
         }
     }
 
