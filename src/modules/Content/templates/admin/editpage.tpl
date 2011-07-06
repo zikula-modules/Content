@@ -16,7 +16,6 @@
     {{/foreach}}
     //]]>
 </script>
-{include file="admin/menu.tpl"}
 
 {adminheader}
 <div class="z-admin-content-pagetitle">
