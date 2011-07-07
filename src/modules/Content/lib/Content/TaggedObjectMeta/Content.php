@@ -15,16 +15,20 @@ class Content_TaggedObjectMeta_Content extends Tag_AbstractTaggedObjectMeta
     {
         parent::__construct($objectId, $areaId, $module, $objectUrl);
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
-                'id' => $this->getObjectId(),
-                'preview' => false,
-                'includeContent' => false));
-        if ($page) {
-            $this->setObjectAuthor($page['uname']);
-            $this->setObjectDate($page['cr_date']);
-            $this->setObjectTitle(html_entity_decode($page['title']));
-            // do not use default objectURL to compensate for shortUrl handling
-            $this->setObjectUrl(ModUtil::url('Content', 'user', 'view', array('pid' => $this->getObjectId())));
+        $perm = SecurityUtil::checkPermission('Content:page:', $objectId . '::', ACCESS_READ);
+        if ($perm) {
+            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+                    'id' => $this->getObjectId(),
+                    'preview' => false,
+                    'includeContent' => false));
+            // the Page Api resolves page active status and availabilty times
+            if ($page) {
+                $this->setObjectAuthor($page['uname']);
+                $this->setObjectDate($page['cr_date']);
+                $this->setObjectTitle(html_entity_decode($page['title']));
+                // do not use default objectURL to compensate for shortUrl handling
+                $this->setObjectUrl(ModUtil::url('Content', 'user', 'view', array('pid' => $this->getObjectId())));
+            }
         }
     }
 
