@@ -60,7 +60,7 @@ class content_contenttypesapi_pagenavigationPlugin extends contentTypeBase
             }
         }
 
-        if ($page['position'] === '0' || $page['position'] > 0) {
+        if (isset($page['position']) && $page['position'] >= 0) {
             $options['orderDir'] = 'asc';
             $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
             $pages = pnModAPIFunc('content', 'page', 'getPages', $options);
