@@ -6,7 +6,7 @@
 <div class="content-pageinfo">
     <a href="#" onclick="return content.pageInfo.toggle({$page.id})" style="float: left; padding: 5px 3px;">{img src='info.png' modname='core' set='icons/extrasmall' __alt='Properties' }</a>
     <div class="content" id="contentPageInfo-{$page.id}" style="display: none" onmouseover="content.pageInfo.mouseover()" onmouseout="content.pageInfo.mouseout()">
-        <h4>{$page.title|truncate:200|safetext}</h4>
+        <h4>{$page.title|truncate:200|safetext} [{$page.id}]</h4>
         <ul>
             {if $editmode}
             <li><a class="con_image editoff" href="{modurl modname='Content' type='user' func='view' pid=$page.id editmode="0"}">{gt text="Edit-mode off"}</a></li>
