@@ -101,6 +101,9 @@ class content_edit_mainHandler extends pnFormHandler
         } else if ($args['commandName'] == 'history') {
             $pageId = (int) $args['commandArgument'];
             $url = pnModUrl('content', 'edit', 'history', array('pid' => $pageId));
+        } else if ($args['commandName'] == 'sortPagesBelowByName') {
+            if (!pnModAPIFunc('content', 'page', 'orderPages', array('pageId' => $pageId)))
+                return $render->pnFormRegisterError(null);
         } else if ($args['commandName'] == 'toggleExpand') {
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             contentMainEditExpandToggle($pageId);

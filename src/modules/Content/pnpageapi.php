@@ -1378,3 +1378,27 @@ function contentSetInitialPageState(&$page)
             break;
     }
 }
+
+function content_pageapi_orderPages($args)
+{
+    $pageId = (int) $args['pageId'];
+    $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false)));
+    if ($page === false)
+        return false;
+
+    $count = $page['setLeft'];
+    $level = $page['level'];
+
+    $subpages = pnModAPIFunc('content', 'page', 'getPages', array('orderBy' => 'title', 'filter' => array('checkActive' => false, 'parentId' => $pageId)));
+
+    for ($i = 0; $i < count($subpages); $i++) {
+        $page = $subpages[$i];
+        $page['position'] = $i;
+        DBUtil::updateObject($page, 'content_page');
+    }
+
+    list ($dbconn) = pnDBGetConn();
+    $pntable = pnDBGetTables();
+
+    return contentUpdateNestedSetValues_Rec($pageId, $level, $count, $dbconn, $pntable);
+}
