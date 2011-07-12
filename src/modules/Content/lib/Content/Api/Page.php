@@ -1414,14 +1414,14 @@ class Content_Api_Page extends Zikula_AbstractApi
     protected function orderPages($args)
     {
         $pageId = (int) $args['pageId'];
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $pageId, 'filter' => array('checkActive' => false)));
+        $page = $this->getPage(array('id' => $pageId, 'filter' => array('checkActive' => false)));
         if ($page === false)
             return false;
  
         $count = $page['setLeft'];
         $level = $page['level'];
  
-        $subpages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('orderBy' => 'title', 'filter' => array('checkActive' => false, 'parentId' => $pageId)));
+        $subpages = $this->getPages(array('orderBy' => 'title', 'filter' => array('checkActive' => false, 'parentId' => $pageId)));
  
         for ($i = 0; $i < count($subpages); $i++) {
             $page = $subpages[$i];
