@@ -1415,8 +1415,9 @@ class Content_Api_Page extends Zikula_AbstractApi
     {
         $pageId = (int) $args['pageId'];
         $page = $this->getPage(array('id' => $pageId, 'filter' => array('checkActive' => false)));
-        if ($page === false)
+        if ($page === false) {
             return false;
+        }
  
         $count = $page['setLeft'];
         $level = $page['level'];
