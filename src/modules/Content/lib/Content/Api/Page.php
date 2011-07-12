@@ -872,30 +872,29 @@ class Content_Api_Page extends Zikula_AbstractApi
 //        return $ok;
 //    }
 
-    // could not find usage of this method in the module
-//    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count)
-//    {
-//        $pageId = (int) $pageId;
-//
-//        $left = $count++;
-//
-//        $ids = DBUtil::selectFieldArray('content_page', 'id', "parentPageId = $pageId", 'position');
-//        foreach ($ids as $subPageId) {
-//            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count);
-//        }
-//
-//        $right = $count++;
-//
-//        $obj = array(
-//            'setLeft'   => $left,
-//            'setRight'  => $right,
-//            'level'     => $level,
-//            'id'        => $pageId
-//            );
-//        DBUtil::updateObject ($obj, 'content_page');
-//
-//        return true;
-//    }
+    protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count)
+    {
+        $pageId = (int) $pageId;
+
+        $left = $count++;
+
+        $ids = DBUtil::selectFieldArray('content_page', 'id', "parentPageId = $pageId", 'position');
+        foreach ($ids as $subPageId) {
+            $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count);
+        }
+
+        $right = $count++;
+
+        $obj = array(
+            'setLeft'   => $left,
+            'setRight'  => $right,
+            'level'     => $level,
+            'id'        => $pageId
+            );
+        DBUtil::updateObject ($obj, 'content_page');
+
+        return true;
+    }
 
     public function pageDrop($args)
     {
@@ -1406,5 +1405,31 @@ class Content_Api_Page extends Zikula_AbstractApi
                 $page['inMenu'] = 0;
                 break;
         }
+    }
+
+    /**
+     * orders subpages of a slected page by title
+     * @param array $pageId
+     */
+    protected function orderPages($args)
+    {
+        $pageId = (int) $args['pageId'];
+        $page = $this->getPage(array('id' => $pageId, 'filter' => array('checkActive' => false)));
+        if ($page === false) {
+            return false;
+        }
+ 
+        $count = $page['setLeft'];
+        $level = $page['level'];
+ 
+        $subpages = $this->getPages(array('orderBy' => 'title', 'filter' => array('checkActive' => false, 'parentId' => $pageId)));
+ 
+        for ($i = 0; $i < count($subpages); $i++) {
+            $page = $subpages[$i];
+            $page['position'] = $i;
+            DBUtil::updateObject($page, 'content_page');
+        }
+
+        return $this->contentUpdateNestedSetValues_Rec($pageId, $level, $count);
     }
 }

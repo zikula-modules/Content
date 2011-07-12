@@ -82,6 +82,10 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
         } else if ($args['commandName'] == 'history') {
             $pageId = (int) $args['commandArgument'];
             $url = ModUtil::url('Content', 'admin', 'history', array('pid' => $pageId));
+        } else if ($args['commandName'] == 'sortPagesBelowByTitle') {
+            $ok = ModUtil::apiFunc('Content', 'Page', 'orderPages', array('pageId' => $pageId));
+            if ($ok === false) {
+                return $this->view->registerError(null);
         } else if ($args['commandName'] == 'toggleExpand') {
             $pageId = FormUtil::getPassedValue('contentTogglePageId', null, 'POST');
             Content_Util::contentMainEditExpandToggle($pageId);
