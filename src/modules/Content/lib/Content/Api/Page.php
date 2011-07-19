@@ -878,7 +878,11 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         $left = $count++;
 
-        $ids = DBUtil::selectFieldArray('content_page', 'id', "page_ppid = $pageId", 'page_pos');
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
+
+        $ids = DBUtil::selectFieldArray('content_page', 'id', "$pageColumn[parentPageId] = $pageId", "$pageColumn[position]");
         foreach ($ids as $subPageId) {
             $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count);
         }
