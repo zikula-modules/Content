@@ -83,6 +83,7 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
             $pageId = (int) $args['commandArgument'];
             $url = ModUtil::url('Content', 'admin', 'history', array('pid' => $pageId));
         } else if ($args['commandName'] == 'sortPagesBelowByTitle') {
+            $pageId = (int)$args['commandArgument'];
             $ok = ModUtil::apiFunc('Content', 'Page', 'orderPages', array('pageId' => $pageId));
             if ($ok === false) {
                 return $this->view->registerError(null);

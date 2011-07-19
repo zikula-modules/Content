@@ -36,14 +36,16 @@ content.addDraggablePage = function(id)
 }
 
 
-/*=[ Drag/drop content ]=========================================================*/
+/*=[ Drag/drop content, see also portal.js ]=====================================*/
 
 content.items = new Array();
 
 content.editPageOnLoad = function()
 {
-    // get "columns" in correct order
-    columns = $$("table.content-layout-edit td").sort(function(el1,el2) { return el1.id >= el2.id; });
+    // get "columns" in correct order. 0, 1, 2, .. or 00, 01, 02, .., 09, 10, 11, ..
+    // only select the table cells that have class content-area. Placeholder cells can be 
+    // used with class content-area-inactive for the correct layout and no drag functionality.
+    columns = $$("table.content-layout-edit td.content-area").sort(function(el1,el2) { return el1.id >= el2.id; });
   
     // Get new portal object
     content.portal = new Xilinus.Portal(columns, { onUpdate: content.editPageHandleUpdate }) 

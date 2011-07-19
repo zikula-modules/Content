@@ -878,7 +878,11 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         $left = $count++;
 
-        $ids = DBUtil::selectFieldArray('content_page', 'id', "parentPageId = $pageId", 'position');
+        $dbtables = DBUtil::getTables();
+        $pageTable = $dbtables['content_page'];
+        $pageColumn = $dbtables['content_page_column'];
+
+        $ids = DBUtil::selectFieldArray('content_page', 'id', "$pageColumn[parentPageId] = $pageId", "$pageColumn[position]");
         foreach ($ids as $subPageId) {
             $this->contentUpdateNestedSetValues_Rec($subPageId, $level + 1, $count);
         }
@@ -1411,7 +1415,7 @@ class Content_Api_Page extends Zikula_AbstractApi
      * orders subpages of a slected page by title
      * @param array $pageId
      */
-    protected function orderPages($args)
+    public function orderPages($args)
     {
         $pageId = (int) $args['pageId'];
         $page = $this->getPage(array('id' => $pageId, 'filter' => array('checkActive' => false)));

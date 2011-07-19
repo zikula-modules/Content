@@ -532,6 +532,8 @@ class Content_Installer extends Zikula_AbstractInstaller
             'column3_255025_header' => 'Column3d255025',
             'column3_502525_header' => 'Column3d502525',
             'column3header' => 'Column3header',
+            'column2_1_2_1_2header' => 'Column21212',
+            'column21212_header_rightcol' => 'Column21212rightcol',
         );
         return $oldToNew;
     }
