@@ -34,7 +34,7 @@ class content_layouttypesapi_column21212_header_rightcolPlugin extends contentLa
     }
     function getName()
     {
-        return 'column221212_header_rightcol';
+        return 'column21212_header_rightcol';
     }
     function getTitle()
     {
