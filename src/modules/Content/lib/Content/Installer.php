@@ -253,6 +253,27 @@ class Content_Installer extends Zikula_AbstractInstaller
 
     protected function contentUpgrade_4_0_0($oldVersion)
     {
+        // remove table prefixes manually
+        $prefix = $this->serviceManager['prefix'];
+        $connection = Doctrine_Manager::getInstance()->getConnection('default');
+        $sqlStatements = array();
+        // N.B. statements generated with PHPMyAdmin
+        $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_content_content' . " TO content_content";
+        $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_content_history' . " TO content_history";
+        $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_content_page' . " TO content_page";
+        $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_content_pagecategory' . " TO content_pagecategory";
+        $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_content_searchable' . " TO content_searchable";
+        $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_content_translatedcontent' . " TO content_translatedcontent";
+        $sqlStatements[] = 'RENAME TABLE ' . $prefix . '_content_translatedpage' . " TO content_translatedpage";
+        
+        foreach ($sqlStatements as $sql) {
+            $stmt = $connection->prepare($sql);
+            try {
+                $stmt->execute();
+            } catch (Exception $e) {
+            }   
+        }
+
         // update tables with new indexes
         if (!DBUtil::changeTable('content_page')) {
             return false;

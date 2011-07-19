@@ -13,7 +13,7 @@ function content_tables()
     $tables = array();
 
     // Page setup (pages can be nested beneath each other)
-    $tables['content_page'] = DBUtil::getLimitedTablename('content_page');
+    $tables['content_page'] = 'content_page';
     $tables['content_page_column'] = array(
         'id'                => 'page_id',               // Page ID
         'parentPageId'      => 'page_ppid',             // Parent (containing) page ID
@@ -69,7 +69,7 @@ function content_tables()
                                                'urlname' => array('urlname', 'parentPageId'));
 
     // Content setup (multiple content items on each page)
-    $tables['content_content'] = DBUtil::getLimitedTablename('content_content');
+    $tables['content_content'] = 'content_content';
     $tables['content_content_column'] = array(
         'id'              => 'con_id',          // Content item ID
         'pageId'          => 'con_pageid',      // Reference to owner page ID
@@ -107,7 +107,7 @@ function content_tables()
                                                   'pagePosition' => array('pageId', 'areaIndex', 'position'));
 
     // Multiple category relation
-    $tables['content_pagecategory'] = DBUtil::getLimitedTablename('content_pagecategory');
+    $tables['content_pagecategory'] = 'content_pagecategory';
     $tables['content_pagecategory_column'] = array(
         'pageId'     => 'con_pageid',       // Related page ID
         'categoryId' => 'con_categoryid'    // Related category ID
@@ -121,7 +121,7 @@ function content_tables()
 
 
     // Searchable text from content plugins
-    $tables['content_searchable'] = DBUtil::getLimitedTablename('content_searchable');
+    $tables['content_searchable'] = 'content_searchable';
     $tables['content_searchable_column'] = array(
         'contentId' => 'search_cid',    // Content ID
         'text'      => 'search_text'    // Content searchable text
@@ -134,7 +134,7 @@ function content_tables()
 
   
     // Translated pages
-    $tables['content_translatedpage'] = DBUtil::getLimitedTablename('content_translatedpage');
+    $tables['content_translatedpage'] = 'content_translatedpage';
     $tables['content_translatedpage_column'] = array(
         'pageId'            => 'transp_pid',                // Page ID
         'language'          => 'transp_lang',               // Translated to language
@@ -156,7 +156,7 @@ function content_tables()
 
 
     // Translated content plugins
-    $tables['content_translatedcontent'] = DBUtil::getLimitedTablename('content_translatedcontent');
+    $tables['content_translatedcontent'] = 'content_translatedcontent';
     $tables['content_translatedcontent_column'] = array(
         'contentId' => 'transc_cid',     // Content ID
         'language'  => 'transc_lang',    // Translated to language
@@ -174,7 +174,7 @@ function content_tables()
 
 
     // History
-    $tables['content_history'] = DBUtil::getLimitedTablename('content_history');
+    $tables['content_history'] = 'content_history';
     $tables['content_history_column'] = array(
         'id'            => 'ch_id',
         'pageId'        => 'ch_pageid',
