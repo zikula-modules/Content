@@ -309,8 +309,8 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         // Delete entries from category registry
         ModUtil::dbInfoLoad('Categories');
-        DBUtil::deleteWhere('categories_registry', "crg_modname='Content'");
-        DBUtil::deleteWhere('categories_mapobj', "cmo_modname='Content'");
+        DBUtil::deleteWhere('categories_registry', "modname='Content'");
+        DBUtil::deleteWhere('categories_mapobj', "modname='Content'");
 
         // unregister handlers
         EventUtil::unregisterPersistentModuleHandlers('Content');
@@ -452,16 +452,18 @@ class Content_Installer extends Zikula_AbstractInstaller
             return;
         }
         $modinfo = ModUtil::getInfoFromName($modname);
-        $oldnames = $modinfo['oldnames'];
+        $oldnames = isset($modinfo['oldnames']) ? $modinfo['oldnames'] : null;
         ModUtil::dbInfoLoad('Content');
         $tables = DBUtil::getTables();
         $table = $tables['content_content'];
         $columns = $tables['content_content_column'];
         // SQL is case insensitive on WHERE clauses
         $where = "WHERE " . $columns['module'] . "='" . $modname . "'";
-        foreach ($oldnames as $oldname) {
-            if (strcasecmp($oldname, $modname) != 0) { // case INsensitive comparison
-                $where .= " OR " . $columns['module'] . "='" . $oldname . "'";
+        if (isset($oldnames)) {
+            foreach ($oldnames as $oldname) {
+                if (strcasecmp($oldname, $modname) != 0) { // case INsensitive comparison
+                    $where .= " OR " . $columns['module'] . "='" . $oldname . "'";
+                }
             }
         }
         $columnArray = array('id', 'module', 'type');

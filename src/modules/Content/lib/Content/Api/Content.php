@@ -760,7 +760,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         if (!class_exists($classname)) {
             return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the class is not defined. Upgrade of %2$s module required.', array($args['type'], $args['module'])));
         }
-        $type = FormUtil::getPassedValue('type', 'user');
+        $type = strtolower(FormUtil::getPassedValue('type', 'user'));
         if ($type == 'user') {
             $view = Zikula_View::getInstance($args['module']);
         } elseif ($type == 'admin' && $view == null) {

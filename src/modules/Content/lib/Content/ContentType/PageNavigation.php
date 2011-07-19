@@ -48,7 +48,7 @@ class Content_ContentType_PageNavigation extends Content_AbstractContentType
             }
         }
 
-        if ($page['position']) {
+        if (isset($page['position']) && $page['position'] >= 0) {
             $options['orderDir'] = 'asc';
             $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
             $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
