@@ -238,6 +238,13 @@ table.content-layout-edit td.content-area {
     vertical-align: top;
 }
 
+/* For placeholder table cells in the edit layout use this class */
+table.content-layout-edit td.content-area-inactive {
+    border: 1px dashed #a77;
+    vertical-align: top;
+    background-color: #fee;
+}
+
 /* Portal widget specific */
 .widget {
     border: 1px solid #bbb;

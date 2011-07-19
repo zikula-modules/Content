@@ -141,6 +141,8 @@ class Content_Util
         $types->add('Content_LayoutType_Column3d255025');
         $types->add('Content_LayoutType_Column3d502525');
         $types->add('Content_LayoutType_Column3header');
+        $types->add('Content_LayoutType_Column21212');
+        $types->add('Content_LayoutType_Column21212rightcol');
     }
 
 }
