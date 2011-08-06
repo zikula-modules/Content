@@ -113,6 +113,7 @@ function content_upgrade($oldVersion)
             $ok = $ok && contentUpgrade_3_2_0($oldVersion);
         case '3.2.0':
             $ok = $ok && contentUpgrade_3_2_1($oldVersion);
+        case '3.2.1':
         // future
     }
 
