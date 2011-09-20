@@ -3,12 +3,23 @@
 /**
  * Content BreadCrumb Plugin
  *
- * @copyright (C) 2010, Sven Strickroth, TU Clausthal
+ * @copyright (C) 2010 - 2011, Sven Strickroth <email@cs-ware.de>
  * @link http://code.zikula.org/content
  * @license See license.txt
  */
 class Content_ContentType_Breadcrumb extends Content_AbstractContentType
 {
+    protected $includeSelf;
+
+    public function getIncludeSelf()
+    {
+        return $this->includeSelf;
+    }
+
+    public function setIncludeSelf($includeSelf)
+    {
+        $this->includeSelf = $includeSelf;
+    }
 
     function getTitle()
     {
@@ -25,6 +36,18 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
         return false;
     }
 
+    function loadData(&$data)
+    {
+        if (isset($data['includeSelf']))
+        {
+            $this->includeSelf = $data['includeSelf'];
+        }
+        else
+        {
+            $this->includeSelf = true;
+        }
+    }
+
     function display()
     {
         $path = array();
@@ -34,7 +57,10 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
                         'id' => $pageid,
                         'includeContent' => false,
                         'translate' => false));
-            array_unshift($path, $page);
+            if (!isset($this->includeSelf) || $this->includeSelf || $pageid != $this->getPageId())
+            {
+                array_unshift($path, $page);
+            }
             $pageid = $page['parentPageId'];
         }
 
@@ -51,7 +77,7 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
 
     function getDefaultData()
     {
-        return array();
+        return array('includeSelf' => true);
     }
 
 }
