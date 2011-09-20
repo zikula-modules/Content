@@ -11,9 +11,11 @@
 class content_contenttypesapi_breadcrumbPlugin extends contentTypeBase
 {
     var $pageid;
+    var $includeSelf;
     function content_contenttypesapi_breadcrumbPlugin($data)
     {
         $this->pageid = $data['pageId'];
+        $this->includeSelf = $data['includeSelf'];
     }
     function getModule()
     {
@@ -37,13 +39,23 @@ class content_contenttypesapi_breadcrumbPlugin extends contentTypeBase
     {
         return false;
     }
+    function loadData($data)
+    {
+        if (isset($data['includeSelf'])) {
+            $this->includeSelf = $data['includeSelf'];
+        } else {
+            $this->includeSelf = true;
+        }
+    }
     function display()
     {
         $path = array();
         $pageid = $this->pageid;
         while ($pageid > 0) {
             $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageid, 'includeContent' => false, 'translate' => false));
-            array_unshift($path, $page);
+            if ($this->includeSelf || $pageid != $this->pageid) {
+                array_unshift($path, $page);
+            }
             $pageid = $page['parentPageId'];
         }
 
@@ -59,7 +71,7 @@ class content_contenttypesapi_breadcrumbPlugin extends contentTypeBase
     }
     function getDefaultData()
     {
-        return array();
+        return array('includeSelf' => true);
     }
 }
 
