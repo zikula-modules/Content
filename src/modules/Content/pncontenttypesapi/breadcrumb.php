@@ -53,7 +53,7 @@ class content_contenttypesapi_breadcrumbPlugin extends contentTypeBase
         $pageid = $this->pageid;
         while ($pageid > 0) {
             $page = pnModAPIFunc('content', 'page', 'getPage', array('id' => $pageid, 'includeContent' => false, 'translate' => false));
-            if ($this->includeSelf || $pageid != $this->pageid) {
+            if (!isset($this->includeSelf) || $this->includeSelf || $pageid != $this->pageid) {
                 array_unshift($path, $page);
             }
             $pageid = $page['parentPageId'];
