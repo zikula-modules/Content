@@ -108,6 +108,7 @@ class Content_Util
         $types->add('Content_ContentType_Camtasia');
         $types->add('Content_ContentType_ComputerCode');
         $types->add('Content_ContentType_TableOfContents');
+        $types->add('Content_ContentType_FlashMovie');
         $types->add('Content_ContentType_Flickr');
         $types->add('Content_ContentType_GoogleMap');
         $types->add('Content_ContentType_Heading');
