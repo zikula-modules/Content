@@ -108,12 +108,16 @@ class Content_Api_Page extends Zikula_AbstractApi
         $cols = DBUtil::_getAllColumns('content_page');
         $ca   = DBUtil::getColumnsArray('content_page');
         $ca[] = 'translatedTitle';
+        $ca[] = 'translatedMetaDescription';
+        $ca[] = 'translatedMetaKeywords';
         $ca[] = 'uname';
 
         $sql = "
             SELECT DISTINCT
             $cols,
             $translatedColumn[title],
+            $translatedColumn[metadescription],
+            $translatedColumn[metakeywords],
             $userColumn[uname]
             FROM $pageTable
             LEFT JOIN $translatedTable t
@@ -141,7 +145,7 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         for ($i = 0, $cou = count($pages); $i < $cou; ++$i) {
             $p = &$pages[$i];
-            $p['translated'] = array('title' => $p['translatedTitle']);
+            $p['translated'] = array('title' => $p['translatedTitle'], 'metadescription' => $p['translatedMetaDescription'], 'metakeywords' => $p['translatedMetaKeywords']);
             if ($includeLayout) {
                 $p['layoutData'] = ModUtil::apiFunc('Content', 'Layout', 'getLayout',
                                                     array('layout' => $p['layout']));
@@ -589,7 +593,7 @@ class Content_Api_Page extends Zikula_AbstractApi
         DBUtil::deleteWhere('content_translatedpage', $where);
 
         // Insert new
-        $translatedData = array('pageId' => $pageId, 'language' => $language, 'title' => $translated['title']);
+        $translatedData = array('pageId' => $pageId, 'language' => $language, 'title' => $translated['title'], 'metadescription' => $translated['metadescription'], 'metakeywords' => $translated['metakeywords']);
         DBUtil::insertObject($translatedData, 'content_translatedpage');
 
         if ($addVersion) {
