@@ -14,7 +14,7 @@ class Content_Version extends Zikula_AbstractVersion
     public function getMetaData()
     {
         $meta = array();
-        $meta['version']        = '4.0.1';
+        $meta['version']        = '4.0.0';
         $meta['oldnames']       = array('content');
         $meta['displayname']    = $this->__('Content editing');
         $meta['description']    = $this->__('Content is a page editing module. With it you can insert and edit various content items, such as HTML texts, videos, Google maps and much more.');
