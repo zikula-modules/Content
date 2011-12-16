@@ -207,7 +207,7 @@ class Content_Installer extends Zikula_AbstractInstaller
                 }
                 // If anything was updated, insert the object(s)
                 if(count($newobj)) {
-                    updateObjectArray ($newobj, $table, false, $idField);
+                    DBUtil::updateObjectArray($newobj, $table, false, $idField);
                 }
 
             } // endif count($obj)
