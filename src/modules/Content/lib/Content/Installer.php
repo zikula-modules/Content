@@ -548,7 +548,7 @@ class Content_Installer extends Zikula_AbstractInstaller
             'block' => 'Block',
             'breadcrumb' => 'Breadcrumb',
             'camtasia' => 'Camtasia',
-            'computercode' => 'Computercode',
+            'computercode' => 'ComputerCode',
             'directory' => 'TableOfContents',
             'flickr' => 'Flickr',
             'googlemap' => 'GoogleMap',
