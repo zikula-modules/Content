@@ -754,21 +754,29 @@ class Content_Api_Content extends Zikula_AbstractApi
     }
 
     // the passed $view argument is a Zikula_Form_View passed from the EditContent Form Handler
-    public function getContentPlugin($args, $view = null)
+    public function getContentPlugin($args, Zikula_Form_View $view = null)
     {
         $classname = $args['module'] . "_ContentType_" . $args['type'];
         if (!class_exists($classname)) {
             return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the class is not defined. Upgrade of %2$s module required.', array($args['type'], $args['module'])));
         }
+
+        if (!ModUtil::available($args['module'])) {
+            return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args['type'], $args['module'])));
+        }
+
         $type = strtolower(FormUtil::getPassedValue('type', 'user'));
         if ($type == 'user') {
             $view = Zikula_View::getInstance($args['module']);
         } elseif ($type == 'admin' && $view == null) {
             $view = new Zikula_Form_View($this->getServiceManager(), $args['module']);
         }
-        if (!ModUtil::available($args['module'])) {
-            return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not available.', array($args['type'], $args['module'])));
+        if ($args['module'] != $view->getModuleName()) {
+            $modinfo = ModUtil::getInfoFromName($args['module']);
+            $modpath = $modinfo['type'] == ModUtil::TYPE_MODULE ? 'modules' : 'system';
+            $view->addPluginDir("$modpath/{$modinfo['directory']}/templates/plugins");
         }
+
         $plugin = new $classname($view);
         if (empty($plugin)) {
             return LogUtil::registerError($this->__f('Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason.', array($args['type'], $args['module'])));
