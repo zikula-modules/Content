@@ -458,8 +458,12 @@ class Content_Api_Content extends Zikula_AbstractApi
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
         // Delete optional existing translation
+        $table = DBUtil::getTables();
+        $translatedColumn = $table['content_translatedcontent_column'];
+        $where = $translatedColumn['contentId'] . ' = \'' . DataUtil::formatForStore($contentId) . '\' AND ' . $translatedColumn['language'] . ' = \'' . DataUtil::formatForStore($language) . '\'';
+        DBUtil::deleteObject(array(), 'content_translatedcontent', $where, 'contentId');
+
         $translatedData = array('contentId' => $contentId, 'language' => $language);
-        DBUtil::deleteObject($translatedData, 'content_translatedcontent', '', 'contentId');
 
         // Insert new
         $translatedData['data'] = serialize($translated);
