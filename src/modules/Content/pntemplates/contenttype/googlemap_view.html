@@ -33,49 +33,49 @@
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay;
 *]-->    
-    var map;
-    var myLatlng = new google.maps.LatLng(<!--[$latitude|pnvarprepfordisplay]-->, <!--[$longitude|pnvarprepfordisplay]-->); 
+    var map<!--[$contentId]-->;
+    var myLatlng<!--[$contentId]--> = new google.maps.LatLng(<!--[$latitude|pnvarprepfordisplay]-->, <!--[$longitude|pnvarprepfordisplay]-->); 
     Event.observe(window, 'load',
         function() { 
-            var myMapOptions = { 
+            var myMapOptions<!--[$contentId]--> = { 
                 zoom: <!--[$zoom|pnvarprepfordisplay]-->, 
-                center: myLatlng, 
+                center: myLatlng<!--[$contentId]-->, 
                 scaleControl: true,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 streetViewControl: <!--[if $streetviewcontrol]-->true<!--[else]-->false<!--[/if]-->
             }; 
-            map = new google.maps.Map($('googlemap<!--[$contentId]-->'), myMapOptions); 
+            map<!--[$contentId]--> = new google.maps.Map($('googlemap<!--[$contentId]-->'), myMapOptions<!--[$contentId]-->); 
             
             <!--[* This code is for displaying directions directly into the inline map
             directionsDisplay = new google.maps.DirectionsRenderer();
             *]-->
             
             // add a marker to the map
-            var marker = new google.maps.Marker({ 
-                position: myLatlng, 
-                map: map, 
+            var marker<!--[$contentId]--> = new google.maps.Marker({ 
+                position: myLatlng<!--[$contentId]-->, 
+                map: map<!--[$contentId]-->, 
                 title: '<!--[$text|strip_tags|truncate:200|pnvarprepfordisplay]-->'
             }); 
 
             // display an infowindow when clicking on the marker
-            var contentString = '<!--[$infotext|strip|pnvarprephtmldisplay]-->';
-            var infowindow = new google.maps.InfoWindow({ 
-                content: contentString
+            var contentString<!--[$contentId]--> = '<!--[$infotext|strip|pnvarprephtmldisplay]-->';
+            var infowindow<!--[$contentId]--> = new google.maps.InfoWindow({ 
+                content: contentString<!--[$contentId]-->
             }); 
-            google.maps.event.addListener(marker, 'click', function() { 
-                infowindow.open(map, marker); 
+            google.maps.event.addListener(marker<!--[$contentId]-->, 'click', function() { 
+                infowindow<!--[$contentId]-->.open(map<!--[$contentId]-->, marker<!--[$contentId]-->); 
             });
 
             <!--[* This code is for displaying an traffic and/or bicycle overlay
             // overlay the map with a traficlayer if available in your region:
             // http://code.google.com/apis/maps/documentation/javascript/overlays.html#TrafficLayer
-            var trafficLayer = new google.maps.TrafficLayer();
-            trafficLayer.setMap(map);
+            var trafficLayer<!--[$contentId]--> = new google.maps.TrafficLayer();
+            trafficLayer<!--[$contentId]-->.setMap(map<!--[$contentId]-->);
 
             // overlay the map with a bicyclelayer (currently ony in the US)
             // http://code.google.com/apis/maps/documentation/javascript/overlays.html#BicyclingLayer
-            var bikeLayer = new google.maps.BicyclingLayer();
-            bikeLayer.setMap(map);
+            var bikeLayer<!--[$contentId]--> = new google.maps.BicyclingLayer();
+            bikeLayer<!--[$contentId]-->.setMap(map<!--[$contentId]-->);
             *]-->
         }
     );
