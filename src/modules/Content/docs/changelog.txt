@@ -1,7 +1,13 @@
 Content (C) 2007-2011, Content Development Team
 ---------------------------
-http://code.zikula.org/content
 http://github.com/zikula-modules/Content
+
+Version 4.0.1
+-------------
+
+Summary of changes:
+- Several bugs are solved
+
 
 Version 4.0.0
 -------------

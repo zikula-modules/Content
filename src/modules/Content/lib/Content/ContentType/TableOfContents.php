@@ -4,7 +4,7 @@
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @copyright (C) 2010-2011, Sven Strickroth <email@cs-ware.de>
- * @link http://code.zikula.org/content
+ * @link http://github.com/zikula-modules/Content
  * @license See license.txt
  */
 

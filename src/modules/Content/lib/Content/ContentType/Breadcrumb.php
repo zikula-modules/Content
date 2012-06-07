@@ -4,7 +4,7 @@
  * Content BreadCrumb Plugin
  *
  * @copyright (C) 2010 - 2011, Sven Strickroth <email@cs-ware.de>
- * @link http://code.zikula.org/content
+ * @link http://github.com/zikula-modules/Content
  * @license See license.txt
  */
 class Content_ContentType_Breadcrumb extends Content_AbstractContentType
