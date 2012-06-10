@@ -142,6 +142,9 @@ class Content_ContentType_GoogleMap extends Content_AbstractContentType
         $this->view->assign('contentId', $this->contentId);
         $this->view->assign('language', ZLanguage::getLanguageCode());
 
+        // Load the Google Maps JS api v3
+        PageUtil::addVar('javascript', 'http://maps.google.com/maps/api/js?v=3&language=' . ZLanguage::getLanguageCode() . '&sensor=false');
+
         return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
