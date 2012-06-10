@@ -76,7 +76,7 @@ class content_contenttypesapi_googlemapPlugin extends contentTypeBase
         $render->assign('language', ZLanguage::getLanguageCode());
 
         // Load the Google Maps JS api v3
-        PageUtil::setVar('javascript', 'http://maps.google.com/maps/api/js?v=3&language=' . ZLanguage::getLanguageCode() . '&sensor=false');
+        PageUtil::addVar('javascript', 'http://maps.google.com/maps/api/js?v=3&language=' . ZLanguage::getLanguageCode() . '&sensor=false');
 
         return $render->fetch('contenttype/googlemap_view.html');
     }
