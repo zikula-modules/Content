@@ -107,6 +107,7 @@ class Content_Util
         $types->add('Content_ContentType_Breadcrumb');
         $types->add('Content_ContentType_Camtasia');
         $types->add('Content_ContentType_ComputerCode');
+        $types->add('Content_ContentType_ContentItem');
         $types->add('Content_ContentType_TableOfContents');
         $types->add('Content_ContentType_FlashMovie');
         $types->add('Content_ContentType_Flickr');
