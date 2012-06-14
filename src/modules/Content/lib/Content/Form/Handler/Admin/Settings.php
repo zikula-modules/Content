@@ -23,6 +23,9 @@ class Content_Form_Handler_Admin_Settings extends Zikula_Form_AbstractHandler
         if (ModUtil::available('Scribite')) {
             $editors = ModUtil::apiFunc('Scribite', 'user', 'getEditors', array('editorname' => 'list'));
             $editorarray = array();
+            if (!is_array($editors)) {
+                $editors = array($editors);
+            }
             foreach ($editors as $editor) {
                 $editorarray[] = array('text' => $editor, 'value' => $editor);
             }
