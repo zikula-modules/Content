@@ -149,7 +149,7 @@ class Content_ContentType_GoogleMap extends Content_AbstractContentType
     }
     function displayEditing()
     {
-        return DataUtil::formatForDisplay($this->text);
+        return $this->__f('Map at longitude: %1$s, lattitude: %2$s, description: %3$s', array(substr($this->longitude,0,6).'...', substr($this->latitude,0,6).'...', DataUtil::formatForDisplay($this->text)));
     }
     function getDefaultData()
     {
