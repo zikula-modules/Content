@@ -12,6 +12,7 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
 {
     var $text;
     var $headerSize;
+    var $anchorName;
 
     function getModule()
     {
@@ -38,10 +39,9 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
 
     function loadData($data)
     {
-        if (!isset($data['headerSize']))
-            $data['headerSize'] = 'h3';
-        $this->text = $data['text'];
-        $this->headerSize = $data['headerSize'];
+        $this->text = isset($data['text']) ? $data['text'] : '';
+        $this->headerSize = isset($data['headerSize']) ? $data['headerSize'] : 'h3';
+        $this->anchorName = isset($data['anchorName']) ? $data['anchorName'] : '';
     }
 
     function display()
@@ -50,6 +50,7 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
         $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $render->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
         $render->assign('contentId', $this->contentId);
+        $render->assign('anchorName', DataUtil::formatForDisplayHTML($this->anchorName));
         return $render->fetch('contenttype/heading_view.html');
     }
 
@@ -59,13 +60,14 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
         $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $render->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
         $render->assign('contentId', $this->contentId);
+        $render->assign('anchorName', DataUtil::formatForDisplayHTML($this->anchorName));
         return $render->fetch('contenttype/heading_view.html');
     }
 
     function getDefaultData()
     {
         $dom = ZLanguage::getModuleDomain('content');
-        return array('text' => __('Heading', $dom), 'headerSize' => 'h3');
+        return array('text' => __('Heading', $dom), 'headerSize' => 'h3', 'anchorName' => '');
     }
 
     function startEditing(&$render)
@@ -84,4 +86,3 @@ function content_contenttypesapi_heading($args)
 {
     return new content_contenttypesapi_headingPlugin();
 }
-
