@@ -39,9 +39,9 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
 
     function loadData($data)
     {
-        $this->text = isset($data['text']) ? $data['text'] : '';
+        $this->text = $data['text'];
         $this->headerSize = isset($data['headerSize']) ? $data['headerSize'] : 'h3';
-        $this->anchorName = isset($data['anchorName']) ? $data['anchorName'] : '';
+        $this->anchorName = $data['anchorName'];
     }
 
     function display()
@@ -56,6 +56,7 @@ class content_contenttypesapi_headingPlugin extends contentTypeBase
 
     function displayEditing()
     {
+        // just display the header itself during page editing
         $render = & pnRender::getInstance('content', false);
         $render->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $render->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
