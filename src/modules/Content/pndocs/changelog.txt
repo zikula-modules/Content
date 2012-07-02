@@ -7,9 +7,16 @@ Version 3.2.2
 
 Summary of changes:
 - Several bugs are solved
+- hierarchical subpages can be ordered by title
+- a new layout 21212 with right columns (thanks Ralf)
+- some bug fixes in the page navigation and breadcrumb plugin (thanks Sven)
+- heading plugin extended with named anchor links
 
 All tickets:
-* 
+* #74, multiple google maps on one page is solved.
+* #72, current page highlighting in the TOC plugin
+* #70, page navigation is not shown
+* #94, IE related problems. Solution in in the ticket. This needs an update of /system/pnForm/plugins/block.pnformcontextmenu.php and a new Zikula 1.2.10 version or manual update.
 
 
 Version 3.2.1
