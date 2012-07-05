@@ -11,6 +11,7 @@ class Content_ContentType_Heading extends Content_AbstractContentType
 {
     protected $text;
     protected $headerSize;
+    protected $anchorName;
 
     public function getText()
     {
@@ -32,6 +33,16 @@ class Content_ContentType_Heading extends Content_AbstractContentType
         $this->headerSize = $headerSize;
     }
 
+    public function getAnchorName()
+    {
+        return $this->anchorName;
+    }
+
+    public function setAnchorName($anchorName)
+    {
+        $this->anchorName = $anchorName;
+    }
+
     function getTitle()
     {
         return $this->__('Heading');
@@ -46,29 +57,30 @@ class Content_ContentType_Heading extends Content_AbstractContentType
     }
     function loadData(&$data)
     {
-        if (!isset($data['headerSize'])) {
-            $data['headerSize'] = 'h3';
-        }
         $this->text = $data['text'];
-        $this->headerSize = $data['headerSize'];
+        $this->headerSize = isset($data['headerSize']) ? $data['headerSize'] : 'h3';
+        $this->anchorName = $data['anchorName'];
     }
     function display()
     {
         $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $this->view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
+        $this->view->assign('anchorName', DataUtil::formatForDisplayHTML($this->anchorName));
         $this->view->assign('contentId', $this->contentId);
         return $this->view->fetch($this->getTemplate());
     }
     function displayEditing()
     {
+        // just show the header itself during page editing
         $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $this->view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
+        $this->view->assign('anchorName', DataUtil::formatForDisplayHTML($this->anchorName));
         $this->view->assign('contentId', $this->contentId);
-        return $this->view->fetch($this->getTemplate()); // not getEditTemplate??
+        return $this->view->fetch($this->getTemplate());
     }
     function getDefaultData()
     {
-        return array('text' => $this->__('Heading'), 'headerSize' => 'h3');
+        return array('text' => $this->__('Heading'), 'headerSize' => 'h3', 'anchorName' => '');
     }
     function startEditing()
     {

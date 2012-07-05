@@ -18,3 +18,8 @@
         {formlabel for='con_header4' text='<h4>'}
     </div>
 </div>
+
+<div class="z-formrow">
+    {formlabel for='anchorName' __text='Internal anchor link name (leave empty for no internal anchor link)'}
+    {formtextinput id='anchorName' maxLength='255' group='data'}
+</div>
