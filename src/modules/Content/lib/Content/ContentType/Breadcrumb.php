@@ -10,6 +10,7 @@
 class Content_ContentType_Breadcrumb extends Content_AbstractContentType
 {
     protected $includeSelf;
+    protected $translateTitles;
 
     public function getIncludeSelf()
     {
@@ -19,6 +20,16 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
     public function setIncludeSelf($includeSelf)
     {
         $this->includeSelf = $includeSelf;
+    }
+
+    public function getTranslateTitles()
+    {
+        return $this->translateTitles;
+    }
+
+    public function setTranslateTitles($translateTitles)
+    {
+        $this->translateTitles = $translateTitles;
     }
 
     function getTitle()
@@ -38,13 +49,15 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
 
     function loadData(&$data)
     {
-        if (isset($data['includeSelf']))
-        {
-            $this->includeSelf = $data['includeSelf'];
-        }
-        else
-        {
+        if (isset($data['includeSelf'])) {
+            $this->includeSelf = (bool) $data['includeSelf'];
+        } else {
             $this->includeSelf = true;
+        }
+        if (isset($data['translateTitles'])) {
+            $this->translateTitles = (bool) $data['translateTitles'];
+        } else {
+            $this->translateTitles = true;
         }
     }
 
@@ -56,9 +69,8 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
                         'id' => $pageid,
                         'includeContent' => false,
-                        'translate' => false));
-            if (!isset($this->includeSelf) || $this->includeSelf || $pageid != $this->getPageId())
-            {
+                        'translate' => $this->translateTitles);
+            if (!isset($this->includeSelf) || $this->includeSelf || $pageid != $this->getPageId()) {
                 array_unshift($path, $page);
             }
             $pageid = $page['parentPageId'];
@@ -77,7 +89,7 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
 
     function getDefaultData()
     {
-        return array('includeSelf' => true);
+        return array('includeSelf' => true, 'translateTitles' => true);
     }
 
 }
