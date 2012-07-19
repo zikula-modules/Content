@@ -69,7 +69,7 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
                         'id' => $pageid,
                         'includeContent' => false,
-                        'translate' => $this->translateTitles);
+                        'translate' => $this->translateTitles));
             if (!isset($this->includeSelf) || $this->includeSelf || $pageid != $this->getPageId()) {
                 array_unshift($path, $page);
             }
