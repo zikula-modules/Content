@@ -30,7 +30,7 @@ class Content_Version extends Zikula_AbstractVersion
         // Module depedencies
         $meta['dependencies'] = array(
                 array('modname'    => 'Scribite',
-                      'minversion' => '4.2.1',
+                      'minversion' => '4.3.0',
                       'maxversion' => '',
                       'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
         );
