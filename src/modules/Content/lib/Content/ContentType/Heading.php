@@ -43,25 +43,29 @@ class Content_ContentType_Heading extends Content_AbstractContentType
         $this->anchorName = $anchorName;
     }
 
-    function getTitle()
+    public function getTitle()
     {
         return $this->__('Heading');
     }
-    function getDescription()
+    
+    public function getDescription()
     {
         return $this->__('Section heading for structuring larger amounts of text.');
     }
-    function isTranslatable()
+    
+    public function isTranslatable()
     {
         return true;
     }
-    function loadData(&$data)
+
+    public function loadData(&$data)
     {
-        $this->text = $data['text'];
+        $this->text = isset($data['text']) ? $data['text'] : '';
         $this->headerSize = isset($data['headerSize']) ? $data['headerSize'] : 'h3';
-        $this->anchorName = $data['anchorName'];
+        $this->anchorName = isset($data['anchorName']) ? $data['anchorName'] : '';
     }
-    function display()
+
+    public function display()
     {
         $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
         $this->view->assign('headerSize', DataUtil::formatForDisplayHTML($this->headerSize));
@@ -69,7 +73,8 @@ class Content_ContentType_Heading extends Content_AbstractContentType
         $this->view->assign('contentId', $this->contentId);
         return $this->view->fetch($this->getTemplate());
     }
-    function displayEditing()
+    
+    public function displayEditing()
     {
         // just show the header itself during page editing
         $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
@@ -78,16 +83,19 @@ class Content_ContentType_Heading extends Content_AbstractContentType
         $this->view->assign('contentId', $this->contentId);
         return $this->view->fetch($this->getTemplate());
     }
-    function getDefaultData()
+    
+    public function getDefaultData()
     {
         return array('text' => $this->__('Heading'), 'headerSize' => 'h3', 'anchorName' => '');
     }
-    function startEditing()
+    
+    public function startEditing()
     {
         $scripts = array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js');
         PageUtil::addVar('javascript', $scripts);
     }
-    function getSearchableText()
+    
+    public function getSearchableText()
     {
         return html_entity_decode(strip_tags($this->text));
     }
