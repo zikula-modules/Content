@@ -94,14 +94,11 @@ class Content_Api_User extends Zikula_AbstractApi
             return $args['modname'] . '/' . DataUtil::formatForURL($cat['name']);
         }
 
-        if (isset($args['args']['pid']) && !empty($args['args']['pid']))
-        {
-            $url = ModUtil::apiFunc('Content', 'Page', 'getURLPath', array('pageId' => $args['args']['pid']));
+        if (isset($args['args']['pid']) && !empty($args['args']['pid'])) {
+            $url = ModUtil::apiFunc('Content', 'page', 'getURLPath', array('pageId' => $args['args']['pid']));
             if (strtolower($args['func']) == 'view') {
-                $suffix = $this->getVar('shorturlsuffix');
-                $url .= $suffix;
+                $url .= $this->getVar('shorturlsuffix');
             }
-
             return $args['modname'] . '/' . $url;
         }
 
