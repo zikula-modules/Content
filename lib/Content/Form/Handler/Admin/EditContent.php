@@ -144,7 +144,7 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
 
             $message = null;
             if (!$this->contentType['plugin']->isValid($contentData['data'], $message)) {
-                $errorPlugin = &$this->view->getPluginById('error');
+                $errorPlugin = $this->view->getPluginById('error');
                 $errorPlugin->message = $message;
                 return false;
             }
