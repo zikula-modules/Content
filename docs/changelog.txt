@@ -7,6 +7,9 @@ Version 4.0.1
 
 Summary of changes:
 - Several bugs are solved
+- added validation checks for YouTube contenttype
+- Implemented hooks for Html Contenttype (reinstalls ALL hooks on upgrade!) 
+- removed all direct connection with Scribite module (uses hooks instead)
 
 
 Version 4.0.0

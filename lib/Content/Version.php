@@ -30,7 +30,7 @@ class Content_Version extends Zikula_AbstractVersion
         // Module depedencies
         $meta['dependencies'] = array(
                 array('modname'    => 'Scribite',
-                      'minversion' => '4.3.0',
+                      'minversion' => '5.0.0',
                       'maxversion' => '',
                       'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
         );
@@ -40,7 +40,7 @@ class Content_Version extends Zikula_AbstractVersion
     protected function setupHookBundles()
     {
         // Register hooks for pages
-        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.ui_hooks.pages', 'ui_hooks', $this->__('Content Display Hooks'));
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.ui_hooks.pages', 'ui_hooks', $this->__('Content Full Page Hook'));
         $bundle->addEvent('display_view', 'content.ui_hooks.pages.display_view');
         $bundle->addEvent('form_edit', 'content.ui_hooks.pages.form_edit');
         $bundle->addEvent('form_delete', 'content.ui_hooks.pages.form_delete');
@@ -50,8 +50,19 @@ class Content_Version extends Zikula_AbstractVersion
         $bundle->addEvent('process_delete', 'content.ui_hooks.pages.process_delete');
         $this->registerHookSubscriberBundle($bundle);
 
-        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.filter_hooks.pages', 'filter_hooks', $this->__('Content Filter Hooks'));
-        $bundle->addEvent('filter', 'content.filter_hooks.pages.filter');
+        // Register hooks for html contenttype
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.ui_hooks.htmlcontenttype', 'ui_hooks', $this->__('HTML ContentType Hook'));
+        $bundle->addEvent('display_view', 'content.ui_hooks.htmlcontenttype.display_view');
+        $bundle->addEvent('form_edit', 'content.ui_hooks.htmlcontenttype.form_edit');
+        $bundle->addEvent('form_delete', 'content.ui_hooks.htmlcontenttype.form_delete');
+        $bundle->addEvent('validate_edit', 'content.ui_hooks.htmlcontenttype.validate_edit');
+        $bundle->addEvent('validate_delete', 'content.ui_hooks.htmlcontenttype.validate_delete');
+        $bundle->addEvent('process_edit', 'content.ui_hooks.htmlcontenttype.process_edit');
+        $bundle->addEvent('process_delete', 'content.ui_hooks.htmlcontenttype.process_delete');
+        $this->registerHookSubscriberBundle($bundle);
+
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.filter_hooks.htmlcontenttype', 'filter_hooks', $this->__('HTML ContentType Filter Hook'));
+        $bundle->addEvent('filter', 'content.filter_hooks.htmlcontenttype.filter');
         $this->registerHookSubscriberBundle($bundle);
     }
 }

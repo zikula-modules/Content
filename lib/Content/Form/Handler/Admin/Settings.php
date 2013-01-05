@@ -20,18 +20,6 @@ class Content_Form_Handler_Admin_Settings extends Zikula_Form_AbstractHandler
                                 array('text' => $this->__('New pages will be inactive and not available in the menu'), 'value' => '4') );
         $this->view->assign('activeoptions', $activeoptions);
         
-        if (ModUtil::available('Scribite')) {
-            $editors = ModUtil::apiFunc('Scribite', 'user', 'getEditors', array('editorname' => 'list'));
-            $editorarray = array();
-            if (!is_array($editors)) {
-                $editors = array($editors);
-            }
-            foreach ($editors as $editor) {
-                $editorarray[] = array('text' => $editor, 'value' => $editor);
-            }
-            $this->view->assign('editors', $editorarray);
-        }
-
         // Assign all module vars
         $this->view->assign('config', ModUtil::getVar('Content'));
 

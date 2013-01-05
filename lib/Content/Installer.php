@@ -118,6 +118,8 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_3_2_1($oldVersion);
             case '3.2.1':
                 $ok = $ok && $this->contentUpgrade_4_0_0($oldVersion);
+            case '4.0.0':
+                $ok = $ok && $this->contentUpgrade_4_0_1($oldVersion);
             // future
         }
 
@@ -310,6 +312,28 @@ class Content_Installer extends Zikula_AbstractInstaller
         return true;
     }
 
+    protected function contentUpgrade_4_0_1($oldVersion)
+    {
+        // re-install hooks
+        // Register hooks for pages
+        $oldBundles = array();
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.ui_hooks.pages', 'ui_hooks', $this->__('Content Display Hooks'));
+        $bundle->addEvent('display_view', 'content.ui_hooks.pages.display_view');
+        $bundle->addEvent('form_edit', 'content.ui_hooks.pages.form_edit');
+        $bundle->addEvent('form_delete', 'content.ui_hooks.pages.form_delete');
+        $bundle->addEvent('validate_edit', 'content.ui_hooks.pages.validate_edit');
+        $bundle->addEvent('validate_delete', 'content.ui_hooks.pages.validate_delete');
+        $bundle->addEvent('process_edit', 'content.ui_hooks.pages.process_edit');
+        $bundle->addEvent('process_delete', 'content.ui_hooks.pages.process_delete');
+        $oldBundles['subscriber.content.ui_hooks.pages'] = $bundle;
+        $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.filter_hooks.pages', 'filter_hooks', $this->__('Content Filter Hooks'));
+        $bundle->addEvent('filter', 'content.filter_hooks.pages.filter');
+        $oldBundles['subscriber.content.filter_hooks.pages'] = $bundle;
+        HookUtil::unregisterSubscriberBundles($oldBundles);
+
+        HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
+        LogUtil::registerStatus($this->__('All old hooks have been uninstalled and will need to be re-hooked.'));
+    }
 
 
 // -----------------------------------------------------------------------

@@ -52,9 +52,6 @@ class Content_ContentType_Html extends Content_AbstractContentType
         if (!isset($data['inputType'])) {
             $data['inputType'] = 'html';
         }
-        if (!ModUtil::available('Scribite') && $data['inputType'] == 'html') {
-            $data['inputType'] = 'text';
-        }
         $this->text = $data['text'];
         $this->inputType = $data['inputType'];
     }
@@ -82,7 +79,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
     {
         return array(
             'text' => $this->__('Add text here ...'),
-            'inputType' => (ModUtil::available('Scribite') ? 'html' : 'text'));
+            'inputType' => 'html');
     }
 
     function startEditing()
