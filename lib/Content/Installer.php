@@ -120,6 +120,8 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_4_0_0($oldVersion);
             case '4.0.0':
                 $ok = $ok && $this->contentUpgrade_4_0_1($oldVersion);
+            case '4.0.1':
+                $ok = $ok && $this->contentUpgrade_4_1_0($oldVersion);
             // future
         }
 
@@ -314,6 +316,14 @@ class Content_Installer extends Zikula_AbstractInstaller
 
     protected function contentUpgrade_4_0_1($oldVersion)
     {
+        // clear compiled templates and Content cache
+        ModUtil::apiFunc('view', 'user', 'clear_compiled');
+        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
+        return true;
+    }
+
+    protected function contentUpgrade_4_1_0($oldVersion)
+    {
         // re-install hooks
         // Register hooks for pages
         $oldBundles = array();
@@ -333,6 +343,10 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
         LogUtil::registerStatus($this->__('All old hooks have been uninstalled and will need to be re-hooked.'));
+
+        // clear compiled templates and Content cache
+        ModUtil::apiFunc('view', 'user', 'clear_compiled');
+        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
     }
 
 
