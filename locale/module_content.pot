@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Zikula 1.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-21 21:07+0000\n"
+"POT-Creation-Date: 2013-01-11 18:02-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,435 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pnneedleapi/content.php:37
-msgid "Unknown id"
-msgstr ""
-
-#: pnneedleapi/content.php:40
-msgid "Content not available"
-msgstr ""
-
-#: pnneedleapi/content.php:45
-msgid "No needle id"
-msgstr ""
-
-#: templates/plugins/function.contenteditthis.php:33
-msgid "Edit this page"
-msgstr ""
-
-#: templates/plugins/function.contenteditthis.php:35
-msgid "Translate this page"
-msgstr ""
-
-#: templates/plugins/function.contenteditthis.php:42
-#, php-format
-msgid "Edit this: %1$s [ID%2$s]"
-msgstr ""
-
-#: templates/plugins/function.contenteditthis.php:43
-msgid "Click to edit this content item"
-msgstr ""
-
-#: templates/plugins/function.contenteditthis.php:45
-#: templates/admin/editpage.tpl:45 templates/admin/editpage.tpl:208
-#: templates/admin/editcontent.tpl:58 templates/admin/tocedit.tpl:34
-msgid "Translate"
-msgstr ""
-
-#: templates/plugins/function.contenthtmleditor.php:43
-#, php-format
-msgid "The WYSIWYG editor (%s) is installed but no default editor is assigned."
-msgstr ""
-
-#: templates/plugins/function.contenthtmleditor.php:48
-#, php-format
-msgid "Please install the %s module to use the WYSIWYG HTML editor."
-msgstr ""
-
-#: templates/plugins/function.contenthtmleditor.php:58
-#: templates/plugins/function.contentcodeeditor.php:33
-msgid "Please install the BBCode module to enable BBCodes display."
-msgstr ""
-
-#: templates/plugins/function.contentareatitle.php:15
-#, php-format
-msgid "%s area"
-msgstr ""
-
-#: templates/plugins/function.contentinsertlink.php:21
-msgid "Add new content here"
-msgstr ""
-
 #: lib/Content/AbstractContentType.php:371
 msgid "Unable to locate original translation template."
 msgstr ""
 
 #: lib/Content/AbstractContentType.php:377
 msgid "Unable to locate new translation template."
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:18
-#: lib/Content/LayoutType/Column2header.php:18
-#: lib/Content/LayoutType/Column2d3070.php:18
-#: lib/Content/LayoutType/Column2d3862.php:18
-#: lib/Content/LayoutType/Column2d2575.php:18
-#: lib/Content/LayoutType/Column3d255025.php:18
-#: lib/Content/LayoutType/Column2d7525.php:18
-#: lib/Content/LayoutType/Column21212rightcol.php:18
-#: lib/Content/LayoutType/Column2d6633.php:18
-#: lib/Content/LayoutType/Column1.php:18
-#: lib/Content/LayoutType/Column212.php:18
-#: lib/Content/LayoutType/Column2d6238.php:18
-#: lib/Content/LayoutType/Column2d7030.php:18
-#: lib/Content/LayoutType/Column3header.php:18
-#: lib/Content/LayoutType/Column3d252550.php:18
-#: lib/Content/LayoutType/Column1top.php:20
-#: lib/Content/LayoutType/Column2d3366.php:18
-#: lib/Content/LayoutType/Column3d502525.php:18
-msgid "Header"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:19
-#: lib/Content/LayoutType/Column21212rightcol.php:19
-#: lib/Content/LayoutType/Column212.php:19
-msgid "Left column1"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:20
-#: lib/Content/LayoutType/Column21212rightcol.php:20
-#: lib/Content/LayoutType/Column212.php:20
-msgid "Right column1"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:21
-#: lib/Content/LayoutType/Column21212rightcol.php:21
-msgid "Center1"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:22
-#: lib/Content/LayoutType/Column21212rightcol.php:22
-#: lib/Content/LayoutType/Column212.php:22
-msgid "Left column2"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:23
-#: lib/Content/LayoutType/Column21212rightcol.php:23
-#: lib/Content/LayoutType/Column212.php:23
-msgid "Right column2"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:24
-#: lib/Content/LayoutType/Column21212rightcol.php:24
-msgid "Center2"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:25
-#: lib/Content/LayoutType/Column21212rightcol.php:25
-msgid "Left column3"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:26
-#: lib/Content/LayoutType/Column21212rightcol.php:26
-msgid "Right column3"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:27
-#: lib/Content/LayoutType/Column2header.php:21
-#: lib/Content/LayoutType/Column2d3070.php:21
-#: lib/Content/LayoutType/Column2d3862.php:21
-#: lib/Content/LayoutType/Column2d2575.php:21
-#: lib/Content/LayoutType/Column3d255025.php:22
-#: lib/Content/LayoutType/Column2d7525.php:21
-#: lib/Content/LayoutType/Column21212rightcol.php:27
-#: lib/Content/LayoutType/Column2d6633.php:21
-#: lib/Content/LayoutType/Column212.php:24
-#: lib/Content/LayoutType/Column2d6238.php:21
-#: lib/Content/LayoutType/Column2d7030.php:21
-#: lib/Content/LayoutType/Column3header.php:22
-#: lib/Content/LayoutType/Column3d252550.php:22
-#: lib/Content/LayoutType/Column2d3366.php:21
-#: lib/Content/LayoutType/Column3d502525.php:22
-msgid "Footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:32
-msgid "2-1-2-1-2 columns (50|50)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212.php:36
-msgid "Header + two-one-two-one-two columns (50|50) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2header.php:19
-#: lib/Content/LayoutType/Column2d3070.php:19
-#: lib/Content/LayoutType/Column2d3862.php:19
-#: lib/Content/LayoutType/Column2d2575.php:19
-#: lib/Content/LayoutType/Column3d255025.php:19
-#: lib/Content/LayoutType/Column2d7525.php:19
-#: lib/Content/LayoutType/Column2d6633.php:19
-#: lib/Content/LayoutType/Column2d6238.php:19
-#: lib/Content/LayoutType/Column2d7030.php:19
-#: lib/Content/LayoutType/Column3header.php:19
-#: lib/Content/LayoutType/Column3d252550.php:19
-#: lib/Content/LayoutType/Column2d3366.php:19
-#: lib/Content/LayoutType/Column3d502525.php:19
-msgid "Left column"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2header.php:20
-#: lib/Content/LayoutType/Column2d3070.php:20
-#: lib/Content/LayoutType/Column2d3862.php:20
-#: lib/Content/LayoutType/Column2d2575.php:20
-#: lib/Content/LayoutType/Column3d255025.php:21
-#: lib/Content/LayoutType/Column2d7525.php:20
-#: lib/Content/LayoutType/Column2d6633.php:20
-#: lib/Content/LayoutType/Column2d6238.php:20
-#: lib/Content/LayoutType/Column2d7030.php:20
-#: lib/Content/LayoutType/Column3header.php:21
-#: lib/Content/LayoutType/Column3d252550.php:21
-#: lib/Content/LayoutType/Column2d3366.php:20
-#: lib/Content/LayoutType/Column3d502525.php:21
-msgid "Right column"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2header.php:25
-msgid "2 columns (50|50)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2header.php:29
-msgid "Header + two columns (50|50) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d3070.php:25
-msgid "2 columns (30|70)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d3070.php:29
-msgid "Header + two columns (30|70) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d3862.php:25
-msgid "2 columns (38|62)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d3862.php:29
-msgid "Header + two columns (38|62) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d2575.php:25
-msgid "2 columns (25|75)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d2575.php:29
-msgid "Header + two columns (25|75) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3d255025.php:20
-#: lib/Content/LayoutType/Column1woheader.php:18
-#: lib/Content/LayoutType/Column1.php:19
-#: lib/Content/LayoutType/Column3header.php:20
-#: lib/Content/LayoutType/Column3d252550.php:20
-#: lib/Content/LayoutType/Column1top.php:22
-#: lib/Content/LayoutType/Column3d502525.php:20
-msgid "Centre column"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3d255025.php:26
-msgid "3 columns (25|50|25)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3d255025.php:30
-msgid "Header + three columns (25|50|25) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column1woheader.php:22
-msgid "1 column no header"
-msgstr ""
-
-#: lib/Content/LayoutType/Column1woheader.php:26
-msgid "Single 100% wide column without header"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d7525.php:25
-msgid "2 columns (75|25)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d7525.php:29
-msgid "Header + two columns (75|25) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212rightcol.php:28
-msgid "Right Extra Column Top"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212rightcol.php:29
-msgid "Right Extra Column Bottom"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212rightcol.php:34
-msgid "2-1-2-1-2 columns (50|50) + extra right column"
-msgstr ""
-
-#: lib/Content/LayoutType/Column21212rightcol.php:38
-msgid ""
-"Header + two-one-two-one-two columns (50|50) + footer + extra right column"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d6633.php:25
-msgid "2 columns (66|33)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d6633.php:29
-msgid "Header + two columns (66|33) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column1.php:23
-msgid "1 column"
-msgstr ""
-
-#: lib/Content/LayoutType/Column1.php:27
-msgid "Header + single 100% wide column"
-msgstr ""
-
-#: lib/Content/LayoutType/Column212.php:21
-msgid "Center"
-msgstr ""
-
-#: lib/Content/LayoutType/Column212.php:29
-msgid "2-1-2 columns (50|50)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column212.php:33
-msgid "Header + two-one-two columns (50|50) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d6238.php:25
-msgid "2 columns (62|38)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d6238.php:29
-msgid "Header + two columns (62|38) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d7030.php:25
-msgid "2 columns (70|30)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d7030.php:29
-msgid "Header + two columns (70|30) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3header.php:26
-msgid "3 columns (33|33|33)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3header.php:30
-msgid "Header + three columns (33|33|33) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3d252550.php:26
-msgid "3 columns (25|25|50)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3d252550.php:30
-msgid "Header + three columns (25|25|50) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column1top.php:21
-msgid "Header above page headline"
-msgstr ""
-
-#: lib/Content/LayoutType/Column1top.php:26
-msgid "1 column, header above page headline"
-msgstr ""
-
-#: lib/Content/LayoutType/Column1top.php:30
-msgid ""
-"Single 100% wide column and a top-header above the page headline (for e.g. "
-"breadcrumbs or author-information above the title)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d3366.php:25
-msgid "2 columns (33|66)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column2d3366.php:29
-msgid "Header + two columns (33|66) + footer"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3d502525.php:26
-msgid "3 columns (50|25|25)"
-msgstr ""
-
-#: lib/Content/LayoutType/Column3d502525.php:30
-msgid "Header + three columns (50|25|25) + footer"
-msgstr ""
-
-#: lib/Content/Api/User.php:24 lib/Content/Api/Admin.php:43
-#: lib/Content/Form/Handler/Admin/NewPage.php:41 templates/admin/newpage.tpl:5
-#: templates/user/pageinfo.tpl:22
-msgid "Add new page"
-msgstr ""
-
-#: lib/Content/Api/User.php:32
-msgid "Admin"
-msgstr ""
-
-#: lib/Content/Api/User.php:40
-msgid "Page lists"
-msgstr ""
-
-#: lib/Content/Api/User.php:45 lib/Content/Api/Admin.php:29
-#: lib/Content/Controller/User.php:271 templates/admin/main_unneeded.tpl:14
-msgid "Sitemap"
-msgstr ""
-
-#: lib/Content/Api/User.php:49 lib/Content/Api/Admin.php:31
-msgid "Extended"
-msgstr ""
-
-#: lib/Content/Api/User.php:53 lib/Content/Api/Admin.php:33
-msgid "Complete"
-msgstr ""
-
-#: lib/Content/Api/User.php:57 lib/Content/Api/Admin.php:35
-msgid "Category list"
-msgstr ""
-
-#: lib/Content/Api/Page.php:363
-msgid "Error! Cannot create sub-page without parent page ID"
-msgstr ""
-
-#: lib/Content/Api/Page.php:394 lib/Content/Api/Page.php:440
-#: lib/Content/Api/Page.php:458 lib/Content/Api/Page.php:687
-#: lib/Content/Api/Page.php:931 lib/Content/Api/Page.php:967
-#: lib/Content/Api/Page.php:1006
-msgid ""
-"Error! There is already another page registered with the supplied permalink "
-"URL."
-msgstr ""
-
-#: lib/Content/Api/Page.php:596 lib/Content/Api/History.php:91
-msgid "Translated"
-msgstr ""
-
-#: lib/Content/Api/Page.php:629 lib/Content/Api/History.php:94
-msgid "Translation deleted"
-msgstr ""
-
-#: lib/Content/Api/Page.php:913
-msgid ""
-"Error! It is not possible to move a parent page beneath one of its "
-"descendants."
-msgstr ""
-
-#: lib/Content/Api/Page.php:1001
-msgid "Error! The indentation of this page cannot be increased."
-msgstr ""
-
-#: lib/Content/Api/Page.php:1260 lib/Content/Api/Page.php:1349
-#: lib/Content/Api/Search.php:75
-msgid "Error! Could not load items."
 msgstr ""
 
 #: lib/Content/Api/Account.php:32
@@ -457,12 +34,35 @@ msgstr ""
 msgid "Page list"
 msgstr ""
 
+#: lib/Content/Api/Admin.php:29 lib/Content/Api/User.php:45
+#: lib/Content/Controller/User.php:271 templates/admin/main_unneeded.tpl:14
+msgid "Sitemap"
+msgstr ""
+
+#: lib/Content/Api/Admin.php:31 lib/Content/Api/User.php:49
+msgid "Extended"
+msgstr ""
+
+#: lib/Content/Api/Admin.php:33 lib/Content/Api/User.php:53
+msgid "Complete"
+msgstr ""
+
+#: lib/Content/Api/Admin.php:35 lib/Content/Api/User.php:57
+msgid "Category list"
+msgstr ""
+
 #: lib/Content/Api/Admin.php:37
 msgid "Restore pages"
 msgstr ""
 
-#: lib/Content/Api/Admin.php:49 templates/admin/settings.tpl:15
-#: templates/admin/settings.tpl:17 templates/admin/main_unneeded.tpl:12
+#: lib/Content/Api/Admin.php:43 lib/Content/Api/User.php:24
+#: lib/Content/Form/Handler/Admin/NewPage.php:41 templates/admin/newpage.tpl:5
+#: templates/user/pageinfo.tpl:22
+msgid "Add new page"
+msgstr ""
+
+#: lib/Content/Api/Admin.php:49 templates/admin/main_unneeded.tpl:12
+#: templates/admin/settings.tpl:15 templates/admin/settings.tpl:17
 msgid "Settings"
 msgstr ""
 
@@ -491,21 +91,21 @@ msgstr ""
 msgid "Error! Can't load content plugin"
 msgstr ""
 
-#: lib/Content/Api/Content.php:761
+#: lib/Content/Api/Content.php:765
 #, php-format
 msgid ""
 "Error! Unable to load plugin [%1$s] in module [%2$s] since the class is not "
 "defined. Upgrade of %2$s module required."
 msgstr ""
 
-#: lib/Content/Api/Content.php:770
+#: lib/Content/Api/Content.php:769
 #, php-format
 msgid ""
 "Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not "
 "available."
 msgstr ""
 
-#: lib/Content/Api/Content.php:774
+#: lib/Content/Api/Content.php:786
 #, php-format
 msgid ""
 "Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason."
@@ -521,6 +121,14 @@ msgstr ""
 
 #: lib/Content/Api/History.php:88
 msgid "Content deleted"
+msgstr ""
+
+#: lib/Content/Api/History.php:91 lib/Content/Api/Page.php:600
+msgid "Translated"
+msgstr ""
+
+#: lib/Content/Api/History.php:94 lib/Content/Api/Page.php:633
+msgid "Translation deleted"
 msgstr ""
 
 #: lib/Content/Api/History.php:97
@@ -566,12 +174,349 @@ msgstr ""
 msgid "Error! Re-created old content item but did not restore old ID."
 msgstr ""
 
+#: lib/Content/Api/Page.php:367
+msgid "Error! Cannot create sub-page without parent page ID"
+msgstr ""
+
+#: lib/Content/Api/Page.php:398 lib/Content/Api/Page.php:444
+#: lib/Content/Api/Page.php:462 lib/Content/Api/Page.php:691
+#: lib/Content/Api/Page.php:935 lib/Content/Api/Page.php:971
+#: lib/Content/Api/Page.php:1010
+msgid ""
+"Error! There is already another page registered with the supplied permalink "
+"URL."
+msgstr ""
+
+#: lib/Content/Api/Page.php:917
+msgid ""
+"Error! It is not possible to move a parent page beneath one of its "
+"descendants."
+msgstr ""
+
+#: lib/Content/Api/Page.php:1005
+msgid "Error! The indentation of this page cannot be increased."
+msgstr ""
+
+#: lib/Content/Api/Page.php:1264 lib/Content/Api/Page.php:1353
+#: lib/Content/Api/Search.php:75
+msgid "Error! Could not load items."
+msgstr ""
+
+#: lib/Content/Api/User.php:32
+msgid "Admin"
+msgstr ""
+
+#: lib/Content/Api/User.php:40
+msgid "Page lists"
+msgstr ""
+
+#: lib/Content/Block/Lastupdated.php:21
+msgid "Content Last updated"
+msgstr ""
+
+#: lib/Content/Block/Lastupdated.php:22
+msgid "Content Last updated pages block"
+msgstr ""
+
+#: lib/Content/Block/Lastupdated.php:93 lib/Content/Block/Menu.php:77
+#: lib/Content/Block/Mostviewed.php:93
+#: lib/Content/ContentType/TableOfContents.php:203
+#: lib/Content/ContentType/TableOfContents.php:229
+msgid "All pages"
+msgstr ""
+
+#: lib/Content/Block/Menu.php:21
+msgid "Content menu"
+msgstr ""
+
+#: lib/Content/Block/Menu.php:22
+msgid "Content menu block"
+msgstr ""
+
+#: lib/Content/Block/Mostviewed.php:21
+msgid "Content Most Viewed"
+msgstr ""
+
+#: lib/Content/Block/Mostviewed.php:22
+msgid "Content Most viewed Pages block"
+msgstr ""
+
+#: lib/Content/Block/OnePage.php:22
+msgid "Content onepage"
+msgstr ""
+
+#: lib/Content/Block/OnePage.php:23
+msgid "Content onepage block"
+msgstr ""
+
+#: lib/Content/Block/OnePage.php:46
+msgid "No page selected"
+msgstr ""
+
+#: lib/Content/Block/OnePage.php:61
+msgid "Select a page"
+msgstr ""
+
+#: lib/Content/Block/SubPages.php:21
+msgid "Content subpages of current page"
+msgstr ""
+
+#: lib/Content/Block/SubPages.php:22
+msgid "Content subpages of the current page in a block"
+msgstr ""
+
+#: lib/Content/ContentType/Author.php:26
+msgid "Author Infobox"
+msgstr ""
+
+#: lib/Content/ContentType/Author.php:30
+msgid "Various information about the author of the page."
+msgstr ""
+
 #: lib/Content/ContentType/Block.php:35
 msgid "Blocks"
 msgstr ""
 
 #: lib/Content/ContentType/Block.php:39
 msgid "Display Zikula blocks."
+msgstr ""
+
+#: lib/Content/ContentType/Breadcrumb.php:37
+msgid "BreadCrumb"
+msgstr ""
+
+#: lib/Content/ContentType/Breadcrumb.php:42
+msgid "Show breadcrumbs for hierarchical pages"
+msgstr ""
+
+#: lib/Content/ContentType/Camtasia.php:104
+msgid "Camtasia Flash video"
+msgstr ""
+
+#: lib/Content/ContentType/Camtasia.php:109
+msgid "Display a Camtasia Flash video."
+msgstr ""
+
+#: lib/Content/ContentType/Camtasia.php:157
+#: lib/Content/ContentType/FlashMovie.php:118
+#, php-format
+msgid "Flash Video-Path: %1$s<br>Size in pixels: %2$s"
+msgstr ""
+
+#: lib/Content/ContentType/Camtasia.php:158
+#: lib/Content/ContentType/FlashMovie.php:119
+#, php-format
+msgid "Video description: %s"
+msgstr ""
+
+#: lib/Content/ContentType/ComputerCode.php:28
+msgid "Computer Code"
+msgstr ""
+
+#: lib/Content/ContentType/ComputerCode.php:33
+msgid ""
+"A text editor for computer code. Line numbers are added to the text and it "
+"is displayed in a monospaced font."
+msgstr ""
+
+#: lib/Content/ContentType/ContentItem.php:59
+msgid "Existing Content Item"
+msgstr ""
+
+#: lib/Content/ContentType/ContentItem.php:63
+msgid "Display an already existing Content Item."
+msgstr ""
+
+#: lib/Content/ContentType/ContentItem.php:98
+#, php-format
+msgid ""
+"Displays existing Content Item [ID %1$s], Type: %2$s, Module %3$s, Source "
+"Page %4$s"
+msgstr ""
+
+#: lib/Content/ContentType/FlashMovie.php:71
+msgid "Flash video file"
+msgstr ""
+
+#: lib/Content/ContentType/FlashMovie.php:76
+msgid "Display a Flash video."
+msgstr ""
+
+#: lib/Content/ContentType/Flickr.php:51
+msgid "Photos from Flickr.com"
+msgstr ""
+
+#: lib/Content/ContentType/Flickr.php:56
+msgid "Display thumbnails from specific Flickr user or tags."
+msgstr ""
+
+#: lib/Content/ContentType/Flickr.php:61 templates/admin/settings.tpl:40
+msgid ""
+"If your want to add Flickr photos to your content then you need a Flickr API "
+"key. You can get this from <a href=\"http://www.flickr.com/api\">flickr.com</"
+"a>."
+msgstr ""
+
+#: lib/Content/ContentType/Flickr.php:110
+#, php-format
+msgid "Flickr photos from user %1$s associated with tags %2$s"
+msgstr ""
+
+#: lib/Content/ContentType/GoogleMap.php:103
+msgid "Google map"
+msgstr ""
+
+#: lib/Content/ContentType/GoogleMap.php:107
+msgid "Display Google map position."
+msgstr ""
+
+#: lib/Content/ContentType/GoogleMap.php:111
+msgid ""
+"A Google maps API key is not needed any more in the new version 3 of the "
+"Javascript API."
+msgstr ""
+
+#: lib/Content/ContentType/GoogleMap.php:152
+#, php-format
+msgid "Map at longitude: %1$s, lattitude: %2$s, description: %3$s"
+msgstr ""
+
+#: lib/Content/ContentType/Heading.php:48
+#: lib/Content/ContentType/Heading.php:89
+#: templates/contenttype/heading_edit.tpl:4
+#: templates/contenttype/heading_translate_new.tpl:2
+#: templates/contenttype/heading_translate_original.tpl:2
+msgid "Heading"
+msgstr ""
+
+#: lib/Content/ContentType/Heading.php:53
+msgid "Section heading for structuring larger amounts of text."
+msgstr ""
+
+#: lib/Content/ContentType/Html.php:37
+msgid "HTML text"
+msgstr ""
+
+#: lib/Content/ContentType/Html.php:42
+msgid "A rich HTML editor for adding text to your page."
+msgstr ""
+
+#: lib/Content/ContentType/Html.php:84
+msgid "Add text here ..."
+msgstr ""
+
+#: lib/Content/ContentType/JoinPosition.php:26
+msgid "Join Position"
+msgstr ""
+
+#: lib/Content/ContentType/JoinPosition.php:30
+msgid ""
+"Joins different positions, e.g. if you used position: top-right then this "
+"can fix the layout/textflow."
+msgstr ""
+
+#: lib/Content/ContentType/ModuleFunc.php:49
+msgid "Module display"
+msgstr ""
+
+#: lib/Content/ContentType/ModuleFunc.php:53
+msgid "Display output from any installed module."
+msgstr ""
+
+#: lib/Content/ContentType/ModuleFunc.php:71
+msgid ""
+"Maximum number of pages-in-pages reached! You probably included this page in "
+"itself."
+msgstr ""
+
+#: lib/Content/ContentType/OpenStreetMap.php:70
+msgid "OpenStreetMap map"
+msgstr ""
+
+#: lib/Content/ContentType/OpenStreetMap.php:74
+msgid "Display OpenStreetMap map position."
+msgstr ""
+
+#: lib/Content/ContentType/OpenStreetMap.php:78
+msgid ""
+"If you want to add OpenStreetMap maps to your content you don't need an API "
+"key."
+msgstr ""
+
+#: lib/Content/ContentType/PageNavigation.php:15
+#: lib/Content/ContentType/PageNavigation.php:67
+msgid "Page navigation"
+msgstr ""
+
+#: lib/Content/ContentType/PageNavigation.php:19
+msgid "Allows to navigate within pages on the same level."
+msgstr ""
+
+#: lib/Content/ContentType/Quote.php:25
+msgid "Quote"
+msgstr ""
+
+#: lib/Content/ContentType/Quote.php:29
+msgid "A highlighted quote with source."
+msgstr ""
+
+#: lib/Content/ContentType/Quote.php:70
+msgid "Add quote text here..."
+msgstr ""
+
+#: lib/Content/ContentType/Quote.php:72
+msgid "Name of the Source"
+msgstr ""
+
+#: lib/Content/ContentType/Rss.php:58
+msgid "RSS feed"
+msgstr ""
+
+#: lib/Content/ContentType/Rss.php:62
+msgid "Display list of items in an RSS feed. Needs the ZFeed system plugin."
+msgstr ""
+
+#: lib/Content/ContentType/Slideshare.php:81
+msgid "Slideshare"
+msgstr ""
+
+#: lib/Content/ContentType/Slideshare.php:85
+msgid "Display slides from slideshare.com"
+msgstr ""
+
+#: lib/Content/ContentType/Slideshare.php:113
+#, php-format
+msgid "Slideshare: %s"
+msgstr ""
+
+#: lib/Content/ContentType/TableOfContents.php:93
+msgid "Table of contents"
+msgstr ""
+
+#: lib/Content/ContentType/TableOfContents.php:98
+msgid ""
+"A table of contents of headings and subpages (built from the available "
+"Content pages)."
+msgstr ""
+
+#: lib/Content/ContentType/TableOfContents.php:208
+#, php-format
+msgid "Table of contents of %s"
+msgstr ""
+
+#: lib/Content/ContentType/TableOfContents.php:236
+#: lib/Content/ContentType/TableOfContents.php:241
+msgid "No"
+msgstr ""
+
+#: lib/Content/ContentType/TableOfContents.php:237
+#: lib/Content/ContentType/TableOfContents.php:242
+msgid "Yes, unlimited"
+msgstr ""
+
+#: lib/Content/ContentType/TableOfContents.php:238
+#: lib/Content/ContentType/TableOfContents.php:243
+msgid "Yes, limited"
 msgstr ""
 
 #: lib/Content/ContentType/Unfiltered.php:115
@@ -600,21 +545,12 @@ msgstr ""
 msgid "Add unfiltered text here ..."
 msgstr ""
 
-#: lib/Content/ContentType/Author.php:26
-msgid "Author Infobox"
+#: lib/Content/ContentType/Vimeo.php:81
+msgid "Vimeo video clip"
 msgstr ""
 
-#: lib/Content/ContentType/Author.php:30
-msgid "Various information about the author of the page."
-msgstr ""
-
-#: lib/Content/ContentType/PageNavigation.php:15
-#: lib/Content/ContentType/PageNavigation.php:67
-msgid "Page navigation"
-msgstr ""
-
-#: lib/Content/ContentType/PageNavigation.php:19
-msgid "Allows to navigate within pages on the same level."
+#: lib/Content/ContentType/Vimeo.php:85
+msgid "Display Vimeo video clip."
 msgstr ""
 
 #: lib/Content/ContentType/YouTube.php:81
@@ -630,354 +566,72 @@ msgstr ""
 msgid "Video-ID : %1$s<br />Size in pixels: %2$s x %3$s"
 msgstr ""
 
-#: lib/Content/ContentType/Html.php:37
-msgid "HTML text"
+#: lib/Content/Controller/Admin.php:142
+msgid "No ContentTypes upgraded (there were no matches found)."
 msgstr ""
 
-#: lib/Content/ContentType/Html.php:42
-msgid "A rich HTML editor for adding text to your page."
-msgstr ""
-
-#: lib/Content/ContentType/Html.php:84
-msgid "Add text here ..."
-msgstr ""
-
-#: lib/Content/ContentType/Rss.php:58
-msgid "RSS feed"
-msgstr ""
-
-#: lib/Content/ContentType/Rss.php:62
-msgid "Display list of items in an RSS feed. Needs the ZFeed system plugin."
-msgstr ""
-
-#: lib/Content/ContentType/Slideshare.php:81
-msgid "Slideshare"
-msgstr ""
-
-#: lib/Content/ContentType/Slideshare.php:85
-msgid "Display slides from slideshare.com"
-msgstr ""
-
-#: lib/Content/ContentType/Slideshare.php:113
+#: lib/Content/Controller/Admin.php:154
 #, php-format
-msgid "Slideshare: %s"
+msgid "Module '%s' migrated successfully."
 msgstr ""
 
-#: lib/Content/ContentType/Vimeo.php:81
-msgid "Vimeo video clip"
-msgstr ""
-
-#: lib/Content/ContentType/Vimeo.php:85
-msgid "Display Vimeo video clip."
-msgstr ""
-
-#: lib/Content/ContentType/OpenStreetMap.php:70
-msgid "OpenStreetMap map"
-msgstr ""
-
-#: lib/Content/ContentType/OpenStreetMap.php:74
-msgid "Display OpenStreetMap map position."
-msgstr ""
-
-#: lib/Content/ContentType/OpenStreetMap.php:78
-msgid ""
-"If you want to add OpenStreetMap maps to your content you don't need an API "
-"key."
-msgstr ""
-
-#: lib/Content/ContentType/JoinPosition.php:26
-msgid "Join Position"
-msgstr ""
-
-#: lib/Content/ContentType/JoinPosition.php:30
-msgid ""
-"Joins different positions, e.g. if you used position: top-right then this "
-"can fix the layout/textflow."
-msgstr ""
-
-#: lib/Content/ContentType/Heading.php:37
-#: lib/Content/ContentType/Heading.php:71
-#: templates/contenttype/heading_edit.tpl:4
-#: templates/contenttype/heading_translate_new.tpl:2
-#: templates/contenttype/heading_translate_original.tpl:2
-msgid "Heading"
-msgstr ""
-
-#: lib/Content/ContentType/Heading.php:41
-msgid "Section heading for structuring larger amounts of text."
-msgstr ""
-
-#: lib/Content/ContentType/ComputerCode.php:28
-msgid "Computer Code"
-msgstr ""
-
-#: lib/Content/ContentType/ComputerCode.php:33
-msgid ""
-"A text editor for computer code. Line numbers are added to the text and it "
-"is displayed in a monospaced font."
-msgstr ""
-
-#: lib/Content/ContentType/TableOfContents.php:93
-msgid "Table of contents"
-msgstr ""
-
-#: lib/Content/ContentType/TableOfContents.php:97
-msgid ""
-"A table of contents of headings and subpages (built from the available "
-"Content pages)."
-msgstr ""
-
-#: lib/Content/ContentType/TableOfContents.php:193
-#: lib/Content/ContentType/TableOfContents.php:209
-#: lib/Content/Block/Menu.php:77 lib/Content/Block/Mostviewed.php:93
-msgid "All pages"
-msgstr ""
-
-#: lib/Content/ContentType/TableOfContents.php:198
+#: lib/Content/Controller/Admin.php:156
 #, php-format
-msgid "Table of contents of %s"
+msgid "Error: Unable to migrate module '%s'."
 msgstr ""
 
-#: lib/Content/ContentType/TableOfContents.php:215
-#: lib/Content/ContentType/TableOfContents.php:216
-msgid "No"
+#: lib/Content/Controller/Ajax.php:33
+msgid "Ok"
 msgstr ""
 
-#: lib/Content/ContentType/TableOfContents.php:215
-#: lib/Content/ContentType/TableOfContents.php:216
-msgid "Yes, unlimited"
+#: lib/Content/Controller/Ajax.php:52 lib/Content/Controller/Ajax.php:78
+msgid "Error! No page ID passed."
 msgstr ""
 
-#: lib/Content/ContentType/TableOfContents.php:215
-#: lib/Content/ContentType/TableOfContents.php:216
-msgid "Yes, limited"
+#: lib/Content/Controller/Ajax.php:57 lib/Content/Controller/Ajax.php:83
+msgid "Error! Could not update state."
 msgstr ""
 
-#: lib/Content/ContentType/Quote.php:25
-msgid "Quote"
-msgstr ""
-
-#: lib/Content/ContentType/Quote.php:29
-msgid "A highlighted quote with source."
-msgstr ""
-
-#: lib/Content/ContentType/Quote.php:70
-msgid "Add quote text here..."
-msgstr ""
-
-#: lib/Content/ContentType/Quote.php:72
-msgid "Name of the Source"
-msgstr ""
-
-#: lib/Content/ContentType/GoogleMap.php:103
-msgid "Google map"
-msgstr ""
-
-#: lib/Content/ContentType/GoogleMap.php:107
-msgid "Display Google map position."
-msgstr ""
-
-#: lib/Content/ContentType/GoogleMap.php:111
-msgid ""
-"A Google maps API key is not needed any more in the new version 3 of the "
-"Javascript API."
-msgstr ""
-
-#: lib/Content/ContentType/Flickr.php:51
-msgid "Photos from Flickr.com"
-msgstr ""
-
-#: lib/Content/ContentType/Flickr.php:56
-msgid "Display thumbnails from specific Flickr user or tags."
-msgstr ""
-
-#: lib/Content/ContentType/Flickr.php:61 templates/admin/settings.tpl:40
-msgid ""
-"If your want to add Flickr photos to your content then you need a Flickr API "
-"key. You can get this from <a href=\"http://www.flickr.com/api\">flickr.com</"
-"a>."
-msgstr ""
-
-#: lib/Content/ContentType/Flickr.php:110
+#: lib/Content/Controller/Edit.php:16 lib/Content/Controller/Edit.php:24
+#: lib/Content/Controller/Edit.php:32 lib/Content/Controller/Edit.php:40
+#: lib/Content/Controller/Edit.php:48 lib/Content/Controller/Edit.php:56
+#: lib/Content/Controller/Edit.php:64 lib/Content/Controller/Edit.php:72
+#: lib/Content/Controller/Edit.php:80 lib/Content/Controller/Edit.php:88
 #, php-format
-msgid "Flickr photos from user %1$s associated with tags %2$s"
+msgid "Warning! %1$s is deprecated. Please use the Admin controller instead."
 msgstr ""
 
-#: lib/Content/ContentType/Camtasia.php:104
-msgid "Camtasia Flash video"
-msgstr ""
-
-#: lib/Content/ContentType/Camtasia.php:109
-msgid "Display a Camtasia Flash video."
-msgstr ""
-
-#: lib/Content/ContentType/Camtasia.php:157
+#: lib/Content/Controller/User.php:97
 #, php-format
-msgid "Flash Video-Path: %1$s<br>Size in pixels: %2$s"
+msgid "Version #%1$s - %2$s - %3$s by %4$s from %5$s"
 msgstr ""
 
-#: lib/Content/ContentType/Camtasia.php:158
-#, php-format
-msgid "Video description: %s"
+#: lib/Content/Controller/User.php:121 templates/admin/editpage.tpl:199
+#: templates/admin/tocedit.tpl:25
+msgid "Preview"
 msgstr ""
 
-#: lib/Content/ContentType/ModuleFunc.php:49
-msgid "Module display"
+#: lib/Content/Controller/User.php:238
+msgid "Error! Unknown page."
 msgstr ""
 
-#: lib/Content/ContentType/ModuleFunc.php:53
-msgid "Display output from any installed module."
+#: lib/Content/Form/Handler/Admin/ClonePage.php:26
+msgid "Page not found"
 msgstr ""
 
-#: lib/Content/ContentType/ModuleFunc.php:71
-msgid ""
-"Maximum number of pages-in-pages reached! You probably included this page in "
-"itself."
+#: lib/Content/Form/Handler/Admin/ClonePage.php:34
+#: templates/admin/clonepage.tpl:4 templates/admin/tocedit.tpl:28
+msgid "Clone page"
 msgstr ""
 
-#: lib/Content/ContentType/Breadcrumb.php:15
-msgid "BreadCrumb"
-msgstr ""
-
-#: lib/Content/ContentType/Breadcrumb.php:20
-msgid "Show breadcrumbs for hierarchical pages"
-msgstr ""
-
-#: lib/Content/Installer.php:40
-msgid ""
-"Warning! Could not create the default Content category tree. If you want to "
-"use categorisation with Content, register at least one property for the "
-"module in the Category Registry."
-msgstr ""
-
-#: lib/Content/Installer.php:131
-msgid "Table creation failed for 'content_translatedcontent': "
-msgstr ""
-
-#: lib/Content/Installer.php:134
-msgid "Table creation failed for 'content_translatedpage': "
-msgstr ""
-
-#: lib/Content/Installer.php:352
-msgid "Content introduction page"
-msgstr ""
-
-#: lib/Content/Installer.php:353
-msgid "content-introduction-page"
-msgstr ""
-
-#: lib/Content/Installer.php:361
-msgid "Warning! Could not create the default Content introductory page."
-msgstr ""
-
-#: lib/Content/Installer.php:370
-msgid "A Content page consists of various content items in a chosen layout"
-msgstr ""
-
-#: lib/Content/Installer.php:377
-msgid ""
-"<p>Each created page has a specific layout, like 1 column with and without a "
-"header, 2 columns, 3 columns. The chosen layout contains various content "
-"areas. In each area you can place 1 or more content items of various kinds "
-"like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;"
-"</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> "
-"<li>the output of another Zikula module.</li> </ul> <p>Within these content "
-"areas you can sort the content items by means of drag & drop.<br /> You can "
-"make an unlimited number of pages and structure them hierarchical. Your page "
-"structure can be displayed in a multi level menu in your website.</p>"
-msgstr ""
-
-#: lib/Content/Installer.php:384
-msgid ""
-"<p><strong>This is a second HTML text content item in the left column</"
-"strong><br /> Content is an extendible module. You can create your own "
-"content plugins and layouts and other Zikula modules can also offer content "
-"items. The News published module for instance has a Content plugin for a "
-"list of the latest articles.</p>"
-msgstr ""
-
-#: lib/Content/Installer.php:391
-msgid "No matter what your needs, Zikula can provide the solution."
-msgstr ""
-
-#: lib/Content/Installer.php:398
-msgid "$this->doAction($var); // just some code"
-msgstr ""
-
-#: lib/Content/Installer.php:404
-msgid ""
-"<p>So you see that you can place all kinds of content on the page in your "
-"own style and liking. This makes Content a really powerful module.</p> "
-"<p>This page uses the <strong>2 column (62|38) layout</strong> which has a "
-"header, 2 colums with 62% width on the left and 38% width on the right and a "
-"footer</p>"
-msgstr ""
-
-#: lib/Content/Installer.php:411
-msgid ""
-"This <strong>footer</strong> finishes of this introduction page. Good luck "
-"with using Content. The <a href=\"index.php?module=content&type=admin\">Edit "
-"Contents</a> interface lets you edit or delete this introduction page. In "
-"the <a href=\"index.php?module=content&type=admin\">administration</a> "
-"interface you can further control the Content module."
-msgstr ""
-
-#: lib/Content/Installer.php:507
-#, php-format
-msgid "%1$s ContentTypes upgraded for %2$s"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/NewContent.php:41
-msgid "Missing page ID (pid) in URL"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/NewContent.php:45
-msgid "Missing content area index (cai) in URL"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/NewContent.php:53
-#: templates/admin/newcontent.tpl:4
-msgid "Add new content to page"
+#: lib/Content/Form/Handler/Admin/ClonePage.php:45
+#: lib/Content/Form/Handler/Admin/NewPage.php:59
+msgid "Error! You have not been granted access to create pages."
 msgstr ""
 
 #: lib/Content/Form/Handler/Admin/DeletedPages.php:26
 #: templates/admin/deletedpages.tpl:4
 msgid "Restore deleted pages"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/TranslatePage.php:25
-#: lib/Content/Form/Handler/Admin/TranslateContent.php:46
-#, php-format
-msgid ""
-"Sorry, you cannot translate an item to the same language as it's default "
-"language (\"%1$s\"). Change the current site language (\"%2$s\") to some "
-"other language on the <a href=\"%3$s\">localisation settings</a> page.<br /> "
-"Another way is to add, for instance, <strong>&amp;lang=de</strong> to the "
-"url for changing the current site language to German and after that the item "
-"can be translated to German."
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/TranslatePage.php:30
-#: templates/admin/translatepage.tpl:4 templates/user/pageinfo.tpl:18
-msgid "Translate page"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/TranslateContent.php:54
-#: templates/admin/translatecontent.tpl:4
-msgid "Translate content item"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/NewPage.php:47
-msgid "Located below:"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/NewPage.php:49
-msgid "Located after:"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/NewPage.php:59
-#: lib/Content/Form/Handler/Admin/ClonePage.php:45
-msgid "Error! You have not been granted access to create pages."
 msgstr ""
 
 #: lib/Content/Form/Handler/Admin/EditContent.php:71
@@ -1009,6 +663,35 @@ msgstr ""
 #: lib/Content/Form/Handler/Admin/EditContent.php:111
 #: templates/content_include_contentedit.tpl:8
 msgid "only not logged in people"
+msgstr ""
+
+#: lib/Content/Form/Handler/Admin/HistoryContent.php:46
+msgid "Page history"
+msgstr ""
+
+#: lib/Content/Form/Handler/Admin/Main.php:29 templates/admin/main.tpl:5
+msgid "Page list and content structure"
+msgstr ""
+
+#: lib/Content/Form/Handler/Admin/NewContent.php:41
+msgid "Missing page ID (pid) in URL"
+msgstr ""
+
+#: lib/Content/Form/Handler/Admin/NewContent.php:45
+msgid "Missing content area index (cai) in URL"
+msgstr ""
+
+#: lib/Content/Form/Handler/Admin/NewContent.php:53
+#: templates/admin/newcontent.tpl:4
+msgid "Add new content to page"
+msgstr ""
+
+#: lib/Content/Form/Handler/Admin/NewPage.php:47
+msgid "Located below:"
+msgstr ""
+
+#: lib/Content/Form/Handler/Admin/NewPage.php:49
+msgid "Located after:"
 msgstr ""
 
 #: lib/Content/Form/Handler/Admin/Page.php:41 templates/admin/history.tpl:5
@@ -1052,37 +735,42 @@ msgstr ""
 msgid "New pages will be inactive and not available in the menu"
 msgstr ""
 
-#: lib/Content/Form/Handler/Admin/Settings.php:48
+#: lib/Content/Form/Handler/Admin/Settings.php:51
 msgid "Failed to set configuration variables"
 msgstr ""
 
-#: lib/Content/Form/Handler/Admin/Settings.php:54
+#: lib/Content/Form/Handler/Admin/Settings.php:57
 msgid "Main category property does not exist."
 msgstr ""
 
-#: lib/Content/Form/Handler/Admin/Settings.php:59
+#: lib/Content/Form/Handler/Admin/Settings.php:62
 msgid "Second category property does not exist."
 msgstr ""
 
-#: lib/Content/Form/Handler/Admin/Settings.php:63
+#: lib/Content/Form/Handler/Admin/Settings.php:66
 msgid "Done! Saved module configuration."
 msgstr ""
 
-#: lib/Content/Form/Handler/Admin/Main.php:29 templates/admin/main.tpl:5
-msgid "Page list and content structure"
+#: lib/Content/Form/Handler/Admin/TranslateContent.php:46
+#: lib/Content/Form/Handler/Admin/TranslatePage.php:25
+#, php-format
+msgid ""
+"Sorry, you cannot translate an item to the same language as it's default "
+"language (\"%1$s\"). Change the current site language (\"%2$s\") to some "
+"other language on the <a href=\"%3$s\">localisation settings</a> page.<br /> "
+"Another way is to add, for instance, <strong>&amp;lang=de</strong> to the "
+"url for changing the current site language to German and after that the item "
+"can be translated to German."
 msgstr ""
 
-#: lib/Content/Form/Handler/Admin/ClonePage.php:26
-msgid "Page not found"
+#: lib/Content/Form/Handler/Admin/TranslateContent.php:54
+#: templates/admin/translatecontent.tpl:4
+msgid "Translate content item"
 msgstr ""
 
-#: lib/Content/Form/Handler/Admin/ClonePage.php:34
-#: templates/admin/clonepage.tpl:4 templates/admin/tocedit.tpl:28
-msgid "Clone page"
-msgstr ""
-
-#: lib/Content/Form/Handler/Admin/HistoryContent.php:46
-msgid "Page history"
+#: lib/Content/Form/Handler/Admin/TranslatePage.php:30
+#: templates/admin/translatepage.tpl:4 templates/user/pageinfo.tpl:18
+msgid "Translate page"
 msgstr ""
 
 #: lib/Content/Form/Plugin/PositionSelector.php:46
@@ -1109,53 +797,385 @@ msgstr ""
 msgid "Above, right"
 msgstr ""
 
-#: lib/Content/Controller/Edit.php:16 lib/Content/Controller/Edit.php:24
-#: lib/Content/Controller/Edit.php:32 lib/Content/Controller/Edit.php:40
-#: lib/Content/Controller/Edit.php:48 lib/Content/Controller/Edit.php:56
-#: lib/Content/Controller/Edit.php:64 lib/Content/Controller/Edit.php:72
-#: lib/Content/Controller/Edit.php:80 lib/Content/Controller/Edit.php:88
+#: lib/Content/Installer.php:40
+msgid ""
+"Warning! Could not create the default Content category tree. If you want to "
+"use categorisation with Content, register at least one property for the "
+"module in the Category Registry."
+msgstr ""
+
+#: lib/Content/Installer.php:133
+msgid "Table creation failed for 'content_translatedcontent': "
+msgstr ""
+
+#: lib/Content/Installer.php:136
+msgid "Table creation failed for 'content_translatedpage': "
+msgstr ""
+
+#: lib/Content/Installer.php:362
+msgid "Content introduction page"
+msgstr ""
+
+#: lib/Content/Installer.php:363
+msgid "content-introduction-page"
+msgstr ""
+
+#: lib/Content/Installer.php:371
+msgid "Warning! Could not create the default Content introductory page."
+msgstr ""
+
+#: lib/Content/Installer.php:380
+msgid "A Content page consists of various content items in a chosen layout"
+msgstr ""
+
+#: lib/Content/Installer.php:387
+msgid ""
+"<p>Each created page has a specific layout, like 1 column with and without a "
+"header, 2 columns, 3 columns. The chosen layout contains various content "
+"areas. In each area you can place 1 or more content items of various kinds "
+"like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;"
+"</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> "
+"<li>the output of another Zikula module.</li> </ul> <p>Within these content "
+"areas you can sort the content items by means of drag & drop.<br /> You can "
+"make an unlimited number of pages and structure them hierarchical. Your page "
+"structure can be displayed in a multi level menu in your website.</p>"
+msgstr ""
+
+#: lib/Content/Installer.php:394
+msgid ""
+"<p><strong>This is a second HTML text content item in the left column</"
+"strong><br /> Content is an extendible module. You can create your own "
+"content plugins and layouts and other Zikula modules can also offer content "
+"items. The News published module for instance has a Content plugin for a "
+"list of the latest articles.</p>"
+msgstr ""
+
+#: lib/Content/Installer.php:401
+msgid "No matter what your needs, Zikula can provide the solution."
+msgstr ""
+
+#: lib/Content/Installer.php:408
+msgid "$this->doAction($var); // just some code"
+msgstr ""
+
+#: lib/Content/Installer.php:414
+msgid ""
+"<p>So you see that you can place all kinds of content on the page in your "
+"own style and liking. This makes Content a really powerful module.</p> "
+"<p>This page uses the <strong>2 column (62|38) layout</strong> which has a "
+"header, 2 colums with 62% width on the left and 38% width on the right and a "
+"footer</p>"
+msgstr ""
+
+#: lib/Content/Installer.php:421
+msgid ""
+"This <strong>footer</strong> finishes of this introduction page. Good luck "
+"with using Content. The <a href=\"index.php?module=content&type=admin\">Edit "
+"Contents</a> interface lets you edit or delete this introduction page. In "
+"the <a href=\"index.php?module=content&type=admin\">administration</a> "
+"interface you can further control the Content module."
+msgstr ""
+
+#: lib/Content/Installer.php:517
 #, php-format
-msgid "Warning! %1$s is deprecated. Please use the Admin controller instead."
+msgid "%1$s ContentTypes upgraded for %2$s"
 msgstr ""
 
-#: lib/Content/Controller/User.php:97
-#, php-format
-msgid "Version #%1$s - %2$s - %3$s by %4$s from %5$s"
+#: lib/Content/LayoutType/Column1.php:18
+#: lib/Content/LayoutType/Column1top.php:20
+#: lib/Content/LayoutType/Column212.php:18
+#: lib/Content/LayoutType/Column21212.php:18
+#: lib/Content/LayoutType/Column21212rightcol.php:18
+#: lib/Content/LayoutType/Column2d2575.php:18
+#: lib/Content/LayoutType/Column2d3070.php:18
+#: lib/Content/LayoutType/Column2d3366.php:18
+#: lib/Content/LayoutType/Column2d3862.php:18
+#: lib/Content/LayoutType/Column2d6238.php:18
+#: lib/Content/LayoutType/Column2d6633.php:18
+#: lib/Content/LayoutType/Column2d7030.php:18
+#: lib/Content/LayoutType/Column2d7525.php:18
+#: lib/Content/LayoutType/Column2header.php:18
+#: lib/Content/LayoutType/Column3d252550.php:18
+#: lib/Content/LayoutType/Column3d255025.php:18
+#: lib/Content/LayoutType/Column3d502525.php:18
+#: lib/Content/LayoutType/Column3header.php:18
+msgid "Header"
 msgstr ""
 
-#: lib/Content/Controller/User.php:121 templates/admin/editpage.tpl:199
-#: templates/admin/tocedit.tpl:25
-msgid "Preview"
+#: lib/Content/LayoutType/Column1.php:19
+#: lib/Content/LayoutType/Column1top.php:22
+#: lib/Content/LayoutType/Column1woheader.php:18
+#: lib/Content/LayoutType/Column3d252550.php:20
+#: lib/Content/LayoutType/Column3d255025.php:20
+#: lib/Content/LayoutType/Column3d502525.php:20
+#: lib/Content/LayoutType/Column3header.php:20
+msgid "Centre column"
 msgstr ""
 
-#: lib/Content/Controller/User.php:238
-msgid "Error! Unknown page."
+#: lib/Content/LayoutType/Column1.php:23
+msgid "1 column"
 msgstr ""
 
-#: lib/Content/Controller/Admin.php:142
-msgid "No ContentTypes upgraded (there were no matches found)."
+#: lib/Content/LayoutType/Column1.php:27
+msgid "Header + single 100% wide column"
 msgstr ""
 
-#: lib/Content/Controller/Admin.php:154
-#, php-format
-msgid "Module '%s' migrated successfully."
+#: lib/Content/LayoutType/Column1top.php:21
+msgid "Header above page headline"
 msgstr ""
 
-#: lib/Content/Controller/Admin.php:156
-#, php-format
-msgid "Error: Unable to migrate module '%s'."
+#: lib/Content/LayoutType/Column1top.php:26
+msgid "1 column, header above page headline"
 msgstr ""
 
-#: lib/Content/Controller/Ajax.php:33
-msgid "Ok"
+#: lib/Content/LayoutType/Column1top.php:30
+msgid ""
+"Single 100% wide column and a top-header above the page headline (for e.g. "
+"breadcrumbs or author-information above the title)"
 msgstr ""
 
-#: lib/Content/Controller/Ajax.php:52 lib/Content/Controller/Ajax.php:78
-msgid "Error! No page ID passed."
+#: lib/Content/LayoutType/Column1woheader.php:22
+msgid "1 column no header"
 msgstr ""
 
-#: lib/Content/Controller/Ajax.php:57 lib/Content/Controller/Ajax.php:83
-msgid "Error! Could not update state."
+#: lib/Content/LayoutType/Column1woheader.php:26
+msgid "Single 100% wide column without header"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:19
+#: lib/Content/LayoutType/Column21212.php:19
+#: lib/Content/LayoutType/Column21212rightcol.php:19
+msgid "Left column1"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:20
+#: lib/Content/LayoutType/Column21212.php:20
+#: lib/Content/LayoutType/Column21212rightcol.php:20
+msgid "Right column1"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:21
+msgid "Center"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:22
+#: lib/Content/LayoutType/Column21212.php:22
+#: lib/Content/LayoutType/Column21212rightcol.php:22
+msgid "Left column2"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:23
+#: lib/Content/LayoutType/Column21212.php:23
+#: lib/Content/LayoutType/Column21212rightcol.php:23
+msgid "Right column2"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:24
+#: lib/Content/LayoutType/Column21212.php:27
+#: lib/Content/LayoutType/Column21212rightcol.php:27
+#: lib/Content/LayoutType/Column2d2575.php:21
+#: lib/Content/LayoutType/Column2d3070.php:21
+#: lib/Content/LayoutType/Column2d3366.php:21
+#: lib/Content/LayoutType/Column2d3862.php:21
+#: lib/Content/LayoutType/Column2d6238.php:21
+#: lib/Content/LayoutType/Column2d6633.php:21
+#: lib/Content/LayoutType/Column2d7030.php:21
+#: lib/Content/LayoutType/Column2d7525.php:21
+#: lib/Content/LayoutType/Column2header.php:21
+#: lib/Content/LayoutType/Column3d252550.php:22
+#: lib/Content/LayoutType/Column3d255025.php:22
+#: lib/Content/LayoutType/Column3d502525.php:22
+#: lib/Content/LayoutType/Column3header.php:22
+msgid "Footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:29
+msgid "2-1-2 columns (50|50)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column212.php:33
+msgid "Header + two-one-two columns (50|50) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212.php:21
+#: lib/Content/LayoutType/Column21212rightcol.php:21
+msgid "Center1"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212.php:24
+#: lib/Content/LayoutType/Column21212rightcol.php:24
+msgid "Center2"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212.php:25
+#: lib/Content/LayoutType/Column21212rightcol.php:25
+msgid "Left column3"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212.php:26
+#: lib/Content/LayoutType/Column21212rightcol.php:26
+msgid "Right column3"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212.php:32
+msgid "2-1-2-1-2 columns (50|50)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212.php:36
+msgid "Header + two-one-two-one-two columns (50|50) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212rightcol.php:28
+msgid "Right Extra Column Top"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212rightcol.php:29
+msgid "Right Extra Column Bottom"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212rightcol.php:34
+msgid "2-1-2-1-2 columns (50|50) + extra right column"
+msgstr ""
+
+#: lib/Content/LayoutType/Column21212rightcol.php:38
+msgid ""
+"Header + two-one-two-one-two columns (50|50) + footer + extra right column"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d2575.php:19
+#: lib/Content/LayoutType/Column2d3070.php:19
+#: lib/Content/LayoutType/Column2d3366.php:19
+#: lib/Content/LayoutType/Column2d3862.php:19
+#: lib/Content/LayoutType/Column2d6238.php:19
+#: lib/Content/LayoutType/Column2d6633.php:19
+#: lib/Content/LayoutType/Column2d7030.php:19
+#: lib/Content/LayoutType/Column2d7525.php:19
+#: lib/Content/LayoutType/Column2header.php:19
+#: lib/Content/LayoutType/Column3d252550.php:19
+#: lib/Content/LayoutType/Column3d255025.php:19
+#: lib/Content/LayoutType/Column3d502525.php:19
+#: lib/Content/LayoutType/Column3header.php:19
+msgid "Left column"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d2575.php:20
+#: lib/Content/LayoutType/Column2d3070.php:20
+#: lib/Content/LayoutType/Column2d3366.php:20
+#: lib/Content/LayoutType/Column2d3862.php:20
+#: lib/Content/LayoutType/Column2d6238.php:20
+#: lib/Content/LayoutType/Column2d6633.php:20
+#: lib/Content/LayoutType/Column2d7030.php:20
+#: lib/Content/LayoutType/Column2d7525.php:20
+#: lib/Content/LayoutType/Column2header.php:20
+#: lib/Content/LayoutType/Column3d252550.php:21
+#: lib/Content/LayoutType/Column3d255025.php:21
+#: lib/Content/LayoutType/Column3d502525.php:21
+#: lib/Content/LayoutType/Column3header.php:21
+msgid "Right column"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d2575.php:25
+msgid "2 columns (25|75)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d2575.php:29
+msgid "Header + two columns (25|75) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d3070.php:25
+msgid "2 columns (30|70)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d3070.php:29
+msgid "Header + two columns (30|70) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d3366.php:25
+msgid "2 columns (33|66)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d3366.php:29
+msgid "Header + two columns (33|66) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d3862.php:25
+msgid "2 columns (38|62)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d3862.php:29
+msgid "Header + two columns (38|62) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d6238.php:25
+msgid "2 columns (62|38)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d6238.php:29
+msgid "Header + two columns (62|38) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d6633.php:25
+msgid "2 columns (66|33)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d6633.php:29
+msgid "Header + two columns (66|33) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d7030.php:25
+msgid "2 columns (70|30)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d7030.php:29
+msgid "Header + two columns (70|30) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d7525.php:25
+msgid "2 columns (75|25)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2d7525.php:29
+msgid "Header + two columns (75|25) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2header.php:25
+msgid "2 columns (50|50)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column2header.php:29
+msgid "Header + two columns (50|50) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3d252550.php:26
+msgid "3 columns (25|25|50)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3d252550.php:30
+msgid "Header + three columns (25|25|50) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3d255025.php:26
+msgid "3 columns (25|50|25)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3d255025.php:30
+msgid "Header + three columns (25|50|25) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3d502525.php:26
+msgid "3 columns (50|25|25)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3d502525.php:30
+msgid "Header + three columns (50|25|25) + footer"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3header.php:26
+msgid "3 columns (33|33|33)"
+msgstr ""
+
+#: lib/Content/LayoutType/Column3header.php:30
+msgid "Header + three columns (33|33|33) + footer"
 msgstr ""
 
 #: lib/Content/Version.php:19
@@ -1172,52 +1192,431 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: lib/Content/Version.php:42
+#: lib/Content/Version.php:43
 msgid "Content Display Hooks"
 msgstr ""
 
-#: lib/Content/Version.php:52
+#: lib/Content/Version.php:53
 msgid "Content Filter Hooks"
 msgstr ""
 
-#: lib/Content/Block/OnePage.php:22
-msgid "Content onepage"
+#: pnneedleapi/content.php:37
+msgid "Unknown id"
 msgstr ""
 
-#: lib/Content/Block/OnePage.php:23
-msgid "Content onepage block"
+#: pnneedleapi/content.php:40
+msgid "Content not available"
 msgstr ""
 
-#: lib/Content/Block/OnePage.php:46
-msgid "No page selected"
+#: pnneedleapi/content.php:45
+msgid "No needle id"
 msgstr ""
 
-#: lib/Content/Block/OnePage.php:61
-msgid "Select a page"
+#: templates/plugins/function.contentareatitle.php:15
+#, php-format
+msgid "%s area"
 msgstr ""
 
-#: lib/Content/Block/Menu.php:21
-msgid "Content menu"
+#: templates/plugins/function.contentcodeeditor.php:33
+#: templates/plugins/function.contenthtmleditor.php:58
+msgid "Please install the BBCode module to enable BBCodes display."
 msgstr ""
 
-#: lib/Content/Block/Menu.php:22
-msgid "Content menu block"
+#: templates/plugins/function.contenteditthis.php:33
+msgid "Edit this page"
 msgstr ""
 
-#: lib/Content/Block/Mostviewed.php:21
-msgid "Content Most Viewed"
+#: templates/plugins/function.contenteditthis.php:35
+msgid "Translate this page"
 msgstr ""
 
-#: lib/Content/Block/Mostviewed.php:22
-msgid "Content Most viewed Pages block"
+#: templates/plugins/function.contenteditthis.php:42
+#, php-format
+msgid "Edit this: %1$s [ID%2$s]"
 msgstr ""
 
-#: lib/Content/Block/SubPages.php:21
-msgid "Content subpages of current page"
+#: templates/plugins/function.contenteditthis.php:43
+msgid "Click to edit this content item"
 msgstr ""
 
-#: lib/Content/Block/SubPages.php:22
-msgid "Content subpages of the current page in a block"
+#: templates/plugins/function.contenteditthis.php:45
+#: templates/admin/editcontent.tpl:58 templates/admin/editpage.tpl:45
+#: templates/admin/editpage.tpl:208 templates/admin/tocedit.tpl:34
+msgid "Translate"
+msgstr ""
+
+#: templates/plugins/function.contenthtmleditor.php:43
+#, php-format
+msgid "The WYSIWYG editor (%s) is installed but no default editor is assigned."
+msgstr ""
+
+#: templates/plugins/function.contenthtmleditor.php:48
+#, php-format
+msgid "Please install the %s module to use the WYSIWYG HTML editor."
+msgstr ""
+
+#: templates/plugins/function.contentinsertlink.php:21
+msgid "Add new content here"
+msgstr ""
+
+#: templates/admin/clonepage.tpl:17 templates/admin/editpage.tpl:71
+#: templates/admin/newpage.tpl:32 templates/admin/translatepage.tpl:17
+#: templates/admin/translatepage.tpl:33
+msgid "Page title"
+msgstr ""
+
+#: templates/admin/clonepage.tpl:21 templates/admin/editpage.tpl:79
+#: templates/admin/newpage.tpl:36
+msgid "Permalink URL name"
+msgstr ""
+
+#: templates/admin/clonepage.tpl:23
+msgid ""
+"Used to refer this page in short URLs mode. Leave as blank for default value."
+msgstr ""
+
+#: templates/admin/clonepage.tpl:26
+msgid "Clone translations"
+msgstr ""
+
+#: templates/admin/clonepage.tpl:34
+msgid "Clone"
+msgstr ""
+
+#: templates/admin/clonepage.tpl:35 templates/admin/editcontent.tpl:60
+#: templates/admin/editpage.tpl:210 templates/admin/migrate.tpl:23
+#: templates/admin/newcontent.tpl:26 templates/admin/newpage.tpl:61
+#: templates/admin/settings.tpl:121 templates/admin/translatecontent.tpl:34
+#: templates/admin/translatepage.tpl:51
+msgid "Cancel"
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:8 templates/admin/history.tpl:11
+msgid ""
+"Version history is currently disabled and no new entries will be recorded."
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:16
+msgid "Original page title"
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:17 templates/admin/history.tpl:20
+msgid "Date"
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:18 templates/admin/history.tpl:22
+msgid "User"
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:19 templates/admin/history.tpl:23
+msgid "IP.No."
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:20 templates/admin/history.tpl:24
+msgid "Action"
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:30 templates/admin/history.tpl:35
+msgid "Restore"
+msgstr ""
+
+#: templates/admin/deletedpages.tpl:33 templates/admin/history.tpl:38
+msgid "No history data recorded."
+msgstr ""
+
+#: templates/admin/editcontent.tpl:4
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:16 templates/admin/editpage.tpl:62
+#: templates/search/options.tpl:3
+msgid "Content"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:18
+msgid "ID"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:21 templates/admin/editpage.tpl:116
+#: templates/admin/settings.tpl:88 templates/admin/settings.tpl:101
+#: templates/admin/tocedit.tpl:89 templates/admin/tocedit.tpl:90
+msgid "Active"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:25
+msgid "Visible for"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:31 templates/admin/editcontent.tpl:33
+#: templates/admin/editpage.tpl:178
+msgid "Layout"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:34
+msgid "Positioning works only with fixed width!"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:36
+msgid "Position"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:40
+msgid "Width"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:44 templates/admin/settings.tpl:55
+msgid "Styling"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:53 templates/admin/editpage.tpl:200
+#: templates/admin/settings.tpl:120 templates/admin/translatecontent.tpl:30
+#: templates/admin/translatepage.tpl:49
+msgid "Save"
+msgstr ""
+
+#: templates/admin/editcontent.tpl:55 templates/admin/editpage.tpl:44
+#: templates/admin/editpage.tpl:205 templates/admin/tocedit.tpl:38
+#: templates/admin/translatecontent.tpl:32
+#: templates/admin/translatepage.tpl:50
+msgid "Delete"
+msgstr ""
+
+#: templates/admin/editpage.tpl:23
+msgid "Edit Page"
+msgstr ""
+
+#: templates/admin/editpage.tpl:38 templates/admin/tocedit.tpl:24
+msgid "Edit"
+msgstr ""
+
+#: templates/admin/editpage.tpl:40
+msgid "Clone content"
+msgstr ""
+
+#: templates/admin/editpage.tpl:41
+msgid "Add new content above"
+msgstr ""
+
+#: templates/admin/editpage.tpl:42
+msgid "Add new content below"
+msgstr ""
+
+#: templates/admin/editpage.tpl:58 templates/admin/tocedit.tpl:35
+msgid "History"
+msgstr ""
+
+#: templates/admin/editpage.tpl:63
+msgid ""
+"Here you manage the content of this page. You can add/edit/delete content as "
+"well as drag the content boxes around to get the layout right. Click on the "
+"icon next to the title for the options of that content item."
+msgstr ""
+
+#: templates/admin/editpage.tpl:67
+msgid "Options"
+msgstr ""
+
+#: templates/admin/editpage.tpl:69
+msgid "Page settings"
+msgstr ""
+
+#: templates/admin/editpage.tpl:75
+msgid "Display title on page"
+msgstr ""
+
+#: templates/admin/editpage.tpl:81 templates/admin/newpage.tpl:38
+msgid "(Used in shorturl mode and generated automatically if left blank)"
+msgstr ""
+
+#: templates/admin/editpage.tpl:84
+msgid "Page language"
+msgstr ""
+
+#: templates/admin/editpage.tpl:88
+msgid "Include page in menu"
+msgstr ""
+
+#: templates/admin/editpage.tpl:90
+msgid ""
+"You can include/exclude the page in the menu. The page is only shown when it "
+"is also Online."
+msgstr ""
+
+#: templates/admin/editpage.tpl:93
+msgid "Do not display hooks on this page"
+msgstr ""
+
+#: templates/admin/editpage.tpl:95
+msgid ""
+"Checking this option will just ignore all the hooks for this page, it does "
+"not replace permissions."
+msgstr ""
+
+#: templates/admin/editpage.tpl:100
+msgid "Meta tags"
+msgstr ""
+
+#: templates/admin/editpage.tpl:102 templates/admin/settings.tpl:91
+#: templates/contenttype/openstreetmap_translate_new.tpl:2
+#: templates/contenttype/openstreetmap_translate_original.tpl:2
+#: templates/contenttype/quote_edit.tpl:12
+#: templates/contenttype/quote_translate_new.tpl:11
+msgid "Description"
+msgstr ""
+
+#: templates/admin/editpage.tpl:106
+msgid "Keywords"
+msgstr ""
+
+#: templates/admin/editpage.tpl:114
+msgid "Page state"
+msgstr ""
+
+#: templates/admin/editpage.tpl:118
+msgid ""
+"You can set the page active/inactive as well as supply a publication date "
+"interval. A page is only online if it is active and within the publication "
+"interval."
+msgstr ""
+
+#: templates/admin/editpage.tpl:121
+msgid "Start date"
+msgstr ""
+
+#: templates/admin/editpage.tpl:125
+msgid "End date"
+msgstr ""
+
+#: templates/admin/editpage.tpl:129
+msgid "Created"
+msgstr ""
+
+#: templates/admin/editpage.tpl:130 templates/admin/editpage.tpl:134
+#: templates/admin/tocedit.tpl:108 templates/block/menuitem_wmeta.tpl:3
+#, php-format
+msgid "on %1$s by %2$s"
+msgstr ""
+
+#: templates/admin/editpage.tpl:133
+msgid "Updated"
+msgstr ""
+
+#: templates/admin/editpage.tpl:146 templates/admin/editpage.tpl:148
+msgid "Category"
+msgstr ""
+
+#: templates/admin/editpage.tpl:154 templates/user/main.tpl:1
+msgid "Categories"
+msgstr ""
+
+#: templates/admin/editpage.tpl:156
+msgid "Primary category"
+msgstr ""
+
+#: templates/admin/editpage.tpl:163
+msgid "Secondary category"
+msgstr ""
+
+#: templates/admin/editpage.tpl:168
+msgid "Secondary categories"
+msgstr ""
+
+#: templates/admin/editpage.tpl:180 templates/admin/editpage.tpl:182
+#: templates/admin/newpage.tpl:45
+msgid "Page layout"
+msgstr ""
+
+#: templates/admin/editpage.tpl:186 templates/admin/newpage.tpl:49
+msgid "Layout preview and description"
+msgstr ""
+
+#: templates/admin/editpage.tpl:202
+msgid "Save & View"
+msgstr ""
+
+#: templates/admin/history.tpl:19
+msgid "Revision #"
+msgstr ""
+
+#: templates/admin/history.tpl:21
+msgid "Event"
+msgstr ""
+
+#: templates/admin/main.tpl:10
+msgid ""
+"This is where you manage all your pages. You can add/edit/delete/translate "
+"pages (depending on permission rights) as well as drag them around to get "
+"the content structure right."
+msgstr ""
+
+#: templates/admin/main.tpl:15
+msgid ""
+"Click on the arrow right of a page title for the options of that page. To "
+"drag and drop a page you must select the folder icon left of the title and "
+"drop it on the title of another page. A page with sub-pages can be expanded "
+"or contracted by clicking on the plus or minus left of the page title. To "
+"activate/deactive pages or make pages (not) available in the menu click on "
+"the led icons."
+msgstr ""
+
+#: templates/admin/main_unneeded.tpl:4
+msgid "Module administration"
+msgstr ""
+
+#: templates/admin/main_unneeded.tpl:7
+msgid ""
+"Welcome to your content administration. We have split the editing and "
+"administrative setup into separate systems. So please select from the list "
+"below or the menu above."
+msgstr ""
+
+#: templates/admin/main_unneeded.tpl:15
+msgid "Extended page list (showing page headers)"
+msgstr ""
+
+#: templates/admin/main_unneeded.tpl:16
+msgid "Complete page list (showing complete pages)"
+msgstr ""
+
+#: templates/admin/main_unneeded.tpl:17
+msgid "Show content by category"
+msgstr ""
+
+#: templates/admin/migrate.tpl:4
+msgid "Migrate Data to Content"
+msgstr ""
+
+#: templates/admin/migrate.tpl:11
+msgid "Module selection"
+msgstr ""
+
+#: templates/admin/migrate.tpl:13
+msgid "Select a module"
+msgstr ""
+
+#: templates/admin/migrate.tpl:22
+msgid "Migrate"
+msgstr ""
+
+#: templates/admin/newcontent.tpl:17
+msgid "Please select the type of content you want to add to your page."
+msgstr ""
+
+#: templates/admin/newcontent.tpl:20
+msgid "Select content type"
+msgstr ""
+
+#: templates/admin/newcontent.tpl:25 templates/admin/newpage.tpl:60
+msgid "Create"
+msgstr ""
+
+#: templates/admin/newpage.tpl:8
+msgid "Select Layout"
+msgstr ""
+
+#: templates/admin/newpage.tpl:43
+msgid "Please select a specific layout for your page"
 msgstr ""
 
 #: templates/admin/settings.tpl:4
@@ -1294,10 +1693,6 @@ msgid ""
 "blocks, etc."
 msgstr ""
 
-#: templates/admin/settings.tpl:55 templates/admin/editcontent.tpl:44
-msgid "Styling"
-msgstr ""
-
 #: templates/admin/settings.tpl:57
 msgid ""
 "A list of CSS class names available for styling of content elements. The end "
@@ -1351,12 +1746,6 @@ msgstr ""
 msgid "Installed"
 msgstr ""
 
-#: templates/admin/settings.tpl:88 templates/admin/settings.tpl:101
-#: templates/admin/editpage.tpl:116 templates/admin/editcontent.tpl:21
-#: templates/admin/tocedit.tpl:89 templates/admin/tocedit.tpl:90
-msgid "Active"
-msgstr ""
-
 #: templates/admin/settings.tpl:89
 msgid "Module"
 msgstr ""
@@ -1365,392 +1754,9 @@ msgstr ""
 msgid "Plugin"
 msgstr ""
 
-#: templates/admin/settings.tpl:91 templates/admin/editpage.tpl:102
-#: templates/contenttype/openstreetmap_translate_new.tpl:2
-#: templates/contenttype/quote_edit.tpl:12
-#: templates/contenttype/quote_translate_new.tpl:11
-#: templates/contenttype/openstreetmap_translate_original.tpl:2
-msgid "Description"
-msgstr ""
-
 #: templates/admin/settings.tpl:103 templates/admin/tocedit.tpl:93
 #: templates/admin/tocedit.tpl:94
 msgid "Inactive"
-msgstr ""
-
-#: templates/admin/settings.tpl:120 templates/admin/editpage.tpl:200
-#: templates/admin/translatepage.tpl:49
-#: templates/admin/translatecontent.tpl:30 templates/admin/editcontent.tpl:53
-msgid "Save"
-msgstr ""
-
-#: templates/admin/settings.tpl:121 templates/admin/migrate.tpl:23
-#: templates/admin/newpage.tpl:61 templates/admin/editpage.tpl:210
-#: templates/admin/translatepage.tpl:51
-#: templates/admin/translatecontent.tpl:34 templates/admin/clonepage.tpl:35
-#: templates/admin/newcontent.tpl:26 templates/admin/editcontent.tpl:60
-msgid "Cancel"
-msgstr ""
-
-#: templates/admin/migrate.tpl:4
-msgid "Migrate Data to Content"
-msgstr ""
-
-#: templates/admin/migrate.tpl:11
-msgid "Module selection"
-msgstr ""
-
-#: templates/admin/migrate.tpl:13
-msgid "Select a module"
-msgstr ""
-
-#: templates/admin/migrate.tpl:22
-msgid "Migrate"
-msgstr ""
-
-#: templates/admin/newpage.tpl:8
-msgid "Select Layout"
-msgstr ""
-
-#: templates/admin/newpage.tpl:32 templates/admin/editpage.tpl:71
-#: templates/admin/translatepage.tpl:17 templates/admin/translatepage.tpl:33
-#: templates/admin/clonepage.tpl:17
-msgid "Page title"
-msgstr ""
-
-#: templates/admin/newpage.tpl:36 templates/admin/editpage.tpl:79
-#: templates/admin/clonepage.tpl:21
-msgid "Permalink URL name"
-msgstr ""
-
-#: templates/admin/newpage.tpl:38 templates/admin/editpage.tpl:81
-msgid "(Used in shorturl mode and generated automatically if left blank)"
-msgstr ""
-
-#: templates/admin/newpage.tpl:43
-msgid "Please select a specific layout for your page"
-msgstr ""
-
-#: templates/admin/newpage.tpl:45 templates/admin/editpage.tpl:180
-#: templates/admin/editpage.tpl:182
-msgid "Page layout"
-msgstr ""
-
-#: templates/admin/newpage.tpl:49 templates/admin/editpage.tpl:186
-msgid "Layout preview and description"
-msgstr ""
-
-#: templates/admin/newpage.tpl:60 templates/admin/newcontent.tpl:25
-msgid "Create"
-msgstr ""
-
-#: templates/admin/history.tpl:11 templates/admin/deletedpages.tpl:8
-msgid ""
-"Version history is currently disabled and no new entries will be recorded."
-msgstr ""
-
-#: templates/admin/history.tpl:19
-msgid "Revision #"
-msgstr ""
-
-#: templates/admin/history.tpl:20 templates/admin/deletedpages.tpl:17
-msgid "Date"
-msgstr ""
-
-#: templates/admin/history.tpl:21
-msgid "Event"
-msgstr ""
-
-#: templates/admin/history.tpl:22 templates/admin/deletedpages.tpl:18
-msgid "User"
-msgstr ""
-
-#: templates/admin/history.tpl:23 templates/admin/deletedpages.tpl:19
-msgid "IP.No."
-msgstr ""
-
-#: templates/admin/history.tpl:24 templates/admin/deletedpages.tpl:20
-msgid "Action"
-msgstr ""
-
-#: templates/admin/history.tpl:35 templates/admin/deletedpages.tpl:30
-msgid "Restore"
-msgstr ""
-
-#: templates/admin/history.tpl:38 templates/admin/deletedpages.tpl:33
-msgid "No history data recorded."
-msgstr ""
-
-#: templates/admin/editpage.tpl:23
-msgid "Edit Page"
-msgstr ""
-
-#: templates/admin/editpage.tpl:38 templates/admin/tocedit.tpl:24
-msgid "Edit"
-msgstr ""
-
-#: templates/admin/editpage.tpl:40
-msgid "Clone content"
-msgstr ""
-
-#: templates/admin/editpage.tpl:41
-msgid "Add new content above"
-msgstr ""
-
-#: templates/admin/editpage.tpl:42
-msgid "Add new content below"
-msgstr ""
-
-#: templates/admin/editpage.tpl:44 templates/admin/editpage.tpl:205
-#: templates/admin/translatepage.tpl:50
-#: templates/admin/translatecontent.tpl:32 templates/admin/editcontent.tpl:55
-#: templates/admin/tocedit.tpl:38
-msgid "Delete"
-msgstr ""
-
-#: templates/admin/editpage.tpl:58 templates/admin/tocedit.tpl:35
-msgid "History"
-msgstr ""
-
-#: templates/admin/editpage.tpl:62 templates/admin/editcontent.tpl:16
-#: templates/search/options.tpl:3
-msgid "Content"
-msgstr ""
-
-#: templates/admin/editpage.tpl:63
-msgid ""
-"Here you manage the content of this page. You can add/edit/delete content as "
-"well as drag the content boxes around to get the layout right. Click on the "
-"icon next to the title for the options of that content item."
-msgstr ""
-
-#: templates/admin/editpage.tpl:67
-msgid "Options"
-msgstr ""
-
-#: templates/admin/editpage.tpl:69
-msgid "Page settings"
-msgstr ""
-
-#: templates/admin/editpage.tpl:75
-msgid "Display title on page"
-msgstr ""
-
-#: templates/admin/editpage.tpl:84
-msgid "Page language"
-msgstr ""
-
-#: templates/admin/editpage.tpl:88
-msgid "Include page in menu"
-msgstr ""
-
-#: templates/admin/editpage.tpl:90
-msgid ""
-"You can include/exclude the page in the menu. The page is only shown when it "
-"is also Online."
-msgstr ""
-
-#: templates/admin/editpage.tpl:93
-msgid "Do not display hooks on this page"
-msgstr ""
-
-#: templates/admin/editpage.tpl:95
-msgid ""
-"Checking this option will just ignore all the hooks for this page, it does "
-"not replace permissions."
-msgstr ""
-
-#: templates/admin/editpage.tpl:100
-msgid "Meta tags"
-msgstr ""
-
-#: templates/admin/editpage.tpl:106
-msgid "Keywords"
-msgstr ""
-
-#: templates/admin/editpage.tpl:114
-msgid "Page state"
-msgstr ""
-
-#: templates/admin/editpage.tpl:118
-msgid ""
-"You can set the page active/inactive as well as supply a publication date "
-"interval. A page is only online if it is active and within the publication "
-"interval."
-msgstr ""
-
-#: templates/admin/editpage.tpl:121
-msgid "Start date"
-msgstr ""
-
-#: templates/admin/editpage.tpl:125
-msgid "End date"
-msgstr ""
-
-#: templates/admin/editpage.tpl:129
-msgid "Created"
-msgstr ""
-
-#: templates/admin/editpage.tpl:130 templates/admin/editpage.tpl:134
-#: templates/admin/tocedit.tpl:108
-#, php-format
-msgid "on %1$s by %2$s"
-msgstr ""
-
-#: templates/admin/editpage.tpl:133
-msgid "Updated"
-msgstr ""
-
-#: templates/admin/editpage.tpl:146 templates/admin/editpage.tpl:148
-msgid "Category"
-msgstr ""
-
-#: templates/admin/editpage.tpl:154 templates/user/main.tpl:1
-msgid "Categories"
-msgstr ""
-
-#: templates/admin/editpage.tpl:156
-msgid "Primary category"
-msgstr ""
-
-#: templates/admin/editpage.tpl:163
-msgid "Secondary category"
-msgstr ""
-
-#: templates/admin/editpage.tpl:168
-msgid "Secondary categories"
-msgstr ""
-
-#: templates/admin/editpage.tpl:178 templates/admin/editcontent.tpl:31
-#: templates/admin/editcontent.tpl:33
-msgid "Layout"
-msgstr ""
-
-#: templates/admin/editpage.tpl:202
-msgid "Save & View"
-msgstr ""
-
-#: templates/admin/translatepage.tpl:7
-msgid ""
-"You can only translate the actual page data here. The content items must be "
-"translated one by one."
-msgstr ""
-
-#: templates/admin/translatepage.tpl:15
-#: templates/admin/translatecontent.tpl:15
-msgid "Original content"
-msgstr ""
-
-#: templates/admin/translatepage.tpl:21 templates/admin/translatepage.tpl:37
-msgid "Meta description"
-msgstr ""
-
-#: templates/admin/translatepage.tpl:25 templates/admin/translatepage.tpl:41
-msgid "Meta keywords"
-msgstr ""
-
-#: templates/admin/translatepage.tpl:31
-#: templates/admin/translatecontent.tpl:22
-msgid "Translated content"
-msgstr ""
-
-#: templates/admin/translatepage.tpl:47
-#: templates/admin/translatecontent.tpl:28
-msgid "Next"
-msgstr ""
-
-#: templates/admin/translatepage.tpl:48
-#: templates/admin/translatecontent.tpl:29
-msgid "Skip"
-msgstr ""
-
-#: templates/admin/translatepage.tpl:50
-msgid "Delete page translation AND all content translations"
-msgstr ""
-
-#: templates/admin/main_unneeded.tpl:4
-msgid "Module administration"
-msgstr ""
-
-#: templates/admin/main_unneeded.tpl:7
-msgid ""
-"Welcome to your content administration. We have split the editing and "
-"administrative setup into separate systems. So please select from the list "
-"below or the menu above."
-msgstr ""
-
-#: templates/admin/main_unneeded.tpl:15
-msgid "Extended page list (showing page headers)"
-msgstr ""
-
-#: templates/admin/main_unneeded.tpl:16
-msgid "Complete page list (showing complete pages)"
-msgstr ""
-
-#: templates/admin/main_unneeded.tpl:17
-msgid "Show content by category"
-msgstr ""
-
-#: templates/admin/deletedpages.tpl:16
-msgid "Original page title"
-msgstr ""
-
-#: templates/admin/translatecontent.tpl:27
-msgid "Previous"
-msgstr ""
-
-#: templates/admin/translatecontent.tpl:38
-msgid "Error! There is nothing to translate for this content type."
-msgstr ""
-
-#: templates/admin/translatecontent.tpl:41
-msgid "Back"
-msgstr ""
-
-#: templates/admin/clonepage.tpl:23
-msgid ""
-"Used to refer this page in short URLs mode. Leave as blank for default value."
-msgstr ""
-
-#: templates/admin/clonepage.tpl:26
-msgid "Clone translations"
-msgstr ""
-
-#: templates/admin/clonepage.tpl:34
-msgid "Clone"
-msgstr ""
-
-#: templates/admin/newcontent.tpl:17
-msgid "Please select the type of content you want to add to your page."
-msgstr ""
-
-#: templates/admin/newcontent.tpl:20
-msgid "Select content type"
-msgstr ""
-
-#: templates/admin/editcontent.tpl:4
-#, php-format
-msgid "Edit %s"
-msgstr ""
-
-#: templates/admin/editcontent.tpl:18
-msgid "ID"
-msgstr ""
-
-#: templates/admin/editcontent.tpl:25
-msgid "Visible for"
-msgstr ""
-
-#: templates/admin/editcontent.tpl:34
-msgid "Positioning works only with fixed width!"
-msgstr ""
-
-#: templates/admin/editcontent.tpl:36
-msgid "Position"
-msgstr ""
-
-#: templates/admin/editcontent.tpl:40
-msgid "Width"
 msgstr ""
 
 #: templates/admin/tocedit.tpl:29
@@ -1855,90 +1861,478 @@ msgstr ""
 msgid "No pages available."
 msgstr ""
 
-#: templates/admin/main.tpl:10
+#: templates/admin/translatecontent.tpl:15
+#: templates/admin/translatepage.tpl:15
+msgid "Original content"
+msgstr ""
+
+#: templates/admin/translatecontent.tpl:22
+#: templates/admin/translatepage.tpl:31
+msgid "Translated content"
+msgstr ""
+
+#: templates/admin/translatecontent.tpl:27
+msgid "Previous"
+msgstr ""
+
+#: templates/admin/translatecontent.tpl:28
+#: templates/admin/translatepage.tpl:47
+msgid "Next"
+msgstr ""
+
+#: templates/admin/translatecontent.tpl:29
+#: templates/admin/translatepage.tpl:48
+msgid "Skip"
+msgstr ""
+
+#: templates/admin/translatecontent.tpl:38
+msgid "Error! There is nothing to translate for this content type."
+msgstr ""
+
+#: templates/admin/translatecontent.tpl:41
+msgid "Back"
+msgstr ""
+
+#: templates/admin/translatepage.tpl:7
 msgid ""
-"This is where you manage all your pages. You can add/edit/delete/translate "
-"pages (depending on permission rights) as well as drag them around to get "
-"the content structure right."
+"You can only translate the actual page data here. The content items must be "
+"translated one by one."
 msgstr ""
 
-#: templates/admin/main.tpl:15
+#: templates/admin/translatepage.tpl:21 templates/admin/translatepage.tpl:37
+msgid "Meta description"
+msgstr ""
+
+#: templates/admin/translatepage.tpl:25 templates/admin/translatepage.tpl:41
+msgid "Meta keywords"
+msgstr ""
+
+#: templates/admin/translatepage.tpl:50
+msgid "Delete page translation AND all content translations"
+msgstr ""
+
+#: templates/block/lastupdated_modify.tpl:2 templates/block/menu_modify.tpl:2
+#: templates/block/mostviewed_modify.tpl:2
+msgid "Include the following subpages"
+msgstr ""
+
+#: templates/block/lastupdated_modify.tpl:13
+#: templates/block/mostviewed_modify.tpl:13
+msgid "How many pages should be shown"
+msgstr ""
+
+#: templates/block/lastupdated_modify.tpl:18
+#: templates/block/mostviewed_modify.tpl:18
+#: templates/block/subpages_modify.tpl:4
+msgid "Use caching in this block"
+msgstr ""
+
+#: templates/block/lastupdated_modify.tpl:20
+#: templates/block/menu_modify.tpl:15 templates/block/mostviewed_modify.tpl:20
+#: templates/block/subpages_modify.tpl:6
+msgid "Overrides global setting."
+msgstr ""
+
+#: templates/block/lastupdated_modify.tpl:24
+#: templates/block/mostviewed_modify.tpl:24
+#: templates/block/subpages_modify.tpl:10
+msgid "Use only pages activated for the menu"
+msgstr ""
+
+#: templates/block/menu_modify.tpl:13
+msgid "Use caching in the menu block"
+msgstr ""
+
+#: templates/block/onepage_modify.tpl:2
+msgid "Include the following page"
+msgstr ""
+
+#: templates/block/subpages.tpl:8
+msgid "No subpages"
+msgstr ""
+
+#: templates/block/subpages_modify.tpl:1
 msgid ""
-"Click on the arrow right of a page title for the options of that page. To "
-"drag and drop a page you must select the folder icon left of the title and "
-"drop it on the title of another page. A page with sub-pages can be expanded "
-"or contracted by clicking on the plus or minus left of the page title. To "
-"activate/deactive pages or make pages (not) available in the menu click on "
-"the led icons."
+"This block will only show the subpages of a Content page when that Content "
+"page is being displayed."
 msgstr ""
 
-#: templates/user/pagelist.tpl:1 templates/user/pagelist.tpl:4
-msgid "Complete page list"
+#: templates/content_include_contentedit.tpl:8
+msgid "Item not Active"
 msgstr ""
 
-#: templates/user/pagelist.tpl:11
-msgid "View full page"
-msgstr ""
-
-#: templates/user/pagelist.tpl:16 templates/user/extlist.tpl:18
-#: templates/user/list.tpl:13 templates/user/main.tpl:19
-msgid "There are no pages to display."
-msgstr ""
-
-#: templates/user/extlist.tpl:1 templates/user/extlist.tpl:2
-msgid "Extended page list"
-msgstr ""
-
-#: templates/user/extlist.tpl:14
-msgid "more"
-msgstr ""
-
-#: templates/user/subpages.tpl:1
+#: templates/content_include_contentedit.tpl:11
 #, php-format
-msgid "Subpages of %s"
+msgid "ID %d"
 msgstr ""
 
-#: templates/user/subpages.tpl:6
-msgid "No subpages available"
+#: templates/contenttype/author_edit.tpl:10
+msgid "Author"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:7
-msgid "Properties"
+#: templates/contenttype/author_view.tpl:5
+msgid "By"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:12
-msgid "Edit-mode off"
+#: templates/contenttype/block_edit.tpl:4
+msgid "Please enter the Block-ID"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:14
-msgid "Edit-mode on"
+#: templates/contenttype/breadcrumbs_edit.tpl:2
+msgid "Include self as last breadcrumb"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:27
+#: templates/contenttype/breadcrumbs_edit.tpl:7
+msgid "Show translated titles"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:3
+msgid "Name of the Camtasia-Flash video"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:5
+msgid ""
+"You have to upload your camtasia project in the folder defined below "
+"<folder>/project/project.mp4 first. Here you have to give only the name of "
+"your project without path and file extension."
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:9
+#: templates/contenttype/flashmovie_edit.tpl:8
+#: templates/contenttype/vimeo_edit.tpl:9
+#: templates/contenttype/youtube_edit.tpl:9
+msgid "Video display width [in pixels]"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:14
+#: templates/contenttype/flashmovie_edit.tpl:13
+#: templates/contenttype/vimeo_edit.tpl:14
+#: templates/contenttype/youtube_edit.tpl:14
+msgid "Video display height [in pixels]"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:19
+msgid "Thumbnail display width in popup mode [in pixels]"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:24
+msgid "Thumbnail display height in popup mode [in pixels]"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:29
+#: templates/contenttype/camtasia_translate_new.tpl:2
+#: templates/contenttype/camtasia_translate_original.tpl:7
+#: templates/contenttype/flashmovie_edit.tpl:18
+#: templates/contenttype/flashmovie_translate_new.tpl:2
+#: templates/contenttype/flashmovie_translate_original.tpl:7
+#: templates/contenttype/vimeo_edit.tpl:19
+#: templates/contenttype/vimeo_translate_new.tpl:2
+#: templates/contenttype/vimeo_translate_original.tpl:7
+#: templates/contenttype/youtube_edit.tpl:19
+#: templates/contenttype/youtube_translate_new.tpl:2
+#: templates/contenttype/youtube_translate_original.tpl:7
+msgid "Video description"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:34
+#: templates/contenttype/flashmovie_edit.tpl:23
+msgid "Optional author of the video"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:39
+msgid "Folder where the files are uploaded"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:46
+#: templates/contenttype/flashmovie_edit.tpl:30
+#: templates/contenttype/vimeo_edit.tpl:26
+#: templates/contenttype/youtube_edit.tpl:26
+msgid "Show video inline"
+msgstr ""
+
+#: templates/contenttype/camtasia_edit.tpl:49
+#: templates/contenttype/flashmovie_edit.tpl:33
+#: templates/contenttype/vimeo_edit.tpl:29
+#: templates/contenttype/youtube_edit.tpl:29
+msgid "Show video in popup window"
+msgstr ""
+
+#: templates/contenttype/camtasia_translate_original.tpl:2
+#: templates/contenttype/flashmovie_translate_original.tpl:2
+msgid "Path to the Shockwave-Flash video"
+msgstr ""
+
+#: templates/contenttype/camtasia_view.tpl:16
+#: templates/contenttype/flashmovie_view.tpl:46
 #, php-format
-msgid "Created by %1$s on %2$s"
+msgid "by %s"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:28
+#: templates/contenttype/camtasia_view.tpl:29
+#: templates/contenttype/flashmovie_view.tpl:56
+#: templates/contenttype/flashmovie_view.tpl:58
+#: templates/contenttype/vimeo_view.tpl:23
+#: templates/contenttype/youtube_view.tpl:23
+msgid "Play Video"
+msgstr ""
+
+#: templates/contenttype/computercode_edit.tpl:3
+msgid "Computer code lines"
+msgstr ""
+
+#: templates/contenttype/computercode_edit.tpl:9
+msgid "Use native code filter"
+msgstr ""
+
+#: templates/contenttype/computercode_edit.tpl:13
+msgid "Use BBCode filter"
+msgstr ""
+
+#: templates/contenttype/computercode_edit.tpl:15
+msgid ""
+"If the BBCode module is available, you can filter your code with BBCode "
+"instead."
+msgstr ""
+
+#: templates/contenttype/computercode_edit.tpl:16
+msgid "There is no need to 'hook' BBCode to Content for this functionality."
+msgstr ""
+
+#: templates/contenttype/contentitem_edit.tpl:2
+msgid ""
+"Make sure that the Content Item ID you choose already exists in another page."
+msgstr ""
+
+#: templates/contenttype/contentitem_edit.tpl:4
+msgid "Content Item ID"
+msgstr ""
+
+#: templates/contenttype/flashmovie_edit.tpl:3
+msgid "Path of Flash video file"
+msgstr ""
+
+#: templates/contenttype/flashmovie_view.tpl:37
+msgid "Download Flash Player"
+msgstr ""
+
+#: templates/contenttype/flickr_edit.tpl:4
 #, php-format
-msgid "Last updated by %1$s on %2$s"
+msgid ""
+"No Flickr API key available! You must specify a Flickr API key to use this "
+"feature. You can get a key from %s."
 msgstr ""
 
-#: templates/user/pageinfo.tpl:29
-msgid "Version"
+#: templates/contenttype/flickr_edit.tpl:8
+msgid "Display photos from this user"
 msgstr ""
 
-#: templates/user/main.tpl:3
-msgid "Contents"
+#: templates/contenttype/flickr_edit.tpl:13
+msgid "Display photos tagged with these tags (comma separated)"
 msgstr ""
 
-#: templates/user/main.tpl:5
-#, php-format
-msgid "Welcome to the contents for %s"
+#: templates/contenttype/flickr_edit.tpl:18
+msgid "Number of photos to show"
 msgstr ""
 
-#: templates/user/main.tpl:8
-msgid "The available sections are as follows:"
+#: templates/contenttype/googlemap_edit.tpl:53
+#: templates/contenttype/openstreetmap_edit.tpl:81
+msgid ""
+"Select a geographical position either by clicking on the map or writing the "
+"position (latitude and longitude) directly. You can drag the map with your "
+"mouse, and double-click to zoom and select position."
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:56
+#: templates/contenttype/openstreetmap_edit.tpl:84
+msgid "Latitude"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:58
+#: templates/contenttype/googlemap_edit.tpl:64
+#: templates/contenttype/openstreetmap_edit.tpl:86
+#: templates/contenttype/openstreetmap_edit.tpl:92
+msgid ""
+"(a comma-separated numeral that has a precision to 6 decimal places. For "
+"example, 40.714728)"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:62
+#: templates/contenttype/openstreetmap_edit.tpl:90
+msgid "Longitude"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:68
+#: templates/contenttype/openstreetmap_edit.tpl:96
+msgid "Zoom level"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:70
+#: templates/contenttype/openstreetmap_edit.tpl:98
+msgid "(from 0 for the entire world to 21 for individual buildings)"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:74
+#: templates/contenttype/openstreetmap_edit.tpl:102
+msgid "Height of the displayed map in pixels"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:76
+#: templates/contenttype/openstreetmap_edit.tpl:104
+msgid "(below 350 pixels the navigation controls will be small)"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:80
+msgid "Display the streetview control"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:85
+msgid "Display a link to directions to this location in Google Maps "
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:90
+#: templates/contenttype/googlemap_translate_new.tpl:2
+#: templates/contenttype/googlemap_translate_original.tpl:2
+#: templates/contenttype/openstreetmap_edit.tpl:108
+msgid "Description to be shown below the map"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:95
+#: templates/contenttype/googlemap_translate_new.tpl:7
+#: templates/contenttype/googlemap_translate_original.tpl:6
+msgid "Text to be shown in the popup window of the marker"
+msgstr ""
+
+#: templates/contenttype/googlemap_edit.tpl:97
+msgid ""
+"(can contain HTML markup. Leave this field empty for disabling the popup "
+"window."
+msgstr ""
+
+#: templates/contenttype/googlemap_view.tpl:5
+msgid "Get directions from start address"
+msgstr ""
+
+#: templates/contenttype/googlemap_view.tpl:7
+msgid "Show Directions"
+msgstr ""
+
+#: templates/contenttype/googlemap_view.tpl:8
+msgid "Clear Directions"
+msgstr ""
+
+#: templates/contenttype/googlemap_view.tpl:14
+msgid "Get directions to this location"
+msgstr ""
+
+#: templates/contenttype/heading_edit.tpl:9
+msgid "Header size"
+msgstr ""
+
+#: templates/contenttype/heading_edit.tpl:23
+msgid "Internal anchor link name (leave empty for no internal anchor link)"
+msgstr ""
+
+#: templates/contenttype/heading_translate_new.tpl:7
+#: templates/contenttype/heading_translate_original.tpl:7
+msgid "Anchorname"
+msgstr ""
+
+#: templates/contenttype/html_edit.tpl:3
+#: templates/contenttype/html_translate_new.tpl:2
+#: templates/contenttype/quote_edit.tpl:2
+msgid "Text"
+msgstr ""
+
+#: templates/contenttype/html_edit.tpl:13
+msgid "HTML"
+msgstr ""
+
+#: templates/contenttype/html_edit.tpl:16
+msgid "Formatted text"
+msgstr ""
+
+#: templates/contenttype/html_edit.tpl:18
+msgid "Unformatted text"
+msgstr ""
+
+#: templates/contenttype/joinposition_edit.tpl:5
+msgid "both"
+msgstr ""
+
+#: templates/contenttype/joinposition_edit.tpl:7
+msgid "left"
+msgstr ""
+
+#: templates/contenttype/joinposition_edit.tpl:9
+msgid "right"
+msgstr ""
+
+#: templates/contenttype/modulefunc_edit.tpl:2
+msgid ""
+"Use this feature carefully! Some modules do not work when displayed together "
+"with other modules. DO NOT create circular module references, e.g., adding a "
+"Content page that displays itself ..."
+msgstr ""
+
+#: templates/contenttype/modulefunc_edit.tpl:4
+msgid "Module name"
+msgstr ""
+
+#: templates/contenttype/modulefunc_edit.tpl:9
+msgid "Function type"
+msgstr ""
+
+#: templates/contenttype/modulefunc_edit.tpl:14
+msgid "Function name"
+msgstr ""
+
+#: templates/contenttype/modulefunc_edit.tpl:19
+msgid "Function parameters"
+msgstr ""
+
+#: templates/contenttype/modulefunc_edit.tpl:21
+msgid "Separate by commas, e.g., x=5,y=2"
+msgstr ""
+
+#: templates/contenttype/openstreetmap_view.tpl:6
+msgid "Show information on the map"
+msgstr ""
+
+#: templates/contenttype/openstreetmap_view.tpl:6
+msgid "Hide information on the map"
+msgstr ""
+
+#: templates/contenttype/pagenavigation_view.tpl:5
+msgid "<- Back"
+msgstr ""
+
+#: templates/contenttype/pagenavigation_view.tpl:7
+msgid "Overview"
+msgstr ""
+
+#: templates/contenttype/pagenavigation_view.tpl:9
+msgid "Forward ->"
+msgstr ""
+
+#: templates/contenttype/quote_edit.tpl:7
+#: templates/contenttype/quote_translate_new.tpl:6
+msgid "Source"
+msgstr ""
+
+#: templates/contenttype/rss_edit.tpl:3
+msgid "URL of RSS feed (include http://)"
+msgstr ""
+
+#: templates/contenttype/rss_edit.tpl:8
+msgid "Include feed text in addition to the title"
+msgstr ""
+
+#: templates/contenttype/rss_edit.tpl:13
+msgid "Refresh time (in minutes)"
+msgstr ""
+
+#: templates/contenttype/rss_edit.tpl:18
+msgid "Max. no. of items to display"
 msgstr ""
 
 #: templates/contenttype/slideshare_edit.tpl:3
@@ -1982,17 +2376,17 @@ msgid "Include subpages that are not in the menus"
 msgstr ""
 
 #: templates/contenttype/tableofcontents_edit.tpl:18
-msgid "Include headings"
+msgid "Include heading items on pages"
 msgstr ""
 
 #: templates/contenttype/tableofcontents_edit.tpl:23
-msgid "Include headings up to level"
+msgid "Include heading items up to page level"
 msgstr ""
 
 #: templates/contenttype/tableofcontents_edit.tpl:25
 msgid ""
-"if headings are included and not unlimited; select 0 to include menu only "
-"for the selected page"
+"if heading items are included and not unlimited; select 0 to include the "
+"headings only for the selected page"
 msgstr ""
 
 #: templates/contenttype/tableofcontents_edit.tpl:29
@@ -2007,285 +2401,10 @@ msgstr ""
 msgid "if subpages are included and not unlimited"
 msgstr ""
 
-#: templates/contenttype/author_view.tpl:5
-msgid "By"
-msgstr ""
-
-#: templates/contenttype/modulefunc_edit.tpl:2
-msgid ""
-"Use this feature carefully! Some modules do not work when displayed together "
-"with other modules. DO NOT create circular module references, e.g., adding a "
-"Content page that displays itself ..."
-msgstr ""
-
-#: templates/contenttype/modulefunc_edit.tpl:4
-msgid "Module name"
-msgstr ""
-
-#: templates/contenttype/modulefunc_edit.tpl:9
-msgid "Function type"
-msgstr ""
-
-#: templates/contenttype/modulefunc_edit.tpl:14
-msgid "Function name"
-msgstr ""
-
-#: templates/contenttype/modulefunc_edit.tpl:19
-msgid "Function parameters"
-msgstr ""
-
-#: templates/contenttype/modulefunc_edit.tpl:21
-msgid "Separate by commas, e.g., x=5,y=2"
-msgstr ""
-
-#: templates/contenttype/quote_edit.tpl:2
-#: templates/contenttype/html_edit.tpl:3
-#: templates/contenttype/html_translate_new.tpl:2
-msgid "Text"
-msgstr ""
-
-#: templates/contenttype/quote_edit.tpl:7
-#: templates/contenttype/quote_translate_new.tpl:6
-msgid "Source"
-msgstr ""
-
-#: templates/contenttype/heading_edit.tpl:9
-msgid "Header size"
-msgstr ""
-
-#: templates/contenttype/joinposition_edit.tpl:5
-msgid "both"
-msgstr ""
-
-#: templates/contenttype/joinposition_edit.tpl:7
-msgid "left"
-msgstr ""
-
-#: templates/contenttype/joinposition_edit.tpl:9
-msgid "right"
-msgstr ""
-
-#: templates/contenttype/unfiltered_translate_new.tpl:2
 #: templates/contenttype/unfiltered_edit.tpl:3
+#: templates/contenttype/unfiltered_translate_new.tpl:2
 #: templates/contenttype/unfiltered_translate_original.tpl:2
 msgid "Unfiltered text"
-msgstr ""
-
-#: templates/contenttype/unfiltered_translate_new.tpl:7
-#: templates/contenttype/unfiltered_edit.tpl:22
-#: templates/contenttype/unfiltered_translate_original.tpl:7
-msgid "iframe name parameter"
-msgstr ""
-
-#: templates/contenttype/unfiltered_translate_new.tpl:12
-#: templates/contenttype/unfiltered_edit.tpl:27
-#: templates/contenttype/unfiltered_translate_original.tpl:12
-msgid "iframe title parameter"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:3
-msgid "Name of the Camtasia-Flash video"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:5
-msgid ""
-"You have to upload your camtasia project in the folder defined below "
-"<folder>/project/project.mp4 first. Here you have to give only the name of "
-"your project without path and file extension."
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:9
-#: templates/contenttype/vimeo_edit.tpl:9
-#: templates/contenttype/youtube_edit.tpl:9
-msgid "Video display width [in pixels]"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:14
-#: templates/contenttype/vimeo_edit.tpl:14
-#: templates/contenttype/youtube_edit.tpl:14
-msgid "Video display height [in pixels]"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:19
-msgid "Thumbnail display width in popup mode [in pixels]"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:24
-msgid "Thumbnail display height in popup mode [in pixels]"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:29
-#: templates/contenttype/camtasia_translate_new.tpl:2
-#: templates/contenttype/camtasia_translate_original.tpl:7
-#: templates/contenttype/vimeo_translate_new.tpl:2
-#: templates/contenttype/youtube_translate_new.tpl:2
-#: templates/contenttype/vimeo_edit.tpl:19
-#: templates/contenttype/youtube_translate_original.tpl:7
-#: templates/contenttype/vimeo_translate_original.tpl:7
-#: templates/contenttype/youtube_edit.tpl:19
-msgid "Video description"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:34
-msgid "Optional author of the video"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:39
-msgid "Folder where the files are uploaded"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:46
-#: templates/contenttype/vimeo_edit.tpl:26
-#: templates/contenttype/youtube_edit.tpl:26
-msgid "Show video inline"
-msgstr ""
-
-#: templates/contenttype/camtasia_edit.tpl:49
-#: templates/contenttype/vimeo_edit.tpl:29
-#: templates/contenttype/youtube_edit.tpl:29
-msgid "Show video in popup window"
-msgstr ""
-
-#: templates/contenttype/camtasia_view.tpl:16
-#, php-format
-msgid "by %s"
-msgstr ""
-
-#: templates/contenttype/camtasia_view.tpl:29
-#: templates/contenttype/vimeo_view.tpl:23
-#: templates/contenttype/youtube_view.tpl:23
-msgid "Play Video"
-msgstr ""
-
-#: templates/contenttype/rss_edit.tpl:3
-msgid "URL of RSS feed (include http://)"
-msgstr ""
-
-#: templates/contenttype/rss_edit.tpl:8
-msgid "Include feed text in addition to the title"
-msgstr ""
-
-#: templates/contenttype/rss_edit.tpl:13
-msgid "Refresh time (in minutes)"
-msgstr ""
-
-#: templates/contenttype/rss_edit.tpl:18
-msgid "Max. no. of items to display"
-msgstr ""
-
-#: templates/contenttype/camtasia_translate_original.tpl:2
-msgid "Path to the Shockwave-Flash video"
-msgstr ""
-
-#: templates/contenttype/vimeo_edit.tpl:3
-#: templates/contenttype/youtube_translate_original.tpl:2
-#: templates/contenttype/vimeo_translate_original.tpl:2
-#: templates/contenttype/youtube_edit.tpl:3
-msgid "URL to the video clip"
-msgstr ""
-
-#: templates/contenttype/vimeo_edit.tpl:5
-msgid "Something like \"http://vimeo.com/7504225\"."
-msgstr ""
-
-#: templates/contenttype/googlemap_view.tpl:9
-msgid "Get directions from start address"
-msgstr ""
-
-#: templates/contenttype/googlemap_view.tpl:11
-msgid "Show Directions"
-msgstr ""
-
-#: templates/contenttype/googlemap_view.tpl:12
-msgid "Clear Directions"
-msgstr ""
-
-#: templates/contenttype/googlemap_view.tpl:18
-msgid "Get directions to this location"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_view.tpl:6
-msgid "Show information on the map"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_view.tpl:6
-msgid "Hide information on the map"
-msgstr ""
-
-#: templates/contenttype/author_edit.tpl:10
-msgid "Author"
-msgstr ""
-
-#: templates/contenttype/googlemap_translate_new.tpl:2
-#: templates/contenttype/googlemap_translate_original.tpl:2
-#: templates/contenttype/openstreetmap_edit.tpl:108
-#: templates/contenttype/googlemap_edit.tpl:90
-msgid "Description to be shown below the map"
-msgstr ""
-
-#: templates/contenttype/googlemap_translate_new.tpl:7
-#: templates/contenttype/googlemap_translate_original.tpl:6
-#: templates/contenttype/googlemap_edit.tpl:95
-msgid "Text to be shown in the popup window of the marker"
-msgstr ""
-
-#: templates/contenttype/html_edit.tpl:13
-msgid "HTML"
-msgstr ""
-
-#: templates/contenttype/html_edit.tpl:16
-msgid "Formatted text"
-msgstr ""
-
-#: templates/contenttype/html_edit.tpl:18
-msgid "Unformatted text"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:81
-#: templates/contenttype/googlemap_edit.tpl:53
-msgid ""
-"Select a geographical position either by clicking on the map or writing the "
-"position (latitude and longitude) directly. You can drag the map with your "
-"mouse, and double-click to zoom and select position."
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:84
-#: templates/contenttype/googlemap_edit.tpl:56
-msgid "Latitude"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:86
-#: templates/contenttype/openstreetmap_edit.tpl:92
-#: templates/contenttype/googlemap_edit.tpl:58
-#: templates/contenttype/googlemap_edit.tpl:64
-msgid ""
-"(a comma-separated numeral that has a precision to 6 decimal places. For "
-"example, 40.714728)"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:90
-#: templates/contenttype/googlemap_edit.tpl:62
-msgid "Longitude"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:96
-#: templates/contenttype/googlemap_edit.tpl:68
-msgid "Zoom level"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:98
-#: templates/contenttype/googlemap_edit.tpl:70
-msgid "(from 0 for the entire world to 21 for individual buildings)"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:102
-#: templates/contenttype/googlemap_edit.tpl:74
-msgid "Height of the displayed map in pixels"
-msgstr ""
-
-#: templates/contenttype/openstreetmap_edit.tpl:104
-#: templates/contenttype/googlemap_edit.tpl:76
-msgid "(below 350 pixels the navigation controls will be small)"
 msgstr ""
 
 #: templates/contenttype/unfiltered_edit.tpl:9
@@ -2304,6 +2423,18 @@ msgstr ""
 
 #: templates/contenttype/unfiltered_edit.tpl:18
 msgid "the src parameter of the iframe"
+msgstr ""
+
+#: templates/contenttype/unfiltered_edit.tpl:22
+#: templates/contenttype/unfiltered_translate_new.tpl:7
+#: templates/contenttype/unfiltered_translate_original.tpl:7
+msgid "iframe name parameter"
+msgstr ""
+
+#: templates/contenttype/unfiltered_edit.tpl:27
+#: templates/contenttype/unfiltered_translate_new.tpl:12
+#: templates/contenttype/unfiltered_translate_original.tpl:12
+msgid "iframe title parameter"
 msgstr ""
 
 #: templates/contenttype/unfiltered_edit.tpl:32
@@ -2350,75 +2481,15 @@ msgstr ""
 msgid "Allow transparancy on the iframe"
 msgstr ""
 
-#: templates/contenttype/googlemap_edit.tpl:80
-msgid "Display the streetview control"
+#: templates/contenttype/vimeo_edit.tpl:3
+#: templates/contenttype/vimeo_translate_original.tpl:2
+#: templates/contenttype/youtube_edit.tpl:3
+#: templates/contenttype/youtube_translate_original.tpl:2
+msgid "URL to the video clip"
 msgstr ""
 
-#: templates/contenttype/googlemap_edit.tpl:85
-msgid "Display a link to directions to this location in Google Maps "
-msgstr ""
-
-#: templates/contenttype/googlemap_edit.tpl:97
-msgid ""
-"(can contain HTML markup. Leave this field empty for disabling the popup "
-"window."
-msgstr ""
-
-#: templates/contenttype/pagenavigation_view.tpl:5
-msgid "<- Back"
-msgstr ""
-
-#: templates/contenttype/pagenavigation_view.tpl:7
-msgid "Overview"
-msgstr ""
-
-#: templates/contenttype/pagenavigation_view.tpl:9
-msgid "Forward ->"
-msgstr ""
-
-#: templates/contenttype/block_edit.tpl:4
-msgid "Please enter the Block-ID"
-msgstr ""
-
-#: templates/contenttype/flickr_edit.tpl:4
-#, php-format
-msgid ""
-"No Flickr API key available! You must specify a Flickr API key to use this "
-"feature. You can get a key from %s."
-msgstr ""
-
-#: templates/contenttype/flickr_edit.tpl:8
-msgid "Display photos from this user"
-msgstr ""
-
-#: templates/contenttype/flickr_edit.tpl:13
-msgid "Display photos tagged with these tags (comma separated)"
-msgstr ""
-
-#: templates/contenttype/flickr_edit.tpl:18
-msgid "Number of photos to show"
-msgstr ""
-
-#: templates/contenttype/computercode_edit.tpl:3
-msgid "Computer code lines"
-msgstr ""
-
-#: templates/contenttype/computercode_edit.tpl:9
-msgid "Use native code filter"
-msgstr ""
-
-#: templates/contenttype/computercode_edit.tpl:13
-msgid "Use BBCode filter"
-msgstr ""
-
-#: templates/contenttype/computercode_edit.tpl:15
-msgid ""
-"If the BBCode module is available, you can filter your code with BBCode "
-"instead."
-msgstr ""
-
-#: templates/contenttype/computercode_edit.tpl:16
-msgid "There is no need to 'hook' BBCode to Content for this functionality."
+#: templates/contenttype/vimeo_edit.tpl:5
+msgid "Something like \"http://vimeo.com/7504225\"."
 msgstr ""
 
 #: templates/contenttype/youtube_edit.tpl:5
@@ -2426,52 +2497,71 @@ msgid ""
 "Something like \"http://www.youtube.com/watch?v=ABcDEFgHij&feature=dir\"."
 msgstr ""
 
-#: templates/content_include_contentedit.tpl:8
-msgid "Item not Active"
+#: templates/user/extlist.tpl:1 templates/user/extlist.tpl:2
+msgid "Extended page list"
 msgstr ""
 
-#: templates/content_include_contentedit.tpl:11
+#: templates/user/extlist.tpl:14
+msgid "more"
+msgstr ""
+
+#: templates/user/extlist.tpl:18 templates/user/list.tpl:13
+#: templates/user/main.tpl:19 templates/user/pagelist.tpl:16
+msgid "There are no pages to display."
+msgstr ""
+
+#: templates/user/main.tpl:3
+msgid "Contents"
+msgstr ""
+
+#: templates/user/main.tpl:5
 #, php-format
-msgid "ID %d"
+msgid "Welcome to the contents for %s"
 msgstr ""
 
-#: templates/block/mostviewed_modify.tpl:2 templates/block/menu_modify.tpl:2
-msgid "Include the following subpages"
+#: templates/user/main.tpl:8
+msgid "The available sections are as follows:"
 msgstr ""
 
-#: templates/block/mostviewed_modify.tpl:13
-msgid "How many pages should be shown"
+#: templates/user/pageinfo.tpl:7
+msgid "Properties"
 msgstr ""
 
-#: templates/block/mostviewed_modify.tpl:18
-#: templates/block/subpages_modify.tpl:4
-msgid "Use caching in this block"
+#: templates/user/pageinfo.tpl:12
+msgid "Edit-mode off"
 msgstr ""
 
-#: templates/block/mostviewed_modify.tpl:20
-#: templates/block/subpages_modify.tpl:6 templates/block/menu_modify.tpl:15
-msgid "Overrides global setting."
+#: templates/user/pageinfo.tpl:14
+msgid "Edit-mode on"
 msgstr ""
 
-#: templates/block/mostviewed_modify.tpl:24
-#: templates/block/subpages_modify.tpl:10
-msgid "Use only pages activated for the menu"
+#: templates/user/pageinfo.tpl:27
+#, php-format
+msgid "Created by %1$s on %2$s"
 msgstr ""
 
-#: templates/block/subpages.tpl:8
-msgid "No subpages"
+#: templates/user/pageinfo.tpl:28
+#, php-format
+msgid "Last updated by %1$s on %2$s"
 msgstr ""
 
-#: templates/block/onepage_modify.tpl:2
-msgid "Include the following page"
+#: templates/user/pageinfo.tpl:29
+msgid "Version"
 msgstr ""
 
-#: templates/block/subpages_modify.tpl:1
-msgid ""
-"This block will only show the subpages of a Content page when that Content "
-"page is being displayed."
+#: templates/user/pagelist.tpl:1 templates/user/pagelist.tpl:4
+msgid "Complete page list"
 msgstr ""
 
-#: templates/block/menu_modify.tpl:13
-msgid "Use caching in the menu block"
+#: templates/user/pagelist.tpl:11
+msgid "View full page"
+msgstr ""
+
+#: templates/user/subpages.tpl:1
+#, php-format
+msgid "Subpages of %s"
+msgstr ""
+
+#: templates/user/subpages.tpl:6
+msgid "No subpages available"
 msgstr ""
