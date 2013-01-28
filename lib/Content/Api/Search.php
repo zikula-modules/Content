@@ -46,8 +46,8 @@ class Content_Api_Search extends Zikula_AbstractApi
 
         $sessionId = session_id();
 
-        $where = search_construct_where($args, array($contentSearchColumn['text']), null);
-        $wheretitle = search_construct_where($args, array($pageColumn['title']), null);
+        $where = Search_Api_User::search_construct_where($args, array($contentSearchColumn['text']), null);
+        $wheretitle = Search_Api_User::search_construct_where($args, array($pageColumn['title']), null);
 
         $sql = "INSERT INTO $searchTable
             ($searchColumn[title],
