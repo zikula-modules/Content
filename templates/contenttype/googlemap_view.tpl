@@ -80,27 +80,27 @@
         var start = $F("routestart");
         var request = {
             origin: start, 
-            destination: myLatlng,
+            destination: myLatlng{{$contentId}},
             travelMode: google.maps.DirectionsTravelMode.DRIVING
         };
-        directionsService.route(request, function(result, status) {
+        directionsService{{$contentId}}.route(request, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 // adjust the width of the map and directions panel
                 $('googlemap{{$contentId}}').setStyle({width: '50%', height: '600px'});
                 $('directions{{$contentId}}').setStyle({width: '50%', height: '600px'});
-                directionsDisplay.setDirections(result);
-                directionsDisplay.setMap(map);
-                directionsDisplay.setPanel($('directions{{$contentId}}'));
+                directionsDisplay{{$contentId}}.setDirections(result);
+                directionsDisplay{{$contentId}}.setMap(map{{$contentId}});
+                directionsDisplay{{$contentId}}.setPanel($('directions{{$contentId}}'));
             }
         });
     }
     function clearRoute() {
         $('googlemap{{$contentId}}').setStyle({width: '100%', height: '{{$height}}px'});
         $('directions{{$contentId}}').setStyle({width: '0%', height: '{{$height}}px'});
-        map.setCenter(myLatlng);
-        directionsDisplay.setMap(null);
-        directionsDisplay.setPanel(null);
-        directionsDisplay.setDirections(null);
+        map{{$contentId}}.setCenter(myLatlng{{$contentId}});
+        directionsDisplay{{$contentId}}.setMap(null);
+        directionsDisplay{{$contentId}}.setPanel(null);
+        directionsDisplay{{$contentId}}.setDirections(null);
     }
 *}}
     //]]>
