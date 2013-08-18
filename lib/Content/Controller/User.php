@@ -126,6 +126,10 @@ class Content_Controller_User extends Zikula_AbstractController
         $this->view->assign('multilingual', $multilingual);
         $this->view->assign('enableVersioning', $this->getVar('enableVersioning'));
 
+        // Add layout type (and column count) as page variables to the template
+        $this->view->assign('contentLayoutType', $page['layout']);
+//        $this->view->assign('contentColumnCount', $page['layout']);
+
         Content_Util::contentAddAccess($this->view, $pageId);
 
         // exclude writers from statistics
