@@ -5,7 +5,13 @@
     {setmetatag name='keywords' value=$page.metakeywords|replace:"<br />":"\n"|strip_tags|replace:"\"":""}
 {/if}
 <div id="page{$page.id}" class="z-content-page">
-    {include file='user/pageinfo.tpl'}
+    {if empty($modvars.Content.pageinfoLocation) or $modvars.Content.pageinfoLocation eq 'top'}
+        {include file='user/pageinfo.tpl'}
+    {/if}
     {if $page.showTitle && !$page.titleintemplate}<h2>{$page.title}</h2>{/if}
     {include file=$page.layoutTemplate inlist=0}
+    {if !empty($modvars.Content.pageinfoLocation) and $modvars.Content.pageinfoLocation eq 'bottom'}
+        {include file='user/pageinfo.tpl'}
+    {/if}
 </div>
+

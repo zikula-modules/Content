@@ -25,6 +25,10 @@
         {formdropdownlist id='newPageState' items=$activeoptions group="config"}
     </div>
     <div class="z-formrow">
+        {formlabel for='pageinfoLocation' __text='Location of the page info icon'}
+        {formdropdownlist id='pageinfoLocation' items=$pageinfolocationoptions group="config"}
+    </div>
+    <div class="z-formrow">
         {formlabel for='countViews' __text='Count page views'}
         {formcheckbox id='countViews' group="config"}
         <em class="z-sub z-formnote">{gt text='Page views are only counted when not in preview or edit mode and only when the user has no edit access.'}</em>

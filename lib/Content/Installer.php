@@ -51,6 +51,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('newPageState', '1');
         $this->setVar('countViews', '0');
         $this->setVar('enableRawPlugin', false);
+        $this->setVar('pageinfoLocation', 'top');
 
         // Register for hooks subscribing
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
@@ -343,6 +344,9 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
         LogUtil::registerStatus($this->__('All old hooks have been uninstalled and will need to be re-hooked.'));
+
+        // add new variable(s)
+        $this->setVar('pageinfoLocation', 'top');
 
         // clear compiled templates and Content cache
         ModUtil::apiFunc('view', 'user', 'clear_compiled');
