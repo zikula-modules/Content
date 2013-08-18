@@ -1,6 +1,16 @@
-Content (C) 2007-2011, Content Development Team
+Content (C) 2007-2013, Content Development Team
 ---------------------------
 http://github.com/zikula-modules/Content
+
+Version 4.1.0
+-------------
+
+Summary of changes:
+- Updated google maps content plugin to enable > 1 map on a page
+- Updated Vimeo content plugin
+- Added variable for the page info location top/bottom
+- Several small bugs solved
+
 
 Version 4.0.1
 -------------
