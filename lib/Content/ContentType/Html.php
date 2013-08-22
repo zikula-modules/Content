@@ -106,22 +106,20 @@ class Content_ContentType_Html extends Content_AbstractContentType
           return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $hits[1]))."\">".$page["title"]."</a>";
           }'
                         ), $text);
-        if (ModUtil::available('crptag')) {
-            $text = preg_replace_callback("/\[\[tag-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
-                                    '$hits',
-                                    '$title = $hits[1];
-              if ($hits[2]) { $title = $hits[2]; }
-              return "<a href=\"".ModUtil::url("crpTag", "user", "display", array("id" => $hits[1]))."\">".$title."</a>";
-              '
-                            ), $text);
-        }
         return $text;
     }
 
     public function getTemplate()
     {
         $this->view->setCacheId($this->contentId);
-        return 'contenttype/paragraph_view.tpl';
+        return 'contenttype/html_view.tpl';
     }
+
+	/* Override method for simple template inclusion */
+    public function getEditTemplate()
+    {
+        return 'contenttype/html_edit.tpl';
+    }
+	
 
 }
