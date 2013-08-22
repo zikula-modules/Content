@@ -457,6 +457,7 @@ class Content_Installer extends Zikula_AbstractInstaller
             foreach ($content as $contentitem) {
                 DBUtil::insertObject($contentitem, 'content_content');
             }
+			LogUtil::registerStatus($this->__('A default Content introductory page with several Content items has been created.'));
         }
     }
     /**
