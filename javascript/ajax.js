@@ -37,7 +37,6 @@ content.addDraggablePage = function(id)
 
 
 /*=[ Drag/drop content, see also portal.js ]=====================================*/
-
 content.items = new Array();
 
 content.editPageOnLoad = function()
@@ -67,7 +66,7 @@ content.editPageOnLoad = function()
 }
 
 
-// Called by portal when a content item has been moved
+// Called by portal when a Content item has been moved
 content.editPageHandleUpdate = function(portal, widget)
 {
     var contentArea = widget.parentNode;
@@ -102,7 +101,7 @@ content.editPageHandleUpdate = function(portal, widget)
         pos: position
     };
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=dragContent",
+        "index.php?module=Content&type=ajax&func=dragContent",
         {
             parameters: pars,
             onComplete: content.handleDragContentOk
@@ -125,7 +124,6 @@ content.handleDragContentOk = function(req)
 }
 
 /*=[ preview a page ]============================================================*/
-
 content.popupPreviewWindow = function(commandArgument)
 {
     url = content.previewUrl.replace('__PID__', commandArgument);
@@ -134,7 +132,6 @@ content.popupPreviewWindow = function(commandArgument)
 
 
 /*=[ Select content type ]=======================================================*/
-
 content.handleContenTypeSelected = function(id)
 {
     var dropdownElement = $(id);
@@ -144,7 +141,6 @@ content.handleContenTypeSelected = function(id)
 
 
 /*=[ Page info ]=================================================================*/
-
 content.pageInfo = {};
 content.pageInfo.clearTimer = null;
 
@@ -153,12 +149,10 @@ content.pageInfo.toggle = function(id)
     $('contentPageInfo-'+id).toggle();
     return false;
 }
-
 content.pageInfo.mouseover = function()
 {
     clearTimeout(content.pageInfo.clearTimer);
 }
-
 content.pageInfo.mouseout = function()
 {
     content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo').hide(); } , 500);
@@ -181,7 +175,6 @@ function initcontentactivationbuttons()
  *
  *@params page id;
  *@return none;
- *@author Erik Spaan & Sven Strickroth
  */
 function togglepagestate(id)
 {
@@ -190,7 +183,7 @@ function togglepagestate(id)
         active: $('active_' + id).visible()
     };
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=togglePageState",
+        "index.php?module=Content&type=ajax&func=togglePageState",
         {
             parameters: pars,
             onComplete: togglepagestate_response
@@ -202,7 +195,6 @@ function togglepagestate(id)
  *
  *@params none;
  *@return none;
- *@author Erik Spaan
  */
 function togglepagestate_response(req)
 {
@@ -211,7 +203,7 @@ function togglepagestate_response(req)
         return;
     }
     var data = req.getData();
-
+	
     // switch the leds and adapt the text
     $('active_' + data.id).toggle();
     $('inactive_' + data.id).toggle();
@@ -223,7 +215,6 @@ function togglepagestate_response(req)
  *
  *@params page id;
  *@return none;
- *@author Erik Spaan & Sven Strickroth
  */
 function togglepageinmenu(id)
 {
@@ -232,7 +223,7 @@ function togglepageinmenu(id)
         inMenu:  $('inmenu_' + id).visible()
     };
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=togglePageInMenu",
+        "index.php?module=Content&type=ajax&func=togglePageInMenu",
         {
             parameters: pars,
             onComplete: togglepageinmenu_response
@@ -244,7 +235,6 @@ function togglepageinmenu(id)
  *
  *@params none;
  *@return none;
- *@author Erik Spaan
  */
 function togglepageinmenu_response(req)
 {
