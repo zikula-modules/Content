@@ -13,7 +13,6 @@ class Content_Api_Content extends Zikula_AbstractApi
 
     public function getContent($args)
     {
-
         $id = (int) $args['id'];
         $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
@@ -338,7 +337,6 @@ class Content_Api_Content extends Zikula_AbstractApi
 
     protected function contentUpdateSearchableText($contentId, $text)
     {
-
         // We delete first then insert, since it may not already exist.
         DBUtil::deleteObjectByID('content_searchable', $contentId, 'contentId');
 
