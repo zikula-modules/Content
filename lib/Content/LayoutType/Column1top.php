@@ -18,16 +18,16 @@ class Content_LayoutType_Column1top extends Content_AbstractLayoutType
         parent::__construct($view);
         $this->contentAreaTitles = array(
             $this->__('Header'),
-            $this->__('Header above page headline'),
+            $this->__('Header above page title'),
             $this->__('Centre column'));
     }
     function getTitle()
     {
-        return $this->__('1 column, header above page headline');
+        return $this->__('1 column, header above page title');
     }
     function getDescription()
     {
-        return $this->__('Single 100% wide column and a top-header above the page headline (for e.g. breadcrumbs or author-information above the title)');
+        return $this->__('Single 100% wide column and a top-header above the page title headline (for e.g. breadcrumbs or author-information above the title)');
     }
     function getNumberOfContentAreas()
     {
