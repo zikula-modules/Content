@@ -376,6 +376,37 @@ div.greenbox {
 Various content plugins
 ---------------------------------------------------------------------------- */
 
+#content-breadcrumbs {
+	list-style-type:none;
+	padding:0;
+	margin:0;
+    height:2.3em;
+	border:1px solid #dedede;
+}
+#content-breadcrumbs li {
+	list-style-type:none;
+	padding:0;
+	margin:0;
+	float:left;
+	line-height:2.3em;
+	color:#777;
+	padding-left:.75em;
+}
+#content-breadcrumbs li a {
+	background:url(../images/breadcrumbs.gif) no-repeat right center;
+	display:block;
+	padding:0 15px 0 0;
+}
+#content-breadcrumbs li a:link,
+#content-breadcrumbs li a:visited {
+	/* color:#777; */ /* coloring via regular styles */
+	text-decoration:none;
+}
+#content-breadcrumbs li a:hover,
+#content-breadcrumbs li a:focus {
+	/* color:#dd2c0d; */ /* coloring via regular styles */
+}
+	
 div.content-item p.content-description {
     font-style: italic;
     margin-bottom: 0px;
