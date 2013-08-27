@@ -51,7 +51,7 @@ class Content_Controller_Admin extends Zikula_AbstractController
     public function editpage($args)
     {
         $view = FormUtil::newForm('Content', $this);
-        return $view->execute('admin/editpage.tpl', new Content_Form_Handler_Admin_Page($args));
+        return $view->execute('admin/editpage.tpl', new Content_Form_Handler_Admin_EditPage($args));
     }
 
     /**
