@@ -6,6 +6,12 @@
 </div>
 
 <div class="z-formrow">
+    {formlabel for='displayPageTitle' __text='Display the Page Title'}
+    {formcheckbox id='displayPageTitle' group='data'}
+    {contentlabelhelp __text='If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'}
+</div>
+
+<div class="z-formrow">
     {formlabel for='text' __text='Header size'}
     <div>
         {formradiobutton id='con_header2' dataField='headerSize' value='h2' group='data'}
