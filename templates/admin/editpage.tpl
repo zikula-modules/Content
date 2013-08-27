@@ -64,7 +64,7 @@
 {include file=$layoutTemplate}
 {/formtabbedpanel}
 
-{formtabbedpanel __title='Options'}
+{formtabbedpanel __title='Settings & Metadata'}
 <fieldset>
     <legend>{gt text="Page settings"}</legend>
     <div class="z-formrow">
