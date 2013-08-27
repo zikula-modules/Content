@@ -143,7 +143,12 @@ class Content_ContentType_GoogleMap extends Content_AbstractContentType
         $this->view->assign('language', ZLanguage::getLanguageCode());
 
         // Load the Google Maps JS api v3
-        PageUtil::addVar('javascript', 'http://maps.google.com/maps/api/js?v=3&language=' . ZLanguage::getLanguageCode() . '&sensor=false');
+        $apiKey = ModUtil::getVar('Content', 'googlemapApiKey');
+        if (!empty($apiKey)) {
+            PageUtil::addVar('javascript', 'https://maps.googleapis.com/maps/api/js?key='.$apiKey.'&language=' . ZLanguage::getLanguageCode() . '&sensor=false');
+        } else {
+            PageUtil::addVar('javascript', 'https://maps.googleapis.com/maps/api/js?language=' . ZLanguage::getLanguageCode() . '&sensor=false');
+        }
 
         return $this->view->fetch($this->getTemplate());
     }
