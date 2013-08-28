@@ -450,7 +450,7 @@ class Content_Installer extends Zikula_AbstractInstaller
                     'position'          => '0',
                     'module'            => 'Content',
                     'type'              => 'Html',
-                    'data'              => serialize(array('text' => $this->__('This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href="index.php?module=content&type=admin">Edit Contents</a> interface lets you edit or delete this introduction page. In the <a href="index.php?module=content&type=admin">administration</a> interface you can further control the Content module.'),
+                    'data'              => serialize(array('text' => $this->__('This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href="index.php?module=content&type=admin&func=main">Page list</a> interface lets you edit or delete this introduction page. In the <a href="index.php?module=content&type=admin&func=settings">administration settings</a> you can further control the Content module.'),
                                                 'inputType' => 'text')));
 
             // write the items to the dbase
