@@ -63,6 +63,9 @@ content.editPageOnLoad = function()
             content.portal.add(widget, e.column); 
         }
     );
+
+    // enable ajax state led buttons
+    initcontentactivationbuttons();
 }
 
 
@@ -287,7 +290,7 @@ function togglecontentstate_response(req)
     // switch the leds and adapt the text
     $('activecid_' + data.id).toggle();
     $('inactivecid_' + data.id).toggle();
-    $('activitycid_' + data.id).update((($('activitycid_' + data.id).innerHTML == Zikula.__('Inactive','module_Content')) ? Zikula.__('Active','module_Content') : Zikula.__('Inactive','module_Content')));
+    $('activitycid_' + data.id).update((($('activitycid_' + data.id).innerHTML == Zikula.__('Inactive','module_Content')) ? '' : Zikula.__('Inactive','module_Content')));
 	// toggle the widget class to inactive 
 	$('content_widget_' + data.id).toggleClassName('widget_inactive');
 }

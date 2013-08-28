@@ -17,6 +17,9 @@
     //]]>
 </script>
 
+{gt text="Click to activate this item" assign='activate'}
+{gt text="Click to deactivate this item" assign='deactivate'}
+
 {adminheader}
 <div class="z-admin-content-pagetitle">
     {icon type="edit" size="small"}
@@ -214,6 +217,3 @@
 
 {/form}
 {adminfooter}
-<script type="text/javascript">
-    Event.observe(window, 'load', initcontentactivationbuttons, false);
-</script>
