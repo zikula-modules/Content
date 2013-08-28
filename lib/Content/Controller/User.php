@@ -117,8 +117,11 @@ class Content_Controller_User extends Zikula_AbstractController
         if ($page['language'] == ZLanguage::getLanguageCode()) {
             $multilingual = false;
         }
-        $pageTitle = html_entity_decode($page['title']);
-        PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
+
+        if ($this->getVar('overrideTitle')) {
+            $pageTitle = html_entity_decode($page['title']);
+            PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
+        }
 
         $this->view->assign('page', $page);
         $this->view->assign('preview', $preview);
@@ -272,7 +275,9 @@ class Content_Controller_User extends Zikula_AbstractController
         if ($pages === false)
             return false;
 
-        PageUtil::setVar('title', $this->__('Sitemap'));
+        if ($this->getVar('overrideTitle')) {
+            PageUtil::setVar('title', $this->__('Sitemap'));
+        }
 
         $this->view->assign('pages', $pages);
         Content_Util::contentAddAccess($this->view, null);

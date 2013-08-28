@@ -52,6 +52,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('countViews', '0');
         $this->setVar('enableRawPlugin', false);
         $this->setVar('pageinfoLocation', 'top');
+        $this->setVar('overrideTitle', true);
 
         // Register for hooks subscribing
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
@@ -347,6 +348,7 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         // add new variable(s)
         $this->setVar('pageinfoLocation', 'top');
+        $this->setVar('overrideTitle', true);
 
         // clear compiled templates and Content cache
         ModUtil::apiFunc('view', 'user', 'clear_compiled');

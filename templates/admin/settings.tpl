@@ -29,6 +29,10 @@
         {formdropdownlist id='pageinfoLocation' items=$pageinfolocationoptions group="config"}
     </div>
     <div class="z-formrow">
+        {formlabel for='overrideTitle' __text='Override page title with the Content page title'}
+        {formcheckbox id='overrideTitle' group="config"}
+    </div>
+    <div class="z-formrow">
         {formlabel for='countViews' __text='Count page views'}
         {formcheckbox id='countViews' group="config"}
         <em class="z-sub z-formnote">{gt text='Page views are only counted when not in preview or edit mode and only when the user has no edit access.'}</em>

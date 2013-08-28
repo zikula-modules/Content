@@ -14,6 +14,7 @@ Summary of changes:
 - Fixed Search not working on Content pages #123
 - Block subpages fixed #116
 - Added ajax activating/de-activating of content items inside editpage
+- Added override title setting #78
 
 
 Version 4.0.1
