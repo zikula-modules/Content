@@ -355,13 +355,15 @@ div.greybox {
     background:#EFEFEF;
     color:#222222;
     padding:0.5em;
+    margin-bottom: 15px;
 }
 
 div.redbox {
-    border:solid 1px #CC0000;
-    background:#F7CBCA;
-    color:#CC0000;
+    border:solid 1px #dd0000;
+    background:#ffeedd;
+    color:#800000;
     padding:0.5em;
+    margin-bottom: 15px;
 }
 
 div.yellowbox {
@@ -369,14 +371,33 @@ div.yellowbox {
     background:#FFFFCC;
     color:#222222;
     padding:0.5em;
+    margin-bottom: 15px;
 }
 
 div.greenbox {
-    border:solid 1px #349534;
-    background:#C9FFCA;
-    color:#008000;
+    border:solid 1px #33aa33;
+    background:#DFC;
+    color:#006000;
     padding:0.5em;
+    margin-bottom: 15px;
 }
+
+div.orangeannouncementbox {
+    border:solid 0px #e59d45;
+    color:#440000;
+    padding:0.5em 0.5em 0.5em 50px;
+    background: #ffce80 url(../../../images/icons/medium/agt_announcements.png) no-repeat 2% 50%;
+    margin: 0 0 10px;
+}
+
+div.greenimportantbox {
+    border:solid 0px #94994c;
+    color:#003300;
+    padding:0.5em 0.5em 0.5em 50px;
+    background: #ecf291 url(../../../images/icons/medium/important.png) no-repeat 2% 50%;
+    margin: 0 0 10px;
+}
+
 
 /* ----------------------------------------------------------------------------
 Various content plugins

@@ -41,7 +41,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         }
 
         $this->setVar('shorturlsuffix', '.html');
-        $this->setVar('styleClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box");
+        $this->setVar('styleClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box\norangeannouncementbox|Orange announcement box\ngreenimportantbox|Green important box");
         $this->setVar('enableVersioning', false);
         $this->setVar('flickrApiKey', '');
         $this->setVar('googlemapApiKey', '');
