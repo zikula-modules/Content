@@ -39,7 +39,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
 
     function getDescription()
     {
-        return $this->__('A rich HTML editor for adding text to your page.');
+        return $this->__('A HTML editor for adding text to your page.');
     }
 
     function isTranslatable()
@@ -84,8 +84,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
 
     function startEditing()
     {
-        $scripts = array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js');
-        PageUtil::addVar('javascript', $scripts);
+        PageUtil::addVar('javascript', array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js'));
         if (isset($this->inputType)) {
             $this->view->assign('pluginInputType', $this->inputType);
         }
