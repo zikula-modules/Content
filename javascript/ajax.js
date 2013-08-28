@@ -191,7 +191,7 @@ function togglepagestate(id)
 }
 
 /**
- * Ajax response function for updating block status: cleanup
+ * Ajax response function for updating page status: cleanup
  *
  *@params none;
  *@return none;
@@ -231,7 +231,7 @@ function togglepageinmenu(id)
 }
 
 /**
- * Ajax response function for updating block status: cleanup
+ * Ajax response function for updating page inmenu status: cleanup
  *
  *@params none;
  *@return none;
@@ -249,3 +249,46 @@ function togglepageinmenu_response(req)
     $('outmenu_' + data.id).toggle();
     $('menustatus_' + data.id).update((($('menustatus_' + data.id).innerHTML == Zikula.__('Out','module_Content')) ? Zikula.__('In','module_Content') : Zikula.__('Out','module_Content')));
 }
+
+/**
+ * Toggle a content item active/inactive status
+ *
+ *@params content id;
+ *@return none;
+ */
+function togglecontentstate(id)
+{
+    var pars = {
+        id: id,
+        active: $('activecid_' + id).visible()
+    };
+    new Zikula.Ajax.Request(
+        "index.php?module=Content&type=ajax&func=toggleContentState",
+        {
+            parameters: pars,
+            onComplete: togglecontentstate_response
+        });
+}
+
+/**
+ * Ajax response function for updating content item status: cleanup
+ *
+ *@params none;
+ *@return none;
+ */
+function togglecontentstate_response(req)
+{
+    if (!req.isSuccess()) {
+        Zikula.showajaxerror(req.getMessage());
+        return;
+    }
+    var data = req.getData();
+	
+    // switch the leds and adapt the text
+    $('activecid_' + data.id).toggle();
+    $('inactivecid_' + data.id).toggle();
+    $('activitycid_' + data.id).update((($('activitycid_' + data.id).innerHTML == Zikula.__('Inactive','module_Content')) ? Zikula.__('Active','module_Content') : Zikula.__('Inactive','module_Content')));
+	// toggle the widget class to inactive 
+	$('content_widget_' + data.id).toggleClassName('widget_inactive');
+}
+

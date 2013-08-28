@@ -60,7 +60,7 @@
 {/if}
 
 {formtabbedpanel __title='Content'}
-<p>{gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the icon next to the title for the options of that content item."}</p>
+<p>{gt text="Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right.<br />Click on the <strong>arrow next to the title</strong> for the actions on that content item or click on the <strong>red/green leds</strong> to activate/deactivate that content item."}</p>
 {include file=$layoutTemplate}
 {/formtabbedpanel}
 
@@ -214,3 +214,6 @@
 
 {/form}
 {adminfooter}
+<script type="text/javascript">
+    Event.observe(window, 'load', initcontentactivationbuttons, false);
+</script>

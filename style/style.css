@@ -164,11 +164,9 @@ div.content-pageinfo .content li {
     display: none;
 }
 
-
 /* ----------------------------------------------------------------------------
 Layouts
 ---------------------------------------------------------------------------- */
-
 .content-area-top {
 }
 
@@ -223,7 +221,6 @@ div.content-layout.column2 div.content-area-middle {
 /* ----------------------------------------------------------------------------
 Content editing
 ---------------------------------------------------------------------------- */
-
 .clickable {
     cursor: pointer;
 }
@@ -267,14 +264,24 @@ table.content-layout-edit td.content-area-inactive {
 
 .widget_onlymembers {
     background-color: #cdf;
+    color: #468;
 }
 
 .widget_onlynonmembers {
     background-color: #fdc;
+    color: #864;
 }
 
 .widget_inactive {
-    background-color: #ccc;
+    background-color: #dcc;
+    color: #866;
+}
+
+.widget_extrainfo {
+    font-weight: bold;
+	width: 100%;
+    text-align: center;
+    color: #a33;
 }
 
 .widget_title {
@@ -307,7 +314,6 @@ table.content-layout-edit td.content-area-inactive {
 /* ----------------------------------------------------------------------------
 Content styling
 ---------------------------------------------------------------------------- */
-
 div.figure-topLeft {
     margin: 0px 15px 5px 0px;
 }
@@ -375,7 +381,6 @@ div.greenbox {
 /* ----------------------------------------------------------------------------
 Various content plugins
 ---------------------------------------------------------------------------- */
-
 #content-breadcrumbs {
 	list-style-type:none;
 	padding:0;

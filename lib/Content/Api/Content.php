@@ -335,6 +335,31 @@ class Content_Api_Content extends Zikula_AbstractApi
         return true;
     }
 
+    /**
+     * Update the status of the item
+     *
+     * @param int contentId
+     * @param string active (optional)
+     * @param string inMenu (optional)
+     *
+     * @return true
+     */
+    public function updateState($args)
+    {
+        // Argument check
+        if (!isset($args['contentId'])) {
+            return LogUtil::registerArgsError();
+        }
+
+        $content = array('id' => $args['contentId']);
+        if (isset($args['active'])) {
+            $content['active'] = ($args['active'] == 'true') ? 0 : 1;
+        }
+
+        DBUtil::updateObject($content, 'content_content');
+        return true;
+    }
+
     protected function contentUpdateSearchableText($contentId, $text)
     {
         // We delete first then insert, since it may not already exist.
@@ -773,6 +798,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         } elseif ($type == 'admin' && $view == null) {
             $view = new Zikula_Form_View($this->getServiceManager(), $args['module']);
         }
+		
         if ($args['module'] != $view->getModuleName()) {
             $modinfo = ModUtil::getInfoFromName($args['module']);
             $modpath = $modinfo['type'] == ModUtil::TYPE_MODULE ? 'modules' : 'system';
