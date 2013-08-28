@@ -6,10 +6,14 @@ Version 4.1.0
 -------------
 
 Summary of changes:
-- Updated google maps content plugin to enable > 1 map on a page
-- Updated Vimeo content plugin
-- Added variable for the page info location top/bottom
 - Several small bugs solved
+- Updated google maps content plugin to enable > 1 map on a page and updated JS api
+- Updated Vimeo content plugin
+- Added variable for the pageinfo icon location being top/bottom
+- Added PageTitle as option to the heading content item #127
+- Fixed Search not working on Content pages #123
+- Block subpages fixed #116
+- Added ajax activating/de-activating of content items inside editpage
 
 
 Version 4.0.1
