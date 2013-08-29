@@ -797,7 +797,9 @@ class Content_Api_Content extends Zikula_AbstractApi
             $view = Zikula_View::getInstance($args['module']);
         } elseif ($type == 'admin' && $view == null) {
             $view = new Zikula_Form_View($this->getServiceManager(), $args['module']);
-        }
+        } else {
+            $view = Zikula_View::getInstance($args['module']);
+		}
 		
         if ($args['module'] != $view->getModuleName()) {
             $modinfo = ModUtil::getInfoFromName($args['module']);
