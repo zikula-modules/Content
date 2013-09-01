@@ -424,10 +424,11 @@ class Content_Api_Content extends Zikula_AbstractApi
             return false;
         }
         $contentType = $this->getContentType($content);
-        if ($contentType === false) {
-            return false;
+        if ($contentType !== false) {
+            $contentType['plugin']->delete();
+        } else {
+            // Plugin probably disabled, plugin delete will not work
         }
-        $contentType['plugin']->delete();
 
         if (!$this->contentRemoveContent($contentId)) {
             return false;
