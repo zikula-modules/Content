@@ -67,8 +67,9 @@ class Content_ContentType_ModuleFunc extends Content_AbstractContentType
     function display()
     {
         static $recursionLevel = 0;
-        if ($recursionLevel > 4)
+        if ($recursionLevel > 4) {
             return $this->__("Maximum number of pages-in-pages reached! You probably included this page in itself.");
+        }
 
         // Convert "x=5,y=2" to array('x' => 5, 'y' => 2)
         $args = explode(',', $this->query);
