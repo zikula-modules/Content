@@ -145,7 +145,7 @@ class Content_Api_User extends Zikula_AbstractApi
         }
 
         if (!isset($args['vars'][3]) || empty($args['vars'][3])) {
-            $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+            $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', $this->getVar('categoryPropPrimary'), 30); // 30 == /__SYSTEM__/Modules/Global
             $cats = CategoryUtil::getCategoriesByParentID($mainCategory);
             foreach ($cats as $cat) {
                 if ($args['vars'][2] == $cat['name'] || $args['vars'][2] == DataUtil::formatForURL($cat['name'])) {

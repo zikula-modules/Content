@@ -29,14 +29,21 @@ class Content_Controller_User extends Zikula_AbstractController
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
-        $mainCategoryId = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'page', 'primary', 30); // 30 == /__SYSTEM__/Modules/Global
+        $mainCategoryId = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', $this->getVar('categoryPropPrimary'), 30); // 30 == /__SYSTEM__/Modules/Global
         $categories = CategoryUtil::getCategoriesByParentID($mainCategoryId);
         $rootCategory = CategoryUtil::getCategoryByID($mainCategoryId);
 
         $this->view->assign('rootCategory', $rootCategory);
         $this->view->assign('categories', $categories);
         $this->view->assign('lang', ZLanguage::getLanguageCode());
-
+		
+		// Count the numer of pages in a specific category
+		$pagecount = array();
+		foreach ($categories as $category) {
+			$pagecount[$category['id']] = ModUtil::apiFunc('Content', 'Page', 'getPageCount', array ('filter' => array('category' => $category['id'])));
+		}
+        $this->view->assign('pagecount', $pagecount);
+		
         return $this->view->fetch('user/main.tpl');
     }
 

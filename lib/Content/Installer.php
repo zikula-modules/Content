@@ -46,8 +46,8 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('flickrApiKey', '');
         $this->setVar('googlemapApiKey', '');
         $this->setVar('categoryUsage', '3');
-        $this->setVar('categoryPropPrimary', 'primary');
-        $this->setVar('categoryPropSecondary', 'primary');
+        $this->setVar('categoryPropPrimary', 'Main');
+        $this->setVar('categoryPropSecondary', 'Second');
         $this->setVar('newPageState', '1');
         $this->setVar('countViews', '0');
         $this->setVar('enableRawPlugin', false);
@@ -75,7 +75,7 @@ class Content_Installer extends Zikula_AbstractInstaller
             $registry = new Categories_DBObject_Registry();
             $registry->setDataField('modname', 'Content');
             $registry->setDataField('table', 'content_page');
-            $registry->setDataField('property', 'primary');
+            $registry->setDataField('property', 'Main');
             $registry->setDataField('category_id', $rootcat['id']);
             $registry->insert();
         }
@@ -232,8 +232,8 @@ class Content_Installer extends Zikula_AbstractInstaller
 
         // add new variable(s)
         $this->setVar('categoryUsage', '1');
-        $this->setVar('categoryPropPrimary', 'primary');
-        $this->setVar('categoryPropSecondary', 'primary');
+        $this->setVar('categoryPropPrimary', 'Main');
+        $this->setVar('categoryPropSecondary', 'Second');
         $this->setVar('newPageState', '1');
 
         return true;
