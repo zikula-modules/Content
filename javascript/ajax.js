@@ -103,8 +103,11 @@ content.editPageHandleUpdate = function(portal, widget)
         cai: contentAreaIndex,
         pos: position
     };
+// Zikula 1.3.6 will need this update
+//    new Zikula.Ajax.Request(
+//        "index.php?module=Content&type=ajax&func=dragContent",
     new Zikula.Ajax.Request(
-        "index.php?module=Content&type=ajax&func=dragContent",
+        "ajax.php?module=Content&func=dragContent",
         {
             parameters: pars,
             onComplete: content.handleDragContentOk
@@ -185,8 +188,11 @@ function togglepagestate(id)
         id: id,
         active: $('active_' + id).visible()
     };
+// Zikula 1.3.6 will need this update
+//    new Zikula.Ajax.Request(
+//        "index.php?module=Content&type=ajax&func=togglePageState",
     new Zikula.Ajax.Request(
-        "index.php?module=Content&type=ajax&func=togglePageState",
+        "ajax.php?module=Content&func=togglePageState",
         {
             parameters: pars,
             onComplete: togglepagestate_response
@@ -225,8 +231,11 @@ function togglepageinmenu(id)
         id: id,
         inMenu:  $('inmenu_' + id).visible()
     };
+// Zikula 1.3.6 will need this update
+//    new Zikula.Ajax.Request(
+//        "index.php?module=Content&type=ajax&func=togglePageInMenu",
     new Zikula.Ajax.Request(
-        "index.php?module=Content&type=ajax&func=togglePageInMenu",
+        "ajax.php?module=Content&func=togglePageInMenu",
         {
             parameters: pars,
             onComplete: togglepageinmenu_response
@@ -265,8 +274,11 @@ function togglecontentstate(id)
         id: id,
         active: $('activecid_' + id).visible()
     };
+// Zikula 1.3.6 will need this update
+//    new Zikula.Ajax.Request(
+//        "index.php?module=Content&type=ajax&func=toggleContentState",
     new Zikula.Ajax.Request(
-        "index.php?module=Content&type=ajax&func=toggleContentState",
+        "ajax.php?module=Content&func=toggleContentState",
         {
             parameters: pars,
             onComplete: togglecontentstate_response
