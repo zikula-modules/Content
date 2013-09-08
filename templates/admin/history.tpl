@@ -12,7 +12,6 @@
 {/if}
 
 {form cssClass='z-form'}
-
 <table class="z-datatable">
     <thead>
         <tr>
@@ -39,7 +38,6 @@
         {/foreach}
     </tbody>
 </table>
-
 {/form}
 
 {pager rowcount=$numitems limit="20" posvar="offset"}

@@ -1,9 +1,5 @@
-<div class="z-formrow">
-  <label>{gt text="Heading"}</label>
-  {$data.text}
-</div>
+<label>{gt text="Heading"}:</label>
+<span>{$data.text}</span>
 
-<div class="z-formrow">
-  <label>{gt text="Anchorname"}</label>
-  {$data.anchorName}
-</div>
+<label>{gt text="Anchorname"}:</label>
+<span>{$data.anchorName}</span>

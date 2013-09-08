@@ -1,9 +1,5 @@
-<div class="z-formrow">
-    <label>{gt text="Path to the Shockwave-Flash video"}</label>
-    <span>{$data.videoPath}</span>
-</div>
+<label>{gt text="Path to the Shockwave-Flash video"}:</label>
+<span>{$data.videoPath}</span>
 
-<div class="z-formrow">
-    <label>{gt text="Video description"}</label>
-    <span>{$data.text}</span>
-</div>
+<label>{gt text="Video description"}:</label>
+<span>{$data.text}</span>

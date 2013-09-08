@@ -123,7 +123,5 @@
 </div>
 
 {/contentformframe}
-
 {/form}
-
 {adminfooter}
