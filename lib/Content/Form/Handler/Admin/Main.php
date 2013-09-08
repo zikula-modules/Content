@@ -13,7 +13,7 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
             throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
 
-        // Inlude categories only when 2nd category enabled in settings
+        // Include categories only when 2nd category enabled in settings
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
             'editing' => true,
             'filter' => array(
