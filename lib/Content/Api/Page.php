@@ -80,8 +80,8 @@ class Content_Api_Page extends Zikula_AbstractApi
         $dbtables = DBUtil::getTables();
         $pageTable = $dbtables['content_page'];
         $pageColumn = $dbtables['content_page_column'];
-        $pageCategoryTable = $dbtables['content_pagecategory'];
-        $pageCategoryColumn = $dbtables['content_pagecategory_column'];
+        //$pageCategoryTable = $dbtables['content_pagecategory'];
+        //$pageCategoryColumn = $dbtables['content_pagecategory_column'];
         $translatedTable = $dbtables['content_translatedpage'];
         $translatedColumn = $dbtables['content_translatedpage_column'];
         $userTable = $dbtables['users'];
@@ -162,6 +162,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             if ($includeVersionNo) {
                 $p['versionNo'] = ModUtil::apiFunc('Content', 'History', 'getPageVersionNo', array('pageId' => $p['id']));
             }
+
             if (!empty($p['translatedTitle'])) {
                 if ($translate) {
                     $p = array_merge($p, $p['translated']);
@@ -540,15 +541,12 @@ class Content_Api_Page extends Zikula_AbstractApi
     protected function contentDeletePageRelations($pageId)
     {
         $dbtables = DBUtil::getTables();
-        $pageCategoryTable = $dbtables['content_pagecategory'];
         $pageCategoryColumn = $dbtables['content_pagecategory_column'];
         $pageId = (int) $pageId;
 
-        $sql = "
-            DELETE FROM $pageCategoryTable
-            WHERE $pageCategoryColumn[pageId] = $pageId";
-
-        DBUtil::executeSQL($sql);
+        // Delete optional existing translation
+        $where = "$pageCategoryColumn[pageId] = $pageId";
+        DBUtil::deleteWhere('content_pagecategory', $where);
 
         return true;
     }
@@ -556,22 +554,12 @@ class Content_Api_Page extends Zikula_AbstractApi
     protected function contentGetPageCategories($pageId)
     {
         $dbtables = DBUtil::getTables();
-        $pageCategoryTable = $dbtables['content_pagecategory'];
         $pageCategoryColumn = $dbtables['content_pagecategory_column'];
         $pageId = (int) $pageId;
 
-        $sql = "
-            SELECT $pageCategoryColumn[categoryId]
-            FROM $pageCategoryTable
-            WHERE $pageCategoryColumn[pageId] = $pageId";
+        $where = "$pageCategoryColumn[pageId] = $pageId";
+        $categories = DBUtil::selectObjectArray('content_pagecategory', $where, '', -1, -1, '', null, null, array('categoryId'));
 
-        $result = DBUtil::executeSQL($sql);
-        $objectArray = DBUtil::marshallObjects($result);
-
-        $categories = array();
-        foreach ($objectArray as $object) {
-            $categories[] = (int) $object['con_categoryid'];
-        }
         return $categories;
     }
 
@@ -864,17 +852,6 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         return $pos === null ? -1 : (int) $pos;
     }
-
-    // could not find usage of this method in the module
-//    public function updateNestedSetValues($args = null)
-//    {
-//        $count = -1;
-//        $level = -1;
-//
-//        $ok = $this->contentUpdateNestedSetValues_Rec(0, $level, $count);
-//
-//        return $ok;
-//    }
 
     protected function contentUpdateNestedSetValues_Rec($pageId, $level, &$count)
     {
