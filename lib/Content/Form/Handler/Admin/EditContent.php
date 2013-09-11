@@ -89,6 +89,7 @@ class Content_Form_Handler_Admin_EditContent extends Zikula_Form_AbstractHandler
 
         $editTemplate = "file:" . getcwd() . "/modules/Content/templates/contenttype/blank.tpl";
         if (isset($content['plugin'])) {
+            $this->contentType['plugin']->setView($view);
             $this->contentType['plugin']->startEditing();
             $editTemplate = $this->contentType['plugin']->getEditTemplate();
         }
