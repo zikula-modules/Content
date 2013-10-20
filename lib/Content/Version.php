@@ -17,7 +17,7 @@ class Content_Version extends Zikula_AbstractVersion
         $meta['version']        = '4.1.0';
         $meta['oldnames']       = array('content');
         $meta['displayname']    = $this->__('Content editing');
-        $meta['description']    = $this->__('Create hierachical and flexible pages, that can contain a wide variety of content items.');
+        $meta['description']    = $this->__('Create hierachical pages with a flexible layout containing a wide variety of content, such as html text, images, videos, maps and much more.');
         // this defines the module's url and should be in lowercase without space
         $meta['url']            = $this->__('content');
         $meta['core_min'] = '1.3.0'; // Fixed to 1.3.x range
