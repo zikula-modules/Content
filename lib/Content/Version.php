@@ -39,7 +39,7 @@ class Content_Version extends Zikula_AbstractVersion
 
     protected function setupHookBundles()
     {
-        // Register hooks for pages
+        // Register ui hooks for pages
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.ui_hooks.pages', 'ui_hooks', $this->__('Content Full Page Hook'));
         $bundle->addEvent('display_view', 'content.ui_hooks.pages.display_view');
         $bundle->addEvent('form_edit', 'content.ui_hooks.pages.form_edit');
@@ -50,7 +50,7 @@ class Content_Version extends Zikula_AbstractVersion
         $bundle->addEvent('process_delete', 'content.ui_hooks.pages.process_delete');
         $this->registerHookSubscriberBundle($bundle);
 
-        // Register hooks for html contenttype
+        // Register ui hooks for html contenttype. This enables scribite 5 connection
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.ui_hooks.htmlcontenttype', 'ui_hooks', $this->__('HTML ContentType Hook'));
         $bundle->addEvent('display_view', 'content.ui_hooks.htmlcontenttype.display_view');
         $bundle->addEvent('form_edit', 'content.ui_hooks.htmlcontenttype.form_edit');
@@ -61,6 +61,7 @@ class Content_Version extends Zikula_AbstractVersion
         $bundle->addEvent('process_delete', 'content.ui_hooks.htmlcontenttype.process_delete');
         $this->registerHookSubscriberBundle($bundle);
 
+		// Register the filter hooks
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.filter_hooks.htmlcontenttype', 'filter_hooks', $this->__('HTML ContentType Filter Hook'));
         $bundle->addEvent('filter', 'content.filter_hooks.htmlcontenttype.filter');
         $this->registerHookSubscriberBundle($bundle);
