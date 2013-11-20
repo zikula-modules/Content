@@ -368,6 +368,7 @@ class Content_Api_Page extends Zikula_AbstractApi
             return LogUtil::registerError($this->__("Error! Cannot create sub-page without parent page ID"));
         }
 
+        // check for parent page
         if ($pageId > 0) {
             $sourcePageData = $this->getPage(array('id' => $pageId, 'includeContent' => false));
             if ($sourcePageData === false) {
@@ -377,12 +378,15 @@ class Content_Api_Page extends Zikula_AbstractApi
             $sourcePageData = null;
         }
 
+        // language set to active language
         $pageData['language'] = ZLanguage::getLanguageCode();
-
+        
         if ($location == 'sub' || $pageId == 0) {
             $pageData['position'] = $this->contentGetLastSubPagePosition($pageId) + 1;
             $pageData['parentPageId'] = $pageId;
             $pageData['level'] = ($sourcePageData == null ? 0 : $sourcePageData['level'] + 1);
+            // copy first category from parent to new subpage
+            $pageData['categoryId'] = ($sourcePageData == null ? 0 : $sourcePageData['categoryId']);
         } else {
             $pageData['position'] = $this->contentGetLastPagePosition($pageId) + 1;
             $pageData['parentPageId'] = ($sourcePageData == null ? 0 : $sourcePageData['parentPageId']);

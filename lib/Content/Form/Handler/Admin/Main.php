@@ -36,7 +36,7 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
                 $cat = CategoryUtil::getCategoryByID($page['categoryId']);
                 $categories[$page['id']] = array();
                 $categories[$page['id']][] = isset($cat['display_name'][$lang]) ? $cat['display_name'][$lang] : $cat['name'];
-                if (is_array($page['categories'])) {
+                if (isset($page['categories']) && is_array($page['categories'])) {
                     foreach ($page['categories'] as $pageCat) {
                         $cat = CategoryUtil::getCategoryByID($pageCat['categoryId']);
                         $categories[$page['id']][] = isset($cat['display_name'][$lang]) ? $cat['display_name'][$lang] : $cat['name'];

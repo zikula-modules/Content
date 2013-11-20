@@ -88,6 +88,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
         if (isset($this->inputType)) {
             $this->view->assign('pluginInputType', $this->inputType);
         }
+        $this->view->assign('cid', $this->contentId);
     }
 
     function getSearchableText()

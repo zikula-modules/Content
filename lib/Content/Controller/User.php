@@ -17,7 +17,7 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     public function main($args)
     {
-		$this->redirect(ModUtil::url('Content', 'user', 'sitemap', $args));
+        $this->redirect(ModUtil::url('Content', 'user', 'sitemap', $args));
     }
 
     /**
@@ -36,14 +36,14 @@ class Content_Controller_User extends Zikula_AbstractController
         $this->view->assign('rootCategory', $rootCategory);
         $this->view->assign('categories', $categories);
         $this->view->assign('lang', ZLanguage::getLanguageCode());
-		
-		// Count the numer of pages in a specific category
-		$pagecount = array();
-		foreach ($categories as $category) {
-			$pagecount[$category['id']] = ModUtil::apiFunc('Content', 'Page', 'getPageCount', array ('filter' => array('category' => $category['id'])));
-		}
+        
+        // Count the numer of pages in a specific category
+        $pagecount = array();
+        foreach ($categories as $category) {
+            $pagecount[$category['id']] = ModUtil::apiFunc('Content', 'Page', 'getPageCount', array ('filter' => array('category' => $category['id'])));
+        }
         $this->view->assign('pagecount', $pagecount);
-		
+        
         return $this->view->fetch('user/main.tpl');
     }
 
@@ -136,10 +136,18 @@ class Content_Controller_User extends Zikula_AbstractController
         $this->view->assign('multilingual', $multilingual);
         $this->view->assign('enableVersioning', $this->getVar('enableVersioning'));
 
-        // Add layout type (and column count) as page variables to the template
+        // add layout type and column count as page variables to the template
         $this->view->assign('contentLayoutType', $page['layout']);
-//        $this->view->assign('contentColumnCount', $page['layout']);
+        $columnCount = 1; // assume 1 if no match can be found
+        if (preg_match('/[1-9]+/', $page['layout'], $matches)) {
+            // found first set of numbers
+            $matchSplit = str_split($matches[0]);
+            rsort($matchSplit);
+            $columnCount = $matchSplit[0];
+        }
+        $this->view->assign('contentColumnCount', $columnCount);
 
+        // add access parameters
         Content_Util::contentAddAccess($this->view, $pageId);
 
         // exclude writers from statistics
