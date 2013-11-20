@@ -137,15 +137,8 @@ class Content_Controller_User extends Zikula_AbstractController
         $this->view->assign('enableVersioning', $this->getVar('enableVersioning'));
 
         // add layout type and column count as page variables to the template
+		// columncount can be used via plugin contentcolumncount, since it holds regular expressions that slow down
         $this->view->assign('contentLayoutType', $page['layout']);
-        $columnCount = 1; // assume 1 if no match can be found
-        if (preg_match('/[1-9]+/', $page['layout'], $matches)) {
-            // found first set of numbers
-            $matchSplit = str_split($matches[0]);
-            rsort($matchSplit);
-            $columnCount = $matchSplit[0];
-        }
-        $this->view->assign('contentColumnCount', $columnCount);
 
         // add access parameters
         Content_Util::contentAddAccess($this->view, $pageId);
