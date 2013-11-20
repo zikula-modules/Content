@@ -61,7 +61,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
         if ($this->inputType == 'raw') {
             $text = DataUtil::formatForDisplay($this->text);
         } else {
-            $text = $this->activateinternallinks(DataUtil::formatForDisplayHTML($this->text));
+            $text = DataUtil::formatForDisplayHTML($this->text);
         }
 
         $this->view->assign('inputType', $this->inputType);
@@ -92,20 +92,7 @@ class Content_ContentType_Html extends Content_AbstractContentType
 
     function getSearchableText()
     {
-        return html_entity_decode(strip_tags($this->activateinternallinks($this->text)));
-    }
-
-    function activateinternallinks($text)
-    {
-        $text = preg_replace_callback("/\[\[link-([0-9]+)(?:\|(.+?))?\]\]/", create_function(
-                                '$hits',
-                                'if ($hits[2]) { return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $hits[1]))."\">".$hits[2]."</a>"; } else {
-          $page = ModUtil::apiFunc("Content", "Page", "getPage", array("pid" => $hits[1]));
-          if ($page === false) { return "";}
-          return "<a href=\"".ModUtil::url("Content", "user", "view", array("pid" => $hits[1]))."\">".$page["title"]."</a>";
-          }'
-                        ), $text);
-        return $text;
+        return html_entity_decode(strip_tags($this->text));
     }
 
     public function getTemplate()
