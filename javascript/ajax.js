@@ -103,7 +103,7 @@ content.editPageHandleUpdate = function(portal, widget)
         cai: contentAreaIndex,
         pos: position
     };
-// Zikula 1.3.6 will need this update
+// Zikula 1.3.7 will need this update
 //    new Zikula.Ajax.Request(
 //        "index.php?module=Content&type=ajax&func=dragContent",
     new Zikula.Ajax.Request(
@@ -188,7 +188,7 @@ function togglepagestate(id)
         id: id,
         active: $('active_' + id).visible()
     };
-// Zikula 1.3.6 will need this update
+// Zikula 1.3.7 will need this update
 //    new Zikula.Ajax.Request(
 //        "index.php?module=Content&type=ajax&func=togglePageState",
     new Zikula.Ajax.Request(
@@ -231,7 +231,7 @@ function togglepageinmenu(id)
         id: id,
         inMenu:  $('inmenu_' + id).visible()
     };
-// Zikula 1.3.6 will need this update
+// Zikula 1.3.7 will need this update
 //    new Zikula.Ajax.Request(
 //        "index.php?module=Content&type=ajax&func=togglePageInMenu",
     new Zikula.Ajax.Request(
@@ -274,7 +274,7 @@ function togglecontentstate(id)
         id: id,
         active: $('activecid_' + id).visible()
     };
-// Zikula 1.3.6 will need this update
+// Zikula 1.3.7 will need this update
 //    new Zikula.Ajax.Request(
 //        "index.php?module=Content&type=ajax&func=toggleContentState",
     new Zikula.Ajax.Request(
