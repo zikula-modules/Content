@@ -43,6 +43,7 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
                     }
                 }
             }
+            $this->view->assign('categories', $categories);
         }
 
         PageUtil::setVar('title', $this->__('Page list and content structure'));
@@ -53,7 +54,6 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
         $this->view->assign('multilingual', ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual'));
         $this->view->assign('enableVersioning', $this->getVar('enableVersioning'));
         $this->view->assign('language', ZLanguage::getLanguageCode());
-        $this->view->assign('categories', $categories);
         Content_Util::contentAddAccess($this->view, null);
 
         return true;
