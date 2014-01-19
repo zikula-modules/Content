@@ -125,7 +125,8 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_4_0_1($oldVersion);
             case '4.0.1':
                 $ok = $ok && $this->contentUpgrade_4_1_0($oldVersion);
-            // future
+            case '4.1.0':
+                $ok = $ok && $this->contentUpgrade_4_1_1($oldVersion);
         }
 
         // Update successful
@@ -383,6 +384,17 @@ class Content_Installer extends Zikula_AbstractInstaller
         ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
         return true;
     }
+    
+    protected function contentUpgrade_4_1_1($oldVersion)
+    {
+        // update the database
+        DBUtil::changeTable('content_page');
+        ModUtil::apiFunc('view', 'user', 'clear_compiled');
+        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
+        
+        return true;
+    }
+    
 
 
 // -----------------------------------------------------------------------
@@ -415,8 +427,6 @@ class Content_Installer extends Zikula_AbstractInstaller
         // Deletion successful
         return true;
     }
-
-
 
 // -----------------------------------------------------------------------
 // Create default data for a new install

@@ -166,6 +166,21 @@
         </span>
     </div>
 </fieldset>
+<fieldset>
+    <legend>{gt text='Optinal Fields'}</legend>
+    <div class="z-formrow">
+        {formlabel for='optionalString1' __text='Optional String 1'}
+        {formtextinput id='optionalString1' mandatory=false maxLength='255' group='page'}
+    </div>
+    <div class="z-formrow">
+        {formlabel for='optionalString2' __text='Optional String 2'}
+        {formtextinput id='optionalString2' mandatory=false maxLength='255' group='page'}
+    </div>
+    <div class="z-formrow">
+        {formlabel for='optionalText' __text='Optional Text'}
+        {formtextinput id='optionalText' mandatory=false textMode='multiline' rows='4' cols='50' group='page'}
+    </div>
+</fieldset>
 {/formtabbedpanel}
 
 {formtabbedpanel __title='Layout'}
