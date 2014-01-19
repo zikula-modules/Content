@@ -9,6 +9,9 @@
         {include file='user/pageinfo.tpl'}
     {/if}
     {if $page.showTitle && !$page.titleintemplate}<h2>{$page.title}</h2>{/if}
+    {*<p>{$page.optionalString1}</p>
+    <p>{$page.optionalString2}</p>
+    <p>{$page.optionalText}</p>*}
     {include file=$page.layoutTemplate inlist=0}
     {if !empty($modvars.Content.pageinfoLocation) and $modvars.Content.pageinfoLocation eq 'bottom'}
         {include file='user/pageinfo.tpl'}
