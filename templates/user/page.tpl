@@ -1,3 +1,4 @@
+{insert name="getstatusmsg"}
 {if $page.metadescription ne ''}
     {setmetatag name='description' value=$page.metadescription|replace:"<br />":"\n"|strip_tags|replace:"\"":""}
 {/if}

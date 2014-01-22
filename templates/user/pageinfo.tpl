@@ -1,4 +1,3 @@
-{insert name="getstatusmsg"}
 {nocache}
 {if $access.pageEditAllowed && !$preview}
 {ajaxheader modname='Content' filename='ajax.js'}
