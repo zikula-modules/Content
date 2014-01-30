@@ -103,11 +103,9 @@ content.editPageHandleUpdate = function(portal, widget)
         cai: contentAreaIndex,
         pos: position
     };
-// Zikula 1.3.7 will need this update
-//    new Zikula.Ajax.Request(
-//        "index.php?module=Content&type=ajax&func=dragContent",
+    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=dragContent",
+        Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=dragContent',
         {
             parameters: pars,
             onComplete: content.handleDragContentOk
@@ -188,11 +186,9 @@ function togglepagestate(id)
         id: id,
         active: $('active_' + id).visible()
     };
-// Zikula 1.3.7 will need this update
-//    new Zikula.Ajax.Request(
-//        "index.php?module=Content&type=ajax&func=togglePageState",
+    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=togglePageState",
+        Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=togglePageState',
         {
             parameters: pars,
             onComplete: togglepagestate_response
@@ -231,11 +227,9 @@ function togglepageinmenu(id)
         id: id,
         inMenu:  $('inmenu_' + id).visible()
     };
-// Zikula 1.3.7 will need this update
-//    new Zikula.Ajax.Request(
-//        "index.php?module=Content&type=ajax&func=togglePageInMenu",
+    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=togglePageInMenu",
+        Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=togglePageInMenu',
         {
             parameters: pars,
             onComplete: togglepageinmenu_response
@@ -274,11 +268,9 @@ function togglecontentstate(id)
         id: id,
         active: $('activecid_' + id).visible()
     };
-// Zikula 1.3.7 will need this update
-//    new Zikula.Ajax.Request(
-//        "index.php?module=Content&type=ajax&func=toggleContentState",
+    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
     new Zikula.Ajax.Request(
-        "ajax.php?module=Content&func=toggleContentState",
+        Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=toggleContentState',
         {
             parameters: pars,
             onComplete: togglecontentstate_response
