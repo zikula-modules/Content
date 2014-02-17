@@ -167,7 +167,7 @@
     </div>
 </fieldset>
 <fieldset>
-    <legend>{gt text='Optinal Fields'}</legend>
+    <legend>{gt text='Optional Fields'}</legend>
     <div class="z-formrow">
         {formlabel for='optionalString1' __text='Optional String 1'}
         {formtextinput id='optionalString1' mandatory=false maxLength='255' group='page'}
