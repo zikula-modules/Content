@@ -197,7 +197,7 @@ class Content_Controller_User extends Zikula_AbstractController
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
-        $category = isset($args['cat']) ? $args['cat'] : (string) FormUtil::getPassedValue('cat');
+        $category = isset($args['cat']) ? $args['cat'] : (int) FormUtil::getPassedValue('cat');
         $pageIndex = isset($args['page']) ? $args['page'] : (int) FormUtil::getPassedValue('page');
         $orderBy = isset($args['orderby']) ? $args['orderby'] : (string) FormUtil::getPassedValue('orderby');
         $orderDir = isset($args['orderdir']) ? $args['orderdir'] : (string) FormUtil::getPassedValue('orderdir');
