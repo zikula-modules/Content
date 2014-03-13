@@ -9,7 +9,7 @@
     <ul>
         {foreach from=$categories item=category}
         {if $modvars.ZConfig.shorturls}
-        <li><a href="{modurl modname='Content' type='user' func='view' cat=$category.path|replace:$rootCategory.path:''}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a> {if $pagecount[$category.id] gt 0}({gt text="%s Page" plural="%s Pages" tag1=$pagecount[$category.id] count=$pagecount[$category.id]}){/if}</li>
+        <li><a href="{modurl modname='Content' type='user' func='view' cat=$category.id}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a> {if $pagecount[$category.id] gt 0}({gt text="%s Page" plural="%s Pages" tag1=$pagecount[$category.id] count=$pagecount[$category.id]}){/if}</li>
         {else}
         <li><a href="{modurl modname='Content' type='user' func='listpages' cat=$category.id}" title="{$category.display_desc.$lang}">{$category.display_name.$lang}</a> {if $pagecount[$category.id] gt 0}({gt text="%s Page" plural="%s Pages" tag1=$pagecount[$category.id] count=$pagecount[$category.id]}){/if}</li>
         {/if}
