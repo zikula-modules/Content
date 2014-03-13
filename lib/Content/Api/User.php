@@ -88,7 +88,7 @@ class Content_Api_User extends Zikula_AbstractApi
         if (isset($args['args']['cat']) && !empty($args['args']['cat'])) {
             $cat = CategoryUtil::getCategoryByID($args['args']['cat']);
             unset($args['args']['cat']);
-            if (count($args['args'] > 0)) {
+            if (count($args['args']) > 0) {
                 return '';
             }
             return $args['modname'] . '/' . DataUtil::formatForURL($cat['name']);
@@ -149,7 +149,7 @@ class Content_Api_User extends Zikula_AbstractApi
             $cats = CategoryUtil::getCategoriesByParentID($mainCategory);
             foreach ($cats as $cat) {
                 if ($args['vars'][2] == $cat['name'] || $args['vars'][2] == DataUtil::formatForURL($cat['name'])) {
-                    System::queryStringSetVar('func', 'list');
+                    System::queryStringSetVar('func', 'listpages');
                     System::queryStringSetVar('cat', $cat['id']);
                     return true;
                 }
