@@ -199,4 +199,106 @@ class Content_Controller_User extends Zikula_AbstractController
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 
-        $category = isset($args['cat']) ? $args['cat'] : (int)
+        $category = isset($args['cat']) ? $args['cat'] : (int) FormUtil::getPassedValue('cat');
+        $pageIndex = isset($args['page']) ? $args['page'] : (int) FormUtil::getPassedValue('page');
+        $orderBy = isset($args['orderby']) ? $args['orderby'] : (string) FormUtil::getPassedValue('orderby');
+        $orderDir = isset($args['orderdir']) ? $args['orderdir'] : (string) FormUtil::getPassedValue('orderdir');
+        $pageSize = isset($args['pagesize']) ? $args['pagesize'] : (string) FormUtil::getPassedValue('pagesize');
+
+        if ($pageIndex < 1) {
+            $pageIndex = 1;
+        }
+        --$pageIndex; // API is zero-based
+
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
+            'filter' => array('category' => $category),
+            'pageIndex' => $pageIndex,
+            'pageSize' => $pageSize,
+            'orderBy' => $orderBy,
+            'orderDir' => $orderDir,
+            'includeContent' => $includeContent));
+        if ($pages === false) {
+            return false;
+        }
+        $pageCount = ModUtil::apiFunc('Content', 'Page', 'getPageCount', array('category' => $category));
+        if ($pageCount === false) {
+            return false;
+        }
+
+        $this->view->assign('pages', $pages);
+        $this->view->assign('pageIndex', $pageIndex);
+        $this->view->assign('pageSize', $pageSize);
+        $this->view->assign('pageCount', $pageCount);
+        $this->view->assign('preview', false);
+        Content_Util::contentAddAccess($this->view, null);
+        return $this->view->fetch($template);
+    }
+
+    /**
+     * List subpages
+     *
+     * @author Philipp Niethammer <webmaster@nochwer.de>
+     *
+     * @param int       pid     Page ID
+     * @param string    name    URL name, alternative for pid
+     * @return Renderer
+     */
+    public function subpages($args)
+    {
+        $pageId = isset($args['pid']) ? $args['pid'] : FormUtil::getPassedValue('pid');
+        $urlname = isset($args['name']) ? $args['name'] : FormUtil::getPassedValue('name');
+
+        if ($pageId === null && !empty($urlname)) {
+            $pageId = ModUtil::apiFunc('Content', 'Page', 'solveURLPath', compact('urlname'));
+        }
+        if ($pageId === null) {
+            return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
+        }
+
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+
+        $topPage = ModUtil::apiFunc('Content', 'Page', 'getPages', array('filter' => array(
+            'superParentId' => $pageId),
+            'orderBy' => 'setLeft',
+            'makeTree' => true));
+        if ($topPage === false) {
+            return false;
+        }
+
+        $this->view->assign(reset($topPage));
+        return $this->view->fetch('user/subpages.tpl');
+    }
+
+    /**
+     * View sitemap
+     *
+     * @return Renderer
+     */
+    public function sitemap($args)
+    {
+        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+
+        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array(
+            'orderBy' => 'setLeft',
+            'makeTree' => true,
+            'filter' => array('checkInMenu' => true)));
+        if ($pages === false)
+            return false;
+
+        if ($this->getVar('overrideTitle')) {
+            PageUtil::setVar('title', $this->__('Sitemap'));
+        }
+
+        $this->view->assign('pages', $pages);
+        Content_Util::contentAddAccess($this->view, null);
+
+        $tpl = FormUtil::getPassedValue('tpl', '', 'GET');
+        if ($tpl == 'xml') {
+            $this->view->display('user/sitemap.xml');
+            return true;
+        }
+
+        return $this->view->fetch('user/sitemap.tpl');
+    }
+
+}
