@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ZIkula module Content 4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 14:47+0100\n"
-"PO-Revision-Date: 2013-12-01 15:02+0100\n"
+"POT-Creation-Date: 2014-06-03 19:51+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Erik Spaan <erik@zikula.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -16,21 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.7\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 
-#: javascript/ajax.js:219 javascript/ajax.js:305
+#: javascript/ajax.js:215 javascript/ajax.js:297
 msgid "Inactive"
 msgstr ""
 
-#: javascript/ajax.js:219
+#: javascript/ajax.js:215
 msgid "Active"
 msgstr ""
 
-#: javascript/ajax.js:262
+#: javascript/ajax.js:256
 msgid "Out"
 msgstr ""
 
-#: javascript/ajax.js:262
+#: javascript/ajax.js:256
 msgid "In"
 msgstr ""

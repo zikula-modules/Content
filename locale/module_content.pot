@@ -3,26 +3,28 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Zikula module Content 4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-01 14:47+0100\n"
-"PO-Revision-Date: 2013-12-01 15:02+0100\n"
+"POT-Creation-Date: 2014-06-03 19:51+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Erik Spaan <erik@zikula.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.7\n"
-"Language: en\n"
 
-#: lib/Content/AbstractContentType.php:371
+#: lib/Content/AbstractContentType.php:374
+#: lib/Content/AbstractContentType.php:393
 msgid "Unable to locate original translation template."
 msgstr ""
 
-#: lib/Content/AbstractContentType.php:377
+#: lib/Content/AbstractContentType.php:380
+#: lib/Content/AbstractContentType.php:399
 msgid "Unable to locate new translation template."
 msgstr ""
 
@@ -32,12 +34,12 @@ msgstr ""
 
 #: lib/Content/Api/Admin.php:25 templates/admin/main_unneeded.tpl:10
 #: templates/user/list.tpl:1 templates/user/list.tpl:2
-#: templates/user/pageinfo.tpl:24
+#: templates/user/pageinfo.tpl:23
 msgid "Page list"
 msgstr ""
 
 #: lib/Content/Api/Admin.php:29 lib/Content/Api/User.php:45
-#: lib/Content/Controller/User.php:287 templates/admin/main_unneeded.tpl:14
+#: lib/Content/Controller/User.php:289 templates/admin/main_unneeded.tpl:14
 msgid "Sitemap"
 msgstr ""
 
@@ -59,7 +61,7 @@ msgstr ""
 
 #: lib/Content/Api/Admin.php:43 lib/Content/Api/User.php:24
 #: lib/Content/Form/Handler/Admin/NewPage.php:41 templates/admin/newpage.tpl:5
-#: templates/user/pageinfo.tpl:22
+#: templates/user/pageinfo.tpl:21
 msgid "Add new page"
 msgstr ""
 
@@ -85,7 +87,7 @@ msgid "disabled plugin"
 msgstr ""
 
 #: lib/Content/Api/Content.php:61
-#, php-format
+#, possible-php-format
 msgid "Disabled: Inaccessible plugin output (%1$s, %2$s)."
 msgstr ""
 
@@ -94,21 +96,21 @@ msgid "Error! Can't load content plugin"
 msgstr ""
 
 #: lib/Content/Api/Content.php:789
-#, php-format
+#, possible-php-format
 msgid ""
 "Error! Unable to load plugin [%1$s] in module [%2$s] since the class is not "
 "defined. Upgrade of %2$s module required."
 msgstr ""
 
 #: lib/Content/Api/Content.php:793
-#, php-format
+#, possible-php-format
 msgid ""
 "Error! Unable to load plugin [%1$s] in module [%2$s] since the module is not "
 "available."
 msgstr ""
 
 #: lib/Content/Api/Content.php:813
-#, php-format
+#, possible-php-format
 msgid ""
 "Error! Unable to load plugin [%1$s] in module [%2$s] for some unknown reason."
 msgstr ""
@@ -146,7 +148,7 @@ msgid "Page added"
 msgstr ""
 
 #: lib/Content/Api/History.php:106
-#, php-format
+#, possible-php-format
 msgid "Page cloned from page [%s]"
 msgstr ""
 
@@ -155,7 +157,7 @@ msgid "Page updated"
 msgstr ""
 
 #: lib/Content/Api/History.php:112
-#, php-format
+#, possible-php-format
 msgid "Page restored from version [%s]"
 msgstr ""
 
@@ -164,7 +166,7 @@ msgid "Page deleted"
 msgstr ""
 
 #: lib/Content/Api/History.php:204 lib/Content/Api/History.php:281
-#, php-format
+#, possible-php-format
 msgid "Error! Unknown version ID [%s]"
 msgstr ""
 
@@ -319,13 +321,13 @@ msgstr ""
 
 #: lib/Content/ContentType/Camtasia.php:157
 #: lib/Content/ContentType/FlashMovie.php:118
-#, php-format
+#, possible-php-format
 msgid "Flash Video-Path: %1$s<br>Size in pixels: %2$s"
 msgstr ""
 
 #: lib/Content/ContentType/Camtasia.php:158
 #: lib/Content/ContentType/FlashMovie.php:119
-#, php-format
+#, possible-php-format
 msgid "Video description: %s"
 msgstr ""
 
@@ -348,7 +350,7 @@ msgid "Display an already existing Content Item."
 msgstr ""
 
 #: lib/Content/ContentType/ContentItem.php:98
-#, php-format
+#, possible-php-format
 msgid ""
 "Displays existing Content Item [ID %1$s], Type: %2$s, Module %3$s, Source "
 "Page %4$s"
@@ -378,7 +380,7 @@ msgid ""
 msgstr ""
 
 #: lib/Content/ContentType/Flickr.php:110
-#, php-format
+#, possible-php-format
 msgid "Flickr photos from user %1$s associated with tags %2$s"
 msgstr ""
 
@@ -397,7 +399,7 @@ msgid ""
 msgstr ""
 
 #: lib/Content/ContentType/GoogleMap.php:157
-#, php-format
+#, possible-php-format
 msgid "Map at longitude: %1$s, lattitude: %2$s, description: %3$s"
 msgstr ""
 
@@ -413,49 +415,16 @@ msgstr ""
 msgid "Section heading (or page title) for structuring large amounts of text."
 msgstr ""
 
-#: lib/Content/ContentType/Html.php:37
-msgid "HTML text"
+#: lib/Content/ContentType/Html.php:26
+msgid "HTML markup text"
 msgstr ""
 
-#: lib/Content/ContentType/Html.php:42
-msgid "A HTML editor for adding text to your page."
+#: lib/Content/ContentType/Html.php:31
+msgid "HTML editor for adding markup text to your page."
 msgstr ""
 
-#: lib/Content/ContentType/Html.php:81 lib/Content/ContentType/HtmlMore.php:89
-msgid "Add text here ..."
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:48
-msgid "HTML text with options to display more text"
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:53
-msgid ""
-"A HTML editor for adding text with optional more information in various ways."
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:90
-msgid "Additional text/page/link..."
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:102
-msgid "Do not use additional text"
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:103
-msgid "Show additional text in show/hide div"
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:104
-msgid "Show additional text in popup window"
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:105
-msgid "Show other Content page via \"Read more\" link"
-msgstr ""
-
-#: lib/Content/ContentType/HtmlMore.php:106
-msgid "Show external link via \"Read more\" link"
+#: lib/Content/ContentType/Html.php:57
+msgid "Add text here..."
 msgstr ""
 
 #: lib/Content/ContentType/JoinPosition.php:26
@@ -538,7 +507,7 @@ msgid "Display slides from slideshare.com"
 msgstr ""
 
 #: lib/Content/ContentType/Slideshare.php:113
-#, php-format
+#, possible-php-format
 msgid "Slideshare: %s"
 msgstr ""
 
@@ -553,7 +522,7 @@ msgid ""
 msgstr ""
 
 #: lib/Content/ContentType/TableOfContents.php:208
-#, php-format
+#, possible-php-format
 msgid "Table of contents of %s"
 msgstr ""
 
@@ -581,14 +550,14 @@ msgid "A plugin for unfiltered raw output (iframes, JavaScript, banners, etc)"
 msgstr ""
 
 #: lib/Content/ContentType/Unfiltered.php:168
-#, php-format
+#, possible-php-format
 msgid ""
 "An <strong>iframe</strong> is included with<br />src = %1$s<br />width = "
 "%2$s and height = %3$s"
 msgstr ""
 
 #: lib/Content/ContentType/Unfiltered.php:170
-#, php-format
+#, possible-php-format
 msgid ""
 "The following <strong>unfiltered text</strong> will be included "
 "literally<br />%s"
@@ -615,7 +584,7 @@ msgid "Display YouTube video clip."
 msgstr ""
 
 #: lib/Content/ContentType/YouTube.php:113
-#, php-format
+#, possible-php-format
 msgid "Video-ID : %1$s<br />Size in pixels: %2$s x %3$s"
 msgstr ""
 
@@ -624,12 +593,12 @@ msgid "No ContentTypes upgraded (there were no matches found)."
 msgstr ""
 
 #: lib/Content/Controller/Admin.php:154
-#, php-format
+#, possible-php-format
 msgid "Module '%s' migrated successfully."
 msgstr ""
 
 #: lib/Content/Controller/Admin.php:156
-#, php-format
+#, possible-php-format
 msgid "Error: Unable to migrate module '%s'."
 msgstr ""
 
@@ -662,21 +631,21 @@ msgstr ""
 #: lib/Content/Controller/Edit.php:48 lib/Content/Controller/Edit.php:56
 #: lib/Content/Controller/Edit.php:64 lib/Content/Controller/Edit.php:72
 #: lib/Content/Controller/Edit.php:80 lib/Content/Controller/Edit.php:88
-#, php-format
+#, possible-php-format
 msgid "Warning! %1$s is deprecated. Please use the Admin controller instead."
 msgstr ""
 
-#: lib/Content/Controller/User.php:104
-#, php-format
+#: lib/Content/Controller/User.php:109
+#, possible-php-format
 msgid "Version #%1$s - %2$s - %3$s by %4$s from %5$s"
 msgstr ""
 
-#: lib/Content/Controller/User.php:130 templates/admin/editpage.tpl:190
+#: lib/Content/Controller/User.php:132 templates/admin/editpage.tpl:205
 #: templates/admin/tocedit.tpl:25
 msgid "Preview"
 msgstr ""
 
-#: lib/Content/Controller/User.php:253
+#: lib/Content/Controller/User.php:255
 msgid "Error! Unknown page."
 msgstr ""
 
@@ -734,7 +703,7 @@ msgid "Error validating hooked content."
 msgstr ""
 
 #: lib/Content/Form/Handler/Admin/EditPage.php:41
-#: templates/admin/history.tpl:5 templates/user/pageinfo.tpl:16
+#: templates/admin/history.tpl:5 templates/user/pageinfo.tpl:15
 msgid "Edit page"
 msgstr ""
 
@@ -829,7 +798,7 @@ msgstr ""
 
 #: lib/Content/Form/Handler/Admin/TranslateContent.php:46
 #: lib/Content/Form/Handler/Admin/TranslatePage.php:25
-#, php-format
+#, possible-php-format
 msgid ""
 "Sorry, you cannot translate an item to the same language as it's default "
 "language (\"%1$s\"). Change the current site language (\"%2$s\") to some "
@@ -845,7 +814,7 @@ msgid "Translate content item"
 msgstr ""
 
 #: lib/Content/Form/Handler/Admin/TranslatePage.php:30
-#: templates/admin/translatepage.tpl:4 templates/user/pageinfo.tpl:18
+#: templates/admin/translatepage.tpl:4 templates/user/pageinfo.tpl:17
 msgid "Translate page"
 msgstr ""
 
@@ -880,58 +849,58 @@ msgid ""
 "module in the Category Registry."
 msgstr ""
 
-#: lib/Content/Installer.php:138
+#: lib/Content/Installer.php:139
 msgid "Table creation failed for 'content_translatedcontent': "
 msgstr ""
 
-#: lib/Content/Installer.php:141
+#: lib/Content/Installer.php:142
 msgid "Table creation failed for 'content_translatedpage': "
 msgstr ""
 
-#: lib/Content/Installer.php:284
-#, php-format
+#: lib/Content/Installer.php:285
+#, possible-php-format
 msgid "Table rename failed: %s."
 msgstr ""
 
-#: lib/Content/Installer.php:340
+#: lib/Content/Installer.php:341
 msgid "Content Display Hooks"
 msgstr ""
 
-#: lib/Content/Installer.php:351
+#: lib/Content/Installer.php:352
 msgid "Content Filter Hooks"
 msgstr ""
 
-#: lib/Content/Installer.php:356 lib/Content/Version.php:54
+#: lib/Content/Installer.php:357 lib/Content/Version.php:43
 msgid "HTML ContentType Hook"
 msgstr ""
 
-#: lib/Content/Installer.php:367 lib/Content/Version.php:65
+#: lib/Content/Installer.php:368 lib/Content/Version.php:65
 msgid "HTML ContentType Filter Hook"
 msgstr ""
 
-#: lib/Content/Installer.php:375
+#: lib/Content/Installer.php:376
 msgid ""
 "All old hooks have been unregistered and new available hooks are now "
 "registrered."
 msgstr ""
 
-#: lib/Content/Installer.php:427
+#: lib/Content/Installer.php:437
 msgid "Content introduction page"
 msgstr ""
 
-#: lib/Content/Installer.php:428
+#: lib/Content/Installer.php:438
 msgid "content-introduction-page"
 msgstr ""
 
-#: lib/Content/Installer.php:436
+#: lib/Content/Installer.php:446
 msgid "Warning! Could not create the default Content introductory page."
 msgstr ""
 
-#: lib/Content/Installer.php:445
+#: lib/Content/Installer.php:455
 msgid "A Content page consists of various content items in a chosen layout"
 msgstr ""
 
-#: lib/Content/Installer.php:452
+#: lib/Content/Installer.php:462
 msgid ""
 "<p>Each created page has a specific layout, like 1 column with and without a "
 "header, 2 columns, 3 columns. The chosen layout contains various content "
@@ -944,7 +913,7 @@ msgid ""
 "structure can be displayed in a multi level menu in your website.</p>"
 msgstr ""
 
-#: lib/Content/Installer.php:459
+#: lib/Content/Installer.php:468
 msgid ""
 "<p><strong>This is a second HTML text content item in the left column</"
 "strong><br /> Content is an extendible module. You can create your own "
@@ -953,15 +922,15 @@ msgid ""
 "list of the latest articles.</p>"
 msgstr ""
 
-#: lib/Content/Installer.php:466
+#: lib/Content/Installer.php:474
 msgid "No matter what your needs, Zikula can provide the solution."
 msgstr ""
 
-#: lib/Content/Installer.php:473
+#: lib/Content/Installer.php:481
 msgid "$this->doAction($var); // just some code"
 msgstr ""
 
-#: lib/Content/Installer.php:479
+#: lib/Content/Installer.php:487
 msgid ""
 "<p>So you see that you can place all kinds of content on the page in your "
 "own style and liking. This makes Content a really powerful module.</p> "
@@ -970,7 +939,7 @@ msgid ""
 "footer</p>"
 msgstr ""
 
-#: lib/Content/Installer.php:486
+#: lib/Content/Installer.php:493
 msgid ""
 "This <strong>footer</strong> finishes of this introduction page. Good luck "
 "with using Content. The <a href=\"index.php?"
@@ -980,21 +949,21 @@ msgid ""
 "can further control the Content module."
 msgstr ""
 
-#: lib/Content/Installer.php:493
+#: lib/Content/Installer.php:499
 msgid ""
 "A default Content introductory page with several Content items has been "
 "created."
 msgstr ""
 
-#: lib/Content/Installer.php:532
-#, php-format
+#: lib/Content/Installer.php:538
+#, possible-php-format
 msgid ""
 "Layout %1$s could not be updated for page %2$s, fix missing layouts before "
 "upgrade."
 msgstr ""
 
-#: lib/Content/Installer.php:589
-#, php-format
+#: lib/Content/Installer.php:595
+#, possible-php-format
 msgid "%1$s ContentTypes upgraded for %2$s"
 msgstr ""
 
@@ -1309,7 +1278,7 @@ msgstr ""
 msgid "content"
 msgstr ""
 
-#: lib/Content/Version.php:43
+#: lib/Content/Version.php:54
 msgid "Content Full Page Hook"
 msgstr ""
 
@@ -1326,7 +1295,7 @@ msgid "No needle id"
 msgstr ""
 
 #: templates/plugins/function.contentareatitle.php:15
-#, php-format
+#, possible-php-format
 msgid "%s area"
 msgstr ""
 
@@ -1343,7 +1312,7 @@ msgid "Translate this page"
 msgstr ""
 
 #: templates/plugins/function.contenteditthis.php:42
-#, php-format
+#, possible-php-format
 msgid "Edit this: %1$s [ID%2$s]"
 msgstr ""
 
@@ -1353,7 +1322,7 @@ msgstr ""
 
 #: templates/plugins/function.contenteditthis.php:45
 #: templates/admin/editcontent.tpl:58 templates/admin/editpage.tpl:48
-#: templates/admin/editpage.tpl:199 templates/admin/tocedit.tpl:34
+#: templates/admin/editpage.tpl:214 templates/admin/tocedit.tpl:34
 msgid "Translate"
 msgstr ""
 
@@ -1386,7 +1355,7 @@ msgid "Clone"
 msgstr ""
 
 #: templates/admin/clonepage.tpl:35 templates/admin/editcontent.tpl:60
-#: templates/admin/editpage.tpl:201 templates/admin/migrate.tpl:23
+#: templates/admin/editpage.tpl:216 templates/admin/migrate.tpl:23
 #: templates/admin/newcontent.tpl:26 templates/admin/newpage.tpl:61
 #: templates/admin/settings.tpl:122 templates/admin/translatecontent.tpl:33
 #: templates/admin/translatepage.tpl:50
@@ -1427,7 +1396,7 @@ msgid "No history data recorded."
 msgstr ""
 
 #: templates/admin/editcontent.tpl:4
-#, php-format
+#, possible-php-format
 msgid "Edit %s"
 msgstr ""
 
@@ -1444,7 +1413,7 @@ msgid "Visible for"
 msgstr ""
 
 #: templates/admin/editcontent.tpl:31 templates/admin/editcontent.tpl:33
-#: templates/admin/editpage.tpl:171
+#: templates/admin/editpage.tpl:186
 msgid "Layout"
 msgstr ""
 
@@ -1464,14 +1433,14 @@ msgstr ""
 msgid "Styling"
 msgstr ""
 
-#: templates/admin/editcontent.tpl:53 templates/admin/editpage.tpl:191
+#: templates/admin/editcontent.tpl:53 templates/admin/editpage.tpl:206
 #: templates/admin/settings.tpl:121 templates/admin/translatecontent.tpl:29
 #: templates/admin/translatepage.tpl:48
 msgid "Save"
 msgstr ""
 
 #: templates/admin/editcontent.tpl:55 templates/admin/editpage.tpl:47
-#: templates/admin/editpage.tpl:196 templates/admin/tocedit.tpl:38
+#: templates/admin/editpage.tpl:211 templates/admin/tocedit.tpl:38
 #: templates/admin/translatecontent.tpl:31
 #: templates/admin/translatepage.tpl:49
 msgid "Delete"
@@ -1614,7 +1583,7 @@ msgstr ""
 
 #: templates/admin/editpage.tpl:157 templates/admin/editpage.tpl:161
 #: templates/admin/tocedit.tpl:109 templates/block/menuitem_wmeta.tpl:3
-#, php-format
+#, possible-php-format
 msgid "on %1$s by %2$s"
 msgstr ""
 
@@ -1622,16 +1591,32 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: templates/admin/editpage.tpl:173 templates/admin/editpage.tpl:175
+#: templates/admin/editpage.tpl:170
+msgid "Optional Fields"
+msgstr ""
+
+#: templates/admin/editpage.tpl:172
+msgid "Optional String 1"
+msgstr ""
+
+#: templates/admin/editpage.tpl:176
+msgid "Optional String 2"
+msgstr ""
+
+#: templates/admin/editpage.tpl:180
+msgid "Optional Text"
+msgstr ""
+
+#: templates/admin/editpage.tpl:188 templates/admin/editpage.tpl:190
 #: templates/admin/newpage.tpl:45
 msgid "Page layout"
 msgstr ""
 
-#: templates/admin/editpage.tpl:179 templates/admin/newpage.tpl:49
+#: templates/admin/editpage.tpl:194 templates/admin/newpage.tpl:49
 msgid "Layout preview and description"
 msgstr ""
 
-#: templates/admin/editpage.tpl:193
+#: templates/admin/editpage.tpl:208
 msgid "Save & View"
 msgstr ""
 
@@ -1807,7 +1792,7 @@ msgid "Category Property for the first category selection"
 msgstr ""
 
 #: templates/admin/settings.tpl:72
-#, php-format
+#, possible-php-format
 msgid ""
 "(In the <a href=\"%s\">category registry</a> you can set the property to use "
 "for the first category)"
@@ -1818,7 +1803,7 @@ msgid "Category Property for the second category selection"
 msgstr ""
 
 #: templates/admin/settings.tpl:77
-#, php-format
+#, possible-php-format
 msgid ""
 "(In the <a href=\"%s\">category registry</a> you can set the property to use "
 "for the second category if being used)"
@@ -1857,7 +1842,7 @@ msgstr ""
 msgid "New page"
 msgstr ""
 
-#: templates/admin/tocedit.tpl:30 templates/user/pageinfo.tpl:21
+#: templates/admin/tocedit.tpl:30 templates/user/pageinfo.tpl:20
 msgid "New sub-page"
 msgstr ""
 
@@ -1917,7 +1902,7 @@ msgstr ""
 msgid "Last updated"
 msgstr ""
 
-#: templates/admin/tocedit.tpl:61 templates/user/pageinfo.tpl:30
+#: templates/admin/tocedit.tpl:61 templates/user/pageinfo.tpl:29
 msgid "Language"
 msgstr ""
 
@@ -1942,12 +1927,12 @@ msgid "Out"
 msgstr ""
 
 #: templates/admin/tocedit.tpl:116
-#, php-format
+#, possible-php-format
 msgid "%1$s (%2$s original)"
 msgstr ""
 
 #: templates/admin/tocedit.tpl:116
-#, php-format
+#, possible-php-format
 msgid "%s original used"
 msgstr ""
 
@@ -2060,7 +2045,7 @@ msgid "only visible when Not Logged In"
 msgstr ""
 
 #: templates/content_include_contentedit.tpl:18
-#, php-format
+#, possible-php-format
 msgid "ID %d"
 msgstr ""
 
@@ -2166,7 +2151,7 @@ msgstr ""
 
 #: templates/contenttype/camtasia_view.tpl:16
 #: templates/contenttype/flashmovie_view.tpl:46
-#, php-format
+#, possible-php-format
 msgid "by %s"
 msgstr ""
 
@@ -2174,7 +2159,7 @@ msgstr ""
 #: templates/contenttype/flashmovie_view.tpl:56
 #: templates/contenttype/flashmovie_view.tpl:58
 #: templates/contenttype/vimeo_view.tpl:21
-#: templates/contenttype/youtube_view.tpl:23
+#: templates/contenttype/youtube_view.tpl:25
 msgid "Play Video"
 msgstr ""
 
@@ -2218,7 +2203,7 @@ msgid "Download Flash Player"
 msgstr ""
 
 #: templates/contenttype/flickr_edit.tpl:4
-#, php-format
+#, possible-php-format
 msgid ""
 "No Flickr API key available! You must specify a Flickr API key to use this "
 "feature. You can get a key from %s."
@@ -2353,34 +2338,15 @@ msgstr ""
 
 #: templates/contenttype/html_edit.tpl:3
 #: templates/contenttype/html_translate_new.tpl:2
-#: templates/contenttype/htmlmore_edit.tpl:3
 msgid "Text"
 msgstr ""
 
-#: templates/contenttype/htmlmore_edit.tpl:8
-msgid "Show additional text below"
+#: templates/contenttype/html_translate_original.tpl:4
+msgid "Show"
 msgstr ""
 
-#: templates/contenttype/htmlmore_edit.tpl:13
-msgid "Additional Text"
-msgstr ""
-
-#: templates/contenttype/htmlmore_editpageview.tpl:7
-msgid "Body text is collapsed with a Read more button."
-msgstr ""
-
-#: templates/contenttype/htmlmore_translate_new.tpl:2
-#: templates/contenttype/htmlmore_translate_original.tpl:1
-msgid "Teaser text"
-msgstr ""
-
-#: templates/contenttype/htmlmore_translate_new.tpl:7
-#: templates/contenttype/htmlmore_translate_original.tpl:4
-msgid "Body text"
-msgstr ""
-
-#: templates/contenttype/htmlmore_view.tpl:15
-msgid "Show more"
+#: templates/contenttype/html_translate_original.tpl:4
+msgid "html markup source"
 msgstr ""
 
 #: templates/contenttype/joinposition_edit.tpl:5
@@ -2668,7 +2634,7 @@ msgid "Contents"
 msgstr ""
 
 #: templates/user/main.tpl:5
-#, php-format
+#, possible-php-format
 msgid "Welcome to the contents for %s"
 msgstr ""
 
@@ -2677,35 +2643,35 @@ msgid "The available categories:"
 msgstr ""
 
 #: templates/user/main.tpl:12 templates/user/main.tpl:14
-#, php-format
+#, possible-php-format
 msgid "%s Page"
 msgid_plural "%s Pages"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/user/pageinfo.tpl:7
+#: templates/user/pageinfo.tpl:6
 msgid "Properties"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:12
+#: templates/user/pageinfo.tpl:11
 msgid "Edit-mode off"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:14
+#: templates/user/pageinfo.tpl:13
 msgid "Edit-mode on"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:27
-#, php-format
+#: templates/user/pageinfo.tpl:26
+#, possible-php-format
 msgid "Created by %1$s on %2$s"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:28
-#, php-format
+#: templates/user/pageinfo.tpl:27
+#, possible-php-format
 msgid "Last updated by %1$s on %2$s"
 msgstr ""
 
-#: templates/user/pageinfo.tpl:29
+#: templates/user/pageinfo.tpl:28
 msgid "Version"
 msgstr ""
 
@@ -2718,7 +2684,7 @@ msgid "View full page"
 msgstr ""
 
 #: templates/user/subpages.tpl:1
-#, php-format
+#, possible-php-format
 msgid "Subpages of %s"
 msgstr ""
 
