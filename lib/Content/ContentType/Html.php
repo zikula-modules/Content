@@ -10,7 +10,6 @@
 class Content_ContentType_Html extends Content_AbstractContentType
 {
     protected $text;
-    protected $inputType;
 
     public function getText()
     {
@@ -22,24 +21,14 @@ class Content_ContentType_Html extends Content_AbstractContentType
         $this->text = $text;
     }
 
-    public function getInputType()
-    {
-        return $this->inputType;
-    }
-
-    public function setInputType($inputType)
-    {
-        $this->inputType = $inputType;
-    }
-
     function getTitle()
     {
-        return $this->__('HTML text');
+        return $this->__('HTML markup text');
     }
 
     function getDescription()
     {
-        return $this->__('A HTML editor for adding text to your page.');
+        return $this->__('HTML editor for adding markup text to your page.');
     }
 
     function isTranslatable()
@@ -49,24 +38,12 @@ class Content_ContentType_Html extends Content_AbstractContentType
 
     function loadData(&$data)
     {
-        if (!isset($data['inputType'])) {
-            $data['inputType'] = 'html';
-        }
         $this->text = $data['text'];
-        $this->inputType = $data['inputType'];
     }
 
     function display()
     {
-        if ($this->inputType == 'raw') {
-            $text = DataUtil::formatForDisplay($this->text);
-        } else {
-            $text = DataUtil::formatForDisplayHTML($this->text);
-        }
-
-        $this->view->assign('inputType', $this->inputType);
-        $this->view->assign('text', $text);
-
+        $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
         return $this->view->fetch($this->getTemplate());
     }
 
@@ -77,17 +54,12 @@ class Content_ContentType_Html extends Content_AbstractContentType
 
     function getDefaultData()
     {
-        return array(
-            'text' => $this->__('Add text here ...'),
-            'inputType' => 'html');
+        return array('text' => $this->__('Add text here...'));
     }
 
     function startEditing()
     {
         PageUtil::addVar('javascript', array('javascript/ajax/prototype.js', 'javascript/helpers/Zikula.js'));
-        if (isset($this->inputType)) {
-            $this->view->assign('pluginInputType', $this->inputType);
-        }
         $this->view->assign('cid', $this->contentId);
     }
 

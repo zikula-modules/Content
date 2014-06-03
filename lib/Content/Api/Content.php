@@ -630,8 +630,9 @@ class Content_Api_Content extends Zikula_AbstractApi
                 $nextContentId = $translatableItems[0]['id'];
             }
         }
+		$curContentId = $translatableItems[$currentIndex]['id'];
 
-        return array('items' => $translationItems, 'nextContentId' => $nextContentId, 'prevContentId' => $prevContentId);
+        return array('items' => $translationItems, 'curContentId' => $curContentId, 'nextContentId' => $nextContentId, 'prevContentId' => $prevContentId);
     }
 
     public function getTranslations($args)
@@ -655,7 +656,6 @@ class Content_Api_Content extends Zikula_AbstractApi
             WHERE c.$contentColumn[pageId] = $pageId";
 
         $dbresult = DBUtil::executeSQL($sql);
-
         $translations = DBUtil::marshallObjects($dbresult, $ca);
 
         return $translations;

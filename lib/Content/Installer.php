@@ -459,15 +459,13 @@ class Content_Installer extends Zikula_AbstractInstaller
                     'position'          => '0',
                     'module'            => 'Content',
                     'type'              => 'Html',
-                    'data'              => serialize(array('text' => $this->__('<p>Each created page has a specific layout, like 1 column with and without a header, 2 columns, 3 columns. The chosen layout contains various content areas. In each area you can place 1 or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> <li>the output of another Zikula module.</li> </ul> <p>Within these content areas you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>'),
-                                                'inputType' => 'text')));
+                    'data'              => serialize(array('text' => $this->__('<p>Each created page has a specific layout, like 1 column with and without a header, 2 columns, 3 columns. The chosen layout contains various content areas. In each area you can place 1 or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Flickr photos;</li> <li>RSS feeds;</li> <li>Computer Code;</li> <li>the output of another Zikula module.</li> </ul> <p>Within these content areas you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>'))));
             $content[] = array('pageId' => $obj['id'],
                     'areaIndex'         => '1',
                     'position'          => '1',
                     'module'            => 'Content',
                     'type'              => 'Html',
-                    'data'              => serialize(array('text' => $this->__('<p><strong>This is a second HTML text content item in the left column</strong><br /> Content is an extendible module. You can create your own content plugins and layouts and other Zikula modules can also offer content items. The News published module for instance has a Content plugin for a list of the latest articles.</p>'),
-                                                'inputType' => 'text')));
+                    'data'              => serialize(array('text' => $this->__('<p><strong>This is a second HTML text content item in the left column</strong><br /> Content is an extendible module. You can create your own content plugins and layouts and other Zikula modules can also offer content items. The News published module for instance has a Content plugin for a list of the latest articles.</p>'))));
             $content[] = array('pageId' => $obj['id'],
                     'areaIndex'         => '2',
                     'position'          => '0',
@@ -486,15 +484,13 @@ class Content_Installer extends Zikula_AbstractInstaller
                     'position'          => '2',
                     'module'            => 'Content',
                     'type'              => 'Html',
-                    'data'              => serialize(array('text' => $this->__('<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column (62|38) layout</strong> which has a header, 2 colums with 62% width on the left and 38% width on the right and a footer</p>'),
-                                                'inputType' => 'text')));
+                    'data'              => serialize(array('text' => $this->__('<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p> <p>This page uses the <strong>2 column (62|38) layout</strong> which has a header, 2 colums with 62% width on the left and 38% width on the right and a footer</p>'))));
             $content[] = array('pageId' => $obj['id'],
                     'areaIndex'         => '3',
                     'position'          => '0',
                     'module'            => 'Content',
                     'type'              => 'Html',
-                    'data'              => serialize(array('text' => $this->__('This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href="index.php?module=content&type=admin&func=main">Page list</a> interface lets you edit or delete this introduction page. In the <a href="index.php?module=content&type=admin&func=settings">administration settings</a> you can further control the Content module.'),
-                                                'inputType' => 'text')));
+                    'data'              => serialize(array('text' => $this->__('This <strong>footer</strong> finishes of this introduction page. Good luck with using Content. The <a href="index.php?module=content&type=admin&func=main">Page list</a> interface lets you edit or delete this introduction page. In the <a href="index.php?module=content&type=admin&func=settings">administration settings</a> you can further control the Content module.'))));
 
             // write the items to the dbase
             foreach ($content as $contentitem) {
