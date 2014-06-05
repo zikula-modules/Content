@@ -153,11 +153,11 @@ content.pageInfo.toggle = function(id)
     $('contentPageInfo-'+id).toggle();
     return false;
 }
-content.pageInfo.mouseover = function()
+content.pageInfo.mouseover = function(id)
 {
     clearTimeout(content.pageInfo.clearTimer);
 }
-content.pageInfo.mouseout = function()
+content.pageInfo.mouseout = function(id)
 {
     content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo').hide(); } , 500);
 }
