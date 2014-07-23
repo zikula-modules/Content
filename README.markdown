@@ -9,9 +9,9 @@ Each page has a specific layout - e.g. single column, two or three columns, with
 without headers and footers.
 
 ### Versions
-* Content 4.2.0 is best compatible with Scribite 5.0
+* Content 4.1.0 is best compatible with Scribite 5.0
 * Content 4.5.0 will be jQuery based and will have Bootstrap layout templates to be compatible with Zikula 1.4
-* Content 5.0 will be Doctrine2 based, so that it is fully native in Zikula 1.4 and beyond
+* Content 5.0.0 will be Doctrine2 based, so that it is fully native in Zikula 1.4 and beyond
 * Content 4.x requires Zikula Core 1.3.x
 * Content 3.x requires Zikula Core 1.2.x
 
