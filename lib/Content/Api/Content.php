@@ -673,10 +673,12 @@ class Content_Api_Content extends Zikula_AbstractApi
         $contentId = (int) $args['contentId'];
         $contentAreaIndex = (int) $args['contentAreaIndex'];
         $position = (int) $args['position'];
-
+		
+		// This will remove the content item from the content Area, but no deletion 
         if (!$this->contentRemoveContent($contentId)) {
             return false;
         }
+		// Insert the removed content item into the new location
         if (!$this->contentInsertContent($contentId, $position, $contentAreaIndex, $pageId)) {
             return false;
         }

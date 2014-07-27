@@ -103,7 +103,7 @@ content.editPageHandleUpdate = function(portal, widget)
         cai: contentAreaIndex,
         pos: position
     };
-    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
+    // Zikula 14x needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 13x
     new Zikula.Ajax.Request(
         Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=dragContent',
         {
@@ -159,7 +159,7 @@ content.pageInfo.mouseover = function(id)
 }
 content.pageInfo.mouseout = function(id)
 {
-    content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo').hide(); } , 500);
+    content.pageInfo.clearTimer = setTimeout(function() { $('contentPageInfo-'+id).hide(); } , 500);
 }
 
 
@@ -186,7 +186,7 @@ function togglepagestate(id)
         id: id,
         active: $('active_' + id).visible()
     };
-    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
+    // Zikula 14x needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 13x
     new Zikula.Ajax.Request(
         Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=togglePageState',
         {
@@ -227,7 +227,7 @@ function togglepageinmenu(id)
         id: id,
         inMenu:  $('inmenu_' + id).visible()
     };
-    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
+    // Zikula 14x needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 13x
     new Zikula.Ajax.Request(
         Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=togglePageInMenu',
         {
@@ -268,7 +268,7 @@ function togglecontentstate(id)
         id: id,
         active: $('activecid_' + id).visible()
     };
-    // Zikula 137/140 needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 135/136
+    // Zikula 14x needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 13x
     new Zikula.Ajax.Request(
         Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=toggleContentState',
         {
