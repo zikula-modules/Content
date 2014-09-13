@@ -1,9 +1,9 @@
 <?php
 class Content_Form_Handler_Admin_TranslatePage extends Zikula_Form_AbstractHandler
 {
-    var $pageId;    // the current page to translate
-    var $language;  // the current active language
-    var $backref;
+    protected $pageId;    // the current page to translate
+    protected $language;  // the current active language
+    protected $backref;
 
     public function initialize(Zikula_Form_View $view)
     {

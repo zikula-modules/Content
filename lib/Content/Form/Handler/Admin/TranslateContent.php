@@ -1,10 +1,10 @@
 <?php
 class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_AbstractHandler
 {
-    var $contentId;
-    var $pageId;
-    var $language;
-    var $backref;
+    protected $contentId;
+    protected $pageId;
+    protected $language;
+    protected $backref;
 
     public function __construct($args)
     {
@@ -93,10 +93,19 @@ class Content_Form_Handler_Admin_TranslateContent extends Zikula_Form_AbstractHa
             }
             $contentData = $this->view->getValues();
 
-            $ok = ModUtil::apiFunc('Content', 'Content', 'updateTranslation', array('translated' => $contentData['translated'], 'contentId' => $this->contentId, 'language' => $this->language));
+            $originalText = $this->contentType['plugin']->getText();
+            $this->contentType['plugin']->setText($contentData['translated']['text']);
+
+            $ok = ModUtil::apiFunc('Content', 'Content', 'updateTranslation', array(
+                'translated' => $contentData['translated'],
+                'searchableText' => $this->contentType['plugin']->getSearchableText(),
+                'contentId' => $this->contentId,
+                'language' => $this->language));
             if ($ok === false) {
                 return $this->view->registerError(null);
             }
+            $this->contentType['plugin']->setText($originalText);
+
             if ($args['commandName'] == null) {
                 $url = ModUtil::url('Content', 'admin', 'translatecontent', array('cid' => $contentData['translationStep']));
             } else if ($args['commandName'] == 'next' && $translationInfo['nextContentId'] != null) {

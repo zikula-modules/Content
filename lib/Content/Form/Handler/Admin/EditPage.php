@@ -2,8 +2,8 @@
 
 class Content_Form_Handler_Admin_EditPage extends Zikula_Form_AbstractHandler
 {
-    var $pageId;
-    var $backref;
+    protected $pageId;
+    protected $backref;
 
     public function __construct($args)
     {

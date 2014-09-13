@@ -25,6 +25,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         if (count($content) == 0) {
             return LogUtil::registerError($this->__("Error! Unknown content-ID"));
         }
+
         return $content[0];
     }
 
@@ -225,6 +226,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return $contentData['id'];
     }
 
@@ -243,6 +245,7 @@ class Content_Api_Content extends Zikula_AbstractApi
             WHERE $contentColumn[pageId] = $pageId";
 
         $pos = DBUtil::selectScalar($sql);
+
         return $pos === null ? -1 : (int) $pos;
     }
 
@@ -260,16 +263,14 @@ class Content_Api_Content extends Zikula_AbstractApi
             return false;
         }
 
-        $searchableData = DBUtil::selectObjectByID('content_searchable', $contentId, 'contentId');
+        $currentLanguage = ZLanguage::getLanguageCode();
+        $dbtables = DBUtil::getTables();
+        $contentSearchColumn = $dbtables['content_searchable_column'];
+        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
+        $searchableData = DBUtil::selectObjectArray('content_searchable', $where);
 
         $contentData['position']++;
         unset($contentData['id']);
-
-        if ($cloneTranslation) {
-            $tables = DBUtil::getTables();
-            $translatedColumn = $tables['content_translatedcontent_column'];
-            $translations = DBUtil::selectObjectArray('content_translatedcontent', "$translatedColumn[contentId] = $contentId");
-        }
 
         if (!$this->contentMoveContentDown($contentData['position'], $contentData['areaIndex'], $contentData['pageId'])) {
             return false;
@@ -277,17 +278,7 @@ class Content_Api_Content extends Zikula_AbstractApi
 
         DBUtil::insertObject($contentData, 'content_content');
 
-        if (!($searchableData === false)) {
-            $searchableData['contentId'] = $contentData['id'];
-            DBUtil::insertObject($searchableData, 'content_searchable');
-        }
-
-        if ($cloneTranslation && count($translations) > 0) {
-            foreach ($translations as &$t) {
-                $t['contentId'] = $contentData['id'];
-            }
-            DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
-        }
+        $this->cloneContentAdditions($contentId, $cloneTranslation);
 
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
@@ -297,7 +288,51 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return $contentData['id'];
+    }
+
+    private function cloneContentAdditions($contentId, $cloneTranslation)
+    {
+        $currentLanguage = ZLanguage::getLanguageCode();
+        $dbtables = DBUtil::getTables();
+
+        $contentSearchColumn = $dbtables['content_searchable_column'];
+
+        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
+        $searchableData = DBUtil::selectObjectArray('content_searchable', $where);
+        if (count($searchableData) > 0) {
+            foreach ($searchableData as &$s) {
+                $s['contentId'] = $contentData['id'];
+            }
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
+        }
+
+        if (!$cloneTranslation) {
+            return;
+        }
+
+        $translatedColumn = $dbtables['content_translatedcontent_column'];
+        $translations = DBUtil::selectObjectArray('content_translatedcontent', "$translatedColumn[contentId] = $contentId");
+
+        if (count($translations) < 1) {
+            return;
+        }
+
+        foreach ($translations as &$t) {
+            $t['contentId'] = $contentData['id'];
+        }
+        DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
+
+        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' NOT IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
+        $searchableData = DBUtil::selectObjectArray('content_searchable', $where);
+
+        if (count($searchableData) > 0) {
+            foreach ($searchableData as &$s) {
+                $s['contentId'] = $contentData['id'];
+            }
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
+        }
     }
 
     /* =[ Update content element ]==================================================== */
@@ -314,7 +349,7 @@ class Content_Api_Content extends Zikula_AbstractApi
 
         DBUtil::updateObject($contentData, 'content_content');
 
-        if (!empty($args['searchableText'])) {
+        if (isset($args['searchableText']) && !empty($args['searchableText'])) {
             if (!$this->contentUpdateSearchableText((int) $args['id'], $args['searchableText'])) {
                 return false;
             }
@@ -332,6 +367,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -357,16 +393,28 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         DBUtil::updateObject($content, 'content_content');
+
         return true;
     }
 
-    protected function contentUpdateSearchableText($contentId, $text)
+    protected function contentUpdateSearchableText($contentId, $text, $language = '')
     {
-        // We delete first then insert, since it may not already exist.
-        DBUtil::deleteObjectByID('content_searchable', $contentId, 'contentId');
+        $languages = array();
+        if ($language !== '') {
+            $languages[] = $language;
+        } else {
+            $languages[] = ZLanguage::getLanguageCode();
+            $languages[] = '';
+        }
 
-        $searchObj = array ('contentId' => $contentId, 'text' => $text);
-        DBUtil::insertObject($searchObj, 'content_searchable', true, 'contentId');
+        // We delete first then insert, since it may not already exist.
+        $dbtables = DBUtil::getTables();
+        $contentSearchColumn = $dbtables['content_searchable_column'];
+        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' IN (\'' . implode('\', \'', $languages) . '\')';
+        DBUtil::deleteWhere('content_searchable', $where);
+
+        $searchObj = array('contentId' => $contentId, 'text' => $text, 'language' => $languages[0]);
+        DBUtil::insertObject($searchObj, 'content_searchable', 'searchableId');
 
         return true;
     }
@@ -382,9 +430,6 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
         $cloneTranslation = isset($args['cloneTranslation']) ? $args['cloneTranslation'] : true;
 
-        $tables = DBUtil::getTables();
-        $translatedColumn = $tables['content_translatedcontent_column'];
-
         $content = $this->GetSimplePageContent(array('pageId' => $fromPage));
         for ($i = 0; $i < count($content); $i++) {
             $contentData = $content[$i];
@@ -393,22 +438,10 @@ class Content_Api_Content extends Zikula_AbstractApi
             DBUtil::insertObject($contentData, 'content_content', 'id');
             $id = $contentData['id']; // ID of object we just inserted
 
-            if ($cloneTranslation) {
-                $translations = DBUtil::selectObjectArray('content_translatedcontent', "$translatedColumn[contentId] = $id");
-                if (!($translations === false) && count($translations) > 0) {
-                    foreach ($translations as &$t) {
-                        $t['contentId'] = $id;
-                    }
-                    DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
-                }
-            }
-            $searchData = DBUtil::selectObjectByID('content_searchable', $id, 'contentId');
-            if ($searchData) {
-                $searchData['contentId'] = $id;
-                DBUtil::insertObject($searchData, 'content_searchable');
-            }
+            $this->cloneContentAdditions($id, $cloneTranslation);
         }
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -434,7 +467,11 @@ class Content_Api_Content extends Zikula_AbstractApi
             return false;
         }
         DBUtil::deleteObjectByID('content_content', $contentId);
-        DBUtil::deleteObjectByID('content_searchable', $contentId, 'contentId');
+
+        $dbtables = DBUtil::getTables();
+        $contentSearchColumn = $dbtables['content_searchable_column'];
+        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId;
+        DBUtil::deleteWhere('content_searchable', $where);
 
         $ok = $this->deleteTranslation(array('contentId' => $contentId, 'includeHistory' => false));
         if ($ok === false) {
@@ -448,6 +485,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -469,6 +507,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -482,8 +521,8 @@ class Content_Api_Content extends Zikula_AbstractApi
         $addVersion = isset($args['addVersion']) ? $args['addVersion'] : true;
 
         // Delete optional existing translation
-        $table = DBUtil::getTables();
-        $translatedColumn = $table['content_translatedcontent_column'];
+        $dbtables = DBUtil::getTables();
+        $translatedColumn = $dbtables['content_translatedcontent_column'];
         $where = $translatedColumn['contentId'] . ' = \'' . DataUtil::formatForStore($contentId) . '\' AND ' . $translatedColumn['language'] . ' = \'' . DataUtil::formatForStore($language) . '\'';
         DBUtil::deleteObject(array(), 'content_translatedcontent', $where, 'contentId');
 
@@ -498,6 +537,12 @@ class Content_Api_Content extends Zikula_AbstractApi
             return false;
         }
 
+        if (isset($args['searchableText']) && !empty($args['searchableText'])) {
+            if (!$this->contentUpdateSearchableText($contentId, $args['searchableText'], $language)) {
+                return false;
+            }
+        }
+
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $content['pageId'], 'action' => '_CONTENT_HISTORYTRANSLATED' /* delayed translation */));
             if ($ok === false) {
@@ -506,6 +551,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -516,10 +562,16 @@ class Content_Api_Content extends Zikula_AbstractApi
         $includeHistory = isset($args['includeHistory']) ? $args['includeHistory'] : true;
 
         $translatedData = array('contentId' => $contentId);
-        if ($language != null) {
+        if ($language !== null) {
             $translatedData['language'] = $language;
         }
         DBUtil::deleteObject($translatedData, 'content_translatedcontent', '', 'contentId');
+
+        $searchableLanguage = ($language !== null) ? $language : ZLanguage::getLanguageCode();
+        $dbtables = DBUtil::getTables();
+        $contentSearchColumn = $dbtables['content_searchable_column'];
+        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' = \'' . DataUtil::formatForStore($searchableLanguage) . '\')';
+        DBUtil::deleteWhere('content_searchable', $where);
 
         // Get content to find page ID
         if ($includeHistory) {
@@ -534,6 +586,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -563,6 +616,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         $dbresult = DBUtil::executeSQL($sql);
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -630,7 +684,7 @@ class Content_Api_Content extends Zikula_AbstractApi
                 $nextContentId = $translatableItems[0]['id'];
             }
         }
-		$curContentId = $translatableItems[$currentIndex]['id'];
+        $curContentId = $translatableItems[$currentIndex]['id'];
 
         return array('items' => $translationItems, 'curContentId' => $curContentId, 'nextContentId' => $nextContentId, 'prevContentId' => $prevContentId);
     }
@@ -673,12 +727,12 @@ class Content_Api_Content extends Zikula_AbstractApi
         $contentId = (int) $args['contentId'];
         $contentAreaIndex = (int) $args['contentAreaIndex'];
         $position = (int) $args['position'];
-		
-		// This will remove the content item from the content Area, but no deletion 
+
+        // This will remove the content item from the content Area, but no deletion
         if (!$this->contentRemoveContent($contentId)) {
             return false;
         }
-		// Insert the removed content item into the new location
+        // Insert the removed content item into the new location
         if (!$this->contentInsertContent($contentId, $position, $contentAreaIndex, $pageId)) {
             return false;
         }
@@ -688,6 +742,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -716,6 +771,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         DBUtil::executeSQL($sql);
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -737,6 +793,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         DBUtil::updateObject($contentData, 'content_content');
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -756,6 +813,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         DBUtil::executeSQL($sql);
 
         Content_Util::clearCache();
+
         return true;
     }
 
@@ -802,8 +860,8 @@ class Content_Api_Content extends Zikula_AbstractApi
             $view = new Zikula_Form_View($this->getServiceManager(), $args['module']);
         } else {
             $view = Zikula_View::getInstance($args['module']);
-		}
-		
+        }
+
         if ($args['module'] != $view->getModuleName()) {
             $modinfo = ModUtil::getInfoFromName($args['module']);
             $modpath = $modinfo['type'] == ModUtil::TYPE_MODULE ? 'modules' : 'system';
@@ -824,6 +882,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         if (isset($args['data'])) {
             $plugin->loadData($args['data']);
         }
+
         return $plugin;
     }
 
@@ -833,6 +892,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         if ($plugin === false) {
             return false;
         }
+
         return array(
             'plugin' => &$plugin,
             'module' => $plugin->getModule(),

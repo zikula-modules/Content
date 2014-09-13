@@ -127,7 +127,13 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_4_1_0($oldVersion);
             case '4.1.0':
                 $ok = $ok && $this->contentUpgrade_4_1_1($oldVersion);
+            case '4.1.1':
+                $ok = $ok && $this->contentUpgrade_4_1_2($oldVersion);
         }
+
+        // clear compiled templates and Content cache
+        ModUtil::apiFunc('view', 'user', 'clear_compiled');
+        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
 
         // Update successful
         return $ok;
@@ -223,6 +229,7 @@ class Content_Installer extends Zikula_AbstractInstaller
 
             } // endif count($obj)
         }
+
         return true;
     }
 
@@ -255,9 +262,6 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('countViews', '0');
         $this->setVar('enableRawPlugin', false);
 
-        // clear compiled templates and Content cache
-        ModUtil::apiFunc('view', 'user', 'clear_compiled');
-        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
         return true;
     }
 
@@ -319,17 +323,11 @@ class Content_Installer extends Zikula_AbstractInstaller
         // register handlers
         EventUtil::registerPersistentModuleHandler('Content', 'module.content.gettypes', array('Content_Util', 'getTypes'));
 
-        // clear compiled templates and Content cache
-        ModUtil::apiFunc('view', 'user', 'clear_compiled');
-        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
         return true;
     }
 
     protected function contentUpgrade_4_0_1($oldVersion)
     {
-        // clear compiled templates and Content cache
-        ModUtil::apiFunc('view', 'user', 'clear_compiled');
-        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
         return true;
     }
 
@@ -379,9 +377,6 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('pageinfoLocation', 'top');
         $this->setVar('overrideTitle', true);
 
-        // clear compiled templates and Content cache
-        ModUtil::apiFunc('view', 'user', 'clear_compiled');
-        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
         return true;
     }
     
@@ -389,8 +384,107 @@ class Content_Installer extends Zikula_AbstractInstaller
     {
         // update the database
         DBUtil::changeTable('content_page');
-        ModUtil::apiFunc('view', 'user', 'clear_compiled');
-        ModUtil::apiFunc('view', 'user', 'clear_cache', array('module' => 'Content'));
+
+        return true;
+    }
+    
+    protected function contentUpgrade_4_1_2($oldVersion)
+    {
+        $dbtables = DBUtil::getTables();
+        $searchableTable = $dbtables['content_searchable'];
+        $searchableColumn = $dbtables['content_searchable_column'];
+
+        // add new primary key field and a language field
+        $sql = 'ALTER TABLE `' . $searchableTable . '` CHANGE `search_cid` `search_cid` INT(11) NOT NULL;';
+        if (!DBUtil::executeSQL($sql)) {
+            return LogUtil::registerError($this->__('Error! Could not update searchable table (1).'));
+        }
+        $sql = 'ALTER TABLE `' . $searchableTable . '` DROP PRIMARY KEY;';
+        if (!DBUtil::executeSQL($sql)) {
+            return LogUtil::registerError($this->__('Error! Could not update searchable table (2).'));
+        }
+        $sql = 'ALTER TABLE `' . $searchableTable . '` ADD `search_sid` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT FIRST;';
+        if (!DBUtil::executeSQL($sql)) {
+            return LogUtil::registerError($this->__('Error! Could not update searchable table (3).'));
+        }
+        $sql = 'ALTER TABLE `' . $searchableTable . '` ADD `search_language` VARCHAR(10) NOT NULL AFTER `search_text`;';
+        if (!DBUtil::executeSQL($sql)) {
+            return LogUtil::registerError($this->__('Error! Could not update searchable table (4).'));
+        }
+
+        // update existing searchable data setting the default language code
+        $defaultLanguage = System::getVar('language_i18n');
+        $sql = "UPDATE `$searchableTable` SET `search_language` = '$defaultLanguage';";
+        if (!DBUtil::executeSQL($sql)) {
+            return LogUtil::registerError($this->__('Error! Could not update searchable table (5).'));
+        }
+
+        // check if we need to insert searchable rows for existing translations
+        $multilingual = System::getVar('multilingual');
+        if ($multilingual) {
+            // retrieve existing translation languages
+            $contentTable = $dbtables['content_content'];
+            $contentColumn = $dbtables['content_content_column'];
+            $translatedTable = $dbtables['content_translatedcontent'];
+            $translatedColumn = $dbtables['content_translatedcontent_column'];
+
+            $sql = "
+                SELECT DISTINCT $translatedColumn[language]
+                FROM $translatedTable t";
+            $dbresult = DBUtil::executeSQL($sql);
+            $languages = DBUtil::marshallObjects($dbresult);
+
+            $cols = DBUtil::_getAllColumns('content_content');
+            $ca = DBUtil::getColumnsArray('content_content');
+            $ca[] = 'translated';
+
+            // iterate translations
+            foreach ($languages as $language) {
+                // exclude the default language, since a page could have been created using another default language
+                if ($language == $defaultLanguage) {
+                    continue;
+                }
+
+                // get all translations for this language
+                $sql = "
+                    SELECT $cols, $translatedColumn[data] AS translated
+                    FROM $contentTable c
+                    LEFT JOIN $translatedTable t
+                    AND t.$translatedColumn[language] = '$language'";
+
+                $dbresult = DBUtil::executeSQL($sql);
+                $content = DBUtil::marshallObjects($dbresult, $ca);
+
+                $view = Zikula_View::getInstance('Content');
+                $contentApi = new Content_Api_Content(ServiceUtil::getManager());
+
+                for ($i = 0, $cou = count($content); $i < $cou; ++$i) {
+                    $c = &$content[$i];
+                    $c['data'] = (empty($c['data']) ? null : unserialize($c['data']));
+                    $c['translated'] = (empty($c['translated']) ? null : unserialize($c['translated']));
+
+                    // set translation as plugin content
+                    if (is_array($c['translated']) && is_array($c['data'])) {
+                        $c['data'] = array_merge($c['data'], $c['translated']);
+                    }
+
+                    // get access to the content plugin
+                    $contentPlugin = $contentApi->getContentPlugin($c, $view);
+
+                    // check if content is translatable
+                    if (!$contentPlugin || !$contentPlugin->isTranslatable()) {
+                        continue;
+                    }
+
+                    // extract searchable text
+                    $text = $contentPlugin->getSearchableText();
+
+                    // insert into searchable table
+                    $searchObj = array('contentId' => $c['id'], 'text' => $text, 'language' => $language);
+                    DBUtil::insertObject($searchObj, 'content_searchable', 'searchableId');
+                }
+            }
+        }
         
         return true;
     }

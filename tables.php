@@ -129,14 +129,18 @@ function content_tables()
     // Searchable text from content plugins
     $tables['content_searchable'] = 'content_searchable';
     $tables['content_searchable_column'] = array(
-        'contentId' => 'search_cid',    // Content ID
-        'text'      => 'search_text'    // Content searchable text
+        'searchableId' => 'search_sid',    // Primary key
+        'contentId'    => 'search_cid',    // Content ID
+        'text'         => 'search_text',   // Content searchable text
+        'language'     => 'search_language'// Content language
     );
     $tables['content_searchable_column_def'] = array(
-        'contentId' => 'I NOTNULL AUTO PRIMARY',
-        'text'      => 'X'
+        'searchableId' => 'I NOTNULL AUTO PRIMARY',
+        'contentId'    => 'I NOTNULL DEFAULT 0',
+        'text'         => 'X',
+        'language'     => 'C(10) NOTNULL'
     );
-    $tables['content_searchable_primary_key_column'] = 'contentId';
+    $tables['content_searchable_primary_key_column'] = 'searchableId';
 
   
     // Translated pages

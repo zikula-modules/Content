@@ -3,13 +3,13 @@
 class Content_Form_Handler_Admin_NewContent extends Zikula_Form_AbstractHandler
 {
     // Set these three for new content in empty area (or always first position)
-    var $pageId; // ID of page to insert content on
-    var $contentAreaIndex; // Index of the content are where new content is to be inserted
-    var $position; // Position of new content inside above area (insert at this position)
+    protected $pageId; // ID of page to insert content on
+    protected $contentAreaIndex; // Index of the content are where new content is to be inserted
+    protected $position; // Position of new content inside above area (insert at this position)
 
     // Set these two for content relatively positioned to exiting content
-    var $contentId; // ID of content we are creating new item relative to
-    var $above; // Position relative to $contentid (above=0 => below)
+    protected $contentId; // ID of content we are creating new item relative to
+    protected $above; // Position relative to $contentid (above=0 => below)
 
     public function __construct($args)
     {

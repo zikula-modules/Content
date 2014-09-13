@@ -2,8 +2,8 @@
 
 class Content_Form_Handler_Admin_NewPage extends Zikula_Form_AbstractHandler
 {
-    var $pageId; // Parent or previous page ID or null for new top page
-    var $location; // Create 'sub' page or next page (at same level)
+    protected $pageId; // Parent or previous page ID or null for new top page
+    protected $location; // Create 'sub' page or next page (at same level)
 
     public function __construct($args)
     {

@@ -14,26 +14,31 @@ class Content_Version extends Zikula_AbstractVersion
     public function getMetaData()
     {
         $meta = array();
-        $meta['version']        = '4.1.1';
+        $meta['version']        = '4.1.2';
         $meta['oldnames']       = array('content');
         $meta['displayname']    = $this->__('Content editing');
         $meta['description']    = $this->__('Create hierachical pages with a flexible layout containing a wide variety of content, such as html text, images, videos, maps and much more.');
         // this defines the module's url and should be in lowercase without space
         $meta['url']            = $this->__('content');
+
         $meta['core_min'] = '1.3.0'; // Fixed to 1.3.x range
         $meta['core_max'] = '1.3.99'; // Fixed to 1.3.x range
+
         $meta['capabilities']   = array(HookUtil::SUBSCRIBER_CAPABLE => array('enabled' => true));
+
         $meta['securityschema'] = array('Content::' => '::',
                 'Content:plugins:layout' => 'Layout name::',
                 'Content:plugins:content' => 'Content type name::',
                 'Content:page:' => 'Page id::');
-        // Module depedencies
+
+        // Module dependencies
         $meta['dependencies'] = array(
                 array('modname'    => 'Scribite',
                       'minversion' => '5.0.0',
                       'maxversion' => '',
                       'status'     => ModUtil::DEPENDENCY_RECOMMENDED),
         );
+
         return $meta;
     }
 
@@ -61,7 +66,7 @@ class Content_Version extends Zikula_AbstractVersion
         $bundle->addEvent('process_delete', 'content.ui_hooks.pages.process_delete');
         $this->registerHookSubscriberBundle($bundle);
 
-		// Register the filter hooks
+        // Register the filter hooks
         $bundle = new Zikula_HookManager_SubscriberBundle($this->name, 'subscriber.content.filter_hooks.htmlcontenttype', 'filter_hooks', $this->__('HTML ContentType Filter Hook'));
         $bundle->addEvent('filter', 'content.filter_hooks.htmlcontenttype.filter');
         $this->registerHookSubscriberBundle($bundle);
