@@ -1319,13 +1319,21 @@ class Content_Api_Page extends Zikula_AbstractApi
         $dbtables = DBUtil::getTables();
         $pageTable = $dbtables['content_page'];
         $pageColumn = $dbtables['content_page_column'];
+        $translatedPageTable = $dbtables['content_translatedpage'];
+        $translatedPageColumn = $dbtables['content_translatedpage_column'];
+
+        $currentLanguage = ZLanguage::getLanguageCode();
 
         $sql = "SELECT parentPage.$pageColumn[id],
-            parentPage.$pageColumn[title]
+            parentPage.$pageColumn[title],
+            parentPageTranslation.$translatedPageColumn[title] AS translatedTitle
             FROM $pageTable parentPage
             LEFT OUTER JOIN $pageTable page
             ON page.$pageColumn[setLeft] >= parentPage.$pageColumn[setLeft]
             AND page.$pageColumn[setRight] <= parentPage.$pageColumn[setRight]
+            LEFT OUTER JOIN $translatedPageTable parentPageTranslation
+            ON parentPageTranslation.$translatedPageColumn[pageId] = parentPage.$pageColumn[id]
+            AND parentPageTranslation.$translatedPageColumn[language] = '$currentLanguage'
             WHERE page.$pageColumn[id] = $pageId
             ORDER BY parentPage.$pageColumn[setLeft]";
 
@@ -1334,10 +1342,19 @@ class Content_Api_Page extends Zikula_AbstractApi
             return LogUtil::registerError($this->__('Error! Could not load items.'));
         }
         $objectArray = DBUtil::marshallObjects($result);
+
         $path = array();
         foreach ($objectArray as $object) {
-            $path[] = array('id' => $object['page_id'], 'title' => $object['page_title']);
+            $pageTitle = $object['page_title'];
+            if ($object['translatedTitle'] != '') {
+                $pageTitle = $object['translatedTitle'];
+            }
+            $path[] = array(
+                'id' => $object['page_id'],
+                'title' => $pageTitle
+            );
         }
+
         return $path;
     }
 
