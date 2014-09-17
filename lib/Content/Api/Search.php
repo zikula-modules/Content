@@ -43,9 +43,6 @@ class Content_Api_Search extends Zikula_AbstractApi
         ModUtil::dbInfoLoad('Search');
         $dbtables = DBUtil::getTables();
 
-        $searchTable = $dbtables['search_result'];
-        $searchColumn = $dbtables['search_result_column'];
-
         $pageTable = $dbtables['content_page'];
         $pageColumn = $dbtables['content_page_column'];
         $contentTable = $dbtables['content_content'];
@@ -57,19 +54,16 @@ class Content_Api_Search extends Zikula_AbstractApi
 
         $sessionId = session_id();
 
+        // check whether we need to search also in translated content
         $multilingual = System::getVar('multilingual');
-        $defaultLanguage = System::getVar('language_i18n');
         $currentLanguage = ZLanguage::getLanguageCode();
 
-        // check whether we need to search also in translated content
-        $searchInTranslations = ($multilingual && $currentLanguage != $defaultLanguage);
-
         $searchWhereClauses = array();
-        $searchWhereClauses[] = Search_Api_User::construct_where($args, array($pageColumn['title']), $pageColumn['language']);
-        if ($searchInTranslations) {
-            $searchWhereClauses[] = Search_Api_User::construct_where($args, array($translatedPageColumn['title']), $translatedPageColumn['language']);
+        $searchWhereClauses[] = '(' . Search_Api_User::construct_where($args, array($pageColumn['title']), $pageColumn['language']) . ')';
+        if ($multilingual) {
+            $searchWhereClauses[] = '(' . Search_Api_User::construct_where($args, array($translatedPageColumn['title']), $translatedPageColumn['language']) . ')';
         }
-        $searchWhereClauses[] = Search_Api_User::construct_where($args, array($contentSearchColumn['text']), $contentSearchColumn['language']);
+        $searchWhereClauses[] = '(' . Search_Api_User::construct_where($args, array($contentSearchColumn['text']), $contentSearchColumn['language']) . ')';
 
         // add default filters
         $whereClauses = array();
@@ -80,25 +74,27 @@ class Content_Api_Search extends Zikula_AbstractApi
         $whereClauses[] = $contentColumn['active'] . ' = 1';
         $whereClauses[] = $contentColumn['visiblefor'] . (UserUtil::isLoggedIn() ? ' <= 1' : ' >= 1');
 
-        // if searching in non-default languages, we need the translated title
-        $titleField = $searchInTranslations ? $translatedPageColumn['title'] : $pageColumn['title'];
-
-        // join also the translation table if required
+        $titleFields = $pageColumn['title'];
         $additionalJoins = '';
-        if ($searchInTranslations) {
-            $additionalJoins = "JOIN $translatedPageTable ON $translatedPageColumn[pageId] = $pageColumn[id] AND $translatedPageColumn[language] = '$currentLanguage'";
+
+        if ($multilingual) {
+            // if searching in non-default languages, we need the translated title
+            $titleFields .= ', ' . $translatedPageColumn['title'] . ' AS translatedTitle';
+
+            // join also the translation table if required
+            $additionalJoins = "LEFT OUTER JOIN $translatedPageTable ON $translatedPageColumn[pageId] = $pageColumn[id] AND $translatedPageColumn[language] = '$currentLanguage'";
+
+            // prevent content snippets in other languages
             $whereClauses[] = $contentSearchColumn['language'] . ' = \'' . $currentLanguage . '\'';
         }
 
         $where = implode(' AND ', $whereClauses);
 
-        $selection = "
-            SELECT DISTINCT $titleField,
-            $contentSearchColumn[text],
-            'Content',
-            $pageColumn[id],
-            $pageColumn[cr_date] AS createdDate,
-            '" . DataUtil::formatForStore($sessionId) . "'
+        $sql = "
+            SELECT DISTINCT $titleFields,
+            $contentSearchColumn[text] AS description,
+            $pageColumn[id] AS pageId,
+            $pageColumn[cr_date] AS createdDate
             FROM $pageTable
             JOIN $contentTable
             ON $contentColumn[pageId] = $pageColumn[id]
@@ -108,21 +104,30 @@ class Content_Api_Search extends Zikula_AbstractApi
             WHERE $where
         ";
 
-        // Direct SQL way of searching in titles and searchable content items
-        // for Pages and Content items that are visible/active
-        $sql = "INSERT INTO $searchTable
-            ($searchColumn[title],
-            $searchColumn[text],
-            $searchColumn[module],
-            $searchColumn[extra],
-            $searchColumn[created],
-            $searchColumn[session])
-            $selection
-        ";
+        $result = DBUtil::executeSQL($sql);
+        if (!$result) {
+            return LogUtil::registerError($this->__('Error! Could not load items.'));
+        }
+        $objectArray = DBUtil::marshallObjects($result);
 
-        $dbresult = DBUtil::executeSQL($sql);
-        if (!$dbresult) {
-            return LogUtil::registerError($this->__('Error! Could not load any Content pages or items.'));
+        foreach ($objectArray as $object) {
+            $pageTitle = $object['page_title'];
+            if ($object['translatedTitle'] != '') {
+                $pageTitle = $object['translatedTitle'];
+            }
+
+            $searchItemData = array(
+                'title'   => $pageTitle,
+                'text'    => $object['description'],
+                'extra'   => $object['pageId'],
+                'created' => $object['createdDate'],
+                'module'  => 'Content',
+                'session' => $sessionId
+            );
+
+            if (!\DBUtil::insertObject($searchItemData, 'search_result')) {
+                return \LogUtil::registerError($this->__('Error! Could not save the search results.'));
+            }
         }
 
         return true;
