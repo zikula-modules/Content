@@ -570,7 +570,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         $searchableLanguage = ($language !== null) ? $language : ZLanguage::getLanguageCode();
         $dbtables = DBUtil::getTables();
         $contentSearchColumn = $dbtables['content_searchable_column'];
-        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' = \'' . DataUtil::formatForStore($searchableLanguage) . '\')';
+        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' = \'' . DataUtil::formatForStore($searchableLanguage) . '\'';
         DBUtil::deleteWhere('content_searchable', $where);
 
         // Get content to find page ID
