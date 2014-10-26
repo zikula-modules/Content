@@ -1,0 +1,16 @@
+{
+    "name": "zikula-modules/content-module",
+    "description": "Content is a hierarchical page editing module for Zikula. With it you can insert and edit various content items, such as HTML texts, videos, maps and much more. Also content of other modules and blocks can be shown inside a Content page.",
+    "type": "zikula-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Erik Spaan",
+            "role": "owner",
+            "homepage": "www.campertoday.nl"
+        }
+    ],
+    "require": {
+        "php": ">5.3.3"
+    }
+}
