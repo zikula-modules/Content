@@ -1,12 +1,22 @@
 {ajaxheader modname='Content' filename='ajax.js'}
 {contentpagepath pageId=$page.id language=$page.language assign='subheader'}
 
-{pageaddvar name="javascript" value="modules/Content/javascript/portal.js"}
+{*pageaddvar name="javascript" value="modules/Content/javascript/portal.js"*}
 {pageaddvar name="javascript" value="modules/Content/javascript/pagelayout.js"}
+
+{* 
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 
+*}
+<link rel="stylesheet" href="javascript/jquery-ui/themes/base/jquery-ui.css" />
+{pageaddvar name="javascript" value="jQuery"}
+{pageaddvar name="javascript" value="jQuery-ui"}
+
 <script type="text/javascript" >
     //<![CDATA[
     content.pageId = {{$page.id}};
-    Event.observe(window, 'load', content.editPageOnLoad);
+    //Event.observe(window, 'load', content.editPageOnLoad);
+    Event.observe(window, 'load', initcontentactivationbuttons);
     // store the image location and description in a JS array
     var images = [];
     var descs = [];
@@ -15,6 +25,67 @@
     descs.push('{{$layout.description|safetext}}');
     {{/foreach}}
     //]]>
+</script>
+
+<style>
+.content-column-portlet { float: left; padding-bottom: 15px; margin: 4px 0px; border: 1px dashed #99b; }
+.content-portlet { margin: 0.5em; }
+.content-portlet-header { cursor: move; /*margin: 0.3em; */ height: 18px; background-color: #d0e0f0; padding: 2px 5px; font-weight:bold; }
+/*.content-portlet-header .ui-icon { float: right; }*/
+.content-portlet-content { padding: 0.4em; }
+.ui-sortable-placeholder { border: 2px dotted red; background: #fee; visibility: visible !important; height: 60px !important; }
+.ui-sortable-placeholder * { visibility: hidden; }
+.content-item-extrainfo { font-weight: bold; width: 100%; text-align: center; color: #A33; }
+.content-item-inactive .content-portlet-content { /*max-height: 100px; overflow: hidden;*/ background: #ecc; color: #a77; }
+</style>
+<script>
+	jQuery(function() {
+		jQuery(".content-column-portlet").sortable({
+			connectWith: ".content-column-portlet",
+			stop: updateContentItemPosition,
+			items: '.sortable',
+			opacity: 0.8,
+			cursor: "move",
+			revert: true,
+			handle: '.content-portlet-header',
+			dropOnEmpty: true
+		});
+		jQuery(".content-portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+			.find(".content-portlet-header")
+		jQuery(".content-column-portlet").disableSelection();
+	});
+	
+	function updateContentItemPosition(event, ui) {
+        // get the dragged div id
+		var draggedCidDomId = ui.item[0].id;
+		var draggedCidVal = jQuery(draggedCidDomId.split("-")).get(-1);
+
+		// get all contentareas with content items in there and do matching in PHP
+		var contentAreas = new Array();
+		jQuery(".content-column-portlet").each(function(index) {
+			contentAreas[index] = jQuery(this).sortable("toArray");
+		});
+		//console.log(contentAreas.toSource());
+
+		// Make the Ajax call to store the new position
+		jQuery.ajax({
+			type: "POST",
+			data: {
+				pid: {{$page.id}},
+				cid: draggedCidVal,
+				cidDOM: draggedCidDomId,
+				contentAreas: contentAreas
+			},
+			url: Zikula.Config.baseURL + "ajax.php?module=Content&type=ajax&func=dragContentJQ",
+			success: function(result) {
+				// do nothing, since succeeded
+			},
+			error: function(result) {
+				alert('{{gt text='Error during content item move'}}');
+				return;
+			}
+		});
+	};
 </script>
 
 {gt text="Click to activate this item" assign='activate'}
@@ -219,3 +290,6 @@
 {/contentformframe}
 {/form}
 {adminfooter}
+
+
+{*zdebug*}

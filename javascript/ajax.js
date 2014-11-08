@@ -41,6 +41,7 @@ content.items = new Array();
 
 content.editPageOnLoad = function()
 {
+    /*
     // get "columns" in correct order. 0, 1, 2, .. or 00, 01, 02, .., 09, 10, 11, ..
     // only select the table cells that have class content-area. Placeholder cells can be 
     // used with class content-area-inactive for the correct layout and no drag functionality.
@@ -63,11 +64,11 @@ content.editPageOnLoad = function()
             content.portal.add(widget, e.column); 
         }
     );
-
+    */
+    
     // enable ajax state led buttons
     initcontentactivationbuttons();
 }
-
 
 // Called by portal when a Content item has been moved
 content.editPageHandleUpdate = function(portal, widget)
@@ -295,7 +296,11 @@ function togglecontentstate_response(req)
     $('activecid_' + data.id).toggle();
     $('inactivecid_' + data.id).toggle();
     $('activitycid_' + data.id).update((($('activitycid_' + data.id).innerHTML == Zikula.__('Inactive','module_Content')) ? '' : Zikula.__('Inactive','module_Content')));
-	// toggle the widget class to inactive 
-	$('content_widget_' + data.id).toggleClassName('widget_inactive');
+    
+	// toggle the content item to inactive slowly, effect is using jQuery UI
+	jQuery("#content-item-" + data.id).toggleClass('content-item-inactive', 500);
+
+	// toggle the widget class to inactive
+	//$('content_widget_' + data.id).toggleClassName('widget_inactive');
 }
 
