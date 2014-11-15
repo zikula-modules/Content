@@ -129,6 +129,8 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_4_1_1($oldVersion);
             case '4.1.1':
                 $ok = $ok && $this->contentUpgrade_4_1_2($oldVersion);
+            case '4.1.2':
+                $ok = $ok && $this->contentUpgrade_4_2_0($oldVersion);
         }
 
         // clear compiled templates and Content cache
@@ -488,7 +490,14 @@ class Content_Installer extends Zikula_AbstractInstaller
         
         return true;
     }
-    
+
+    protected function contentUpgrade_4_2_0($oldVersion)
+    {
+        // nothing done yet
+
+        return true;
+    }
+
 
 
 // -----------------------------------------------------------------------
