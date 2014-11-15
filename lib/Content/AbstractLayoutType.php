@@ -8,6 +8,13 @@ abstract class Content_AbstractLayoutType extends Content_AbstractType
      */
     public $titleInTemplate = false;
 
+    // templateType
+    // 0 = Regular content layouts (e.g. 1/2/3 columns)
+    // 1 = Special content layouts (e.g. 21212 columns)
+    // 2 = Regular Bootstrap styled layouts
+    // 3 = Special Bootstrap styled layouts
+    public $templateType = 0;
+
     public function getNumberOfContentAreas()
     {
         return 0;
