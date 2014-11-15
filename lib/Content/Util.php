@@ -127,9 +127,9 @@ class Content_Util
 
         // add layout types
         $types->add('Content_LayoutType_Column1');
-        $types->add('Content_LayoutType_Column1top');
         $types->add('Content_LayoutType_Column1woheader');
-        $types->add('Content_LayoutType_Column212');
+        $types->add('Content_LayoutType_Column1top');
+        $types->add('Content_LayoutType_Column2header');
         $types->add('Content_LayoutType_Column2d2575');
         $types->add('Content_LayoutType_Column2d3070');
         $types->add('Content_LayoutType_Column2d3366');
@@ -138,11 +138,12 @@ class Content_Util
         $types->add('Content_LayoutType_Column2d6633');
         $types->add('Content_LayoutType_Column2d7030');
         $types->add('Content_LayoutType_Column2d7525');
-        $types->add('Content_LayoutType_Column2header');
+        $types->add('Content_LayoutType_Column3header');
         $types->add('Content_LayoutType_Column3d252550');
         $types->add('Content_LayoutType_Column3d255025');
         $types->add('Content_LayoutType_Column3d502525');
-        $types->add('Content_LayoutType_Column3header');
+        $types->add('Content_LayoutType_Column4d25252525');
+        $types->add('Content_LayoutType_Column212');
         $types->add('Content_LayoutType_Column21212');
         $types->add('Content_LayoutType_Column21212rightcol');
     }

@@ -180,38 +180,35 @@ div.content-area-top h2 {
 }
 
 div.content-layout.column2 p,
-div.content-layout.column3 p {
+div.content-layout.column3 p,
+div.content-layout.column4 p {
     text-align:justify;
 }
 
 /* widths are located in the templates for easier adjustment */
-div.content-layout.column2 div.content-area-left {
+div.content-layout.column2 div.content-area-left,
+div.content-layout.column3 div.content-area-left,
+div.content-layout.column4 div.content-area-left {
     /*    width: 48%;*/
     float: left;
 }
 
-div.content-layout.column2 div.content-area-right {
+div.content-layout.column2 div.content-area-right,
+div.content-layout.column3 div.content-area-right,
+div.content-layout.column4 div.content-area-right {
     /*    width: 48%;*/
     float: right;
     padding-left: 2%;
 }
 
-div.content-layout.column3 div.content-area-left {
-    /*    width: 30%;*/
-    float: left;
-}
-
-div.content-layout.column3 div.content-area-center {
+div.content-layout.column3 div.content-area-center,
+div.content-layout.column4 div.content-area-center {
     /*    width: 30%;*/
     float: left;
     padding: 0 2%;
 }
 
-div.content-layout.column3 div.content-area-right {
-    /*    width: 30%;*/
-    float: right;
-}
-
+div.content-layout.column4 div.content-area-bottom,
 div.content-layout.column3 div.content-area-bottom,
 div.content-layout.column2 div.content-area-bottom,
 div.content-layout.column2 div.content-area-middle {

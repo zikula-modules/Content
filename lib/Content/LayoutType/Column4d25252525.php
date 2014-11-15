@@ -1,38 +1,38 @@
 <?php
 /**
- * Content 1 column layout with top header plugin
+ * Content 3 column layout plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://github.com/zikula-modules/Content
  * @license See license.txt
  */
 
-class Content_LayoutType_Column1top extends Content_AbstractLayoutType
+class Content_LayoutType_Column4d25252525 extends Content_AbstractLayoutType
 {
     protected $contentAreaTitles = array();
-    public $templateType = 1;
-
-    public $titleInTemplate = true;
 
     function __construct(Zikula_View $view)
     {
         parent::__construct($view);
         $this->contentAreaTitles = array(
             $this->__('Header'),
-            $this->__('Header above page title'),
-            $this->__('Centre column'));
+            $this->__('Left column'),
+            $this->__('Centre left column'),
+            $this->__('Centre right column'),
+            $this->__('Right column'),
+            $this->__('Footer'));
     }
     function getTitle()
     {
-        return $this->__('1 column extra header above page title');
+        return $this->__('4 columns (25|25|25|25)');
     }
     function getDescription()
     {
-        return $this->__('Single 100% wide column and a top-header above the page title (for e.g. breadcrumbs or author-information above the title)');
+        return $this->__('Header + four columns (25|25|25|25) + footer');
     }
     function getNumberOfContentAreas()
     {
-        return 3;
+        return 5;
     }
     function getContentAreaTitle($areaIndex)
     {
@@ -40,6 +40,6 @@ class Content_LayoutType_Column1top extends Content_AbstractLayoutType
     }
 	function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column1topheader.png';
+    	return System::getBaseUrl().'/modules/Content/images/layouttype/column4_25252525_header.png';
     }
 }
