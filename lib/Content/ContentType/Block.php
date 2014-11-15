@@ -46,7 +46,10 @@ class Content_ContentType_Block extends Content_AbstractContentType
     }
     function displayEditing()
     {
-        $output = "Block-Id=$this->blockid";
+        $id = $this->blockid;
+        $blockinfo = BlockUtil::getBlockInfo($id);
+
+        $output = $blockinfo['title'] . ' (ID=' . $this->blockid . ')';
         return $output;
     }
     function getDefaultData()
