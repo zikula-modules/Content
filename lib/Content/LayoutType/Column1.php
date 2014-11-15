@@ -20,7 +20,7 @@ class Content_LayoutType_Column1 extends Content_AbstractLayoutType
     }
     function getTitle()
     {
-        return $this->__('1 column');
+        return $this->__('1 column with header');
     }
     function getDescription()
     {
