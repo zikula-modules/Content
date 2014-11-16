@@ -35,98 +35,6 @@ content.addDraggablePage = function(id)
      });
 }
 
-
-/*=[ Drag/drop content, see also portal.js ]=====================================*/
-content.items = new Array();
-
-content.editPageOnLoad = function()
-{
-    // get "columns" in correct order. 0, 1, 2, .. or 00, 01, 02, .., 09, 10, 11, ..
-    // only select the table cells that have class content-area. Placeholder cells can be 
-    // used with class content-area-inactive for the correct layout and no drag functionality.
-    columns = $$("table.content-layout-edit td.content-area").sort(function(el1,el2) { return el1.id >= el2.id; });
-  
-    // Get new portal object
-    content.portal = new Xilinus.Portal(columns, { onUpdate: content.editPageHandleUpdate }) 
-  
-    // Iterate through the registered content elements and add them to the portal
-    content.items.each(
-        function(e) 
-        { 
-            // Remove XXX's added to avoid bad short URL handling in Zikula short URL output filter
-            e.title = e.title.replace(/ srcXXX=/g, ' src=');
-            e.title = e.title.replace(/ hrefXXX=/g, ' href=');
-            e.content = e.content.replace(/ srcXXX=/g, ' src=');
-            e.content = e.content.replace(/ hrefXXX=/g, ' href=');
-      
-            var widget = new Xilinus.Widget("widget", "widget_"+e.contentId).setTitle(e.title).setContent(e.content).setVisibleFor(e.visiblefor).setActive(e.active);
-            content.portal.add(widget, e.column); 
-        }
-    );
-
-    // enable ajax state led buttons
-    initcontentactivationbuttons();
-}
-
-
-// Called by portal when a Content item has been moved
-content.editPageHandleUpdate = function(portal, widget)
-{
-    var contentArea = widget.parentNode;
-  
-    // Figure out position inside this content item
-    var position = 0;
-    for (var i=0; i<contentArea.childNodes.length; ++i) {
-        // Found the passed widget?
-        if (contentArea.childNodes[i] == widget) {
-            break;
-        }
-    
-        // Found any widget?
-        if (contentArea.childNodes[i].nodeType == 1 && contentArea.childNodes[i].className == 'widget') {
-            ++position;
-        }
-    }
-  
-    // Convert "widget_col_X" to X
-    var contentAreaIndex = contentArea.id.substr(11);
-  
-    // Convert "widget_X" to X
-    var contentId = widget.id.substr(7);
-  
-    //alert("New position for " + contentId + " = (" + contentAreaIndex + "," + position + ")");
-
-    // Start AJAX request
-    var pars = {
-        pid: content.pageId,
-        cid: contentId,
-        cai: contentAreaIndex,
-        pos: position
-    };
-    // Zikula 14x needs index.php?module=Content&type=ajax&func=.. , but doesn't work in 13x
-    new Zikula.Ajax.Request(
-        Zikula.Config.baseURL + 'ajax.php?module=Content&type=ajax&func=dragContent',
-        {
-            parameters: pars,
-            onComplete: content.handleDragContentOk
-        });
-
-}
-
-content.handleDragContentOk = function(req)
-{
-    if (!req.isSuccess()) {
-        Zikula.showajaxerror(req.getMessage());
-        return;
-    }
-    var data = req.getData();
-
-    // check for success
-    if (!data.ok) {
-        alert(data.message);
-    }
-}
-
 /*=[ preview a page ]============================================================*/
 content.popupPreviewWindow = function(commandArgument)
 {
@@ -295,7 +203,11 @@ function togglecontentstate_response(req)
     $('activecid_' + data.id).toggle();
     $('inactivecid_' + data.id).toggle();
     $('activitycid_' + data.id).update((($('activitycid_' + data.id).innerHTML == Zikula.__('Inactive','module_Content')) ? '' : Zikula.__('Inactive','module_Content')));
-	// toggle the widget class to inactive 
-	$('content_widget_' + data.id).toggleClassName('widget_inactive');
+    
+	// toggle the content item to inactive slowly, effect is using jQuery UI
+	jQuery("#content-item-" + data.id).toggleClass('content-item-inactive', 500);
+
+	// toggle the widget class to inactive
+	//$('content_widget_' + data.id).toggleClassName('widget_inactive');
 }
 

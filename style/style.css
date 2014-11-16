@@ -99,17 +99,17 @@ div.content-page-path {
 div.content-editthis a {
     display: block;
     font-size: 0.9em;
-    color: #467aa7;
+    color: #237;
     padding: 1px 1px 1px 5px;
     margin: 1px 0;
-    border: 1px #eef solid;
-    background: #dde;
+    border: 1px #abd solid;
+    background: #def;
 }
 
 div.content-editthis a:hover {
-    color: #2a5a8a;
-    border: 1px solid #aab;
-    background: #d0d0e0;
+    color: #459;
+    border: 1px solid #abd;
+    background: #cde;
 }
 
 div.z-pager * {
@@ -214,6 +214,70 @@ div.content-layout.column2 div.content-area-bottom,
 div.content-layout.column2 div.content-area-middle {
     clear: both;
 }
+
+/* ----------------------------------------------------------------------------
+Content page editing jQuery UI Portlet
+---------------------------------------------------------------------------- */
+div.content-column-portlet {
+    float: left;
+    padding-bottom: 15px;
+    margin: 4px 0px;
+    border: 1px dashed #99b;
+}
+div.content-portlet {
+    margin: 0.5em;
+}
+div.content-portlet-header {
+    cursor: move;
+    /*margin: 0.3em; */
+    height: 18px;
+    background-color: #d0e0f0;
+    padding: 2px 5px;
+    font-weight:bold;
+}
+/*
+div.content-portlet-header .ui-icon {
+    float: right;
+    }
+*/
+div.content-portlet-content {
+    padding: 0.4em;
+}
+div.ui-sortable-placeholder {
+    border: 2px dotted red;
+    background: #fee;
+    visibility: visible !important;
+    height: 60px !important;
+}
+div.ui-sortable-placeholder * {
+    visibility: hidden;
+}
+div.content-item-extrainfo {
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    color: #A33;
+}
+div.content-item-inactive .content-portlet-content {
+    max-height: 150px; overflow: hidden;
+    background: #ecc;
+    color: #a77;
+}
+
+/* div widths jquery portlet during page editing */
+div.w25edit { width: 24.5%; }
+div.w30edit { width: 29.5%; }
+div.w33edit { width: 32.5%; }
+div.w38edit { width: 37.5%; }
+div.w40edit { width: 39.5%; }
+div.w50edit { width: 49.5%; }
+div.w60edit { width: 59.5%; }
+div.w62edit { width: 61.5%; }
+div.w66edit { width: 65.5%; }
+div.w70edit { width: 69.5%; }
+div.w75edit { width: 74.5%; }
+div.w100edit { width: 100%; }
+
 
 /* ----------------------------------------------------------------------------
 Content editing

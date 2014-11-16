@@ -22,11 +22,26 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
         $this->checkAjaxToken();
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
+        $pageId = $this->request->getPost()->get('pid', null);
+        $cid = $this->request->getPost()->get('cid', null);
+        $cidDOM = $this->request->getPost()->get('cidDOM', null);
+        $contentAreas = $this->request->getPost()->get('contentAreas', null);
+
+        foreach ($contentAreas as $caIdx => $contentArea) {
+            foreach ($contentArea as $ciIdx => $contentItem) {
+                if ($contentItem == $cidDOM) {
+                    $cai = $caIdx;
+                    $pos = $ciIdx;
+                }
+            }
+        }
+
+        // update the actual content item position
         $ok = ModUtil::apiFunc('Content', 'Content', 'dragContent',
-                        array('pageId' => $this->request->getPost()->get('pid', null),
-                            'contentId' => $this->request->getPost()->get('cid', null),
-                            'contentAreaIndex' => $this->request->getPost()->get('cai', null),
-                            'position' => $this->request->getPost()->get('pos', null)));
+            array('pageId' => $pageId,
+                'contentId' => $cid,
+                'contentAreaIndex' => $cai,
+                'position' => $pos));
         if (!$ok) {
             return new Zikula_Response_Ajax(array('ok' => false, 'message' => LogUtil::getErrorMessagesText()));
         }

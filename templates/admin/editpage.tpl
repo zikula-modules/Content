@@ -1,12 +1,15 @@
 {ajaxheader modname='Content' filename='ajax.js'}
 {contentpagepath pageId=$page.id language=$page.language assign='subheader'}
 
-{pageaddvar name="javascript" value="modules/Content/javascript/portal.js"}
-{pageaddvar name="javascript" value="modules/Content/javascript/pagelayout.js"}
+{pageaddvar name='stylesheet' value='javascript/jquery-ui/themes/base/jquery-ui.css'}
+{pageaddvar name='javascript' value='modules/Content/javascript/pagelayout.js'}
+{pageaddvar name='javascript' value='jQuery'}
+{pageaddvar name='javascript' value='jQuery-ui'}
+
 <script type="text/javascript" >
     //<![CDATA[
     content.pageId = {{$page.id}};
-    Event.observe(window, 'load', content.editPageOnLoad);
+    Event.observe(window, 'load', initcontentactivationbuttons);
     // store the image location and description in a JS array
     var images = [];
     var descs = [];
@@ -14,6 +17,23 @@
     images.push('{{$layout.image}}');
     descs.push('{{$layout.description|safetext}}');
     {{/foreach}}
+
+    // Start the jQuery UI portlet for Content Item drag&drop
+	jQuery(function() {
+		jQuery(".content-column-portlet").sortable({
+			connectWith: ".content-column-portlet",
+			stop: updateContentItemPosition,
+			items: '.sortable',
+			opacity: 0.8,
+			cursor: "move",
+			revert: true,
+			handle: '.content-portlet-header',
+			dropOnEmpty: true
+		});
+		jQuery(".content-portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+			.find(".content-portlet-header")
+		jQuery(".content-column-portlet").disableSelection();
+	});
     //]]>
 </script>
 
@@ -219,3 +239,6 @@
 {/contentformframe}
 {/form}
 {adminfooter}
+
+
+{*zdebug*}

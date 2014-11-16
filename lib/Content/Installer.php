@@ -496,7 +496,19 @@ class Content_Installer extends Zikula_AbstractInstaller
         
         return true;
     }
-    
+
+    protected function contentUpgrade_4_2_0($oldVersion)
+    {
+        // add new variable(s)
+        $this->setVar('layoutDisplay', array(
+            array('name' => 'ContentGeneral', 'description' => 'Content styled general layouts', 'display' => true),
+            array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
+            array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
+            array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
+
+        return true;
+    }
+
 
     protected function contentUpgrade_4_2_0($oldVersion)
     {
