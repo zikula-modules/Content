@@ -1,6 +1,22 @@
-Content (C) 2007-2013, Content Development Team
+Content (C) 2007-2014, Content Development Team
 ---------------------------
 http://github.com/zikula-modules/Content
+
+
+Version 4.2.0
+-------------
+
+Summary of changes:
+- Some minor bugs are solved
+- Page editing is now done with jQueryUI portlets, this also means all editing templates are updated !
+- Pageinfo contextmenu now correctly disappears after a mouseout and some time
+- Added searching in other languages #41 (thanks Axel)
+- Primary language can now be different that the system language
+- Page path calculation (e.g. breadcrumbs) now uses the translated titles
+- Block title shown in page editing mode
+- Added 4 column layout
+- Added a setting for showing only some layouts in the new page layout options
+- Updated method categories into categoriesList #154
 
 Version 4.1.0
 -------------
