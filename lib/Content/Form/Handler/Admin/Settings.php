@@ -23,9 +23,24 @@ class Content_Form_Handler_Admin_Settings extends Zikula_Form_AbstractHandler
         $pageinfolocationoptions = array( array('text' => $this->__('Top of the page, left of the page title'), 'value' => 'top'),
                              array('text' => $this->__('Bottom of the page'), 'value' => 'bottom') );
         $this->view->assign('pageinfolocationoptions', $pageinfolocationoptions);
-        
+
+        // get all module variables
+        $modvars = ModUtil::getVar('Content');
+
+        // Prepare list of layout options that are displayed for new pages
+        $layoutdisplayoptions = array();
+        $layoutDisplaySelection = array();
+        foreach ($modvars['layoutDisplay'] as $layout) {
+            $layoutdisplayoptions[] = array('text' => $layout['description'], 'value' => $layout['name']);
+            if ($layout['display']) {
+                $layoutDisplaySelection[] = $layout['name'];
+            }
+        }
+        $this->view->assign('layoutdisplayoptions', $layoutdisplayoptions);
+        $this->view->assign('layoutDisplaySelection', $layoutDisplaySelection);
+
         // Assign all module vars
-        $this->view->assign('config', ModUtil::getVar('Content'));
+        $this->view->assign('config', $modvars);
 
         return true;
     }
@@ -42,6 +57,15 @@ class Content_Form_Handler_Admin_Settings extends Zikula_Form_AbstractHandler
             if (!ModUtil::setVars('Content', $data['config'])) {
                 return $this->view->setErrorMsg($this->__('Failed to set configuration variables'));
             }
+
+            $layoutDisplay = ModUtil::getVar('Content', 'layoutDisplay');
+            foreach ($layoutDisplay as $k => $layout) {
+                    $layoutDisplay[$k]['display'] = in_array($layout['name'], $data['layoutDisplaySelection']);
+            }
+            if (!ModUtil::setVar('Content', 'layoutDisplay', $layoutDisplay)) {
+                return $this->view->setErrorMsg($this->__('Failed to set layoutDisplay configuration variables'));
+            }
+
             if ($data['config']['categoryUsage'] < 4) {
                 // load the category registry util
                 $mainCategory = CategoryRegistryUtil::getRegisteredModuleCategory('Content', 'content_page', $data['config']['categoryPropPrimary']);

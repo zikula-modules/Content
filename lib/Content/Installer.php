@@ -54,6 +54,12 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('enableRawPlugin', false);
         $this->setVar('pageinfoLocation', 'top');
         $this->setVar('overrideTitle', true);
+        // variable that makes it possible to show only specific layouts, depending on templateType
+        $this->setVar('layoutDisplay', array(
+            array('name' => 'ContentGeneral', 'description' => 'Content styled general layouts', 'display' => true),
+            array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
+            array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
+            array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
 
         // Register for hooks subscribing
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
@@ -129,6 +135,8 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_4_1_1($oldVersion);
             case '4.1.1':
                 $ok = $ok && $this->contentUpgrade_4_1_2($oldVersion);
+            case '4.1.2':
+                $ok = $ok && $this->contentUpgrade_4_2_0($oldVersion);
         }
 
         // clear compiled templates and Content cache
@@ -489,6 +497,19 @@ class Content_Installer extends Zikula_AbstractInstaller
         return true;
     }
     
+
+    protected function contentUpgrade_4_2_0($oldVersion)
+    {
+        // add new variable(s)
+        $this->setVar('layoutDisplay', array(
+            array('name' => 'ContentGeneral', 'description' => 'Content styled general layouts', 'display' => true),
+            array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
+            array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
+            array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
+
+        return true;
+    }
+
 
 
 // -----------------------------------------------------------------------

@@ -13,8 +13,15 @@ class Content_Form_Plugin_LayoutSelector extends Zikula_Form_Plugin_DropdownList
                 return false;
             }
         }
+
+        // get module var for display layout options
+        $layoutDisplay = ModUtil::getVar('Content', 'layoutDisplay');
+
         foreach ($layouts as $layout) {
-            $this->_addItem($layout['title'], $layout['name'], $layout['image']);
+            if (is_array($layoutDisplay) && $layoutDisplay[$layout['templateType']]) {
+                // only show the layout option when the templateType is enabled
+                $this->_addItem($layout['title'], $layout['name'], $layout['image']);
+            }
         }
         parent::load($view, $params);
     }
