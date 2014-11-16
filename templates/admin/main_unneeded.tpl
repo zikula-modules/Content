@@ -14,7 +14,7 @@
     <li><a href="{modurl modname='Content' type='user' func='sitemap'}">{gt text="Sitemap"}</a></li>
     <li><a href="{modurl modname='Content' type='user' func='extlist'}">{gt text="Extended page list (showing page headers)"}</a></li>
     <li><a href="{modurl modname='Content' type='user' func='pagelist'}">{gt text="Complete page list (showing complete pages)"}</a></li>
-    <li><a href="{modurl modname='Content' type='user' func='categories'}">{gt text="Show content by category"}</a></li>
+    <li><a href="{modurl modname='Content' type='user' func='categoriesList'}">{gt text="Show content by category"}</a></li>
 </ul>
 
 {adminfooter}

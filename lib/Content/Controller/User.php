@@ -25,7 +25,7 @@ class Content_Controller_User extends Zikula_AbstractController
      *
      * @return Renderer
      */
-    public function categories($args)
+    public function categoriesList($args)
     {
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
 

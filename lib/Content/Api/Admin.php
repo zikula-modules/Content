@@ -31,7 +31,7 @@ class Content_Api_Admin extends Zikula_AbstractApi
                           'text' => $this->__('Extended')),
                     array('url'  => ModUtil::url('Content', 'user', 'pagelist'),
                           'text' => $this->__('Complete')),
-                    array('url'  => ModUtil::url('Content', 'user', 'categories'),
+                    array('url'  => ModUtil::url('Content', 'user', 'categoriesList'),
                           'text' => $this->__('Category list')),
                     array('url'  => ModUtil::url('Content', 'admin', 'deletedpages'),
                           'text' => $this->__('Restore pages')),

@@ -53,7 +53,7 @@ class Content_Api_User extends Zikula_AbstractApi
                         'text' => $this->__('Complete')
                     ),
                     array(
-                        'url'  => ModUtil::url('Content', 'user', 'categories'),
+                        'url'  => ModUtil::url('Content', 'user', 'categoriesList'),
                         'text' => $this->__('Category list')
                     )
                 )
@@ -76,7 +76,7 @@ class Content_Api_User extends Zikula_AbstractApi
             return LogUtil::registerArgsError();
         }
 
-        $supportedfunctions = array('list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
+        $supportedfunctions = array('list', 'view', 'subpages', 'sitemap', 'extlist', 'categoriesList', 'pagelist');
         if (!in_array($args['func'], $supportedfunctions)) {
             return '';
         }
@@ -115,7 +115,7 @@ class Content_Api_User extends Zikula_AbstractApi
     {
         $suffix = $this->getVar('shorturlsuffix');
 
-        $supportedfunctions = array('main', 'list', 'view', 'subpages', 'sitemap', 'extlist', 'categories', 'pagelist');
+        $supportedfunctions = array('main', 'list', 'view', 'subpages', 'sitemap', 'extlist', 'categoriesList', 'pagelist');
         $argsnum = count($args['vars']);
         if (!isset($args['vars'][2]) || empty($args['vars'][2])) {
             System::queryStringSetVar('func', 'sitemap');
