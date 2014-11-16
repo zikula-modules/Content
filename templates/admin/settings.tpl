@@ -38,16 +38,6 @@
         <em class="z-sub z-formnote">{gt text='Page views are only counted when not in preview or edit mode and only when the user has no edit access.'}</em>
     </div>
     <div class="z-formrow">
-        {formlabel for='googlemapApiKey' __text='Google maps API key'}
-        {formtextinput id='googlemapApiKey' group="config" maxLength='255'}
-        <em class="z-sub z-formnote">{gt text='A Google Maps API key is not required for including maps with the Javascript API v3.<br />However an APIs Console key is encouraged by Google. More information at <a href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">Google</a>.'}</em>
-    </div>
-    <div class="z-formrow">
-        {formlabel for='flickrApiKey' __text='Flickr API key'}
-        {formtextinput id='flickrApiKey' group="config" maxLength='255'}
-        <em class="z-sub z-formnote">{gt text='If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href="http://www.flickr.com/api">flickr.com</a>.'}</em>
-    </div>
-    <div class="z-formrow">
         {formlabel for='enableRawPlugin' __text='Enable the unfiltered raw text plugin'}
         {formcheckbox id='enableRawPlugin' group="config"}
         <em class="z-sub z-formnote">{gt text='Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.'}</em>
@@ -61,6 +51,18 @@
         {formlabel for='enableVersioning' __text='Enable version history'}
         {formcheckbox id='enableVersioning' group="config"}
     </div>
+</fieldset>
+
+<fieldset>
+    <legend>{gt text="Layout choices for new pages"}</legend>
+    <div class="z-formrow">
+        {gt text="Choose the layout sets to display during creation of new pages"}
+        {formcheckboxlist id='layoutDisplaySelection' items=$layoutdisplayoptions}
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>{gt text="Categories"}</legend>
     <div class="z-formrow">
         {formlabel for='categoryUsage' __text='Category usage'}
         {formdropdownlist id='categoryUsage' items=$catoptions group="config"}
@@ -77,6 +79,21 @@
         <em class="z-sub z-formnote">{gt text='(In the <a href="%s">category registry</a> you can set the property to use for the second category if being used)' tag1=$urleditregistry|safetext}</em>
     </div>
 </fieldset>
+
+<fieldset>
+    <legend>{gt text="API keys"}</legend>
+    <div class="z-formrow">
+        {formlabel for='googlemapApiKey' __text='Google maps API key'}
+        {formtextinput id='googlemapApiKey' group="config" maxLength='255'}
+        <em class="z-sub z-formnote">{gt text='A Google Maps API key is not required for including maps with the Javascript API v3.<br />However an APIs Console key is encouraged by Google. More information at <a href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">Google</a>.'}</em>
+    </div>
+    <div class="z-formrow">
+        {formlabel for='flickrApiKey' __text='Flickr API key'}
+        {formtextinput id='flickrApiKey' group="config" maxLength='255'}
+        <em class="z-sub z-formnote">{gt text='If your want to add Flickr photos to your content then you need a Flickr API key. You can get this from <a href="http://www.flickr.com/api">flickr.com</a>.'}</em>
+    </div>
+</fieldset>
+
 {/formtabbedpanel}
 
 {formtabbedpanel __title='Available Plugins'}

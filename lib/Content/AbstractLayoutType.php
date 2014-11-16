@@ -30,6 +30,11 @@ abstract class Content_AbstractLayoutType extends Content_AbstractType
         return System::getBaseUrl() . '/modules/Content/images/layout_nopreview.png';
     }
 
+    public function getTemplateType()
+    {
+        return $this->templateType;
+    }
+
     /**
      * return the default template name as a string
      * @return string

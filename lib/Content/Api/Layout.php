@@ -24,7 +24,8 @@ class Content_Api_Layout extends Zikula_AbstractApi
                 'title' => $plugin->getTitle(),
                 'description' => $plugin->getDescription(),
                 'numberOfContentAreas' => $plugin->getNumberOfContentAreas(),
-                'image' => $plugin->getImage());
+                'image' => $plugin->getImage(),
+                'templateType' => $plugin->getTemplateType());
             $names[$i] = $layouts[$i]['name'];
         }
         // sort the layouts array by the name
