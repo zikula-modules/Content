@@ -17,8 +17,14 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
         if (!SecurityUtil::checkPermission('Content:page:', '::', ACCESS_ADD)) {
             throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
         }
-        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
-            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+        if ((bool)$this->getVar('inheritPermissions', false) === true) {
+            if (!ModUtil::apiFunc('Content', 'page', 'checkPermissionForPageInheritance', array('pageId' => $this->pageId, 'level' => ACCESS_EDIT))) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
+        } else {
+            if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
         }
 
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'filter' => array('checkActive' => false), 'includeContent' => false));
@@ -27,8 +33,14 @@ class Content_Form_Handler_Admin_ClonePage extends Zikula_Form_AbstractHandler
         }
 
         // Only allow subpages if edit access on parent page
-        if (!SecurityUtil::checkPermission('Content:page:', $page['id'] . '::', ACCESS_EDIT)) {
-            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+        if ((bool)$this->getVar('inheritPermissions', false) === true) {
+            if (!ModUtil::apiFunc('Content', 'page', 'checkPermissionForPageInheritance', array('pageId' => $page['id'], 'level' => ACCESS_EDIT))) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
+        } else {
+            if (!SecurityUtil::checkPermission('Content:page:', $page['id'] . '::', ACCESS_EDIT)) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
         }
 
         PageUtil::setVar('title', $this->__('Clone page') . ' : ' . $page['title']);
