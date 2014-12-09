@@ -1438,4 +1438,31 @@ class Content_Api_Page extends Zikula_AbstractApi
 
         return $this->contentUpdateNestedSetValues_Rec($pageId, $level, $count);
     }
+
+    /**
+     * Determines recursively whether the current user has
+     * permissions for a given page or it's parents.
+     *
+     * @param int $pageId
+     * @param int $level
+     */
+    public function checkPermissionForPageInheritance($args)
+    {
+        $pageId = $args['pageId'];
+        $permLevel = $args['level'];
+
+        $component = 'Content:page:';
+
+        if (SecurityUtil::checkPermission($component, $pageId . '::', $permLevel)) {
+            return true;
+        }
+
+        // check for parent
+        $page = $this->getPage(array('id' => $pageId));
+        if (isset($page['parentPageId']) && $page['parentPageId'] !== null && $page['parentPageId'] > 0) {
+            return $this->checkPermissionForPageInheritance(array('pageId' => $page['parentPageId'], 'level' => $permLevel));
+        }
+
+        return false;
+    }
 }

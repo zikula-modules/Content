@@ -54,6 +54,7 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('enableRawPlugin', false);
         $this->setVar('pageinfoLocation', 'top');
         $this->setVar('overrideTitle', true);
+        $this->setVar('inheritPermissions', false);
         // variable that makes it possible to show only specific layouts, depending on templateType
         $this->setVar('layoutDisplay', array(
             array('name' => 'ContentGeneral', 'description' => 'Content styled general layouts', 'display' => true),
@@ -500,6 +501,7 @@ class Content_Installer extends Zikula_AbstractInstaller
     protected function contentUpgrade_4_2_0($oldVersion)
     {
         // add new variable(s)
+        $this->setVar('inheritPermissions', false);
         $this->setVar('layoutDisplay', array(
             array('name' => 'ContentGeneral', 'description' => 'Content styled general layouts', 'display' => true),
             array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),

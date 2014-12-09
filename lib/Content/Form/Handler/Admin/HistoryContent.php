@@ -14,9 +14,16 @@ class Content_Form_Handler_Admin_HistoryContent extends Zikula_Form_AbstractHand
         $this->pageId = FormUtil::getPassedValue('pid', isset($this->args['pid']) ? $this->args['pid'] : null);
         $offset = (int)FormUtil::getPassedValue('offset');
 
-        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
-            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+        if ((bool)$this->getVar('inheritPermissions', false) === true) {
+            if (!ModUtil::apiFunc('Content', 'page', 'checkPermissionForPageInheritance', array('pageId' => $this->pageId, 'level' => ACCESS_EDIT))) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
+        } else {
+            if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
         }
+
         $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
             'id' => $this->pageId, 
             'editing' => false, 

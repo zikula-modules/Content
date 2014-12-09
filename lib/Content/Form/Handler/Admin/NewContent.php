@@ -34,9 +34,16 @@ class Content_Form_Handler_Admin_NewContent extends Zikula_Form_AbstractHandler
             $this->position = ($this->above ? $content['position'] : $content['position'] + 1);
         }
 
-        if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
-            throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+        if ((bool)$this->getVar('inheritPermissions', false) === true) {
+            if (!ModUtil::apiFunc('Content', 'page', 'checkPermissionForPageInheritance', array('pageId' => $this->pageId, 'level' => ACCESS_EDIT))) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
+        } else {
+            if (!SecurityUtil::checkPermission('Content:page:', $this->pageId . '::', ACCESS_EDIT)) {
+                throw new Zikula_Exception_Forbidden(LogUtil::getErrorMsgPermission());
+            }
         }
+
         if ($this->pageId == null) {
             return $this->view->setErrorMsg($this->__("Missing page ID (pid) in URL"));
         }

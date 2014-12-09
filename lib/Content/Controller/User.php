@@ -50,10 +50,11 @@ class Content_Controller_User extends Zikula_AbstractController
     /**
      * view a page
      *
-     * @param int       pid       Page ID
-     * @param string    name      URL name, alternative for pid
-     * @param bool      preview   Display preview
-     * @param bool      editmode  Activate editmode
+     * @param int    pid      Page ID
+     * @param string name     URL name, alternative for pid
+     * @param bool   preview  Display preview
+     * @param bool   editmode Flag for enabling/disabling edit mode
+     *
      * @return Renderer output
      */
     public function view($args)
@@ -69,7 +70,11 @@ class Content_Controller_User extends Zikula_AbstractController
             System::queryStringSetVar('pid', $pageId);
         }
 
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+        if ((bool)$this->getVar('inheritPermissions', false) === true) {
+            $this->throwForbiddenUnless(ModUtil::apiFunc('Content', 'page', 'checkPermissionForPageInheritance', array('pageId' => $pageId, 'level' => ACCESS_READ)), LogUtil::getErrorMsgPermission());
+        } else {
+            $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+        }
 
         if ($editmode !== null) {
             SessionUtil::setVar('ContentEditMode', $editmode);
@@ -86,7 +91,12 @@ class Content_Controller_User extends Zikula_AbstractController
         }
 
         $versionHtml = '';
-        $hasEditAccess = SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_EDIT);
+        $hasEditAccess = false;
+        if ((bool)$this->getVar('inheritPermissions', false) === true) {
+            $hasEditAccess = ModUtil::apiFunc('Content', 'page', 'checkPermissionForPageInheritance', array('pageId' => $pageId, 'level' => ACCESS_EDIT));
+        } else {
+            $hasEditAccess = SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_EDIT);
+        }
 
         if ($versionId !== null && $hasEditAccess) {
             $preview = true;
@@ -255,7 +265,11 @@ class Content_Controller_User extends Zikula_AbstractController
             return LogUtil::registerError($this->__('Error! Unknown page.'), 404);
         }
 
-        $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+        if ((bool)$this->getVar('inheritPermissions', false) === true) {
+            $this->throwForbiddenUnless(ModUtil::apiFunc('Content', 'page', 'checkPermissionForPageInheritance', array('pageId' => $pageId, 'level' => ACCESS_READ)), LogUtil::getErrorMsgPermission());
+        } else {
+            $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
+        }
 
         $topPage = ModUtil::apiFunc('Content', 'Page', 'getPages', array('filter' => array(
             'superParentId' => $pageId),

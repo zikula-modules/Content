@@ -17,6 +17,7 @@ Summary of changes:
 - Added 4 column layout
 - Added a setting for showing only some layouts in the new page layout options
 - Updated method categories into categoriesList #154
+- Added option to inherit permissions from parent to child pages
 
 Version 4.1.0
 -------------
