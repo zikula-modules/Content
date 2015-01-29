@@ -30,3 +30,23 @@
     </div>
 </div>
 
+<div class="z-formrow">
+    {formlabel for='height' __text="How to embed the video, when displayed inline"}
+    <div class="z-formnote">
+        {formradiobutton id='videoModeHTML5' dataField='videoMode' value='HTML5' checked='1' group='data'}
+        {formlabel for='videoModeHTML5' __text='HTML5 standard embedding'}
+
+        {formradiobutton id='videoModeFlash' dataField='videoMode' value='flash' group='data'}
+        {formlabel for='videoModeFlash' __text='Flash legacy embedding (not recommended)'}
+    </div>
+</div>
+
+<div class="z-formrow">
+    {formlabel for='showRelated' __text='Show related videos'}
+    {formcheckbox id='showRelated' group='data'}
+</div>
+
+<div class="z-formrow">
+    {formlabel for='autoplay' __text='Autoplay the video when displayed'}
+    {formcheckbox id='autoplay' group='data'}
+</div>
