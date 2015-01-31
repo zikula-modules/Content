@@ -15,11 +15,11 @@ class Content_ContentType_YouTube extends Content_AbstractContentType
     protected $text;
     protected $videoId;
     protected $displayMode;
-	protected $videoMode;
+    protected $videoMode;
     protected $showRelated;
     protected $autoplay;
 
-	// Get and Set methods for class properties
+    // Get and Set methods for class properties
     public function getUrl()
     {
         return $this->url;
@@ -101,7 +101,7 @@ class Content_ContentType_YouTube extends Content_AbstractContentType
         $this->autoplay = $autoplay;
     }
 	
-	// inherited methods
+    // inherited methods
     function getTitle()
     {
         return $this->__('YouTube video clip');
@@ -123,8 +123,8 @@ class Content_ContentType_YouTube extends Content_AbstractContentType
         $this->videoId = $data['videoId'];
         $this->displayMode = isset($data['displayMode']) ? $data['displayMode'] : 'inline';
         $this->videoMode = isset($data['videoMode']) ? $data['videoMode'] : 'HTML5';
-        $this->showRelated = isset($data['showRelated']) ? $data['showRelated'] : false;
-        $this->autoplay = isset($data['autoplay']) ? $data['autoplay'] : false;
+        $this->showRelated = isset($data['showRelated']) ? $data['showRelated'] : 0;
+        $this->autoplay = isset($data['autoplay']) ? $data['autoplay'] : 0;
     }
     function display()
     {
@@ -143,10 +143,10 @@ class Content_ContentType_YouTube extends Content_AbstractContentType
     function displayEditing()
     {
         $output = '<div style="background-color:Lavender; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">' . $this->__f('<strong>Video-ID : %1$s</strong><br />Size in pixels: %2$s x %3$s', array($this->videoId, $this->width, $this->height));
-		$output .= (($this->videoMode==HTML5)?('<br />'.$this->__('Default HTML5 embedding code used')):$this->__('Legacy Flash embedding code used'));
-		$output .= (($this->showRelated==1)?('<br />'.$this->__('Related videos are shown')):$this->__('Related videos not shown'));
-		$output .= (($this->autoplay==1)?('<br />'.$this->__('Video is autoplayed')):'');
-		$output .= '</div>';
+        $output .= (($this->videoMode==HTML5)?('<br />'.$this->__('Default HTML5 embedding code used')):$this->__('Legacy Flash embedding code used'));
+        $output .= (($this->showRelated==1)?('<br />'.$this->__('Related videos are shown')):$this->__('Related videos not shown'));
+        $output .= (($this->autoplay==1)?('<br />'.$this->__('Video is autoplayed')):'');
+        $output .= '</div>';
         $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
