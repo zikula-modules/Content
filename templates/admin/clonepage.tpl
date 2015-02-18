@@ -22,10 +22,14 @@
         {formtextinput id='urlname' maxLength='255'}
         {contentlabelhelp __text='Used to refer this page in short URLs mode. Leave as blank for default value.'}
     </div>
+	{if $modvars.ZConfig.multilingual eq 1}
     <div class="z-formrow">
         {formlabel for='translation' __text='Clone translations'}
         {formcheckbox id='translation' checked='true'}
     </div>
+	{else}
+		<input type="hidden" name="translation" value="1">
+	{/if}
 </fieldset>
 
 {notifydisplayhooks eventname='content.ui_hooks.pages.form_edit' id=null}
