@@ -263,12 +263,6 @@ class Content_Api_Content extends Zikula_AbstractApi
             return false;
         }
 
-        $currentLanguage = ZLanguage::getLanguageCode();
-        $dbtables = DBUtil::getTables();
-        $contentSearchColumn = $dbtables['content_searchable_column'];
-        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
-        $searchableData = DBUtil::selectObjectArray('content_searchable', $where);
-
         $contentData['position']++;
         unset($contentData['id']);
 
@@ -277,8 +271,9 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         DBUtil::insertObject($contentData, 'content_content');
+        $newContentId = $contentData['id'];
 
-        $this->cloneContentAdditions($contentId, $cloneTranslation);
+        $this->cloneContentAdditions($contentId, $newContentId, $cloneTranslation);
 
         if ($addVersion) {
             $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
@@ -289,23 +284,23 @@ class Content_Api_Content extends Zikula_AbstractApi
 
         Content_Util::clearCache();
 
-        return $contentData['id'];
+        return $newContentId;
     }
 
-    private function cloneContentAdditions($contentId, $cloneTranslation)
+    private function cloneContentAdditions($oldContentId, $newContentId, $cloneTranslation)
     {
         $currentLanguage = ZLanguage::getLanguageCode();
         $dbtables = DBUtil::getTables();
 
         $contentSearchColumn = $dbtables['content_searchable_column'];
 
-        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
+        $where = $contentSearchColumn['contentId'] . ' = ' . $oldContentId . ' AND ' . $contentSearchColumn['language'] . ' IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
         $searchableData = DBUtil::selectObjectArray('content_searchable', $where);
         if (count($searchableData) > 0) {
             foreach ($searchableData as &$s) {
-                $s['contentId'] = $contentData['id'];
+                $s['contentId'] = $newContentId;
             }
-            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId');
         }
 
         if (!$cloneTranslation) {
@@ -313,25 +308,25 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
 
         $translatedColumn = $dbtables['content_translatedcontent_column'];
-        $translations = DBUtil::selectObjectArray('content_translatedcontent', "$translatedColumn[contentId] = $contentId");
+        $translations = DBUtil::selectObjectArray('content_translatedcontent', "$translatedColumn[contentId] = $oldContentId");
 
         if (count($translations) < 1) {
             return;
         }
 
         foreach ($translations as &$t) {
-            $t['contentId'] = $contentData['id'];
+            $t['contentId'] = $newContentId;
         }
         DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
 
-        $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' NOT IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
+        $where = $contentSearchColumn['contentId'] . ' = ' . $oldContentId . ' AND ' . $contentSearchColumn['language'] . ' NOT IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
         $searchableData = DBUtil::selectObjectArray('content_searchable', $where);
 
         if (count($searchableData) > 0) {
             foreach ($searchableData as &$s) {
-                $s['contentId'] = $contentData['id'];
+                $s['contentId'] = $newContentId;
             }
-            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId');
         }
     }
 
