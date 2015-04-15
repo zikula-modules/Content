@@ -300,7 +300,7 @@ class Content_Api_Content extends Zikula_AbstractApi
             foreach ($searchableData as &$s) {
                 $s['contentId'] = $newContentId;
             }
-            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId');
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
         }
 
         if (!$cloneTranslation) {
@@ -326,7 +326,7 @@ class Content_Api_Content extends Zikula_AbstractApi
             foreach ($searchableData as &$s) {
                 $s['contentId'] = $newContentId;
             }
-            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId');
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
         }
     }
 
@@ -409,7 +409,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         DBUtil::deleteWhere('content_searchable', $where);
 
         $searchObj = array('contentId' => $contentId, 'text' => $text, 'language' => $languages[0]);
-        DBUtil::insertObject($searchObj, 'content_searchable', 'searchableId');
+        DBUtil::insertObject($searchObj, 'content_searchable', 'searchableId', true);
 
         return true;
     }
