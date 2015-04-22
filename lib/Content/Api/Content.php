@@ -300,7 +300,7 @@ class Content_Api_Content extends Zikula_AbstractApi
             foreach ($searchableData as &$s) {
                 $s['contentId'] = $newContentId;
             }
-            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId');
         }
 
         if (!$cloneTranslation) {
