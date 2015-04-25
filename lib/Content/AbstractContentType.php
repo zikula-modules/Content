@@ -223,7 +223,7 @@ abstract class Content_AbstractContentType extends Content_AbstractType
      */
     public function display()
     {
-        return '- no display function defined -';
+        return $this->__('- no display function defined -');
     }
 
     /**

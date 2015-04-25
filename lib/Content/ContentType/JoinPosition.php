@@ -23,7 +23,7 @@ class Content_ContentType_JoinPosition extends Content_AbstractContentType
 
     function getTitle()
     {
-        return $this->__('Join Position');
+        return $this->__('Join float position');
     }
     function getDescription()
     {

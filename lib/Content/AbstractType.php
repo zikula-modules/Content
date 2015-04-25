@@ -124,7 +124,7 @@ abstract class Content_AbstractType implements Zikula_TranslatableInterface
      */
     public function getTitle()
     {
-        return '- no title defined -';
+        return $this->__('- no title defined -');
     }
 
     /**
