@@ -2,6 +2,7 @@
 {contentareatitle page=$page contentArea=$contentAreaIndex}
 {contentinsertlink pageId=$pageId contentAreaIndex=$contentAreaIndex}<br />
 
+{if isset($content[$contentAreaIndex])}
 {foreach from=$content[$contentAreaIndex] item=c}
 {modurl modname='Content' type='admin' func='editcontent' cid=$c.id fqurl=1 assign='editUrl'}
 {formcontextmenureference menuId="contentEditMenu" commandArgument=$c.id imageURL="modules/Content/images/contextarrow.png" assign='menuHandle'}
@@ -35,3 +36,4 @@
 	</div>
 </div>
 {/foreach}
+{/if}

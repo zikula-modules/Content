@@ -51,7 +51,9 @@ class Content_Types
                 $plugins[] = $instance;
             }
         }
-        usort($plugins, array('Content_Types', 'pluginSort'));
+		// @ added to surpress errors, since some PHP versions report an exception 
+		// that the comparison method changes the array, which is not the case.
+        @usort($plugins, array('Content_Types', 'pluginSort'));
         return $plugins;
     }
 
