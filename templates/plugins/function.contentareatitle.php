@@ -13,6 +13,8 @@ function smarty_function_contentareatitle($params, $view)
     $areatitle = DataUtil::formatForDisplay($params['page']['layoutData']['plugin']->getContentAreaTitle($params['contentArea']));
     if ($areatitle) {
         $html = "<div class='con_area'>" . __f('%s area', $areatitle, $dom) . "</div>";
+    } else {
+        $html = '';
     }
     if (array_key_exists('assign', $params)) {
         $view->assign($params['assign'], $html);
