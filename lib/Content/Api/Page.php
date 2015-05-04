@@ -53,6 +53,7 @@ class Content_Api_Page extends Zikula_AbstractApi
      * @param language string Three letter language identifier used for translating content.
      * @param translate bool Enable translation.
      * @param makeTree bool Enable conversion of page list to recursive tree structure.
+     * @param includeLayout bool Enable inclusion of page layout data.
      * @param includeContent bool Enable inclusion of content items.
      * @param includeCategories bool Enable inclusion of secondary category data.
      * @param includeLanguages bool Enable inclusion of list of translated languages (array('dan','eng')).
