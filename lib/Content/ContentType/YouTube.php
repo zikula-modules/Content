@@ -152,7 +152,7 @@ class Content_ContentType_YouTube extends Content_AbstractContentType
     }
     function getDefaultData()
     {
-        return array('url' => '', 'width' => '320', 'height' => '240', 'text' => '', 'videoId' => '', 'displayMode' => 'inline', 'videoMode' => 'HTML5', 'showRelated' => '0', 'autoplay' => '0');
+        return array('url' => '', 'width' => '640', 'height' => '360', 'text' => '', 'videoId' => '', 'displayMode' => 'inline', 'videoMode' => 'HTML5', 'showRelated' => '0', 'autoplay' => '0');
     }
     function isValid(&$data)
     {
