@@ -10,8 +10,10 @@
 class Content_ContentType_Breadcrumb extends Content_AbstractContentType
 {
     protected $includeSelf;
+    protected $includeHome;
     protected $translateTitles;
     protected $useGraphics;
+    protected $delimiter;
 
     public function getIncludeSelf()
     {
@@ -20,6 +22,15 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
     public function setIncludeSelf($includeSelf)
     {
         $this->includeSelf = $includeSelf;
+    }
+
+    public function getIncludeHome()
+    {
+        return $this->includeHome;
+    }
+    public function setIncludeHome($includeHome)
+    {
+        $this->includeHome = $includeHome;
     }
 
     public function getTranslateTitles()
@@ -38,6 +49,15 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
     public function setUseGraphics($useGraphics)
     {
         $this->useGraphics = $useGraphics;
+    }
+
+    public function getDelimiter()
+    {
+        return $this->delimiter;
+    }
+    public function setDelimiter($delimiter)
+    {
+        $this->delimiter = $delimiter;
     }
 
     function getTitle()
@@ -62,6 +82,11 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
         } else {
             $this->includeSelf = true;
         }
+        if (isset($data['includeHome'])) {
+            $this->includeHome = (bool) $data['includeHome'];
+        } else {
+            $this->includeHome = true;
+        }
         if (isset($data['translateTitles'])) {
             $this->translateTitles = (bool) $data['translateTitles'];
         } else {
@@ -71,6 +96,11 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
             $this->useGraphics = (bool) $data['useGraphics'];
         } else {
             $this->useGraphics = false;
+        }
+        if (isset($data['delimiter'])) {
+            $this->delimiter = $data['delimiter'];
+        } else {
+            $this->delimiter = '&raquo;';
         }
     }
 
@@ -82,16 +112,19 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
                         'id' => $pageid,
                         'includeContent' => false,
+                        'includeLayout' => false,
                         'translate' => $this->translateTitles));
             if (!isset($this->includeSelf) || $this->includeSelf || $pageid != $this->getPageId()) {
                 array_unshift($path, $page);
             }
             $pageid = $page['parentPageId'];
         }
-
+        
         $this->view->assign('thispage', $this->getPageId());
         $this->view->assign('path', $path);
         $this->view->assign('useGraphics', $this->useGraphics);
+        $this->view->assign('includeHome', $this->includeHome);
+        $this->view->assign('delimiter', $this->delimiter);
 
         return $this->view->fetch($this->getTemplate());
     }
@@ -104,8 +137,9 @@ class Content_ContentType_Breadcrumb extends Content_AbstractContentType
     function getDefaultData()
     {
         return array('includeSelf' => true, 
+            'includeHome' => false,
             'translateTitles' => true, 
-            'useGraphics' => false);
+            'useGraphics' => false,
+            'delimiter' => '&raquo;');
     }
-
 }
