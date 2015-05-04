@@ -117,8 +117,8 @@ class Content_ContentType_Vimeo extends Content_AbstractContentType
     function getDefaultData()
     {
         return array('url' => '',
-        'width' => '425',
-        'height' => '340',
+        'width' => '640',
+        'height' => '360',
         'text' => '',
         'clipId' => '',
         'displayMode' => 'inline');
