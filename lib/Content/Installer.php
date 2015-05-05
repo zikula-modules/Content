@@ -61,6 +61,8 @@ class Content_Installer extends Zikula_AbstractInstaller
             array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
             array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
             array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
+		// variable to register a pagevar with breadcrumbs as array of array(url, title)
+        $this->setVar('registerBreadcrumbs', false);
 
         // Register for hooks subscribing
         HookUtil::registerSubscriberBundles($this->version->getHookSubscriberBundles());
@@ -138,6 +140,8 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_4_1_2($oldVersion);
             case '4.1.2':
                 $ok = $ok && $this->contentUpgrade_4_2_0($oldVersion);
+            case '4.2.0':
+                $ok = $ok && $this->contentUpgrade_4_2_1($oldVersion);
         }
 
         // clear compiled templates and Content cache
@@ -507,6 +511,15 @@ class Content_Installer extends Zikula_AbstractInstaller
             array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
             array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
             array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
+
+        return true;
+    }
+
+	protected function contentUpgrade_4_2_1($oldVersion)
+    {
+        // add new variable(s)
+		// variable to register a pagevar with breadcrumbs as array of array(url, title)
+        $this->setVar('registerBreadcrumbs', false);
 
         return true;
     }

@@ -55,6 +55,11 @@
         {formlabel for='inheritPermissions' __text='Inherit permissions from parent to child pages'}
         {formcheckbox id='inheritPermissions' group='config'}
     </div>
+    <div class="z-formrow">
+        {formlabel for='registerBreadcrumbs' __text='Register a page variable with Breadcrumbs of hierarchical pages'}
+        {formcheckbox id='registerBreadcrumbs' group='config'}
+        <em class="z-sub z-formnote">{gt text='It will be an array of array(url => pageUrl, title => pageTitle). In a theme this can for example be used to show a breadcrumb path in the header for Content pages.'}</em>
+    </div>
 </fieldset>
 
 <fieldset>
