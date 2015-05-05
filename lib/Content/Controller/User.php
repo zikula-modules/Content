@@ -75,7 +75,7 @@ class Content_Controller_User extends Zikula_AbstractController
         } else {
             $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
         }
-		
+        
         if ($editmode !== null) {
             SessionUtil::setVar('ContentEditMode', $editmode);
         } else {
@@ -119,7 +119,7 @@ class Content_Controller_User extends Zikula_AbstractController
             $versionHtml = "<p class=\"content-versionpreview\"><img alt=\"\" src=\"$iconSrc\"/> " . $this->__f('Version #%1$s - %2$s - %3$s by %4$s from %5$s', $translatable) . "</p>";
         }
 
-		// now get the page up for display
+        // now get the page up for display
         if ($pageId !== null && $versionId === null) {
             $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
                 'id' => $pageId,
@@ -129,35 +129,35 @@ class Content_Controller_User extends Zikula_AbstractController
                     'checkActive' => !($preview && $hasEditAccess))));
         } else if ($versionId === null) {
             return LogUtil::registerArgsError();
-		}
+        }
 
         if ($page === false) {
             return false;
         }
-		
+        
         // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
-		if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
-			// first include self, then loop over parents until root is reached
-			$breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'view', array('pid' => $page['id'])), 'title' => $page['title']);
-			$loopPageid = $page['parentPageId'];
-			while ($loopPageid > 0) {
-				$loopPage = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
-							'id' => $loopPageid,
-							'includeContent' => false,
-							'includeLayout' => false,
-							'translate' => $this->translateTitles));
-				array_unshift($breadcrumbs, array('url' => ModUtil::url('Content', 'user', 'view', array('pid' => $loopPage['id'])), 'title' => $loopPage['title']));
-				$loopPageid = $loopPage['parentPageId'];
-			}
-			PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
-		}
-		
+        if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
+            // first include self, then loop over parents until root is reached
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'view', array('pid' => $page['id'])), 'title' => $page['title']);
+            $loopPageid = $page['parentPageId'];
+            while ($loopPageid > 0) {
+                $loopPage = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
+                            'id' => $loopPageid,
+                            'includeContent' => false,
+                            'includeLayout' => false,
+                            'translate' => $this->translateTitles));
+                array_unshift($breadcrumbs, array('url' => ModUtil::url('Content', 'user', 'view', array('pid' => $loopPage['id'])), 'title' => $loopPage['title']));
+                $loopPageid = $loopPage['parentPageId'];
+            }
+            PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
+        }
+        
         $multilingual = ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual');
         if ($page['language'] == ZLanguage::getLanguageCode()) {
             $multilingual = false;
         }
 
-		// override the PageVar title if configued in the settings
+        // override the PageVar title if configued in the settings
         if ($this->getVar('overrideTitle')) {
             $pageTitle = html_entity_decode($page['title']);
             PageUtil::setVar('title', ($preview ? $this->__("Preview") . ' - ' . $pageTitle : $pageTitle));
@@ -170,7 +170,7 @@ class Content_Controller_User extends Zikula_AbstractController
         $this->view->assign('enableVersioning', $this->getVar('enableVersioning'));
 
         // add layout type and column count as page variables to the template
-		// columncount can be used via plugin contentcolumncount, since it holds regular expressions that slow down
+        // columncount can be used via plugin contentcolumncount, since it holds regular expressions that slow down
         $this->view->assign('contentLayoutType', $page['layout']);
 
         // add access parameters

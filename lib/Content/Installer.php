@@ -61,7 +61,7 @@ class Content_Installer extends Zikula_AbstractInstaller
             array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
             array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
             array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
-		// variable to register a pagevar with breadcrumbs as array of array(url, title)
+        // variable to register a pagevar with breadcrumbs as array of array(url, title)
         $this->setVar('registerBreadcrumbs', false);
 
         // Register for hooks subscribing
@@ -515,10 +515,10 @@ class Content_Installer extends Zikula_AbstractInstaller
         return true;
     }
 
-	protected function contentUpgrade_4_2_1($oldVersion)
+    protected function contentUpgrade_4_2_1($oldVersion)
     {
         // add new variable(s)
-		// variable to register a pagevar with breadcrumbs as array of array(url, title)
+        // variable to register a pagevar with breadcrumbs as array of array(url, title)
         $this->setVar('registerBreadcrumbs', false);
 
         return true;
