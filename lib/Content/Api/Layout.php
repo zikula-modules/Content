@@ -16,17 +16,22 @@ class Content_Api_Layout extends Zikula_AbstractApi
         $layouts = array();
         $names = array();
 
+        // module var for which layouts to display
+        $layoutDisplay = $this->getVar('layoutDisplay');
+
         for ($i = 0, $cou = count($plugins); $i < $cou; ++$i) {
             $plugin = $plugins[$i];
-            $layouts[$i] = array(
-                'module' => $plugin->getModule(),
-                'name' => $plugin->getName(),
-                'title' => $plugin->getTitle(),
-                'description' => $plugin->getDescription(),
-                'numberOfContentAreas' => $plugin->getNumberOfContentAreas(),
-                'image' => $plugin->getImage(),
-                'templateType' => $plugin->getTemplateType());
-            $names[$i] = $layouts[$i]['name'];
+            if ($layoutDisplay[$plugin->getTemplateType()]['display']) {
+                $layouts[$i] = array(
+                    'module' => $plugin->getModule(),
+                    'name' => $plugin->getName(),
+                    'title' => $plugin->getTitle(),
+                    'description' => $plugin->getDescription(),
+                    'numberOfContentAreas' => $plugin->getNumberOfContentAreas(),
+                    'image' => $plugin->getImage(),
+                    'templateType' => $plugin->getTemplateType());
+                $names[$i] = $layouts[$i]['name'];
+            }
         }
         // sort the layouts array by the name
         array_multisort($names, SORT_ASC, $layouts);
