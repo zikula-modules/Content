@@ -36,14 +36,21 @@ class Content_Controller_User extends Zikula_AbstractController
         $this->view->assign('rootCategory', $rootCategory);
         $this->view->assign('categories', $categories);
         $this->view->assign('lang', ZLanguage::getLanguageCode());
-        
+
         // Count the numer of pages in a specific category
         $pagecount = array();
         foreach ($categories as $category) {
             $pagecount[$category['id']] = ModUtil::apiFunc('Content', 'Page', 'getPageCount', array ('filter' => array('category' => $category['id'])));
         }
         $this->view->assign('pagecount', $pagecount);
-        
+
+        // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
+        if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
+            // first include self, then loop over parents until root is reached
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Categories'));
+            PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
+        }
+
         return $this->view->fetch('user/main.tpl');
     }
 
@@ -195,6 +202,13 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     public function listpages($args)
     {
+        // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
+        if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
+            // first include self, then loop over parents until root is reached
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Page list'));
+            PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
+        }
+
         return $this->contentCommonList($args, 'user/list.tpl', false);
     }
 
@@ -205,6 +219,13 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     public function extlist($args)
     {
+        // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
+        if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
+            // first include self, then loop over parents until root is reached
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Extended page list'));
+            PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
+        }
+
         return $this->contentCommonList($args, 'user/extlist.tpl', true);
     }
 
@@ -215,6 +236,13 @@ class Content_Controller_User extends Zikula_AbstractController
      */
     public function pagelist($args)
     {
+        // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
+        if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
+            // first include self, then loop over parents until root is reached
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Complete page list'));
+            PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
+        }
+
         return $this->contentCommonList($args, 'user/pagelist.tpl', true);
     }
 
@@ -331,6 +359,13 @@ class Content_Controller_User extends Zikula_AbstractController
         if ($tpl == 'xml') {
             $this->view->display('user/sitemap.xml');
             return true;
+        }
+
+        // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
+        if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
+            // first include self, then loop over parents until root is reached
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Sitemap'));
+            PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
         }
 
         return $this->view->fetch('user/sitemap.tpl');
