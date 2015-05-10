@@ -59,12 +59,12 @@ class Content_ContentType_Rss extends Content_AbstractContentType
     }
     function getDescription()
     {
-        return $this->__('Display list of items in an RSS feed. Needs the ZFeed system plugin.');
+        return $this->__('Display list of items in an RSS feed. Needs the SimplePie system plugin.');
     }
     function isActive()
     {
         // check for the availability of the ZFeed systemplugin that provides SimplePie
-        if (PluginUtil::isAvailable(PluginUtil::getServiceId('SystemPlugin_ZFeed_Plugin'))) {
+        if (PluginUtil::isAvailable(PluginUtil::getServiceId('SystemPlugin_SimplePie_Plugin'))) {
             return true;
         }
         return false;
@@ -78,11 +78,14 @@ class Content_ContentType_Rss extends Content_AbstractContentType
     }
     function display()
     {
-        // call ZFeed that provides SimplePie
-        $this->feed = new ZFeed($this->url, System::getVar('temp'), $this->refreshTime * 60);
-        $items = $this->feed->get_items();
-        //$items = $this->feed->get_items(0, $this->maxNoOfItems);
-        
+        // call the SimplePie System Plugin
+        $this->feed = new SimplePieFeed($this->url, $this->refreshTime * 60);
+        $this->feed->init();
+        $this->feed->handle_content_type();
+
+        //$items = $this->feed->get_items();
+        $items = $this->feed->get_items(0, $this->maxNoOfItems);
+
         $itemsData = array();
         foreach ($items as $item) {
             if (count($itemsData) < $this->maxNoOfItems) {
