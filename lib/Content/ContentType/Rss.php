@@ -79,7 +79,9 @@ class Content_ContentType_Rss extends Content_AbstractContentType
     function display()
     {
         // call the SimplePie System Plugin
-        $this->feed = new SimplePieFeed($this->url, $this->refreshTime * 60);
+        $this->feed = new SimplePieFeed();
+        $this->feed->set_feed_url($this->url);
+        $this->feed->set_cache_duration($this->refreshTime * 60);
         $this->feed->init();
         $this->feed->handle_content_type();
 
