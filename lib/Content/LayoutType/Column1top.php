@@ -9,7 +9,7 @@
 
 class Content_LayoutType_Column1top extends Content_AbstractLayoutType
 {
-     $templateType = 1;
+    protected $templateType = 1;
 
     public $titleInTemplate = true;
 
