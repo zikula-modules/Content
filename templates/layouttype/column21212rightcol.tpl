@@ -1,3 +1,4 @@
+{include file="layouttype/header.tpl" pid=$page.id}
 <div class="content-layout column2">
     {* The layout is split into 2 columns, where the right column
            contains the additional right side blocks *}

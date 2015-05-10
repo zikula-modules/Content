@@ -1,5 +1,5 @@
+{include file="layouttype/header.tpl" pid=$page.id}
 <div class="content-layout column3">
-
     <div class="content-area-top">
         {if !empty($page.content[0])}
         {foreach from=$page.content[0] item=c}
@@ -44,6 +44,5 @@
         {/foreach}
         {/if}
     </div>
-
 </div>
 {include file="layouttype/footer.tpl" pid=$page.id}

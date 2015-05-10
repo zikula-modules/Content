@@ -1,3 +1,4 @@
+{include file="layouttype/header.tpl" pid=$page.id}
 <div class="content-layout column2">
     <div class="content-area-top">
         {if !empty($page.content[0])}
