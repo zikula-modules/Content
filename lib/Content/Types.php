@@ -65,7 +65,12 @@ class Content_Types
      */
     private static function pluginSort($a, $b)
     {
-        return strcmp($a->getTitle(), $b->getTitle());
+        if ($a->getWeight() > $b->getWeight()) {
+            return -1;
+        } elseif ($a->getWeight() < $b->getWeight()) {
+            return 1;
+        } else {
+            return strcmp($a->getTitle(), $b->getTitle());
+        }
     }
-
 }

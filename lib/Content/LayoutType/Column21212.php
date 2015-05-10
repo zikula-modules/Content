@@ -9,8 +9,7 @@
 
 class Content_LayoutType_Column21212 extends Content_AbstractLayoutType
 {
-    protected $contentAreaTitles = array();
-    public $templateType = 1;
+    protected $templateType = 1;
 
     function __construct(Zikula_View $view)
     {
@@ -39,10 +38,6 @@ class Content_LayoutType_Column21212 extends Content_AbstractLayoutType
     function getNumberOfContentAreas()
     {
         return 10;
-    }
-    function getContentAreaTitle($areaIndex)
-    {
-        return $this->contentAreaTitles[$areaIndex];
     }
     function getImage()
     {

@@ -9,8 +9,7 @@
 
 class Content_LayoutType_Column1top extends Content_AbstractLayoutType
 {
-    protected $contentAreaTitles = array();
-    public $templateType = 1;
+     $templateType = 1;
 
     public $titleInTemplate = true;
 
@@ -33,10 +32,6 @@ class Content_LayoutType_Column1top extends Content_AbstractLayoutType
     function getNumberOfContentAreas()
     {
         return 3;
-    }
-    function getContentAreaTitle($areaIndex)
-    {
-        return $this->contentAreaTitles[$areaIndex];
     }
 	function getImage()
     {
