@@ -137,6 +137,15 @@ abstract class Content_AbstractType implements Zikula_TranslatableInterface
     }
 
     /**
+     * Get displayed title
+     * @return string
+     */
+    public function getWeight()
+    {
+        return 0;
+    }
+
+    /**
      * Unset the Zikula_(Form)_View object
      */
     public function destroyView()

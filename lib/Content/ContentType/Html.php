@@ -10,6 +10,7 @@
 class Content_ContentType_Html extends Content_AbstractContentType
 {
     protected $text;
+    protected $weight = 100;
 
     public function getText()
     {

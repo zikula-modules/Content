@@ -15,6 +15,12 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     protected $position;
     protected $contentId;
     /**
+     * Weight for override of plugin sort
+     *
+     * @var int
+     */
+    protected $weight = 0;
+    /**
      * Style position (none, above, topLeft, topRight, aboveLeft, aboveRight)
      * @var string
      */
@@ -25,7 +31,7 @@ abstract class Content_AbstractContentType extends Content_AbstractType
      */
     protected $styleWidth;
     /**
-     * Style class (CSS class name)
+     * Style class(es) - CSS class name(s)
      * @var int
      */
     protected $styleClass;
@@ -42,7 +48,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     public function setPageCategoryId($id) {
         $this->pageCategoryId = $id;
     }
-
     public function getPageCategoryId() {
         return $this->pageCategoryId;
     }
@@ -51,7 +56,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     {
         return $this->pageId;
     }
-
     public function setPageId($pageId)
     {
         $this->pageId = $pageId;
@@ -61,7 +65,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     {
         return $this->contentAreaIndex;
     }
-
     public function setContentAreaIndex($contentAreaIndex)
     {
         $this->contentAreaIndex = $contentAreaIndex;
@@ -71,7 +74,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     {
         return $this->position;
     }
-
     public function setPosition($position)
     {
         $this->position = $position;
@@ -81,17 +83,24 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     {
         return $this->contentId;
     }
-
     public function setContentId($contentId)
     {
         $this->contentId = $contentId;
+    }
+
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
     }
 
     public function getStylePosition()
     {
         return $this->stylePosition;
     }
-
     public function setStylePosition($stylePosition)
     {
         $this->stylePosition = $stylePosition;
@@ -101,7 +110,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     {
         return $this->styleWidth;
     }
-
     public function setStyleWidth($styleWidth)
     {
         $this->styleWidth = $styleWidth;
@@ -111,7 +119,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     {
         return $this->styleClass;
     }
-
     public function setStyleClass($styleClass)
     {
         $this->styleClass = $styleClass;
@@ -121,7 +128,6 @@ abstract class Content_AbstractContentType extends Content_AbstractType
     {
         return $this->addedStyle;
     }
-
     public function setAddedStyle($addedStyle)
     {
         $this->addedStyle = $addedStyle;
@@ -268,7 +274,7 @@ abstract class Content_AbstractContentType extends Content_AbstractType
      *
      * Can be used to include JavaScript using PageUtil::addVar() or assign
      * values to the render using $this->view->assign().
-     * 
+     *
      * @return void
      */
     public function startEditing()
@@ -316,7 +322,7 @@ abstract class Content_AbstractContentType extends Content_AbstractType
      * return the default view template name as a string
      * in view mode, the $view instance is a regular Zikula_View and therefore,
      * it can be assumed that it is being called from the 'owner' module
-     * 
+     *
      * @return string
      */
     public function getTemplate()
