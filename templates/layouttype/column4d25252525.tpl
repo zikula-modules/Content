@@ -38,10 +38,10 @@
 
     <div class="content-area-right w25">
         {if !empty($page.content[4])}
-            {foreach from=$page.content[4] item=c}
-                {contenteditthis data=$c access=$access type='content'}
-                {$c.output}
-            {/foreach}
+        {foreach from=$page.content[4] item=c}
+        {contenteditthis data=$c access=$access type='content'}
+        {$c.output}
+        {/foreach}
         {/if}
     </div>
 
