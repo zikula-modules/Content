@@ -1,6 +1,6 @@
 <?php
 /**
- * Content 3 column layout plugin
+ * Content 4 column layout plugin
  *
  * @copyright (C) 2007-2010, Content Development Team
  * @link http://github.com/zikula-modules/Content
@@ -34,8 +34,8 @@ class Content_LayoutType_Column4d25252525 extends Content_AbstractLayoutType
     {
         return 5;
     }
-	function getImage()
+    function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column4_25252525_header.png';
+        return System::getBaseUrl().'/modules/Content/images/layouttype/column4_25252525_header.png';
     }
 }

@@ -16,7 +16,7 @@ class Content_LayoutType_Column21212rightcol extends Content_AbstractLayoutType
         parent::__construct($view);
         $this->contentAreaTitles = array(
             $this->__('Header'), 
-			$this->__('Left column1'), 
+            $this->__('Left column1'), 
             $this->__('Right column1'), 
             $this->__('Center1'),
             $this->__('Left column2'),

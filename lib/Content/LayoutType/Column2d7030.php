@@ -32,8 +32,8 @@ class Content_LayoutType_Column2d7030 extends Content_AbstractLayoutType
     {
         return 4;
     }
-	function getImage()
+    function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_7030_header.png';
+        return System::getBaseUrl().'/modules/Content/images/layouttype/column2_7030_header.png';
     }
 }

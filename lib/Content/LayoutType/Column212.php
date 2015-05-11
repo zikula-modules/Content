@@ -22,7 +22,7 @@ class Content_LayoutType_Column212 extends Content_AbstractLayoutType
             $this->__('Left column2'),
             $this->__('Right column2'),
             $this->__('Footer')
-		);
+        );
     }
     function getTitle()
     {
@@ -36,8 +36,8 @@ class Content_LayoutType_Column212 extends Content_AbstractLayoutType
     {
         return 7;
     }
-	function getImage()
+    function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column2_1_2header.png';
+        return System::getBaseUrl().'/modules/Content/images/layouttype/column2_1_2header.png';
     }
 }

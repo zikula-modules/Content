@@ -29,8 +29,8 @@ class Content_LayoutType_Column1woheader extends Content_AbstractLayoutType
     {
         return 1;
     }
-	function getImage()
+    function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column1woheader.png';
+        return System::getBaseUrl().'/modules/Content/images/layouttype/column1woheader.png';
     }
 }

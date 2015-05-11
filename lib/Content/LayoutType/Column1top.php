@@ -33,8 +33,8 @@ class Content_LayoutType_Column1top extends Content_AbstractLayoutType
     {
         return 3;
     }
-	function getImage()
+    function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column1topheader.png';
+        return System::getBaseUrl().'/modules/Content/images/layouttype/column1topheader.png';
     }
 }

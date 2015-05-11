@@ -35,6 +35,6 @@ class Content_LayoutType_Column3d255025 extends Content_AbstractLayoutType
     }
     function getImage()
     {
-    	return System::getBaseUrl().'/modules/Content/images/layouttype/column3_255025_header.png';
+        return System::getBaseUrl().'/modules/Content/images/layouttype/column3_255025_header.png';
     }
 }
