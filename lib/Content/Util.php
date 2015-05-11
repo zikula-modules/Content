@@ -146,6 +146,15 @@ class Content_Util
         $types->add('Content_LayoutType_Column212');
         $types->add('Content_LayoutType_Column21212');
         $types->add('Content_LayoutType_Column21212rightcol');
+        // add Twitter Bootstrap layout types
+        $types->add('Content_LayoutType_BootstrapColumn2c6c6');
+        $types->add('Content_LayoutType_BootstrapColumn2c8c4');
+        $types->add('Content_LayoutType_BootstrapColumn2c4c8');
+        $types->add('Content_LayoutType_BootstrapColumn3c4c4c4');
+        $types->add('Content_LayoutType_BootstrapColumn3c6c3c3');
+        $types->add('Content_LayoutType_BootstrapColumn3c3c6c3');
+        $types->add('Content_LayoutType_BootstrapColumn3c3c3c6');
+        $types->add('Content_LayoutType_BootstrapColumn4c3c3c3c3');
     }
 
 }
