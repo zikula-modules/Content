@@ -59,8 +59,8 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('layoutDisplay', array(
             array('name' => 'ContentGeneral', 'description' => 'Content styled general layouts', 'display' => true),
             array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
-            array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
-            array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
+            array('name' => 'BootstrapGeneral', 'description' => 'Twitter Bootstrap styled general layouts', 'display' => false),
+            array('name' => 'BootstrapSpecial', 'description' => 'Twitter Bootstrap styled special layouts', 'display' => false)));
         // variable to register a pagevar with breadcrumbs as array of array(url, title)
         $this->setVar('registerBreadcrumbs', false);
 
@@ -509,8 +509,8 @@ class Content_Installer extends Zikula_AbstractInstaller
         $this->setVar('layoutDisplay', array(
             array('name' => 'ContentGeneral', 'description' => 'Content styled general layouts', 'display' => true),
             array('name' => 'ContentSpecial', 'description' => 'Content styled special layouts', 'display' => true),
-            array('name' => 'BootstrapGeneral', 'description' => 'Bootstrap styled general layouts', 'display' => false),
-            array('name' => 'BootstrapSpecial', 'description' => 'Bootstrap styled special layouts', 'display' => false)));
+            array('name' => 'BootstrapGeneral', 'description' => 'Twitter Bootstrap styled general layouts', 'display' => false),
+            array('name' => 'BootstrapSpecial', 'description' => 'Twitter Bootstrap styled special layouts', 'display' => false)));
 
         return true;
     }
