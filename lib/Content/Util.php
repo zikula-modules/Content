@@ -121,6 +121,7 @@ class Content_Util
         $types->add('Content_ContentType_Quote');
         $types->add('Content_ContentType_Rss');
         $types->add('Content_ContentType_Slideshare');
+        $types->add('Content_ContentType_TabNavigation');
         $types->add('Content_ContentType_Unfiltered');
         $types->add('Content_ContentType_Vimeo');
         $types->add('Content_ContentType_YouTube');

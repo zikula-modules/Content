@@ -1,8 +1,4 @@
-{if $tabType == 4}
-    {*
-    {formtabbedpanelset
-    *}
-{else}
+{if $tabType lt 4} {* Twitter Bootstrap styled tabs *}
 <div class="row margin-bottom-20">
     <div class="col-md-12">
         <div{if !empty($tabStyle)} class="{$tabStyle}"{/if} role="tabpanel">
@@ -38,4 +34,17 @@
         </div>
     </div>
 </div>
-{/if} {* tabType 1 *}
+{else} {* Legacy Zikula.UI styles tabs *}
+{pageaddvar name="javascript" value="Zikula.UI"}
+<ul id="tabs_{$contentId}" class="z-tabs{if !empty($tabStyle)} {$tabStyle}{/if}">
+{foreach from=$itemsToTab item='itemToTab' name='itemToTab'}
+    <li class="tab"><a href="#{$itemToTab.link}">{$itemToTab.title}</a></li>
+{/foreach}
+</ul>
+{foreach from=$itemsToTab item='itemToTab' name='itemToTab'}
+<div id="{$itemToTab.link}">{$itemToTab.display}</div>
+{/foreach}
+<script type="text/javascript">
+var tabs = new Zikula.UI.Tabs('tabs_{{$contentId}}');
+</script>
+{/if}

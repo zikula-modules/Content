@@ -104,12 +104,31 @@ class Content_ContentType_TabNavigation extends Content_AbstractContentType
         $this->view->assign('itemsToTab', $itemsToTab);
         $this->view->assign('tabType', $this->tabType);
         $this->view->assign('tabStyle', $this->tabStyle);
+        $this->view->assign('contentId', $this->contentId);
         return $this->view->fetch($this->getTemplate());
     }
 
     public function displayEditing()
     {
-        return '<h3>' . $this->__f('Tab navigation of Content items %s', $this->contentItemIds) . '</h3>';
+        $output = '<h3>' . $this->__f('Tab navigation of Content items %s', $this->contentItemIds) . '</h3>';
+        $output .= '<p>';
+        switch($this->tabType) {
+            case 1:
+            $output .= $this->__('Tab navigation type') . ': ' . $this->__('Bootstrap - nav nav-tabs');
+            break;
+            case 2:
+            $output .= $this->__('Tab navigation type') . ': ' . $this->__('Bootstrap - nav nav-pills');
+            break;
+            case 3:
+            $output .= $this->__('Tab navigation type') . ': ' . $this->__('Bootstrap - nav nav-pills nav-stacked (col-sm3/col-sm-9)');
+            break;
+            case 4:
+            $output .= $this->__('Tab navigation type') . ': ' . $this->__('Zikula.UI Tabs');
+            break;
+        }
+        $output .= '<br />' . $this->__('You can disable the individual Content Items if you only want to display them in this Tab Navigation.');
+        $output .= '</p>';
+        return $output;
     }
 
     function startEditing()
@@ -118,7 +137,7 @@ class Content_ContentType_TabNavigation extends Content_AbstractContentType
         $tabTypeOptions = array( array('text' => $this->__('Bootstrap - nav nav-tabs'), 'value' => '1'),
             array('text' => $this->__('Bootstrap - nav nav-pills'), 'value' => '2'),
             array('text' => $this->__('Bootstrap - nav nav-pills nav-stacked (col-sm3/col-sm-9)'), 'value' => '3'),
-            array('text' => $this->__('Zikula formtabbedpanelset'), 'value' => '4') );
+            array('text' => $this->__('Zikula.UI Tabs'), 'value' => '4') );
         $this->view->assign('tabTypeOptions', $tabTypeOptions);
     }
 
