@@ -167,7 +167,7 @@ class Content_ContentType_Unfiltered extends Content_AbstractContentType
         if ($this->useiframe) {
             $output = '<div style="background-color:Lavender; padding:10px;">' . $this->__f('An <strong>iframe</strong> is included with<br />src = %1$s<br />width = %2$s and height = %3$s', array($this->iframesrc, $this->iframewidth, $this->iframeheight)) . '</div>';
         } else {
-            $output = '<div style="background-color:Lavender; padding:10px;">' . $this->__f('The following <strong>unfiltered text</strong> will be included literally<br />%s', DataUtil::formatForDisplay($this->text)) . '</div>';
+            $output = '<div style="max-height:200px;overflow:hidden;background-color:Lavender; padding:10px;">' . $this->__f('The following <strong>unfiltered text</strong> will be included literally<br /><hr>%s', DataUtil::formatForDisplay($this->text)) . '</div>';
         }
         return $output;
     }

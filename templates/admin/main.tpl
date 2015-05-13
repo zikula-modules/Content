@@ -1,4 +1,11 @@
 {ajaxheader modname='Content' filename='ajax.js'}
+
+{* include jstree *}
+{pageaddvar name="stylesheet" value="modules/Content/lib/vendor/jstree/dist/themes/default/style.min.css"}
+{pageaddvar name="javascript" value="jquery"}
+{*pageaddvar name="javascript" value="modules/Content/lib/vendor/jstree/dist/libs/jquery.js"*}
+{pageaddvar name="javascript" value="modules/Content/lib/vendor/jstree/dist/jstree.min.js"}
+
 {adminheader}
 <div class="z-admin-content-pagetitle">
     {icon type="view" size="small"}
