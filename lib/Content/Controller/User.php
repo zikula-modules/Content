@@ -47,7 +47,8 @@ class Content_Controller_User extends Zikula_AbstractController
         // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
         if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
             // first include self, then loop over parents until root is reached
-            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Categories'));
+            $modInfo = $this->getModInfo();
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $modInfo['displayname'] . ' ' . $this->__('Categories'));
             PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
         }
 
@@ -205,7 +206,8 @@ class Content_Controller_User extends Zikula_AbstractController
         // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
         if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
             // first include self, then loop over parents until root is reached
-            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Page list'));
+            $modInfo = $this->getModInfo();
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $modInfo['displayname'] . ' ' . $this->__('Page list'));
             PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
         }
 
@@ -222,7 +224,8 @@ class Content_Controller_User extends Zikula_AbstractController
         // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
         if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
             // first include self, then loop over parents until root is reached
-            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Extended page list'));
+            $modInfo = $this->getModInfo();
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $modInfo['displayname'] . ' ' . $this->__('Extended page list'));
             PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
         }
 
@@ -239,7 +242,8 @@ class Content_Controller_User extends Zikula_AbstractController
         // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
         if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
             // first include self, then loop over parents until root is reached
-            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Complete page list'));
+            $modInfo = $this->getModInfo();
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $modInfo['displayname'] . ' ' . $this->__('Complete page list'));
             PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
         }
 
@@ -364,7 +368,8 @@ class Content_Controller_User extends Zikula_AbstractController
         // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
         if ((bool)$this->getVar('registerBreadcrumbs', false) === true) {
             // first include self, then loop over parents until root is reached
-            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $this->getModInfo()['displayname'] . ' ' . $this->__('Sitemap'));
+            $modInfo = $this->getModInfo();
+            $breadcrumbs[] = array('url' => ModUtil::url('Content', 'user', 'sitemap'), 'title' => $modInfo['displayname'] . ' ' . $this->__('Sitemap'));
             PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
         }
 
