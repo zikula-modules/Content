@@ -9,7 +9,9 @@
         {/if}
     </div>
 
-    <h2>{$page.title}</h2>
+    {if $page.showTitle gt "0"}
+    		<h2>{$page.title}</h2>
+    {/if}
 
     <div class="content-area-top">
         {if !empty($page.content[0])}
