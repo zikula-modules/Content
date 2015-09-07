@@ -83,20 +83,6 @@ class Content_Controller_User extends Zikula_AbstractController
         } else {
             $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content:page:', $pageId . '::', ACCESS_READ), LogUtil::getErrorMsgPermission());
         }
-        
-        if ($editmode !== null) {
-            SessionUtil::setVar('ContentEditMode', $editmode);
-        } else {
-            $editmode = SessionUtil::getVar('ContentEditMode', null);
-        }
-
-        if ($editmode) {
-            $this->view->setCaching(false);
-        }
-        $this->view->setCacheId("$pageId|$versionId");
-        if ($this->view->is_cached('user/page.tpl')) {
-            return $this->view->fetch('user/page.tpl');
-        }
 
         $versionHtml = '';
         $hasEditAccess = false;
@@ -141,6 +127,20 @@ class Content_Controller_User extends Zikula_AbstractController
 
         if ($page === false) {
             return false;
+        }
+        
+        if ($editmode !== null) {
+            SessionUtil::setVar('ContentEditMode', $editmode);
+        } else {
+            $editmode = SessionUtil::getVar('ContentEditMode', null);
+        }
+
+        if ($editmode) {
+            $this->view->setCaching(false);
+        }
+        $this->view->setCacheId("$pageId|$versionId");
+        if ($this->view->is_cached('user/page.tpl')) {
+            return $this->view->fetch('user/page.tpl');
         }
         
         // Register a page variable breadcrumbs with the Content page hierarchy as array of array(url, title)
