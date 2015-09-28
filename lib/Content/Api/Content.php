@@ -317,7 +317,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         foreach ($translations as &$t) {
             $t['contentId'] = $newContentId;
         }
-        DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId', true);
+        DBUtil::insertObjectArray($translations, 'content_translatedcontent', 'contentId');
 
         $where = $contentSearchColumn['contentId'] . ' = ' . $oldContentId . ' AND ' . $contentSearchColumn['language'] . ' NOT IN (\'' . DataUtil::formatForStore($currentLanguage) . '\', \'\')';
         $searchableData = DBUtil::selectObjectArray('content_searchable', $where);
@@ -326,7 +326,7 @@ class Content_Api_Content extends Zikula_AbstractApi
             foreach ($searchableData as &$s) {
                 $s['contentId'] = $newContentId;
             }
-            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId', true);
+            DBUtil::insertObjectArray($searchableData, 'content_searchable', 'searchableId');
         }
     }
 
