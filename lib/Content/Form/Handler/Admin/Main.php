@@ -47,7 +47,7 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
         }
 
         PageUtil::setVar('title', $this->__('Page list and content structure'));
-        $csssrc = ThemeUtil::getModuleStylesheet('admin', 'admin.css');
+        $csssrc = ThemeUtil::getModuleStylesheet('ZikulaAdminModule', 'admin.css');
         PageUtil::addVar('stylesheet', $csssrc);
 
         $this->view->assign('pages', $pages);
