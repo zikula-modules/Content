@@ -517,6 +517,9 @@ class Content_Installer extends Zikula_AbstractInstaller
 
     protected function contentUpgrade_4_2_1($oldVersion)
     {
+        // update the database (add new column "metadescription")
+        DBUtil::changeTable('content_translatedpage');
+
         // add new variable(s)
         // variable to register a pagevar with breadcrumbs as array of array(url, title)
         $this->setVar('registerBreadcrumbs', false);
