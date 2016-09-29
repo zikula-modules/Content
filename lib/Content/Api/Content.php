@@ -276,7 +276,7 @@ class Content_Api_Content extends Zikula_AbstractApi
         $this->cloneContentAdditions($contentId, $newContentId, $cloneTranslation);
 
         if ($addVersion) {
-            $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $pageId, 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
+            $ok = ModUtil::apiFunc('Content', 'History', 'addPageVersion', array('pageId' => $contentData['pageId'], 'action' => '_CONTENT_HISTORYCONTENTADDED' /* delayed translation */));
             if ($ok === false) {
                 return false;
             }
