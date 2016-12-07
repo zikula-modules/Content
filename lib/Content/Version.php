@@ -14,7 +14,7 @@ class Content_Version extends Zikula_AbstractVersion
     public function getMetaData()
     {
         $meta = array();
-        $meta['version']        = '4.2.1';
+        $meta['version']        = '4.2.2';
         $meta['oldnames']       = array('content');
         $meta['displayname']    = $this->__('Content editing');
         $meta['description']    = $this->__('Create hierachical pages with a flexible layout containing a wide variety of content, such as html text, images, videos, maps and much more.');
