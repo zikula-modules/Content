@@ -9,7 +9,6 @@
 
 class Content_Installer extends Zikula_AbstractInstaller
 {
-
     public function install()
     {
         // create the DB tables
@@ -142,6 +141,8 @@ class Content_Installer extends Zikula_AbstractInstaller
                 $ok = $ok && $this->contentUpgrade_4_2_0($oldVersion);
             case '4.2.0':
                 $ok = $ok && $this->contentUpgrade_4_2_1($oldVersion);
+            case '4.2.1':
+                // nothing yet
         }
 
         // clear compiled templates and Content cache
