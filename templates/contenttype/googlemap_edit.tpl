@@ -1,7 +1,7 @@
 {ajaxheader modname='content'}
-
+{modgetvar module='Content' name='googlemapApiKey' assign='googleApiKey'}
 <script type="text/javascript" 
-    src="http://maps.google.com/maps/api/js?v=3&language={$language}&sensor=false">
+    src="https://maps.google.com/maps/api/js?v=3&key={$googleApiKey}&language={$language}&sensor=false">
 </script>
 
 <div class="content-googlemap">

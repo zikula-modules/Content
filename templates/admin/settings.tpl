@@ -94,7 +94,7 @@
     <div class="z-formrow">
         {formlabel for='googlemapApiKey' __text='Google maps API key'}
         {formtextinput id='googlemapApiKey' group='config' maxLength='255'}
-        <em class="z-sub z-formnote">{gt text='A Google Maps API key is not required for including maps with the Javascript API v3.<br />However an APIs Console key is encouraged by Google. More information at <a href="https://developers.google.com/maps/documentation/javascript/tutorial#api_key">Google</a>.'}</em>
+        <em class="z-sub z-formnote">{gt text='If you want to Google maps you need an API key for it. You can get this from <a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key">Google</a>.'}</em>
     </div>
     <div class="z-formrow">
         {formlabel for='flickrApiKey' __text='Flickr API key'}
