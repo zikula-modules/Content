@@ -19,6 +19,7 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
      */
     public function dragContent($args)
     {
+        $this->checkAjaxToken();
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
         $pageId = $this->request->getPost()->get('pid', null);
@@ -58,6 +59,7 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
      */
     public function togglePageState($args)
     {
+        $this->checkAjaxToken();
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
         $id = (int)$this->request->getPost()->get('id', -1);
@@ -84,6 +86,7 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
      */
     public function togglePageInMenu($args)
     {
+        $this->checkAjaxToken();
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
         $id = (int)$this->request->getPost()->get('id', -1);
@@ -99,7 +102,7 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
         return new Zikula_Response_Ajax(array('id' => $id));
     }
 
-	/**
+    /**
      * toggleContentState
      * This function toggles active/inactive for content items
      *
@@ -109,6 +112,7 @@ class Content_Controller_Ajax extends Zikula_Controller_AbstractAjax
      */
     public function toggleContentState($args)
     {
+        $this->checkAjaxToken();
         $this->throwForbiddenUnless(SecurityUtil::checkPermission('Content::', '::', ACCESS_EDIT), LogUtil::getErrorMsgPermission());
 
         $id = (int)$this->request->getPost()->get('id', -1);
