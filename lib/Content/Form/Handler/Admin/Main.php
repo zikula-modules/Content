@@ -29,12 +29,15 @@ class Content_Form_Handler_Admin_Main extends Zikula_Form_AbstractHandler
         }
 
         // Get categories names if enabled
-        if ($this->getVar('$categoryUsage') < 4) {
+        if ($this->getVar('categoryUsage') < 4) {
             $lang = ZLanguage::getLanguageCode();
             $categories = array();
             foreach ($pages as $page) {
-                $cat = CategoryUtil::getCategoryByID($page['categoryId']);
                 $categories[$page['id']] = array();
+                $cat = CategoryUtil::getCategoryByID($page['categoryId']);
+                if (!$cat) {
+                    continue;
+                }
                 $categories[$page['id']][] = isset($cat['display_name'][$lang]) ? $cat['display_name'][$lang] : $cat['name'];
                 if (isset($page['categories']) && is_array($page['categories'])) {
                     foreach ($page['categories'] as $pageCat) {
