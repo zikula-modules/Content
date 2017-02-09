@@ -106,11 +106,11 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
     public function loadData(&$data)
     {
         $this->pid = $data['pid'];
-        $this->includeSelf = ((bool) $data['includeSelf']);
-        $this->includeNotInMenu = (bool) $data['includeNotInMenu'];
-        $this->includeHeading = $data['includeHeading'];
+        $this->includeSelf = isset($data['includeSelf']) ? (bool) $data['includeSelf'] : false;
+        $this->includeNotInMenu = isset($data['includeNotInMenu']) ? (bool) $data['includeNotInMenu'] : false;
+        $this->includeHeading = isset($data['includeHeading']) ? $data['includeHeading'] : 0;
         $this->includeHeadingLevel = -1;
-        $this->includeSubpage = $data['includeSubpage'];
+        $this->includeSubpage = isset($data['includeSubpage']) ? $data['includeSubpage'] : 1;
         $this->includeSubpageLevel = 0;
         if ($this->includeHeading && $data['includeHeadingLevel'] >= 0) {
             $this->includeHeadingLevel = (int)$data['includeHeadingLevel'];
