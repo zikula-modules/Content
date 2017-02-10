@@ -112,10 +112,10 @@ class Content_ContentType_TableOfContents extends Content_AbstractContentType
         $this->includeHeadingLevel = -1;
         $this->includeSubpage = isset($data['includeSubpage']) ? $data['includeSubpage'] : 1;
         $this->includeSubpageLevel = 0;
-        if ($this->includeHeading && $data['includeHeadingLevel'] >= 0) {
+        if ($this->includeHeading && isset($data['includeHeadingLevel']) && $data['includeHeadingLevel'] >= 0) {
             $this->includeHeadingLevel = (int)$data['includeHeadingLevel'];
         }
-        if ($this->includeSubpage && $data['includeSubpageLevel'] > 0) {
+        if ($this->includeSubpage && isset($data['includeSubpageLevel']) && $data['includeSubpageLevel'] > 0) {
             $this->includeSubpageLevel = (int)$data['includeSubpageLevel'];
         }
     }
