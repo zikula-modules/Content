@@ -428,12 +428,13 @@ class Content_Api_Content extends Zikula_AbstractApi
         $content = $this->GetSimplePageContent(array('pageId' => $fromPage));
         for ($i = 0; $i < count($content); $i++) {
             $contentData = $content[$i];
+            $oldContentId = $contentData['id'];
             $contentData['id'] = null;
             $contentData['pageId'] = $toPage;
             DBUtil::insertObject($contentData, 'content_content', 'id');
             $id = $contentData['id']; // ID of object we just inserted
 
-            $this->cloneContentAdditions($id, $cloneTranslation);
+            $this->cloneContentAdditions($oldContentId, $id, $cloneTranslation);
         }
         Content_Util::clearCache();
 
