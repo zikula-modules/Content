@@ -133,7 +133,7 @@
 		{if $categoryUsage eq 2}
 		<label>{gt text="Secondary category"}</label>
 		<div>
-			{formcategoryselector id='categories' group='page' category=$secondCategory selectedValue=$page.categories.0.categoryId includeEmptyElement='1'}
+			{formcategoryselector id='categories' group='page' category=$secondCategory selectedValue=$page.categories.0.categoryId|default:null includeEmptyElement='1'}
 		</div>
 		{else}
 		<label>{gt text="Secondary categories"}</label>
