@@ -2,7 +2,7 @@
     <label for="Content_root">{gt text="Include the following subpages"}</label>
     <select id="Content_root" name="root">
         {foreach from=$pidItems item=item}
-        <option value="{$item.value}"{if $item.value eq $root} selected="selected"{/if}>
+        <option value="{$item.value}"{if isset($root) && $item.value eq $root} selected="selected"{/if}>
             {$item.text}
         </option>
         {/foreach}
