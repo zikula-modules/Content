@@ -68,7 +68,8 @@ class Content_Api_Page extends Zikula_AbstractApi
         $orderDir = !empty($args['orderDir']) ? $args['orderDir'] : 'asc';
         $pageIndex = isset($args['pageIndex']) ? $args['pageIndex'] : 0;
         $pageSize = isset($args['pageSize']) ? $args['pageSize'] : 0;
-        $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+        $language = (array_key_exists('language', $args) ? $args['language'] : $currentLanguage);
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
         $makeTree = (array_key_exists('makeTree', $args) ? $args['makeTree'] : false);
         $includeLayout = (array_key_exists('includeLayout', $args) ? $args['includeLayout'] : true);
@@ -380,7 +381,8 @@ class Content_Api_Page extends Zikula_AbstractApi
         }
 
         // language set to active language
-        $pageData['language'] = ZLanguage::getLanguageCode();
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+        $pageData['language'] = $currentLanguage;
         
         if ($location == 'sub' || $pageId == 0) {
             $pageData['position'] = $this->contentGetLastSubPagePosition($pageId) + 1;
@@ -733,7 +735,8 @@ class Content_Api_Page extends Zikula_AbstractApi
             $sourcePageData = null;
         }
 
-        $pageData['language'] = ZLanguage::getLanguageCode();
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+        $pageData['language'] = $currentLanguage;
 
         // what does this mean?
         if ($pageData['parentPageId'] > 0) {
@@ -1323,7 +1326,7 @@ class Content_Api_Page extends Zikula_AbstractApi
         $translatedPageTable = $dbtables['content_translatedpage'];
         $translatedPageColumn = $dbtables['content_translatedpage_column'];
 
-        $currentLanguage = ZLanguage::getLanguageCode();
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
 
         $sql = "SELECT parentPage.$pageColumn[id],
             parentPage.$pageColumn[title],
