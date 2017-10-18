@@ -14,7 +14,8 @@ class Content_Api_Content extends Zikula_AbstractApi
     public function getContent($args)
     {
         $id = (int) $args['id'];
-        $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+        $language = (array_key_exists('language', $args) ? $args['language'] : $currentLanguage);
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
         $view = isset($args['view']) ? $args['view'] : null;
 
@@ -33,7 +34,8 @@ class Content_Api_Content extends Zikula_AbstractApi
     {
         $pageId = (int) $args['pageId'];
         $editing = (array_key_exists('editing', $args) ? $args['editing'] : false);
-        $language = (array_key_exists('language', $args) ? $args['language'] : ZLanguage::getLanguageCode());
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+        $language = (array_key_exists('language', $args) ? $args['language'] : $currentLanguage);
         $expandContent = (array_key_exists('expandContent', $args) ? $args['expandContent'] : true);
         $translate = (array_key_exists('translate', $args) ? $args['translate'] : true);
 
@@ -289,7 +291,7 @@ class Content_Api_Content extends Zikula_AbstractApi
 
     private function cloneContentAdditions($oldContentId, $newContentId, $cloneTranslation)
     {
-        $currentLanguage = ZLanguage::getLanguageCode();
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
         $dbtables = DBUtil::getTables();
 
         $contentSearchColumn = $dbtables['content_searchable_column'];
@@ -398,7 +400,8 @@ class Content_Api_Content extends Zikula_AbstractApi
         if ($language !== '') {
             $languages[] = $language;
         } else {
-            $languages[] = ZLanguage::getLanguageCode();
+            $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+            $languages[] = $currentLanguage;
             $languages[] = '';
         }
 
@@ -563,7 +566,8 @@ class Content_Api_Content extends Zikula_AbstractApi
         }
         DBUtil::deleteObject($translatedData, 'content_translatedcontent', '', 'contentId');
 
-        $searchableLanguage = ($language !== null) ? $language : ZLanguage::getLanguageCode();
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+        $searchableLanguage = ($language !== null) ? $language : $currentLanguage;
         $dbtables = DBUtil::getTables();
         $contentSearchColumn = $dbtables['content_searchable_column'];
         $where = $contentSearchColumn['contentId'] . ' = ' . $contentId . ' AND ' . $contentSearchColumn['language'] . ' = \'' . DataUtil::formatForStore($searchableLanguage) . '\'';
