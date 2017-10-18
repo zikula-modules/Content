@@ -680,7 +680,7 @@ class Content_Api_Content extends Zikula_AbstractApi
                 $nextContentId = $translatableItems[0]['id'];
             }
         }
-        $curContentId = $translatableItems[$currentIndex]['id'];
+        $curContentId = $currentIndex >= 0 ? $translatableItems[$currentIndex]['id'] : null;
 
         return array('items' => $translationItems, 'curContentId' => $curContentId, 'nextContentId' => $nextContentId, 'prevContentId' => $prevContentId);
     }
