@@ -35,7 +35,8 @@ class Content_Controller_User extends Zikula_AbstractController
 
         $this->view->assign('rootCategory', $rootCategory);
         $this->view->assign('categories', $categories);
-        $this->view->assign('lang', ZLanguage::getLanguageCode());
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
+        $this->view->assign('lang', $currentLanguage);
 
         // Count the numer of pages in a specific category
         $pagecount = array();
@@ -160,8 +161,9 @@ class Content_Controller_User extends Zikula_AbstractController
             PageUtil::registerVar('breadcrumbs', false, $breadcrumbs);
         }
         
+        $currentLanguage = ServiceUtil::get('request_stack')->getCurrentRequest()->getLocale();
         $multilingual = ModUtil::getVar(ModUtil::CONFIG_MODULE, 'multilingual');
-        if ($page['language'] == ZLanguage::getLanguageCode()) {
+        if ($page['language'] == $currentLanguage) {
             $multilingual = false;
         }
 
