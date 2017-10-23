@@ -1,0 +1,20 @@
+{
+    "extension": {
+        "title": "Content",
+        "icon": "https://raw.githubusercontent.com/zikula-modules/Content/master/images/admin.png"
+    },
+    "version": {
+        "keywords": [
+            "Content"
+        ],
+        "semver": "4.1.0",
+        "dependencies": {
+            "zikula/core": ">=1.3.5 <1.5"
+        },
+        "composerpath": "composer.json",
+        "description": "Content is a hierarchical page editing module for Zikula. With it you can insert and edit various content items, such as HTML texts, videos, maps and much more. Also content of other modules and blocks can be shown inside a Content page.",
+        "urls": {
+            "issues": "https://github.com/zikula-modules/Content/issues"
+        }
+    }
+}
