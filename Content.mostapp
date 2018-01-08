@@ -1,0 +1,267 @@
+application "Content" {
+    documentation "Flexible hierachical page management."
+    vendor "Zikula"
+    author "Axel Guckelsberger"
+    email "vorstand@zikula.de"
+    url "https://zikula.de"
+    version "5.0.0"
+    prefix "content"
+    generateListContentType false
+    generateDetailContentType false
+    generatePdfSupport true displayActionsStyle BUTTON_GROUP
+    entities {
+        entity "page" leading loggable categorisable {
+            nameMultiple "pages"
+            displayPattern "#title#"
+            lockType PAGELOCK_OPTIMISTIC
+            tree NESTED
+            fields {
+                string "title" translatable {
+                    defaultValue ""
+                    sluggablePosition 1
+                },
+                boolean "showTitle" {
+                    defaultValue "true"
+                    mandatory false
+                },
+                text "metaDescription" {
+                    defaultValue ""
+                    mandatory false
+                },
+                boolean "skipUiHookSubscriber" {
+                    defaultValue "false"
+                    mandatory false
+                },
+                string "layout" {
+                    defaultValue ""
+                    length 100
+                },
+                integer "views" {
+                    defaultValue "0"
+                    mandatory false
+                },
+                boolean "active" ajaxTogglability {
+                    defaultValue "true"
+                    mandatory false
+                },
+                datetime "activeFrom" startDate {
+                    defaultValue ""
+                    mandatory false
+                },
+                datetime "activeTo" endDate {
+                    defaultValue ""
+                    mandatory false
+                },
+                boolean "inMenu" {
+                    defaultValue "true"
+                    mandatory false
+                },
+                string "pageLanguage" {
+                    dbName ""
+                    defaultValue ""
+                    length 10
+                    role LOCALE
+                },
+                string "optionalString1" translatable {
+                    defaultValue ""
+                    mandatory false
+                },
+                string "optionalString2" translatable {
+                    defaultValue ""
+                    mandatory false
+                },
+                text "optionalText" translatable {
+                    defaultValue ""
+                    mandatory false
+                },
+                integer "currentVersion" version {
+                    defaultValue "1"
+                },
+                array "versionData" {
+                    defaultValue ""
+                    mandatory false
+                    arrayType JSON_ARRAY
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit"
+            }
+        },
+        entity "contentItem" {
+            nameMultiple "contentItems"
+            displayPattern "#areaIndex#-#areaPosition#: #owningBundle# - #owningType#"
+            fields {
+                integer "areaIndex" {
+                    defaultValue "0"
+                    mandatory false
+                },
+                integer "areaPosition" {
+                    defaultValue "0"
+                    mandatory false
+                },
+                string "owningBundle" {
+                    defaultValue ""
+                    length 100
+                },
+                string "owningType" {
+                    defaultValue ""
+                    length 100
+                },
+                text "contentData" translatable {
+                    defaultValue ""
+                    mandatory false
+                    length 9999999
+                },
+                boolean "active" ajaxTogglability {
+                    defaultValue "true"
+                    mandatory false
+                },
+                list "scope" {
+                    defaultValue "1"
+                    length 1
+                    items {
+                        default listItem "Public (all)" ( "1" ),
+                        listItem "Only logged in members" ( "0" ),
+                        listItem "Only not logged in people" ( "2" )
+                    }
+                },
+                list "stylePosition" expanded {
+                    defaultValue "none"
+                    length 20
+                    items {
+                        default listItem "No box" ( "none" ),
+                        listItem "Above" ( "above" ),
+                        listItem "Float, left" ( "topLeft" ),
+                        listItem "Float, right" ( "topRight" ),
+                        listItem "Above, left" ( "aboveLeft" ),
+                        listItem "Above, right" ( "aboveRight" )
+                    }
+                },
+                list "styleWidth" {
+                    defaultValue "wauto"
+                    length 20
+                    items {
+                        default listItem "auto" ( "wauto" ),
+                        listItem "1/1" ( "w100" ),
+                        listItem "3/4" ( "w75" ),
+                        listItem "2/3" ( "w66" ),
+                        listItem "1/2" ( "w50" ),
+                        listItem "1/3" ( "w33" ),
+                        listItem "1/4" ( "w25" )
+                    }
+                },
+                list "styleClass" {
+                    defaultValue ""
+                    mandatory false
+                    length 100
+                    items {
+                        listItem "default"
+                    }
+                }
+            }
+            indexes {
+                index "activeIndex" {
+                    items {
+                        indexItem "active"
+                    }
+                },
+                index "positionIndex" {
+                    items {
+                        indexItem "areaIndex",
+                        indexItem "areaPosition"
+                    }
+                }
+            }
+            actions {
+                mainAction "Index",
+                editAction "Edit"
+            }
+        },
+        entity "searchable" {
+            nameMultiple "searchables"
+            displayPattern "#searchLanguage#"
+            fields {
+                text "searchText" {
+                    defaultValue ""
+                    length 50000
+                },
+                string "searchLanguage" {
+                    defaultValue ""
+                    length 10
+                    role LOCALE
+                }
+            }
+            actions {
+                mainAction "Index"
+            }
+        }
+    }
+    relations {
+        one2many bidirectional {
+            source "page"
+            sourceAlias "page"
+            target "contentItem"
+            targetAlias "contentItems"
+            targetEditing NONE
+            cascade REMOVE_DETACH
+            cascadeReverse PERSIST
+            orderBy "areaIndex, areaPosition"
+        },
+        one2many bidirectional {
+            source "contentItem"
+            sourceAlias "contentItem"
+            target "searchable"
+            targetAlias "searchables"
+        }
+    }
+    variables {
+        varContainer "GeneralSettings" {
+            fields {
+                list "stateOfNewPages" {
+                    defaultValue ""
+                    length 5
+                    items {
+                        default listItem "New pages will be active and available in the menu" ( "1" ),
+                        listItem "New pages will be inactive and available in the menu" ( "2" ),
+                        listItem "New pages will be active and not available in the menu" ( "3" ),
+                        listItem "New pages will be inactive and not available in the menu" ( "4" )
+                    }
+                },
+                list "pageInfoLocation" {
+                    defaultValue ""
+                    length 10
+                    items {
+                        default listItem "Top of the page, left of the page title" ( "top" ),
+                        listItem "Bottom of the page" ( "bottom" )
+                    }
+                },
+                boolean "overridePageTitle" {
+                    documentation "Override page title with the Content page title"
+                    defaultValue "true"
+                    mandatory false
+                },
+                boolean "countPageViews" {
+                    documentation "Page views are only counted when not in preview or edit mode and only when the user has no edit access."
+                    defaultValue "false"
+                    mandatory false
+                },
+                boolean "enableRawPlugin" {
+                    documentation "Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc."
+                    defaultValue "false"
+                    mandatory false
+                },
+                text "stylingClasses" {
+                    defaultValue "greybox|Grey box"
+                },
+                boolean "inheritPermissions" {
+                    documentation "Whether to inherit permissions from parent to child pages or not."
+                    defaultValue "false"
+                    mandatory false
+                }
+            }
+        }
+    }
+}

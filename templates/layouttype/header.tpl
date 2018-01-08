@@ -1,1 +1,0 @@
-{* Optional central header for all pages *}
