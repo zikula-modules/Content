@@ -119,6 +119,14 @@ application "Content" {
                     defaultValue "true"
                     mandatory false
                 },
+                datetime "activeFrom" startDate {
+                    defaultValue ""
+                    mandatory false
+                },
+                datetime "activeTo" endDate {
+                    defaultValue ""
+                    mandatory false
+                },
                 list "scope" {
                     defaultValue "1"
                     length 1
