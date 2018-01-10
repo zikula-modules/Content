@@ -32,6 +32,10 @@ application "Content" {
                     defaultValue "false"
                     mandatory false
                 },
+                boolean "skipFilterHookSubscriber" {
+                    defaultValue "false"
+                    mandatory false
+                },
                 string "layout" {
                     defaultValue ""
                     length 100
@@ -52,7 +56,7 @@ application "Content" {
                     defaultValue ""
                     mandatory false
                 },
-                boolean "inMenu" {
+                boolean "inMenu" ajaxTogglability {
                     defaultValue "true"
                     mandatory false
                 },
