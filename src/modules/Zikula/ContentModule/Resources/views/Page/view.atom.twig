@@ -1,0 +1,50 @@
+{# purpose of this template: pages atom feed #}
+<?xml version="1.0" encoding="{% set charset = pageGetVar('meta.charset') %}{% if charset == 'ISO-8859-15' %}ISO-8859-1{% else %}{{ charset }}{% endif %}" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title type="text">{{ __('Latest pages') }}</title>
+    <subtitle type="text">{{ __('A direct feed showing the list of pages') }} - {{ getModVar('ZConfig', 'slogan') }}</subtitle>
+    <author>
+        <name>{{ getModVar('ZConfig', 'sitename') }}</name>
+    </author>
+{% set amountOfItems = items|length %}
+{% if amountOfItems > 0 %}
+{% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({'http://': '', '/': ''}) }},{{ items.first.createdDate|date('Y-m-d') }}:{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': items.first.slug}) }}{% endset %}
+    <id>{{ uniqueID }}</id>
+    <updated>{{ items[0].updatedDate|date('Y-m-dTH:M:SZ') }}</updated>
+{% endif %}
+    <link rel="alternate" type="text/html" hreflang="{{ app.request.locale }}" href="{{ url('zikulacontentmodule_page_' ~ routeArea ~ 'index') }}" />
+    <link rel="self" type="application/atom+xml" href="{{ app.request.schemeAndHttpHost ~ app.request.basePath }}" />
+    <rights>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</rights>
+{% for page in items %}
+    <entry>
+        <title type="html">{{ page|zikulacontentmodule_formattedTitle|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</title>
+        <link rel="alternate" type="text/html" href="{{ url('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" />
+        {% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({ 'http://': '', '/': '' }) }},{{ page.createdDate|date('Y-m-d') }}:{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}{% endset %}
+        <id>{{ uniqueID }}</id>
+        {% if page.updatedDate|default %}
+            <updated>{{ page.updatedDate|date('Y-m-dTH:M:SZ') }}</updated>
+        {% endif %}
+        {% if page.createdDate|default %}
+            <published>{{ page.createdDate|date('Y-m-dTH:M:SZ') }}</published>
+        {% endif %}
+        {% if page.createdBy|default and page.createdBy.getUid() > 0 %}
+            {% set creatorAttributes = page.createdBy.getAttributes() %}
+            <author>
+               <name>{{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(page.createdBy.getUname()) }}</name>
+               <uri>{{ creatorAttributes.get('_UYOURHOMEPAGE')|default('-') }}</uri>
+               <email>{{ page.createdBy.getEmail() }}</email>
+            </author>
+        {% endif %}
+        <summary type="html">
+            <![CDATA[
+            {{ page.metaDescription|truncate(150, true, '&hellip;')|default('-') }}
+            ]]>
+        </summary>
+        <content type="html">
+            <![CDATA[
+            {{ page.optionalText|replace({ '<br>': '<br />' }) }}
+            ]]>
+        </content>
+    </entry>
+{% endfor %}
+</feed>

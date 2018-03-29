@@ -1,0 +1,116 @@
+{# purpose of this template: module configuration page #}
+{% extends 'ZikulaContentModule::adminBase.html.twig' %}
+{% block title __('Settings') %}
+{% block admin_page_icon 'wrench' %}
+{% block content %}
+    <div class="zikulacontentmodule-config">
+        {% form_theme form with [
+            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+        ] %}
+        {{ form_start(form) }}
+        <div class="zikula-bootstrap-tab-container">
+            <ul class="nav nav-tabs">
+                {% set tabTitle = __('General settings') %}
+                <li role="presentation" class="active">
+                    <a id="vars1Tab" href="#tab1" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
+                {% set tabTitle = __('List views') %}
+                <li role="presentation">
+                    <a id="vars2Tab" href="#tab2" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
+                {% set tabTitle = __('Integration') %}
+                <li role="presentation">
+                    <a id="vars3Tab" href="#tab3" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
+                {% set tabTitle = __('Workflows') %}
+                <li role="presentation">
+                    <a id="workflowsTab" href="#tabWorkflows" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
+            </ul>
+
+            {{ form_errors(form) }}
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="tab1" aria-labelledby="vars1Tab">
+                    {% set tabTitle = __('General settings') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                    
+                        <p class="alert alert-info">{{ __('Here you can manage all basic settings for this application.') }}</p>
+                    
+                        {{ form_row(form.stateOfNewPages) }}
+                        {{ form_row(form.pageInfoLocation) }}
+                        {{ form_row(form.overridePageTitle) }}
+                        {{ form_row(form.countPageViews) }}
+                        {{ form_row(form.enableRawPlugin) }}
+                        {{ form_row(form.stylingClasses) }}
+                        {{ form_row(form.inheritPermissions) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="vars2Tab">
+                    {% set tabTitle = __('List views') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                    
+                        <p class="alert alert-info">{{ __('Here you can configure parameters for list views.')|nl2br }}</p>
+                    
+                        {{ form_row(form.pageEntriesPerPage) }}
+                        {{ form_row(form.linkOwnPagesOnAccountPage) }}
+                        {{ form_row(form.filterDataByLocale) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="vars3Tab">
+                    {% set tabTitle = __('Integration') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                    
+                        <p class="alert alert-info">{{ __('These options allow you to configure integration aspects.')|nl2br }}</p>
+                    
+                        {{ form_row(form.enabledFinderTypes) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tabWorkflows" aria-labelledby="workflowsTab">
+                    {% set tabTitle = __('Workflows') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                
+                        <p class="alert alert-info">{{ __('Here you can inspect and amend the existing workflows.') }}</p>
+                
+                        <h4>{{ __('Pages') }}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for pages') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit pages workflow') }}</a>
+                        <h4>{{ __('Content items') }}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for content items') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit content items workflow') }}</a>
+                        <h4>{{ __('Searchables') }}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for searchables') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit searchables workflow') }}</a>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group form-buttons">
+            <div class="col-sm-offset-3 col-sm-9">
+                {{ form_widget(form.save) }}
+                {{ form_widget(form.reset) }}
+                {{ form_widget(form.cancel) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
+    {% set formInitScript %}
+        <script>
+        /* <![CDATA[ */
+            ( function($) {
+                $(document).ready(function() {
+                    zikulaContentInitEditForm('edit', '1');
+                });
+            })(jQuery);
+        /* ]]> */
+        </script>
+    {% endset %}
+    {{ pageAddAsset('footer', formInitScript) }}
+{% endblock %}

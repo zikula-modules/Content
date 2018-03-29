@@ -1,0 +1,22 @@
+{# purpose of this template: pages display ics view #}
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:{{ app.request.getSchemeAndHttpHost() }}
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART:{{ page|date('Ymd\THi00\Z') }}
+DTEND:{{ page|date('Ymd\THi00\Z') }}
+{% if page.zipcode != '' and page.city is not empty %}{% set location = page.zipcode ~ ' ' ~ page.city %}LOCATION{{ location|zikulacontentmodule_icalText }}{% endif %}
+TRANSP:OPAQUE
+SEQUENCE:0
+UID:{{ 'ICAL' ~ page.activeFrom ~ random(5000) ~ page.activeTo }}
+DTSTAMP:{{ 'now'|date('Ymd\THi00\Z') }}
+ORGANIZER;CN="{{ page.createdBy.getUname() }}":MAILTO:{{ page.createdBy.getEmail() }}
+CATEGORIES:{% for propName, catMapping in page.categories %}{% if not loop.first %},{% endif %}{{ catMapping.category.display_name[lang]|upper }}{% endfor %}
+SUMMARY{{ page|zikulacontentmodule_formattedTitle|zikulacontentmodule_icalText }}
+{% if page.metaDescription is not empty %}DESCRIPTION{{ page.metaDescription|zikulacontentmodule_icalText }}{% endif %}
+PRIORITY:5
+CLASS:PUBLIC
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR

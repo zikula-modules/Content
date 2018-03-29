@@ -1,0 +1,13 @@
+{# Purpose of this template: Display pages within an external context #}
+<dl>
+    {% for page in items %}
+        <dt>{{ page|zikulacontentmodule_formattedTitle }}</dt>
+        {% if page.metaDescription %}
+            <dd>{{ page.metaDescription|striptags|truncate(200, true, '&hellip;') }}</dd>
+        {% endif %}
+        <dd><a href="{{ path('zikulacontentmodule_page_display', {'slug': page.slug}) }}" title="{{ __('Read more')|e('html_attr') }}">{{ __('Read more') }}</a>
+        </dd>
+    {% else %}
+        <dt>{{ __('No entries found.') }}</dt>
+    {% endfor %}
+</dl>

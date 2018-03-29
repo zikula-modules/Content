@@ -1,0 +1,60 @@
+{# purpose of this template: Display pages without the theme #}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ app.request.locale }}" lang="{{ app.request.locale }}">
+<head>
+    <title>{{ block('pageTitle')|default(block('title')) }}</title>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('jquery-ui/themes/base/jquery-ui.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bootstrap-jqueryui/bootstrap-jqueryui.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/core/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ zasset('@ZikulaContentModule:css/style.css') }}" />
+    <link rel="stylesheet" href="{{ zasset('@ZikulaContentModule:css/custom.css') }}" />
+    {% if useFinder|default == true %}
+        <link rel="stylesheet" href="{{ zasset('@ZikulaContentModule:css/finder.css') }}" />
+    {% endif %}
+</head>
+<body>
+    {% if useFinder|default != true %}
+        <h2>{{ block('title') }}</h2>
+    {% endif %}
+    {% block content %}{% endblock %}
+    <script>
+        /* <![CDATA[ */
+            if (typeof(Zikula) == 'undefined') {var Zikula = {};}
+            Zikula.Config = {'entrypoint': '{{ getModVar('ZConfig', 'entrypoint', 'index.php') }}', 'baseURL': '{{ app.request.getSchemeAndHttpHost() ~ '/' }}', 'baseURI': '{{ app.request.getBasePath() }}'};
+        /* ]]> */
+    </script>
+    <script src="{{ asset('jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('bootstrap-jqueryui/bootstrap-jqueryui.min.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ asset('js/fos_js_routes.js') }}"></script>
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ asset('bundles/core/js/Zikula.Translator.js') }}"></script>
+    {% if useFinder|default == true %}
+        <script src="{{ zasset('@ZikulaContentModule:js/ZikulaContentModule.Finder.js') }}"></script>
+    {% else %}
+        <script src="{{ zasset('@ZikulaContentModule:js/ZikulaContentModule.js') }}"></script>
+        {% if 'edit' in app.request.get('_route') %}
+            {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
+            {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
+        {% endif %}
+        {% if 'edit' in app.request.get('_route') or 'config' in app.request.get('_route') %}
+            {{ polyfill(['forms', 'forms-ext']) }}
+        {% endif %}
+    {% endif %}
+    {% if useFinder|default != true %}
+        <script>
+        /* <![CDATA[ */
+            ( function($) {
+                $(document).ready(function() {
+                    $('.dropdown-toggle').addClass('hidden');
+                });
+            })(jQuery);
+        /* ]]> */
+        </script>
+    {% endif %}
+</body>
+</html>

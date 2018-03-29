@@ -1,0 +1,7 @@
+{# purpose of this template: searchables index view #}
+{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% block title __('searchables') %}
+{% block admin_page_icon 'home' %}
+{% block content %}
+    <p>{{ __('Welcome to the searchable section of the Content application.') }}</p>
+{% endblock %}

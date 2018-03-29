@@ -1,0 +1,15 @@
+services:
+    # Twig extension
+    zikula_content_module.twig_extension:
+        class: Zikula\ContentModule\Twig\TwigExtension
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@request_stack"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.entity_display_helper"
+            - "@zikula_content_module.workflow_helper"
+            - "@zikula_content_module.listentries_helper"
+        public: false
+        tags: ['twig.extension']

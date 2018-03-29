@@ -1,0 +1,31 @@
+{# purpose of this template: pages tree view #}
+{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% block title __('Page hierarchy') %}
+{% block adminPageIcon 'list-alt' %}
+{% block content %}
+    <div class="zikulacontentmodule-page zikulacontentmodule-viewhierarchy">
+
+        <p>
+            {% if hasPermission('ZikulaContentModule:Page:', '::', 'ACCESS_EDIT') %}
+                {% set addRootTitle = __('Add root node') %}
+                <a id="treeAddRoot" href="javascript:void(0)" title="{{ addRootTitle|e('html_attr') }}" class="hidden" data-object-type="page"><i class="fa fa-plus"></i> {{ addRootTitle }}</a>
+            {% endif %}
+            {% set switchTitle = __('Switch to table view') %}
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ switchTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ switchTitle }}</a>
+        </p>
+
+        {% for rootId, treeNodes in trees %}
+            {{ include('@ZikulaContentModule/Page/viewTreeItems.html.twig', {rootId: rootId, items: treeNodes}) }}
+        {% else %}
+            {{ include('@ZikulaContentModule/Page/viewTreeItems.html.twig', {rootId: 1, items: null}) }}
+        {% endfor %}
+
+        <br style="clear: left" />
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('stylesheet', asset('jstree/dist/themes/default/style.min.css')) }}
+    {{ pageAddAsset('javascript', asset('jstree/dist/jstree.min.js')) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Tree.js')) }}
+{% endblock %}

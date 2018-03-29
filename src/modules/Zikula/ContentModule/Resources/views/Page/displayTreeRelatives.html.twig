@@ -1,0 +1,65 @@
+{# purpose of this template: show different forms of relatives for a given tree node #}
+{% import _self as relatives %}
+<h3>{{ __('Related pages') }}</h3>
+{% if page.lvl > 0 %}
+    {% if allParents is not defined or allParents == true %}
+        {% set allParents = zikulacontentmodule_treeSelection(objectType='page', node=page, target='allParents') %}
+        {% if allParents is not null and allParents is iterable and allParents|length > 0 %}
+            <h4>{{ __('All parents') }}</h4>
+            {{ relatives.list_relatives(allParents) }}
+        {% endif %}
+    {% endif %}
+    {% if directParent is not defined or directParent == true %}
+        {% set directParent = zikulacontentmodule_treeSelection(objectType='page', node=page, target='directParent') %}
+        {% if directParent is not null %}
+            <h4>{{ __('Direct parent') }}</h4>
+            <ul>
+                <li><a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': directParent.slug}) }}" title="{{ directParent|zikulacontentmodule_formattedTitle|e('html_attr') }}">{{ directParent|zikulacontentmodule_formattedTitle }}</a></li>
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endif %}
+{% if allChildren is not defined or allChildren == true %}
+    {% set allChildren = zikulacontentmodule_treeSelection(objectType='page', node=page, target='allChildren') %}
+    {% if allChildren is not null and allChildren is iterable and allChildren|length > 0 %}
+        <h4>{{ __('All children') }}</h4>
+        {{ relatives.list_relatives(allChildren) }}
+    {% endif %}
+{% endif %}
+{% if directChildren is not defined or directChildren == true %}
+    {% set directChildren = zikulacontentmodule_treeSelection(objectType='page', node=page, target='directChildren') %}
+    {% if directChildren is not null and directChildren is iterable and directChildren|length > 0 %}
+        <h4>{{ __('Direct children') }}</h4>
+        {{ relatives.list_relatives(directChildren) }}
+    {% endif %}
+{% endif %}
+{% if page.lvl > 0 %}
+    {% if predecessors is not defined or predecessors == true %}
+        {% set predecessors = zikulacontentmodule_treeSelection('page', node=page, target='predecessors') %}
+        {% if predecessors is not null and predecessors is iterable and predecessors|length > 0 %}
+            <h4>{{ __('Predecessors') }}</h4>
+            {{ relatives.list_relatives(predecessors) }}
+        {% endif %}
+    {% endif %}
+    {% if successors is not defined or successors == true %}
+        {% set successors = zikulacontentmodule_treeSelection(objectType='page', node=page, target='successors') %}
+        {% if successors is not null and successors is iterable and successors|length > 0 %}
+            <h4>{{ __('Successors') }}</h4>
+            {{ relatives.list_relatives(successors) }}
+        {% endif %}
+    {% endif %}
+    {% if preandsuccessors is not defined or preandsuccessors == true %}
+        {% set preandsuccessors = zikulacontentmodule_treeSelection(objectType='page', node=page, target='preandsuccessors') %}
+        {% if preandsuccessors is not null and preandsuccessors is iterable and preandsuccessors|length > 0 %}
+            <h4>{{ __('Siblings') }}</h4>
+            {{ relatives.list_relatives(preandsuccessors) }}
+        {% endif %}
+    {% endif %}
+{% endif %}
+{% macro list_relatives(items) %}
+    <ul>
+    {% for node in items %}
+        <li><a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': node.slug}) }}" title="{{ node|zikulacontentmodule_formattedTitle|e('html_attr') }}">{{ node|zikulacontentmodule_formattedTitle }}</a></li>
+    {% endfor %}
+    </ul>
+{% endmacro %}

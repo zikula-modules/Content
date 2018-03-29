@@ -1,0 +1,48 @@
+{# purpose of this template: pages rss feed #}
+<?xml version="1.0" encoding="{% set charset = pageGetVar('meta.charset') %}{% if charset == 'ISO-8859-15' %}ISO-8859-1{% else %}{{ charset }}{% endif %}" ?>
+<rss version="2.0"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:atom="http://www.w3.org/2005/Atom">
+{#<rss version="0.92">#}
+    <channel>
+        <title>{{ __('Latest pages') }}</title>
+        <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
+        <atom:link href="{{ app.request.schemeAndHttpHost ~ app.request.basePath ~ app.request.pathInfo }}" rel="self" type="application/rss+xml" />
+        <description>{{ __('A direct feed showing the list of pages') }} - {{ getModVar('ZConfig', 'slogan') }}</description>
+        <language>{{ app.request.locale }}</language>
+        {# commented out as imagepath is not defined and we can't know whether this logo exists or not
+        <image>
+            <title>{{ getModVar('ZConfig', 'sitename') }}</title>
+            <url>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}{{ imagepath }}/logo.jpg</url>
+            <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
+        </image>
+        #}
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <copyright>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</copyright>
+        <webMaster>{{ pageGetVar('adminmail') }}</webMaster>
+{% for page in items %}
+    <item>
+        <title><![CDATA[{% if page.updatedDate|default %}{{ page.updatedDate|localizeddate('medium', 'short') }} - {% endif %}{{ page|zikulacontentmodule_formattedTitle|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}]]></title>
+        <link>{{ url('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}</link>
+        <guid>{{ url('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}</guid>
+        {% if page.createdBy|default and page.createdBy.getUid() > 0 %}
+            {% set creatorAttributes = page.createdBy.getAttributes() %}
+            <author>{{ page.createdBy.getEmail() }} ({{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(page.createdBy.getUname()) }})</author>
+        {% endif %}
+        <category><![CDATA[{{ __('Categories') }}: {% for catMapping in page.categories %}{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}{% endfor %}]]></category>
+        <description>
+            <![CDATA[
+            {{ page.metaDescription|replace({'<br>': '<br />'}) }}
+            ]]>
+        </description>
+        {% if page.createdDate|default %}
+            <pubDate>{{ page.createdDate|date('r') }}</pubDate>
+        {% endif %}
+    </item>
+{% endfor %}
+    </channel>
+</rss>

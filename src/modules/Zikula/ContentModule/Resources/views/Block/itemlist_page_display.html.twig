@@ -1,0 +1,6 @@
+{# Purpose of this template: Display pages within an external context #}
+{% for page in items %}
+    <h3>{{ page|zikulacontentmodule_formattedTitle }}</h3>
+    <p><a href="{{ path('zikulacontentmodule_page_display', {'slug': page.slug}) }}" title="{{ __('Read more')|e('html_attr') }}">{{ __('Read more') }}</a>
+    </p>
+{% endfor %}

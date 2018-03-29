@@ -1,0 +1,112 @@
+{# purpose of this template: pages view filter form #}
+{% if hasPermission('ZikulaContentModule:Page:', '::', 'ACCESS_EDIT') %}
+    {% form_theme quickNavForm with [
+        'bootstrap_3_layout.html.twig'
+    ] %}
+    {{ form_start(quickNavForm, {attr: {id: 'zikulaContentModulePageQuickNavForm', class: 'zikulacontentmodule-quicknav navbar-form', role: 'navigation'}}) }}
+    {{ form_errors(quickNavForm) }}
+    <a href="#collapsePageQuickNav" role="button" data-toggle="collapse" class="btn btn-default" aria-expanded="false" aria-controls="collapsePageQuickNav">
+        <i class="fa fa-filter" aria-hidden="true"></i> {{ __('Filter') }}
+    </a>
+    <div id="collapsePageQuickNav" class="collapse">
+        <fieldset>
+            <h3>{{ __('Quick navigation') }}</h3>
+            {% set categoriesEnabled = featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+            {% if categoriesEnabled %}
+                {% if (categoryFilter is defined and categoryFilter != true) %}
+                    <div class="hidden">
+                {% else %}
+                    <div class="row">
+                        <div class="col-sm-3">
+                {% endif %}
+                    {{ form_row(quickNavForm.categories) }}
+                {% if (categoryFilter is defined and categoryFilter != true) %}
+                    </div>
+                {% else %}
+                        </div>
+                        <div class="col-sm-9">
+                {% endif %}
+            {% endif %}
+            {% if workflowStateFilter is defined and workflowStateFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.workflowState) }}
+            {% if workflowStateFilter is defined and workflowStateFilter != true %}
+                </div>
+            {% endif %}
+            {% if pageLanguageFilter is defined and pageLanguageFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.pageLanguage) }}
+            {% if pageLanguageFilter is defined and pageLanguageFilter != true %}
+                </div>
+            {% endif %}
+            {% if searchFilter is defined and searchFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.q) }}
+            {% if searchFilter is defined and searchFilter != true %}
+                </div>
+            {% endif %}
+            {% if sorting is defined and sorting != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.sort) }}
+                {{ form_row(quickNavForm.sortdir) }}
+            {% if sorting is defined and sorting != true %}
+                </div>
+            {% endif %}
+            {% if pageSizeSelector is defined and pageSizeSelector != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.num) }}
+            {% if pageSizeSelector is defined and pageSizeSelector != true %}
+                </div>
+            {% endif %}
+            {% if showTitleFilter is defined and showTitleFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.showTitle) }}
+            {% if showTitleFilter is defined and showTitleFilter != true %}
+                </div>
+            {% endif %}
+            {% if skipUiHookSubscriberFilter is defined and skipUiHookSubscriberFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.skipUiHookSubscriber) }}
+            {% if skipUiHookSubscriberFilter is defined and skipUiHookSubscriberFilter != true %}
+                </div>
+            {% endif %}
+            {% if skipFilterHookSubscriberFilter is defined and skipFilterHookSubscriberFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.skipFilterHookSubscriber) }}
+            {% if skipFilterHookSubscriberFilter is defined and skipFilterHookSubscriberFilter != true %}
+                </div>
+            {% endif %}
+            {% if activeFilter is defined and activeFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.active) }}
+            {% if activeFilter is defined and activeFilter != true %}
+                </div>
+            {% endif %}
+            {% if inMenuFilter is defined and inMenuFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.inMenu) }}
+            {% if inMenuFilter is defined and inMenuFilter != true %}
+                </div>
+            {% endif %}
+            {{ form_widget(quickNavForm.updateview) }}
+            {% if categoriesEnabled %}
+                {% if categoryFilter is defined and categoryFilter != true %}
+                {% else %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </fieldset>
+    </div>
+    {{ form_end(quickNavForm) }}
+{% endif %}

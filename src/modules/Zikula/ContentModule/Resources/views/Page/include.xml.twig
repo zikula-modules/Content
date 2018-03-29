@@ -1,0 +1,36 @@
+{# purpose of this template: pages xml inclusion template #}
+<page id="{{ page.getId() }}" createdon="{{ page.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ page.updatedDate|localizeddate('medium', 'short') }}">
+    <id>{{ page.id }}</id>
+    <title><![CDATA[{{ page.title }}]]></title>
+    <showTitle>{% if not page.showTitle %}0{% else %}1{% endif %}</showTitle>
+    <metaDescription><![CDATA[{{ page.metaDescription|safeHtml }}]]></metaDescription>
+    <skipUiHookSubscriber>{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}</skipUiHookSubscriber>
+    <skipFilterHookSubscriber>{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}</skipFilterHookSubscriber>
+    <layout><![CDATA[{{ page.layout }}]]></layout>
+    <views>{{ page.views }}</views>
+    <active>{% if not page.active %}0{% else %}1{% endif %}</active>
+    <activeFrom>{{ page.activeFrom|localizeddate('medium', 'short') }}</activeFrom>
+    <activeTo>{{ page.activeTo|localizeddate('medium', 'short') }}</activeTo>
+    <inMenu>{% if not page.inMenu %}0{% else %}1{% endif %}</inMenu>
+    <pageLanguage><![CDATA[{{ page.pageLanguage|languageName }}]]></pageLanguage>
+    <optionalString1><![CDATA[{{ page.optionalString1 }}]]></optionalString1>
+    <optionalString2><![CDATA[{{ page.optionalString2 }}]]></optionalString2>
+    <optionalText><![CDATA[{{ page.optionalText|safeHtml }}]]></optionalText>
+    <currentVersion>{{ page.currentVersion }}</currentVersion>
+    <versionData>{% if page.versionData is iterable and page.versionData|length > 0 %}
+        <ul>
+        {% for entry in page.versionData %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </versionData>
+    <workflowState>{{ page.workflowState|zikulacontentmodule_objectState(false)|lower }}</workflowState>
+    <contentItems>
+    {% if page.contentItems|default %}
+        {% for relatedItem in page.contentItems %}
+        <contentItem>{{ relatedItem|zikulacontentmodule_formattedTitle }}</contentItem>
+        {% endfor %}
+    {% endif %}
+    </contentItems>
+</page>

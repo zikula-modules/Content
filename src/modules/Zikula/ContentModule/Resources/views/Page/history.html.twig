@@ -1,0 +1,148 @@
+{# purpose of this template: pages change history view #}
+{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% block title isDiffView == true ? __f('Compare versions of %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) : __f('Page change history for %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) %}
+{% block admin_page_icon isDiffView == true ? 'arrows-h' : 'history' %}
+{% block content %}
+    {% if isDiffView != true %}
+        {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.VersionHistory.js')) }}
+    {% endif %}
+    {{ block('page_nav_links') }}
+    <div class="zikulacontentmodule-page zikulacontentmodule-history">
+        {% if isDiffView == true %}
+            {{ block('diff_view') }}
+        {% else %}
+            {{ block('history_table') }}
+        {% endif %}
+    </div>
+    {{ block('page_nav_links') }}
+{% endblock %}
+{% block page_nav_links %}
+    <p>
+        {% if isDiffView == true %}
+            {% set linkTitle = __('Back to history') %}
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i> {{ linkTitle }}</a>
+        {% else %}
+            {% set linkTitle = __('Pages list') %}
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-reply"></i> {{ linkTitle }}</a>
+            {% set linkTitle = __('Back to detail view') %}
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-eye"></i> {{ linkTitle }}</a>
+        {% endif %}
+    </p>
+{% endblock %}
+{% block history_table %}
+    <form action="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" method="get" class="form-horizontal" role="form">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-condensed{% endif %}">
+                <colgroup>
+                    <col id="cSelect" />
+                    <col id="cVersion" />
+                    <col id="cDate" />
+                    <col id="cUser" />
+                    <col id="cOperation" />
+                    <col id="cChanges" />
+                    <col id="cActions" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th id="hSelect" scope="col" class="unsorted z-w02">{{ __('Select') }}</th>
+                        <th id="hVersion" scope="col" class="unsorted z-w02">{{ __('Version') }}</th>
+                        <th id="hDate" scope="col" class="unsorted">{{ __('Date') }}</th>
+                        <th id="hUser" scope="col" class="unsorted">{{ __('User') }}</th>
+                        <th id="hOperation" scope="col" class="unsorted">{{ __('Operation') }}</th>
+                        <th id="hChanges" scope="col" class="unsorted">{{ __('Changes') }}</th>
+                        <th id="hActions" scope="col" class="unsorted">{{ __('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for logEntry in logEntries %}
+                        <tr>
+                            <td headers="hSelect" class="text-center">
+                                <input type="checkbox" name="versions[]" value="{{ logEntry.version }}" class="zikulacontent-toggle-checkbox" />
+                            </td>
+                            <td headers="hVersion" class="text-center">{{ logEntry.version }}{% if loop.first %} ({{ __('latest') }}){% endif %}</td>
+                            <td headers="hDate">{{ logEntry.loggedAt|localizeddate('long', 'medium') }}</td>
+                            <td headers="hUser">{{ userAvatar(logEntry.username, {size: 20, rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}</td>
+                            <td headers="hOperation">
+                                {% if logEntry.action == 'create' %}
+                                    {{ __('Create') }}
+                                {% elseif logEntry.action == 'update' %}
+                                    {{ __('Update') }}
+                                {% elseif logEntry.action == 'remove' %}
+                                    {{ __('Remove') }}
+                                {% endif %}
+                            </td>
+                            <td headers="hChanges">
+                                {% if logEntry.data is not empty %}
+                                    <a role="button" data-toggle="collapse" href="#changes{{ logEntry.version }}" aria-expanded="false" aria-controls="changes{{ logEntry.version }}">
+                                        {{ _fn('One field updated', '%amount% fields updated', logEntry.data|length, {'%amount%': logEntry.data|length}) }}
+                                    </a>
+                                    <div id="changes{{ logEntry.version }}" class="collapse">
+                                        <ul>
+                                            {% for field, value in logEntry.data %}
+                                                {% if value is iterable %}
+                                                    {% if value|length > 0 %}
+                                                        <li>{{ __f('%field% set to:', {'%field%': field}) }}
+                                                            <ul>
+                                                                {% for singleValue in value %}
+                                                                    <li class="italic">{{ singleValue }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </li>
+                                                    {% else %}
+                                                        <li>{{ __f('%field% set to <em>%value%</em>', {'%field%': field, '%value%': __('an empty collection')})|raw }}</li>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <li>{{ __f('%field% set to <em>%value%</em>', {'%field%': field, '%value%': value is zikulacontentmodule_instanceOf('DateTimeInterface') ? value|localizeddate('long', 'medium') : value|default(__('an empty value'))})|raw }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    {{ __('None') }}
+                                {% endif %}
+                            </td>
+                            <td headers="hActions" class="actions nowrap">
+                                {% set linkTitle = __f('Preview version %version%', {'%version%': logEntry.version}) %}
+                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window hidden" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ __('version') ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card-o"></i></a>
+                                {% if not loop.first %}
+                                    {% set linkTitle = __f('Revert to version %version%', { '%version%': logEntry.version }) %}
+                                    <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {'slug': page.slug, revert: logEntry.version}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p>
+            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fa fa-arrows-h"></i> {{ __('Compare selected versions') }}</button>
+        </p>
+    </form>
+{% endblock %}
+{% block diff_view %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-condensed{% endif %}">
+            <colgroup>
+                <col id="cFieldName" />
+                <col id="cMinVersion" />
+                <col id="cMaxVersion" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th id="hFieldName" scope="col" class="unsorted">{{ __('Field name') }}</th>
+                    <th id="hMinVersion" scope="col" class="unsorted">{{ __f('Version %version%', {'%version%': minVersion}) }}</th>
+                    <th id="hMaxVersion" scope="col" class="unsorted">{{ __f('Version %version%', {'%version%': maxVersion}) }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fieldName, values in diffValues %}
+                    <tr>
+                        <th headers="hFieldName" id="h{{ fieldName|replace({' ': '', '"':''}) }}" scope="row">{{ fieldName|humanize }}</th>
+                        <td headers="hMinVersion h{{ fieldName|replace({' ': '', '"':''}) }}"{% if values.changed %} class="diff-old"{% endif %}>{{ values.old is zikulacontentmodule_instanceOf('DateTimeInterface') ? values.old|localizeddate('long', 'medium') : values.old }}</td>
+                        <td headers="hMaxVersion h{{ fieldName|replace({' ': '', '"':''}) }}"{% if values.changed %} class="diff-new"{% endif %}>{{ values.new is zikulacontentmodule_instanceOf('DateTimeInterface') ? values.new|localizeddate('long', 'medium') : values.new }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

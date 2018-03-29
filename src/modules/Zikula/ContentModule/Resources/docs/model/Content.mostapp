@@ -8,8 +8,7 @@ application "Content" {
     prefix "content"
     generateListContentType false
     generateDetailContentType false
-    generatePdfSupport true
-    displayActionsStyle BUTTON_GROUP
+    generatePdfSupport true displayActionsStyle BUTTON_GROUP
     entities {
         entity "page" leading loggable categorisable {
             nameMultiple "pages"

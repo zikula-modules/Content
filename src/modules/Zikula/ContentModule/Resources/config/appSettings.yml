@@ -1,0 +1,5 @@
+services:
+    zikula_content_module.app_settings:
+        class: Zikula\ContentModule\AppSettings
+        arguments:
+            - "@zikula_extensions_module.api.variable"

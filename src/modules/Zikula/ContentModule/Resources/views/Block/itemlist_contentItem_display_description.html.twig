@@ -1,0 +1,11 @@
+{# Purpose of this template: Display content items within an external context #}
+<dl>
+    {% for contentItem in items %}
+        <dt>{{ contentItem|zikulacontentmodule_formattedTitle }}</dt>
+        {% if contentItem.contentData %}
+            <dd>{{ contentItem.contentData|striptags|truncate(200, true, '&hellip;') }}</dd>
+        {% endif %}
+    {% else %}
+        <dt>{{ __('No entries found.') }}</dt>
+    {% endfor %}
+</dl>

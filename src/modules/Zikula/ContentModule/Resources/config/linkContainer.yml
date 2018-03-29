@@ -1,0 +1,10 @@
+services:
+    zikula_content_module.link_container:
+        class: Zikula\ContentModule\Container\LinkContainer
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_content_module.controller_helper"
+        tags: ['zikula.link_container']

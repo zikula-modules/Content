@@ -1,0 +1,81 @@
+language: php
+
+sudo: false
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - nightly
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
+
+services:
+  - mysql
+
+before_install:
+    - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]]; then phpenv config-rm xdebug.ini; fi;
+    # load memcache.so for php 5
+    - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]] && [ $(php -r "echo PHP_MAJOR_VERSION;") == 5 ]; then (pecl install -f memcached-2.1.0 && echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini) || echo "Continuing without memcache extension"; fi;
+    # load memcache.so for php >= 7.1
+    - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]] && [ $(php -r "echo PHP_MAJOR_VERSION;") == 7 ] && [ $(php -r "echo PHP_MINOR_VERSION;") >= 1 ]; then (pecl install -f memcached-2.1.0 && echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini) || echo "Continuing without memcache extension"; fi;
+    # Set the COMPOSER_ROOT_VERSION to the right version according to the branch being built
+    - if [ "$TRAVIS_BRANCH" = "master" ]; then export COMPOSER_ROOT_VERSION=dev-master; else export COMPOSER_ROOT_VERSION="$TRAVIS_BRANCH".x-dev; fi;
+
+    - composer self-update
+    - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+    - mysql -e 'create database zk_test;'
+
+install:
+    - composer install
+    - zip -qr ZikulaContentModule.zip .
+    - wget https://github.com/zikula/core/releases/download/2.0.5/Zikula_Core-2.0.5.tar.gz
+    - tar -xpzf Zikula_Core-2.0.5.tar.gz
+    - rm Zikula_Core-2.0.5.tar.gz
+    - cd 2.0
+    - php app/console zikula:install:start -n --database_user=root --database_name=zk_test --password=12345678 --email=admin@example.com --router:request_context:host=localhost
+    - php app/console zikula:install:finish
+    - cd modules
+    - mkdir zikula
+    - cd zikula
+    - mkdir content-module
+    - cd content-module
+    - unzip -q ../../../../ZikulaContentModule
+    - cd  ../../..
+    - php app/console bootstrap:bundles
+    - mysql -e "INSERT INTO zk_test.modules (id, name, type, displayname, url, description, directory, version, capabilities, state, securityschema, core_min, core_max) VALUES (NULL, 'ZikulaContentModule', '3', 'Content', 'content', 'Flexible hierachical page management.', 'zikula/content-module', '5.0.0', 'N;', '3', 'N;', '2.0.5', '3.0.0');"
+    - php app/console cache:warmup
+
+script:
+    - php app/console lint:yaml modules/zikula/content-module/Resources
+    - php app/console lint:twig @ZikulaContentModule
+    - phpunit --configuration modules/zikula/content-module/phpunit.xml.dist --coverage-text --coverage-clover=coverage.clover -v
+
+after_script:
+    - wget https://scrutinizer-ci.com/ocular.phar
+    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+before_deploy:
+    - cd ..
+    - mkdir release
+    - cd release
+    - unzip -q ../ZikulaContentModule.zip
+    - rm -Rf vendor
+    - rm -Rf .git
+    - composer install --no-dev --prefer-dist
+    - rm auth.json
+    - zip -qr ZikulaContentModule.zip .
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "" # Enter your api key here!
+  file: ZikulaContentModule.zip
+  on:
+    tags: true
+    repo: zikula/Content
+

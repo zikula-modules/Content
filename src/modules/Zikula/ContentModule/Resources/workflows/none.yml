@@ -1,0 +1,30 @@
+framework:
+    workflows:
+        zikulacontentmodule_none:
+            type: state_machine
+            marking_store:
+                type: single_state
+                arguments:
+                    - workflowState
+            supports:
+                - Zikula\ContentModule\Entity\PageEntity
+                - Zikula\ContentModule\Entity\ContentItemEntity
+                - Zikula\ContentModule\Entity\SearchableEntity
+            places:
+                - initial
+                - approved
+                - trashed
+                - deleted
+            transitions:
+                submit:
+                    from: initial
+                    to: approved
+                update:
+                    from: approved
+                    to: approved
+                trash:
+                    from: approved
+                    to: trashed
+                delete:
+                    from: [approved, trashed]
+                    to: deleted
