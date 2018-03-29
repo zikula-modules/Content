@@ -233,6 +233,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Slug(fields={"title"}, updatable=true, unique=true, separator="-", style="lower", handlers={
       *     @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\TreeSlugHandler", options={
       *         @Gedmo\SlugHandlerOption(name="parentRelationField", value="parent")
+     ,
       *         @Gedmo\SlugHandlerOption(name="separator", value="/")
       *     })
       * })
