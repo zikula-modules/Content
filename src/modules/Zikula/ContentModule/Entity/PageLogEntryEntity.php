@@ -22,7 +22,9 @@ use Doctrine\ORM\Mapping as ORM;
  * This is the concrete log entry class for page entities.
  *
  * @ORM\Entity(repositoryClass="Zikula\ContentModule\Entity\Repository\PageLogEntryRepository")
- * @ORM\Table(name="zikula_content_page_log_entry",
+ * @ORM\Table(
+ *     name="zikula_content_page_log_entry",
+ *     options={"row_format":"DYNAMIC"},
  *     indexes={
  *         @ORM\Index(name="log_class_lookup_idx", columns={"object_class"}),
  *         @ORM\Index(name="log_date_lookup_idx", columns={"logged_at"}),

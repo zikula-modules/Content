@@ -22,10 +22,17 @@ use Doctrine\ORM\Mapping as ORM;
  * This is the concrete translation class for page entities.
  *
  * @ORM\Entity(repositoryClass="Zikula\ContentModule\Entity\Repository\PageTranslationRepository")
- * @ORM\Table(name="zikula_content_page_translation",
+ * @ORM\Table(
+ *     name="zikula_content_page_translation",
+ *     options={"row_format":"DYNAMIC"},
  *     indexes={
  *         @ORM\Index(name="translations_lookup_idx", columns={
  *             "locale", "object_class", "foreign_key"
+ *         })
+ *     },
+ *     uniqueConstraints={
+ *         @ORM\UniqueConstraint(name="lookup_unique_idx", columns={
+ *             "locale", "object_class", "field", "foreign_key"
  *         })
  *     }
  * )
