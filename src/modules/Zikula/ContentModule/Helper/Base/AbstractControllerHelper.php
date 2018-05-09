@@ -279,6 +279,14 @@ abstract class AbstractControllerHelper
     
         $templateParameters['canBeCreated'] = $this->modelHelper->canBeCreated($objectType);
     
+        $request->query->set('sort', $sort);
+        $request->query->set('sortdir', $sortdir);
+        // set current sorting in route parameters (e.g. for the pager)
+        $routeParams = $request->attributes->get('_route_params');
+        $routeParams['sort'] = $sort;
+        $routeParams['sortdir'] = $sortdir;
+        $request->attributes->set('_route_params', $routeParams);
+    
         return $templateParameters;
     }
 
