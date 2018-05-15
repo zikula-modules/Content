@@ -21,7 +21,7 @@ function smarty_function_contentpagepath($params, $view)
         $first = false;
     }
 
-    $result .= " [$pageId]";
+    //$result .= " [$pageId]";
 
     $info = '';
     if (!empty($language))
