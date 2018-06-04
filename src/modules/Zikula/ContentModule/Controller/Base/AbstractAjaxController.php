@@ -467,8 +467,6 @@ abstract class AbstractAjaxController extends AbstractController
                                     return $this->json($returnValue);
                                 }
                                 
-                                $entityManager->clear();
-                                
                                 $entity = $repository->selectById($id, false);
                                 $destEntity = $repository->selectById($destId, false);
                                 if (null === $entity || null === $destEntity) {
@@ -477,9 +475,6 @@ abstract class AbstractAjaxController extends AbstractController
                                 
                                     return $this->json($returnValue);
                                 }
-                                
-                                $entityManager->persist($destEntity);
-                                $entityManager->persist($currentUser);
                                 
                                 if ($moveDirection == 'after') {
                                     $repository->persistAsNextSiblingOf($entity, $destEntity);
