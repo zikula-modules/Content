@@ -62,6 +62,6 @@ class SearchableController extends AbstractSearchableController
     {
         return parent::indexAction($request);
     }
-
+    
     // feel free to add your own controller methods here
 }

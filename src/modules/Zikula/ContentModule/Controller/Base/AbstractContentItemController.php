@@ -73,6 +73,7 @@ abstract class AbstractContentItemController extends AbstractController
         // return index template
         return $this->render('@ZikulaContentModule/ContentItem/index.html.twig', $templateParameters);
     }
+    
     /**
      * This action provides a handling of edit requests in the admin area.
      *
@@ -135,4 +136,5 @@ abstract class AbstractContentItemController extends AbstractController
         // fetch and return the appropriate template
         return $this->get('zikula_content_module.view_helper')->processTemplate($objectType, 'edit', $templateParameters);
     }
+    
 }

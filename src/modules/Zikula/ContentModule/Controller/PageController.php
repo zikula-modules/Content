@@ -65,6 +65,7 @@ class PageController extends AbstractPageController
     {
         return parent::indexAction($request);
     }
+    
     /**
      * @inheritDoc
      *
@@ -113,6 +114,7 @@ class PageController extends AbstractPageController
     {
         return parent::viewAction($request, $sort, $sortdir, $pos, $num);
     }
+    
     /**
      * @inheritDoc
      *
@@ -159,6 +161,7 @@ class PageController extends AbstractPageController
     {
         return parent::editAction($request);
     }
+    
     /**
      * Displays a deleted page.
      *
@@ -301,11 +304,53 @@ class PageController extends AbstractPageController
     
         return $page;
     }
+    
+    /**
+     * This method provides a change history for a given page.
+     *
+     * @Route("/admin/page/history/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     * @Theme("admin")
+     *
+     * @param Request $request Current request instance
+     * @param integer $slug    Identifier of page
+     *
+     * @return Response Output
+     *
+     * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
+     */
+    public function adminLoggableHistoryAction(Request $request, $slug = '')
+    {
+        return parent::adminLoggableHistoryAction($request, $slug);
+    }
+    
+    /**
+     * This method provides a change history for a given page.
+     *
+     * @Route("/page/history/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param Request $request Current request instance
+     * @param integer $slug    Identifier of page
+     *
+     * @return Response Output
+     *
+     * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
+     */
+    public function loggableHistoryAction(Request $request, $slug = '')
+    {
+        return parent::loggableHistoryAction($request, $slug);
+    }
+    
     /**
      * @inheritDoc
      *
      * @Route("/admin/page/{slug}.{_format}",
-     *        requirements = {"slug" = "[^/.]+", "_format" = "html|xml|json|ics|pdf"},
+     *        requirements = {"slug" = "[^.]+", "_format" = "html|xml|json|ics|pdf"},
      *        defaults = {"_format" = "html"},
      *        methods = {"GET"},
      *        options={"expose"=true}
@@ -330,7 +375,7 @@ class PageController extends AbstractPageController
      * @inheritDoc
      *
      * @Route("/page/{slug}.{_format}",
-     *        requirements = {"slug" = "[^/.]+", "_format" = "html|xml|json|ics|pdf"},
+     *        requirements = {"slug" = "[^.]+", "_format" = "html|xml|json|ics|pdf"},
      *        defaults = {"_format" = "html"},
      *        methods = {"GET"},
      *        options={"expose"=true}
@@ -349,7 +394,7 @@ class PageController extends AbstractPageController
     {
         return parent::displayAction($request, $page);
     }
-
+    
     /**
      * Process status changes for multiple items.
      *
@@ -392,47 +437,6 @@ class PageController extends AbstractPageController
     {
         return parent::handleSelectedEntriesAction($request);
     }
-
-    /**
-     * This method provides a change history for a given page.
-     *
-     * @Route("/admin/page/history/{slug}",
-     *        requirements = {"slug" = "[^/.]+"},
-     *        methods = {"GET"}
-     * )
-     * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     * @param integer $slug    Identifier of page
-     *
-     * @return Response Output
-     *
-     * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
-     */
-    public function adminLoggableHistoryAction(Request $request, $slug = '')
-    {
-        return parent::adminLoggableHistoryAction($request, $slug);
-    }
     
-    /**
-     * This method provides a change history for a given page.
-     *
-     * @Route("/page/history/{slug}",
-     *        requirements = {"slug" = "[^/.]+"},
-     *        methods = {"GET"}
-     * )
-     *
-     * @param Request $request Current request instance
-     * @param integer $slug    Identifier of page
-     *
-     * @return Response Output
-     *
-     * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
-     */
-    public function loggableHistoryAction(Request $request, $slug = '')
-    {
-        return parent::loggableHistoryAction($request, $slug);
-    }
-
     // feel free to add your own controller methods here
 }
