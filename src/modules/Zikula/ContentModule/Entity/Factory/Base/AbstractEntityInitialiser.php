@@ -12,6 +12,8 @@
 
 namespace Zikula\ContentModule\Entity\Factory\Base;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\SearchableEntity;
@@ -23,6 +25,11 @@ use Zikula\ContentModule\Helper\ListEntriesHelper;
 abstract class AbstractEntityInitialiser
 {
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * @var ListEntriesHelper Helper service for managing list entries
      */
     protected $listEntriesHelper;
@@ -30,10 +37,14 @@ abstract class AbstractEntityInitialiser
     /**
      * EntityInitialiser constructor.
      *
+     * @param RequestStack $requestStack RequestStack service instance
      * @param ListEntriesHelper $listEntriesHelper Helper service for managing list entries
      */
-    public function __construct(ListEntriesHelper $listEntriesHelper)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        ListEntriesHelper $listEntriesHelper
+    ) {
+        $this->request = $requestStack->getCurrentRequest();
         $this->listEntriesHelper = $listEntriesHelper;
     }
 
@@ -46,7 +57,7 @@ abstract class AbstractEntityInitialiser
      */
     public function initPage(PageEntity $entity)
     {
-
+        $entity->setPageLanguage($this->request->getLocale());
         return $entity;
     }
 
@@ -91,7 +102,6 @@ abstract class AbstractEntityInitialiser
             }
         }
 
-
         return $entity;
     }
 
@@ -104,7 +114,7 @@ abstract class AbstractEntityInitialiser
      */
     public function initSearchable(SearchableEntity $entity)
     {
-
+        $entity->setSearchLanguage($this->request->getLocale());
         return $entity;
     }
 
