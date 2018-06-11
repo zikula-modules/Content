@@ -141,7 +141,7 @@ abstract class AbstractEntityDisplayHelper
             return 'owningBundle';
         }
         if ($objectType == 'searchable') {
-            return 'searchLanguage';
+            return '';
         }
     
         return '';

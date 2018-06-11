@@ -92,6 +92,7 @@ function zikulaContentInitTree(idPrefix, theObjectType, theRootId, hasDisplayAct
         'plugins': [ 'contextmenu', 'dnd', 'search', 'state', 'wholerow' ]
     });
     tree = trees[idPrefix];
+    
 
     // Drag n drop
     tree.on('move_node.jstree', function (event, data) {
@@ -140,7 +141,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
     var idPrefix;
     var currentNode;
     var isRoot;
-
+    
     idPrefix = 'pageTree' + theNode.id.split('_')[0].replace('tree', '').replace('node', '');
     currentNode = trees[idPrefix].jstree('get_node', theNode, true);
     isRoot = (currentNode.attr('id') === 'tree' + rootId + 'node_' + rootId);
