@@ -293,14 +293,9 @@ abstract class AbstractAjaxController extends AbstractController
             }
             
             $entityManager = $entityFactory->getObjectManager();
-            $titleFieldName = $descriptionFieldName = '';
-            
-            switch ($objectType) {
-                case 'page':
-                    $titleFieldName = 'title';
-                    $descriptionFieldName = 'layout';
-                    break;
-            }
+            $entityDisplayHelper = $this->get('zikula_content_module.entity_display_helper');
+            $titleFieldName = $entityDisplayHelper->getTitleFieldName($objectType);
+            $descriptionFieldName = $entityDisplayHelper->getDescriptionFieldName($objectType);
             
             $currentUserApi = $this->get('zikula_users_module.current_user');
             $logger = $this->get('logger');
