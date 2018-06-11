@@ -299,10 +299,12 @@ jQuery(document).ready(function () {
         var idPrefix;
         var objectType;
 
-        treeContainer = jQuery('.tree-container').first();
-        idPrefix = treeContainer.attr('id');
-        objectType = treeContainer.data('object-type');
+        jQuery('.tree-container').each(function (index) {
+            treeContainer = jQuery(this).first();
+            idPrefix = treeContainer.attr('id');
+            objectType = treeContainer.data('object-type');
 
-        zikulaContentInitTree(idPrefix, objectType, treeContainer.data('root-id'), treeContainer.data('has-display'), treeContainer.data('has-edit'));
+            zikulaContentInitTree(idPrefix, objectType, treeContainer.data('root-id'), treeContainer.data('has-display'), treeContainer.data('has-edit'));
+        });
     }
 });
