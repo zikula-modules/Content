@@ -9,8 +9,12 @@
     <layout><![CDATA[{{ page.layout }}]]></layout>
     <views>{{ page.views }}</views>
     <active>{% if not page.active %}0{% else %}1{% endif %}</active>
-    <activeFrom>{{ page.activeFrom|localizeddate('medium', 'short') }}</activeFrom>
-    <activeTo>{{ page.activeTo|localizeddate('medium', 'short') }}</activeTo>
+    <activeFrom>{% if page.activeFrom is not empty %}
+        {{ page.activeFrom|localizeddate('medium', 'short') }}
+    {% endif %}</activeFrom>
+    <activeTo>{% if page.activeTo is not empty %}
+        {{ page.activeTo|localizeddate('medium', 'short') }}
+    {% endif %}</activeTo>
     <inMenu>{% if not page.inMenu %}0{% else %}1{% endif %}</inMenu>
     <pageLanguage><![CDATA[{{ page.pageLanguage|languageName }}]]></pageLanguage>
     <optionalString1><![CDATA[{{ page.optionalString1 }}]]></optionalString1>

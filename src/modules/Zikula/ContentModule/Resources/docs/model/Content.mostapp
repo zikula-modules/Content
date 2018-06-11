@@ -52,11 +52,11 @@ application "Content" {
                     defaultValue "true"
                     mandatory false
                 },
-                datetime "activeFrom" startDate {
+                datetime "activeFrom" nullable startDate {
                     defaultValue ""
                     mandatory false
                 },
-                datetime "activeTo" endDate {
+                datetime "activeTo" nullable endDate {
                     defaultValue ""
                     mandatory false
                 },
@@ -130,11 +130,11 @@ application "Content" {
                     defaultValue "true"
                     mandatory false
                 },
-                datetime "activeFrom" startDate {
+                datetime "activeFrom" nullable startDate {
                     defaultValue ""
                     mandatory false
                 },
-                datetime "activeTo" endDate {
+                datetime "activeTo" nullable endDate {
                     defaultValue ""
                     mandatory false
                 },

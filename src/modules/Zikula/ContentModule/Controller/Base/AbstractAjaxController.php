@@ -297,9 +297,9 @@ abstract class AbstractAjaxController extends AbstractController
             
             switch ($objectType) {
                 case 'page':
-                        $titleFieldName = 'title';
-                        $descriptionFieldName = 'layout';
-                        break;
+                    $titleFieldName = 'title';
+                    $descriptionFieldName = 'layout';
+                    break;
             }
             
             $currentUserApi = $this->get('zikula_users_module.current_user');
@@ -311,6 +311,7 @@ abstract class AbstractAjaxController extends AbstractController
             
             switch ($op) {
                 case 'addRootNode':
+                    $entity = $this->get('zikula_content_module.entity_factory')->$createMethod();
                     if (!empty($titleFieldName)) {
                         $entity[$titleFieldName] = $this->__('New root node');
                     }
@@ -337,7 +338,7 @@ abstract class AbstractAjaxController extends AbstractController
                     
                         return $this->json($returnValue);
                     }
-
+            
                     $logger->notice('{app}: User {user} added a new root node in the {entity} tree.', $logArgs);
                     break;
                 case 'addChildNode':
@@ -386,7 +387,7 @@ abstract class AbstractAjaxController extends AbstractController
                     
                         return $this->json($returnValue);
                     }
-
+            
                     $logger->notice('{app}: User {user} added a new child node in the {entity} tree.', $logArgs);
                     break;
                 case 'deleteNode':
@@ -417,7 +418,7 @@ abstract class AbstractAjaxController extends AbstractController
                     
                     $repository->removeFromTree($entity);
                     $entityManager->clear(); // clear cached nodes
-
+            
                     $logger->notice('{app}: User {user} deleted a node from the {entity} tree.', $logArgs);
                     break;
                 case 'moveNode':
@@ -447,7 +448,7 @@ abstract class AbstractAjaxController extends AbstractController
                         $repository->moveDown($entity, true);
                     }
                     $entityManager->flush();
-
+            
                     $logger->notice('{app}: User {user} moved a node in the {entity} tree.', $logArgs);
                     break;
                 case 'moveNodeTo':
@@ -485,7 +486,7 @@ abstract class AbstractAjaxController extends AbstractController
                     }
                     
                     $entityManager->flush();
-
+            
                     $logger->notice('{app}: User {user} moved a node in the {entity} tree.', $logArgs);
                     break;
             }

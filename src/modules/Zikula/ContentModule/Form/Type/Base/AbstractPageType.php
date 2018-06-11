@@ -307,7 +307,7 @@ abstract class AbstractPageType extends AbstractType
                 'title' => $this->__('Enter the active from of the page')
             ],
             'required' => false,
-            'empty_data' => date('Y-m-d H:i:s'),
+            'empty_data' => '',
             'with_seconds' => true,
             'date_widget' => 'single_text',
             'time_widget' => 'single_text'
@@ -320,7 +320,7 @@ abstract class AbstractPageType extends AbstractType
                 'title' => $this->__('Enter the active to of the page')
             ],
             'required' => false,
-            'empty_data' => date('Y-m-d H:i:s'),
+            'empty_data' => '',
             'with_seconds' => true,
             'date_widget' => 'single_text',
             'time_widget' => 'single_text'
