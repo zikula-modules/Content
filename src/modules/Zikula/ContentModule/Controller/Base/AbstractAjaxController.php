@@ -150,8 +150,8 @@ abstract class AbstractAjaxController extends AbstractController
         $uniqueFields = [];
         switch ($objectType) {
             case 'page':
-                    $uniqueFields = ['slug'];
-                    break;
+                $uniqueFields = ['slug'];
+                break;
         }
         if (!count($uniqueFields) || !in_array($fieldName, $uniqueFields)) {
             return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
@@ -164,7 +164,7 @@ abstract class AbstractAjaxController extends AbstractController
         case 'page':
             $repository = $this->get('zikula_content_module.entity_factory')->getRepository($objectType);
             switch ($fieldName) {
-            case 'slug':
+                case 'slug':
                     $entity = $repository->selectBySlug($value, false, $exclude);
                     $result = null !== $entity && isset($entity['slug']);
                     break;
@@ -311,183 +311,183 @@ abstract class AbstractAjaxController extends AbstractController
             
             switch ($op) {
                 case 'addRootNode':
-                                if (!empty($titleFieldName)) {
-                                    $entity[$titleFieldName] = $this->__('New root node');
-                                }
-                                if (!empty($descriptionFieldName)) {
-                                    $entity[$descriptionFieldName] = $this->__('This is a new root node');
-                                }
-                                if (method_exists($entity, 'setCreatedBy')) {
-                                    $entity->setCreatedBy($currentUser);
-                                    $entity->setUpdatedBy($currentUser);
-                                }
-                                
-                                // save new object to set the root id
-                                $action = 'submit';
-                                try {
-                                    // execute the workflow action
-                                    $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-                                    $success = $workflowHelper->executeAction($entity, $action);
-                                    if (!$success) {
-                                        $returnValue['result'] = 'failure';
-                                    }
-                                } catch (\Exception $exception) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
-                                
-                                    return $this->json($returnValue);
-                                }
-            
-                                $logger->notice('{app}: User {user} added a new root node in the {entity} tree.', $logArgs);
-                                break;
+                    if (!empty($titleFieldName)) {
+                        $entity[$titleFieldName] = $this->__('New root node');
+                    }
+                    if (!empty($descriptionFieldName)) {
+                        $entity[$descriptionFieldName] = $this->__('This is a new root node');
+                    }
+                    if (method_exists($entity, 'setCreatedBy')) {
+                        $entity->setCreatedBy($currentUser);
+                        $entity->setUpdatedBy($currentUser);
+                    }
+                    
+                    // save new object to set the root id
+                    $action = 'submit';
+                    try {
+                        // execute the workflow action
+                        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+                        $success = $workflowHelper->executeAction($entity, $action);
+                        if (!$success) {
+                            $returnValue['result'] = 'failure';
+                        }
+                    } catch (\Exception $exception) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
+                    
+                        return $this->json($returnValue);
+                    }
+
+                    $logger->notice('{app}: User {user} added a new root node in the {entity} tree.', $logArgs);
+                    break;
                 case 'addChildNode':
-                                $parentId = $request->request->getInt('pid', 0);
-                                if (!$parentId) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('Error: invalid parent node.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                $childEntity = $this->get('zikula_content_module.entity_factory')->$createMethod();
-                                $childEntity[$titleFieldName] = $this->__('New child node');
-                                if (!empty($descriptionFieldName)) {
-                                    $childEntity[$descriptionFieldName] = $this->__('This is a new child node');
-                                }
-                                if (method_exists($childEntity, 'setCreatedBy')) {
-                                    $childEntity->setCreatedBy($currentUser);
-                                    $childEntity->setUpdatedBy($currentUser);
-                                }
-                                $parentEntity = $repository->selectById($parentId, false);
-                                if (null === $parentEntity) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('No such item.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                $childEntity->setParent($parentEntity);
-                                
-                                // save new object
-                                $action = 'submit';
-                                try {
-                                    // execute the workflow action
-                                    $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-                                    $success = $workflowHelper->executeAction($childEntity, $action);
-                                    if (!$success) {
-                                        $returnValue['result'] = 'failure';
-                                    } else {
-                                        if (in_array($objectType, ['page'])) {
-                                            $returnValue['returnUrl'] = $this->get('router')->generate('zikulacontentmodule_' . strtolower($objectType) . '_edit', $childEntity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
-                                        }
-                                    }
-                                } catch (\Exception $exception) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
-                                
-                                    return $this->json($returnValue);
-                                }
-            
-                                $logger->notice('{app}: User {user} added a new child node in the {entity} tree.', $logArgs);
-                                break;
+                    $parentId = $request->request->getInt('pid', 0);
+                    if (!$parentId) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('Error: invalid parent node.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    $childEntity = $this->get('zikula_content_module.entity_factory')->$createMethod();
+                    $childEntity[$titleFieldName] = $this->__('New child node');
+                    if (!empty($descriptionFieldName)) {
+                        $childEntity[$descriptionFieldName] = $this->__('This is a new child node');
+                    }
+                    if (method_exists($childEntity, 'setCreatedBy')) {
+                        $childEntity->setCreatedBy($currentUser);
+                        $childEntity->setUpdatedBy($currentUser);
+                    }
+                    $parentEntity = $repository->selectById($parentId, false);
+                    if (null === $parentEntity) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('No such item.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    $childEntity->setParent($parentEntity);
+                    
+                    // save new object
+                    $action = 'submit';
+                    try {
+                        // execute the workflow action
+                        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+                        $success = $workflowHelper->executeAction($childEntity, $action);
+                        if (!$success) {
+                            $returnValue['result'] = 'failure';
+                        } else {
+                            if (in_array($objectType, ['page'])) {
+                                $returnValue['returnUrl'] = $this->get('router')->generate('zikulacontentmodule_' . strtolower($objectType) . '_edit', $childEntity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
+                            }
+                        }
+                    } catch (\Exception $exception) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
+                    
+                        return $this->json($returnValue);
+                    }
+
+                    $logger->notice('{app}: User {user} added a new child node in the {entity} tree.', $logArgs);
+                    break;
                 case 'deleteNode':
-                                // remove node from tree and reparent all children
-                                $entity = $repository->selectById($id, false);
-                                if (null === $entity) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('No such item.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                // delete the object
-                                $action = 'delete';
-                                try {
-                                    // execute the workflow action
-                                    $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-                                    $success = $workflowHelper->executeAction($entity, $action);
-                                    if (!$success) {
-                                        $returnValue['result'] = 'failure';
-                                    }
-                                } catch (\Exception $exception) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                $repository->removeFromTree($entity);
-                                $entityManager->clear(); // clear cached nodes
-            
-                                $logger->notice('{app}: User {user} deleted a node from the {entity} tree.', $logArgs);
-                                break;
+                    // remove node from tree and reparent all children
+                    $entity = $repository->selectById($id, false);
+                    if (null === $entity) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('No such item.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    // delete the object
+                    $action = 'delete';
+                    try {
+                        // execute the workflow action
+                        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+                        $success = $workflowHelper->executeAction($entity, $action);
+                        if (!$success) {
+                            $returnValue['result'] = 'failure';
+                        }
+                    } catch (\Exception $exception) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    $repository->removeFromTree($entity);
+                    $entityManager->clear(); // clear cached nodes
+
+                    $logger->notice('{app}: User {user} deleted a node from the {entity} tree.', $logArgs);
+                    break;
                 case 'moveNode':
-                                $moveDirection = $request->request->getAlpha('direction', '');
-                                if (!in_array($moveDirection, ['top', 'up', 'down', 'bottom'])) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('Error: invalid direction.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                $entity = $repository->selectById($id, false);
-                                if (null === $entity) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('No such item.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                if ($moveDirection == 'top') {
-                                    $repository->moveUp($entity, true);
-                                } elseif ($moveDirection == 'up') {
-                                    $repository->moveUp($entity, 1);
-                                } elseif ($moveDirection == 'down') {
-                                    $repository->moveDown($entity, 1);
-                                } elseif ($moveDirection == 'bottom') {
-                                    $repository->moveDown($entity, true);
-                                }
-                                $entityManager->flush();
-            
-                                $logger->notice('{app}: User {user} moved a node in the {entity} tree.', $logArgs);
-                                break;
+                    $moveDirection = $request->request->getAlpha('direction', '');
+                    if (!in_array($moveDirection, ['top', 'up', 'down', 'bottom'])) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('Error: invalid direction.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    $entity = $repository->selectById($id, false);
+                    if (null === $entity) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('No such item.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    if ($moveDirection == 'top') {
+                        $repository->moveUp($entity, true);
+                    } elseif ($moveDirection == 'up') {
+                        $repository->moveUp($entity, 1);
+                    } elseif ($moveDirection == 'down') {
+                        $repository->moveDown($entity, 1);
+                    } elseif ($moveDirection == 'bottom') {
+                        $repository->moveDown($entity, true);
+                    }
+                    $entityManager->flush();
+
+                    $logger->notice('{app}: User {user} moved a node in the {entity} tree.', $logArgs);
+                    break;
                 case 'moveNodeTo':
-                                $moveDirection = $request->request->getAlpha('direction', '');
-                                if (!in_array($moveDirection, ['after', 'before', 'bottom'])) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('Error: invalid direction.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                $destId = $request->request->getInt('destid', 0);
-                                if (!$destId) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('Error: invalid destination node.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                $entity = $repository->selectById($id, false);
-                                $destEntity = $repository->selectById($destId, false);
-                                if (null === $entity || null === $destEntity) {
-                                    $returnValue['result'] = 'failure';
-                                    $returnValue['message'] = $this->__('No such item.');
-                                
-                                    return $this->json($returnValue);
-                                }
-                                
-                                if ($moveDirection == 'after') {
-                                    $repository->persistAsNextSiblingOf($entity, $destEntity);
-                                } elseif ($moveDirection == 'before') {
-                                    $repository->persistAsPrevSiblingOf($entity, $destEntity);
-                                } elseif ($moveDirection == 'bottom') {
-                                    $repository->persistAsLastChildOf($entity, $destEntity);
-                                }
-                                
-                                $entityManager->flush();
-            
-                                $logger->notice('{app}: User {user} moved a node in the {entity} tree.', $logArgs);
-                                break;
+                    $moveDirection = $request->request->getAlpha('direction', '');
+                    if (!in_array($moveDirection, ['after', 'before', 'bottom'])) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('Error: invalid direction.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    $destId = $request->request->getInt('destid', 0);
+                    if (!$destId) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('Error: invalid destination node.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    $entity = $repository->selectById($id, false);
+                    $destEntity = $repository->selectById($destId, false);
+                    if (null === $entity || null === $destEntity) {
+                        $returnValue['result'] = 'failure';
+                        $returnValue['message'] = $this->__('No such item.');
+                    
+                        return $this->json($returnValue);
+                    }
+                    
+                    if ($moveDirection == 'after') {
+                        $repository->persistAsNextSiblingOf($entity, $destEntity);
+                    } elseif ($moveDirection == 'before') {
+                        $repository->persistAsPrevSiblingOf($entity, $destEntity);
+                    } elseif ($moveDirection == 'bottom') {
+                        $repository->persistAsLastChildOf($entity, $destEntity);
+                    }
+                    
+                    $entityManager->flush();
+
+                    $logger->notice('{app}: User {user} moved a node in the {entity} tree.', $logArgs);
+                    break;
             }
             
             $returnValue['message'] = $this->__('The operation was successful.');
