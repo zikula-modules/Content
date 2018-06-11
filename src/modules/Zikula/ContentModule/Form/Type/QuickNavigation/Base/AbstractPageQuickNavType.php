@@ -217,9 +217,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 'choices' =>             [
                     $this->__('Title') => 'title',
                     $this->__('Show title') => 'showTitle',
-                    $this->__('Meta description') => 'metaDescription',
-                    $this->__('Skip ui hook subscriber') => 'skipUiHookSubscriber',
-                    $this->__('Skip filter hook subscriber') => 'skipFilterHookSubscriber',
                     $this->__('Layout') => 'layout',
                     $this->__('Views') => 'views',
                     $this->__('Active') => 'active',
@@ -229,7 +226,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
                     $this->__('Page language') => 'pageLanguage',
                     $this->__('Optional string 1') => 'optionalString1',
                     $this->__('Optional string 2') => 'optionalString2',
-                    $this->__('Optional text') => 'optionalText',
                     $this->__('Current version') => 'currentVersion',
                     $this->__('Creation date') => 'createdDate',
                     $this->__('Creator') => 'createdBy',

@@ -8,7 +8,8 @@ application "Content" {
     prefix "content"
     generateListContentType false
     generateDetailContentType false
-    generatePdfSupport true displayActionsStyle BUTTON_GROUP
+    generatePdfSupport true
+    displayActionsStyle BUTTON_GROUP
     entities {
         entity "page" leading loggable categorisable {
             nameMultiple "pages"
@@ -27,14 +28,17 @@ application "Content" {
                 text "metaDescription" {
                     defaultValue ""
                     mandatory false
+                    displayType DISPLAY
                 },
                 boolean "skipUiHookSubscriber" {
                     defaultValue "false"
                     mandatory false
+                    displayType DISPLAY
                 },
                 boolean "skipFilterHookSubscriber" {
                     defaultValue "false"
                     mandatory false
+                    displayType DISPLAY
                 },
                 string "layout" {
                     defaultValue ""
@@ -69,14 +73,17 @@ application "Content" {
                 string "optionalString1" translatable {
                     defaultValue ""
                     mandatory false
+                    displayType DISPLAY_SORTING
                 },
                 string "optionalString2" translatable {
                     defaultValue ""
                     mandatory false
+                    displayType DISPLAY_SORTING
                 },
                 text "optionalText" translatable {
                     defaultValue ""
                     mandatory false
+                    displayType DISPLAY
                 },
                 integer "currentVersion" version {
                     defaultValue "1"

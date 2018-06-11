@@ -64,9 +64,6 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         return [
             'title',
             'showTitle',
-            'metaDescription',
-            'skipUiHookSubscriber',
-            'skipFilterHookSubscriber',
             'layout',
             'views',
             'active',
@@ -76,7 +73,6 @@ abstract class AbstractPageRepository extends NestedTreeRepository
             'pageLanguage',
             'optionalString1',
             'optionalString2',
-            'optionalText',
             'currentVersion',
             'createdBy',
             'createdDate',

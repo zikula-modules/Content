@@ -22,9 +22,6 @@
                 <col id="cItemActionsStart" />
                 <col id="cTitle" />
                 <col id="cShowTitle" />
-                <col id="cMetaDescription" />
-                <col id="cSkipUiHookSubscriber" />
-                <col id="cSkipFilterHookSubscriber" />
                 <col id="cLayout" />
                 <col id="cViews" />
                 <col id="cActive" />
@@ -32,9 +29,6 @@
                 <col id="cActiveTo" />
                 <col id="cInMenu" />
                 <col id="cPageLanguage" />
-                <col id="cOptionalString1" />
-                <col id="cOptionalString2" />
-                <col id="cOptionalText" />
                 <col id="cCurrentVersion" />
             </colgroup>
             <thead>
@@ -50,15 +44,6 @@
                 </th>
                 <th id="hShowTitle" scope="col" class="text-center">
                     <a href="{{ sort.showTitle.url }}" title="{{ __f('Sort by %s', {'%s': 'show title'}) }}" class="{{ sort.showTitle.class }}">{{ __('Show title') }}</a>
-                </th>
-                <th id="hMetaDescription" scope="col" class="text-left">
-                    <a href="{{ sort.metaDescription.url }}" title="{{ __f('Sort by %s', {'%s': 'meta description'}) }}" class="{{ sort.metaDescription.class }}">{{ __('Meta description') }}</a>
-                </th>
-                <th id="hSkipUiHookSubscriber" scope="col" class="text-center">
-                    <a href="{{ sort.skipUiHookSubscriber.url }}" title="{{ __f('Sort by %s', {'%s': 'skip ui hook subscriber'}) }}" class="{{ sort.skipUiHookSubscriber.class }}">{{ __('Skip ui hook subscriber') }}</a>
-                </th>
-                <th id="hSkipFilterHookSubscriber" scope="col" class="text-center">
-                    <a href="{{ sort.skipFilterHookSubscriber.url }}" title="{{ __f('Sort by %s', {'%s': 'skip filter hook subscriber'}) }}" class="{{ sort.skipFilterHookSubscriber.class }}">{{ __('Skip filter hook subscriber') }}</a>
                 </th>
                 <th id="hLayout" scope="col" class="text-left">
                     <a href="{{ sort.layout.url }}" title="{{ __f('Sort by %s', {'%s': 'layout'}) }}" class="{{ sort.layout.class }}">{{ __('Layout') }}</a>
@@ -80,15 +65,6 @@
                 </th>
                 <th id="hPageLanguage" scope="col" class="text-left">
                     <a href="{{ sort.pageLanguage.url }}" title="{{ __f('Sort by %s', {'%s': 'page language'}) }}" class="{{ sort.pageLanguage.class }}">{{ __('Page language') }}</a>
-                </th>
-                <th id="hOptionalString1" scope="col" class="text-left">
-                    <a href="{{ sort.optionalString1.url }}" title="{{ __f('Sort by %s', {'%s': 'optional string 1'}) }}" class="{{ sort.optionalString1.class }}">{{ __('Optional string 1') }}</a>
-                </th>
-                <th id="hOptionalString2" scope="col" class="text-left">
-                    <a href="{{ sort.optionalString2.url }}" title="{{ __f('Sort by %s', {'%s': 'optional string 2'}) }}" class="{{ sort.optionalString2.class }}">{{ __('Optional string 2') }}</a>
-                </th>
-                <th id="hOptionalText" scope="col" class="text-left">
-                    <a href="{{ sort.optionalText.url }}" title="{{ __f('Sort by %s', {'%s': 'optional text'}) }}" class="{{ sort.optionalText.class }}">{{ __('Optional text') }}</a>
                 </th>
                 <th id="hCurrentVersion" scope="col" class="text-right">
                     <a href="{{ sort.currentVersion.url }}" title="{{ __f('Sort by %s', {'%s': 'current version'}) }}" class="{{ sort.currentVersion.class }}">{{ __('Current version') }}</a>
@@ -116,23 +92,6 @@
                 </td>
                 <td headers="hShowTitle" class="text-center">
                     {% if page.showTitle %}
-                        <i class="fa fa-check" title="{{ __('Yes') }}"></i>
-                    {% else %}
-                        <i class="fa fa-times" title="{{ __('No') }}"></i>
-                    {% endif %}
-                </td>
-                <td headers="hMetaDescription" class="text-left">
-                    {{ page.metaDescription|striptags|truncate(50) }}
-                </td>
-                <td headers="hSkipUiHookSubscriber" class="text-center">
-                    {% if page.skipUiHookSubscriber %}
-                        <i class="fa fa-check" title="{{ __('Yes') }}"></i>
-                    {% else %}
-                        <i class="fa fa-times" title="{{ __('No') }}"></i>
-                    {% endif %}
-                </td>
-                <td headers="hSkipFilterHookSubscriber" class="text-center">
-                    {% if page.skipFilterHookSubscriber %}
                         <i class="fa fa-check" title="{{ __('Yes') }}"></i>
                     {% else %}
                         <i class="fa fa-times" title="{{ __('No') }}"></i>
@@ -181,22 +140,13 @@
                 <td headers="hPageLanguage" class="text-left">
                     {{ page.pageLanguage|languageName }}
                 </td>
-                <td headers="hOptionalString1" class="text-left">
-                    {{ page.optionalString1 }}
-                </td>
-                <td headers="hOptionalString2" class="text-left">
-                    {{ page.optionalString2 }}
-                </td>
-                <td headers="hOptionalText" class="text-left">
-                    {{ page.optionalText|striptags|truncate(50) }}
-                </td>
                 <td headers="hCurrentVersion" class="text-right">
                     {{ page.currentVersion }}
                 </td>
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}18{% else %}17{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}12{% else %}11{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>

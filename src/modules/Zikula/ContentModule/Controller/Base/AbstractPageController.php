@@ -155,9 +155,6 @@ abstract class AbstractPageController extends AbstractController
         $sortableColumns->addColumns([
             new Column('title'),
             new Column('showTitle'),
-            new Column('metaDescription'),
-            new Column('skipUiHookSubscriber'),
-            new Column('skipFilterHookSubscriber'),
             new Column('layout'),
             new Column('views'),
             new Column('active'),
@@ -167,7 +164,6 @@ abstract class AbstractPageController extends AbstractController
             new Column('pageLanguage'),
             new Column('optionalString1'),
             new Column('optionalString2'),
-            new Column('optionalText'),
             new Column('currentVersion'),
             new Column('createdBy'),
             new Column('createdDate'),

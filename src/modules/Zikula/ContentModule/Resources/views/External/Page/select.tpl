@@ -46,9 +46,6 @@
                 <select id="{$baseID}Sort" name="sort" class="form-control">
                     <option value="title"{if $sort eq 'title'} selected="selected"{/if}>{gt text='Title'}</option>
                     <option value="showTitle"{if $sort eq 'showTitle'} selected="selected"{/if}>{gt text='Show title'}</option>
-                    <option value="metaDescription"{if $sort eq 'metaDescription'} selected="selected"{/if}>{gt text='Meta description'}</option>
-                    <option value="skipUiHookSubscriber"{if $sort eq 'skipUiHookSubscriber'} selected="selected"{/if}>{gt text='Skip ui hook subscriber'}</option>
-                    <option value="skipFilterHookSubscriber"{if $sort eq 'skipFilterHookSubscriber'} selected="selected"{/if}>{gt text='Skip filter hook subscriber'}</option>
                     <option value="layout"{if $sort eq 'layout'} selected="selected"{/if}>{gt text='Layout'}</option>
                     <option value="views"{if $sort eq 'views'} selected="selected"{/if}>{gt text='Views'}</option>
                     <option value="active"{if $sort eq 'active'} selected="selected"{/if}>{gt text='Active'}</option>
@@ -58,7 +55,6 @@
                     <option value="pageLanguage"{if $sort eq 'pageLanguage'} selected="selected"{/if}>{gt text='Page language'}</option>
                     <option value="optionalString1"{if $sort eq 'optionalString1'} selected="selected"{/if}>{gt text='Optional string 1'}</option>
                     <option value="optionalString2"{if $sort eq 'optionalString2'} selected="selected"{/if}>{gt text='Optional string 2'}</option>
-                    <option value="optionalText"{if $sort eq 'optionalText'} selected="selected"{/if}>{gt text='Optional text'}</option>
                     <option value="currentVersion"{if $sort eq 'currentVersion'} selected="selected"{/if}>{gt text='Current version'}</option>
                     <option value="createdDate"{if $sort eq 'createdDate'} selected="selected"{/if}>{gt text='Creation date'}</option>
                     <option value="createdBy"{if $sort eq 'createdBy'} selected="selected"{/if}>{gt text='Creator'}</option>
