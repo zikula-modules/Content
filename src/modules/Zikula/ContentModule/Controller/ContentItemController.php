@@ -64,6 +64,7 @@ class ContentItemController extends AbstractContentItemController
     {
         return parent::indexAction($request);
     }
+    
     /**
      * @inheritDoc
      *
@@ -108,6 +109,6 @@ class ContentItemController extends AbstractContentItemController
     {
         return parent::editAction($request);
     }
-
+    
     // feel free to add your own controller methods here
 }

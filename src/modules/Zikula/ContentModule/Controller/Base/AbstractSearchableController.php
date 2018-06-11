@@ -71,4 +71,5 @@ abstract class AbstractSearchableController extends AbstractController
         // return index template
         return $this->render('@ZikulaContentModule/Searchable/index.html.twig', $templateParameters);
     }
+    
 }

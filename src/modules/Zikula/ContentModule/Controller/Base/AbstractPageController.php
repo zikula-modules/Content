@@ -75,6 +75,7 @@ abstract class AbstractPageController extends AbstractController
         
         return $this->redirectToRoute('zikulacontentmodule_page_' . $templateParameters['routeArea'] . 'view');
     }
+    
     /**
      * This action provides an item list overview in the admin area.
      *
@@ -201,6 +202,7 @@ abstract class AbstractPageController extends AbstractController
         // fetch and return the appropriate template
         return $viewHelper->processTemplate($objectType, 'view', $templateParameters);
     }
+    
     /**
      * This action provides a item detail view in the admin area.
      *
@@ -293,6 +295,7 @@ abstract class AbstractPageController extends AbstractController
         
         return $response;
     }
+    
     /**
      * This action provides a handling of edit requests in the admin area.
      *
@@ -355,7 +358,7 @@ abstract class AbstractPageController extends AbstractController
         // fetch and return the appropriate template
         return $this->get('zikula_content_module.view_helper')->processTemplate($objectType, 'edit', $templateParameters);
     }
-
+    
     /**
      * Process status changes for multiple items.
      *
@@ -472,7 +475,7 @@ abstract class AbstractPageController extends AbstractController
         
         return $this->redirectToRoute('zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'index');
     }
-
+    
     /**
      * This method provides a change history for a given page.
      *
@@ -619,4 +622,5 @@ abstract class AbstractPageController extends AbstractController
         
         return $this->render('@ZikulaContentModule/Page/history.html.twig', $templateParameters);
     }
+    
 }
