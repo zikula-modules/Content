@@ -10,6 +10,11 @@ application "Content" {
     generateDetailContentType false
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
+    skipFiles "
+    "
+    markFiles "
+        composer.json
+    "
     entities {
         entity "page" leading loggable categorisable {
             nameMultiple "pages"
