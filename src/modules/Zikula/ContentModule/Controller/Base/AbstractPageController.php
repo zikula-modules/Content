@@ -510,7 +510,7 @@ abstract class AbstractPageController extends AbstractController
      * @param string  $slug    Identifier of page
      * @param boolean $isAdmin Whether the admin area is used or not
      */
-    protected function loggableHistoryActionInternal(Request $request, $id = 0, $isAdmin = false)
+    protected function loggableHistoryActionInternal(Request $request, $slug = '', $isAdmin = false)
     {
         if (empty($slug)) {
             throw new NotFoundHttpException($this->__('No such page found.'));
