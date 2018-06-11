@@ -112,16 +112,14 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $active = true;
     
     /**
-     * @ORM\Column(type="datetime")
-     * @Assert\NotNull()
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
      * @var DateTime $activeFrom
      */
     protected $activeFrom;
     
     /**
-     * @ORM\Column(type="datetime")
-     * @Assert\NotNull()
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
      * @Assert\Expression("!value or value > this.getActiveFrom()")
      * @var DateTime $activeTo
@@ -444,10 +442,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
                 $activeFrom = new \DateTime($activeFrom);
             }
             
-            if (null === $activeFrom || empty($activeFrom)) {
-                $activeFrom = new \DateTime();
-            }
-            
             if ($this->activeFrom != $activeFrom) {
                 $this->activeFrom = $activeFrom;
             }
@@ -476,10 +470,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         if ($this->activeTo !== $activeTo) {
             if (!(null == $activeTo && empty($activeTo)) && !(is_object($activeTo) && $activeTo instanceOf \DateTimeInterface)) {
                 $activeTo = new \DateTime($activeTo);
-            }
-            
-            if (null === $activeTo || empty($activeTo)) {
-                $activeTo = new \DateTime();
             }
             
             if ($this->activeTo != $activeTo) {

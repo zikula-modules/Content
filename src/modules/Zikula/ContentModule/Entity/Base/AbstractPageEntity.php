@@ -139,8 +139,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(type="datetime")
-     * @Assert\NotNull()
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
      * @var DateTime $activeFrom
      */
@@ -148,8 +147,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(type="datetime")
-     * @Assert\NotNull()
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
      * @Assert\Expression("!value or value > this.getActiveFrom()")
      * @var DateTime $activeTo
@@ -629,10 +627,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
                 $activeFrom = new \DateTime($activeFrom);
             }
             
-            if (null === $activeFrom || empty($activeFrom)) {
-                $activeFrom = new \DateTime();
-            }
-            
             if ($this->activeFrom != $activeFrom) {
                 $this->activeFrom = $activeFrom;
             }
@@ -661,10 +655,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         if ($this->activeTo !== $activeTo) {
             if (!(null == $activeTo && empty($activeTo)) && !(is_object($activeTo) && $activeTo instanceOf \DateTimeInterface)) {
                 $activeTo = new \DateTime($activeTo);
-            }
-            
-            if (null === $activeTo || empty($activeTo)) {
-                $activeTo = new \DateTime();
             }
             
             if ($this->activeTo != $activeTo) {

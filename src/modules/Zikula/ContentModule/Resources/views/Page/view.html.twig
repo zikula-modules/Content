@@ -118,10 +118,14 @@
                     </div></noscript>
                 </td>
                 <td headers="hActiveFrom" class="text-left">
-                    {{ page.activeFrom|localizeddate('medium', 'short') }}
+                    {% if page.activeFrom is not empty %}
+                        {{ page.activeFrom|localizeddate('medium', 'short') }}
+                    {% endif %}
                 </td>
                 <td headers="hActiveTo" class="text-left">
-                    {{ page.activeTo|localizeddate('medium', 'short') }}
+                    {% if page.activeTo is not empty %}
+                        {{ page.activeTo|localizeddate('medium', 'short') }}
+                    {% endif %}
                 </td>
                 <td headers="hInMenu" class="text-center">
                     {% set itemId = page.getKey() %}

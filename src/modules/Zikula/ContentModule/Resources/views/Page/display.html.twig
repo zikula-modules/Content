@@ -79,11 +79,15 @@
         {% endif %}
         {% if page.activeFrom is not empty %}
             <dt>{{ __('Active from') }}</dt>
-            <dd>{{ page.activeFrom|localizeddate('medium', 'short') }}</dd>
+            <dd>{% if page.activeFrom is not empty %}
+                {{ page.activeFrom|localizeddate('medium', 'short') }}
+            {% endif %}</dd>
         {% endif %}
         {% if page.activeTo is not empty %}
             <dt>{{ __('Active to') }}</dt>
-            <dd>{{ page.activeTo|localizeddate('medium', 'short') }}</dd>
+            <dd>{% if page.activeTo is not empty %}
+                {{ page.activeTo|localizeddate('medium', 'short') }}
+            {% endif %}</dd>
         {% endif %}
         {% if page.inMenu is not empty %}
             <dt>{{ __('In menu') }}</dt>

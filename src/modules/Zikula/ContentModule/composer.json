@@ -29,6 +29,9 @@
         "phpmd/phpmd": "2.*",
         "sebastian/phpcpd": "*"
     },
+    "suggest": {
+        "zikula/scribite-module:>=6.0.0": "WYSIWYG editor support"
+    },
     "extra": {
         "zikula": {
             "core-compatibility": ">=2.0.7 <3.0",
@@ -53,7 +56,9 @@
                 "ZikulaContentModule:Page:ContentItem": "Page ID:ContentItem ID:",
                 "ZikulaContentModule:Searchable:": "Searchable ID::",
                 "ZikulaContentModule:ContentItem:Searchable": "ContentItem ID:Searchable ID:",
-                "ZikulaContentModule::Ajax": "::"
+                "ZikulaContentModule::Ajax": "::",
+                "ZikulaContentModule:Plugin:Layout": "Layout name::",
+                "ZikulaContentModule:Plugin:Content": "Content type name::"
             }
         }
     },

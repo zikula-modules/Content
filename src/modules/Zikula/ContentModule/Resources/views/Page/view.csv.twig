@@ -4,7 +4,11 @@
 {% endspaceless %}
 {% for page in items %}
 {% spaceless %}
-    "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription|safeHtml }}";"{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}";"{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}";"{{ page.layout }}";"{{ page.views }}";"{% if not page.active %}0{% else %}1{% endif %}";"{{ page.activeFrom|localizeddate('medium', 'short') }}";"{{ page.activeTo|localizeddate('medium', 'short') }}";"{% if not page.inMenu %}0{% else %}1{% endif %}";"{{ page.pageLanguage|languageName }}";"{{ page.optionalString1 }}";"{{ page.optionalString2 }}";"{{ page.optionalText|safeHtml }}";"{{ page.currentVersion }}";"{% if page.versionData is iterable and page.versionData|length > 0 %}
+    "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription|safeHtml }}";"{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}";"{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}";"{{ page.layout }}";"{{ page.views }}";"{% if not page.active %}0{% else %}1{% endif %}";"{% if page.activeFrom is not empty %}
+        {{ page.activeFrom|localizeddate('medium', 'short') }}
+    {% endif %}";"{% if page.activeTo is not empty %}
+        {{ page.activeTo|localizeddate('medium', 'short') }}
+    {% endif %}";"{% if not page.inMenu %}0{% else %}1{% endif %}";"{{ page.pageLanguage|languageName }}";"{{ page.optionalString1 }}";"{{ page.optionalString2 }}";"{{ page.optionalText|safeHtml }}";"{{ page.currentVersion }}";"{% if page.versionData is iterable and page.versionData|length > 0 %}
         <ul>
         {% for entry in page.versionData %}
             <li>{{ entry }}</li>
