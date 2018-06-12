@@ -2,6 +2,6 @@
 [
 {% for page in items %}
     {% if not loop.first %},{% endif %}
-    {{ page.toArray()|json_encode() }}
+    {{ page.toArray()|json_encode()|raw }}
 {% endfor %}
 ]
