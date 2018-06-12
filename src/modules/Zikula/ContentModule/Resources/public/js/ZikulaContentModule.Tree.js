@@ -81,7 +81,7 @@ function zikulaContentInitTree(idPrefix, theObjectType, rootId, hasDisplayAction
             'copy': false,
             'is_draggable': function (node) {
                 // disable drag and drop for root category
-                return !jQuery(node).hasClass('lvl0');
+                return node[0].parent != '#';
             }
         },
         'state': {

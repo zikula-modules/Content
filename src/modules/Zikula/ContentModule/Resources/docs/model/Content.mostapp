@@ -286,7 +286,7 @@ application "Content" {
                 text "stylingClasses" {
                     documentation "A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance \"note\" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. \"note | Memo\"."
                     defaultValue "greybox|Grey box"
-                length 5000
+                    length 5000
                 },
                 boolean "inheritPermissions" {
                     documentation "Whether to inherit permissions from parent to child pages or not."
