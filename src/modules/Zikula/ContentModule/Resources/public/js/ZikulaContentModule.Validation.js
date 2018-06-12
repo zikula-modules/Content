@@ -65,8 +65,9 @@ function zikulaContentValidateNoSpace(val) {
 
 function zikulaContentValidateDateRangePage(val) {
     var cmpVal, cmpVal2, result;
-    cmpVal = zikulaContentReadDate(jQuery("[id$='activeFrom']").val(), true);
-    cmpVal2 = zikulaContentReadDate(jQuery("[id$='activeTo']").val(), true);
+
+    cmpVal = jQuery("[id$='activeFrom_date']").val() + ' ' + jQuery("[id$='activeFrom_time']").val();
+    cmpVal2 = jQuery("[id$='activeTo_date']").val() + ' ' + jQuery("[id$='activeTo_time']").val();
 
     if (typeof cmpVal == 'undefined' && typeof cmpVal2 == 'undefined') {
         result = true;
@@ -79,8 +80,9 @@ function zikulaContentValidateDateRangePage(val) {
 
 function zikulaContentValidateDateRangeContentItem(val) {
     var cmpVal, cmpVal2, result;
-    cmpVal = zikulaContentReadDate(jQuery("[id$='activeFrom']").val(), true);
-    cmpVal2 = zikulaContentReadDate(jQuery("[id$='activeTo']").val(), true);
+
+    cmpVal = jQuery("[id$='activeFrom_date']").val() + ' ' + jQuery("[id$='activeFrom_time']").val();
+    cmpVal2 = jQuery("[id$='activeTo_date']").val() + ' ' + jQuery("[id$='activeTo_time']").val();
 
     if (typeof cmpVal == 'undefined' && typeof cmpVal2 == 'undefined') {
         result = true;
@@ -111,7 +113,7 @@ function zikulaContentExecuteCustomValidationConstraints(objectType, currentEnti
                 } else {
                     document.getElementById(jQuery(this).attr('id')).setCustomValidity('');
                 }
-    		}
+            }
         }
     });
     jQuery('.validate-daterange-contentitem').each(function () {
@@ -130,7 +132,7 @@ function zikulaContentExecuteCustomValidationConstraints(objectType, currentEnti
                 } else {
                     document.getElementById(jQuery(this).attr('id')).setCustomValidity('');
                 }
-    		}
+            }
         }
     });
 }
