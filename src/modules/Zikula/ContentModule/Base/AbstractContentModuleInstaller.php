@@ -57,8 +57,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('filterDataByLocale', false);
         $this->setVar('enabledFinderTypes', 'page');
     
-        $categoryRegistryIdsPerEntity = [];
-    
         // add default entry for category registry (property named Main)
         $categoryHelper = new \Zikula\ContentModule\Helper\CategoryHelper(
             $this->container->get('translator.default'),
@@ -69,22 +67,25 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
             $this->container->get('zikula_categories_module.api.category_permission')
         );
         $categoryGlobal = $this->container->get('zikula_categories_module.category_repository')->findOneBy(['name' => 'Global']);
-        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-    
-        $registry = new CategoryRegistryEntity();
-        $registry->setModname('ZikulaContentModule');
-        $registry->setEntityname('PageEntity');
-        $registry->setProperty($categoryHelper->getPrimaryProperty('Page'));
-        $registry->setCategory($categoryGlobal);
-    
-        try {
-            $entityManager->persist($registry);
-            $entityManager->flush();
-        } catch (\Exception $exception) {
-            $this->addFlash('error', $this->__f('Error! Could not create a category registry for the %entity% entity.', ['%entity%' => 'page']));
-            $logger->error('{app}: User {user} could not create a category registry for {entities} during installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'entities' => 'pages', 'errorMessage' => $exception->getMessage()]);
+        if ($categoryGlobal) {
+            $categoryRegistryIdsPerEntity = [];
+            $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+        
+            $registry = new CategoryRegistryEntity();
+            $registry->setModname('ZikulaContentModule');
+            $registry->setEntityname('PageEntity');
+            $registry->setProperty($categoryHelper->getPrimaryProperty('Page'));
+            $registry->setCategory($categoryGlobal);
+        
+            try {
+                $entityManager->persist($registry);
+                $entityManager->flush();
+            } catch (\Exception $exception) {
+                $this->addFlash('error', $this->__f('Error! Could not create a category registry for the %entity% entity.', ['%entity%' => 'page']));
+                $logger->error('{app}: User {user} could not create a category registry for {entities} during installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'entities' => 'pages', 'errorMessage' => $exception->getMessage()]);
+            }
+            $categoryRegistryIdsPerEntity['page'] = $registry->getId();
         }
-        $categoryRegistryIdsPerEntity['page'] = $registry->getId();
     
         // initialisation successful
         return true;
