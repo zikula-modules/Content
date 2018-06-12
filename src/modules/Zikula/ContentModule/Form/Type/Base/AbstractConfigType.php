@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -154,6 +155,22 @@ abstract class AbstractConfigType extends AbstractType
             'required' => false,
         ]);
         
+        $builder->add('googleMapsApiKey', TextType::class, [
+            'label' => $this->__('Google maps api key') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('If you want to use Google maps you need an API key for it.')
+            ],
+            'help' => $this->__('If you want to use Google maps you need an API key for it.'),
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 255,
+                'class' => '',
+                'title' => $this->__('Enter the google maps api key')
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('enableRawPlugin', CheckboxType::class, [
             'label' => $this->__('Enable raw plugin') . ':',
             'label_attr' => [
@@ -170,10 +187,14 @@ abstract class AbstractConfigType extends AbstractType
         
         $builder->add('stylingClasses', TextareaType::class, [
             'label' => $this->__('Styling classes') . ':',
-            'help' => $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 2000]),
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo".')
+            ],
+            'help' => [$this->__('A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo".'), $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
             'empty_data' => 'greybox|Grey box',
             'attr' => [
-                'maxlength' => 2000,
+                'maxlength' => 5000,
                 'class' => '',
                 'title' => $this->__('Enter the styling classes')
             ],

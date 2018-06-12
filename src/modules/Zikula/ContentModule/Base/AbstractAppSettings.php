@@ -59,6 +59,15 @@ abstract class AbstractAppSettings
     protected $countPageViews = false;
     
     /**
+     * If you want to use Google maps you need an API key for it.
+     *
+     * @Assert\NotNull()
+     * @Assert\Length(min="0", max="255")
+     * @var string $googleMapsApiKey
+     */
+    protected $googleMapsApiKey = '';
+    
+    /**
      * Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.
      *
      * @Assert\NotNull()
@@ -68,8 +77,10 @@ abstract class AbstractAppSettings
     protected $enableRawPlugin = false;
     
     /**
+     * A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo".
+     *
      * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="2000")
+     * @Assert\Length(min="0", max="5000")
      * @var text $stylingClasses
      */
     protected $stylingClasses = 'greybox|Grey box';
@@ -228,6 +239,30 @@ abstract class AbstractAppSettings
     {
         if (boolval($this->countPageViews) !== boolval($countPageViews)) {
             $this->countPageViews = boolval($countPageViews);
+        }
+    }
+    
+    /**
+     * Returns the google maps api key.
+     *
+     * @return string
+     */
+    public function getGoogleMapsApiKey()
+    {
+        return $this->googleMapsApiKey;
+    }
+    
+    /**
+     * Sets the google maps api key.
+     *
+     * @param string $googleMapsApiKey
+     *
+     * @return void
+     */
+    public function setGoogleMapsApiKey($googleMapsApiKey)
+    {
+        if ($this->googleMapsApiKey !== $googleMapsApiKey) {
+            $this->googleMapsApiKey = isset($googleMapsApiKey) ? $googleMapsApiKey : '';
         }
     }
     
@@ -419,6 +454,9 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['countPageViews'])) {
             $this->setCountPageViews($moduleVars['countPageViews']);
         }
+        if (isset($moduleVars['googleMapsApiKey'])) {
+            $this->setGoogleMapsApiKey($moduleVars['googleMapsApiKey']);
+        }
         if (isset($moduleVars['enableRawPlugin'])) {
             $this->setEnableRawPlugin($moduleVars['enableRawPlugin']);
         }
@@ -451,6 +489,7 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'pageInfoLocation', $this->getPageInfoLocation());
         $this->variableApi->set('ZikulaContentModule', 'overridePageTitle', $this->getOverridePageTitle());
         $this->variableApi->set('ZikulaContentModule', 'countPageViews', $this->getCountPageViews());
+        $this->variableApi->set('ZikulaContentModule', 'googleMapsApiKey', $this->getGoogleMapsApiKey());
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());
         $this->variableApi->set('ZikulaContentModule', 'stylingClasses', $this->getStylingClasses());
         $this->variableApi->set('ZikulaContentModule', 'inheritPermissions', $this->getInheritPermissions());

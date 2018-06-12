@@ -49,6 +49,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('pageInfoLocation', 'top');
         $this->setVar('overridePageTitle', true);
         $this->setVar('countPageViews', false);
+        $this->setVar('googleMapsApiKey', '');
         $this->setVar('enableRawPlugin', false);
         $this->setVar('stylingClasses', 'greybox|Grey box');
         $this->setVar('inheritPermissions', false);
@@ -70,13 +71,13 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         if ($categoryGlobal) {
             $categoryRegistryIdsPerEntity = [];
             $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-        
+    
             $registry = new CategoryRegistryEntity();
             $registry->setModname('ZikulaContentModule');
             $registry->setEntityname('PageEntity');
             $registry->setProperty($categoryHelper->getPrimaryProperty('Page'));
             $registry->setCategory($categoryGlobal);
-        
+    
             try {
                 $entityManager->persist($registry);
                 $entityManager->flush();

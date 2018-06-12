@@ -11,6 +11,7 @@ application "Content" {
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
+        ContentModuleInstaller.php
     "
     markFiles "
         composer.json
@@ -273,13 +274,19 @@ application "Content" {
                     defaultValue "false"
                     mandatory false
                 },
+                string "googleMapsApiKey" {
+                    documentation "If you want to use Google maps you need an API key for it."
+                    mandatory false
+                },
                 boolean "enableRawPlugin" {
                     documentation "Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc."
                     defaultValue "false"
                     mandatory false
                 },
                 text "stylingClasses" {
+                    documentation "A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance \"note\" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. \"note | Memo\"."
                     defaultValue "greybox|Grey box"
+                length 5000
                 },
                 boolean "inheritPermissions" {
                     documentation "Whether to inherit permissions from parent to child pages or not."

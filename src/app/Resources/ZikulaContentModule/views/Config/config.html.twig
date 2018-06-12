@@ -19,16 +19,14 @@
                 <li role="presentation">
                     <a id="vars2Tab" href="#tab2" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
-                {#
-                {% set tabTitle = __('Integration') %}
+                {#{% set tabTitle = __('Integration') %}
                 <li role="presentation">
                     <a id="vars3Tab" href="#tab3" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Workflows') %}
                 <li role="presentation">
                     <a id="workflowsTab" href="#tabWorkflows" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
-                </li>
-                #}
+                </li>#}
             </ul>
 
             {{ form_errors(form) }}
@@ -44,6 +42,11 @@
                         {{ form_row(form.pageInfoLocation) }}
                         {{ form_row(form.overridePageTitle) }}
                         {{ form_row(form.countPageViews) }}
+                        {{ form_row(form.googleMapsApiKey, {
+                            'input_group': {
+                                'right': '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key" target="_blank"><i class="fa fa-key"></i></a>'
+                            }
+                        }) }}
                         {{ form_row(form.enableRawPlugin) }}
                         {{ form_row(form.stylingClasses) }}
                         {{ form_row(form.inheritPermissions) }}
