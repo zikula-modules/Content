@@ -318,19 +318,19 @@ abstract class AbstractContentItemType extends AbstractType
             'expanded' => false
         ]);
         
-        $listEntries = $this->listHelper->getEntries('contentItem', 'styleClass');
+        $listEntries = $this->listHelper->getEntries('contentItem', 'styleClasses');
         $choices = [];
         $choiceAttributes = [];
         foreach ($listEntries as $entry) {
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $builder->add('styleClass', MultiListType::class, [
-            'label' => $this->__('Style class') . ':',
+        $builder->add('styleClasses', MultiListType::class, [
+            'label' => $this->__('Style classes') . ':',
             'empty_data' => '',
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Choose the style class.')
+                'title' => $this->__('Choose the style classes.')
             ],
             'required' => false,
             'placeholder' => $this->__('Choose an option'),
@@ -449,7 +449,7 @@ abstract class AbstractContentItemType extends AbstractType
                     return $this->entityFactory->createContentItem();
                 },
                 'error_mapping' => [
-                    'isStyleClassValueAllowed' => 'styleClass',
+                    'isStyleClassesValueAllowed' => 'styleClasses',
                     'isActiveFromBeforeActiveTo' => 'activeFrom',
                 ],
                 'mode' => 'create',

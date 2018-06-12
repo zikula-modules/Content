@@ -199,7 +199,7 @@ abstract class AbstractCollectionFilterHelper
         $parameters['scope'] = $this->request->query->get('scope', '');
         $parameters['stylePosition'] = $this->request->query->get('stylePosition', '');
         $parameters['styleWidth'] = $this->request->query->get('styleWidth', '');
-        $parameters['styleClass'] = $this->request->query->get('styleClass', '');
+        $parameters['styleClasses'] = $this->request->query->get('styleClasses', '');
         $parameters['q'] = $this->request->query->get('q', '');
         $parameters['active'] = $this->request->query->get('active', '');
     
@@ -348,7 +348,7 @@ abstract class AbstractCollectionFilterHelper
                 } elseif (substr($v, 0, 1) == '%') {
                     $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
                        ->setParameter($k, '%' . substr($v, 1) . '%');
-                } elseif (in_array($k, ['styleClass'])) {
+                } elseif (in_array($k, ['styleClasses'])) {
                     // multi list filter
                     $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
                        ->setParameter($k, '%' . $v . '%');
@@ -654,8 +654,8 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchStylePosition'] = $fragment;
             $filters[] = 'tbl.styleWidth = :searchStyleWidth';
             $parameters['searchStyleWidth'] = $fragment;
-            $filters[] = 'tbl.styleClass = :searchStyleClass';
-            $parameters['searchStyleClass'] = $fragment;
+            $filters[] = 'tbl.styleClasses = :searchStyleClasses';
+            $parameters['searchStyleClasses'] = $fragment;
         }
         if ($objectType == 'searchable') {
             $filters[] = 'tbl.searchText LIKE :searchSearchText';

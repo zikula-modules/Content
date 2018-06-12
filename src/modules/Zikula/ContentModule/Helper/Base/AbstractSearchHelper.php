@@ -199,7 +199,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     $whereArray[] = 'tbl.scope';
                     $whereArray[] = 'tbl.stylePosition';
                     $whereArray[] = 'tbl.styleWidth';
-                    $whereArray[] = 'tbl.styleClass';
+                    $whereArray[] = 'tbl.styleClasses';
                     break;
                 case 'searchable':
                     $whereArray[] = 'tbl.workflowState';

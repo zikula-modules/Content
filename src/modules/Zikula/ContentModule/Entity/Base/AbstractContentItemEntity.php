@@ -153,10 +153,10 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * @ORM\Column(length=100)
      * @Assert\NotNull()
-     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="styleClass", multiple=true)
-     * @var string $styleClass
+     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="styleClasses", multiple=true)
+     * @var string $styleClasses
      */
-    protected $styleClass = '';
+    protected $styleClasses = '';
     
     
     /**
@@ -551,26 +551,26 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     }
     
     /**
-     * Returns the style class.
+     * Returns the style classes.
      *
      * @return string
      */
-    public function getStyleClass()
+    public function getStyleClasses()
     {
-        return $this->styleClass;
+        return $this->styleClasses;
     }
     
     /**
-     * Sets the style class.
+     * Sets the style classes.
      *
-     * @param string $styleClass
+     * @param string $styleClasses
      *
      * @return void
      */
-    public function setStyleClass($styleClass)
+    public function setStyleClasses($styleClasses)
     {
-        if ($this->styleClass !== $styleClass) {
-            $this->styleClass = isset($styleClass) ? $styleClass : '';
+        if ($this->styleClasses !== $styleClasses) {
+            $this->styleClasses = isset($styleClasses) ? $styleClasses : '';
         }
     }
     

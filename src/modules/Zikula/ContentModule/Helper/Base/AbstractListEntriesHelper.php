@@ -151,7 +151,7 @@ abstract class AbstractListEntriesHelper
                     case 'styleWidth':
                         $result = false;
                         break;
-                    case 'styleClass':
+                    case 'styleClasses':
                         $result = true;
                         break;
                 }
@@ -219,8 +219,8 @@ abstract class AbstractListEntriesHelper
                     case 'styleWidth':
                         $entries = $this->getStyleWidthEntriesForContentItem();
                         break;
-                    case 'styleClass':
-                        $entries = $this->getStyleClassEntriesForContentItem();
+                    case 'styleClasses':
+                        $entries = $this->getStyleClassesEntriesForContentItem();
                         break;
                 }
                 break;
@@ -479,11 +479,11 @@ abstract class AbstractListEntriesHelper
     }
     
     /**
-     * Get 'style class' list entries.
+     * Get 'style classes' list entries.
      *
      * @return array Array with desired list entries
      */
-    public function getStyleClassEntriesForContentItem()
+    public function getStyleClassesEntriesForContentItem()
     {
         $states = [];
         $states[] = [

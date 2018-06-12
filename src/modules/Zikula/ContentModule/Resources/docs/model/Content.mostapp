@@ -177,7 +177,7 @@ application "Content" {
                         listItem "1/4" ( "w25" )
                     }
                 },
-                list "styleClass" multiple {
+                list "styleClasses" multiple {
                     defaultValue ""
                     mandatory false
                     length 100
