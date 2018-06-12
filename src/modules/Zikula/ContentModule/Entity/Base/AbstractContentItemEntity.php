@@ -153,7 +153,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * @ORM\Column(length=100)
      * @Assert\NotNull()
-     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="styleClass", multiple=false)
+     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="styleClass", multiple=true)
      * @var string $styleClass
      */
     protected $styleClass = '';

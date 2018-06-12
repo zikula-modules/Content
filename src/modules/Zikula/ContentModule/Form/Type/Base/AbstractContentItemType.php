@@ -28,6 +28,7 @@ use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
 use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
@@ -324,7 +325,7 @@ abstract class AbstractContentItemType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $builder->add('styleClass', ChoiceType::class, [
+        $builder->add('styleClass', MultiListType::class, [
             'label' => $this->__('Style class') . ':',
             'empty_data' => '',
             'attr' => [
@@ -335,7 +336,7 @@ abstract class AbstractContentItemType extends AbstractType
             'placeholder' => $this->__('Choose an option'),
             'choices' => $choices,
             'choice_attr' => $choiceAttributes,
-            'multiple' => false,
+            'multiple' => true,
             'expanded' => false
         ]);
     }
@@ -448,6 +449,7 @@ abstract class AbstractContentItemType extends AbstractType
                     return $this->entityFactory->createContentItem();
                 },
                 'error_mapping' => [
+                    'isStyleClassValueAllowed' => 'styleClass',
                     'isActiveFromBeforeActiveTo' => 'activeFrom',
                 ],
                 'mode' => 'create',

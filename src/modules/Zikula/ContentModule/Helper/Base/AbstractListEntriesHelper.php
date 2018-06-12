@@ -152,7 +152,7 @@ abstract class AbstractListEntriesHelper
                         $result = false;
                         break;
                     case 'styleClass':
-                        $result = false;
+                        $result = true;
                         break;
                 }
                 break;
@@ -489,6 +489,13 @@ abstract class AbstractListEntriesHelper
         $states[] = [
             'value'   => 'default',
             'text'    => $this->__('Default'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => 'other',
+            'text'    => $this->__('Other'),
             'title'   => '',
             'image'   => '',
             'default' => false

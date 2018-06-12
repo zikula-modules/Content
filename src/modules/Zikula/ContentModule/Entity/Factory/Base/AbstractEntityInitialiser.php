@@ -95,12 +95,13 @@ abstract class AbstractEntityInitialiser
         }
 
         $listEntries = $this->listEntriesHelper->getEntries('contentItem', 'styleClass');
+        $items = [];
         foreach ($listEntries as $listEntry) {
             if (true === $listEntry['default']) {
-                $entity->setStyleClass($listEntry['value']);
-                break;
+                $items[] = $listEntry['value'];
             }
         }
+        $entity->setStyleClass(implode('###', $items));
 
         return $entity;
     }

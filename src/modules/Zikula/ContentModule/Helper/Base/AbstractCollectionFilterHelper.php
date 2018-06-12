@@ -348,6 +348,10 @@ abstract class AbstractCollectionFilterHelper
                 } elseif (substr($v, 0, 1) == '%') {
                     $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
                        ->setParameter($k, '%' . substr($v, 1) . '%');
+                } elseif (in_array($k, ['styleClass'])) {
+                    // multi list filter
+                    $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
+                       ->setParameter($k, '%' . $v . '%');
                 } else {
                     $qb->andWhere('tbl.' . $k . ' = :' . $k)
                        ->setParameter($k, $v);
