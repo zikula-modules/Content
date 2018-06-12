@@ -177,10 +177,10 @@ application "Content" {
                         listItem "1/4" ( "w25" )
                     }
                 },
-                list "styleClasses" multiple {
+                list "styleClasses" multiple expanded {
                     defaultValue ""
                     mandatory false
-                    length 100
+                    length 255
                     items {
                         listItem "default",
                         listItem "other"

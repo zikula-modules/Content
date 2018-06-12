@@ -327,17 +327,19 @@ abstract class AbstractContentItemType extends AbstractType
         }
         $builder->add('styleClasses', MultiListType::class, [
             'label' => $this->__('Style classes') . ':',
+            'label_attr' => [
+                'class' => 'checkbox-inline'
+            ],
             'empty_data' => '',
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Choose the style classes.')
             ],
             'required' => false,
-            'placeholder' => $this->__('Choose an option'),
             'choices' => $choices,
             'choice_attr' => $choiceAttributes,
             'multiple' => true,
-            'expanded' => false
+            'expanded' => true
         ]);
     }
 

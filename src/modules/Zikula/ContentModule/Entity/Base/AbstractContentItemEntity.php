@@ -151,7 +151,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $styleWidth = 'wauto';
     
     /**
-     * @ORM\Column(length=100)
+     * @ORM\Column(length=255)
      * @Assert\NotNull()
      * @ContentAssert\ListEntry(entityName="contentItem", propertyName="styleClasses", multiple=true)
      * @var string $styleClasses
