@@ -1,2 +1,2 @@
 {# purpose of this template: pages display json view #}
-{{ page.toArray()|json_encode() }}
+{{ page.toArray()|json_encode()|raw }}
