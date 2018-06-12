@@ -158,7 +158,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
         if ($routeArea == 'admin' && $this->permissionApi->hasPermission($this->getBundleName() . '::', '::', ACCESS_ADMIN)) {
             $links[] = [
                 'url' => $this->router->generate('zikulacontentmodule_config_config'),
-                'text' => $this->__('Configuration', 'zikulacontentmodule'),
+                'text' => $this->__('Settings', 'zikulacontentmodule'),
                 'title' => $this->__('Manage settings for this application', 'zikulacontentmodule'),
                 'icon' => 'wrench'
             ];
