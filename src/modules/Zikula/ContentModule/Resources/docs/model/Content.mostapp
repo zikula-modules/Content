@@ -11,6 +11,7 @@ application "Content" {
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
+        Container/LinkContainer.php,
         ContentModuleInstaller.php
     "
     markFiles "
