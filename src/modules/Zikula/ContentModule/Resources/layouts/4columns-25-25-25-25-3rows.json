@@ -1,0 +1,34 @@
+{
+    "name": {
+        "en": "4 columns (25|25|25|25)",
+        "de": "4 Spalten (25|25|25|25)"
+    },
+    "description": {
+        "en": "Three rows with each four equal 25% columns.",
+        "de": "Drei Reihen mit jeweils vier gleichen 25% Spalten."
+    },
+    "rows": {
+        "header": {},
+        "pageTitle": {},
+        "row1": {
+            "col1": "col-sm-3",
+            "col2": "col-sm-3",
+            "col3": "col-sm-3",
+            "col4": "col-sm-3"
+        },
+        "row2": {
+            "col1": "col-sm-3",
+            "col2": "col-sm-3",
+            "col3": "col-sm-3",
+            "col4": "col-sm-3"
+        },
+        "row3": {
+            "col1": "col-sm-3",
+            "col2": "col-sm-3",
+            "col3": "col-sm-3",
+            "col4": "col-sm-3"
+        },
+        "footer": {},
+        "hooks": {}
+    }
+}

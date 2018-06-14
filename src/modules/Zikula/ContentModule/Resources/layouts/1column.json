@@ -1,0 +1,15 @@
+{
+    "name": {
+        "en": "1 column",
+        "de": "1 Spalte"
+    },
+    "description": {
+        "en": "A single 100% wide column.",
+        "de": "Eine einzelne 100% breite Spalte."
+    },
+    "rows": {
+        "pageTitle": {},
+        "row1": {},
+        "hooks": {}
+    }
+}
