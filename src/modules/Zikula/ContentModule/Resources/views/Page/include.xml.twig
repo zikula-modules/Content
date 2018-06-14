@@ -7,6 +7,14 @@
     <skipUiHookSubscriber>{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}</skipUiHookSubscriber>
     <skipFilterHookSubscriber>{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}</skipFilterHookSubscriber>
     <layout><![CDATA[{{ page.layout }}]]></layout>
+    <customLayout>{% if page.customLayout is iterable and page.customLayout|length > 0 %}
+        <ul>
+        {% for entry in page.customLayout %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </customLayout>
     <views>{{ page.views }}</views>
     <active>{% if not page.active %}0{% else %}1{% endif %}</active>
     <activeFrom>{% if page.activeFrom is not empty %}

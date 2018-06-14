@@ -135,28 +135,12 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $scope = '1';
     
     /**
-     * @ORM\Column(length=20)
-     * @Assert\NotBlank()
-     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="stylePosition", multiple=false)
-     * @var string $stylePosition
-     */
-    protected $stylePosition = 'none';
-    
-    /**
-     * @ORM\Column(length=20)
-     * @Assert\NotBlank()
-     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="styleWidth", multiple=false)
-     * @var string $styleWidth
-     */
-    protected $styleWidth = 'wauto';
-    
-    /**
      * @ORM\Column(length=255)
      * @Assert\NotNull()
-     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="styleClasses", multiple=true)
-     * @var string $styleClasses
+     * @Assert\Length(min="0", max="255")
+     * @var string $stylingClasses
      */
-    protected $styleClasses = '';
+    protected $stylingClasses = '';
     
     
     /**
@@ -503,74 +487,26 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     }
     
     /**
-     * Returns the style position.
+     * Returns the styling classes.
      *
      * @return string
      */
-    public function getStylePosition()
+    public function getStylingClasses()
     {
-        return $this->stylePosition;
+        return $this->stylingClasses;
     }
     
     /**
-     * Sets the style position.
+     * Sets the styling classes.
      *
-     * @param string $stylePosition
+     * @param string $stylingClasses
      *
      * @return void
      */
-    public function setStylePosition($stylePosition)
+    public function setStylingClasses($stylingClasses)
     {
-        if ($this->stylePosition !== $stylePosition) {
-            $this->stylePosition = isset($stylePosition) ? $stylePosition : '';
-        }
-    }
-    
-    /**
-     * Returns the style width.
-     *
-     * @return string
-     */
-    public function getStyleWidth()
-    {
-        return $this->styleWidth;
-    }
-    
-    /**
-     * Sets the style width.
-     *
-     * @param string $styleWidth
-     *
-     * @return void
-     */
-    public function setStyleWidth($styleWidth)
-    {
-        if ($this->styleWidth !== $styleWidth) {
-            $this->styleWidth = isset($styleWidth) ? $styleWidth : '';
-        }
-    }
-    
-    /**
-     * Returns the style classes.
-     *
-     * @return string
-     */
-    public function getStyleClasses()
-    {
-        return $this->styleClasses;
-    }
-    
-    /**
-     * Sets the style classes.
-     *
-     * @param string $styleClasses
-     *
-     * @return void
-     */
-    public function setStyleClasses($styleClasses)
-    {
-        if ($this->styleClasses !== $styleClasses) {
-            $this->styleClasses = isset($styleClasses) ? $styleClasses : '';
+        if ($this->stylingClasses !== $stylingClasses) {
+            $this->stylingClasses = isset($stylingClasses) ? $stylingClasses : '';
         }
     }
     

@@ -51,6 +51,10 @@ application "Content" {
                     defaultValue ""
                     length 100
                 },
+                array "customLayout" {
+                    mandatory false
+                    arrayType JSON_ARRAY
+                },
                 integer "views" {
                     defaultValue "0"
                     mandatory false
@@ -154,39 +158,8 @@ application "Content" {
                         listItem "Only not logged in people" ( "2" )
                     }
                 },
-                list "stylePosition" expanded {
-                    defaultValue "none"
-                    length 20
-                    items {
-                        default listItem "No box" ( "none" ),
-                        listItem "Above" ( "above" ),
-                        listItem "Float, left" ( "topLeft" ),
-                        listItem "Float, right" ( "topRight" ),
-                        listItem "Above, left" ( "aboveLeft" ),
-                        listItem "Above, right" ( "aboveRight" )
-                    }
-                },
-                list "styleWidth" {
-                    defaultValue "wauto"
-                    length 20
-                    items {
-                        default listItem "auto" ( "wauto" ),
-                        listItem "1/1" ( "w100" ),
-                        listItem "3/4" ( "w75" ),
-                        listItem "2/3" ( "w66" ),
-                        listItem "1/2" ( "w50" ),
-                        listItem "1/3" ( "w33" ),
-                        listItem "1/4" ( "w25" )
-                    }
-                },
-                list "styleClasses" multiple expanded {
-                    defaultValue ""
+                string "stylingClasses" {
                     mandatory false
-                    length 255
-                    items {
-                        listItem "default",
-                        listItem "other"
-                    }
                 }
             }
             indexes {

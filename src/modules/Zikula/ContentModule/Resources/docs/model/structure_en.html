@@ -307,6 +307,23 @@
                 </td>
             </tr>
             <tr>
+                <th id="hEntityPageFieldCustomLayout" scope="row" headers="hEntityPageFieldName">Custom layout</th>
+                <td headers="hEntityPageFieldCustomLayout hEntityPageFieldType">Array</td>
+                <td headers="hEntityPageFieldCustomLayout hEntityPageFieldMandatory">false</td>
+                <td headers="hEntityPageFieldCustomLayout hEntityPageFieldDefault"></td>
+                <td headers="hEntityPageFieldCustomLayout hEntityPageFieldDisplayType">ALL</td>
+                <td headers="hEntityPageFieldCustomLayout hEntityPageFieldConstraints">
+                    <ul>
+                    </ul>
+                </td>
+                <td headers="hEntityPageFieldCustomLayout hEntityPageFieldRemarks">
+                    <ul>
+                        <li>This field is not unique and allows no null values.</li>
+                        <li>Uses a JSON array.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
                 <th id="hEntityPageFieldViews" scope="row" headers="hEntityPageFieldName">Views</th>
                 <td headers="hEntityPageFieldViews hEntityPageFieldType">Integer</td>
                 <td headers="hEntityPageFieldViews hEntityPageFieldMandatory">false</td>
@@ -977,59 +994,19 @@
                 </td>
             </tr>
             <tr>
-                <th id="hEntityContentItemFieldStylePosition" scope="row" headers="hEntityContentItemFieldName">Style position</th>
-                <td headers="hEntityContentItemFieldStylePosition hEntityContentItemFieldType">List</td>
-                <td headers="hEntityContentItemFieldStylePosition hEntityContentItemFieldMandatory">true</td>
-                <td headers="hEntityContentItemFieldStylePosition hEntityContentItemFieldDefault">none</td>
-                <td headers="hEntityContentItemFieldStylePosition hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldStylePosition hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Has a length of 20 chars.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldStylePosition hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                        <li>The list is represented by radio buttons.</li>
-                        <li>Available entries: <ul><li>Nobox (none)</li><li>Above (above)</li><li>Floatleft (topLeft)</li><li>Floatright (topRight)</li><li>Aboveleft (aboveLeft)</li><li>Aboveright (aboveRight)</li></ul></li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntityContentItemFieldStyleWidth" scope="row" headers="hEntityContentItemFieldName">Style width</th>
-                <td headers="hEntityContentItemFieldStyleWidth hEntityContentItemFieldType">List</td>
-                <td headers="hEntityContentItemFieldStyleWidth hEntityContentItemFieldMandatory">true</td>
-                <td headers="hEntityContentItemFieldStyleWidth hEntityContentItemFieldDefault">wauto</td>
-                <td headers="hEntityContentItemFieldStyleWidth hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldStyleWidth hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Has a length of 20 chars.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldStyleWidth hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                        <li>The list is represented by a single-valued dropdown list.</li>
-                        <li>Available entries: <ul><li>Auto (wauto)</li><li>1 1 (w100)</li><li>3 4 (w75)</li><li>2 3 (w66)</li><li>1 2 (w50)</li><li>1 3 (w33)</li><li>1 4 (w25)</li></ul></li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntityContentItemFieldStyleClasses" scope="row" headers="hEntityContentItemFieldName">Style classes</th>
-                <td headers="hEntityContentItemFieldStyleClasses hEntityContentItemFieldType">List</td>
-                <td headers="hEntityContentItemFieldStyleClasses hEntityContentItemFieldMandatory">false</td>
-                <td headers="hEntityContentItemFieldStyleClasses hEntityContentItemFieldDefault"></td>
-                <td headers="hEntityContentItemFieldStyleClasses hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldStyleClasses hEntityContentItemFieldConstraints">
+                <th id="hEntityContentItemFieldStylingClasses" scope="row" headers="hEntityContentItemFieldName">Styling classes</th>
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldType">String</td>
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldMandatory">false</td>
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldDefault"></td>
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldDisplayType">ALL</td>
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldConstraints">
                     <ul>
                         <li>Has a length of 255 chars.</li>
                     </ul>
                 </td>
-                <td headers="hEntityContentItemFieldStyleClasses hEntityContentItemFieldRemarks">
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldRemarks">
                     <ul>
                         <li>This field is not unique and allows no null values.</li>
-                        <li>The list is represented by checkboxes.</li>
-                        <li>Available entries: <ul><li>Default (null)</li><li>Other (null)</li></ul></li>
                     </ul>
                 </td>
             </tr>

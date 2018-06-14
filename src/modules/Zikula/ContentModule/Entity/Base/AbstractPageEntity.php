@@ -120,6 +120,15 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
+     * @ORM\Column(type="json_array")
+     * @Assert\NotNull()
+     * @Assert\Type(type="array")
+     * @var array $customLayout
+     */
+    protected $customLayout = [];
+    
+    /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
      * @Assert\NotNull()
@@ -552,6 +561,30 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     {
         if ($this->layout !== $layout) {
             $this->layout = isset($layout) ? $layout : '';
+        }
+    }
+    
+    /**
+     * Returns the custom layout.
+     *
+     * @return array
+     */
+    public function getCustomLayout()
+    {
+        return $this->customLayout;
+    }
+    
+    /**
+     * Sets the custom layout.
+     *
+     * @param array $customLayout
+     *
+     * @return void
+     */
+    public function setCustomLayout($customLayout)
+    {
+        if ($this->customLayout !== $customLayout) {
+            $this->customLayout = isset($customLayout) ? $customLayout : '';
         }
     }
     

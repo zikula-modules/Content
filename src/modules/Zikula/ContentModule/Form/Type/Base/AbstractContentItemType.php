@@ -28,7 +28,6 @@ use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
-use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
 use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
@@ -273,73 +272,15 @@ abstract class AbstractContentItemType extends AbstractType
             'expanded' => false
         ]);
         
-        $listEntries = $this->listHelper->getEntries('contentItem', 'stylePosition');
-        $choices = [];
-        $choiceAttributes = [];
-        foreach ($listEntries as $entry) {
-            $choices[$entry['text']] = $entry['value'];
-            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
-        }
-        $builder->add('stylePosition', ChoiceType::class, [
-            'label' => $this->__('Style position') . ':',
-            'label_attr' => [
-                'class' => 'radio-inline'
-            ],
-            'empty_data' => 'none',
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('Choose the style position.')
-            ],
-            'required' => true,
-            'choices' => $choices,
-            'choice_attr' => $choiceAttributes,
-            'multiple' => false,
-            'expanded' => true
-        ]);
-        
-        $listEntries = $this->listHelper->getEntries('contentItem', 'styleWidth');
-        $choices = [];
-        $choiceAttributes = [];
-        foreach ($listEntries as $entry) {
-            $choices[$entry['text']] = $entry['value'];
-            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
-        }
-        $builder->add('styleWidth', ChoiceType::class, [
-            'label' => $this->__('Style width') . ':',
-            'empty_data' => 'wauto',
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('Choose the style width.')
-            ],
-            'required' => true,
-            'choices' => $choices,
-            'choice_attr' => $choiceAttributes,
-            'multiple' => false,
-            'expanded' => false
-        ]);
-        
-        $listEntries = $this->listHelper->getEntries('contentItem', 'styleClasses');
-        $choices = [];
-        $choiceAttributes = [];
-        foreach ($listEntries as $entry) {
-            $choices[$entry['text']] = $entry['value'];
-            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
-        }
-        $builder->add('styleClasses', MultiListType::class, [
-            'label' => $this->__('Style classes') . ':',
-            'label_attr' => [
-                'class' => 'checkbox-inline'
-            ],
+        $builder->add('stylingClasses', TextType::class, [
+            'label' => $this->__('Styling classes') . ':',
             'empty_data' => '',
             'attr' => [
+                'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Choose the style classes.')
+                'title' => $this->__('Enter the styling classes of the content item')
             ],
             'required' => false,
-            'choices' => $choices,
-            'choice_attr' => $choiceAttributes,
-            'multiple' => true,
-            'expanded' => true
         ]);
     }
 
@@ -451,7 +392,6 @@ abstract class AbstractContentItemType extends AbstractType
                     return $this->entityFactory->createContentItem();
                 },
                 'error_mapping' => [
-                    'isStyleClassesValueAllowed' => 'styleClasses',
                     'isActiveFromBeforeActiveTo' => 'activeFrom',
                 ],
                 'mode' => 'create',
