@@ -1,0 +1,34 @@
+{
+    "name": {
+        "en": "4 columns (25) and 2 columns (66|33)/(33|66) alternating",
+        "de": "4 Spalten (25) und 2 Spalten (66|33)/(33|66) alternierend"
+    },
+    "description": {
+        "en": "Header area + four equal 25% columns + three rows with each two columns with alternating widths + footer area.",
+        "de": "Kopfbereich + vier gleiche 25% Spalten + drei Reihen mit jeweils zwei Spalten mit alternierenden Breiten + Fußbereich."
+    },
+    "rows": {
+        "header": {},
+        "pageTitle": {},
+        "row1": {
+            "col1": "col-sm-3",
+            "col2": "col-sm-3",
+            "col3": "col-sm-3",
+            "col4": "col-sm-3"
+        },
+        "row2": {
+            "col1": "col-sm-4",
+            "col2": "col-sm-8"
+        },
+        "row3": {
+            "col1": "col-sm-8",
+            "col2": "col-sm-4"
+        },
+        "row4": {
+            "col1": "col-sm-4",
+            "col2": "col-sm-8"
+        },
+        "footer": {},
+        "hooks": {}
+    }
+}

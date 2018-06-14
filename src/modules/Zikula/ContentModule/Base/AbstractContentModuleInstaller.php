@@ -49,6 +49,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('pageInfoLocation', 'top');
         $this->setVar('overridePageTitle', true);
         $this->setVar('countPageViews', false);
+        $this->setVar('googleMapsApiKey', '');
         $this->setVar('enableRawPlugin', false);
         $this->setVar('stylingClasses', 'greybox|Grey box');
         $this->setVar('inheritPermissions', false);

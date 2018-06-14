@@ -78,31 +78,6 @@ abstract class AbstractEntityInitialiser
             }
         }
 
-        $listEntries = $this->listEntriesHelper->getEntries('contentItem', 'stylePosition');
-        foreach ($listEntries as $listEntry) {
-            if (true === $listEntry['default']) {
-                $entity->setStylePosition($listEntry['value']);
-                break;
-            }
-        }
-
-        $listEntries = $this->listEntriesHelper->getEntries('contentItem', 'styleWidth');
-        foreach ($listEntries as $listEntry) {
-            if (true === $listEntry['default']) {
-                $entity->setStyleWidth($listEntry['value']);
-                break;
-            }
-        }
-
-        $listEntries = $this->listEntriesHelper->getEntries('contentItem', 'styleClasses');
-        $items = [];
-        foreach ($listEntries as $listEntry) {
-            if (true === $listEntry['default']) {
-                $items[] = $listEntry['value'];
-            }
-        }
-        $entity->setStyleClasses(implode('###', $items));
-
         return $entity;
     }
 

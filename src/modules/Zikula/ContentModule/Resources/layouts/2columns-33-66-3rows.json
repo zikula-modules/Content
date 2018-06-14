@@ -1,0 +1,28 @@
+{
+    "name": {
+        "en": "2 columns (33|66)",
+        "de": "2 Spalten (33|66)"
+    },
+    "description": {
+        "en": "Header area + three rows with each two columns (33% | 66%) + footer area.",
+        "de": "Kopfbereich + drei Reihen mit jeweils zwei Spalten (33% | 66%) + Fußbereich."
+    },
+    "rows": {
+        "header": {},
+        "pageTitle": {},
+        "row1": {
+            "col1": "col-sm-4",
+            "col2": "col-sm-8"
+        },
+        "row2": {
+            "col1": "col-sm-4",
+            "col2": "col-sm-8"
+        },
+        "row3": {
+            "col1": "col-sm-4",
+            "col2": "col-sm-8"
+        },
+        "footer": {},
+        "hooks": {}
+    }
+}

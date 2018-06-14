@@ -197,9 +197,6 @@ abstract class AbstractCollectionFilterHelper
         $parameters['page'] = $this->request->query->get('page', 0);
         $parameters['workflowState'] = $this->request->query->get('workflowState', '');
         $parameters['scope'] = $this->request->query->get('scope', '');
-        $parameters['stylePosition'] = $this->request->query->get('stylePosition', '');
-        $parameters['styleWidth'] = $this->request->query->get('styleWidth', '');
-        $parameters['styleClasses'] = $this->request->query->get('styleClasses', '');
         $parameters['q'] = $this->request->query->get('q', '');
         $parameters['active'] = $this->request->query->get('active', '');
     
@@ -348,10 +345,6 @@ abstract class AbstractCollectionFilterHelper
                 } elseif (substr($v, 0, 1) == '%') {
                     $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
                        ->setParameter($k, '%' . substr($v, 1) . '%');
-                } elseif (in_array($k, ['styleClasses'])) {
-                    // multi list filter
-                    $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
-                       ->setParameter($k, '%' . $v . '%');
                 } else {
                     $qb->andWhere('tbl.' . $k . ' = :' . $k)
                        ->setParameter($k, $v);
@@ -650,12 +643,8 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchActiveTo'] = $fragment;
             $filters[] = 'tbl.scope = :searchScope';
             $parameters['searchScope'] = $fragment;
-            $filters[] = 'tbl.stylePosition = :searchStylePosition';
-            $parameters['searchStylePosition'] = $fragment;
-            $filters[] = 'tbl.styleWidth = :searchStyleWidth';
-            $parameters['searchStyleWidth'] = $fragment;
-            $filters[] = 'tbl.styleClasses = :searchStyleClasses';
-            $parameters['searchStyleClasses'] = $fragment;
+            $filters[] = 'tbl.stylingClasses LIKE :searchStylingClasses';
+            $parameters['searchStylingClasses'] = '%' . $fragment . '%';
         }
         if ($objectType == 'searchable') {
             $filters[] = 'tbl.searchText LIKE :searchSearchText';

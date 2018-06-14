@@ -279,6 +279,17 @@ abstract class AbstractPageType extends AbstractType
             'required' => true,
         ]);
         
+        $builder->add('customLayout', ArrayType::class, [
+            'label' => $this->__('Custom layout') . ':',
+            'help' => $this->__('Enter one entry per line.'),
+            'empty_data' => '',
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('Enter the custom layout of the page')
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('views', IntegerType::class, [
             'label' => $this->__('Views') . ':',
             'empty_data' => '0',

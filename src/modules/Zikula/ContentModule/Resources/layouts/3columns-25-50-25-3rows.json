@@ -1,0 +1,31 @@
+{
+    "name": {
+        "en": "3 columns (25|50|25)",
+        "de": "3 Spalten (25|50|25)"
+    },
+    "description": {
+        "en": "Header area + three rows with each three columns (25% | 50% | 25%) + footer area.",
+        "de": "Kopfbereich + drei Reihen mit jeweils drei Spalten (25% | 50% | 25%) + Fußbereich."
+    },
+    "rows": {
+        "header": {},
+        "pageTitle": {},
+        "row1": {
+            "col1": "col-sm-3",
+            "col2": "col-sm-6",
+            "col3": "col-sm-3"
+        },
+        "row2": {
+            "col1": "col-sm-3",
+            "col2": "col-sm-6",
+            "col3": "col-sm-3"
+        },
+        "row3": {
+            "col1": "col-sm-3",
+            "col2": "col-sm-6",
+            "col3": "col-sm-3"
+        },
+        "footer": {},
+        "hooks": {}
+    }
+}

@@ -19,5 +19,18 @@ use Zikula\ContentModule\Base\AbstractContentModuleInstaller;
  */
 class ContentModuleInstaller extends AbstractContentModuleInstaller
 {
-    // feel free to extend the installer here
+    /**
+     * @inheritDoc
+     */
+    public function install()
+    {
+        $result = parent::install();
+        if (!$result) {
+            return $result;
+        }
+
+        $this->setVar('stylingClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box\norangeannouncementbox|Orange announcement box\ngreenimportantbox|Green important box");
+
+        return $result;
+    }
 }

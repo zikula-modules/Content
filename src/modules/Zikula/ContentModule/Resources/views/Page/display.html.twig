@@ -57,6 +57,17 @@
             <dt>{{ __('Layout') }}</dt>
             <dd>{{ page.layout }}</dd>
         {% endif %}
+        {% if page.customLayout is not empty %}
+            <dt>{{ __('Custom layout') }}</dt>
+            <dd>{% if page.customLayout is iterable and page.customLayout|length > 0 %}
+                <ul>
+                {% for entry in page.customLayout %}
+                    <li>{{ entry }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </dd>
+        {% endif %}
         {% if page.views is not empty %}
             <dt>{{ __('Views') }}</dt>
             <dd>{{ page.views }}</dd>

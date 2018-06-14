@@ -11,6 +11,8 @@ application "Content" {
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
+        Container/LinkContainer.php,
+        ContentModuleInstaller.php
     "
     markFiles "
         composer.json
@@ -48,6 +50,10 @@ application "Content" {
                 string "layout" {
                     defaultValue ""
                     length 100
+                },
+                array "customLayout" {
+                    mandatory false
+                    arrayType JSON_ARRAY
                 },
                 integer "views" {
                     defaultValue "0"
@@ -152,39 +158,8 @@ application "Content" {
                         listItem "Only not logged in people" ( "2" )
                     }
                 },
-                list "stylePosition" expanded {
-                    defaultValue "none"
-                    length 20
-                    items {
-                        default listItem "No box" ( "none" ),
-                        listItem "Above" ( "above" ),
-                        listItem "Float, left" ( "topLeft" ),
-                        listItem "Float, right" ( "topRight" ),
-                        listItem "Above, left" ( "aboveLeft" ),
-                        listItem "Above, right" ( "aboveRight" )
-                    }
-                },
-                list "styleWidth" {
-                    defaultValue "wauto"
-                    length 20
-                    items {
-                        default listItem "auto" ( "wauto" ),
-                        listItem "1/1" ( "w100" ),
-                        listItem "3/4" ( "w75" ),
-                        listItem "2/3" ( "w66" ),
-                        listItem "1/2" ( "w50" ),
-                        listItem "1/3" ( "w33" ),
-                        listItem "1/4" ( "w25" )
-                    }
-                },
-                list "styleClasses" multiple expanded {
-                    defaultValue ""
+                string "stylingClasses" {
                     mandatory false
-                    length 255
-                    items {
-                        listItem "default",
-                        listItem "other"
-                    }
                 }
             }
             indexes {
@@ -273,13 +248,19 @@ application "Content" {
                     defaultValue "false"
                     mandatory false
                 },
+                string "googleMapsApiKey" {
+                    documentation "If you want to use Google maps you need an API key for it."
+                    mandatory false
+                },
                 boolean "enableRawPlugin" {
                     documentation "Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc."
                     defaultValue "false"
                     mandatory false
                 },
                 text "stylingClasses" {
+                    documentation "A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance \"note\" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. \"note | Memo\"."
                     defaultValue "greybox|Grey box"
+                    length 5000
                 },
                 boolean "inheritPermissions" {
                     documentation "Whether to inherit permissions from parent to child pages or not."

@@ -145,15 +145,6 @@ abstract class AbstractListEntriesHelper
                     case 'scope':
                         $result = false;
                         break;
-                    case 'stylePosition':
-                        $result = false;
-                        break;
-                    case 'styleWidth':
-                        $result = false;
-                        break;
-                    case 'styleClasses':
-                        $result = true;
-                        break;
                 }
                 break;
             case 'searchable':
@@ -212,15 +203,6 @@ abstract class AbstractListEntriesHelper
                         break;
                     case 'scope':
                         $entries = $this->getScopeEntriesForContentItem();
-                        break;
-                    case 'stylePosition':
-                        $entries = $this->getStylePositionEntriesForContentItem();
-                        break;
-                    case 'styleWidth':
-                        $entries = $this->getStyleWidthEntriesForContentItem();
-                        break;
-                    case 'styleClasses':
-                        $entries = $this->getStyleClassesEntriesForContentItem();
                         break;
                 }
                 break;
@@ -355,147 +337,6 @@ abstract class AbstractListEntriesHelper
         $states[] = [
             'value'   => '2',
             'text'    => $this->__('Only not logged in people'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-    
-        return $states;
-    }
-    
-    /**
-     * Get 'style position' list entries.
-     *
-     * @return array Array with desired list entries
-     */
-    public function getStylePositionEntriesForContentItem()
-    {
-        $states = [];
-        $states[] = [
-            'value'   => 'none',
-            'text'    => $this->__('No box'),
-            'title'   => '',
-            'image'   => '',
-            'default' => true
-        ];
-        $states[] = [
-            'value'   => 'above',
-            'text'    => $this->__('Above'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'topLeft',
-            'text'    => $this->__('Float, left'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'topRight',
-            'text'    => $this->__('Float, right'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'aboveLeft',
-            'text'    => $this->__('Above, left'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'aboveRight',
-            'text'    => $this->__('Above, right'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-    
-        return $states;
-    }
-    
-    /**
-     * Get 'style width' list entries.
-     *
-     * @return array Array with desired list entries
-     */
-    public function getStyleWidthEntriesForContentItem()
-    {
-        $states = [];
-        $states[] = [
-            'value'   => 'wauto',
-            'text'    => $this->__('Auto'),
-            'title'   => '',
-            'image'   => '',
-            'default' => true
-        ];
-        $states[] = [
-            'value'   => 'w100',
-            'text'    => $this->__('1/1'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'w75',
-            'text'    => $this->__('3/4'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'w66',
-            'text'    => $this->__('2/3'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'w50',
-            'text'    => $this->__('1/2'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'w33',
-            'text'    => $this->__('1/3'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'w25',
-            'text'    => $this->__('1/4'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-    
-        return $states;
-    }
-    
-    /**
-     * Get 'style classes' list entries.
-     *
-     * @return array Array with desired list entries
-     */
-    public function getStyleClassesEntriesForContentItem()
-    {
-        $states = [];
-        $states[] = [
-            'value'   => 'default',
-            'text'    => $this->__('Default'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'other',
-            'text'    => $this->__('Other'),
             'title'   => '',
             'image'   => '',
             'default' => false
