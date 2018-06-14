@@ -83,7 +83,7 @@
                 <td id="itemActions{{ page.getKey() }}Start" headers="hItemActionsStart" class="actions nowrap z-w02">
                     {% set itemActions = knp_menu_get('ZikulaContentModule:ItemActionsMenu:menu', [], {entity: page, area: routeArea, context: 'view'}) %}
                     <div class="dropdown">
-                        <a id="itemActions{{ page.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" data-target="#" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> <span class="caret"></span></a>
+                        <a id="itemActions{{ page.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> <span class="caret"></span></a>
                         {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
                     </div>
                 </td>
