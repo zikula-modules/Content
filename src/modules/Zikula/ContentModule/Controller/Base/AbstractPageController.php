@@ -156,7 +156,6 @@ abstract class AbstractPageController extends AbstractController
         $sortableColumns->addColumns([
             new Column('title'),
             new Column('showTitle'),
-            new Column('layout'),
             new Column('views'),
             new Column('active'),
             new Column('activeFrom'),
