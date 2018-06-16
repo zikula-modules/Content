@@ -5,11 +5,9 @@
 {% block content %}
     {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
     {% set widgetDimensions = {width: 4, minWidth: 2, height: 2} %}
-    {% set subRowDimensions = {width: 6, minWidth: 3, height: 4} %}
-    {% set subWidgetDimensions = {width: 6, minWidth: 4, height: 2} %}
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" id="addRow" title="{{ __('Add another row') }}"><i class="fa fa-plus-circle"></i> {{ __('Add another row') }}</button>
+            <button type="button" class="btn btn-default" id="addSection" title="{{ __('Add another section') }}"><i class="fa fa-plus-circle"></i> {{ __('Add another section') }}</button>
         </div>
         <div class="btn-group" role="group">
             <button type="button" class="btn btn-default" id="savePage"><i class="fa fa-download"></i> Save page</button>
@@ -45,8 +43,6 @@
                 <textarea id="debugSavedData" cols="100" rows="10" readonly="readonly"></textarea>
             #}
             <div id="widgetDimensions" data-width="{{ widgetDimensions.width }}" data-minwidth="{{ widgetDimensions.minWidth }}" data-height="{{ widgetDimensions.height }}" class="hidden"></div>
-            <div id="subRowDimensions" data-width="{{ subRowDimensions.width }}" data-minwidth="{{ subRowDimensions.minWidth }}" data-height="{{ subRowDimensions.height }}" class="hidden"></div>
-            <div id="subWidgetDimensions" data-width="{{ subWidgetDimensions.width }}" data-minwidth="{{ subWidgetDimensions.minWidth }}" data-height="{{ subWidgetDimensions.height }}" class="hidden"></div>
         </div>
     </div>
 
@@ -55,12 +51,12 @@
         /* <![CDATA[ */
 
             var serialisedData = [
-                { id: 'row1', widgets: [
+                { id: 'section1', widgets: [
                     { id: 12, x: 0, y: 0, width: 3, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'primary', title: '<i class="fa fa-address-card"></i> Author info' },
                     { id: 34, x: 4, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'warning', title: '<i class="fa fa-code"></i> HTML (only guests)' },
                     { id: 56, x: 8, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'danger', title: '<i class="fa fa-newspaper-o"></i> News (inactive)' },
                 ]},
-                { id: 'row2', widgets: [
+                { id: 'section2', widgets: [
                     { id: 78, x: 0, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'success', title: '<i class="fa fa-vimeo"></i> Vimeo (only users)' },
                     { id: 90, x: 3, y: 2, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'info', title: '<i class="fa fa-youtube"></i> YouTube Video' }
                 ]}
@@ -73,6 +69,10 @@
                 placeholderText: '<img src="{{ asset('bundles/core/images/admin.png') }}" alt="Zikula" width="48" height="48" />',
                 resizable: {
                     handles: 'e, w'
+                },
+                draggable: {
+                    cursor: 'move',
+                    scroll: true
                 }
             };
         /* ]]> */

@@ -82,10 +82,10 @@ function contentPagePreparePaletteEntryForAddition(widget, widgetId) {
 }
 
 /**
- * Returns the actions for a row.
+ * Returns the actions for a section.
  */
-function contentPageGetRowActions(isFirstRow) {
-    var actions = '<div class="btn-group btn-group-sm pull-right" role="group"><button type="button" class="btn btn-default delete-row" title="' + Translator.__('Delete row') + '"' + (isFirstRow ? ' disabled="disabled"' : '') + '><i class="fa fa-trash-o"></i> ' + Translator.__('Delete row') + '</button></div>';
+function contentPageGetSectionActions(isFirstSection) {
+    var actions = '<div class="btn-group btn-group-sm pull-right" role="group"><button type="button" class="btn btn-default delete-section" title="' + Translator.__('Delete section') + '"' + (isFirstSection ? ' disabled="disabled"' : '') + '><i class="fa fa-trash-o"></i> ' + Translator.__('Delete section') + '</button></div>';
 
     return actions;
 }
@@ -95,36 +95,36 @@ function contentPageTempGetRandomInt(min, max) {
 }
 
 /**
- * Initialises row actions.
+ * Initialises section actions.
  */
-function contentPageInitRowActions() {
-    jQuery('#widgets h4 .delete-row').unbind('click').click(function (event) {
+function contentPageInitSectionActions() {
+    jQuery('#widgets h4 .delete-section').unbind('click').click(function (event) {
         event.preventDefault();
-        if (!confirm(Translator.__('Do you really want to delete this row including all contained items?'))) {
+        if (!confirm(Translator.__('Do you really want to delete this section including all contained items?'))) {
             return;
         }
-        var gridRow = jQuery(this).parents('.grid-row').first();
-        var grid = gridRow.find('.grid-stack').first().data('gridstack');
+        var gridSection = jQuery(this).parents('.grid-section').first();
+        var grid = gridSection.find('.grid-stack').first().data('gridstack');
         grid.destroy();
-        gridRow.remove();
+        gridSection.remove();
     });
 }
 
 /**
- * Adds another grid row to the current page.
+ * Adds another grid section to the current page.
  */
-function contentPageAddRow(rowId, rowNumber) {
-    var isFirstRow = jQuery('#widgets .grid-row').length < 1;
-    jQuery('#widgets').append('<div id="' + rowId + '" class="grid-row"><h4>' + contentPageGetRowActions(isFirstRow) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Row') + ' ' + rowNumber + '</h4><div class="well"><div class="grid-stack"></div></div></div>');
+function contentPageAddSection(sectionId, sectionNumber) {
+    var isFirstSection = jQuery('#widgets .grid-section').length < 1;
+    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="well"><div class="grid-stack"></div></div></div>');
 
-    var newTop = jQuery('#' + rowId).offset().top - 150;
+    var newTop = jQuery('#' + sectionId).offset().top - 150;
     jQuery('html, body').animate({ scrollTop: newTop }, 500);
 }
 
 /**
- * Initialises the gridstack for a given row selector.
+ * Initialises the gridstack for a given section selector.
  */
-function contentPageInitRowGrid(selector, gridOptions) {
+function contentPageInitSectionGrid(selector, gridOptions) {
     jQuery(selector).gridstack(gridOptions);
 
     jQuery(selector).on('change', function(event, items) {
@@ -205,14 +205,14 @@ function contentPageInitWidgetActions() {
 }
 
 /**
- * Removes all grid rows from the current page.
+ * Removes all grid sections from the current page.
  */
 function contentPageClear() {
-    jQuery('.grid-row').each(function (index) {
-        var gridRow = jQuery(this);
-        var grid = gridRow.find('.grid-stack').first().data('gridstack');
+    jQuery('.grid-section').each(function (index) {
+        var gridSection = jQuery(this);
+        var grid = gridSection.find('.grid-stack').first().data('gridstack');
         grid.destroy();
-        gridRow.remove();
+        gridSection.remove();
     });
 }
 
@@ -240,9 +240,9 @@ function contentPageGetWidgetPanelMarkup(nodeId, title) {
  * Updates grid attributes for all widgets.
  */
 function contentPageUpdateAllGridAttributes() {
-    _.each(serialisedData, function (row) {
+    _.each(serialisedData, function (section) {
         var lastNode = null;
-        var widgets = GridStackUI.Utils.sort(row.widgets);
+        var widgets = GridStackUI.Utils.sort(section.widgets);
         _.each(widgets, function (node) {
             var widget = jQuery('#widget' + node.id);
             var colOffset = 0;
@@ -273,7 +273,7 @@ function contentPageUpdateGridAttributes(widget, colOffset) {
  * Loads widget data from serialisation.
  */
 function contentPageUnserialiseWidgets(containerId, widgetList) {
-    contentPageInitRowGrid('#' + containerId + ' .grid-stack', gridOptions);
+    contentPageInitSectionGrid('#' + containerId + ' .grid-stack', gridOptions);
     var grid = jQuery('#' + containerId + ' .grid-stack').data('gridstack');
     var lastNode = null;
     var widgets = GridStackUI.Utils.sort(widgetList);
@@ -297,12 +297,12 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
  */
 function contentPageLoad() {
     contentPageClear();
-    var rowNumber = 0;
-    _.each(serialisedData, function (row) {
-        rowNumber++;
-        contentPageAddRow(row.id, rowNumber);
-        contentPageInitRowActions();
-        contentPageUnserialiseWidgets(row.id, row.widgets);
+    var sectionNumber = 0;
+    _.each(serialisedData, function (section) {
+        sectionNumber++;
+        contentPageAddSection(section.id, sectionNumber);
+        contentPageInitSectionActions();
+        contentPageUnserialiseWidgets(section.id, section.widgets);
     });
     contentPageInitWidgetActions();
 }
@@ -335,11 +335,11 @@ function contentPageSave() {
     if (true === suspendAutoSave) {
         return;
     }
-    serialisedData = _.map(jQuery('#widgets .grid-row'), function (row) {
-        row = jQuery(row);
+    serialisedData = _.map(jQuery('#widgets .grid-section'), function (section) {
+        section = jQuery(section);
         return {
-            id: row.attr('id'),
-            widgets: contentPageSerialiseWidgets(row.find('.well > .grid-stack > .grid-stack-item:visible').not('.grid-stack-placeholder'))
+            id: section.attr('id'),
+            widgets: contentPageSerialiseWidgets(section.find('.well > .grid-stack > .grid-stack-item:visible').not('.grid-stack-placeholder'))
         }
     });
 
@@ -352,11 +352,11 @@ function contentPageSave() {
  * Initialisation after page has been loaded.
  */
 jQuery(document).ready(function () {
-    jQuery('#addRow').click(function () {
-        var rowNumber = jQuery('#widgets .grid-row').length + 1;
-        contentPageAddRow('row' + rowNumber, rowNumber);
-        contentPageInitRowActions();
-        contentPageInitRowGrid('#row' + rowNumber + ' .grid-stack', gridOptions);
+    jQuery('#addSection').click(function () {
+        var sectionNumber = jQuery('#widgets .grid-section').length + 1;
+        contentPageAddSection('section' + sectionNumber, sectionNumber);
+        contentPageInitSectionActions();
+        contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
     });
 
     contentPageInitPalette();
