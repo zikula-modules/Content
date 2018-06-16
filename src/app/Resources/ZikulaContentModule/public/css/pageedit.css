@@ -1,0 +1,89 @@
+.grid-stack {
+    min-height: 75px;
+}
+/*.grid-stack-one-column-mode {
+    background-color: blue;
+}*/
+#z-maincontent #widgets h3.panel-title {
+    border-bottom: none;
+    color: #fff;
+    cursor: move;
+}
+h3.panel-title a.pull-right {
+    color: #fff;
+    display: inline-block;
+    margin-left: 10px;
+}
+/* required for dropdown menu */
+.grid-stack-item.hovered .grid-stack-item-content {
+    z-index: 1 !important;
+    overflow: visible !important;
+}
+.grid-stack-item-content {
+    background-color: #fff;
+    color: #2c3e50;
+    font-family: Arial, cursive;
+    text-align: center;
+    font-size: 16px;
+}
+.grid-stack-item-content.panel {
+    text-align: left;
+}
+
+.grid-stack-placeholder .placeholder-content {
+    background-color: #eee;
+    border: 1px dashed #333;
+}
+
+#palette {
+    background-color: #f5f5f5;
+    padding: 25px 10px;
+    text-align: center;
+}
+#palette .grid-stack-item {
+    display: block;
+    border: 2px dashed #333;
+    background-color: #fff;
+    margin-bottom: 20px;
+    cursor: move;
+    padding: 5px;
+    z-index: 10;
+}
+#palette .grid-stack-item:hover {
+    margin-bottom: 18px;
+    border-color: #1f80c0;
+}
+#palette .grid-stack-item .grid-stack-item-content {
+    background: none;
+    text-align: left;
+    font-size: 14px;
+    white-space: nowrap;
+}
+#palette .grid-stack-item .grid-stack-item-content .fa {
+    font-size: 16px;
+    display: inline-block;
+    margin: 2px 5px;
+}
+#palette .grid-stack-item:hover .grid-stack-item-content {
+/*     font-size: 16px; */
+    color: #1f80c0;
+}
+#palette .grid-stack-item:hover .grid-stack-item-content .fa {
+    font-size: 18px;
+}
+
+.affix-top, .affix {
+    position: static;
+}
+@media (min-width: 979px) {
+    #palette.affix-top {
+        position: static;
+        margin-top: 30px;
+    }
+    
+    #palette.affix {
+        position: fixed;
+        top: 70px;
+        width: 180px;
+    }
+}
