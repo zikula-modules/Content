@@ -127,10 +127,7 @@ function contentPageAddSection(sectionId, sectionNumber) {
 function contentPageInitSectionGrid(selector, gridOptions) {
     jQuery(selector).gridstack(gridOptions);
 
-    jQuery(selector).on('change', function(event, items) {
-        contentPageSave();
-        contentPageUpdateAllGridAttributes();
-    });
+    jQuery(selector).on('change', contentPageSave);
     jQuery(selector).on('dropped', function(event, previousWidget, newWidget) {
         //console.log('Removed widget that was dragged out of grid:', previousWidget);
         //console.log('Added widget in dropped grid:', newWidget);
@@ -146,7 +143,6 @@ function contentPageInitSectionGrid(selector, gridOptions) {
         var newId = contentPageTempGetRandomInt(1000, 9000);
         contentPageApplyDimensionConstraints(widget);
         contentPagePreparePaletteEntryForAddition(widget, newId);
-        contentPageInitWidgetActions();
 
         suspendAutoSave = false;
         contentPageSave();
@@ -346,6 +342,9 @@ function contentPageSave() {
     //jQuery('#debugSavedData').val(JSON.stringify(serialisedData, null, '    '));
 
     jQuery('#loadPage, #clearPage').prop('disabled', false);
+
+    contentPageUpdateAllGridAttributes();
+    contentPageInitWidgetActions();
 }
 
 /**
