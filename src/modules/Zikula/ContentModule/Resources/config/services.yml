@@ -10,3 +10,4 @@ imports:
   - { resource: 'hooks.yml' }
   - { resource: 'twig.yml' }
   - { resource: 'logger.yml' }
+  - { resource: 'customServices.yml' }

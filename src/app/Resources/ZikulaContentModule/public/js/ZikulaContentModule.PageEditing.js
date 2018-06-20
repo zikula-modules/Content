@@ -12,10 +12,10 @@ function contentPageInitPalette() {
             top: 280
         }
     });
-    jQuery('#palette .grid-stack-item').popover({
+    jQuery('#palette .panel-title a, #palette .grid-stack-item').popover({
         container: 'body',
         placement: function (pop, dom_el) {
-            return window.innerWidth < 768 ? 'top' : 'right';
+            return window.innerWidth < 768 ? 'bottom' : 'right';
         },
         trigger: 'hover focus'
     });
@@ -29,15 +29,25 @@ function contentPageInitPalette() {
         opacity: 0.75,
         zIndex: 100,
         start: function (event, ui) {
+            highlightGrids();
+
             // update widget size for placeholder
             var widget = jQuery(this);
+            jQuery('#widgetDimensions').data('minwidth', widget.data('minwidth'));
             contentPageApplyDimensionConstraints(widget);
 
             // transform helper widget to panel for nice preview
             var helperWidget = jQuery(ui.helper);
             var newId = contentPageTempGetRandomInt(1000, 9000);
             contentPagePreparePaletteEntryForAddition(helperWidget, newId);
-            helperWidget.css('width', '240px');
+
+            var helperWidth = parseInt(jQuery('#widgetDimensions').data('width'));
+            var helperMinWidth = parseInt(jQuery('#widgetDimensions').data('minwidth'));
+            if (helperMinWidth > helperWidth) {
+                helperWidth = helperMinWidth;
+            }
+            helperWidth *= '60';
+            helperWidget.css('width', helperWidth + 'px');
 
             suspendAutoSave = true;
         },
@@ -58,6 +68,9 @@ function contentPageApplyDimensionConstraints(widget) {
     node.width = jQuery('#widgetDimensions').data('width');
     node.height = jQuery('#widgetDimensions').data('height');
     node.minWidth = jQuery('#widgetDimensions').data('minwidth');
+    if (node.minWidth > node.width) {
+        node.width = node.minWidth;
+    }
     widget.data(nodeDataAttribute, node);
 }
 
@@ -70,6 +83,7 @@ function contentPagePreparePaletteEntryForAddition(widget, widgetId) {
     widget.removeAttr('data-title');
     widget.removeAttr('data-content');
     widget.removeAttr('data-original-title');
+    widget.removeAttr('data-minwidth');
     widget.removeClass('ui-draggable-handle');
 
     widget.attr('id', 'widget' + widgetId);
@@ -128,9 +142,28 @@ function contentPageInitSectionGrid(selector, gridOptions) {
     jQuery(selector).gridstack(gridOptions);
 
     jQuery(selector).on('change', contentPageSave);
-    jQuery(selector).on('dropped', function(event, previousWidget, newWidget) {
+
+    jQuery(selector).on('resizestart', function (event, ui) {
+        highlightGrids();
+    });
+    jQuery(selector).on('resizestop', function (event, ui) {
+        unhighlightGrids();
+    });
+    jQuery(selector).on('dragstart', function (event, ui) {
+        highlightGrids();
+    });
+    jQuery(selector).on('dragstop', function (event, ui) {
+        unhighlightGrids();
+    });
+
+    jQuery(selector).on('dropped', function (event, previousWidget, newWidget) {
+        unhighlightGrids();
+
         //console.log('Removed widget that was dragged out of grid:', previousWidget);
         //console.log('Added widget in dropped grid:', newWidget);
+        if (typeof previousWidget == 'undefined') {
+            return;
+        }
         if (typeof previousWidget.noResize != 'undefined') {
             // dnd between multiple grids
             return;
@@ -347,6 +380,65 @@ function contentPageSave() {
     contentPageInitWidgetActions();
 }
 
+var gridsHighlighted = false;
+
+/**
+ * Initialises the grid highlighter.
+ */
+function initGridHiglighter() {
+    jQuery('body').prepend('<div id="grid-displayer" class="hidden"><div class="gd-container"><div class="gd-row"></div></div></div>');
+}
+
+/**
+ * Displays the grid columns for easier orientation.
+ */
+function highlightGrids() {
+    var options = {
+        amountOfColumns: 12,
+        gutterWidth: 18,
+        outerLimit: 20, /* surrounding well */
+        colour: '#f4f5b4',
+        opacity: 0.3,
+        zIndex: 999
+    };
+
+    var $gdContainer = jQuery('#grid-displayer .gd-container');
+    var $gdRow = jQuery('#grid-displayer .gd-row');
+
+    $gdRow.addClass('row').empty();
+    for (var i = 0; i < options.amountOfColumns; i++) {
+        $gdRow.append('<div class="gd-column col-xs-1">&nbsp;</div>');
+    }
+
+    jQuery('#grid-displayer .gd-column').css({
+        borderWidth: '0 ' + (options.gutterWidth / 2) + 'px',
+        borderStyle: 'solid',
+        borderColor: '#fff',
+        padding: 0,
+        backgroundColor: options.colour,
+        outline: '1px solid ' + options.colour,
+        opacity: options.opacity
+    });
+
+    var firstGridStack = jQuery('.grid-stack').first();
+
+    jQuery('#grid-displayer').css({
+        zIndex: options.zIndex,
+        left: ((firstGridStack.offset().left + options.outerLimit - 5) + 'px'),
+        width: ((firstGridStack.width() - options.outerLimit - 10) + 'px')
+    });
+    jQuery('#grid-displayer').removeClass('hidden');
+    gridsHighlighted = true;
+}
+
+/**
+ * Removes the grid columns display again.
+ */
+function unhighlightGrids() {
+    jQuery('#grid-displayer').addClass('hidden');
+    gridsHighlighted = false;
+}
+
 /**
  * Initialisation after page has been loaded.
  */
@@ -365,4 +457,5 @@ jQuery(document).ready(function () {
     jQuery('#clearPage').click(contentPageClear);
 
     contentPageLoad();
+    initGridHiglighter();
 });

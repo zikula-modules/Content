@@ -1,0 +1,9 @@
+TODO
+{if !empty($anchorName)}<a id="{$anchorName}" name="{$anchorName}"></a>{/if}
+<{$headingType} id="heading_{$contentId}" class="content-heading">
+    {if $displayPageTitle}
+    {$title|safetext}
+    {else}
+    {$text}
+    {/if}
+</{$headingType}>

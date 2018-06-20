@@ -1,0 +1,8 @@
+services:
+    zikula_content_module.collector.content_type_collector:
+        class: Zikula\ContentModule\Collector\ContentTypeCollector
+    zikula_content_module.custom_twig_extension:
+        class: Zikula\ContentModule\Twig\CustomTwigExtension
+        arguments:
+            - "@zikula_content_module.collector.content_type_collector"
+        tags: ['twig.extension']

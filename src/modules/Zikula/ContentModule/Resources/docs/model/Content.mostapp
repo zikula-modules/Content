@@ -12,7 +12,9 @@ application "Content" {
     displayActionsStyle BUTTON_GROUP
     skipFiles "
         Container/LinkContainer.php,
-        ContentModuleInstaller.php
+        ContentModuleInstaller.php,
+        Resources/config/services.yml,
+        ZikulaContentModule.php
     "
     markFiles "
         composer.json
