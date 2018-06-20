@@ -354,6 +354,7 @@ abstract class AbstractContentType implements ContentTypeInterface
         if ($this->addedStyle) {
             $html = '</div>';
             // check for edit mode on and clear the floating elements in that case
+            // TODO
             if (SessionUtil::getVar('ContentEditMode')) {
                 $html .= '<div style="clear: both"></div>';
             }
