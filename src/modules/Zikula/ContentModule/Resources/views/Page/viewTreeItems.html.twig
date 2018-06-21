@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="clearfix">
-    <div id="{{ idPrefix }}" class="tree-container" data-object-type="page" data-root-id="{{ rootId|e('html_attr') }}" data-has-display="true" data-has-edit="true">
+    <div id="{{ idPrefix }}" class="tree-container" data-root-id="{{ rootId|e('html_attr') }}" data-object-type="page" data-urlargnames="slug" data-has-display="true" data-has-edit="true">
         {% if hasNodes %}
             <ul id="itemTree{{ rootId|e('html_attr') }}">
                 {{ zikulacontentmodule_treeData(objectType='page', tree=items, routeArea=routeArea, rootId=rootId) }}
