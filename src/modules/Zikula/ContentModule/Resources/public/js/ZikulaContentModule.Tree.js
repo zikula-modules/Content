@@ -138,12 +138,14 @@ function zikulaContentInitTree(idPrefix, theObjectType, rootId, hasDisplayAction
 function zikulaContentTreeContextMenuActions(theNode) {
     var rootId;
     var currentNode;
+    var currentNodeDom;
     var isRoot;
     
     rootId = theNode.id.split('_')[0].replace('tree', '').replace('node', '');
-    currentNode = trees['pageTree' + rootId].jstree('get_node', theNode, true);
-    isRoot = (currentNode.attr('id') === 'tree' + rootId + 'node_' + rootId);
-    nodeEntityId = currentNode.attr('id').replace('tree' + rootId + 'node_', '');
+    currentNode = trees['pageTree' + rootId].jstree('get_node', theNode, false);
+    currentNodeDom = trees['pageTree' + rootId].jstree('get_node', theNode, true);
+    isRoot = (currentNode.id === 'tree' + rootId + 'node_' + rootId);
+    nodeEntityId = currentNode.id.replace('tree' + rootId + 'node_', '');
     
     var actions = {};
     
@@ -183,7 +185,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             var amountOfChildren;
     
             confirmQuestion = Translator.__('Do you really want to remove this node?');
-            amountOfChildren = node.children.length;
+            amountOfChildren = currentNode.children.length;
             if (amountOfChildren > 0) {
                 confirmQuestion = Translator.__('Do you really want to remove this node including all child nodes?');
             }
@@ -198,11 +200,11 @@ function zikulaContentTreeContextMenuActions(theNode) {
         return actions;
     }
     
-    if (currentNode.is(':first-child') && currentNode.is(':last-child')) {
+    if (currentNodeDom.is(':first-child') && currentNodeDom.is(':last-child')) {
         return actions;
     }
     
-    if (!currentNode.is(':first-child')) { // has previous sibling
+    if (!currentNodeDom.is(':first-child')) { // has previous sibling
         actions.moveTop = {
             label: Translator.__('Move to top'),
             title: Translator.__('Move to top position'),
@@ -221,7 +223,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             icon: 'fa fa-fw fa-angle-up'
         };
     }
-    if (!currentNode.is(':last-child')) { // has next sibling
+    if (!currentNodeDom.is(':last-child')) { // has next sibling
         actions.moveDown = {
             label: Translator.__('Move down'),
             title: Translator.__('Move one position down'),
@@ -229,7 +231,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeDown');
             },
             icon: 'fa fa-fw fa-angle-down',
-            separator_before: currentNode.is(':first-child')
+            separator_before: currentNodeDom.is(':first-child')
         };
         actions.moveBottom = {
             label: Translator.__('Move to bottom'),
@@ -280,7 +282,6 @@ function zikulaContentTreeSave(node, parentNode, position) {
     }).done(function (res) {
         return true;
     }).fail(function (jqXHR, textStatus) {
-        var treeName = 'itemTree' + rootId;
         zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
 
         window.location.reload();
