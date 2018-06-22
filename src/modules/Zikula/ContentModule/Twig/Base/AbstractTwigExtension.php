@@ -250,7 +250,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
         foreach ($urlArgs as $field => $value) {
             $urlDataAttributes .= ' data-' . $field . '="' . $value . '"';
         }
-
+    
         $liTag = '<li id="' . $idPrefix . '" title="' . str_replace('"', '', $title) . '" class="lvl' . $node->getLvl() . '"' . $urlDataAttributes . '>';
         $liContent = $this->entityDisplayHelper->getFormattedTitle($node);
         if ($hasEditAction) {
