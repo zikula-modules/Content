@@ -146,6 +146,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
     var currentNode;
     var currentNodeDom;
     var isRoot;
+    var nodeEntityRouteArgs;
     
     rootId = theNode.id.split('_')[0].replace('tree', '').replace('node', '');
     currentNode = trees['pageTree' + rootId].jstree('get_node', theNode, false);
