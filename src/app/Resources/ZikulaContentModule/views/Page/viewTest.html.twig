@@ -1,0 +1,126 @@
+{# purpose of this template: gridstack playground #}
+{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% block title 'Playground' %}
+{% block admin_page_icon 'list-alt' %}
+{% block content %}
+    {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
+    {% set widgetDimensions = {width: 4, minWidth: 2, height: 2} %}
+    <div class="btn-toolbar">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id="addSection" title="{{ __('Add another section') }}"><i class="fa fa-plus-circle"></i> {{ __('Add another section') }}</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id="savePage"><i class="fa fa-download"></i> Save page</button>
+            <button type="button" class="btn btn-default" id="loadPage" disabled="disabled"><i class="fa fa-upload"></i> Load page</button>
+            <button type="button" class="btn btn-default" id="clearPage" disabled="disabled"><i class="fa fa-trash-o"></i> Clear page</button>
+        </div>
+    </div>
+    <br />
+    <div id="editFrame" class="row">
+        {% set categories = [
+            {
+                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_BASIC'),
+                title: __('Basic'),
+                description: __('Fundamental elements like text, image, heading, quote'),
+                icon: 'star'
+            },
+            {
+                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_EXTERNAL'),
+                title: __('External'),
+                description: __('External content, like Vimeo or YouTube videos, Slideshare, etc.'),
+                icon: 'globe'
+            },
+            {
+                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_INTEGRATION'),
+                title: __('Integration'),
+                description: __('Zikula blocks and content from third party modules like appointments, etc.'),
+                icon: 'cogs'
+            },
+            {
+                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_EXPERT'),
+                title: __('Expert'),
+                description: __('Advanced elements for special and complex purposes'),
+                icon: 'wrench'
+            }
+        ] %}
+        <div class="col-sm-4 col-md-3">
+            <div id="palette" class="well">
+                {% set activeContentTypes = zikulacontentmodule_contentTypes() %}
+                <div class="panel-group" id="paletteSectionList" role="tablist" aria-multiselectable="false">
+                {% for category in categories %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="paletteSection{{ loop.index }}">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#paletteSectionList" href="#collapseSection{{ loop.index }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapseSection{{ loop.index }}"{% if loop.first %}{% else %} class="collapsed"{% endif %} data-title="{{ category.title|e('html_attr') }}" data-content="{{ category.description|e('html_attr') }}">
+                                    <i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}<br />
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseSection{{ loop.index }}" class="panel-collapse collapse{% if loop.first %} in{% endif %}" role="tabpanel" aria-labelledby="paletteSection{{ loop.index }}">
+                            <div class="panel-body">
+                                {% for contentType in activeContentTypes if contentType.category == category.name %}
+                                    <div class="grid-stack-item" data-title="{{ contentType.title|e('html_attr') }}" data-content="{{ contentType.description|e('html_attr') }}" data-minwidth="{{ contentType.minimumAmountOfGridColumns|e('html_attr') }}">
+                                        <div class="grid-stack-item-content"><i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 col-md-9">
+            <div id="widgets" class="container-fluid"></div>
+            {#
+                <hr />
+                <textarea id="debugSavedData" cols="100" rows="10" readonly="readonly"></textarea>
+            #}
+            <div id="widgetDimensions" data-width="{{ widgetDimensions.width }}" data-minwidth="{{ widgetDimensions.minWidth }}" data-height="{{ widgetDimensions.height }}" class="hidden"></div>
+        </div>
+    </div>
+
+    {% set customScript %}
+        <script>
+        /* <![CDATA[ */
+
+            var serialisedData = [
+                { id: 'section1', widgets: [
+                    { id: 12, x: 0, y: 0, width: 3, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'primary', title: '<i class="fa fa-address-card"></i> Author info' },
+                    { id: 34, x: 4, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'warning', title: '<i class="fa fa-code"></i> HTML (only guests)' },
+                    { id: 56, x: 8, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'danger', title: '<i class="fa fa-newspaper-o"></i> News (inactive)' },
+                ]},
+                { id: 'section2', widgets: [
+                    { id: 78, x: 0, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'success', title: '<i class="fa fa-vimeo"></i> Vimeo (only users)' },
+                    { id: 90, x: 3, y: 2, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'info', title: '<i class="fa fa-youtube"></i> YouTube Video' }
+                ]}
+            ];
+
+            var gridOptions = {
+                acceptWidgets: true,
+                alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+                animate: true,
+                placeholderText: '<img src="{{ asset('bundles/core/images/admin.png') }}" alt="Zikula" width="48" height="48" />',
+                resizable: {
+                    handles: 'e, w'
+                },
+                draggable: {
+                    cursor: 'move',
+                    scroll: true
+                }
+            };
+        /* ]]> */
+        </script>
+    {% endset %}
+    {{ pageAddAsset('footer', customScript) }}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.min.css'), 111) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/lodash/lodash.min.js'), 10) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js'), 100) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.min.js'), 111) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.jQueryUI.min.js'), 112) }}
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:css/pageedit.css'), 130) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.PageEditing.js'), 130) }}
+{% endblock %}

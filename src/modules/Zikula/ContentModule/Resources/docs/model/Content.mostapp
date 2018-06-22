@@ -12,7 +12,9 @@ application "Content" {
     displayActionsStyle BUTTON_GROUP
     skipFiles "
         Container/LinkContainer.php,
-        ContentModuleInstaller.php
+        ContentModuleInstaller.php,
+        Resources/config/services.yml,
+        ZikulaContentModule.php
     "
     markFiles "
         composer.json
@@ -47,11 +49,8 @@ application "Content" {
                     mandatory false
                     displayType DISPLAY
                 },
-                string "layout" {
+                array "layout" {
                     defaultValue ""
-                    length 100
-                },
-                array "customLayout" {
                     mandatory false
                     arrayType JSON_ARRAY
                 },

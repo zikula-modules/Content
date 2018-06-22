@@ -1,0 +1,12 @@
+TODO
+<div class="content-quote">
+    {if $source}
+        <blockquote cite="{$source|safeHtml|raw}"><p>&raquo;{$text|nl2br|safeHtml|raw}&laquo;</p></blockquote>
+        <p class="source">-- <a href="{$source|e('html_attr') }">{if $desc}{$desc|safeHtml|raw}{else}{$source}{/if}</a></p>
+    {else}
+        <blockquote><p>&raquo;{$text|nl2br|notifyfilters:'content.hook.contentitem.ui.filter'|safeHtml|raw}&laquo;</p></blockquote>
+        {if $desc}
+            <p class="source">-- {$desc|safeHtml|raw}</p>
+        {/if}
+    {/if}
+</div>

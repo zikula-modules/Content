@@ -22,7 +22,6 @@
                 <col id="cItemActionsStart" />
                 <col id="cTitle" />
                 <col id="cShowTitle" />
-                <col id="cLayout" />
                 <col id="cViews" />
                 <col id="cActive" />
                 <col id="cActiveFrom" />
@@ -44,9 +43,6 @@
                 </th>
                 <th id="hShowTitle" scope="col" class="text-center">
                     <a href="{{ sort.showTitle.url }}" title="{{ __f('Sort by %s', {'%s': 'show title'}) }}" class="{{ sort.showTitle.class }}">{{ __('Show title') }}</a>
-                </th>
-                <th id="hLayout" scope="col" class="text-left">
-                    <a href="{{ sort.layout.url }}" title="{{ __f('Sort by %s', {'%s': 'layout'}) }}" class="{{ sort.layout.class }}">{{ __('Layout') }}</a>
                 </th>
                 <th id="hViews" scope="col" class="text-right">
                     <a href="{{ sort.views.url }}" title="{{ __f('Sort by %s', {'%s': 'views'}) }}" class="{{ sort.views.class }}">{{ __('Views') }}</a>
@@ -96,9 +92,6 @@
                     {% else %}
                         <i class="fa fa-times" title="{{ __('No') }}"></i>
                     {% endif %}
-                </td>
-                <td headers="hLayout" class="text-left">
-                    {{ page.layout }}
                 </td>
                 <td headers="hViews" class="text-right">
                     {{ page.views }}
@@ -150,7 +143,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}12{% else %}11{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}11{% else %}10{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>

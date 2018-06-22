@@ -12,12 +12,22 @@
 
 namespace Zikula\ContentModule;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Zikula\ContentModule\Base\AbstractZikulaContentModule;
+use Zikula\ContentModule\DependencyInjection\Compiler\ContentTypeCollectorPass;
 
 /**
  * Module implementation class.
  */
 class ZikulaContentModule extends AbstractZikulaContentModule
 {
-    // custom enhancements can go here
+    /**
+     * @inheritDoc
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new ContentTypeCollectorPass());
+    }
 }

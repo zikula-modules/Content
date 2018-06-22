@@ -146,6 +146,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
     var currentNode;
     var currentNodeDom;
     var isRoot;
+    var nodeEntityRouteArgs;
     
     rootId = theNode.id.split('_')[0].replace('tree', '').replace('node', '');
     currentNode = trees['pageTree' + rootId].jstree('get_node', theNode, false);
@@ -242,7 +243,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeDown');
             },
             icon: 'fa fa-fw fa-angle-down',
-            separator_before: currentNode.is(':first-child')
+            separator_before: currentNodeDom.is(':first-child')
         };
         actions.moveBottom = {
             label: Translator.__('Move to bottom'),

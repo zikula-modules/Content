@@ -607,8 +607,6 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchTitle'] = '%' . $fragment . '%';
             $filters[] = 'tbl.metaDescription LIKE :searchMetaDescription';
             $parameters['searchMetaDescription'] = '%' . $fragment . '%';
-            $filters[] = 'tbl.layout LIKE :searchLayout';
-            $parameters['searchLayout'] = '%' . $fragment . '%';
             $filters[] = 'tbl.views = :searchViews';
             $parameters['searchViews'] = $fragment;
             $filters[] = 'tbl.activeFrom = :searchActiveFrom';

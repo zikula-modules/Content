@@ -46,7 +46,6 @@
                 <select id="{$baseID}Sort" name="sort" class="form-control">
                     <option value="title"{if $sort eq 'title'} selected="selected"{/if}>{gt text='Title'}</option>
                     <option value="showTitle"{if $sort eq 'showTitle'} selected="selected"{/if}>{gt text='Show title'}</option>
-                    <option value="layout"{if $sort eq 'layout'} selected="selected"{/if}>{gt text='Layout'}</option>
                     <option value="views"{if $sort eq 'views'} selected="selected"{/if}>{gt text='Views'}</option>
                     <option value="active"{if $sort eq 'active'} selected="selected"{/if}>{gt text='Active'}</option>
                     <option value="activeFrom"{if $sort eq 'activeFrom'} selected="selected"{/if}>{gt text='Active from'}</option>

@@ -111,21 +111,12 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(length=100)
-     * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="100")
-     * @var string $layout
-     */
-    protected $layout = '';
-    
-    /**
-     * @Gedmo\Versioned
      * @ORM\Column(type="json_array")
      * @Assert\NotNull()
      * @Assert\Type(type="array")
-     * @var array $customLayout
+     * @var array $layout
      */
-    protected $customLayout = [];
+    protected $layout = [];
     
     /**
      * @Gedmo\Versioned
@@ -543,7 +534,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Returns the layout.
      *
-     * @return string
+     * @return array
      */
     public function getLayout()
     {
@@ -553,7 +544,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Sets the layout.
      *
-     * @param string $layout
+     * @param array $layout
      *
      * @return void
      */
@@ -561,30 +552,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     {
         if ($this->layout !== $layout) {
             $this->layout = isset($layout) ? $layout : '';
-        }
-    }
-    
-    /**
-     * Returns the custom layout.
-     *
-     * @return array
-     */
-    public function getCustomLayout()
-    {
-        return $this->customLayout;
-    }
-    
-    /**
-     * Sets the custom layout.
-     *
-     * @param array $customLayout
-     *
-     * @return void
-     */
-    public function setCustomLayout($customLayout)
-    {
-        if ($this->customLayout !== $customLayout) {
-            $this->customLayout = isset($customLayout) ? $customLayout : '';
         }
     }
     

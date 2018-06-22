@@ -1,0 +1,38 @@
+TODO
+{* purpose of this template: route planning template *}
+{ajaxheader modname='Content'}
+
+<script type="text/javascript" src="modules/Content/javascript/route.js"></script> 
+
+<div id="routemapcontainer" style="display: none">
+    <div class="grid_8 alpha" style="padding-left: 20px">
+        <h3 style="margin-left: 0; margin-bottom: 30px">{$topText}</h3>
+        <label for="fromAddress">Ihre Adresse:</label><br />
+        <input type="text" id="fromAddress" name="from" value="" size="30" style="margin-top: 10px; margin-bottom: 10px" />
+        <input type="button" id="startcalc" value="Route berechnen!" /><br />
+        <input type="hidden" id="totitle" name="totitle" value="{$addressText}" />
+        <input type="hidden" id="tolat" name="tolat" value="{$latitude}" />
+        <input type="hidden" id="tolong" name="tolong" value="{$longitude}" />
+        <span class="fontsize10">Straße (optional), Ort, Land (optional)</span>
+        <br /><br />
+        <div class="googlemap" style="margin-top: 20px">
+            <div id="routemap" class="map" style="width: 100%; height: 350px"></div>
+            <p class="content-description">{$bottomText}</p>
+        </div>
+    </div>
+    <div class="grid_7 prefix_1 omega" id="directions" style="">
+
+    </div>
+    <div class="clear">&nbsp;</div>
+    &nbsp;
+    <div id="warnings_panel"></div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    document.observe('dom:loaded', initRoutePlanning);
+//]]>
+</script>
+<noscript>
+    <p><img src="http://maps.google.com/staticmap?size=600x350&amp;center={$latitude|safetext},{$longitude|safetext}&amp;markers={$latitude|safetext},{$longitude|safetext}&amp;zoom={$zoom}" alt="{$modvars.ZConfig.sitename|safetext}" title="{$modvars.ZConfig.sitename|safetext}" /></p>
+</noscript>
