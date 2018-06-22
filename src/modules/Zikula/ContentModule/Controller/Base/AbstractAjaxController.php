@@ -165,7 +165,7 @@ abstract class AbstractAjaxController extends AbstractController
             $repository = $this->get('zikula_content_module.entity_factory')->getRepository($objectType);
             switch ($fieldName) {
                 case 'slug':
-                    $entity = $repository->selectBySlug($value, false, $exclude);
+                    $entity = $repository->selectBySlug($value, false, false, $exclude);
                     $result = null !== $entity && isset($entity['slug']);
                     break;
             }
