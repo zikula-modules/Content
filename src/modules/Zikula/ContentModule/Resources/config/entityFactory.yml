@@ -12,5 +12,5 @@ services:
     zikula_content_module.entity_initialiser:
         class: Zikula\ContentModule\Entity\Factory\EntityInitialiser
         arguments:
-        - "@request_stack"
-        - "@zikula_content_module.listentries_helper"
+            - "@request_stack"
+            - "@zikula_content_module.listentries_helper"
