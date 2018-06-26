@@ -58,6 +58,7 @@ abstract class AbstractEntityInitialiser
     public function initPage(PageEntity $entity)
     {
         $entity->setPageLanguage($this->request->getLocale());
+
         return $entity;
     }
 
@@ -91,6 +92,7 @@ abstract class AbstractEntityInitialiser
     public function initSearchable(SearchableEntity $entity)
     {
         $entity->setSearchLanguage($this->request->getLocale());
+
         return $entity;
     }
 
