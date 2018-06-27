@@ -276,7 +276,7 @@ abstract class AbstractEditHandler extends EditHandler
         if ($args['commandName'] == 'create') {
             // save predefined incoming relationship from parent entity
             if (!empty($this->relationPresets['page'])) {
-                $relObj = $this->entityFactory->getRepository('page')->selectById($this->relationPresets['page']);
+                $relObj = $this->entityFactory->getRepository('page')->selectBySlug($this->relationPresets['page']);
                 if (null !== $relObj) {
                     $relObj->addContentItems($entity);
                 }
