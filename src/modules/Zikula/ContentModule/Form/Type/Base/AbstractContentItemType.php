@@ -146,7 +146,7 @@ abstract class AbstractContentItemType extends AbstractType
             'attr' => [
                 'maxlength' => 9999999,
                 'class' => '',
-                'title' => $this->__('Enter the content data of the content item')
+                'title' => $this->__('Enter the content data of the content item.')
             ],
             'required' => false,
         ]);
@@ -200,7 +200,7 @@ abstract class AbstractContentItemType extends AbstractType
             'attr' => [
                 'maxlength' => 100,
                 'class' => '',
-                'title' => $this->__('Enter the owning bundle of the content item')
+                'title' => $this->__('Enter the owning bundle of the content item.')
             ],
             'required' => true,
         ]);
@@ -211,7 +211,7 @@ abstract class AbstractContentItemType extends AbstractType
             'attr' => [
                 'maxlength' => 100,
                 'class' => '',
-                'title' => $this->__('Enter the owning type of the content item')
+                'title' => $this->__('Enter the owning type of the content item.')
             ],
             'required' => true,
         ]);
@@ -229,7 +229,7 @@ abstract class AbstractContentItemType extends AbstractType
             'label' => $this->__('Active from') . ':',
             'attr' => [
                 'class' => ' validate-daterange-contentitem',
-                'title' => $this->__('Enter the active from of the content item')
+                'title' => $this->__('Enter the active from of the content item.')
             ],
             'required' => false,
             'empty_data' => '',
@@ -242,7 +242,7 @@ abstract class AbstractContentItemType extends AbstractType
             'label' => $this->__('Active to') . ':',
             'attr' => [
                 'class' => ' validate-daterange-contentitem',
-                'title' => $this->__('Enter the active to of the content item')
+                'title' => $this->__('Enter the active to of the content item.')
             ],
             'required' => false,
             'empty_data' => '',
@@ -278,7 +278,7 @@ abstract class AbstractContentItemType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the styling classes of the content item')
+                'title' => $this->__('Enter the styling classes of the content item.')
             ],
             'required' => false,
         ]);
