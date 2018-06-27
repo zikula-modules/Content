@@ -205,9 +205,9 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => 'validate-unique',
-                'title' => $this->__('You can input a custom permalink for the page or let this field free to create one automatically')
+                'title' => $this->__('You can input a custom permalink for the page or let this field free to create one automatically.')
             ],
-            'help' => $this->__('You can input a custom permalink for the page or let this field free to create one automatically')
+            'help' => $this->__('You can input a custom permalink for the page or let this field free to create one automatically.')
         ]);
         
         if ($this->variableApi->getSystemVar('multilingual') && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::TRANSLATIONS, 'page')) {
