@@ -160,7 +160,7 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the title of the page')
+                'title' => $this->__('Enter the title of the page.')
             ],
             'required' => true,
         ]);
@@ -171,7 +171,7 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the optional string 1 of the page')
+                'title' => $this->__('Enter the optional string 1 of the page.')
             ],
             'required' => false,
         ]);
@@ -182,7 +182,7 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the optional string 2 of the page')
+                'title' => $this->__('Enter the optional string 2 of the page.')
             ],
             'required' => false,
         ]);
@@ -194,7 +194,7 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 2000,
                 'class' => '',
-                'title' => $this->__('Enter the optional text of the page')
+                'title' => $this->__('Enter the optional text of the page.')
             ],
             'required' => false,
         ]);
@@ -245,7 +245,7 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 2000,
                 'class' => '',
-                'title' => $this->__('Enter the meta description of the page')
+                'title' => $this->__('Enter the meta description of the page.')
             ],
             'required' => false,
         ]);
@@ -274,7 +274,7 @@ abstract class AbstractPageType extends AbstractType
             'empty_data' => '',
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Enter the layout of the page')
+                'title' => $this->__('Enter the layout of the page.')
             ],
             'required' => false,
         ]);
@@ -304,7 +304,7 @@ abstract class AbstractPageType extends AbstractType
             'label' => $this->__('Active from') . ':',
             'attr' => [
                 'class' => ' validate-daterange-page',
-                'title' => $this->__('Enter the active from of the page')
+                'title' => $this->__('Enter the active from of the page.')
             ],
             'required' => false,
             'empty_data' => '',
@@ -317,7 +317,7 @@ abstract class AbstractPageType extends AbstractType
             'label' => $this->__('Active to') . ':',
             'attr' => [
                 'class' => ' validate-daterange-page',
-                'title' => $this->__('Enter the active to of the page')
+                'title' => $this->__('Enter the active to of the page.')
             ],
             'required' => false,
             'empty_data' => '',
@@ -341,7 +341,7 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 10,
                 'class' => '',
-                'title' => $this->__('Choose the page language of the page')
+                'title' => $this->__('Choose the page language of the page.')
             ],
             'required' => true,
             'choices' => $this->localeApi->getSupportedLocaleNames(),
@@ -353,7 +353,7 @@ abstract class AbstractPageType extends AbstractType
             'empty_data' => '',
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Enter the version data of the page')
+                'title' => $this->__('Enter the version data of the page.')
             ],
             'required' => false,
         ]);

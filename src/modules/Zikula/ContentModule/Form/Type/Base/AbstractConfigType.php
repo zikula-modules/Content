@@ -166,7 +166,7 @@ abstract class AbstractConfigType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the google maps api key')
+                'title' => $this->__('Enter the google maps api key.')
             ],
             'required' => false,
         ]);
@@ -196,7 +196,7 @@ abstract class AbstractConfigType extends AbstractType
             'attr' => [
                 'maxlength' => 5000,
                 'class' => '',
-                'title' => $this->__('Enter the styling classes')
+                'title' => $this->__('Enter the styling classes.')
             ],
             'required' => true,
         ]);
