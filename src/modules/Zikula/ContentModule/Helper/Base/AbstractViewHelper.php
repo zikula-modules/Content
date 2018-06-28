@@ -264,6 +264,7 @@ abstract class AbstractViewHelper
         $output = $this->twig->render($template, $templateParameters);
     
         // make local images absolute
+        $output = str_replace('img src="' . $this->request->getSchemeAndHttpHost() . $this->request->getBasePath() . '/', 'img src="/', $output);
         $output = str_replace('img src="/', 'img src="' . $this->request->server->get('DOCUMENT_ROOT') . '/', $output);
     
         // then the surrounding
