@@ -26,7 +26,7 @@ function zikulaContentTriggerFormValidation() {
     }
 }
 
-function zikulaContentHandleFormSubmit (event) {
+function zikulaContentHandleFormSubmit(event) {
     if (triggerValidation) {
         zikulaContentTriggerFormValidation();
         if (!editForm.get(0).checkValidity()) {
