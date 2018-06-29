@@ -184,7 +184,7 @@
     {% if mayManage %}
         <p class="managelink">
             {% set createTitle = __('Create content item') %}
-            <a href="{{ path('zikulacontentmodule_contentitem_' ~ routeArea ~ 'edit', {page: page.getKey()}) }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
+            <a href="{{ path('zikulacontentmodule_contentitem_' ~ routeArea ~ 'edit', {page: page.getSlug()}) }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
         </p>
     {% endif %}
 {% endblock %}
