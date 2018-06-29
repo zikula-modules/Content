@@ -55,6 +55,7 @@ abstract class AbstractEntityTreeType extends AbstractType
                 'attr' => [
                     'class' => 'entity-tree'
                 ],
+                'choice_label' => null
             ])
             ->setAllowedTypes('root', 'int')
             ->setAllowedTypes('include_leaf_nodes', 'bool')
@@ -73,11 +74,11 @@ abstract class AbstractEntityTreeType extends AbstractType
     /**
      * Performs the actual data selection.
      *
-     * @param array $options The options
+     * @param Options $options The options
      *
      * @return array List of selected objects
      */
-    protected function loadChoices(array $options = [])
+    protected function loadChoices(Options $options)
     {
         $repository = $options['em']->getRepository($options['class']);
         $treeNodes = $repository->selectTree($options['root'], $options['use_joins']);
@@ -88,7 +89,7 @@ abstract class AbstractEntityTreeType extends AbstractType
                 continue;
             }
 
-            $choices[$this->createChoiceLabel($node, $options['include_root_node'])] = $node->getKey();
+            $choices[$this->createChoiceLabel($node, $options['include_root_node'])] = $node;
         }
 
         return $choices;
@@ -100,11 +101,11 @@ abstract class AbstractEntityTreeType extends AbstractType
      *
      * @param object           $item       The treated entity
      * @param EntityRepository $repository The entity repository
-     * @param array            $options    The options
+     * @param Options          $options    The options
      *
      * @return boolean Whether this entity should be included into the list
      */
-    protected function isIncluded($item, EntityRepository $repository, array $options = [])
+    protected function isIncluded($item, EntityRepository $repository, Options $options)
     {
         $nodeLevel = $item->getLvl();
 
@@ -129,7 +130,7 @@ abstract class AbstractEntityTreeType extends AbstractType
      *
      * @return string The string representation of the object
      */
-    public function createChoiceLabel($choice, $includeRootNode = false)
+    protected function createChoiceLabel($choice, $includeRootNode = false)
     {
         // determine current list hierarchy level depending on root node inclusion
         $shownLevel = $choice->getLvl();

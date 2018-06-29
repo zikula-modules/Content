@@ -149,7 +149,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
-     * @Assert\Expression("!value or value > this.getActiveFrom()")
+     * @Assert\Expression("!value or value > this.getActiveFrom()", message="The start must be before the end.")
      * @var DateTime $activeTo
      */
     protected $activeTo;
