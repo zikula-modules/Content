@@ -48,19 +48,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
-     *
      * @param GenericEvent $event The event instance
      */
     public function started(GenericEvent $event)
@@ -92,19 +79,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      *
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
-     *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
      *
      * @param GenericEvent $event The event instance
      */
@@ -169,19 +143,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
-     *
      * @param GenericEvent $event The event instance
      */
     public function succeeded(GenericEvent $event)
@@ -213,19 +174,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
-     *
      * @param GenericEvent $event The event instance
      */
     public function failed(GenericEvent $event)
@@ -247,19 +195,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
-     *
      * @param GenericEvent $event The event instance
      */
     public function create(GenericEvent $event)
@@ -278,19 +213,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      *
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
-     *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
      *
      * @param GenericEvent $event The event instance
      */
@@ -312,19 +234,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
-     *
      * @param GenericEvent $event The event instance
      */
     public function delete(GenericEvent $event)
@@ -340,19 +249,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      *
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
-     *
-     * The current request's type: `MASTER_REQUEST` or `SUB_REQUEST`.
-     * If a listener should only be active for the master request,
-     * be sure to check that at the beginning of your method.
-     *     `if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
-     *         return;
-     *     }`
-     *
-     * The kernel instance handling the current request:
-     *     `$kernel = $event->getKernel();`
-     *
-     * The currently handled request:
-     *     `$request = $event->getRequest();`
      *
      * @param GenericEvent $event The event instance
      */
