@@ -105,13 +105,13 @@ abstract class AbstractUserLoginListener implements EventSubscriberInterface
      * The event subject contains the UserEntity.
      * The arguments of the event are as follows:
      *     `'authentication_module'` will contain the alias (name) of the method that was used to authenticate the user.
-     *     `'redirecturl'` will contain the value of the 'returnurl' parameter, if one was supplied, or an empty
+     *     `'returnUrl'` will contain the value of the 'returnurl' parameter, if one was supplied, or an empty
      *       string. This can be modified to change where the user is redirected following the login.
      *
-     * If a `'redirecturl'` is specified by any entity intercepting and processing the `module.users.ui.login.succeeded` event, then
+     * If a `'returnUrl'` is specified by any entity intercepting and processing the `module.users.ui.login.succeeded` event, then
      * the URL provided replaces the one provided by the returnurl parameter to the login process. If it is set to an empty
      * string, then the user is redirected to the site's home page. An event handler should carefully consider whether 
-     * changing the `'redirecturl'` argument is appropriate. First, the user may be expecting to return to the page where
+     * changing the `'returnUrl'` argument is appropriate. First, the user may be expecting to return to the page where
      * he was when he initiated the log-in process. Being redirected to a different page might be disorienting to the user.
      * Second, an event handler that was notified prior to the current handler may already have changed the `'returnUrl'`.
      *
@@ -137,9 +137,9 @@ abstract class AbstractUserLoginListener implements EventSubscriberInterface
      * The event subject contains the UserEntity if it has been found, otherwise null.
      * The arguments of the event are as follows:
      * `'authenticationMethod'` will contain an instance of the authenticationMethod used that produced the failed login.
-     * `'redirecturl'` will initially contain an empty string. This can be modified to change where the user is redirected following the failed login.
+     * `'returnUrl'` will initially contain an empty string. This can be modified to change where the user is redirected following the failed login.
      *
-     * If a `'redirecturl'` is specified by any entity intercepting and processing the `module.users.ui.login.failed` event, then
+     * If a `'returnUrl'` is specified by any entity intercepting and processing the `module.users.ui.login.failed` event, then
      * the user will be redirected to the URL provided.
      *
      * An event handler should carefully consider whether changing the `'returnUrl'` argument is appropriate.
