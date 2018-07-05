@@ -146,6 +146,13 @@ abstract class AbstractPageController extends AbstractController
         
         $sortableColumns = new SortableColumns($this->get('router'), 'zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'view', 'sort', 'sortdir');
         
+        if ('tree' == $request->query->getAlnum('tpl', '')) {
+            $templateParameters = $controllerHelper->processViewActionParameters($objectType, $sortableColumns, $templateParameters, true);
+        
+            // fetch and return the appropriate template
+            return $viewHelper->processTemplate($objectType, 'view', $templateParameters);
+        }
+        
         $sortableColumns->addColumns([
             new Column('title'),
             new Column('showTitle'),
@@ -163,13 +170,6 @@ abstract class AbstractPageController extends AbstractController
             new Column('updatedBy'),
             new Column('updatedDate'),
         ]);
-        
-        if ('tree' == $request->query->getAlnum('tpl', '')) {
-            $templateParameters = $controllerHelper->processViewActionParameters($objectType, $sortableColumns, $templateParameters, true);
-        
-            // fetch and return the appropriate template
-            return $viewHelper->processTemplate($objectType, 'view', $templateParameters);
-        }
         
         $templateParameters = $controllerHelper->processViewActionParameters($objectType, $sortableColumns, $templateParameters, true);
         
