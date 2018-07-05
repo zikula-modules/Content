@@ -90,7 +90,7 @@ abstract class AbstractControllerHelper
         FeatureActivationHelper $featureActivationHelper
     ) {
         $this->setTranslator($translator);
-        $this->request = $requestStack->getCurrentRequest();
+        $this->request = $requestStack->getMasterRequest();
         $this->formFactory = $formFactory;
         $this->variableApi = $variableApi;
         $this->entityFactory = $entityFactory;
