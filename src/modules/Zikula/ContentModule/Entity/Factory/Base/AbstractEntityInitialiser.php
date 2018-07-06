@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\SearchableEntity;
+use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 
 /**
@@ -30,6 +31,11 @@ abstract class AbstractEntityInitialiser
     protected $request;
 
     /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
+
+    /**
      * @var ListEntriesHelper Helper service for managing list entries
      */
     protected $listEntriesHelper;
@@ -38,13 +44,16 @@ abstract class AbstractEntityInitialiser
      * EntityInitialiser constructor.
      *
      * @param RequestStack $requestStack RequestStack service instance
+     * @param PermissionHelper $permissionHelper PermissionHelper service instance
      * @param ListEntriesHelper $listEntriesHelper Helper service for managing list entries
      */
     public function __construct(
         RequestStack $requestStack,
+        PermissionHelper $permissionHelper,
         ListEntriesHelper $listEntriesHelper
     ) {
         $this->request = $requestStack->getCurrentRequest();
+        $this->permissionHelper = $permissionHelper;
         $this->listEntriesHelper = $listEntriesHelper;
     }
 

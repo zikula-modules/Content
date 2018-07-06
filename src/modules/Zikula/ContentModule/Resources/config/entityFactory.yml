@@ -13,4 +13,5 @@ services:
         class: Zikula\ContentModule\Entity\Factory\EntityInitialiser
         arguments:
             - "@request_stack"
+            - "@zikula_content_module.permission_helper"
             - "@zikula_content_module.listentries_helper"

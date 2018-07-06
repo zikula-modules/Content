@@ -16,10 +16,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Workflow\Registry;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Core\Doctrine\EntityAccess;
-use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Helper base class for workflow methods.
@@ -42,11 +42,6 @@ abstract class AbstractWorkflowHelper
     protected $logger;
 
     /**
-     * @var PermissionApiInterface
-     */
-    protected $permissionApi;
-
-    /**
      * @var CurrentUserApiInterface
      */
     protected $currentUserApi;
@@ -62,15 +57,20 @@ abstract class AbstractWorkflowHelper
     protected $listEntriesHelper;
 
     /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
+
+    /**
      * WorkflowHelper constructor.
      *
      * @param TranslatorInterface     $translator        Translator service instance
      * @param Registry                $registry          Workflow registry service instance
      * @param LoggerInterface         $logger            Logger service instance
-     * @param PermissionApiInterface  $permissionApi     PermissionApi service instance
      * @param CurrentUserApiInterface $currentUserApi    CurrentUserApi service instance
      * @param EntityFactory           $entityFactory     EntityFactory service instance
      * @param ListEntriesHelper       $listEntriesHelper ListEntriesHelper service instance
+     * @param PermissionHelper        $permissionHelper  PermissionHelper service instance
      *
      * @return void
      */
@@ -78,18 +78,18 @@ abstract class AbstractWorkflowHelper
         TranslatorInterface $translator,
         Registry $registry,
         LoggerInterface $logger,
-        PermissionApiInterface $permissionApi,
         CurrentUserApiInterface $currentUserApi,
         EntityFactory $entityFactory,
-        ListEntriesHelper $listEntriesHelper
+        ListEntriesHelper $listEntriesHelper,
+        PermissionHelper $permissionHelper
     ) {
         $this->translator = $translator;
         $this->workflowRegistry = $registry;
         $this->logger = $logger;
-        $this->permissionApi = $permissionApi;
         $this->currentUserApi = $currentUserApi;
         $this->entityFactory = $entityFactory;
         $this->listEntriesHelper = $listEntriesHelper;
+        $this->permissionHelper = $permissionHelper;
     }
 
     /**

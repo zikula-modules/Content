@@ -21,6 +21,7 @@ use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\SearchableEntity;
 use Zikula\ContentModule\Helper\CategoryHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Entity collection filter helper base class.
@@ -31,6 +32,11 @@ abstract class AbstractCollectionFilterHelper
      * @var Request
      */
     protected $request;
+
+    /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
 
     /**
      * @var CurrentUserApiInterface
@@ -55,20 +61,23 @@ abstract class AbstractCollectionFilterHelper
     /**
      * CollectionFilterHelper constructor.
      *
-     * @param RequestStack   $requestStack        RequestStack service instance
+     * @param RequestStack $requestStack RequestStack service instance
+     * @param PermissionHelper $permissionHelper PermissionHelper service instance
      * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
-     * @param CategoryHelper $categoryHelper      CategoryHelper service instance
-     * @param boolean        $showOnlyOwnEntries  Fallback value to determine whether only own entries should be selected or not
-     * @param boolean        $filterDataByLocale  Whether to apply a locale-based filter or not
+     * @param CategoryHelper $categoryHelper CategoryHelper service instance
+     * @param boolean $showOnlyOwnEntries Fallback value to determine whether only own entries should be selected or not
+     * @param boolean $filterDataByLocale Whether to apply a locale-based filter or not
      */
     public function __construct(
         RequestStack $requestStack,
+        PermissionHelper $permissionHelper,
         CurrentUserApiInterface $currentUserApi,
         CategoryHelper $categoryHelper,
         $showOnlyOwnEntries,
         $filterDataByLocale
     ) {
         $this->request = $requestStack->getCurrentRequest();
+        $this->permissionHelper = $permissionHelper;
         $this->currentUserApi = $currentUserApi;
         $this->categoryHelper = $categoryHelper;
         $this->showOnlyOwnEntries = $showOnlyOwnEntries;

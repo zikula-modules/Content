@@ -34,7 +34,7 @@ abstract class AbstractConfigController extends AbstractController
      */
     public function configAction(Request $request)
     {
-        if (!$this->hasPermission($this->name . '::', '::', ACCESS_ADMIN)) {
+        if (!$this->get('zikula_content_module.permission_helper')->hasPermission(ACCESS_ADMIN)) {
             throw new AccessDeniedException();
         }
         

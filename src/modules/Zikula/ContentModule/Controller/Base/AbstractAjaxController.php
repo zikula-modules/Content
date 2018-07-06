@@ -72,12 +72,12 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $slimItems = [];
-        $component = 'ZikulaContentModule:' . ucfirst($objectType) . ':';
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         foreach ($entities as $item) {
-            $itemId = $item->getKey();
-            if (!$this->hasPermission($component, $itemId . '::', ACCESS_READ)) {
+            if (!$permissionHelper->mayRead($item)) {
                 continue;
             }
+            $itemId = $item->getKey();
             $slimItems[] = $this->prepareSlimItem($repository, $objectType, $item, $itemId, $descriptionFieldName);
         }
         

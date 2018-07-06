@@ -45,11 +45,6 @@ abstract class AbstractExternalController extends AbstractController
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
         }
         
-        $component = 'ZikulaContentModule:' . ucfirst($objectType) . ':';
-        if (!$this->hasPermission($component, $id . '::', ACCESS_READ)) {
-            return '';
-        }
-        
         $entityFactory = $this->get('zikula_content_module.entity_factory');
         $repository = $entityFactory->getRepository($objectType);
         
@@ -57,6 +52,10 @@ abstract class AbstractExternalController extends AbstractController
         $entity = $repository->selectById($id);
         if (null === $entity) {
             return new Response($this->__('No such item.'));
+        }
+        
+        if (!$this->get('zikula_content_module.permission_helper')->mayRead($entity)) {
+            return '';
         }
         
         $template = $request->query->has('template') ? $request->query->get('template', null) : null;
@@ -112,7 +111,7 @@ abstract class AbstractExternalController extends AbstractController
             return new RedirectResponse($redirectUrl);
         }
         
-        if (!$this->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', '::', ACCESS_COMMENT)) {
+        if (!$this->get('zikula_content_module.permission_helper')->hasComponentPermission($objectType, ACCESS_COMMENT)) {
             throw new AccessDeniedException();
         }
         
