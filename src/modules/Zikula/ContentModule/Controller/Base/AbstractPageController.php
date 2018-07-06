@@ -245,7 +245,7 @@ abstract class AbstractPageController extends AbstractController
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
         $permissionHelper = $this->get('zikula_content_module.permission_helper');
-        if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
+        if (!$permissionHelper->hasEntityPermission($page, $permLevel)) {
             throw new AccessDeniedException();
         }
         
