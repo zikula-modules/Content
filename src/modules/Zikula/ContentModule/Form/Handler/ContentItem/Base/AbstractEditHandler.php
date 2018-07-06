@@ -101,8 +101,8 @@ abstract class AbstractEditHandler extends EditHandler
         $options = [
             'mode' => $this->templateParameters['mode'],
             'actions' => $this->templateParameters['actions'],
-            'has_moderate_permission' => $this->permissionApi->hasPermission($this->permissionComponent, $this->idValue . '::', ACCESS_ADMIN),
-            'filter_by_ownership' => !$this->permissionApi->hasPermission($this->permissionComponent, $this->idValue . '::', ACCESS_ADD),
+            'has_moderate_permission' => $this->permissionHelper->hasEntityPermission($this->entityRef, ACCESS_ADMIN),
+            'filter_by_ownership' => !$this->permissionHelper->hasEntityPermission($this->entityRef, ACCESS_ADD),
             'inline_usage' => $this->templateParameters['inlineUsage']
         ];
     

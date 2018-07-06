@@ -204,7 +204,7 @@
             {% set routeArgs = all ? {all: 1, own: 1} : {own: 1} %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-user"></i> {{ linkTitle }}</a>
         {% endif %}
-        {% if hasDeletedEntities and hasPermission('ZikulaContentModule:Page:', '::', 'ACCESS_EDIT') %}
+        {% if hasDeletedEntities %}
             {% set linkTitle = __('View deleted pages') %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', {deleted: 1}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-trash-o"></i> {{ linkTitle }}</a>
         {% endif %}

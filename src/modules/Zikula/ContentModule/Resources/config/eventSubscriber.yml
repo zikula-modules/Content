@@ -67,7 +67,8 @@ services:
     zikula_content_module.workflow_events_listener:
         class: Zikula\ContentModule\Listener\WorkflowEventsListener
         arguments:
-            - "@zikula_permissions_module.api.permission"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.permission_helper"
         tags: ['kernel.event_subscriber']
     
     stof_doctrine_extensions.listener.sluggable:

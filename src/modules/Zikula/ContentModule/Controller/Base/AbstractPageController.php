@@ -63,12 +63,14 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function indexInternal(Request $request, $isAdmin = false)
     {
-        // parameter specifying which type of objects we are treating
         $objectType = 'page';
+        // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_OVERVIEW;
-        if (!$this->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', '::', $permLevel)) {
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
             throw new AccessDeniedException();
         }
+        
         $templateParameters = [
             'routeArea' => $isAdmin ? 'admin' : ''
         ];
@@ -117,12 +119,14 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function viewInternal(Request $request, $sort, $sortdir, $pos, $num, $isAdmin = false)
     {
-        // parameter specifying which type of objects we are treating
         $objectType = 'page';
+        // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
-        if (!$this->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', '::', $permLevel)) {
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
             throw new AccessDeniedException();
         }
+        
         $templateParameters = [
             'routeArea' => $isAdmin ? 'admin' : ''
         ];
@@ -131,9 +135,8 @@ abstract class AbstractPageController extends AbstractController
         
         // check if deleted entities should be displayed
         $viewDeleted = $request->query->getInt('deleted', 0);
-        if ($viewDeleted == 1 && $this->hasPermission('ZikulaContentModule:Page:', '::', ACCESS_EDIT)) {
-            $entityFactory = $this->get('zikula_content_module.entity_factory');
-            $entityManager = $entityFactory->getObjectManager();
+        if ($viewDeleted == 1 && $permissionHelper->hasComponentPermission('page', ACCESS_EDIT)) {
+            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
             $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
             $templateParameters['deletedItems'] = $logEntriesRepository->selectDeleted();
         
@@ -176,7 +179,7 @@ abstract class AbstractPageController extends AbstractController
         // filter by permissions
         $filteredEntities = [];
         foreach ($templateParameters['items'] as $page) {
-            if (!$this->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', $page->getKey() . '::', $permLevel)) {
+            if (!$permissionHelper->hasEntityPermission($page, $permLevel)) {
                 continue;
             }
             $filteredEntities[] = $page;
@@ -191,9 +194,8 @@ abstract class AbstractPageController extends AbstractController
         
         // check if there exist any deleted page
         $templateParameters['hasDeletedEntities'] = false;
-        if ($this->hasPermission('ZikulaContentModule:Page:', '::', ACCESS_EDIT)) {
-            $entityFactory = $this->get('zikula_content_module.entity_factory');
-            $entityManager = $entityFactory->getObjectManager();
+        if ($permissionHelper->hasPermission(ACCESS_EDIT)) {
+            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
             $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
             $templateParameters['hasDeletedEntities'] = count($logEntriesRepository->selectDeleted(1)) > 0;
         }
@@ -239,15 +241,11 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function displayInternal(Request $request, PageEntity $page, $isAdmin = false)
     {
-        // parameter specifying which type of objects we are treating
         $objectType = 'page';
+        // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
-        if (!$this->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', '::', $permLevel)) {
-            throw new AccessDeniedException();
-        }
-        // create identifier for permission check
-        $instanceId = $page->getKey();
-        if (!$this->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', $instanceId . '::', $permLevel)) {
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
             throw new AccessDeniedException();
         }
         
@@ -332,12 +330,14 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function editInternal(Request $request, $isAdmin = false)
     {
-        // parameter specifying which type of objects we are treating
         $objectType = 'page';
+        // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
-        if (!$this->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', '::', $permLevel)) {
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
             throw new AccessDeniedException();
         }
+        
         $templateParameters = [
             'routeArea' => $isAdmin ? 'admin' : ''
         ];

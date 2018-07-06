@@ -61,7 +61,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
         $routeArea = $options['area'];
         $context = $options['context'];
 
-        $permissionApi = $this->container->get('zikula_permissions_module.api.permission');
+        $permissionHelper = $this->container->get('zikula_content_module.permission_helper');
         $currentUserApi = $this->container->get('zikula_users_module.current_user');
         $entityDisplayHelper = $this->container->get('zikula_content_module.entity_display_helper');
 
@@ -75,8 +75,6 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
 
         $currentUserId = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
         if ($entity instanceof PageEntity) {
-            $component = 'ZikulaContentModule:Page:';
-            $instance = $entity->getKey() . '::';
             $routePrefix = 'zikulacontentmodule_page_';
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
         
@@ -105,7 +103,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-eye');
             }
-            if ($permissionApi->hasPermission($component, $instance, ACCESS_EDIT)) {
+            if ($permissionHelper->mayEdit($entity)) {
                 $title = $this->__('Edit', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'edit',
@@ -147,9 +145,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
             
             // more actions for adding new related items
             
-            $relatedComponent = 'ZikulaContentModule:ContentItem:';
-            $relatedInstance = $entity->getKey() . '::';
-            if ($isOwner || $permissionApi->hasPermission($relatedComponent, $relatedInstance, ACCESS_EDIT)) {
+            if ($isOwner || $permissionHelper->hasComponentPermission('contentItem', ACCESS_EDIT)) {
                 $title = $this->__('Create content items', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => 'zikulacontentmodule_contentitem_' . $routeArea . 'edit',
@@ -163,12 +159,10 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
             }
         }
         if ($entity instanceof ContentItemEntity) {
-            $component = 'ZikulaContentModule:ContentItem:';
-            $instance = $entity->getKey() . '::';
             $routePrefix = 'zikulacontentmodule_contentitem_';
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
         
-            if ($permissionApi->hasPermission($component, $instance, ACCESS_EDIT)) {
+            if ($permissionHelper->mayEdit($entity)) {
                 $title = $this->__('Edit', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'edit',
@@ -192,8 +186,6 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
             }
         }
         if ($entity instanceof SearchableEntity) {
-            $component = 'ZikulaContentModule:Searchable:';
-            $instance = $entity->getKey() . '::';
             $routePrefix = 'zikulacontentmodule_searchable_';
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
         

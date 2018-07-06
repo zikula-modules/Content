@@ -16,7 +16,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Zikula\Core\Doctrine\EntityAccess;
-use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Event handler implementation class for workflow events.
@@ -26,18 +27,27 @@ use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
 abstract class AbstractWorkflowEventsListener implements EventSubscriberInterface
 {
     /**
-     * @var PermissionApiInterface
+     * @var EntityFactory
      */
-    protected $permissionApi;
+    protected $entityFactory;
+    
+    /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
     
     /**
      * WorkflowEventsListener constructor.
      *
-     * @param PermissionApiInterface $permissionApi PermissionApi service instance
+     * @param EntityFactory $entityFactory EntityFactory service instance
+     * @param PermissionHelper $permissionHelper PermissionHelper service instance
      */
-    public function __construct(PermissionApiInterface $permissionApi)
+    public function __construct(
+        EntityFactory $entityFactory,
+        PermissionHelper $permissionHelper)
     {
-        $this->permissionApi = $permissionApi;
+        $this->entityFactory = $entityFactory;
+        $this->permissionHelper = $permissionHelper;
     }
     
     /**
@@ -120,7 +130,7 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
                 break;
         }
     
-        if (!$this->permissionApi->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', $entity->getKey() . '::', $permissionLevel)) {
+        if (!$this->permissionHelper->hasEntityPermission($entity, $permissionLevel)) {
             // no permission for this transition, so disallow it
             $event->setBlocked(true);
     

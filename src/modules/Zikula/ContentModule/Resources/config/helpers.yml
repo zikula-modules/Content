@@ -14,6 +14,7 @@ services:
         class: Zikula\ContentModule\Helper\CollectionFilterHelper
         arguments:
             - "@request_stack"
+            - "@zikula_content_module.permission_helper"
             - "@zikula_users_module.current_user"
             - "@zikula_content_module.category_helper"
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'showOnlyOwnEntries', false)"
@@ -56,16 +57,25 @@ services:
         arguments:
             - "@zikula_content_module.entity_factory"
     
+    zikula_content_module.permission_helper:
+        class: Zikula\ContentModule\Helper\PermissionHelper
+        arguments:
+            - "@service_container"
+            - "@request_stack"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_users_module.current_user"
+            - "@zikula_users_module.user_repository"
+    
     zikula_content_module.search_helper:
         class: Zikula\ContentModule\Helper\SearchHelper
         arguments:
             - "@translator.default"
-            - "@zikula_permissions_module.api.permission"
             - "@session"
             - "@request_stack"
             - "@zikula_content_module.entity_factory"
             - "@zikula_content_module.controller_helper"
             - "@zikula_content_module.entity_display_helper"
+            - "@zikula_content_module.permission_helper"
             - "@zikula_content_module.feature_activation_helper"
             - "@zikula_content_module.category_helper"
         tags:
@@ -86,10 +96,10 @@ services:
             - "@twig"
             - "@twig.loader"
             - "@request_stack"
-            - "@zikula_permissions_module.api.permission"
             - "@zikula_extensions_module.api.variable"
             - "@zikula_core.common.theme.pagevars"
             - "@zikula_content_module.controller_helper"
+            - "@zikula_content_module.permission_helper"
     
     zikula_content_module.workflow_helper:
         class: Zikula\ContentModule\Helper\WorkflowHelper
@@ -97,7 +107,7 @@ services:
             - "@translator.default"
             - "@workflow.registry"
             - "@logger"
-            - "@zikula_permissions_module.api.permission"
             - "@zikula_users_module.current_user"
             - "@zikula_content_module.entity_factory"
             - "@zikula_content_module.listentries_helper"
+            - "@zikula_content_module.permission_helper"
