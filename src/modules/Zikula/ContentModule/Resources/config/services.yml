@@ -11,3 +11,4 @@ imports:
   - { resource: 'twig.yml' }
   - { resource: 'logger.yml' }
   - { resource: 'customServices.yml' }
+  - { resource: 'contentTypes.yml' }

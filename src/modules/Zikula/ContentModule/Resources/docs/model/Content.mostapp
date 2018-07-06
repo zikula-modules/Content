@@ -13,11 +13,11 @@ application "Content" {
     skipFiles "
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
-        Resources/config/services.yml,
         ZikulaContentModule.php
     "
     markFiles "
-        composer.json
+        composer.json,
+        Resources/config/services.yml
     "
     entities {
         entity "page" leading loggable categorisable {
