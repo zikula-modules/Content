@@ -26,8 +26,8 @@ class LinkContainer extends AbstractLinkContainer
     public function getLinks($type = LinkContainerInterface::TYPE_ADMIN)
     {
         $links = parent::getLinks($type);
-        $hasEditPermissions = $this->permissionApi->hasPermission($this->getBundleName() . ':Page:', '::', ACCESS_EDIT);
-        $hasAddPermissions = $this->permissionApi->hasPermission($this->getBundleName() . ':Page:', '::', ACCESS_ADD);
+        $hasEditPermissions = $this->permissionHelper->hasComponentPermission('page', ACCESS_EDIT);
+        $hasAddPermissions = $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD);
 
         $routeArea = LinkContainerInterface::TYPE_ADMIN == $type ? 'admin' : '';
 
@@ -46,7 +46,7 @@ class LinkContainer extends AbstractLinkContainer
                 }
             }
             if ($hasAddPermissions) {
-                if ($this->permissionApi->hasPermission($this->getBundleName() . '::', '::', ACCESS_ADMIN)) {
+                if ($this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
                     // add link between the two existing ones
                     $links = [
                         $links[0],
