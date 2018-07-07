@@ -29,7 +29,8 @@ class ContentTypeCollectorPass implements CompilerPassInterface
 
         $collectorDefinition = $container->getDefinition('zikula_content_module.collector.content_type_collector');
 
-        foreach ($container->findTaggedServiceIds('zikula.content_type') as $id => $tagParameters) {
+        $taggedServices = $container->findTaggedServiceIds('zikula.content_type');
+        foreach ($taggedServices as $id => $tagParameters) {
             $collectorDefinition->addMethodCall('add', [new Reference($id)]);
         }
     }
