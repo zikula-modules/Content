@@ -13,10 +13,9 @@
 namespace Zikula\ContentModule\Controller;
 
 use Zikula\ContentModule\Controller\Base\AbstractAjaxController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -30,8 +29,7 @@ class AjaxController extends AbstractAjaxController
     /**
      * Retrieve item list for finder selections in Forms, Content type plugin and Scribite.
      *
-     * @Route("/getItemListFinder", options={"expose"=true})
-     * @Method("GET")
+     * @Route("/getItemListFinder", methods = {"GET"}, options={"expose"=true})
      *
      * @param string $ot      Name of currently used object type
      * @param string $sort    Sorting field
@@ -47,8 +45,7 @@ class AjaxController extends AbstractAjaxController
     /**
      * Checks whether a field value is a duplicate or not.
      *
-     * @Route("/checkForDuplicate", options={"expose"=true})
-     * @Method("GET")
+     * @Route("/checkForDuplicate", methods = {"GET"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
      *
@@ -64,8 +61,7 @@ class AjaxController extends AbstractAjaxController
     /**
      * Changes a given flag (boolean field) by switching between true and false.
      *
-     * @Route("/toggleFlag", options={"expose"=true})
-     * @Method("POST")
+     * @Route("/toggleFlag", methods = {"POST"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
      *
@@ -81,8 +77,7 @@ class AjaxController extends AbstractAjaxController
     /**
      * Performs different operations on tree hierarchies.
      *
-     * @Route("/handleTreeOperation", options={"expose"=true})
-     * @Method("POST")
+     * @Route("/handleTreeOperation", methods = {"POST"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
      *
