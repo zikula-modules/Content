@@ -12,9 +12,9 @@
 
 namespace Zikula\ContentModule\Controller\Base;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Zikula\Core\Controller\AbstractController;
 use Zikula\Core\RouteUrl;
 use Zikula\ContentModule\Entity\SearchableEntity;

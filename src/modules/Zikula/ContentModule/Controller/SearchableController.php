@@ -15,8 +15,8 @@ namespace Zikula\ContentModule\Controller;
 use Zikula\ContentModule\Controller\Base\AbstractSearchableController;
 
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 use Zikula\ContentModule\Entity\SearchableEntity;
