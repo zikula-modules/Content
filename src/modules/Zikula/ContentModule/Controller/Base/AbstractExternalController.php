@@ -98,7 +98,8 @@ abstract class AbstractExternalController extends AbstractController
         $cssAssetBag->add($assetHelper->resolve('@ZikulaContentModule:css/style.css'));
         $cssAssetBag->add([$assetHelper->resolve('@ZikulaContentModule:css/custom.css') => 120]);
         
-        $activatedObjectTypes = $this->getVar('enabledFinderTypes', []);
+        $listEntriesHelper = $this->get('zikula_content_module.listentries_helper');
+        $activatedObjectTypes = $listEntriesHelper->extractMultiList($this->getVar('enabledFinderTypes', ''));
         if (!in_array($objectType, $activatedObjectTypes)) {
             if (!count($activatedObjectTypes)) {
                 throw new AccessDeniedException();
@@ -186,6 +187,8 @@ abstract class AbstractExternalController extends AbstractController
         
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
         $templateParameters = $this->get('zikula_content_module.controller_helper')->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
+        
+        $templateParameters['activatedObjectTypes'] = $activatedObjectTypes;
         
         $templateParameters['pager'] = [
             'numitems' => $objectCount,
