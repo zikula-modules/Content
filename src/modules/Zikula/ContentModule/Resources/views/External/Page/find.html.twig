@@ -6,7 +6,6 @@
     <div class="container">
         <div class="zikula-bootstrap-tab-container">
             <ul class="nav nav-tabs">
-            {% set activatedObjectTypes = getModVar('ZikulaContentModule', 'enabledFinderTypes', []) %}
             {% if 'page' in activatedObjectTypes %}
                 <li{{ objectType == 'page' ? ' class="active"' : '' }}><a href="{{ path('zikulacontentmodule_external_finder', {objectType: 'page', editor: editorName}) }}" title="{{ __('Search and select page') }}">{{ __('Pages') }}</a></li>
             {% endif %}
