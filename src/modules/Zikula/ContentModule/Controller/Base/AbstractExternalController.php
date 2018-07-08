@@ -192,7 +192,7 @@ abstract class AbstractExternalController extends AbstractController
         
         $templateParameters['pager'] = [
             'numitems' => $objectCount,
-            'itemsperpage' => $resultsPerPage,
+            'itemsperpage' => $resultsPerPage
         ];
         
         $output = $this->renderView('@ZikulaContentModule/External/' . ucfirst($objectType) . '/find.html.twig', $templateParameters);
