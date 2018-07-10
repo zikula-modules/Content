@@ -68,9 +68,6 @@ class VimeoType extends AbstractContentType
     {
         return [
             'url' => '',
-            // TODO remove this?
-            //'width' => 425,
-            //'height' => 340,
             'text' => '',
             'videoId' => '',
             'displayMode' => 'inline'
@@ -88,8 +85,8 @@ class VimeoType extends AbstractContentType
 /** TODO
     function displayEditing()
     {
-        $output = '<div style="background-color:Lavender; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . '</div>';
-        $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
+        $output = '<div style="background-color:Lavender; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . '</div>';
+        $output .= '<p style="margin: 0 auto">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
     function isValid(&$data)

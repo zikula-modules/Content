@@ -12,9 +12,11 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\BlocksModule\Entity\BlockEntity;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
@@ -26,12 +28,20 @@ class BlockType extends AbstractType
     use TranslatorTrait;
 
     /**
+     * @var ObjectManager The object manager to be used for determining the repository
+     */
+    private $objectManager;
+
+    /**
      * BlockType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator    Translator service instance
+     * @param ObjectManager       $objectManager The object manager to be used for determining the repositories
      */
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator, ObjectManager $objectManager)
+    {
         $this->setTranslator($translator);
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -39,7 +49,7 @@ class BlockType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function setTranslator(/*TranslatorInterface */$translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
@@ -49,11 +59,19 @@ class BlockType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
+        $blockRepository = $this->objectManager->getRepository(BlockEntity::class);
+        $blocks = $blockRepository->findAll();
+
+        $choices = [];
+        foreach ($blocks as $block) {
+            $choices[$block->getModule()->getDisplayName() . ' - ' . $block->getTitle()] = $block->getBid();
+        }
+        ksort($choices);
+
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('blockId', ChoiceType::class, [
+                'label' => $this->__('Block to display') . ':',
+                'choices' => $choices
             ])
         ;
     }

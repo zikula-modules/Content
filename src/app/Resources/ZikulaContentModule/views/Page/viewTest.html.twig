@@ -47,6 +47,16 @@
         </div>
     </div>
 
+    {# required for dynamic activation of Scribite for modal content #}
+    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=null, outputAsArray=true) %}
+    {% if hooks is iterable and hooks|length > 0 %}
+    <div class="hidden">
+        {% for area, hook in hooks %}
+            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     {% set customScript %}
         <script>
         /* <![CDATA[ */
@@ -92,4 +102,16 @@
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.jQueryUI.min.js'), 112) }}
     {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:css/pageedit.css'), 130) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.PageEditing.js'), 130) }}
+
+    {{ pageAddAsset('stylesheet', zasset('@ZikulaUsersModule:css/livesearch.css')) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaUsersModule:js/Zikula.Users.LiveSearch.js')) }}
+    {% set customStyle %}
+        {# https://stackoverflow.com/questions/3217134 #}
+        <style type="text/css">
+            .ui-autocomplete {
+                z-index: 1500;
+            }
+        </style>
+    {% endset %}
+    {{ pageAddAsset('header', customStyle) }}
 {% endblock %}

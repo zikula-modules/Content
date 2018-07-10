@@ -68,13 +68,9 @@ class YouTubeType extends AbstractContentType
     {
         return [
             'url' => '',
-            // TODO remove this?
-            //'width' => 320,
-            //'height' => 240,
             'text' => '',
             'videoId' => '',
             'displayMode' => 'inline',
-            'videoMode' => 'HTML5',
             'showRelated' => false,
             'autoplay' => false
         ];
@@ -105,12 +101,11 @@ class YouTubeType extends AbstractContentType
     }
     function displayEditing()
     {
-        $output = '<div style="background-color:Lavender; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">' . $this->__f('<strong>Video-ID : %1$s</strong><br />Size in pixels: %2$s x %3$s', array($this->videoId, $this->width, $this->height));
-        $output .= '<br />' . ($this->videoMode == 'HTML5' ? $this->__('Default HTML5 embedding code used') : $this->__('Legacy Flash embedding code used'));
+        $output = '<div style="background-color:Lavender; margin:0 auto; padding:10px;">' . $this->__f('<strong>Video-ID : %1$s</strong>', array($this->videoId));
         $output .= '<br />' . ($this->showRelated ? $this->__('Related videos are shown') : $this->__('Related videos not shown'));
         $output .= $this->autoplay ? '<br />'.$this->__('Video is autoplayed') : '';
         $output .= '</div>';
-        $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
+        $output .= '<p style="margin: 0 auto">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
     function isValid(&$data)
@@ -121,12 +116,6 @@ class YouTubeType extends AbstractContentType
         }
         if (empty($this->videoId)) {
             return $this->view->setPluginErrorMsg('url', 'Value of url not valid');
-        }
-        if (empty($data['width']) || !is_numeric($data['width'])) {
-            return $this->view->setPluginErrorMsg('width', 'Value of width not valid');
-        }
-        if (empty($data['height']) || !is_numeric($data['height'])) {
-            return $this->view->setPluginErrorMsg('width', 'Value of height not valid');
         }
         return true;
     }

@@ -72,17 +72,6 @@ class BlockType extends AbstractContentType
         $output = $blockinfo['title'] . ' (ID=' . $this->blockid . ')';
         return $output;
     }
-    function startEditing()
-    {
-        $blocksInfo = BlockUtil::getBlocksInfo();
-        $blockoptions = array();
-        // add first empty choice
-        $blockoptions[] = array('text' => __('- Make a choice -'), 'value' => '0');
-        foreach ($blocksInfo as $block) {
-                $blockoptions[] = array('text' => $block['bid'] . ' - ' . $block['title'] . ' (' . ($block['active']?__('Active'):__('InActive')) . ')', 'value' => $block['bid']);
-        }
-        $this->view->assign('blockoptions', $blockoptions);
-    }
 */
     /**
      * @inheritDoc

@@ -12,14 +12,51 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentType\Form\Type\AuthorType as FormType;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
+use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 
 /**
  * Author content type.
  */
 class AuthorType extends AbstractContentType
 {
+    /**
+     * @var CurrentUserApiInterface
+     */
+    private $currentUserApi;
+
+    /**
+     * @var UserRepositoryInterface
+     */
+    protected $userRepository;
+
+    /**
+     * AuthorType constructor.
+     *
+     * @param TranslatorInterface     $translator     Translator service instance
+     * @param Twig_Environment        $twig           Twig service instance
+     * @param FilesystemLoader        $twigLoader     Twig loader service instance
+     * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
+     * @param UserRepositoryInterface $userRepository UserRepository service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        CurrentUserApiInterface $currentUserApi,
+        UserRepositoryInterface $userRepository
+    ) {
+        $this->currentUserApi = $currentUserApi;
+        $this->userRepository = $userRepository;
+        parent::__construct($translator, $twig, $twigLoader);
+    }
+
+
     /**
      * @inheritDoc
      */
@@ -50,7 +87,7 @@ class AuthorType extends AbstractContentType
     public function getDefaultData()
     {
         return [
-            'authorId' => 1
+            'authorId' => $this->currentUserApi->get('uid')
         ];
     }
 
@@ -59,8 +96,8 @@ class AuthorType extends AbstractContentType
      */
     public function getSearchableText()
     {
-        // TODO
-        $authorName = UserUtil::getVar($this->data['authorId'], 'uname');
+        $user = $this->userRepository->find($this->data['authorId']);
+        $authorName = null !== $user ? $user->getUname() : $this->__('Unknown author');
 
         return html_entity_decode(strip_tags($authorName));
     }

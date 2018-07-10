@@ -13,7 +13,9 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -30,7 +32,8 @@ class QuoteType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator)
+    {
         $this->setTranslator($translator);
     }
 
@@ -39,7 +42,7 @@ class QuoteType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function setTranslator(/*TranslatorInterface */$translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
@@ -49,11 +52,17 @@ class QuoteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('text', TextareaType::class, [
+                'label' => $this->__('Quote text') . ':'
+            ])
+            ->add('source', UrlType::class, [
+                'label' => $this->__('Source') . ':',
+                'required' => false
+            ])
+            ->add('description', TextType::class, [
+                'label' => $this->__('Description') . ':',
+                'required' => false
             ])
         ;
     }

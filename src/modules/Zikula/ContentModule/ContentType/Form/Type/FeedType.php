@@ -13,7 +13,9 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -30,7 +32,8 @@ class FeedType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator)
+    {
         $this->setTranslator($translator);
     }
 
@@ -39,7 +42,7 @@ class FeedType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function setTranslator(/*TranslatorInterface */$translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
@@ -49,11 +52,20 @@ class FeedType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('url', UrlType::class, [
+                'label' => $this->__('URL of RSS feed') . ':'
+            ])
+            ->add('includeContent', CheckboxType::class, [
+                'label' => $this->__('Include feed text in addition to the title') . ':',
+                'required' => false
+            ])
+            ->add('refreshTime', IntegerType::class, [
+                'label' => $this->__('Refresh time') . ':',
+                'input_group' => ['right' => $this->__('minutes')]
+            ])
+            ->add('maxNoOfItems', IntegerType::class, [
+                'label' => $this->__('Max. no. of items to display') . ':'
             ])
         ;
     }

@@ -18,7 +18,7 @@
             </div>
         </fieldset>
 #}
-        {% if form.content is defined and contentFormTemplate|default %}
+        {% if form.contentData is defined and contentFormTemplate|default %}
             <fieldset>
                 <legend>{{ __('Content') }}</legend>
                 {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
@@ -32,6 +32,21 @@
             {{ form_row(form.scope) }}
             {{ form_row(form.stylingClasses) }}
         </fieldset>
+
+        {% if formHookTemplates|length > 0 %}
+            <fieldset>
+                {% for hookTemplate in formHookTemplates %}
+                    {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+                {% endfor %}
+            </fieldset>
+        {% endif %}
         {{ form_end(form) }}
     </div>
+    {% set hookId = mode != 'create' ? contentItem.id : null %}
+    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=hookId, outputAsArray=true) %}
+    {% if hooks is iterable and hooks|length > 0 %}
+        {% for area, hook in hooks %}
+            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+        {% endfor %}
+    {% endif %}
 </div>

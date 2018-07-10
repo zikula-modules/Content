@@ -1,5 +1,4 @@
 TODO
-{formsetinitialfocus inputId='url'}
 <div class="z-formrow">
     {formlabel for='url' __text='URL to the video clip'}
     {formurlinput id='url' group='data'}
@@ -28,17 +27,6 @@ TODO
 
         {formradiobutton id='displayModePopup' dataField='displayMode' value='popup' group='data'}
         {formlabel for='displayModePopup' __text='Show video in popup window'}
-    </div>
-</div>
-
-<div class="z-formrow">
-    {formlabel for='height' __text="How to embed the video, when displayed inline"}
-    <div class="z-formnote">
-        {formradiobutton id='videoModeHTML5' dataField='videoMode' value='HTML5' checked='1' group='data'}
-        {formlabel for='videoModeHTML5' __text='HTML5 standard embedding'}
-
-        {formradiobutton id='videoModeFlash' dataField='videoMode' value='flash' group='data'}
-        {formlabel for='videoModeFlash' __text='Flash legacy embedding (not recommended)'}
     </div>
 </div>
 

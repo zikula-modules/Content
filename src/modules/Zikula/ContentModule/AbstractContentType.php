@@ -439,7 +439,7 @@ abstract class AbstractContentType implements ContentTypeInterface
         $template = '@' . $this->getBundleName() . '/ContentType/' . lcfirst($this->getName()) . $suffix . '.html.twig';
 
         if (!$this->twigLoader->exists($template)) {
-            throw new Exception($this->__f('Error! Could not resolve %template% template.', ['%template%' => $template]));
+            throw new \Exception($this->__f('Error! Could not resolve %template% template.', ['%template%' => $template]));
         }
 
         return $template;

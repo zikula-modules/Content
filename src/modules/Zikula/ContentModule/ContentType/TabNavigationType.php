@@ -59,9 +59,9 @@ class TabNavigationType extends AbstractContentType
     public function getDefaultData()
     {
         return [
+            'contentItemIds' => '',
             'tabTitles' => '',
             'tabLinks' => '',
-            'contentItemIds' => '',
             'tabType' => '',
             'tabStyle' => ''
         ];
@@ -111,17 +111,6 @@ class TabNavigationType extends AbstractContentType
         $output .= '<br />' . $this->__('You can disable the individual Content Items if you only want to display them in this Tab Navigation.');
         $output .= '</p>';
         return $output;
-    }
-
-    function startEditing()
-    {
-        // options for choosing the tab navigation
-        $tabTypeOptions = [
-            ['text' => $this->__('Tabs'), 'value' => '1'],
-            ['text' => $this->__('Pills'), 'value' => '2'],
-            ['text' => $this->__('Stacked pills') . ' (col-sm3/col-sm-9)', 'value' => '3']
-        ];
-        $this->view->assign('tabTypeOptions', $tabTypeOptions);
     }
 */
     /**

@@ -13,10 +13,10 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 
 /**
  * Author form type class.
@@ -30,7 +30,8 @@ class AuthorType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator)
+    {
         $this->setTranslator($translator);
     }
 
@@ -39,7 +40,7 @@ class AuthorType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function setTranslator(/*TranslatorInterface */$translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
@@ -49,11 +50,14 @@ class AuthorType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('authorId', UserLiveSearchType::class, [
+                'label' => $this->__('Author') . ':',
+                'attr' => [
+                    'maxlength' => 11,
+                    'title' => $this->__('Here you can choose a user which will be used as author.')
+                ],
+                'help' => $this->__('Here you can choose a user which will be used as author.')
             ])
         ;
     }

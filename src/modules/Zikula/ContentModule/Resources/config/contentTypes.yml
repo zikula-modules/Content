@@ -12,6 +12,9 @@ services:
 
     Zikula\ContentModule\ContentType\AuthorType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@zikula_users_module.current_user'
+            - '@zikula_users_module.user_repository'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\AuthorType:
         parent: zikula_content_module.content_type.form.common
@@ -22,6 +25,8 @@ services:
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\BlockType:
         parent: zikula_content_module.content_type.form.common
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\BreadcrumbType:
@@ -87,13 +92,6 @@ services:
         parent: zikula_content_module.content_type.form.common
         tags: ['form.type']
 
-    Zikula\ContentModule\ContentType\JoinPositionType:
-        parent: zikula_content_module.content_type.common
-        tags: ['zikula.content_type']
-    Zikula\ContentModule\ContentType\Form\Type\JoinPositionType:
-        parent: zikula_content_module.content_type.form.common
-        tags: ['form.type']
-
     Zikula\ContentModule\ContentType\OpenStreetMapType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
@@ -104,9 +102,6 @@ services:
     Zikula\ContentModule\ContentType\PageNavigationType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    Zikula\ContentModule\ContentType\Form\Type\PageNavigationType:
-        parent: zikula_content_module.content_type.form.common
-        tags: ['form.type']
 
     Zikula\ContentModule\ContentType\QuoteType:
         parent: zikula_content_module.content_type.common

@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\ContentItemType;
 use Zikula\Core\Response\PlainResponse;
@@ -83,10 +84,12 @@ class ContentItemController extends AbstractContentItemController
     public function editAction(Request $request, ContentItemEntity $contentItem = null)
     {
         $contentTypeClass = null;
+        $isCreate = false;
 
         // permission check
         $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (null === $contentItem) {
+            $isCreate = true;
             if (!$permissionHelper->hasComponentPermission('page', ACCESS_ADD)) {
                 throw new AccessDeniedException();
             }
@@ -111,18 +114,33 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $contentType = $container->get($contentTypeClass);
+        if (true === $isCreate) {
+            $contentItem->setContentData($contentType->getDefaultData());
+        }
 
         $form = $this->createForm(ContentItemType::class, $contentItem);
         if (null !== $contentType->getEditFormClass() && '' !== $contentType->getEditFormClass() && class_exists($contentType->getEditFormClass())) {
             $form->add('contentData', $contentType->getEditFormClass(), $contentType->getEditFormOptions());
         }
-        $form->handleRequest($request);
 
-        $output = $this->renderView('@ZikulaContentModule/ContentItem/edit.html.twig', [
+        $templateParameters = [
+            'mode' => (true === $isCreate ? 'create' : 'edit'),
+            'contentItem' => $contentItem,
             'form' => $form->createView(),
             'contentType' => $contentType,
             'contentFormTemplate' => $contentType->getEditTemplatePath()
-        ]);
+        ];
+
+        if ($contentItem->supportsHookSubscribers()) {
+            // Call form aware display hooks
+            $hookHelper = $this->get('zikula_content_module.hook_helper');
+            $formHook = $hookHelper->callFormDisplayHooks($form, $contentItem, FormAwareCategory::TYPE_EDIT);
+            $templateParameters['formHookTemplates'] = $formHook->getTemplates();
+        }
+
+        $form->handleRequest($request);
+
+        $output = $this->renderView('@ZikulaContentModule/ContentItem/edit.html.twig', $templateParameters);
 
         return new PlainResponse($output);
     }

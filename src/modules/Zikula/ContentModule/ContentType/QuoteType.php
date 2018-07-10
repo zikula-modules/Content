@@ -69,7 +69,7 @@ class QuoteType extends AbstractContentType
         return [
             'text' => $this->__('Add quote text here...'),
             'source' => 'https://',
-            'desc' => $this->__('Name of the source')
+            'description' => $this->__('Name of the source')
         ];
     }
 

@@ -13,6 +13,8 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -30,7 +32,8 @@ class HeadingType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator)
+    {
         $this->setTranslator($translator);
     }
 
@@ -39,7 +42,7 @@ class HeadingType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function setTranslator(/*TranslatorInterface */$translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
@@ -49,11 +52,31 @@ class HeadingType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
             ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
+                'label' => $this->__('Heading') . ':'
+            ])
+            ->add('headingType', ChoiceType::class, [
+                'label' => $this->__('Heading type') . ':',
+                'choices' => [
+                    'h2' => 'h2',
+                    'h3' => 'h3',
+                    'h4' => 'h4'
+                ],
+                'expanded' => true
+            ])
+            ->add('anchorName', TextType::class, [
+                'label' => $this->__('Internal anchor link name') . ':',
+                'help' => $this->__('Leave empty for no internal anchor link.'),
                 'required' => false,
+                'attr' => [
+                    'title' => $this->__('Leave empty for no internal anchor link.')
+                ]
+            ])
+            ->add('displayPageTitle', CheckboxType::class, [
+                'label' => $this->__('Display the page title') . ':',
+                'help' => $this->__('If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'),
+                'required' => false
             ])
         ;
     }

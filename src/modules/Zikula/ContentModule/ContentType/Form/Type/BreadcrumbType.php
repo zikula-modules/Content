@@ -13,6 +13,7 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -30,7 +31,8 @@ class BreadcrumbType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator)
+    {
         $this->setTranslator($translator);
     }
 
@@ -39,7 +41,7 @@ class BreadcrumbType extends AbstractType
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function setTranslator(/*TranslatorInterface */$translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
@@ -49,11 +51,29 @@ class BreadcrumbType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
+            ->add('includeSelf', CheckboxType::class, [
+                'label' => $this->__('Include self as last breadcrumb') . ':',
+                'required' => false
+            ])
+            ->add('includeHome', CheckboxType::class, [
+                'label' => $this->__('Include home as first breadcrumb') . ':',
+                'required' => false
+            ])
+            ->add('translateTitles', CheckboxType::class, [
+                'label' => $this->__('Show translated titles') . ':',
+                'required' => false
+            ])
+            ->add('useGraphics', CheckboxType::class, [
+                'label' => $this->__('Use graphical breadcrumb trail (default is plain text)') . ':',
+                'required' => false
+            ])
+            ->add('delimiter', TextType::class, [
+                'label' => $this->__('Delimiter') . ':',
                 'required' => false,
+                'attr' => [
+                    'maxlength' => 30
+                ]
             ])
         ;
     }

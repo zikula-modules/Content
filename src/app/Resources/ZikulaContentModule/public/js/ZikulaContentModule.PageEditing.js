@@ -232,6 +232,12 @@ function contentPageInitWidgetEditing(widget, mode) {
         body.find('input, select, textarea').change(zikulaContentExecuteCustomValidationConstraints);
         zikulaContentExecuteCustomValidationConstraints();
 
+        // TODO move to a more appropriate place
+        if ('Zikula\\ContentModule\\ContentType\\AuthorType' == widget.data('typeclass')) {
+            initUserLiveSearch('zikulacontentmodule_contentitem_contentData_authorId');
+            jQuery('#zikulacontentmodule_contentitem_contentData_authorIdAvatar').next('.help-block').addClass('hidden');
+        }
+
         if ('undefined' != typeof ScribiteUtil) {
             var scribite;
             scribite = new ScribiteUtil(editorOptions);
