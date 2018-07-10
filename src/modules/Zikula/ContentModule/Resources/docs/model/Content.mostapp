@@ -34,7 +34,7 @@ application "Content" {
                     defaultValue "true"
                     mandatory false
                 },
-                text "metaDescription" {
+                text "metaDescription" translatable {
                     defaultValue ""
                     mandatory false
                     displayType DISPLAY

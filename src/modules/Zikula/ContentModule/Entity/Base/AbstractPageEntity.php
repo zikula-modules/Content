@@ -84,6 +84,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
+     * @Gedmo\Translatable
      * @ORM\Column(type="text", length=2000)
      * @Assert\NotNull()
      * @Assert\Length(min="0", max="2000")

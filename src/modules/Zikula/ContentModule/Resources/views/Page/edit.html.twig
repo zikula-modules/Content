@@ -34,6 +34,7 @@
                                 <legend>{{ language|languageName|safeHtml }}</legend>
                                 {% if language == app.request.locale %}
                                     {{ form_row(form.title) }}
+                                    {{ form_row(form.metaDescription) }}
                                     {{ form_row(form.optionalString1) }}
                                     {{ form_row(form.optionalString2) }}
                                     {{ form_row(form.optionalText) }}
@@ -51,6 +52,7 @@
             <fieldset>
                 <legend>{{ language|languageName|safeHtml }}</legend>
                 {{ form_row(form.title) }}
+                {{ form_row(form.metaDescription) }}
                 {{ form_row(form.optionalString1) }}
                 {{ form_row(form.optionalString2) }}
                 {{ form_row(form.optionalText) }}
@@ -60,7 +62,6 @@
         <fieldset>
             <legend>{{ __('Further properties') }}</legend>
             {{ form_row(form.showTitle) }}
-            {{ form_row(form.metaDescription) }}
             {{ form_row(form.skipUiHookSubscriber) }}
             {{ form_row(form.skipFilterHookSubscriber) }}
             {{ form_row(form.layout) }}

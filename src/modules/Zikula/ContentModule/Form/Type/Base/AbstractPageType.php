@@ -165,6 +165,18 @@ abstract class AbstractPageType extends AbstractType
             'required' => true,
         ]);
         
+        $builder->add('metaDescription', TextareaType::class, [
+            'label' => $this->__('Meta description') . ':',
+            'help' => $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 2000]),
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 2000,
+                'class' => '',
+                'title' => $this->__('Enter the meta description of the page.')
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('optionalString1', TextType::class, [
             'label' => $this->__('Optional string 1') . ':',
             'empty_data' => '',
@@ -234,18 +246,6 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'class' => '',
                 'title' => $this->__('show title ?')
-            ],
-            'required' => false,
-        ]);
-        
-        $builder->add('metaDescription', TextareaType::class, [
-            'label' => $this->__('Meta description') . ':',
-            'help' => $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 2000]),
-            'empty_data' => '',
-            'attr' => [
-                'maxlength' => 2000,
-                'class' => '',
-                'title' => $this->__('Enter the meta description of the page.')
             ],
             'required' => false,
         ]);

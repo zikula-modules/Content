@@ -88,7 +88,7 @@ abstract class AbstractTranslatableHelper
         $fields = [];
         switch ($objectType) {
             case 'page':
-                $fields = ['title', 'optionalString1', 'optionalString2', 'optionalText', 'slug'];
+                $fields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'];
                 break;
             case 'contentItem':
                 $fields = ['contentData'];
