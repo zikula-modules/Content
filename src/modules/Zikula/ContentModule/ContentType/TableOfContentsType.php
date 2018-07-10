@@ -59,7 +59,7 @@ class TableOfContentsType extends AbstractContentType
     public function getDefaultData()
     {
         return [
-            'pid' => 0/* TODO $this->pageId */,
+            'pageId' => 0/* TODO $this->pageId */,
             'includeSelf' => false,
             'includeNotInMenu' => false,
             'includeHeading' => 0, 
@@ -81,23 +81,23 @@ class TableOfContentsType extends AbstractContentType
         // get the current active page where this contentitem is in
         $curPage = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pageId, 'makeTree' => false, 'includeContent' => false));
 
-        if ($this->pid == 0 && $this->includeSubpage) {
+        if ($this->pageId == 0 && $this->includeSubpage) {
             if ($this->includeSubpage == 2) {
                 $options['filter']['where'] = "$pageColumn[level] <= ".($this->includeSubpageLevel-1);
             }
         } else {
             if ($this->includeSubpage) {
                 if ($this->includeSubpage == 2 && $this->includeSubpageLevel > 0) {
-                    $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pid));
+                    $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pageId));
                     if ($page === false) {
                         return '';
                     }
                     $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
                 }
-                $options['filter']['superParentId'] = $this->pid;
+                $options['filter']['superParentId'] = $this->pageId;
             } else {
-                // this is a special case, this is also applied if pid==0 and no subpages included, which makes no sense
-                $options['filter']['parentId'] = $this->pid;
+                // this is a special case, this is also applied if pageId==0 and no subpages included, which makes no sense
+                $options['filter']['parentId'] = $this->pageId;
             }
         }
         if (!$this->includeNotInMenu) {
@@ -108,12 +108,12 @@ class TableOfContentsType extends AbstractContentType
         }
         $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
 
-        if ($this->pid != 0 && !$this->includeSelf) {
+        if ($this->pageId != 0 && !$this->includeSelf) {
             $toc = $this->_genTocRecursive($pages[0], 0);
         } else {
             $toc = array();
             foreach (array_keys($pages) as $page) {
-                $toc['toc'][] = $this->_genTocRecursive($pages[$page], ($this->pid == 0 ? 1 : 0));
+                $toc['toc'][] = $this->_genTocRecursive($pages[$page], ($this->pageId == 0 ? 1 : 0));
             }
         }
 
@@ -126,7 +126,7 @@ class TableOfContentsType extends AbstractContentType
     protected function _genTocRecursive(&$pages, $level)
     {
         $toc = array();
-        $pageurl = ModUtil::url('Content', 'user', 'view', array('pid' => $pages['id']));
+        $pageurl = ModUtil::url('Content', 'user', 'view', array('pageId' => $pages['id']));
         if ($pages['content'] && ($this->includeHeading == 1 || $this->includeHeadingLevel - $level >= 0)) {
             foreach (array_keys($pages['content']) as $area) {
                 foreach (array_keys($pages['content'][$area]) as $id) {
@@ -144,42 +144,19 @@ class TableOfContentsType extends AbstractContentType
             }
         }
 
-        return array('pid' => $pages['id'], 'title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'css' => '', 'toc' => $toc);
+        return array('pageId' => $pages['id'], 'title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'css' => '', 'toc' => $toc);
     }
     
     public function displayEditing()
     {
-        if ($this->pid == 0) {
+        if ($this->pageId == 0) {
             $title = $this->__('All pages');
         } else {
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pid, 'includeContent' => false, 'translate' => false, 'filter' => array('checkActive' => false)));
+            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'translate' => false, 'filter' => array('checkActive' => false)));
             $title = $page['title'];
         }
         return "<h3>" . $this->__f('Table of contents of %s', htmlspecialchars($title)) . "</h3>";
     }
-
-    public function startEditing()
-    {
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', array('makeTree' => false, 'orderBy' => 'setLeft', 'includeContent' => false, 'filter' => array('checkActive' => false)));
-        $pidItems = array();
-        $pidItems[] = array('text' => $this->__('All pages'), 'value' => "0");
-        foreach ($pages as $page) {
-            $pidItems[] = array('text' => str_repeat('-', $page['level']) . " " . $page['title'], 'value' => $page['id']);
-        }
-
-        $this->view->assign('pidItems', $pidItems);
-        $this->view->assign('includeHeadingItems', array(
-            array('text' => __('No'), 'value' => 0), 
-            array('text' => __('Yes, unlimited'), 'value' => 1), 
-            array('text' => __('Yes, limited'), 'value' => 2))
-        );
-        $this->view->assign('includeSubpageItems', array(
-            array('text' => __('No'), 'value' => 0), 
-            array('text' => __('Yes, unlimited'), 'value' => 1), 
-            array('text' => __('Yes, limited'), 'value' => 2))
-        );
-    }
-}
 */
     /**
      * @inheritDoc

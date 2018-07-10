@@ -58,6 +58,9 @@ class HeadingType extends AbstractType
             ])
             ->add('headingType', ChoiceType::class, [
                 'label' => $this->__('Heading type') . ':',
+                'label_attr' => [
+                    'class' => 'radio-inline'
+                ],
                 'choices' => [
                     'h2' => 'h2',
                     'h3' => 'h3',

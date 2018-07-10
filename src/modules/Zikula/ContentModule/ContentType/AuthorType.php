@@ -56,7 +56,6 @@ class AuthorType extends AbstractContentType
         parent::__construct($translator, $twig, $twigLoader);
     }
 
-
     /**
      * @inheritDoc
      */

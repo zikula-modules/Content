@@ -15,6 +15,7 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
@@ -50,11 +51,18 @@ class ControllerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('controller', TextType::class, [
+                'label' => $this->__('Controller'),
+                'help' => $this->__('MyModuleName:Controller:method'),
+                'constraints' => [
+                    new Regex('/\w+:\w+:\w+/')
+                ]
+            ])
+            ->add('arguments', TextType::class, [
+                'label' => $this->__('Function arguments'),
+                'help' => $this->__('Separate with &, for example:') . ' foo=2&bar=5',
+                'required' => false
             ])
         ;
     }

@@ -13,6 +13,8 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -50,11 +52,25 @@ class SlideshareType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('url', TextType::class, [
+                'label' => $this->__('Slideshare\'s Wordpress code') . ':',
+                'help' => $this->__('Copy Slideshare\'s Wordpress embed code here (including square brackets and all). Click on Embed and Customize to show the wordpress embed code. It should look something like [slideshare id=145849&doc=prototype-jquery-going-from-one-to-the-other-1193346036472971-5]'),
+                'attr' => [
+                    'maxlength' => 200
+                ]
+            ])
+            ->add('text', TextareaType::class, [
+                'label' => $this->__('Slide description') . ':',
+                'required' => false
+            ])
+            ->add('width', IntegerType::class, [
+                'label' => $this->__('Slideshare\'s embedded player width') . ':',
+                'input_group' => ['right' => $this->__('pixels')]
+            ])
+            ->add('height', IntegerType::class, [
+                'label' => $this->__('Slideshare\'s embedded player height') . ':',
+                'input_group' => ['right' => $this->__('pixels')]
             ])
         ;
     }

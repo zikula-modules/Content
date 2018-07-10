@@ -58,7 +58,6 @@ class UnfilteredType extends AbstractContentType
      */
     public function getAdminInfo()
     {
-        // TODO
         return $this->__('You need to explicitly enable a checkbox in the configuration form to activate this plugin.');
     }
 
@@ -89,9 +88,9 @@ class UnfilteredType extends AbstractContentType
         return [
             'text' => $this->__('Add unfiltered text here ...'),
             'useiframe' => false,
-            'iframeTitle' => '',
-            'iframeName' => '',
             'iframeSrc' => '',
+            'iframeName' => '',
+            'iframeTitle' => '',
             'iframeStyle' => 'border:0',
             'iframeWidth' => 800,
             'iframeHeight' => 600,
@@ -104,11 +103,14 @@ class UnfilteredType extends AbstractContentType
 /** TODO
     function displayEditing()
     {
+        $output = '<div style="background-color: Lavender; padding: 10px">';
         if ($this->useiframe) {
-            $output = '<div style="background-color:Lavender; padding:10px;">' . $this->__f('An <strong>iframe</strong> is included with<br />src = %1$s<br />width = %2$s and height = %3$s', array($this->iframesrc, $this->iframewidth, $this->iframeheight)) . '</div>';
+            $output .= $this->__f('An <strong>iframe</strong> is included with<br />src = %1$s<br />width = %2$s and height = %3$s', array($this->iframesrc, $this->iframewidth, $this->iframeheight));
         } else {
-            $output = '<div style="background-color:Lavender; padding:10px;">' . $this->__f('The following <strong>unfiltered text</strong> will be included literally<br />%s', DataUtil::formatForDisplay($this->text)) . '</div>';
+            $output .= $this->__f('The following <strong>unfiltered text</strong> will be included literally<br />%s', DataUtil::formatForDisplay($this->text));
         }
+        $output .= '</div>';
+
         return $output;
     }
 */

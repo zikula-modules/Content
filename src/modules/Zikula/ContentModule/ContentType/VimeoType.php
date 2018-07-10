@@ -92,8 +92,7 @@ class VimeoType extends AbstractContentType
     function isValid(&$data)
     {
         $r = '/vimeo.com\/([-a-zA-Z0-9_]+)/';
-        if (preg_match($r, $data['url'], $matches))
-        {
+        if (preg_match($r, $data['url'], $matches)) {
             $this->videoId = $data['videoId'] = $matches[1];
             return true;
         }

@@ -13,7 +13,10 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -50,11 +53,33 @@ class YouTubeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('url', UrlType::class, [
+                'label' => $this->__('URL to the video clip') . ':',
+                'help' => $this->__('Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".')
+            ])
+            ->add('text', TextareaType::class, [
+                'label' => $this->__('Video description') . ':',
+                'required' => false
+            ])
+            ->add('displayMode', ChoiceType::class, [
+                'label' => $this->__('Display mode') . ':',
+                'label_attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices' => [
+                    $this->__('Show video inline') => 'inline',
+                    $this->__('Show video in modal window') => 'modal'
+                ],
+                'expanded' => true
+            ])
+            ->add('showRelated', CheckboxType::class, [
+                'label' => $this->__('Show related videos') . ':',
+                'required' => false
+            ])
+            ->add('autoplay', CheckboxType::class, [
+                'label' => $this->__('Autoplay the video when displayed') . ':',
+                'required' => false
             ])
         ;
     }

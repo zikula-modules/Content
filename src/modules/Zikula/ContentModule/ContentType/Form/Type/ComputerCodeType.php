@@ -13,8 +13,10 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
@@ -26,13 +28,20 @@ class ComputerCodeType extends AbstractType
     use TranslatorTrait;
 
     /**
+     * @var ZikulaHttpKernelInterface
+     */
+    protected $kernel;
+
+    /**
      * ComputerCodeType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface       $translator Translator service instance
+     * @param ZikulaHttpKernelInterface $kernel     Kernel service instance
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, ZikulaHttpKernelInterface $kernel)
     {
         $this->setTranslator($translator);
+        $this->kernel = $kernel;
     }
 
     /**
@@ -50,11 +59,25 @@ class ComputerCodeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
+        $filterChoices = [
+            $this->__('Use native filter') => 'native'
+        ];
+        if ($this->kernel->isBundle('ZikulaBBCodeModule')) {
+            $filterChoices[$this->__('Use BBCode filter')] = 'bbcode';
+        }
+        if ($this->kernel->isBundle('PhaidonLuMicuLaModule')) {
+            $filterChoices[$this->__('Use LuMicuLa filter')] = 'lumicula';
+        }
+
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('text', TextareaType::class, [
+                'label' => $this->__('Computer code lines') . ':'
+            ])
+            ->add('codeFilter', ChoiceType::class, [
+                'label' => $this->__('Code filter') . ':',
+                'help' => $this->__('If ZikulaBBCodeModule or PhaidonLuMicuLaModule is available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.'),
+                'choices' => $filterChoices,
+                'expanded' => true
             ])
         ;
     }

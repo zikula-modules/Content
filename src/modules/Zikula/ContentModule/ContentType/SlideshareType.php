@@ -62,9 +62,8 @@ class SlideshareType extends AbstractContentType
             'url' => '',
             'text' => '',
             'slideId' => '',
-            'playerType' => 0,
-            'width' => 425,
-            'height' => 355
+            'width' => 599,
+            'height' => 487
         ];
     }
 
@@ -74,7 +73,6 @@ class SlideshareType extends AbstractContentType
         $this->view->assign('url', $this->url)
                    ->assign('text', $this->text)
                    ->assign('slideId', $this->slideId)
-                   ->assign('playerType', $this->playerType)
                    ->assign('width', $this->width)
                    ->assign('height', $this->height);
 
@@ -93,18 +91,10 @@ class SlideshareType extends AbstractContentType
     }
     function isValid(&$data)
     {
-        // [slideshare id=3318451&doc=rainfallreport-100302124103-phpapp02&type=d]
-        // type=d is optional and player ssplayerd.swf should be used instead of the default one
-        // Old expression without type=d $r = '/^[slideshare id=[0-9]+\&doc=([^&]+?)\]/';
+        // [slideshare id=3318451&doc=rainfallreport-100302124103-phpapp02]
         $r = '/^[slideshare id=[0-9]+\&doc=([^&]+?)\]/';
-        //$r = '/^[slideshare id=[0-9]+\&doc=([^&]+?)\&([^&]+)\]/';
         if (preg_match($r, $data['url'], $matches)) {
             $this->slideId = $data['slideId'] = $matches[1];
-            if (!empty($matches[2]) && $matches[2]=='type=d') {
-                $this->playerType = $data['playerType'] = 1;
-            } else {
-                $this->playerType = $data['playerType'] = 0;
-            }
             return true;
         }
         return false;

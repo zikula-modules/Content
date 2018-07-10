@@ -225,6 +225,10 @@ function contentPageInitWidgetEditing(widget, mode) {
         url: Routing.generate('zikulacontentmodule_contentitem_edit', parameters)/*,
         cache: false*/
     }).done(function(data) {
+        var typeClass;
+        var fieldPrefix;
+
+        typeClass = widget.data('typeclass');
         body.html(data);
 
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeFrom');
@@ -233,12 +237,32 @@ function contentPageInitWidgetEditing(widget, mode) {
         zikulaContentExecuteCustomValidationConstraints();
 
         // TODO move to a more appropriate place
-        if ('Zikula\\ContentModule\\ContentType\\AuthorType' == widget.data('typeclass')) {
-            initUserLiveSearch('zikulacontentmodule_contentitem_contentData_authorId');
-            jQuery('#zikulacontentmodule_contentitem_contentData_authorIdAvatar').next('.help-block').addClass('hidden');
+        fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
+        if ('Zikula\\ContentModule\\ContentType\\AuthorType' == typeClass) {
+            initUserLiveSearch(fieldPrefix + 'authorId');
+            jQuery('#' + fieldPrefix + 'authorIdAvatar').next('.help-block').addClass('hidden');
+        } else if ('Zikula\\ContentModule\\ContentType\\TableOfContentsType' == typeClass) {
+                console.log('A');
+            var contentTocChangedSelection = function() {
+                jQuery('#' + fieldPrefix + 'includeHeadingLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeHeading').val()) < 2);
+                jQuery('#' + fieldPrefix + 'includeSubpageLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeSubpage').val()) < 2);
+                jQuery('#' + fieldPrefix + 'includeSelf').parents('.form-group').toggleClass('hidden', '' == jQuery('#' + fieldPrefix + 'pageId').val());
+            };
+            jQuery('#' + fieldPrefix + 'includeHeading, #' + fieldPrefix + 'includeSubpage, #' + fieldPrefix + 'pageId').change(contentTocChangedSelection);
+            contentTocChangedSelection();
+        } else if ('Zikula\\ContentModule\\ContentType\\UnfilteredType' == typeClass) {
+            var useIframe = jQuery('#' + fieldPrefix + 'useiframe').prop('checked');
+
+            jQuery('#contentUnfilteredTextDetails').toggleClass('hidden', useIframe);
+            jQuery('#contentUnfilteredIframeDetails').toggleClass('hidden', !useIframe);
+
+            jQuery('#' + fieldPrefix + 'useiframe').change(function (event) {
+                jQuery('#contentUnfilteredTextDetails').toggleClass('hidden', jQuery(this).prop('checked'));
+                jQuery('#contentUnfilteredIframeDetails').toggleClass('hidden', !jQuery(this).prop('checked'));
+            });
         }
 
-        if ('undefined' != typeof ScribiteUtil) {
+        if ('Zikula\\ContentModule\\ContentType\\HtmlType' == typeClass && 'undefined' != typeof ScribiteUtil) {
             var scribite;
             scribite = new ScribiteUtil(editorOptions);
             scribite.createEditors();

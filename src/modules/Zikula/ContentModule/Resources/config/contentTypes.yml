@@ -38,9 +38,13 @@ services:
 
     Zikula\ContentModule\ContentType\ComputerCodeType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@kernel'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType:
         parent: zikula_content_module.content_type.form.common
+        arguments:
+            - '@kernel'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\ContentItemType:
