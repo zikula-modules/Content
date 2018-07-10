@@ -12,6 +12,8 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use Zikula\ContentModule\AbstractContentType;
+
 /**
  * YouTube content type.
  */
