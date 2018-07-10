@@ -13,6 +13,7 @@
 namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Quote content type.
