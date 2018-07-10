@@ -76,7 +76,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
      *
      * @param TranslatorInterface $translator Translator service instance
      */
-    public function setTranslator(/*TranslatorInterface */$translator)
+    public function setTranslator(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
