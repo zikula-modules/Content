@@ -177,7 +177,6 @@ abstract class AbstractCollectionFilterHelper
         $parameters['catId'] = $this->request->query->get('catId', '');
         $parameters['catIdList'] = $this->categoryHelper->retrieveCategoriesFromRequest('page', 'GET');
         $parameters['workflowState'] = $this->request->query->get('workflowState', '');
-        $parameters['pageLanguage'] = $this->request->query->get('pageLanguage', '');
         $parameters['q'] = $this->request->query->get('q', '');
         $parameters['showTitle'] = $this->request->query->get('showTitle', '');
         $parameters['skipUiHookSubscriber'] = $this->request->query->get('skipUiHookSubscriber', '');
@@ -449,14 +448,6 @@ abstract class AbstractCollectionFilterHelper
             $qb = $this->addCreatorFilter($qb);
         }
     
-        if (true === (bool)$this->filterDataByLocale) {
-            $allowedLocales = ['', $this->request->getLocale()];
-            if (!in_array('pageLanguage', array_keys($parameters)) || empty($parameters['pageLanguage'])) {
-                $qb->andWhere('tbl.pageLanguage IN (:currentPageLanguage)')
-                   ->setParameter('currentPageLanguage', $allowedLocales);
-            }
-        }
-    
         $qb = $this->applyDateRangeFilterForPage($qb);
         if (in_array('tblContentItems', $qb->getAllAliases())) {
             $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItems');
@@ -622,8 +613,6 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchActiveFrom'] = $fragment;
             $filters[] = 'tbl.activeTo = :searchActiveTo';
             $parameters['searchActiveTo'] = $fragment;
-            $filters[] = 'tbl.pageLanguage LIKE :searchPageLanguage';
-            $parameters['searchPageLanguage'] = '%' . $fragment . '%';
             $filters[] = 'tbl.optionalString1 LIKE :searchOptionalString1';
             $parameters['searchOptionalString1'] = '%' . $fragment . '%';
             $filters[] = 'tbl.optionalString2 LIKE :searchOptionalString2';

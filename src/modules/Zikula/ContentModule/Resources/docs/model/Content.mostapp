@@ -74,12 +74,6 @@ application "Content" {
                     defaultValue "true"
                     mandatory false
                 },
-                string "pageLanguage" {
-                    dbName ""
-                    defaultValue ""
-                    length 10
-                    role LOCALE
-                },
                 string "optionalString1" translatable {
                     defaultValue ""
                     mandatory false

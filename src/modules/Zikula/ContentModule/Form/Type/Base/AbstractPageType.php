@@ -24,12 +24,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zikula\Bundle\FormExtensionBundle\Form\Type\LocaleType;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
-use Zikula\SettingsModule\Api\ApiInterface\LocaleApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Type\Field\ArrayType;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
@@ -78,11 +76,6 @@ abstract class AbstractPageType extends AbstractType
     protected $listHelper;
 
     /**
-     * @var LocaleApiInterface
-     */
-    protected $localeApi;
-
-    /**
      * @var FeatureActivationHelper
      */
     protected $featureActivationHelper;
@@ -97,7 +90,6 @@ abstract class AbstractPageType extends AbstractType
      * @param VariableApiInterface $variableApi VariableApi service instance
      * @param TranslatableHelper $translatableHelper TranslatableHelper service instance
      * @param ListEntriesHelper $listHelper ListEntriesHelper service instance
-     * @param LocaleApiInterface $localeApi LocaleApi service instance
      * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
      */
     public function __construct(
@@ -108,7 +100,6 @@ abstract class AbstractPageType extends AbstractType
         VariableApiInterface $variableApi,
         TranslatableHelper $translatableHelper,
         ListEntriesHelper $listHelper,
-        LocaleApiInterface $localeApi,
         FeatureActivationHelper $featureActivationHelper
     ) {
         $this->setTranslator($translator);
@@ -118,7 +109,6 @@ abstract class AbstractPageType extends AbstractType
         $this->variableApi = $variableApi;
         $this->translatableHelper = $translatableHelper;
         $this->listHelper = $listHelper;
-        $this->localeApi = $localeApi;
         $this->featureActivationHelper = $featureActivationHelper;
     }
 
@@ -333,18 +323,6 @@ abstract class AbstractPageType extends AbstractType
                 'title' => $this->__('in menu ?')
             ],
             'required' => false,
-        ]);
-        
-        $builder->add('pageLanguage', LocaleType::class, [
-            'label' => $this->__('Page language') . ':',
-            'empty_data' => '',
-            'attr' => [
-                'maxlength' => 10,
-                'class' => '',
-                'title' => $this->__('Choose the page language of the page.')
-            ],
-            'required' => true,
-            'choices' => $this->localeApi->getSupportedLocaleNames(),
         ]);
         
         $builder->add('versionData', ArrayType::class, [
