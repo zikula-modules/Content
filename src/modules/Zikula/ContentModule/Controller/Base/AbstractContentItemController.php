@@ -12,10 +12,8 @@
 
 namespace Zikula\ContentModule\Controller\Base;
 
-use RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
 use Zikula\Core\RouteUrl;
@@ -74,71 +72,6 @@ abstract class AbstractContentItemController extends AbstractController
         
         // return index template
         return $this->render('@ZikulaContentModule/ContentItem/index.html.twig', $templateParameters);
-    }
-    
-    /**
-     * This action provides a handling of edit requests in the admin area.
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by form handler if content item to be edited isn't found
-     * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
-     */
-    public function adminEditAction(Request $request)
-    {
-        return $this->editInternal($request, true);
-    }
-    
-    /**
-     * This action provides a handling of edit requests.
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by form handler if content item to be edited isn't found
-     * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
-     */
-    public function editAction(Request $request)
-    {
-        return $this->editInternal($request, false);
-    }
-    
-    /**
-     * This method includes the common implementation code for adminEdit() and edit().
-     */
-    protected function editInternal(Request $request, $isAdmin = false)
-    {
-        $objectType = 'contentItem';
-        // permission check
-        $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
-        if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
-            throw new AccessDeniedException();
-        }
-        
-        $templateParameters = [
-            'routeArea' => $isAdmin ? 'admin' : ''
-        ];
-        
-        $controllerHelper = $this->get('zikula_content_module.controller_helper');
-        $templateParameters = $controllerHelper->processEditActionParameters($objectType, $templateParameters);
-        
-        // delegate form processing to the form handler
-        $formHandler = $this->get('zikula_content_module.form.handler.contentitem');
-        $result = $formHandler->processForm($templateParameters);
-        if ($result instanceof RedirectResponse) {
-            return $result;
-        }
-        
-        $templateParameters = $formHandler->getTemplateParameters();
-        
-        // fetch and return the appropriate template
-        return $this->get('zikula_content_module.view_helper')->processTemplate($objectType, 'edit', $templateParameters);
     }
     
 }

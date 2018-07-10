@@ -27,20 +27,6 @@ services:
         tags:
             - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.filter_hooks.contentitems' }
 
-    zikula_content_module.hook_subscriber.form_aware_hook.contentitems:
-        class: Zikula\ContentModule\HookSubscriber\ContentItemFormAwareHookSubscriber
-        arguments:
-            - "@translator.default"
-        tags:
-            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.form_aware_hook.contentitems' }
-
-    zikula_content_module.hook_subscriber.ui_hooks.contentitems:
-        class: Zikula\ContentModule\HookSubscriber\ContentItemUiHooksSubscriber
-        arguments:
-            - "@translator.default"
-        tags:
-            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.ui_hooks.contentitems' }
-
     zikula_content_module.hook_subscriber.filter_hooks.searchables:
         class: Zikula\ContentModule\HookSubscriber\SearchableFilterHooksSubscriber
         arguments:

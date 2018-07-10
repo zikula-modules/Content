@@ -79,17 +79,9 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $areaPosition = 0;
     
     /**
-     * @ORM\Column(length=100)
+     * @ORM\Column(length=255)
      * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="100")
-     * @var string $owningBundle
-     */
-    protected $owningBundle = '';
-    
-    /**
-     * @ORM\Column(length=100)
-     * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="100")
+     * @Assert\Length(min="0", max="255")
      * @var string $owningType
      */
     protected $owningType = '';
@@ -303,30 +295,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     {
         if (intval($this->areaPosition) !== intval($areaPosition)) {
             $this->areaPosition = intval($areaPosition);
-        }
-    }
-    
-    /**
-     * Returns the owning bundle.
-     *
-     * @return string
-     */
-    public function getOwningBundle()
-    {
-        return $this->owningBundle;
-    }
-    
-    /**
-     * Sets the owning bundle.
-     *
-     * @param string $owningBundle
-     *
-     * @return void
-     */
-    public function setOwningBundle($owningBundle)
-    {
-        if ($this->owningBundle !== $owningBundle) {
-            $this->owningBundle = isset($owningBundle) ? $owningBundle : '';
         }
     }
     
@@ -674,7 +642,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      */
     public function __toString()
     {
-        return 'Content item ' . $this->getKey() . ': ' . $this->getOwningBundle();
+        return 'Content item ' . $this->getKey() . ': ' . $this->getOwningType();
     }
     
     /**

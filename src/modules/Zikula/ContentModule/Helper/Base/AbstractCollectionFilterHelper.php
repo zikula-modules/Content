@@ -627,8 +627,6 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchAreaIndex'] = $fragment;
             $filters[] = 'tbl.areaPosition = :searchAreaPosition';
             $parameters['searchAreaPosition'] = $fragment;
-            $filters[] = 'tbl.owningBundle LIKE :searchOwningBundle';
-            $parameters['searchOwningBundle'] = '%' . $fragment . '%';
             $filters[] = 'tbl.owningType LIKE :searchOwningType';
             $parameters['searchOwningType'] = '%' . $fragment . '%';
             $filters[] = 'tbl.contentData LIKE :searchContentData';

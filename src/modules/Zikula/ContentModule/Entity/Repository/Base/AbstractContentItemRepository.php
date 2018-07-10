@@ -62,7 +62,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
         return [
             'areaIndex',
             'areaPosition',
-            'owningBundle',
             'owningType',
             'contentData',
             'active',
@@ -593,7 +592,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
             $selection = 'tbl.id';
             $selection .= ', tbl.areaIndex';
             $selection .= ', tbl.areaPosition';
-            $selection .= ', tbl.owningBundle';
             $selection .= ', tbl.owningType';
             $useJoins = false;
         }

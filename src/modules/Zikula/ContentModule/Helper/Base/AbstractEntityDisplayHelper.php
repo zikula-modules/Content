@@ -106,7 +106,6 @@ abstract class AbstractEntityDisplayHelper
         return $this->translator->__f('%areaIndex%-%areaPosition%: %owningBundle% - %owningType%', [
             '%areaIndex%' => $entity->getAreaIndex(),
             '%areaPosition%' => $entity->getAreaPosition(),
-            '%owningBundle%' => $entity->getOwningBundle(),
             '%owningType%' => $entity->getOwningType()
         ]);
     }
@@ -138,7 +137,7 @@ abstract class AbstractEntityDisplayHelper
             return 'title';
         }
         if ($objectType == 'contentItem') {
-            return 'owningBundle';
+            return 'owningType';
         }
         if ($objectType == 'searchable') {
             return '';

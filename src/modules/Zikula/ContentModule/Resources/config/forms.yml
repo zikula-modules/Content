@@ -49,23 +49,6 @@ services:
             - "@zikula_content_module.feature_activation_helper"
         tags: ['form.type']
     
-    zikula_content_module.form.handler.contentitem:
-        class: Zikula\ContentModule\Form\Handler\ContentItem\EditHandler
-        parent: zikula_content_module.form.handler.common
-    
-    zikula_content_module.form.type.contentitem:
-        class: Zikula\ContentModule\Form\Type\ContentItemType
-        arguments:
-            - "@translator.default"
-            - "@zikula_content_module.entity_factory"
-            - "@zikula_content_module.collection_filter_helper"
-            - "@zikula_content_module.entity_display_helper"
-            - "@zikula_extensions_module.api.variable"
-            - "@zikula_content_module.translatable_helper"
-            - "@zikula_content_module.listentries_helper"
-            - "@zikula_content_module.feature_activation_helper"
-        tags: ['form.type']
-    
     zikula_content_module.form.type.block.itemlist:
         class: Zikula\ContentModule\Block\Form\Type\ItemListBlockType
         arguments:

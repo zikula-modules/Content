@@ -117,13 +117,9 @@ application "Content" {
                     defaultValue "0"
                     mandatory false
                 },
-                string "owningBundle" {
-                    defaultValue ""
-                    length 100
-                },
                 string "owningType" {
                     defaultValue ""
-                    length 100
+                    length 255
                 },
                 text "contentData" translatable {
                     defaultValue ""
@@ -169,8 +165,7 @@ application "Content" {
                 }
             }
             actions {
-                mainAction "Index",
-                editAction "Edit"
+                mainAction "Index"
             }
         },
         entity "searchable" {

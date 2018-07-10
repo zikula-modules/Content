@@ -175,14 +175,6 @@
             {items: page.contentItems}
         ) }}
     {% endif %}
-    
-    {% set mayManage = hasPermission('ZikulaContentModule:ContentItem:', '::', 'ACCESS_EDIT') %}
-    {% if mayManage %}
-        <p class="managelink">
-            {% set createTitle = __('Create content item') %}
-            <a href="{{ path('zikulacontentmodule_contentitem_' ~ routeArea ~ 'edit', {page: page.getSlug()}) }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
-        </p>
-    {% endif %}
 {% endblock %}
 {% block display_hooks %}
     {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}

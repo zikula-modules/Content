@@ -142,48 +142,11 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-reply');
             }
-            
-            // more actions for adding new related items
-            
-            if ($isOwner || $permissionHelper->hasComponentPermission('contentItem', ACCESS_EDIT)) {
-                $title = $this->__('Create content items', 'zikulacontentmodule');
-                $menu->addChild($title, [
-                    'route' => 'zikulacontentmodule_contentitem_' . $routeArea . 'edit',
-                    'routeParameters' => ['page' => $entity->getSlug()]
-                ]);
-                $menu[$title]->setLinkAttribute('title', $title);
-                if ($context == 'display') {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
-                }
-                $menu[$title]->setAttribute('icon', 'fa fa-plus');
-            }
         }
         if ($entity instanceof ContentItemEntity) {
             $routePrefix = 'zikulacontentmodule_contentitem_';
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
         
-            if ($permissionHelper->mayEdit($entity)) {
-                $title = $this->__('Edit', 'zikulacontentmodule');
-                $menu->addChild($title, [
-                    'route' => $routePrefix . $routeArea . 'edit',
-                    'routeParameters' => $entity->createUrlArgs()
-                ]);
-                $menu[$title]->setLinkAttribute('title', $this->__('Edit this content item', 'zikulacontentmodule'));
-                if ($context == 'display') {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
-                }
-                $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
-                $title = $this->__('Reuse', 'zikulacontentmodule');
-                $menu->addChild($title, [
-                    'route' => $routePrefix . $routeArea . 'edit',
-                    'routeParameters' => ['astemplate' => $entity->getKey()]
-                ]);
-                $menu[$title]->setLinkAttribute('title', $this->__('Reuse for new content item', 'zikulacontentmodule'));
-                if ($context == 'display') {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
-                }
-                $menu[$title]->setAttribute('icon', 'fa fa-files-o');
-            }
         }
         if ($entity instanceof SearchableEntity) {
             $routePrefix = 'zikulacontentmodule_searchable_';

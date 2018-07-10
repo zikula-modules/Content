@@ -55,9 +55,6 @@ abstract class AbstractModelHelper
         $result = false;
     
         switch ($objectType) {
-            case 'contentItem':
-                $result = true;
-                break;
         }
     
         return $result;
