@@ -13,6 +13,7 @@
 namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentType\Form\Type\BlockType as FormType;
 
 /**
  * Block content type.
@@ -88,6 +89,6 @@ class BlockType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

@@ -14,12 +14,16 @@ namespace Zikula\ContentModule\Controller;
 
 use Zikula\ContentModule\Controller\Base\AbstractContentItemController;
 
-
+use RuntimeException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Zikula\ThemeModule\Engine\Annotation\Theme;
 use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Form\Type\ContentItemType;
+use Zikula\Core\Response\PlainResponse;
+use Zikula\ThemeModule\Engine\Annotation\Theme;
 
 /**
  * Content item controller class providing navigation and interaction functionality.
@@ -63,5 +67,63 @@ class ContentItemController extends AbstractContentItemController
         return parent::indexAction($request);
     }
     
-    // feel free to add your own controller methods here
+    /**
+     * This action provides a handling of edit requests for content items.
+     *
+     * @Route("/item/edit/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
+     *
+     * @param Request $request Current request instance
+     *
+     * @return JsonResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if item to be edited isn't found
+     * @throws RuntimeException      Thrown if item type isn't found
+     */
+    public function editAction(Request $request, ContentItemEntity $contentItem = null)
+    {
+        $contentTypeClass = null;
+
+        // permission check
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (null === $contentItem) {
+            if (!$permissionHelper->hasComponentPermission('page', ACCESS_ADD)) {
+                throw new AccessDeniedException();
+            }
+            $contentTypeClass = $request->query->get('type', '');
+            if (empty($contentTypeClass) || !class_exists($contentTypeClass)) {
+                throw new RuntimeException();
+            }
+
+            $factory = $this->get('zikula_content_module.entity_factory');
+            $contentItem = $factory->createContentItem();
+            $contentItem->setOwningType($contentTypeClass);
+        } else {
+            if (!$permissionHelper->mayEdit($contentItem)) {
+                throw new AccessDeniedException();
+            }
+            $contentTypeClass = $contentItem->getOwningType();
+        }
+
+        $container = $this->get('service_container');
+        if (!$container->has($contentTypeClass)) {
+            throw new RuntimeException();
+        }
+
+        $contentType = $container->get($contentTypeClass);
+
+        $form = $this->createForm(ContentItemType::class, $contentItem);
+        if (null !== $contentType->getEditFormClass() && '' !== $contentType->getEditFormClass() && class_exists($contentType->getEditFormClass())) {
+            $form->add('contentData', $contentType->getEditFormClass(), $contentType->getEditFormOptions());
+        }
+        $form->handleRequest($request);
+
+        $output = $this->renderView('@ZikulaContentModule/ContentItem/edit.html.twig', [
+            'form' => $form->createView(),
+            'contentType' => $contentType,
+            'contentFormTemplate' => $contentType->getEditTemplatePath()
+        ]);
+
+        return new PlainResponse($output);
+    }
 }

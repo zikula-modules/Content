@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType as FormType;
 
 /**
  * Table of contents content type.
@@ -185,6 +186,6 @@ class TableOfContentsType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

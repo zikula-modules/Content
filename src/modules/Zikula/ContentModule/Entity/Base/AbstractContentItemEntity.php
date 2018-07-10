@@ -88,12 +88,12 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(type="text", length=9999999)
+     * @ORM\Column(type="array")
      * @Assert\NotNull()
-     * @Assert\Length(min="0", max="9999999")
-     * @var text $contentData
+     * @Assert\Type(type="array")
+     * @var array $contentData
      */
-    protected $contentData = '';
+    protected $contentData = [];
     
     /**
      * @ORM\Column(type="boolean")
@@ -325,7 +325,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Returns the content data.
      *
-     * @return text
+     * @return array
      */
     public function getContentData()
     {
@@ -335,7 +335,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Sets the content data.
      *
-     * @param text $contentData
+     * @param array $contentData
      *
      * @return void
      */

@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\TabNavigationType as FormType;
 
 /**
  * Tab navigation content type.
@@ -128,6 +129,6 @@ class TabNavigationType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

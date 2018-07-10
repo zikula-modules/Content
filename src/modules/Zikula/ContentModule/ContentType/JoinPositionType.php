@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\JoinPositionType as FormType;
 
 /**
  * Join position content type.
@@ -67,6 +68,6 @@ class JoinPositionType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\VimeoType as FormType;
 
 /**
  * Vimeo content type.
@@ -109,6 +110,6 @@ class VimeoType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

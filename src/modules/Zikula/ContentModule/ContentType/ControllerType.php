@@ -14,11 +14,12 @@ namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\ControllerType as FormType;
 
 /**
- * Bundle controller content type.
+ * Controller content type.
  */
-class BundleControllerType extends AbstractContentType
+class ControllerType extends AbstractContentType
 {
     /**
      * @inheritDoc
@@ -41,7 +42,7 @@ class BundleControllerType extends AbstractContentType
      */
     public function getTitle()
     {
-        return $this->__('Bundle controller');
+        return $this->__('Controller');
     }
 
     /**
@@ -96,6 +97,6 @@ class BundleControllerType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return Formtype::class;
     }
 }

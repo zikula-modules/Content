@@ -159,7 +159,7 @@ abstract class AbstractEntityDisplayHelper
             return 'metaDescription';
         }
         if ($objectType == 'contentItem') {
-            return 'contentData';
+            return 'stylingClasses';
         }
         if ($objectType == 'searchable') {
             return 'searchText';

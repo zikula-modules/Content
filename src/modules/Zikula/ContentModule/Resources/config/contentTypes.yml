@@ -2,90 +2,157 @@ services:
     zikula_content_module.content_type.common:
         abstract: true
         arguments:
-            - "@translator.default"
-            - "@twig"
-            - "@twig.loader"
-    zikula_content_module.content_type.author:
-        class: Zikula\ContentModule\ContentType\AuthorType
+            - '@translator.default'
+            - '@twig'
+            - '@twig.loader'
+    zikula_content_module.content_type.form.common:
+        abstract: true
+        arguments:
+            - '@translator.default'
+
+    Zikula\ContentModule\ContentType\AuthorType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.block:
-        class: Zikula\ContentModule\ContentType\BlockType
+    Zikula\ContentModule\ContentType\Form\Type\AuthorType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\BlockType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.breadcrumb:
-        class: Zikula\ContentModule\ContentType\BreadcrumbType
+    Zikula\ContentModule\ContentType\Form\Type\BlockType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\BreadcrumbType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.bundle_controller:
-        class: Zikula\ContentModule\ContentType\BundleControllerType
+    Zikula\ContentModule\ContentType\Form\Type\BreadcrumbType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\ComputerCodeType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.computer_code:
-        class: Zikula\ContentModule\ContentType\ComputerCodeType
+    Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\ContentItemType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.content_item:
-        class: Zikula\ContentModule\ContentType\ContentItemType
+    Zikula\ContentModule\ContentType\Form\Type\ContentItemType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\ControllerType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.feed:
-        class: Zikula\ContentModule\ContentType\FeedType
+    Zikula\ContentModule\ContentType\Form\Type\ControllerType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\FeedType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.google_map:
-        class: Zikula\ContentModule\ContentType\GoogleMapType
+    Zikula\ContentModule\ContentType\Form\Type\FeedType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\GoogleMapType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.google_route:
-        class: Zikula\ContentModule\ContentType\GoogleRouteType
+    Zikula\ContentModule\ContentType\Form\Type\GoogleMapType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\GoogleRouteType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.heading:
-        class: Zikula\ContentModule\ContentType\HeadingType
+    Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\HeadingType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.html:
-        class: Zikula\ContentModule\ContentType\HtmlType
+    Zikula\ContentModule\ContentType\Form\Type\HeadingType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\HtmlType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.join_position:
-        class: Zikula\ContentModule\ContentType\JoinPositionType
+    Zikula\ContentModule\ContentType\Form\Type\HtmlType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\JoinPositionType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.open_street_map:
-        class: Zikula\ContentModule\ContentType\OpenStreetMapType
+    Zikula\ContentModule\ContentType\Form\Type\JoinPositionType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\OpenStreetMapType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.page_navigation:
-        class: Zikula\ContentModule\ContentType\PageNavigationType
+    Zikula\ContentModule\ContentType\Form\Type\OpenStreetMapType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\PageNavigationType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.quote:
-        class: Zikula\ContentModule\ContentType\QuoteType
+    Zikula\ContentModule\ContentType\Form\Type\PageNavigationType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\QuoteType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.slideshare:
-        class: Zikula\ContentModule\ContentType\SlideshareType
+    Zikula\ContentModule\ContentType\Form\Type\QuoteType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\SlideshareType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.table_of_contents:
-        class: Zikula\ContentModule\ContentType\TableOfContentsType
+    Zikula\ContentModule\ContentType\Form\Type\SlideshareType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\TableOfContentsType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.tab_navigation:
-        class: Zikula\ContentModule\ContentType\TabNavigationType
+    Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\TabNavigationType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.unfiltered:
-        class: Zikula\ContentModule\ContentType\UnfilteredType
+    Zikula\ContentModule\ContentType\Form\Type\TabNavigationType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\UnfilteredType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.vimeo:
-        class: Zikula\ContentModule\ContentType\VimeoType
+    Zikula\ContentModule\ContentType\Form\Type\UnfilteredType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\VimeoType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    zikula_content_module.content_type.you_tube:
-        class: Zikula\ContentModule\ContentType\YouTubeType
+    Zikula\ContentModule\ContentType\Form\Type\VimeoType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']
+
+    Zikula\ContentModule\ContentType\YouTubeType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
+    Zikula\ContentModule\ContentType\Form\Type\YouTubeType:
+        parent: zikula_content_module.content_type.form.common
+        tags: ['form.type']

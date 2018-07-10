@@ -63,7 +63,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
             'areaIndex',
             'areaPosition',
             'owningType',
-            'contentData',
             'active',
             'activeFrom',
             'activeTo',

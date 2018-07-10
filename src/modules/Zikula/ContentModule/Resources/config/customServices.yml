@@ -4,5 +4,11 @@ services:
     zikula_content_module.custom_twig_extension:
         class: Zikula\ContentModule\Twig\CustomTwigExtension
         arguments:
-            - "@zikula_content_module.collector.content_type_collector"
+            - '@zikula_content_module.collector.content_type_collector'
         tags: ['twig.extension']
+    zikula_content_module.form.type.content_item:
+        class: Zikula\ContentModule\Form\Type\ContentItemType
+        arguments:
+            - '@translator.default'
+            - '@zikula_content_module.listentries_helper'
+        tags: ['form.type']

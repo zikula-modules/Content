@@ -13,6 +13,7 @@ application "Content" {
     skipFiles "
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
+        Controller/ContentItemController.php,
         ZikulaContentModule.php
     "
     markFiles "
@@ -121,10 +122,8 @@ application "Content" {
                     defaultValue ""
                     length 255
                 },
-                text "contentData" translatable {
-                    defaultValue ""
+                array "contentData" translatable {
                     mandatory false
-                    length 9999999
                 },
                 boolean "active" ajaxTogglability {
                     defaultValue "true"

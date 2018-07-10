@@ -1,0 +1,37 @@
+{% form_theme form with [
+    '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+    'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+] %}
+<div class="container-fluid">
+    <div class="row">
+        {{ showflashes() }}
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+{#
+        <fieldset>
+            <legend>{{ __('Meta') }}</legend>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{ __('Content type') }}</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static label label-info" style="font-size: 130%">{{ contentType.bundleName }} / {{ contentType.title }}</p>
+                </div>
+            </div>
+        </fieldset>
+#}
+        {% if form.content is defined and contentFormTemplate|default %}
+            <fieldset>
+                <legend>{{ __('Content') }}</legend>
+                {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
+            </fieldset>
+        {% endif %}
+        <fieldset>
+            <legend>{{ __('Options') }}</legend>
+            {{ form_row(form.active) }}
+            {{ form_row(form.activeFrom) }}
+            {{ form_row(form.activeTo) }}
+            {{ form_row(form.scope) }}
+            {{ form_row(form.stylingClasses) }}
+        </fieldset>
+        {{ form_end(form) }}
+    </div>
+</div>

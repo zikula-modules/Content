@@ -13,6 +13,7 @@
 namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentType\Form\Type\AuthorType as FormType;
 
 /**
  * Author content type.
@@ -58,7 +59,8 @@ class AuthorType extends AbstractContentType
      */
     public function getSearchableText()
     {
-        $authorName = UserUtil::getVar($this->data['authorId'], 'uname'); // TODO
+        // TODO
+        $authorName = UserUtil::getVar($this->data['authorId'], 'uname');
 
         return html_entity_decode(strip_tags($authorName));
     }
@@ -68,6 +70,6 @@ class AuthorType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }
