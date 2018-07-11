@@ -32,6 +32,8 @@ use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Type\Field\ArrayType;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
 use Zikula\UsersModule\Form\Type\UserLiveSearchType;
+use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
@@ -127,6 +129,18 @@ abstract class AbstractPageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if ('create' == $options['mode']) {
+            $builder->add('parent', EntityTreeType::class, [
+                'class' => PageEntity::class,
+                'multiple' => false,
+                'expanded' => false,
+                'use_joins' => false,
+                'label' => $this->__('Parent page'),
+                'attr' => [
+                    'title' => $this->__('Choose the parent page.')
+                ]
+            ]);
+        }
         $this->addEntityFields($builder, $options);
         if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, 'page')) {
             $this->addCategoriesField($builder, $options);

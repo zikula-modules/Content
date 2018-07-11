@@ -618,10 +618,8 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     {
         $trees = [];
     
-        $slimMode = false;
-    
         // get all root nodes
-        $qb = $this->genericBaseQuery('tbl.lvl = 0', '', $useJoins, $slimMode);
+        $qb = $this->genericBaseQuery('tbl.lvl = 0', '', $useJoins);
         $query = $this->getQueryFromBuilder($qb);
         $rootNodes = $query->getResult();
     

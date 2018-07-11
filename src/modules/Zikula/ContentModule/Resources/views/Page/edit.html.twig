@@ -61,6 +61,9 @@
         {% endif %}
         <fieldset>
             <legend>{{ __('Further properties') }}</legend>
+            {% if mode == 'create' and form.parent is defined %}
+                {{ form_row(form.parent) }}
+            {% endif %}
             {{ form_row(form.showTitle) }}
             {{ form_row(form.skipUiHookSubscriber) }}
             {{ form_row(form.skipFilterHookSubscriber) }}
