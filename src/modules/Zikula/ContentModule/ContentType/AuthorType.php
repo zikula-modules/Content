@@ -12,11 +12,57 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\AuthorType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
+use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
+
 /**
  * Author content type.
  */
 class AuthorType extends AbstractContentType
 {
+    /**
+     * @var CurrentUserApiInterface
+     */
+    private $currentUserApi;
+
+    /**
+     * @var UserRepositoryInterface
+     */
+    protected $userRepository;
+
+    /**
+     * AuthorType constructor.
+     *
+     * @param TranslatorInterface     $translator       Translator service instance
+     * @param Twig_Environment        $twig             Twig service instance
+     * @param FilesystemLoader        $twigLoader       Twig loader service instance
+     * @param PermissionHelper        $permissionHelper PermissionHelper service instance
+     * @param Asset                   $assetHelper      Asset service instance
+     * @param CurrentUserApiInterface $currentUserApi   CurrentUserApi service instance
+     * @param UserRepositoryInterface $userRepository   UserRepository service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        CurrentUserApiInterface $currentUserApi,
+        UserRepositoryInterface $userRepository
+    ) {
+        $this->currentUserApi = $currentUserApi;
+        $this->userRepository = $userRepository;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -47,7 +93,7 @@ class AuthorType extends AbstractContentType
     public function getDefaultData()
     {
         return [
-            'authorId' => 1
+            'authorId' => $this->currentUserApi->get('uid')
         ];
     }
 
@@ -56,7 +102,8 @@ class AuthorType extends AbstractContentType
      */
     public function getSearchableText()
     {
-        $authorName = UserUtil::getVar($this->data['authorId'], 'uname'); // TODO
+        $user = $this->userRepository->find($this->data['authorId']);
+        $authorName = null !== $user ? $user->getUname() : $this->__('Unknown author');
 
         return html_entity_decode(strip_tags($authorName));
     }
@@ -66,6 +113,35 @@ class AuthorType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $assets = parent::getAssets($context);
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return $assets;
+        }
+
+        $assets['css'][] = $this->assetHelper->resolve('@ZikulaUsersModule:css/livesearch.css');
+        $assets['js'][] = $this->assetHelper->resolve('@ZikulaUsersModule:js/Zikula.Users.LiveSearch.js');
+        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Author.js');
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return null;
+        }
+
+        return 'contentInitAuthorEdit';
     }
 }

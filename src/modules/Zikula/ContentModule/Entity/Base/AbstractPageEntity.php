@@ -166,16 +166,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(length=10)
-     * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="10")
-     * @Assert\Locale()
-     * @var string $pageLanguage
-     */
-    protected $pageLanguage = '';
-    
-    /**
-     * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull()
@@ -320,7 +310,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      *
      * @ORM\OneToMany(targetEntity="Zikula\ContentModule\Entity\ContentItemEntity", mappedBy="page", cascade={"remove", "detach"})
      * @ORM\JoinTable(name="zikula_content_pagecontentitems")
-     * @ORM\OrderBy({"areaIndex" = "ASC", "areaPosition" = "ASC"})
      * @var \Zikula\ContentModule\Entity\ContentItemEntity[] $contentItems
      */
     protected $contentItems = null;
@@ -685,30 +674,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     {
         if (boolval($this->inMenu) !== boolval($inMenu)) {
             $this->inMenu = boolval($inMenu);
-        }
-    }
-    
-    /**
-     * Returns the page language.
-     *
-     * @return string
-     */
-    public function getPageLanguage()
-    {
-        return $this->pageLanguage;
-    }
-    
-    /**
-     * Sets the page language.
-     *
-     * @param string $pageLanguage
-     *
-     * @return void
-     */
-    public function setPageLanguage($pageLanguage)
-    {
-        if ($this->pageLanguage !== $pageLanguage) {
-            $this->pageLanguage = isset($pageLanguage) ? $pageLanguage : '';
         }
     }
     

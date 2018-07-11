@@ -12,6 +12,9 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+
 /**
  * Page navigation content type.
  */
@@ -96,11 +99,4 @@ class PageNavigationType extends AbstractContentType
         return "<h3>" . $this->__('Page navigation')."</h3>";
     }
 */
-    /**
-     * @inheritDoc
-     */
-    public function getEditFormClass()
-    {
-        return ''; // TODO
-    }
 }

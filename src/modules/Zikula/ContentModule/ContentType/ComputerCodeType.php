@@ -12,11 +12,48 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
+
 /**
  * Computer code content type.
  */
 class ComputerCodeType extends AbstractContentType
 {
+    /**
+     * @var ZikulaHttpKernelInterface
+     */
+    protected $kernel;
+
+    /**
+     * ComputerCodeType constructor.
+     *
+     * @param TranslatorInterface       $translator       Translator service instance
+     * @param Twig_Environment          $twig             Twig service instance
+     * @param FilesystemLoader          $twigLoader       Twig loader service instance
+     * @param PermissionHelper          $permissionHelper PermissionHelper service instance
+     * @param Asset                     $assetHelper      Asset service instance
+     * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        ZikulaHttpKernelInterface $kernel
+    ) {
+        $this->kernel = $kernel;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -71,10 +108,13 @@ class ComputerCodeType extends AbstractContentType
 /** TODO
     function display()
     {
-        if (ModUtil::available('BBCode') && ($this->codeFilter == 'bbcode')) {
+        if ('bbcode' == $this->codeFilter && $this->kernel->isBundle('ZikulaBBCodeModule')) {
             $code = '[code]' . $this->text . '[/code]';
             PageUtil::addVar('stylesheet', 'modules/BBCode/style/style.css');
             return ModUtil::apiFunc('BBCode', 'User', 'transform', array('message' => $code));
+        } elseif ('lumicula' == $this->codeFilter && $this->kernel->isBundle('PhaidonLuMicuLaModule')) {
+            ...
+        }
         } else {
             return $this->transformCode($this->text, true);
         }
@@ -85,19 +125,13 @@ class ComputerCodeType extends AbstractContentType
         // <pre> does not work in IE 7 with the portal javascript
         return $this->transformCode($this->text, false);
     }
-
-    public function startEditing() {
-        if (isset($this->codeFilter)) {
-            $this->view->assign('codeFilter', $this->codeFilter);
-        }
-    }
 */
     /**
      * @inheritDoc
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 
     /**

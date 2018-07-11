@@ -12,6 +12,10 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\FeedType as FormType;
+
 /**
  * Feed content type.
  */
@@ -131,7 +135,7 @@ class FeedType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 
     /**

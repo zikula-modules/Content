@@ -12,11 +12,47 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
+
 /**
  * Unfiltered raw content type.
  */
 class UnfilteredType extends AbstractContentType
 {
+    /**
+     * @var boolean
+     */
+    protected $enableRawPlugin;
+
+    /**
+     * UnfilteredType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param boolean             $enableRawPlugin  Whether to enable the unfiltered raw plugin or not
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        $enableRawPlugin
+    ) {
+        $this->enableRawPlugin = $enableRawPlugin;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -54,7 +90,6 @@ class UnfilteredType extends AbstractContentType
      */
     public function getAdminInfo()
     {
-        // TODO
         return $this->__('You need to explicitly enable a checkbox in the configuration form to activate this plugin.');
     }
 
@@ -64,9 +99,7 @@ class UnfilteredType extends AbstractContentType
     public function isActive()
     {
         // Only active when the admin has enabled this plugin
-        // TODO
-        return true;
-        return false;//(bool) ModUtil::getVar('ZikulaContentModule', 'enableRawPlugin', false);
+        return $this->enableRawPlugin;
     }
 
     /**
@@ -85,9 +118,9 @@ class UnfilteredType extends AbstractContentType
         return [
             'text' => $this->__('Add unfiltered text here ...'),
             'useiframe' => false,
-            'iframeTitle' => '',
-            'iframeName' => '',
             'iframeSrc' => '',
+            'iframeName' => '',
+            'iframeTitle' => '',
             'iframeStyle' => 'border:0',
             'iframeWidth' => 800,
             'iframeHeight' => 600,
@@ -100,11 +133,14 @@ class UnfilteredType extends AbstractContentType
 /** TODO
     function displayEditing()
     {
+        $output = '<div style="background-color: Lavender; padding: 10px">';
         if ($this->useiframe) {
-            $output = '<div style="background-color:Lavender; padding:10px;">' . $this->__f('An <strong>iframe</strong> is included with<br />src = %1$s<br />width = %2$s and height = %3$s', array($this->iframesrc, $this->iframewidth, $this->iframeheight)) . '</div>';
+            $output .= $this->__f('An <strong>iframe</strong> is included with<br />src = %1$s<br />width = %2$s and height = %3$s', array($this->iframesrc, $this->iframewidth, $this->iframeheight));
         } else {
-            $output = '<div style="background-color:Lavender; padding:10px;">' . $this->__f('The following <strong>unfiltered text</strong> will be included literally<br />%s', DataUtil::formatForDisplay($this->text)) . '</div>';
+            $output .= $this->__f('The following <strong>unfiltered text</strong> will be included literally<br />%s', DataUtil::formatForDisplay($this->text));
         }
+        $output .= '</div>';
+
         return $output;
     }
 */
@@ -113,6 +149,33 @@ class UnfilteredType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $assets = parent::getAssets($context);
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return $assets;
+        }
+
+        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Unfiltered.js');
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return null;
+        }
+
+        return 'contentInitUnfilteredEdit';
     }
 }

@@ -57,7 +57,6 @@
                 "ZikulaContentModule:Searchable:": "Searchable ID::",
                 "ZikulaContentModule:ContentItem:Searchable": "ContentItem ID:Searchable ID:",
                 "ZikulaContentModule::Ajax": "::",
-                "ZikulaContentModule:Plugin:Layout": "Layout name::",
                 "ZikulaContentModule:Plugin:Content": "Content type name::"
             }
         }

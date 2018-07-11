@@ -13,10 +13,13 @@ application "Content" {
     skipFiles "
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
+        Controller/ContentItemController.php,
+        Helper/PermissionHelper.php,
         ZikulaContentModule.php
     "
     markFiles "
         composer.json,
+        Resources/config/helpers.yml,
         Resources/config/services.yml
     "
     entities {
@@ -74,12 +77,6 @@ application "Content" {
                     defaultValue "true"
                     mandatory false
                 },
-                string "pageLanguage" {
-                    dbName ""
-                    defaultValue ""
-                    length 10
-                    role LOCALE
-                },
                 string "optionalString1" translatable {
                     defaultValue ""
                     mandatory false
@@ -101,6 +98,8 @@ application "Content" {
                 array "versionData" {
                     defaultValue ""
                     mandatory false
+                    displayType NONE
+                    visible false
                     arrayType JSON_ARRAY
                 }
             }
@@ -113,28 +112,14 @@ application "Content" {
         },
         entity "contentItem" {
             nameMultiple "contentItems"
-            displayPattern "#areaIndex#-#areaPosition#: #owningBundle# - #owningType#"
+            displayPattern "#owningType#"
             fields {
-                integer "areaIndex" {
-                    defaultValue "0"
-                    mandatory false
-                },
-                integer "areaPosition" {
-                    defaultValue "0"
-                    mandatory false
-                },
-                string "owningBundle" {
-                    defaultValue ""
-                    length 100
-                },
                 string "owningType" {
                     defaultValue ""
-                    length 100
+                    length 255
                 },
-                text "contentData" translatable {
-                    defaultValue ""
+                array "contentData" translatable {
                     mandatory false
-                    length 9999999
                 },
                 boolean "active" ajaxTogglability {
                     defaultValue "true"
@@ -157,8 +142,10 @@ application "Content" {
                         listItem "Only not logged in people" ( "2" )
                     }
                 },
-                string "stylingClasses" {
+                array "stylingClasses" {
                     mandatory false
+                    displayType NONE
+                    arrayType SIMPLE_ARRAY
                 }
             }
             indexes {
@@ -166,17 +153,10 @@ application "Content" {
                     items {
                         indexItem "active"
                     }
-                },
-                index "positionIndex" {
-                    items {
-                        indexItem "areaIndex",
-                        indexItem "areaPosition"
-                    }
                 }
             }
             actions {
-                mainAction "Index",
-                editAction "Edit"
+                mainAction "Index"
             }
         },
         entity "searchable" {
@@ -207,7 +187,7 @@ application "Content" {
             targetEditing NONE
             cascade REMOVE_DETACH
             cascadeReverse PERSIST
-            orderBy "areaIndex, areaPosition"
+            orderBy ""
         },
         one2many bidirectional {
             source "contentItem"

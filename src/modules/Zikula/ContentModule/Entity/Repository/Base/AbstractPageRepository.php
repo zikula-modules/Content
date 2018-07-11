@@ -69,7 +69,6 @@ abstract class AbstractPageRepository extends NestedTreeRepository
             'activeFrom',
             'activeTo',
             'inMenu',
-            'pageLanguage',
             'optionalString1',
             'optionalString2',
             'currentVersion',

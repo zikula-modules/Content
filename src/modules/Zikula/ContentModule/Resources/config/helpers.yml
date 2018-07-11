@@ -65,6 +65,7 @@ services:
             - "@zikula_permissions_module.api.permission"
             - "@zikula_users_module.current_user"
             - "@zikula_users_module.user_repository"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'inheritPermissions', false)"
     
     zikula_content_module.search_helper:
         class: Zikula\ContentModule\Helper\SearchHelper

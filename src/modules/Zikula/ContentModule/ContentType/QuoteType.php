@@ -12,6 +12,10 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\QuoteType as FormType;
+
 /**
  * Quote content type.
  */
@@ -65,7 +69,7 @@ class QuoteType extends AbstractContentType
         return [
             'text' => $this->__('Add quote text here...'),
             'source' => 'https://',
-            'desc' => $this->__('Name of the source')
+            'description' => $this->__('Name of the source')
         ];
     }
 
@@ -82,6 +86,6 @@ class QuoteType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

@@ -1,0 +1,51 @@
+{% set categories = [
+    {
+        name: constant('Zikula\\ContentModule\\ContentTypeInterface::CATEGORY_BASIC'),
+        title: __('Basic'),
+        description: __('Fundamental elements like text, image, heading, quote'),
+        icon: 'star'
+    },
+    {
+        name: constant('Zikula\\ContentModule\\ContentTypeInterface::CATEGORY_EXTERNAL'),
+        title: __('External'),
+        description: __('External content, like Vimeo or YouTube videos, Slideshare, etc.'),
+        icon: 'globe'
+    },
+    {
+        name: constant('Zikula\\ContentModule\\ContentTypeInterface::CATEGORY_INTEGRATION'),
+        title: __('Integration'),
+        description: __('Zikula blocks and content from third party modules like appointments, etc.'),
+        icon: 'cogs'
+    },
+    {
+        name: constant('Zikula\\ContentModule\\ContentTypeInterface::CATEGORY_EXPERT'),
+        title: __('Expert'),
+        description: __('Advanced elements for special and complex purposes'),
+        icon: 'wrench'
+    }
+] %}
+<div id="palette" class="well">
+    {% set activeContentTypes = zikulacontentmodule_contentTypes() %}
+    <div class="panel-group" id="paletteSectionList" role="tablist" aria-multiselectable="false">
+    {% for category in categories %}
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="paletteSection{{ loop.index }}">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#paletteSectionList" href="#collapseSection{{ loop.index }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapseSection{{ loop.index }}"{% if loop.first %}{% else %} class="collapsed"{% endif %} data-title="{{ category.title|e('html_attr') }}" data-content="{{ category.description|e('html_attr') }}">
+                        <i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}<br />
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseSection{{ loop.index }}" class="panel-collapse collapse{% if loop.first %} in{% endif %}" role="tabpanel" aria-labelledby="paletteSection{{ loop.index }}">
+                <div class="panel-body">
+                    {% for contentType in activeContentTypes if contentType.category == category.name %}
+                        <div class="grid-stack-item" data-title="{{ contentType.title|e('html_attr') }}" data-content="{{ contentType.description|e('html_attr') }}" data-minwidth="{{ contentType.minimumAmountOfGridColumns|e('html_attr') }}" data-typeclass="{{ contentType|php('get_class') }}">
+                            <div class="grid-stack-item-content"><i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>

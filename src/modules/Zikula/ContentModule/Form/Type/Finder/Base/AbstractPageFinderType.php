@@ -166,7 +166,6 @@ abstract class AbstractPageFinderType extends AbstractType
                     $this->__('Active from') => 'activeFrom',
                     $this->__('Active to') => 'activeTo',
                     $this->__('In menu') => 'inMenu',
-                    $this->__('Page language') => 'pageLanguage',
                     $this->__('Optional string 1') => 'optionalString1',
                     $this->__('Optional string 2') => 'optionalString2',
                     $this->__('Current version') => 'currentVersion',

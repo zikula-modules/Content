@@ -12,7 +12,7 @@
 
 namespace Zikula\ContentModule\Collector;
 
-use Zikula\ContentModule\ContentType\ContentTypeInterface;
+use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Content type collector implementation class.

@@ -12,6 +12,10 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\OpenStreetMapType as FormType;
+
 /**
  * Open street map content type.
  */
@@ -82,14 +86,6 @@ class OpenStreetMapType extends AbstractContentType
 /** TODO
     function display()
     {
-        $scripts = [
-            'javascript/ajax/proto_scriptaculous.combined.min.js',
-            'https://openlayers.org/api/OpenLayers.js',
-            'https://www.openstreetmap.org/openlayers/OpenStreetMap.js',
-            'modules/Content/javascript/openstreetmap.js'
-        ];
-        PageUtil::addVar('javascript', $scripts);
-
         $this->view->assign('zoom', $this->zoom);
         $this->view->assign('height', $this->height);
         $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
@@ -102,21 +98,43 @@ class OpenStreetMapType extends AbstractContentType
     {
         return DataUtil::formatForDisplay($this->text);
     }
-    function startEditing()
-    {
-        $scripts = array(
-            'javascript/ajax/proto_scriptaculous.combined.min.js',
-            'https://www.openlayers.org/api/OpenLayers.js',
-            'https://www.openstreetmap.org/openlayers/OpenStreetMap.js',
-            'modules/Content/javascript/openstreetmap.js');
-        PageUtil::addVar('javascript', $scripts);
-    }
 */
     /**
      * @inheritDoc
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $assets = parent::getAssets($context);
+
+        if (in_array($context, [ContentTypeInterface::CONTEXT_VIEW, ContentTypeInterface::CONTEXT_EDIT])) {
+            $assets['js'][] = 'https://openlayers.org/api/OpenLayers.js';
+            $assets['js'][] = 'https://www.openstreetmap.org/openlayers/OpenStreetMap.js';
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.OpenStreetMap.js');
+        }
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            return 'contentInitOsmDisplay';
+        }
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            return 'contentInitOsmEdit';
+        }
+
+        return null;
     }
 }

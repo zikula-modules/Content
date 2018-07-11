@@ -12,11 +12,56 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
+
 /**
  * Google route content type.
  */
 class GoogleRouteType extends AbstractContentType
 {
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var string
+     */
+    protected $googleMapsApiKey;
+
+    /**
+     * AuthorType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param RequestStack        $requestStack     RequestStack service instance
+     * @param string              $googleMapsApiKey Google maps API key
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        RequestStack $requestStack,
+        $googleMapsApiKey
+    ) {
+        $this->requestStack = $requestStack;
+        $this->googleMapsApiKey = $googleMapsApiKey;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -63,9 +108,7 @@ class GoogleRouteType extends AbstractContentType
     public function isActive()
     {
         // Only active when the API key is available
-        // TODO
-        return true;
-        return false;//'' != ModUtil::getVar('ZikulaContentModule', 'googleMapsApiKey', '');
+        return '' != $this->googleMapsApiKey;
     }
 
     /**
@@ -85,6 +128,7 @@ class GoogleRouteType extends AbstractContentType
             'latitude' => '55.8756960390043',
             'longitude' => '12.36185073852539',
             'zoom' => 5,
+            'mapType' => 'roadmap',
             'height' => 400,
             'addressText' => 'Sample street 123,12345 Sample city,Country',
             'topText' => '',
@@ -101,17 +145,6 @@ class GoogleRouteType extends AbstractContentType
     }
 
 /**
-    function display()
-    {
-        $apiKey = ModUtil::getVar('Content', 'googlemapApiKey');
-        if (empty($apiKey)) {
-            return '';
-        }
-
-        PageUtil::addVar('javascript', 'https://maps.googleapis.com/maps/api/js?key='.$apiKey.'&language=' . ZLanguage::getLanguageCode() . '&sensor=false');
-
-        return $this->view->fetch($this->getTemplate());
-    }
     function displayEditing()
     {
         return $this->__f('Map route at longitude: %1$s, latitude: %2$s, description: %3$s', array(substr($this->longitude,0,6).'...', substr($this->latitude,0,6).'...', DataUtil::formatForDisplay($this->text)));
@@ -122,6 +155,42 @@ class GoogleRouteType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $locale = $this->requestStack->getMasterRequest()->getLocale();
+
+        $assets = parent::getAssets($context);
+
+        $assets['js'][] = 'https://maps.google.com/maps/api/js?v=3&key=' . $this->googleMapsApiKey . '&language=' . $locale;
+
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleRoute.js');
+        }
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleEdit.js');
+        }
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            return 'contentInitGoogleRouteDisplay';
+        }
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            return 'contentInitGoogleMapEdit';
+        }
+
+        return null;
     }
 }

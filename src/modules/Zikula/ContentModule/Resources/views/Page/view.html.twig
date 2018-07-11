@@ -27,7 +27,6 @@
                 <col id="cActiveFrom" />
                 <col id="cActiveTo" />
                 <col id="cInMenu" />
-                <col id="cPageLanguage" />
                 <col id="cCurrentVersion" />
             </colgroup>
             <thead>
@@ -58,9 +57,6 @@
                 </th>
                 <th id="hInMenu" scope="col" class="text-center">
                     <a href="{{ sort.inMenu.url }}" title="{{ __f('Sort by %s', {'%s': 'in menu'}) }}" class="{{ sort.inMenu.class }}">{{ __('In menu') }}</a>
-                </th>
-                <th id="hPageLanguage" scope="col" class="text-left">
-                    <a href="{{ sort.pageLanguage.url }}" title="{{ __f('Sort by %s', {'%s': 'page language'}) }}" class="{{ sort.pageLanguage.class }}">{{ __('Page language') }}</a>
                 </th>
                 <th id="hCurrentVersion" scope="col" class="text-right">
                     <a href="{{ sort.currentVersion.url }}" title="{{ __f('Sort by %s', {'%s': 'current version'}) }}" class="{{ sort.currentVersion.class }}">{{ __('Current version') }}</a>
@@ -134,16 +130,13 @@
                         {% endif %}
                     </div></noscript>
                 </td>
-                <td headers="hPageLanguage" class="text-left">
-                    {{ page.pageLanguage|languageName }}
-                </td>
                 <td headers="hCurrentVersion" class="text-right">
                     {{ page.currentVersion }}
                 </td>
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}11{% else %}10{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}10{% else %}9{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>

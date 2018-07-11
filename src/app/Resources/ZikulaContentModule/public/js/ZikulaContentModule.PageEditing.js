@@ -2,6 +2,55 @@
 
 var nodeDataAttribute = '_gridstack_node';
 var suspendAutoSave = false;
+var loadedDynamicAssets = { css: [], js: [] };
+
+/**
+ * Loads a script file synchronously and caches it.
+ */
+jQuery.contentGetSyncCachedScript = function (url, options) {
+    // Allow user to set any option except for the specified ones
+    options = jQuery.extend(options || {}, {
+        dataType: 'script',
+        url: url,
+        cache: true,
+        async: false
+    });
+ 
+    return jQuery.ajax(options);
+};
+
+/**
+ * Dynamically loads asset files.
+ */
+function contentPageLoadDynamicAssets(type, pathes) {
+    if (-1 == jQuery.inArray(type, ['css', 'js'])) {
+        return;
+    }
+
+    jQuery.each(pathes, function (index, path) {
+        if (-1 < jQuery.inArray(path, loadedDynamicAssets[type])) {
+            return;
+        }
+
+        if ('css' == type) {
+            jQuery('<link />')
+                .appendTo('head') // first append for IE8 compatibility
+                .attr({
+                    type: 'text/css', 
+                    rel: 'stylesheet',
+                    href: path
+                })
+            ;
+            loadedDynamicAssets[type].push(path);
+        } else if ('js' == type) {
+            jQuery.contentGetSyncCachedScript(path)
+                .done(function (script, textStatus) {
+                    loadedDynamicAssets[type].push(path);
+                })
+            ;
+        }
+    });
+}
 
 /**
  * Initialises the palette for adding new widgets.
@@ -48,6 +97,8 @@ function contentPageInitPalette() {
             }
             helperWidth *= '60';
             helperWidget.css('width', helperWidth + 'px');
+
+            helperWidget.data('typeclass', widget.data('typeclass'));
 
             suspendAutoSave = true;
         },
@@ -161,10 +212,10 @@ function contentPageInitSectionGrid(selector, gridOptions) {
 
         //console.log('Removed widget that was dragged out of grid:', previousWidget);
         //console.log('Added widget in dropped grid:', newWidget);
-        if (typeof previousWidget == 'undefined') {
+        if ('undefined' === typeof previousWidget) {
             return;
         }
-        if (typeof previousWidget.noResize != 'undefined') {
+        if ('undefined' !== typeof previousWidget.noResize) {
             // dnd between multiple grids
             return;
         }
@@ -179,6 +230,116 @@ function contentPageInitSectionGrid(selector, gridOptions) {
 
         suspendAutoSave = false;
         contentPageSave();
+
+        contentPageInitWidgetEditing(widget, true);
+    });
+}
+
+/**
+ * Opens a modal window for creating/editing a widget.
+ */
+function contentPageInitWidgetEditing(widget, isCreation) {
+    var modal;
+    var heading;
+    var body;
+    var parameters;
+
+    modal = jQuery('#contentItemEditingModal');
+
+    // see https://stackoverflow.com/questions/19506672/
+    if (
+        ((modal.data('bs.modal') || {})._isShown) /* Bootstrap 4 */
+    ||
+        ((modal.data('bs.modal') || {}).isShown) /* Bootstrap 3 */
+    ) {
+        return;
+    }
+
+    heading = modal.find('.modal-header h4.modal-title').first();
+    body = modal.find('.modal-body').first();
+
+    heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
+    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+
+    jQuery('#btnDeleteContent').toggleClass('hidden', isCreation);
+    modal.modal('show');
+
+    if (isCreation) {
+        parameters = { pageId: pageId, type: widget.data('typeclass') };
+    } else {
+        parameters = { contentItem: widget.attr('id').replace('widget', '') };
+    }
+
+    jQuery.getJSON(
+        Routing.generate('zikulacontentmodule_contentitem_edit', parameters)
+    ).done(function(data) {
+        var typeClass;
+
+        typeClass = widget.data('typeclass');
+        body.html(data.form);
+
+        zikulaContentInitDateField('zikulacontentmodule_contentitem_activeFrom');
+        zikulaContentInitDateField('zikulacontentmodule_contentitem_activeTo');
+        body.find('input, select, textarea').change(zikulaContentExecuteCustomValidationConstraints);
+        zikulaContentExecuteCustomValidationConstraints();
+
+        contentPageLoadDynamicAssets('css', data.assets.css);
+        contentPageLoadDynamicAssets('js', data.assets.js);
+        if (null !== data.jsEntryPoint && 'function' === typeof window[data.jsEntryPoint]) {
+            window[data.jsEntryPoint]();
+        }
+
+        jQuery('body').on('submit', '#contentItemEditForm', function (event) {
+            event.preventDefault();
+            return false;
+        });
+        jQuery('#btnSaveContent, #btnDeleteContent').click(function (event) {
+            var params;
+
+            event.preventDefault();
+            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+
+            params = 'pageId=' + pageId;
+            if ('btnSaveContent' == jQuery(this).attr('id')) {
+                params += '&action=save&';
+            } else if ('btnDeleteContent' == jQuery(this).attr('id')) {
+                params += '&action=delete&';
+            }
+
+            jQuery.ajax({
+                type: jQuery(this).attr('method'),
+                url: jQuery(this).attr('action'),
+                data: action + jQuery(this).serialize()
+            })
+            .done(function (data) {
+                if ('undefined' !== typeof data.message) {
+                    alert(data.message);
+                }
+                modal.modal('hide');
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if ('undefined' !== typeof jqXHR.responseJSON) {
+                    if (jqXHR.responseJSON.hasOwnProperty('form')) {
+                        jQuery('#contentItemEditFormBody').html(jqXHR.responseJSON.form);
+                    }
+    
+                    jQuery('#contentItemEditFormError').html(jqXHR.responseJSON.message);
+
+                } else {
+                    alert(errorThrown);
+                }    
+            });
+        });
+
+// TODO: owningType, contentData
+//         modal.modal('hide');
+    }).fail(function(jqXHR, textStatus) {
+        modal.modal('hide');
+        if (isCreation) {
+            // TODO remove newly created widget
+        }
+
+        alert(Translator.__('Failed loading the data.'));
     });
 }
 
@@ -188,20 +349,21 @@ function contentPageInitSectionGrid(selector, gridOptions) {
 function contentPageGetWidgetActions(widgetId) {
     var actions = `
         <div class="dropdown">
-            <a class="delete-item pull-right" title="{{ __('Delete this element') }}"><i class="fa fa-trash-o"></i></a>
-            <a class="dropdown-toggle pull-right" title="{{ __('Actions') }}" id="dropdownMenu' + widgetId + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <span class="sr-only">{{ __('Actions') }}</span>
+            <a class="dropdown-toggle pull-right" title="${Translator.__('Actions')}" id="dropdownMenu${widgetId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="sr-only">${Translator.__('Actions')}</span>
                 <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu' + widgetId + '">
-                <li><a href="#">Action</a></li>
-                <li class="dropdown-header">Dropdown heading</li>
-                <li><a href="#">Other Action</a></li>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu${widgetId}">
+                <li class="dropdown-header">${Translator.__('Basic')}</li>
+                <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-pencil"></i> ${Translator.__('Edit')}</a></li>
+                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-trash-o"></i> ${Translator.__('Delete')}</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">${Translator.__('Activity')}</li>
+                <li><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
+                <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
                 <li class="dropdown-header">Dropdown heading</li>
                 <li><a href="#">Something else</a></li>
                 <li class="disabled"><a href="#">Disabled link</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
             </ul>
         </div>
     `;
@@ -213,6 +375,12 @@ function contentPageGetWidgetActions(widgetId) {
  * Initialises widget actions.
  */
 function contentPageInitWidgetActions() {
+    jQuery('.grid-stack .grid-stack-item a.edit-item').unbind('click').click(function (event) {
+        var widget;
+
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        contentPageInitWidgetEditing(widget, false);
+    });
     jQuery('.grid-stack .grid-stack-item a.delete-item').unbind('click').click(function (event) {
         event.preventDefault();
         if (!confirm(Translator.__('Do you really want to delete this item?'))) {
@@ -309,6 +477,7 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
     _.each(widgets, function (node) {
         var widgetMarkup = contentPageGetWidgetMarkup(node.id, node.title, node.panelClass);
         var widget = jQuery(widgetMarkup);
+        widget.data('typeclass', node.typeClass);
         grid.addWidget(widget, node.x, node.y, node.width, node.height, false, node.minWidth);
         var colOffset = 0;
         if (null !== lastNode && node.y == lastNode.y) {
@@ -351,6 +520,7 @@ function contentPageSerialiseWidgets(elements) {
             width: node.width,
             minWidth: node.minWidth,
             height: node.height,
+            typeClass: widget.data('typeclass'), 
             panelClass: widget.find('.panel').first().attr('class').replace('grid-stack-item-content panel panel-', '').replace(' ui-draggable-handle', ''),
             title: widget.find('h3.panel-title span.title').first().html()
         };
@@ -372,7 +542,7 @@ function contentPageSave() {
         }
     });
 
-    //jQuery('#debugSavedData').val(JSON.stringify(serialisedData, null, '    '));
+    jQuery('#debugSavedData').text(JSON.stringify(serialisedData, null, '    '));
 
     jQuery('#loadPage, #clearPage').prop('disabled', false);
 

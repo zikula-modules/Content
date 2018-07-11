@@ -57,9 +57,6 @@ abstract class AbstractModelHelper
             case 'page':
                 $result = true;
                 break;
-            case 'contentItem':
-                $result = true;
-                break;
         }
     
         return $result;

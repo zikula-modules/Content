@@ -4,5 +4,24 @@ services:
     zikula_content_module.custom_twig_extension:
         class: Zikula\ContentModule\Twig\CustomTwigExtension
         arguments:
-            - "@zikula_content_module.collector.content_type_collector"
+            - '@zikula_content_module.collector.content_type_collector'
         tags: ['twig.extension']
+    zikula_content_module.form.type.content_item:
+        class: Zikula\ContentModule\Form\Type\ContentItemType
+        arguments:
+            - '@translator.default'
+            - '@zikula_content_module.listentries_helper'
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'stylingClasses', '')"
+        tags: ['form.type']
+    zikula_content_module.hook_subscriber.form_aware_hook.contentitems:
+        class: Zikula\ContentModule\HookSubscriber\ContentItemFormAwareHookSubscriber
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.form_aware_hook.contentitems' }
+    zikula_content_module.hook_subscriber.ui_hooks.contentitems:
+        class: Zikula\ContentModule\HookSubscriber\ContentItemUiHooksSubscriber
+        arguments:
+            - '@translator.default'
+        tags:
+            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.ui_hooks.contentitems' }

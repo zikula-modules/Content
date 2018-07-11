@@ -103,10 +103,7 @@ abstract class AbstractEntityDisplayHelper
      */
     protected function formatContentItem(ContentItemEntity $entity)
     {
-        return $this->translator->__f('%areaIndex%-%areaPosition%: %owningBundle% - %owningType%', [
-            '%areaIndex%' => $entity->getAreaIndex(),
-            '%areaPosition%' => $entity->getAreaPosition(),
-            '%owningBundle%' => $entity->getOwningBundle(),
+        return $this->translator->__f('%owningType%', [
             '%owningType%' => $entity->getOwningType()
         ]);
     }
@@ -138,7 +135,7 @@ abstract class AbstractEntityDisplayHelper
             return 'title';
         }
         if ($objectType == 'contentItem') {
-            return 'owningBundle';
+            return 'owningType';
         }
         if ($objectType == 'searchable') {
             return '';
@@ -160,7 +157,7 @@ abstract class AbstractEntityDisplayHelper
             return 'metaDescription';
         }
         if ($objectType == 'contentItem') {
-            return 'contentData';
+            return 'owningType';
         }
         if ($objectType == 'searchable') {
             return 'searchText';

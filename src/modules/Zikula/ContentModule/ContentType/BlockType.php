@@ -12,6 +12,9 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentType\Form\Type\BlockType as FormType;
+
 /**
  * Block content type.
  */
@@ -69,23 +72,12 @@ class BlockType extends AbstractContentType
         $output = $blockinfo['title'] . ' (ID=' . $this->blockid . ')';
         return $output;
     }
-    function startEditing()
-    {
-        $blocksInfo = BlockUtil::getBlocksInfo();
-        $blockoptions = array();
-        // add first empty choice
-        $blockoptions[] = array('text' => __('- Make a choice -'), 'value' => '0');
-        foreach ($blocksInfo as $block) {
-                $blockoptions[] = array('text' => $block['bid'] . ' - ' . $block['title'] . ' (' . ($block['active']?__('Active'):__('InActive')) . ')', 'value' => $block['bid']);
-        }
-        $this->view->assign('blockoptions', $blockoptions);
-    }
 */
     /**
      * @inheritDoc
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

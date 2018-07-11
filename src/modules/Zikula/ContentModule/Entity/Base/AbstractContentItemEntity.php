@@ -61,47 +61,21 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $workflowState = 'initial';
     
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
-     * @Assert\NotNull()
-     * @Assert\LessThan(value=100000000000)
-     * @var integer $areaIndex
-     */
-    protected $areaIndex = 0;
-    
-    /**
-     * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
-     * @Assert\NotNull()
-     * @Assert\LessThan(value=100000000000)
-     * @var integer $areaPosition
-     */
-    protected $areaPosition = 0;
-    
-    /**
-     * @ORM\Column(length=100)
+     * @ORM\Column(length=255)
      * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="100")
-     * @var string $owningBundle
-     */
-    protected $owningBundle = '';
-    
-    /**
-     * @ORM\Column(length=100)
-     * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="100")
+     * @Assert\Length(min="0", max="255")
      * @var string $owningType
      */
     protected $owningType = '';
     
     /**
      * @Gedmo\Translatable
-     * @ORM\Column(type="text", length=9999999)
+     * @ORM\Column(type="array")
      * @Assert\NotNull()
-     * @Assert\Length(min="0", max="9999999")
-     * @var text $contentData
+     * @Assert\Type(type="array")
+     * @var array $contentData
      */
-    protected $contentData = '';
+    protected $contentData = [];
     
     /**
      * @ORM\Column(type="boolean")
@@ -135,12 +109,12 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $scope = '1';
     
     /**
-     * @ORM\Column(length=255)
+     * @ORM\Column(type="simple_array")
      * @Assert\NotNull()
-     * @Assert\Length(min="0", max="255")
-     * @var string $stylingClasses
+     * @Assert\Type(type="array")
+     * @var array $stylingClasses
      */
-    protected $stylingClasses = '';
+    protected $stylingClasses = [];
     
     
     /**
@@ -259,78 +233,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     }
     
     /**
-     * Returns the area index.
-     *
-     * @return integer
-     */
-    public function getAreaIndex()
-    {
-        return $this->areaIndex;
-    }
-    
-    /**
-     * Sets the area index.
-     *
-     * @param integer $areaIndex
-     *
-     * @return void
-     */
-    public function setAreaIndex($areaIndex)
-    {
-        if (intval($this->areaIndex) !== intval($areaIndex)) {
-            $this->areaIndex = intval($areaIndex);
-        }
-    }
-    
-    /**
-     * Returns the area position.
-     *
-     * @return integer
-     */
-    public function getAreaPosition()
-    {
-        return $this->areaPosition;
-    }
-    
-    /**
-     * Sets the area position.
-     *
-     * @param integer $areaPosition
-     *
-     * @return void
-     */
-    public function setAreaPosition($areaPosition)
-    {
-        if (intval($this->areaPosition) !== intval($areaPosition)) {
-            $this->areaPosition = intval($areaPosition);
-        }
-    }
-    
-    /**
-     * Returns the owning bundle.
-     *
-     * @return string
-     */
-    public function getOwningBundle()
-    {
-        return $this->owningBundle;
-    }
-    
-    /**
-     * Sets the owning bundle.
-     *
-     * @param string $owningBundle
-     *
-     * @return void
-     */
-    public function setOwningBundle($owningBundle)
-    {
-        if ($this->owningBundle !== $owningBundle) {
-            $this->owningBundle = isset($owningBundle) ? $owningBundle : '';
-        }
-    }
-    
-    /**
      * Returns the owning type.
      *
      * @return string
@@ -357,7 +259,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Returns the content data.
      *
-     * @return text
+     * @return array
      */
     public function getContentData()
     {
@@ -367,7 +269,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Sets the content data.
      *
-     * @param text $contentData
+     * @param array $contentData
      *
      * @return void
      */
@@ -489,7 +391,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Returns the styling classes.
      *
-     * @return string
+     * @return array
      */
     public function getStylingClasses()
     {
@@ -499,7 +401,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Sets the styling classes.
      *
-     * @param string $stylingClasses
+     * @param array $stylingClasses
      *
      * @return void
      */
@@ -674,7 +576,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      */
     public function __toString()
     {
-        return 'Content item ' . $this->getKey() . ': ' . $this->getOwningBundle();
+        return 'Content item ' . $this->getKey() . ': ' . $this->getOwningType();
     }
     
     /**

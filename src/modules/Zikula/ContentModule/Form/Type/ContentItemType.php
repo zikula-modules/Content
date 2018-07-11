@@ -12,12 +12,160 @@
 
 namespace Zikula\ContentModule\Form\Type;
 
-use Zikula\ContentModule\Form\Type\Base\AbstractContentItemType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\Common\Translator\TranslatorTrait;
 
-/**
- * Content item editing form type implementation class.
- */
-class ContentItemType extends AbstractContentItemType
+class ContentItemType extends AbstractType
 {
-    // feel free to extend the content item editing form type class here
+    use TranslatorTrait;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var ListEntriesHelper
+     */
+    private $listHelper;
+
+    /**
+     * @var string
+     */
+    private $stylingClasses;
+
+    /**
+     * ContentItemType constructor.
+     *
+     * @param TranslatorInterface $translator
+     * @param ListEntriesHelper $listHelper
+     * @param string stylingClasses
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        ListEntriesHelper $listHelper,
+        $stylingClasses
+    ) {
+        $this->setTranslator($translator);
+        $this->listHelper = $listHelper;
+        $this->stylingClasses = $stylingClasses;
+    }
+
+    /**
+     * Sets the translator.
+     *
+     * @param TranslatorInterface $translator Translator service instance
+     */
+    public function setTranslator(/*TranslatorInterface */$translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('active', CheckboxType::class, [
+            'label' => $this->__('Active') . ':',
+            'attr' => [
+                'title' => $this->__('active ?')
+            ],
+            'required' => false,
+        ]);
+
+        $builder->add('activeFrom', DateTimeType::class, [
+            'label' => $this->__('Active from') . ':',
+            'attr' => [
+                'class' => 'validate-daterange-page'
+            ],
+            'required' => false,
+            'empty_data' => '',
+            'with_seconds' => true,
+            'date_widget' => 'single_text',
+            'time_widget' => 'single_text'
+        ]);
+
+        $builder->add('activeTo', DateTimeType::class, [
+            'label' => $this->__('Active to') . ':',
+            'attr' => [
+                'class' => 'validate-daterange-page'
+            ],
+            'required' => false,
+            'empty_data' => '',
+            'with_seconds' => true,
+            'date_widget' => 'single_text',
+            'time_widget' => 'single_text'
+        ]);
+
+        $listEntries = $this->listHelper->getEntries('contentItem', 'scope');
+        $choices = [];
+        $choiceAttributes = [];
+        foreach ($listEntries as $entry) {
+            $choices[$entry['text']] = $entry['value'];
+            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
+        }
+        $builder->add('scope', ChoiceType::class, [
+            'label' => $this->__('Scope') . ':',
+            'empty_data' => '1',
+            'attr' => [
+                'title' => $this->__('Choose the scope.')
+            ],
+            'required' => true,
+            'choices' => $choices,
+            'choice_attr' => $choiceAttributes,
+            'multiple' => false,
+            'expanded' => false
+        ]);
+
+        $choices = [];
+        $userClasses = explode("\n", $this->stylingClasses);
+        foreach ($userClasses as $class) {
+            list($value, $text) = explode('|', $class);
+            $value = trim($value);
+            $text = trim($text);
+            if (!empty($text) && !empty($value)) {
+                $choices[$text] = $value;
+            }
+        }
+
+        $builder->add('stylingClasses', ChoiceType::class, [
+            'label' => $this->__('Styling classes') . ':',
+            'empty_data' => '',
+            'attr' => [
+                'title' => $this->__('Choose any additional styling classes.')
+            ],
+            'required' => false,
+            'choices' => $choices,
+            'multiple' => true
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'zikulacontentmodule_contentitem';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => ContentItemEntity::class
+        ]);
+    }
 }

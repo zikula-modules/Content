@@ -2,8 +2,8 @@
 <dl>
     {% for contentItem in items %}
         <dt>{{ contentItem|zikulacontentmodule_formattedTitle }}</dt>
-        {% if contentItem.contentData %}
-            <dd>{{ contentItem.contentData|striptags|truncate(200, true, '&hellip;') }}</dd>
+        {% if contentItem.owningType %}
+            <dd>{{ contentItem.owningType|striptags|truncate(200, true, '&hellip;') }}</dd>
         {% endif %}
     {% else %}
         <dt>{{ __('No entries found.') }}</dt>

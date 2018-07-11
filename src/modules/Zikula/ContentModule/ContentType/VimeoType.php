@@ -12,6 +12,10 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\Form\Type\VimeoType as FormType;
+
 /**
  * Vimeo content type.
  */
@@ -64,9 +68,6 @@ class VimeoType extends AbstractContentType
     {
         return [
             'url' => '',
-            // TODO remove this?
-            //'width' => 425,
-            //'height' => 340,
             'text' => '',
             'videoId' => '',
             'displayMode' => 'inline'
@@ -84,15 +85,14 @@ class VimeoType extends AbstractContentType
 /** TODO
     function displayEditing()
     {
-        $output = '<div style="background-color:Lavender; width:' . $this->width . 'px; height:' . $this->height . 'px; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . '</div>';
-        $output .= '<p style="width:' . $this->width . 'px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
+        $output = '<div style="background-color:Lavender; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . '</div>';
+        $output .= '<p style="margin: 0 auto">' . DataUtil::formatForDisplay($this->text) . '</p>';
         return $output;
     }
     function isValid(&$data)
     {
         $r = '/vimeo.com\/([-a-zA-Z0-9_]+)/';
-        if (preg_match($r, $data['url'], $matches))
-        {
+        if (preg_match($r, $data['url'], $matches)) {
             $this->videoId = $data['videoId'] = $matches[1];
             return true;
         }
@@ -106,6 +106,6 @@ class VimeoType extends AbstractContentType
      */
     public function getEditFormClass()
     {
-        return ''; // TODO
+        return FormType::class;
     }
 }

@@ -17,82 +17,58 @@
     </div>
     <br />
     <div id="editFrame" class="row">
-        {% set categories = [
-            {
-                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_BASIC'),
-                title: __('Basic'),
-                description: __('Fundamental elements like text, image, heading, quote'),
-                icon: 'star'
-            },
-            {
-                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_EXTERNAL'),
-                title: __('External'),
-                description: __('External content, like Vimeo or YouTube videos, Slideshare, etc.'),
-                icon: 'globe'
-            },
-            {
-                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_INTEGRATION'),
-                title: __('Integration'),
-                description: __('Zikula blocks and content from third party modules like appointments, etc.'),
-                icon: 'cogs'
-            },
-            {
-                name: constant('Zikula\\ContentModule\\ContentType\\ContentTypeInterface::CATEGORY_EXPERT'),
-                title: __('Expert'),
-                description: __('Advanced elements for special and complex purposes'),
-                icon: 'wrench'
-            }
-        ] %}
         <div class="col-sm-4 col-md-3">
-            <div id="palette" class="well">
-                {% set activeContentTypes = zikulacontentmodule_contentTypes() %}
-                <div class="panel-group" id="paletteSectionList" role="tablist" aria-multiselectable="false">
-                {% for category in categories %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="paletteSection{{ loop.index }}">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#paletteSectionList" href="#collapseSection{{ loop.index }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapseSection{{ loop.index }}"{% if loop.first %}{% else %} class="collapsed"{% endif %} data-title="{{ category.title|e('html_attr') }}" data-content="{{ category.description|e('html_attr') }}">
-                                    <i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}<br />
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseSection{{ loop.index }}" class="panel-collapse collapse{% if loop.first %} in{% endif %}" role="tabpanel" aria-labelledby="paletteSection{{ loop.index }}">
-                            <div class="panel-body">
-                                {% for contentType in activeContentTypes if contentType.category == category.name %}
-                                    <div class="grid-stack-item" data-title="{{ contentType.title|e('html_attr') }}" data-content="{{ contentType.description|e('html_attr') }}" data-minwidth="{{ contentType.minimumAmountOfGridColumns|e('html_attr') }}">
-                                        <div class="grid-stack-item-content"><i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}</div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                </div>
-            </div>
+            {{ include('@ZikulaContentModule/Page/palette.html.twig') }}
         </div>
         <div class="col-sm-8 col-md-9">
             <div id="widgets" class="container-fluid"></div>
-            {#
                 <hr />
-                <textarea id="debugSavedData" cols="100" rows="10" readonly="readonly"></textarea>
-            #}
+                <pre id="debugSavedData" cols="100" rows="10" readonly="readonly"></pre>
             <div id="widgetDimensions" data-width="{{ widgetDimensions.width }}" data-minwidth="{{ widgetDimensions.minWidth }}" data-height="{{ widgetDimensions.height }}" class="hidden"></div>
         </div>
     </div>
+    <div id="contentItemEditingModal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveContent" class="btn btn-success" data-dismiss="modal"><i class="fa fa-floppy-o"></i> {{ __('Save') }}</button>
+                    <button type="button" id="btnDeleteContent" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-trash-o"></i> {{ __('Delete') }}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> {{ __('Cancel') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# required for dynamic activation of Scribite for modal content #}
+    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=null, outputAsArray=true) %}
+    {% if hooks is iterable and hooks|length > 0 %}
+    <div class="hidden">
+        {% for area, hook in hooks %}
+            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     {% set customScript %}
         <script>
         /* <![CDATA[ */
 
+            var pageId = 7;
             var serialisedData = [
                 { id: 'section1', widgets: [
-                    { id: 12, x: 0, y: 0, width: 3, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'primary', title: '<i class="fa fa-address-card"></i> Author info' },
-                    { id: 34, x: 4, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'warning', title: '<i class="fa fa-code"></i> HTML (only guests)' },
-                    { id: 56, x: 8, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'danger', title: '<i class="fa fa-newspaper-o"></i> News (inactive)' },
+                    { id: 12, x: 0, y: 0, width: 3, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\AuthorType', height: {{ widgetDimensions.height }}, panelClass: 'primary', title: '<i class="fa fa-address-card"></i> Author info' },
+                    { id: 34, x: 4, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\HtmlType', height: {{ widgetDimensions.height }}, panelClass: 'warning', title: '<i class="fa fa-code"></i> HTML (only guests)' },
+                    { id: 56, x: 8, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\HeadingType', height: {{ widgetDimensions.height }}, panelClass: 'danger', title: '<i class="fa fa-newspaper-o"></i> News (inactive)' },
                 ]},
                 { id: 'section2', widgets: [
-                    { id: 78, x: 0, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'success', title: '<i class="fa fa-vimeo"></i> Vimeo (only users)' },
-                    { id: 90, x: 3, y: 2, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, height: {{ widgetDimensions.height }}, panelClass: 'info', title: '<i class="fa fa-youtube"></i> YouTube Video' }
+                    { id: 78, x: 0, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\VimeoType', height: {{ widgetDimensions.height }}, panelClass: 'success', title: '<i class="fa fa-vimeo"></i> Vimeo (only users)' },
+                    { id: 90, x: 3, y: 2, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\YouTubeType', height: {{ widgetDimensions.height }}, panelClass: 'info', title: '<i class="fa fa-youtube"></i> YouTube Video' }
                 ]}
             ];
 
@@ -116,6 +92,8 @@
 {% endblock %}
 {% block footer %}
     {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
     {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.min.css'), 111) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/lodash/lodash.min.js'), 10) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js'), 100) }}

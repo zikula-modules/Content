@@ -185,18 +185,14 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     $whereArray[] = 'tbl.workflowState';
                     $whereArray[] = 'tbl.title';
                     $whereArray[] = 'tbl.metaDescription';
-                    $whereArray[] = 'tbl.pageLanguage';
                     $whereArray[] = 'tbl.optionalString1';
                     $whereArray[] = 'tbl.optionalString2';
                     $whereArray[] = 'tbl.optionalText';
                     break;
                 case 'contentItem':
                     $whereArray[] = 'tbl.workflowState';
-                    $whereArray[] = 'tbl.owningBundle';
                     $whereArray[] = 'tbl.owningType';
-                    $whereArray[] = 'tbl.contentData';
                     $whereArray[] = 'tbl.scope';
-                    $whereArray[] = 'tbl.stylingClasses';
                     break;
                 case 'searchable':
                     $whereArray[] = 'tbl.workflowState';

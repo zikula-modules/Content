@@ -1,5 +1,13 @@
-// TODO
+'use strict';
 
+/**
+ * Initialises the google route view.
+ */
+function contentInitGoogleRouteDisplay() {
+    // TODO
+}
+
+// TODO
 var directionsDisplay = new google.maps.DirectionsRenderer();
 var directionsService = new google.maps.DirectionsService();
 var map;

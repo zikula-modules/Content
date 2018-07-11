@@ -18,11 +18,9 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Zikula\Bundle\FormExtensionBundle\Form\Type\LocaleType;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
-use Zikula\SettingsModule\Api\ApiInterface\LocaleApiInterface;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 
@@ -39,11 +37,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
     protected $listHelper;
 
     /**
-     * @var LocaleApiInterface
-     */
-    protected $localeApi;
-
-    /**
      * @var FeatureActivationHelper
      */
     protected $featureActivationHelper;
@@ -53,18 +46,15 @@ abstract class AbstractPageQuickNavType extends AbstractType
      *
      * @param TranslatorInterface $translator   Translator service instance
      * @param ListEntriesHelper   $listHelper   ListEntriesHelper service instance
-     * @param LocaleApiInterface  $localeApi    LocaleApi service instance
      * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
      */
     public function __construct(
         TranslatorInterface $translator,
         ListEntriesHelper $listHelper,
-        LocaleApiInterface $localeApi,
         FeatureActivationHelper $featureActivationHelper
     ) {
         $this->setTranslator($translator);
         $this->listHelper = $listHelper;
-        $this->localeApi = $localeApi;
         $this->featureActivationHelper = $featureActivationHelper;
     }
 
@@ -94,7 +84,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
             $this->addCategoriesField($builder, $options);
         }
         $this->addListFields($builder, $options);
-        $this->addLocaleFields($builder, $options);
         $this->addSearchField($builder, $options);
         $this->addSortingFields($builder, $options);
         $this->addAmountField($builder, $options);
@@ -164,24 +153,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
     }
 
     /**
-     * Adds locale fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
-     */
-    public function addLocaleFields(FormBuilderInterface $builder, array $options = [])
-    {
-        $builder->add('pageLanguage', LocaleType::class, [
-            'label' => $this->__('Page language'),
-            'attr' => [
-                'class' => 'input-sm'
-            ],
-            'required' => false,
-            'choices' => $this->localeApi->getSupportedLocaleNames()
-        ]);
-    }
-
-    /**
      * Adds a search field.
      *
      * @param FormBuilderInterface $builder The form builder
@@ -222,7 +193,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
                     $this->__('Active from') => 'activeFrom',
                     $this->__('Active to') => 'activeTo',
                     $this->__('In menu') => 'inMenu',
-                    $this->__('Page language') => 'pageLanguage',
                     $this->__('Optional string 1') => 'optionalString1',
                     $this->__('Optional string 2') => 'optionalString2',
                     $this->__('Current version') => 'currentVersion',

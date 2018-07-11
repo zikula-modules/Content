@@ -1,0 +1,34 @@
+{{ form_errors(form) }}
+{#
+<fieldset>
+    <legend>{{ __('Meta') }}</legend>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{{ __('Content type') }}</label>
+        <div class="col-sm-9">
+            <p class="form-control-static label label-info" style="font-size: 130%">{{ contentType.bundleName }} / {{ contentType.title }}</p>
+        </div>
+    </div>
+</fieldset>
+#}
+{% if form.contentData is defined and contentFormTemplate|default %}
+    <fieldset>
+        <legend>{{ __('Content') }}</legend>
+        {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
+    </fieldset>
+{% endif %}
+<fieldset>
+    <legend>{{ __('Options') }}</legend>
+    {{ form_row(form.active) }}
+    {{ form_row(form.activeFrom) }}
+    {{ form_row(form.activeTo) }}
+    {{ form_row(form.scope) }}
+    {{ form_row(form.stylingClasses) }}
+</fieldset>
+
+{% if formHookTemplates|length > 0 %}
+    <fieldset>
+        {% for hookTemplate in formHookTemplates %}
+            {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+        {% endfor %}
+    </fieldset>
+{% endif %}

@@ -34,13 +34,6 @@
             {% if workflowStateFilter is defined and workflowStateFilter != true %}
                 </div>
             {% endif %}
-            {% if pageLanguageFilter is defined and pageLanguageFilter != true %}
-                <div class="hidden">
-            {% endif %}
-                {{ form_row(quickNavForm.pageLanguage) }}
-            {% if pageLanguageFilter is defined and pageLanguageFilter != true %}
-                </div>
-            {% endif %}
             {% if searchFilter is defined and searchFilter != true %}
                 <div class="hidden">
             {% endif %}

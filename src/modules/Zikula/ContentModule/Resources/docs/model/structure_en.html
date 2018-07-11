@@ -394,24 +394,6 @@
                 </td>
             </tr>
             <tr>
-                <th id="hEntityPageFieldPageLanguage" scope="row" headers="hEntityPageFieldName">Page language</th>
-                <td headers="hEntityPageFieldPageLanguage hEntityPageFieldType">String</td>
-                <td headers="hEntityPageFieldPageLanguage hEntityPageFieldMandatory">true</td>
-                <td headers="hEntityPageFieldPageLanguage hEntityPageFieldDefault"></td>
-                <td headers="hEntityPageFieldPageLanguage hEntityPageFieldDisplayType">ALL</td>
-                <td headers="hEntityPageFieldPageLanguage hEntityPageFieldConstraints">
-                    <ul>
-                        <li>Has a length of 10 chars.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityPageFieldPageLanguage hEntityPageFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                        <li>Represents a locale.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
                 <th id="hEntityPageFieldOptionalString1" scope="row" headers="hEntityPageFieldName">Optional string 1</th>
                 <td headers="hEntityPageFieldOptionalString1 hEntityPageFieldType">String</td>
                 <td headers="hEntityPageFieldOptionalString1 hEntityPageFieldMandatory">false</td>
@@ -488,7 +470,7 @@
                 <td headers="hEntityPageFieldVersionData hEntityPageFieldType">Array</td>
                 <td headers="hEntityPageFieldVersionData hEntityPageFieldMandatory">false</td>
                 <td headers="hEntityPageFieldVersionData hEntityPageFieldDefault"></td>
-                <td headers="hEntityPageFieldVersionData hEntityPageFieldDisplayType">ALL</td>
+                <td headers="hEntityPageFieldVersionData hEntityPageFieldDisplayType">NONE</td>
                 <td headers="hEntityPageFieldVersionData hEntityPageFieldConstraints">
                     <ul>
                     </ul>
@@ -496,6 +478,7 @@
                 <td headers="hEntityPageFieldVersionData hEntityPageFieldRemarks">
                     <ul>
                         <li>This field is not unique and allows no null values.</li>
+                        <li>Is not visible in edit forms.</li>
                         <li>Uses a JSON array.</li>
                     </ul>
                 </td>
@@ -534,7 +517,6 @@
                         <li>From source view cascading is applied for remove and detach operations.</li>
                         <li>From target view cascading is applied for persist operations.</li>
                         <li>This relation is realised by a bidirectional association.</li>
-                        <li>The content items are sorted by the "areaIndex, areaPosition" field.</li>
                         <li>Editing the source side includes no behaviour regarding target elements.</li>
                         <li>Editing the target side includes no behaviour regarding source elements.</li>
                     </ul>
@@ -737,7 +719,7 @@
             </tr>
             <tr>
                 <th id="hContentItemSettingsDisplayPattern" scope="row" headers="hContentItemSettingsName">Display pattern</th>
-                <td headers="hContentItemSettingsDisplayPattern hContentItemSettingsValue">#areaIndex#-#areaPosition#: #owningBundle# - #owningType#</td>
+                <td headers="hContentItemSettingsDisplayPattern hContentItemSettingsValue">#owningType#</td>
                 <td headers="hContentItemSettingsDisplayPattern hContentItemSettingsDescription">Pattern for displaying instances of this entity</td>
             </tr>
             <tr>
@@ -827,57 +809,6 @@
                 </td>
             </tr>
             <tr>
-                <th id="hEntityContentItemFieldAreaIndex" scope="row" headers="hEntityContentItemFieldName">Area index</th>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldType">Integer</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldMandatory">false</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldDefault">0</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Has a length of 11.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntityContentItemFieldAreaPosition" scope="row" headers="hEntityContentItemFieldName">Area position</th>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldType">Integer</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldMandatory">false</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldDefault">0</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Has a length of 11.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntityContentItemFieldOwningBundle" scope="row" headers="hEntityContentItemFieldName">Owning bundle</th>
-                <td headers="hEntityContentItemFieldOwningBundle hEntityContentItemFieldType">String</td>
-                <td headers="hEntityContentItemFieldOwningBundle hEntityContentItemFieldMandatory">true</td>
-                <td headers="hEntityContentItemFieldOwningBundle hEntityContentItemFieldDefault"></td>
-                <td headers="hEntityContentItemFieldOwningBundle hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldOwningBundle hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Has a length of 100 chars.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldOwningBundle hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
                 <th id="hEntityContentItemFieldOwningType" scope="row" headers="hEntityContentItemFieldName">Owning type</th>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldType">String</td>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldMandatory">true</td>
@@ -885,7 +816,7 @@
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldDisplayType">ALL</td>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldConstraints">
                     <ul>
-                        <li>Has a length of 100 chars.</li>
+                        <li>Has a length of 255 chars.</li>
                     </ul>
                 </td>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldRemarks">
@@ -896,19 +827,19 @@
             </tr>
             <tr>
                 <th id="hEntityContentItemFieldContentData" scope="row" headers="hEntityContentItemFieldName">Content data</th>
-                <td headers="hEntityContentItemFieldContentData hEntityContentItemFieldType">Text</td>
+                <td headers="hEntityContentItemFieldContentData hEntityContentItemFieldType">Array</td>
                 <td headers="hEntityContentItemFieldContentData hEntityContentItemFieldMandatory">false</td>
                 <td headers="hEntityContentItemFieldContentData hEntityContentItemFieldDefault"></td>
                 <td headers="hEntityContentItemFieldContentData hEntityContentItemFieldDisplayType">ALL</td>
                 <td headers="hEntityContentItemFieldContentData hEntityContentItemFieldConstraints">
                     <ul>
-                        <li>Has a length of 9999999 chars.</li>
                     </ul>
                 </td>
                 <td headers="hEntityContentItemFieldContentData hEntityContentItemFieldRemarks">
                     <ul>
                         <li>This field is not unique and allows no null values.</li>
                         <li>This field is translatable.</li>
+                        <li>Uses a normal array.</li>
                     </ul>
                 </td>
             </tr>
@@ -984,18 +915,18 @@
             </tr>
             <tr>
                 <th id="hEntityContentItemFieldStylingClasses" scope="row" headers="hEntityContentItemFieldName">Styling classes</th>
-                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldType">String</td>
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldType">Array</td>
                 <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldMandatory">false</td>
                 <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldDefault"></td>
-                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldDisplayType">ALL</td>
+                <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldDisplayType">NONE</td>
                 <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldConstraints">
                     <ul>
-                        <li>Has a length of 255 chars.</li>
                     </ul>
                 </td>
                 <td headers="hEntityContentItemFieldStylingClasses hEntityContentItemFieldRemarks">
                     <ul>
                         <li>This field is not unique and allows no null values.</li>
+                        <li>Uses a simple array represented by a comma-separated text field.</li>
                     </ul>
                 </td>
             </tr>
@@ -1051,7 +982,6 @@
                         <li>From source view cascading is applied for remove and detach operations.</li>
                         <li>From target view cascading is applied for persist operations.</li>
                         <li>This relation is realised by a bidirectional association.</li>
-                        <li>The content items are sorted by the "areaIndex, areaPosition" field.</li>
                         <li>Editing the source side includes no behaviour regarding target elements.</li>
                         <li>Editing the target side includes no behaviour regarding source elements.</li>
                     </ul>
@@ -1085,12 +1015,6 @@
                 <td headers="hContentItemIndexActiveIndex hContentItemIndexDescription"></td>
             </tr>
             <tr>
-                <th id="hContentItemIndexPositionIndex" scope="row" headers="hContentItemIndexName">Position index</th>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexType">NORMAL &ndash; normal index</td>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexSize">2 fields</td>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexDescription"></td>
-            </tr>
-            <tr>
                 <th id="hContentItemIndexWorkflowStateIndex" scope="row" headers="hContentItemIndexName">Workflow state index</th>
                 <td headers="hContentItemIndexWorkflowStateIndex hContentItemIndexType">NORMAL &ndash; normal index</td>
                 <td headers="hContentItemIndexWorkflowStateIndex hContentItemIndexSize">1 field</td>
@@ -1116,10 +1040,6 @@
             <tr>
                 <th id="hContentItemActionIndex" scope="row" headers="hContentItemActionName">Index</th>
                 <td headers="hContentItemActionIndex hContentItemActionDescription">Index action in ContentItem controller</td>
-            </tr>
-            <tr>
-                <th id="hContentItemActionEdit" scope="row" headers="hContentItemActionName">Edit</th>
-                <td headers="hContentItemActionEdit hContentItemActionDescription">Edit action in ContentItem controller</td>
             </tr>
         </tbody>
     </table>
