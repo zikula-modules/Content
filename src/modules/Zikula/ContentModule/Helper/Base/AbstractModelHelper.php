@@ -37,7 +37,6 @@ abstract class AbstractModelHelper
     /**
      * Determines whether creating an instance of a certain object type is possible.
      * This is when
-     *     - no tree is used
      *     - it has no incoming bidirectional non-nullable relationships.
      *     - the edit type of all those relationships has PASSIVE_EDIT and auto completion is used on the target side
      *       (then a new source object can be created while creating the target object).
@@ -55,6 +54,9 @@ abstract class AbstractModelHelper
         $result = false;
     
         switch ($objectType) {
+            case 'page':
+                $result = true;
+                break;
             case 'contentItem':
                 $result = true;
                 break;

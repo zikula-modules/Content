@@ -48,9 +48,9 @@ abstract class AbstractEntityTreeType extends AbstractType
 
         $resolver
             ->setDefaults([
-                'root' => 1,
+                'root' => 0,
                 'include_leaf_nodes' => true,
-                'include_root_node' => false,
+                'include_root_nodes' => true,
                 'use_joins' => true,
                 'attr' => [
                     'class' => 'entity-tree'
@@ -59,7 +59,7 @@ abstract class AbstractEntityTreeType extends AbstractType
             ])
             ->setAllowedTypes('root', 'int')
             ->setAllowedTypes('include_leaf_nodes', 'bool')
-            ->setAllowedTypes('include_root_node', 'bool')
+            ->setAllowedTypes('include_root_nodes', 'bool')
             ->setAllowedTypes('use_joins', 'bool')
         ;
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
@@ -82,17 +82,26 @@ abstract class AbstractEntityTreeType extends AbstractType
     {
         $repository = $options['em']->getRepository($options['class']);
         $treeNodes = $repository->selectTree($options['root'], $options['use_joins']);
+        $trees = [];
+
+        if (0 < $options['root']) {
+            $trees[$options['root']] = $treeNodes;
+        } else {
+            $trees = $treeNodes;
+        }
 
         $choices = [];
-        foreach ($treeNodes as $node) {
-            if (null === $node) {
-                continue;
-            }
-            if (!$this->isIncluded($node, $repository, $options)) {
-                continue;
-            }
+        foreach ($trees as $treeNodes) {
+            foreach ($treeNodes as $node) {
+                if (null === $node) {
+                    continue;
+                }
+                if (!$this->isIncluded($node, $repository, $options)) {
+                    continue;
+                }
 
-            $choices[$this->createChoiceLabel($node, $options['include_root_node'])] = $node;
+                $choices[$this->createChoiceLabel($node, $options['include_root_nodes'])] = $node;
+            }
         }
 
         return $choices;
@@ -112,7 +121,7 @@ abstract class AbstractEntityTreeType extends AbstractType
     {
         $nodeLevel = $item->getLvl();
 
-        if (!$options['include_root_node'] && $nodeLevel == 0) {
+        if (!$options['include_root_nodes'] && $nodeLevel == 0) {
             // if we do not include the root node skip it
             return false;
         }
