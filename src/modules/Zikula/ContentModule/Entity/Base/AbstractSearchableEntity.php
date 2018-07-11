@@ -80,7 +80,11 @@ abstract class AbstractSearchableEntity extends EntityAccess
      * Bidirectional - Many searchables [searchables] are linked by one contentItem [content item] (OWNING SIDE).
      *
      * @ORM\ManyToOne(targetEntity="Zikula\ContentModule\Entity\ContentItemEntity", inversedBy="searchables")
-     * @ORM\JoinTable(name="zikula_content_contentitem")
+     * @ORM\JoinTable(name="zikula_content_contentitem",
+     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" , nullable=false)},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" , nullable=false)}
+     * )
+     * @Assert\NotNull(message="Choosing a content item is required.")
      * @Assert\Type(type="Zikula\ContentModule\Entity\ContentItemEntity")
      * @var \Zikula\ContentModule\Entity\ContentItemEntity $contentItem
      */

@@ -136,17 +136,6 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
     
             return;
         }
-    
-        if ($transitionName == 'delete') {
-            // check if deleting the entity would break related child entities
-            if ($objectType == 'contentItem') {
-                $isBlocked = false;
-                if (count($entity->getSearchables()) > 0) {
-                    $isBlocked = true;
-                }
-                $event->setBlocked($isBlocked);
-            }
-        }
     }
     
     /**
