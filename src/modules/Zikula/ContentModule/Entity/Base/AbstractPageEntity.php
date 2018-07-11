@@ -310,7 +310,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      *
      * @ORM\OneToMany(targetEntity="Zikula\ContentModule\Entity\ContentItemEntity", mappedBy="page", cascade={"remove", "detach"})
      * @ORM\JoinTable(name="zikula_content_pagecontentitems")
-     * @ORM\OrderBy({"areaIndex" = "ASC", "areaPosition" = "ASC"})
      * @var \Zikula\ContentModule\Entity\ContentItemEntity[] $contentItems
      */
     protected $contentItems = null;

@@ -331,7 +331,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             });
         });
 
-// TODO: areaIndex, areaPosition, owningType, contentData
+// TODO: owningType, contentData
 //         modal.modal('hide');
     }).fail(function(jqXHR, textStatus) {
         modal.modal('hide');
@@ -542,7 +542,7 @@ function contentPageSave() {
         }
     });
 
-    //jQuery('#debugSavedData').val(JSON.stringify(serialisedData, null, '    '));
+    jQuery('#debugSavedData').text(JSON.stringify(serialisedData, null, '    '));
 
     jQuery('#loadPage, #clearPage').prop('disabled', false);
 

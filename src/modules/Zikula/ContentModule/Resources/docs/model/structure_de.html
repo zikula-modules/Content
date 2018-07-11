@@ -516,7 +516,6 @@
                         <li>Aus Sicht der Quelle wird eine Kaskade auf Remove- und Detach-Operationen angewendet.</li>
                         <li>Aus Sicht des Ziels wird eine Kaskade auf Persist-Operationen angewendet.</li>
                         <li>Diese Relation wird durch eine bidirektionale Assoziation realisiert.</li>
-                        <li>Die content items werden nach dem Feld "areaIndex, areaPosition" sortiert.</li>
                         <li>Das Bearbeiten der Quellseite beinhaltet keine Funktionalität bezüglich der Zielelemente.</li>
                         <li>Das Bearbeiten der Zielseite beinhaltet keine Funktionalität bezüglich der Quellelemente.</li>
                     </ul>
@@ -809,40 +808,6 @@
                 </td>
             </tr>
             <tr>
-                <th id="hEntityContentItemFieldAreaIndex" scope="row" headers="hEntityContentItemFieldName">Area index</th>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldType">Ganzzahl</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldMandatory">false</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldDefault">0</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Hat eine Länge von 11.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntityContentItemFieldAreaPosition" scope="row" headers="hEntityContentItemFieldName">Area position</th>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldType">Ganzzahl</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldMandatory">false</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldDefault">0</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Hat eine Länge von 11.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
                 <th id="hEntityContentItemFieldOwningType" scope="row" headers="hEntityContentItemFieldName">Owning type</th>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldType">Zeichenkette</td>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldMandatory">true</td>
@@ -1016,7 +981,6 @@
                         <li>Aus Sicht der Quelle wird eine Kaskade auf Remove- und Detach-Operationen angewendet.</li>
                         <li>Aus Sicht des Ziels wird eine Kaskade auf Persist-Operationen angewendet.</li>
                         <li>Diese Relation wird durch eine bidirektionale Assoziation realisiert.</li>
-                        <li>Die content items werden nach dem Feld "areaIndex, areaPosition" sortiert.</li>
                         <li>Das Bearbeiten der Quellseite beinhaltet keine Funktionalität bezüglich der Zielelemente.</li>
                         <li>Das Bearbeiten der Zielseite beinhaltet keine Funktionalität bezüglich der Quellelemente.</li>
                     </ul>
@@ -1048,12 +1012,6 @@
                 <td headers="hContentItemIndexActiveIndex hContentItemIndexType">NORMAL &ndash; normaler Index</td>
                 <td headers="hContentItemIndexActiveIndex hContentItemIndexSize">1 Feld</td>
                 <td headers="hContentItemIndexActiveIndex hContentItemIndexDescription"></td>
-            </tr>
-            <tr>
-                <th id="hContentItemIndexPositionIndex" scope="row" headers="hContentItemIndexName">Position index</th>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexType">NORMAL &ndash; normaler Index</td>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexSize">2 Felder</td>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexDescription"></td>
             </tr>
             <tr>
                 <th id="hContentItemIndexWorkflowStateIndex" scope="row" headers="hContentItemIndexName">Workflow state index</th>

@@ -25,7 +25,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="zikula_content_contentitem",
  *     indexes={
  *         @ORM\Index(name="activeindex", columns={"active"}),
- *         @ORM\Index(name="positionindex", columns={"areaIndex","areaPosition"}),
  *         @ORM\Index(name="workflowstateindex", columns={"workflowState"})
  *     }
  * )

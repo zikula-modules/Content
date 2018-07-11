@@ -516,7 +516,6 @@
                         <li>From source view cascading is applied for remove and detach operations.</li>
                         <li>From target view cascading is applied for persist operations.</li>
                         <li>This relation is realised by a bidirectional association.</li>
-                        <li>The content items are sorted by the "areaIndex, areaPosition" field.</li>
                         <li>Editing the source side includes no behaviour regarding target elements.</li>
                         <li>Editing the target side includes no behaviour regarding source elements.</li>
                     </ul>
@@ -809,40 +808,6 @@
                 </td>
             </tr>
             <tr>
-                <th id="hEntityContentItemFieldAreaIndex" scope="row" headers="hEntityContentItemFieldName">Area index</th>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldType">Integer</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldMandatory">false</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldDefault">0</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Has a length of 11.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldAreaIndex hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntityContentItemFieldAreaPosition" scope="row" headers="hEntityContentItemFieldName">Area position</th>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldType">Integer</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldMandatory">false</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldDefault">0</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldDisplayType">ALL</td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldConstraints">
-                    <ul>
-                        <li>Has a length of 11.</li>
-                    </ul>
-                </td>
-                <td headers="hEntityContentItemFieldAreaPosition hEntityContentItemFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
                 <th id="hEntityContentItemFieldOwningType" scope="row" headers="hEntityContentItemFieldName">Owning type</th>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldType">String</td>
                 <td headers="hEntityContentItemFieldOwningType hEntityContentItemFieldMandatory">true</td>
@@ -1016,7 +981,6 @@
                         <li>From source view cascading is applied for remove and detach operations.</li>
                         <li>From target view cascading is applied for persist operations.</li>
                         <li>This relation is realised by a bidirectional association.</li>
-                        <li>The content items are sorted by the "areaIndex, areaPosition" field.</li>
                         <li>Editing the source side includes no behaviour regarding target elements.</li>
                         <li>Editing the target side includes no behaviour regarding source elements.</li>
                     </ul>
@@ -1048,12 +1012,6 @@
                 <td headers="hContentItemIndexActiveIndex hContentItemIndexType">NORMAL &ndash; normal index</td>
                 <td headers="hContentItemIndexActiveIndex hContentItemIndexSize">1 field</td>
                 <td headers="hContentItemIndexActiveIndex hContentItemIndexDescription"></td>
-            </tr>
-            <tr>
-                <th id="hContentItemIndexPositionIndex" scope="row" headers="hContentItemIndexName">Position index</th>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexType">NORMAL &ndash; normal index</td>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexSize">2 fields</td>
-                <td headers="hContentItemIndexPositionIndex hContentItemIndexDescription"></td>
             </tr>
             <tr>
                 <th id="hContentItemIndexWorkflowStateIndex" scope="row" headers="hContentItemIndexName">Workflow state index</th>

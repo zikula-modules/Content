@@ -112,14 +112,6 @@ application "Content" {
             nameMultiple "contentItems"
             displayPattern "#areaIndex#-#areaPosition#: #owningBundle# - #owningType#"
             fields {
-                integer "areaIndex" {
-                    defaultValue "0"
-                    mandatory false
-                },
-                integer "areaPosition" {
-                    defaultValue "0"
-                    mandatory false
-                },
                 string "owningType" {
                     defaultValue ""
                     length 255
@@ -159,12 +151,6 @@ application "Content" {
                     items {
                         indexItem "active"
                     }
-                },
-                index "positionIndex" {
-                    items {
-                        indexItem "areaIndex",
-                        indexItem "areaPosition"
-                    }
                 }
             }
             actions {
@@ -199,7 +185,7 @@ application "Content" {
             targetEditing NONE
             cascade REMOVE_DETACH
             cascadeReverse PERSIST
-            orderBy "areaIndex, areaPosition"
+            orderBy ""
         },
         one2many bidirectional {
             source "contentItem"

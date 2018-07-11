@@ -61,24 +61,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $workflowState = 'initial';
     
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
-     * @Assert\NotNull()
-     * @Assert\LessThan(value=100000000000)
-     * @var integer $areaIndex
-     */
-    protected $areaIndex = 0;
-    
-    /**
-     * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
-     * @Assert\NotNull()
-     * @Assert\LessThan(value=100000000000)
-     * @var integer $areaPosition
-     */
-    protected $areaPosition = 0;
-    
-    /**
      * @ORM\Column(length=255)
      * @Assert\NotBlank()
      * @Assert\Length(min="0", max="255")
@@ -247,54 +229,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     {
         if ($this->workflowState !== $workflowState) {
             $this->workflowState = isset($workflowState) ? $workflowState : '';
-        }
-    }
-    
-    /**
-     * Returns the area index.
-     *
-     * @return integer
-     */
-    public function getAreaIndex()
-    {
-        return $this->areaIndex;
-    }
-    
-    /**
-     * Sets the area index.
-     *
-     * @param integer $areaIndex
-     *
-     * @return void
-     */
-    public function setAreaIndex($areaIndex)
-    {
-        if (intval($this->areaIndex) !== intval($areaIndex)) {
-            $this->areaIndex = intval($areaIndex);
-        }
-    }
-    
-    /**
-     * Returns the area position.
-     *
-     * @return integer
-     */
-    public function getAreaPosition()
-    {
-        return $this->areaPosition;
-    }
-    
-    /**
-     * Sets the area position.
-     *
-     * @param integer $areaPosition
-     *
-     * @return void
-     */
-    public function setAreaPosition($areaPosition)
-    {
-        if (intval($this->areaPosition) !== intval($areaPosition)) {
-            $this->areaPosition = intval($areaPosition);
         }
     }
     

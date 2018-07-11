@@ -623,10 +623,6 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchCurrentVersion'] = $fragment;
         }
         if ($objectType == 'contentItem') {
-            $filters[] = 'tbl.areaIndex = :searchAreaIndex';
-            $parameters['searchAreaIndex'] = $fragment;
-            $filters[] = 'tbl.areaPosition = :searchAreaPosition';
-            $parameters['searchAreaPosition'] = $fragment;
             $filters[] = 'tbl.owningType LIKE :searchOwningType';
             $parameters['searchOwningType'] = '%' . $fragment . '%';
             $filters[] = 'tbl.activeFrom = :searchActiveFrom';

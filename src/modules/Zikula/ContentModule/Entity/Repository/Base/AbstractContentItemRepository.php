@@ -40,7 +40,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * @var string The default sorting field/expression
      */
-    protected $defaultSortingField = 'areaIndex';
+    protected $defaultSortingField = 'owningType';
 
     /**
      * @var CollectionFilterHelper
@@ -60,8 +60,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
     public function getAllowedSortingFields()
     {
         return [
-            'areaIndex',
-            'areaPosition',
             'owningType',
             'active',
             'activeFrom',
@@ -588,8 +586,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
             // but for the slim version we select only the basic fields, and no joins
     
             $selection = 'tbl.id';
-            $selection .= ', tbl.areaIndex';
-            $selection .= ', tbl.areaPosition';
             $selection .= ', tbl.owningType';
             $useJoins = false;
         }
