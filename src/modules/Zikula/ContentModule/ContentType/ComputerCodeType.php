@@ -19,6 +19,7 @@ use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Computer code content type.
@@ -33,19 +34,21 @@ class ComputerCodeType extends AbstractContentType
     /**
      * ComputerCodeType constructor.
      *
-     * @param TranslatorInterface       $translator Translator service instance
-     * @param Twig_Environment          $twig       Twig service instance
-     * @param FilesystemLoader          $twigLoader Twig loader service instance
-     * @param ZikulaHttpKernelInterface $kernel     Kernel service instance
+     * @param TranslatorInterface       $translator       Translator service instance
+     * @param Twig_Environment          $twig             Twig service instance
+     * @param FilesystemLoader          $twigLoader       Twig loader service instance
+     * @param PermissionHelper          $permissionHelper PermissionHelper service instance
+     * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
      */
     public function __construct(
         TranslatorInterface $translator,
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
         ZikulaHttpKernelInterface $kernel
     ) {
         $this->kernel = $kernel;
-        parent::__construct($translator, $twig, $twigLoader);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
     }
 
     /**

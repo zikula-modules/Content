@@ -12,12 +12,79 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Helper\Base\AbstractPermissionHelper;
+use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
+use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 
 /**
  * Permission helper implementation class.
  */
 class PermissionHelper extends AbstractPermissionHelper
 {
-    // feel free to extend the permission helper here
+    /**
+     * @var boolean
+     */
+    protected $inheritPermissions;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(
+        ContainerInterface $container,
+        RequestStack $requestStack,
+        PermissionApiInterface $permissionApi,
+        CurrentUserApiInterface $currentUserApi,
+        UserRepositoryInterface $userRepository,
+        $inheritPermissions
+    ) {
+        parent::__construct($container, $requestStack, $permissionApi, $currentUserApi, $userRepository);
+        $this->inheritPermissions = $inheritPermissions;
+    }
+
+
+    /**
+     * Checks if the content type with the given name may be read.
+     *
+     * @param string  $name
+     * @param integer $userId
+     *
+     * @return boolean
+     */
+    public function mayReadContentType($name, $userId = null)
+    {
+        $component = 'ZikulaContentModule:Plugin:Content';
+        $instance = $name . '::';
+
+        return $this->permissionApi->hasPermission($component, $instance, ACCESS_READ, $userId);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasEntityPermission($entity, $permissionLevel, $userId = null)
+    {
+        $result = parent::hasEntityPermission($entity, $permissionLevel, $userId);
+
+        $objectType = $entity->get_objectType();
+        if ('page' != $objectType) {
+            return $result;
+        }
+
+        if (!$this->inheritPermissions) {
+            return $result;
+        }
+
+        if ($result) {
+            return true;
+        }
+
+        if (null !== $entity->getParent()) {
+            return $this->hasEntityPermission($entity->getParent(), $permissionLevel, $userId);
+        }
+
+        return false;
+    }
 }

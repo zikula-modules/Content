@@ -18,6 +18,7 @@ use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Unfiltered raw content type.
@@ -32,19 +33,21 @@ class UnfilteredType extends AbstractContentType
     /**
      * UnfilteredType constructor.
      *
-     * @param TranslatorInterface $translator      Translator service instance
-     * @param Twig_Environment    $twig            Twig service instance
-     * @param FilesystemLoader    $twigLoader      Twig loader service instance
-     * @param boolean             $enableRawPlugin Whether to enable the unfiltered raw plugin or not
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param boolean             $enableRawPlugin  Whether to enable the unfiltered raw plugin or not
      */
     public function __construct(
         TranslatorInterface $translator,
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
         $enableRawPlugin
     ) {
         $this->enableRawPlugin = $enableRawPlugin;
-        parent::__construct($translator, $twig, $twigLoader);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
     }
 
     /**

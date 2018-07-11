@@ -17,6 +17,7 @@ use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentType\Form\Type\AuthorType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 
@@ -38,22 +39,24 @@ class AuthorType extends AbstractContentType
     /**
      * AuthorType constructor.
      *
-     * @param TranslatorInterface     $translator     Translator service instance
-     * @param Twig_Environment        $twig           Twig service instance
-     * @param FilesystemLoader        $twigLoader     Twig loader service instance
-     * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
-     * @param UserRepositoryInterface $userRepository UserRepository service instance
+     * @param TranslatorInterface     $translator       Translator service instance
+     * @param Twig_Environment        $twig             Twig service instance
+     * @param FilesystemLoader        $twigLoader       Twig loader service instance
+     * @param PermissionHelper        $permissionHelper PermissionHelper service instance
+     * @param CurrentUserApiInterface $currentUserApi   CurrentUserApi service instance
+     * @param UserRepositoryInterface $userRepository   UserRepository service instance
      */
     public function __construct(
         TranslatorInterface $translator,
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository
     ) {
         $this->currentUserApi = $currentUserApi;
         $this->userRepository = $userRepository;
-        parent::__construct($translator, $twig, $twigLoader);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
     }
 
     /**

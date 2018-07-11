@@ -18,6 +18,7 @@ use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Google route content type.
@@ -35,16 +36,18 @@ class GoogleRouteType extends AbstractContentType
      * @param TranslatorInterface $translator       Translator service instance
      * @param Twig_Environment    $twig             Twig service instance
      * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
      * @param string              $googleMapsApiKey Google maps API key
      */
     public function __construct(
         TranslatorInterface $translator,
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
         $googleMapsApiKey
     ) {
         $this->googleMapsApiKey = $googleMapsApiKey;
-        parent::__construct($translator, $twig, $twigLoader);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
     }
 
     /**

@@ -16,6 +16,7 @@ use \Twig_Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 abstract class AbstractContentType implements ContentTypeInterface
 {
@@ -62,6 +63,11 @@ abstract class AbstractContentType implements ContentTypeInterface
     protected $twigLoader;
 
     /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
+
+    /**
      * Reference to content item instance which allows to access page data,
      * layout area and styling data and other information.
      * 
@@ -79,14 +85,16 @@ abstract class AbstractContentType implements ContentTypeInterface
     /**
      * AbstractContentType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
-     * @param Twig_Environment    $twig       Twig service instance
-     * @param FilesystemLoader    $twigLoader Twig loader service instance
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
      */
     public function __construct(
         TranslatorInterface $translator,
         Twig_Environment $twig,
-        FilesystemLoader $twigLoader
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper
     ) {
         $this->translator = $translator;
 
@@ -100,6 +108,7 @@ abstract class AbstractContentType implements ContentTypeInterface
 
         $this->twig = $twig;
         $this->twigLoader = $twigLoader;
+        $this->permissionHelper = $permissionHelper;
 
         $this->data = $this->getDefaultData();
     }
@@ -257,7 +266,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function isActive()
     {
-        return true;
+        return $this->permissionHelper->mayReadContentType($this->getName());
     }
 
     /**

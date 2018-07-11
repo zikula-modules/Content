@@ -5,6 +5,7 @@ services:
             - '@translator.default'
             - '@twig'
             - '@twig.loader'
+            - '@zikula_content_module.permission_helper'
     zikula_content_module.content_type.form.common:
         abstract: true
         arguments:

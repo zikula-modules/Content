@@ -14,10 +14,12 @@ application "Content" {
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,
+        Helper/PermissionHelper.php,
         ZikulaContentModule.php
     "
     markFiles "
         composer.json,
+        Resources/config/helpers.yml,
         Resources/config/services.yml
     "
     entities {
