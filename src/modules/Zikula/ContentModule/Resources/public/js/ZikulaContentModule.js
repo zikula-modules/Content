@@ -48,9 +48,9 @@ function zikulaContentToggleFlag(objectType, fieldName, itemId) {
             idSuffix = zikulaContentCapitaliseFirstLetter(fieldName) + itemId;
             toggleLink = jQuery('#toggle' + idSuffix);
 
-            if (data.message) {
+            /*if (data.message) {
                 zikulaContentSimpleAlert(toggleLink, Translator.__('Success'), data.message, 'toggle' + idSuffix + 'DoneAlert', 'success');
-            }
+            }*/
 
             toggleLink.find('.fa-check').toggleClass('hidden', true !== data.state);
             toggleLink.find('.fa-times').toggleClass('hidden', true === data.state);
