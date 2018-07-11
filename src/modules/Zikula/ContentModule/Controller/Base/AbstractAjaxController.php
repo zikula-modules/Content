@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\Controller\Base;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
@@ -35,6 +36,10 @@ abstract class AbstractAjaxController extends AbstractController
      */
     public function getItemListFinderAction(Request $request)
     {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+        
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
             return true;
         }
@@ -128,6 +133,10 @@ abstract class AbstractAjaxController extends AbstractController
      */
     public function checkForDuplicateAction(Request $request)
     {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+        
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
             throw new AccessDeniedException();
         }
@@ -187,6 +196,10 @@ abstract class AbstractAjaxController extends AbstractController
      */
     public function toggleFlagAction(Request $request)
     {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+        
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
             throw new AccessDeniedException();
         }
@@ -240,6 +253,10 @@ abstract class AbstractAjaxController extends AbstractController
          */
         public function handleTreeOperationAction(Request $request)
         {
+            if (!$request->isXmlHttpRequest()) {
+                return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            }
+            
             if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
                 throw new AccessDeniedException();
             }
