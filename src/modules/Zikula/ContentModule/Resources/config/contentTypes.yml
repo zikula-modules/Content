@@ -70,6 +70,8 @@ services:
 
     Zikula\ContentModule\ContentType\GoogleMapType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleMapType:
         parent: zikula_content_module.content_type.form.common
@@ -77,6 +79,8 @@ services:
 
     Zikula\ContentModule\ContentType\GoogleRouteType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType:
         parent: zikula_content_module.content_type.form.common
@@ -137,6 +141,8 @@ services:
 
     Zikula\ContentModule\ContentType\UnfilteredType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'enableRawPlugin', false)"
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\UnfilteredType:
         parent: zikula_content_module.content_type.form.common

@@ -312,6 +312,10 @@ abstract class AbstractContentType implements ContentTypeInterface
     public function display($editMode = false)
     {
         $output = '';
+        if (!$this->isActive()) {
+            return $output;
+        }
+
         $output .= $this->displayStart();
         if (true === $editMode) {
             $output .= $this->displayView();
@@ -351,14 +355,14 @@ abstract class AbstractContentType implements ContentTypeInterface
     protected function displayEnd()
     {
         $html = '';
-        if ($this->addedStyle) {
+        //if ($this->addedStyle) {
             $html = '</div>';
             // check for edit mode on and clear the floating elements in that case
             // TODO
             if (SessionUtil::getVar('ContentEditMode')) {
                 $html .= '<div style="clear: both"></div>';
             }
-        }
+        //}
         return $html;
     }
 

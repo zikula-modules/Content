@@ -1,5 +1,6 @@
 TODO
-{ajaxheader modname='Content'}
+{% set googleApiKey = getModVar('ZikulaContentModule', 'googleMapsApiKey', '') %}
+{{ pageAddAsset('javascript', 'https://maps.google.com/maps/api/js?v=3&key=' ~ googleApiKey ~ '&language=' ~ app.request.locale) }}
 
 {* This code is for displaying directions directly into the inline map
 <div class="z-formrow">

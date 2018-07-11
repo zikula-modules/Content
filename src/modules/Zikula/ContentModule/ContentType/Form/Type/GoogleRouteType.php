@@ -13,6 +13,9 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -50,11 +53,50 @@ class GoogleRouteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // TODO
         $builder
-            ->add('text', TextType::class, [
-                'label' => $this->__('Test 123') . ':',
-                'required' => false,
+            ->add('latitude', TextType::class, [
+                'label' => $this->__('Latitude') . ':',
+                'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
+                'attr' => [
+                    'maxlength' => 30
+                ]
+            ])
+            ->add('longitude', TextType::class, [
+                'label' => $this->__('Longitude') . ':',
+                'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
+                'attr' => [
+                    'maxlength' => 30
+                ]
+            ])
+            ->add('zoom', RangeType::class, [
+                'label' => $this->__('Zoom level') . ':',
+                'help' => $this->__('(from 0 for the entire world to 21 for individual buildings)'),
+                'attr' => [
+                    'min' => 0,
+                    'max' => 21
+                ]
+            ])
+            ->add('height', IntegerType::class, [
+                'label' => $this->__('Height of the displayed map') . ':',
+                'help' => $this->__('(below 350 pixels the navigation controls will be small)'),
+                'attr' => [
+                    'maxlength' => 4
+                ],
+                'input_group' => ['right' => $this->__('pixels')]
+            ])
+            ->add('addressText', TextType::class, [
+                'label' => $this->__('The target address') . ':',
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+            ->add('topText', TextType::class, [
+                'label' => $this->__('Header to be shown above the map') . ':',
+                'required' => false
+            ])
+            ->add('bottomText', TextType::class, [
+                'label' => $this->__('Text to be shown below the map') . ':',
+                'required' => false
             ])
         ;
     }

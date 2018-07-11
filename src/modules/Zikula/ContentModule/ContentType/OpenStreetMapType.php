@@ -86,14 +86,6 @@ class OpenStreetMapType extends AbstractContentType
 /** TODO
     function display()
     {
-        $scripts = [
-            'javascript/ajax/proto_scriptaculous.combined.min.js',
-            'https://openlayers.org/api/OpenLayers.js',
-            'https://www.openstreetmap.org/openlayers/OpenStreetMap.js',
-            'modules/Content/javascript/openstreetmap.js'
-        ];
-        PageUtil::addVar('javascript', $scripts);
-
         $this->view->assign('zoom', $this->zoom);
         $this->view->assign('height', $this->height);
         $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
@@ -105,15 +97,6 @@ class OpenStreetMapType extends AbstractContentType
     function displayEditing()
     {
         return DataUtil::formatForDisplay($this->text);
-    }
-    function startEditing()
-    {
-        $scripts = array(
-            'javascript/ajax/proto_scriptaculous.combined.min.js',
-            'https://www.openlayers.org/api/OpenLayers.js',
-            'https://www.openstreetmap.org/openlayers/OpenStreetMap.js',
-            'modules/Content/javascript/openstreetmap.js');
-        PageUtil::addVar('javascript', $scripts);
     }
 */
     /**

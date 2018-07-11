@@ -12,6 +12,9 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
@@ -21,6 +24,29 @@ use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
  */
 class UnfilteredType extends AbstractContentType
 {
+    /**
+     * @var boolean
+     */
+    protected $enableRawPlugin;
+
+    /**
+     * UnfilteredType constructor.
+     *
+     * @param TranslatorInterface $translator      Translator service instance
+     * @param Twig_Environment    $twig            Twig service instance
+     * @param FilesystemLoader    $twigLoader      Twig loader service instance
+     * @param boolean             $enableRawPlugin Whether to enable the unfiltered raw plugin or not
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        $enableRawPlugin
+    ) {
+        $this->enableRawPlugin = $enableRawPlugin;
+        parent::__construct($translator, $twig, $twigLoader);
+    }
+
     /**
      * @inheritDoc
      */
@@ -67,9 +93,7 @@ class UnfilteredType extends AbstractContentType
     public function isActive()
     {
         // Only active when the admin has enabled this plugin
-        // TODO
-        return true;
-        return false;//(bool) ModUtil::getVar('ZikulaContentModule', 'enableRawPlugin', false);
+        return $this->enableRawPlugin;
     }
 
     /**

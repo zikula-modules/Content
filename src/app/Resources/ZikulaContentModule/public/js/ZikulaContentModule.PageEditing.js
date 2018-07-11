@@ -241,8 +241,177 @@ function contentPageInitWidgetEditing(widget, mode) {
         if ('Zikula\\ContentModule\\ContentType\\AuthorType' == typeClass) {
             initUserLiveSearch(fieldPrefix + 'authorId');
             jQuery('#' + fieldPrefix + 'authorIdAvatar').next('.help-block').addClass('hidden');
+        } else if ('Zikula\\ContentModule\\ContentType\\GoogleMapType' == typeClass) {
+/**
+{% set googleApiKey = getModVar('ZikulaContentModule', 'googleMapsApiKey', '') %}
+{{ pageAddAsset('javascript', 'https://maps.google.com/maps/api/js?v=3&key=' ~ googleApiKey ~ '&language=' ~ app.request.locale) }}
+
+            {{if !empty($latitude) AND !empty($longitude)}}
+            var myLatlng = new google.maps.LatLng({{$latitude|safetext}}, {{$longitude|safetext}});
+            {{else}}
+            var myLatlng = new google.maps.LatLng(54.336869, 10.119942);
+            {{/if}}
+            var myMapOptions = { 
+                zoom: {{if !empty($zoom)}}{{$zoom|safetext}}{{else}}5{{/if}},
+                center: myLatlng, 
+                scaleControl: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+            }; 
+            var map = new google.maps.Map($('googlemap'), myMapOptions); 
+            
+            // add a marker to the map
+            var marker = new google.maps.Marker({ 
+                position: myLatlng,
+                map: map
+            });
+            
+            google.maps.event.addListener(map, 'click', function(event) { 
+                marker.setMap(null);
+                marker = null;
+                marker = new google.maps.Marker({ 
+                    position: event.latLng,
+                    map: map
+                });
+                map.setCenter(event.latLng);
+                coord = event.latLng.toString();
+                coord = coord.split(", ");
+                latitude = coord[0].replace(/\(/, "");
+                longitude = coord[1].replace(/\)/, "");
+                $('latitude').value = latitude;
+                $('longitude').value = longitude;
+                $('zoom').value = map.getZoom();
+            });
+*/
+        } else if ('Zikula\\ContentModule\\ContentType\\GoogleRouteType' == typeClass) {
+/**
+{% set googleApiKey = getModVar('ZikulaContentModule', 'googleMapsApiKey', '') %}
+{{ pageAddAsset('javascript', 'https://maps.google.com/maps/api/js?v=3&key=' ~ googleApiKey ~ '&language=' ~ app.request.locale) }}
+
+            {{if !empty($latitude) AND !empty($longitude)}}
+            var myLatlng = new google.maps.LatLng({{$latitude|safetext}}, {{$longitude|safetext}});
+            {{else}}
+            var myLatlng = new google.maps.LatLng(54.336869, 10.119942);
+            {{/if}}
+            var myMapOptions = { 
+                zoom: {{if !empty($zoom)}}{{$zoom|safetext}}{{else}}5{{/if}},
+                center: myLatlng, 
+                scaleControl: true,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+            }; 
+            var map = new google.maps.Map($('googlemap'), myMapOptions); 
+            
+            // add a marker to the map
+            var marker = new google.maps.Marker({ 
+                position: myLatlng,
+                map: map
+            });
+            
+            google.maps.event.addListener(map, 'click', function(event) { 
+                marker.setMap(null);
+                marker = null;
+                marker = new google.maps.Marker({ 
+                    position: event.latLng,
+                    map: map
+                });
+                map.setCenter(event.latLng);
+                coord = event.latLng.toString();
+                coord = coord.split(", ");
+                latitude = coord[0].replace(/\(/, "");
+                longitude = coord[1].replace(/\)/, "");
+                $('latitude').value = latitude;
+                $('longitude').value = longitude;
+                $('zoom').value = map.getZoom();
+            });
+        }
+*/
+        } else if ('Zikula\\ContentModule\\ContentType\\OpenStreetMapType' == typeClass) {
+/**
+        $scripts = array(
+            'javascript/ajax/proto_scriptaculous.combined.min.js',
+            'https://www.openlayers.org/api/OpenLayers.js',
+            'https://www.openstreetmap.org/openlayers/OpenStreetMap.js',
+            'modules/Content/javascript/openstreetmap.js');
+        PageUtil::addVar('javascript', $scripts);
+
+
+    var map;
+    function drawmap() {
+        OpenLayers.Lang.setCode('{{$language}}');
+        map = new OpenLayers.Map('map', {
+            projection: new OpenLayers.Projection("EPSG:900913"),
+            displayProjection: new OpenLayers.Projection("EPSG:4326"),
+            controls: [
+                new OpenLayers.Control.MouseDefaults(),
+                new OpenLayers.Control.Attribution()],
+            maxExtent:
+            new OpenLayers.Bounds(-20037508.34,-20037508.34,
+                                    20037508.34, 20037508.34),
+            numZoomLevels: 20,
+            maxResolution: 156543,
+            units: 'meters'
+        });
+
+        map.addControl(new OpenLayers.Control.PanZoomBar());
+        map.addLayer(new OpenLayers.Layer.OSM.Mapnik("Mapnik"));
+        var markers = new OpenLayers.Layer.Markers("Markers");
+        map.addLayer(markers);
+
+        // set position and zoom - Berlin as default
+        lon = 13.408056;
+        lat = 52.518611;
+        zoom = 6;
+        jumpTo(lon,lat,zoom);
+
+        // add click events
+        var click = new OpenLayers.Control.Click();
+        map.addControl(click);
+        click.activate();
+    }
+
+    OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+        defaultHandlerOptions: {
+            'single': true,
+            'double': false,
+            'pixelTolerance': 0,
+            'stopSingle': false,
+            'stopDouble': false
+        },
+
+        initialize: function(options) {
+            this.handlerOptions = OpenLayers.Util.extend(
+                {}, this.defaultHandlerOptions
+            );
+            OpenLayers.Control.prototype.initialize.apply(
+                this, arguments
+            ); 
+            this.handler = new OpenLayers.Handler.Click(
+                this, {
+                    'click': this.trigger
+                }, this.handlerOptions
+            );
+        }, 
+
+        trigger: function(e) {
+            // get coordinates and zoom level
+            var lonlat = map.getLonLatFromViewPortPx(e.xy).transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
+            var zoom = map.getZoom();
+
+            // set form values
+            document.getElementById('latitude').value = lonlat.lat;
+            document.getElementById('longitude').value = lonlat.lon;
+            document.getElementById('zoom').value = zoom;
+
+            // set marker
+            addMarker(layer_markers,lonlat.lon,lonlat.lat,"<div><h4>Click</h4></div>",false,0);
+
+            // jump to click position
+            jumpTo(lonlat.lon,lonlat.lat,zoom);
+        }
+    });
+    Event.observe(window, 'load', drawmap);
+
+*/
         } else if ('Zikula\\ContentModule\\ContentType\\TableOfContentsType' == typeClass) {
-                console.log('A');
             var contentTocChangedSelection = function() {
                 jQuery('#' + fieldPrefix + 'includeHeadingLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeHeading').val()) < 2);
                 jQuery('#' + fieldPrefix + 'includeSubpageLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeSubpage').val()) < 2);

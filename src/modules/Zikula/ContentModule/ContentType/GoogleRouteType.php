@@ -12,6 +12,9 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
@@ -21,6 +24,29 @@ use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
  */
 class GoogleRouteType extends AbstractContentType
 {
+    /**
+     * @var string
+     */
+    protected $googleMapsApiKey;
+
+    /**
+     * AuthorType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param string              $googleMapsApiKey Google maps API key
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        $googleMapsApiKey
+    ) {
+        $this->googleMapsApiKey = $googleMapsApiKey;
+        parent::__construct($translator, $twig, $twigLoader);
+    }
+
     /**
      * @inheritDoc
      */
@@ -67,9 +93,7 @@ class GoogleRouteType extends AbstractContentType
     public function isActive()
     {
         // Only active when the API key is available
-        // TODO
-        return true;
-        return false;//'' != ModUtil::getVar('ZikulaContentModule', 'googleMapsApiKey', '');
+        return '' != $this->googleMapsApiKey;
     }
 
     /**
@@ -105,17 +129,6 @@ class GoogleRouteType extends AbstractContentType
     }
 
 /**
-    function display()
-    {
-        $apiKey = ModUtil::getVar('Content', 'googlemapApiKey');
-        if (empty($apiKey)) {
-            return '';
-        }
-
-        PageUtil::addVar('javascript', 'https://maps.googleapis.com/maps/api/js?key='.$apiKey.'&language=' . ZLanguage::getLanguageCode() . '&sensor=false');
-
-        return $this->view->fetch($this->getTemplate());
-    }
     function displayEditing()
     {
         return $this->__f('Map route at longitude: %1$s, latitude: %2$s, description: %3$s', array(substr($this->longitude,0,6).'...', substr($this->latitude,0,6).'...', DataUtil::formatForDisplay($this->text)));
