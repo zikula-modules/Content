@@ -98,6 +98,8 @@ application "Content" {
                 array "versionData" {
                     defaultValue ""
                     mandatory false
+                    displayType NONE
+                    visible false
                     arrayType JSON_ARRAY
                 }
             }

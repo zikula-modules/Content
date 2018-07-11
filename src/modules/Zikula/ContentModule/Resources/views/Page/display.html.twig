@@ -128,17 +128,6 @@
             <dt>{{ __('Current version') }}</dt>
             <dd>{{ page.currentVersion }}</dd>
         {% endif %}
-        {% if page.versionData is not empty %}
-            <dt>{{ __('Version data') }}</dt>
-            <dd>{% if page.versionData is iterable and page.versionData|length > 0 %}
-                <ul>
-                {% for entry in page.versionData %}
-                    <li>{{ entry }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            </dd>
-        {% endif %}
         
     </dl>
 

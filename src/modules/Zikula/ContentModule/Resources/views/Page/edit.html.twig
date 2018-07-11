@@ -70,7 +70,9 @@
             {{ form_row(form.activeFrom) }}
             {{ form_row(form.activeTo) }}
             {{ form_row(form.inMenu) }}
-            {{ form_row(form.versionData) }}
+            <div class="hidden">
+                {{ form_row(form.versionData) }}
+            </div>
         </fieldset>
         
         {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
