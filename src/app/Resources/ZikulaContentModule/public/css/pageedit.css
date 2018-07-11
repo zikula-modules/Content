@@ -116,3 +116,8 @@ h3.panel-title a.pull-right {
 #grid-displayer .gd-container, #grid-displayer .gd-row, #grid-displayer .gd-column {
     height: 100%;
 }
+
+/* https://stackoverflow.com/questions/3217134 */
+.ui-autocomplete {
+    z-index: 1500;
+}

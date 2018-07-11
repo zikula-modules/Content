@@ -1,4 +1,117 @@
+'use strict';
+
+/**
+ * Initialises the OSM view.
+ */
+function contentInitOsmDisplay() {
+    // TODO
+}
+
+/**
+ * Initialises the OSM editing.
+ */
+function contentInitOsmEdit() {
+    var fieldPrefix;
+    var latitude;
+    var longitude;
+    var zoom;
+    var map;
+
+    fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
+
+    latitude = jQuery('#' + fieldPrefix + 'latitude').val();
+    if (!latitude) {
+        latitude = 54.336869;
+    }
+
+    longitude = jQuery('#' + fieldPrefix + 'longitude').val();
+    if (!longitude) {
+        longitude = 10.119942;
+    }
+
+    zoom = jQuery('#' + fieldPrefix + 'zoom').val();
+    if (!zoom) {
+        zoom = 5;
+    }
+
+    var language = 'en'; // TODO
+
+    OpenLayers.Lang.setCode(language);
+    map = new OpenLayers.Map('map', {
+        projection: new OpenLayers.Projection('EPSG:900913'),
+        displayProjection: new OpenLayers.Projection('EPSG:4326'),
+        controls: [
+            new OpenLayers.Control.MouseDefaults(),
+            new OpenLayers.Control.Attribution()],
+        maxExtent:
+        new OpenLayers.Bounds(-20037508.34,-20037508.34,
+                                20037508.34, 20037508.34),
+        numZoomLevels: 20,
+        maxResolution: 156543,
+        units: 'meters'
+    });
+
+    map.addControl(new OpenLayers.Control.PanZoomBar());
+    map.addLayer(new OpenLayers.Layer.OSM.Mapnik('Mapnik'));
+    var markers = new OpenLayers.Layer.Markers('Markers');
+    map.addLayer(markers);
+
+    // set position and zoom - Berlin as default
+    jumpTo(longitude, latitude, zoom);
+
+    // add click events
+    var click = new OpenLayers.Control.Click();
+    map.addControl(click);
+    click.activate();
+}
+
 // TODO
+
+OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+    defaultHandlerOptions: {
+        'single': true,
+        'double': false,
+        'pixelTolerance': 0,
+        'stopSingle': false,
+        'stopDouble': false
+    },
+
+    initialize: function(options) {
+        this.handlerOptions = OpenLayers.Util.extend(
+            {}, this.defaultHandlerOptions
+        );
+        OpenLayers.Control.prototype.initialize.apply(
+            this, arguments
+        ); 
+        this.handler = new OpenLayers.Handler.Click(
+            this, {
+                'click': this.trigger
+            }, this.handlerOptions
+        );
+    }, 
+
+    trigger: function (event) {
+        var fieldPrefix;
+
+        fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
+
+        // get coordinates and zoom level
+        var lonlat = map.getLonLatFromViewPortPx(event.xy).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+        var zoom = map.getZoom();
+
+        // set form values
+        jQuery('#' + fieldPrefix + 'latitude').val(lonlat.lat);
+        jQuery('#' + fieldPrefix + 'longitude').val(lonlat.lon);
+        jQuery('#' + fieldPrefix + 'zoom').val(zoom);
+
+        // set marker
+        addMarker(layer_markers,lonlat.lon,lonlat.lat, '<div><h4>' . Translator.__('Click') . '</h4></div>', false, 0);
+
+        // jump to click position
+        jumpTo(lonlat.lon, lonlat.lat, zoom);
+    }
+});
+
 
 /*
  * Some functions from the example at http://wiki.openstreetmap.org/wiki/DE:Karte_in_Webseite_einbinden,

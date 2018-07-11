@@ -20,6 +20,7 @@ use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType as FormType;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Computer code content type.
@@ -38,6 +39,7 @@ class ComputerCodeType extends AbstractContentType
      * @param Twig_Environment          $twig             Twig service instance
      * @param FilesystemLoader          $twigLoader       Twig loader service instance
      * @param PermissionHelper          $permissionHelper PermissionHelper service instance
+     * @param Asset                     $assetHelper      Asset service instance
      * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
      */
     public function __construct(
@@ -45,10 +47,11 @@ class ComputerCodeType extends AbstractContentType
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
+        Asset $assetHelper,
         ZikulaHttpKernelInterface $kernel
     ) {
         $this->kernel = $kernel;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
     }
 
     /**

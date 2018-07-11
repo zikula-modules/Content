@@ -17,13 +17,15 @@ use Zikula\ContentModule\Controller\Base\AbstractContentItemController;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
+use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
+use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\ContentItemType;
-use Zikula\Core\Response\PlainResponse;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 
 /**
@@ -83,8 +85,15 @@ class ContentItemController extends AbstractContentItemController
      */
     public function editAction(Request $request, ContentItemEntity $contentItem = null)
     {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+
         $contentTypeClass = null;
         $isCreate = false;
+
+        $isPost = $request->isMethod('POST');
+        $dataSource = $isPost ? $request->request : $request->query;
 
         // permission check
         $permissionHelper = $this->get('zikula_content_module.permission_helper');
@@ -93,12 +102,18 @@ class ContentItemController extends AbstractContentItemController
             if (!$permissionHelper->hasComponentPermission('page', ACCESS_ADD)) {
                 throw new AccessDeniedException();
             }
-            $contentTypeClass = $request->query->get('type', '');
-            if (empty($contentTypeClass) || !class_exists($contentTypeClass)) {
-                throw new RuntimeException();
+            $pageId = $dataSource->getInt('pageId', 0);
+            $contentTypeClass = $dataSource->get('type', '');
+            if ($pageId < 1 || empty($contentTypeClass) || !class_exists($contentTypeClass)) {
+                throw new RuntimeException($this->__('Invalid input received.'));
             }
 
             $factory = $this->get('zikula_content_module.entity_factory');
+            $page = $factory->getRepository('page')->selectById($pageId);
+            if (null === $page) {
+                throw new NotFoundHttpException();
+            }
+
             $contentItem = $factory->createContentItem();
             $contentItem->setOwningType($contentTypeClass);
         } else {
@@ -110,7 +125,7 @@ class ContentItemController extends AbstractContentItemController
 
         $container = $this->get('service_container');
         if (!$container->has($contentTypeClass)) {
-            throw new RuntimeException();
+            throw new RuntimeException($this->__('Invalid content type received.'));
         }
 
         $contentType = $container->get($contentTypeClass);
@@ -118,7 +133,21 @@ class ContentItemController extends AbstractContentItemController
             $contentItem->setContentData($contentType->getDefaultData());
         }
 
-        $form = $this->createForm(ContentItemType::class, $contentItem);
+        $routeArgs = [];
+        if ($isCreate) {
+            $routeArgs = [
+                'type' => $contentTypeClass
+            ];
+        } else {
+            $routeArgs = [
+                'contentItem' => $contentItem->getId()
+            ];
+        }
+        $route = $this->get('router')->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
+
+        $form = $this->createForm(ContentItemType::class, $contentItem, [
+            'action' => $route
+        ]);
         if (null !== $contentType->getEditFormClass() && '' !== $contentType->getEditFormClass() && class_exists($contentType->getEditFormClass())) {
             $form->add('contentData', $contentType->getEditFormClass(), $contentType->getEditFormOptions());
         }
@@ -138,10 +167,85 @@ class ContentItemController extends AbstractContentItemController
             $templateParameters['formHookTemplates'] = $formHook->getTemplates();
         }
 
-        $form->handleRequest($request);
+        if ($isPost && $form->handleRequest($request)->isValid()) {
+            $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+            $action = $this->request->request->get('action', '');
+            if (!in_array($action, ['save', 'delete'])) {
+                throw new RuntimeException($this->__('Invalid action received.'));
+            }
 
-        $output = $this->renderView('@ZikulaContentModule/ContentItem/edit.html.twig', $templateParameters);
+            if ('save' == $action) {
+                $page->addContentItems($contentItem);
 
-        return new PlainResponse($output);
+                // TODO: areaIndex, areaPosition, owningType, contentData
+                $action = $isCreate ? 'submit' : 'update';
+
+                // execute the workflow action
+                $success = $workflowHelper->executeAction($contentItem, $action);
+                if (!$success) {
+                    return $this->json(['message' => $this->__('Error! An error occured during content submission.')], Response::HTTP_BAD_REQUEST);
+                }
+
+                return $this->json(['message' => $this->__('Done! Content saved!')]);
+            }
+            if ('delete' == $action) {
+                // determine available workflow actions
+                $actions = $workflowHelper->getActionsForObject($contentItem);
+                if (false === $actions || !is_array($actions)) {
+                    throw new \RuntimeException($this->__('Error! Could not determine workflow actions.'));
+                }
+
+                // check whether deletion is allowed
+                $deleteActionId = 'delete';
+                $deleteAllowed = false;
+                foreach ($actions as $actionId => $action) {
+                    if ($actionId != $deleteActionId) {
+                        continue;
+                    }
+                    $deleteAllowed = true;
+                    break;
+                }
+                if (!$deleteAllowed) {
+                    return $this->json(['message' => $this->__('Error! It is not allowed to delete this content item.')], Response::HTTP_BAD_REQUEST);
+                }
+
+                // Let any ui hooks perform additional validation actions
+                $validationErrors = $hookHelper->callValidationHooks($contentItem, UiHooksCategory::TYPE_VALIDATE_DELETE);
+                if (count($validationErrors) > 0) {
+                    return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
+                }
+
+                // execute the workflow action
+                $success = $workflowHelper->executeAction($contentItem, $deleteActionId);
+
+                // Call form aware processing hooks
+                $hookHelper->callFormProcessHooks($form, $contentItem, FormAwareCategory::TYPE_PROCESS_DELETE);
+
+                // Let any ui hooks know that we have deleted the «name.formatForDisplay»
+                $hookHelper->callProcessHooks($contentItem, UiHooksCategory::TYPE_PROCESS_DELETE);
+
+                if (!$success) {
+                    return $this->json(['message' => $this->__('Error! An error occured during content deletion.')], Response::HTTP_BAD_REQUEST);
+                }
+
+                return $this->json(['message' => $this->__('Done! Content deleted!')]);
+            }
+        }
+
+        $template = (!$isPost ? 'edit' : 'editFormBody') . '.html.twig';
+
+        $output = [
+            'form' => $this->renderView('@ZikulaContentModule/ContentItem/' . $template, $templateParameters),
+            'assets' => $contentType->getAssets(ContentTypeInterface::CONTEXT_EDIT),
+            'jsEntryPoint' => $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_EDIT)
+        ];
+
+        if (!$isPost) {
+            return $this->json($output);
+        }
+
+        $output['message'] = $this->__('Error! Please check your input.');
+
+        return $this->json($output, Response::HTTP_BAD_REQUEST);
     }
 }

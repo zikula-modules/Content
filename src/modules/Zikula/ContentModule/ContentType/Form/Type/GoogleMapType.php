@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -76,6 +77,19 @@ class GoogleMapType extends AbstractType
                     'min' => 0,
                     'max' => 21
                 ]
+            ])
+            ->add('mapType', ChoiceType::class, [
+                'label' => $this->__('Map type') . ':',
+                'label_attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices' => [
+                    $this->__('Roadmap') => 'roadmap',
+                    $this->__('Satellite') => 'satellite',
+                    $this->__('Hybrid') => 'hybrid',
+                    $this->__('Terrain') => 'terrain'
+                ],
+                'expanded' => true
             ])
             ->add('height', IntegerType::class, [
                 'label' => $this->__('Height of the displayed map') . ':',

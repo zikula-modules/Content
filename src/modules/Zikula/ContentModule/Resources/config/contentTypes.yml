@@ -6,6 +6,7 @@ services:
             - '@twig'
             - '@twig.loader'
             - '@zikula_content_module.permission_helper'
+            - '@zikula_core.common.theme.asset_helper'
     zikula_content_module.content_type.form.common:
         abstract: true
         arguments:
@@ -72,6 +73,7 @@ services:
     Zikula\ContentModule\ContentType\GoogleMapType:
         parent: zikula_content_module.content_type.common
         arguments:
+            - '@request_stack'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleMapType:
@@ -81,6 +83,7 @@ services:
     Zikula\ContentModule\ContentType\GoogleRouteType:
         parent: zikula_content_module.content_type.common
         arguments:
+            - '@request_stack'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType:

@@ -19,6 +19,10 @@ interface ContentTypeInterface
     const CATEGORY_INTEGRATION = 'integration';
     const CATEGORY_EXPERT = 'expert';
 
+    const CONTEXT_VIEW = 'view';
+    const CONTEXT_EDIT = 'edit';
+    const CONTEXT_TRANSLATION = 'translation';
+
     /**
      * Returns the name of this content type.
      * @return string
@@ -140,4 +144,19 @@ interface ContentTypeInterface
      * @return array
      */
     public function getEditFormOptions();
+
+    /**
+     * Returns an array of required assets.
+     * @param string $context The target page context (one of CONTEXT* constants)
+     * @return array
+     */
+    public function getAssets($context);
+
+    /**
+     * Returns the name of the JS function to execute or null for nothing.
+     * The function must be registered in the global scope and must not expect any arguments.
+     * @param string $context The target page context (one of CONTEXT* constants)
+     * @return string
+     */
+    public function getJsEntrypoint($context);
 }

@@ -16,8 +16,10 @@ use \Twig_Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
+use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\AuthorType as FormType;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 
@@ -43,6 +45,7 @@ class AuthorType extends AbstractContentType
      * @param Twig_Environment        $twig             Twig service instance
      * @param FilesystemLoader        $twigLoader       Twig loader service instance
      * @param PermissionHelper        $permissionHelper PermissionHelper service instance
+     * @param Asset                   $assetHelper      Asset service instance
      * @param CurrentUserApiInterface $currentUserApi   CurrentUserApi service instance
      * @param UserRepositoryInterface $userRepository   UserRepository service instance
      */
@@ -51,12 +54,13 @@ class AuthorType extends AbstractContentType
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
+        Asset $assetHelper,
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository
     ) {
         $this->currentUserApi = $currentUserApi;
         $this->userRepository = $userRepository;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
     }
 
     /**
@@ -110,5 +114,34 @@ class AuthorType extends AbstractContentType
     public function getEditFormClass()
     {
         return FormType::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $assets = parent::getAssets($context);
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return $assets;
+        }
+
+        $assets['css'][] = $this->assetHelper->resolve('@ZikulaUsersModule:css/livesearch.css');
+        $assets['js'][] = $this->assetHelper->resolve('@ZikulaUsersModule:js/Zikula.Users.LiveSearch.js');
+        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Author.js');
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return null;
+        }
+
+        return 'contentInitAuthorEdit';
     }
 }

@@ -19,6 +19,7 @@ use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Unfiltered raw content type.
@@ -37,6 +38,7 @@ class UnfilteredType extends AbstractContentType
      * @param Twig_Environment    $twig             Twig service instance
      * @param FilesystemLoader    $twigLoader       Twig loader service instance
      * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
      * @param boolean             $enableRawPlugin  Whether to enable the unfiltered raw plugin or not
      */
     public function __construct(
@@ -44,10 +46,11 @@ class UnfilteredType extends AbstractContentType
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
+        Asset $assetHelper,
         $enableRawPlugin
     ) {
         $this->enableRawPlugin = $enableRawPlugin;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
     }
 
     /**
@@ -147,5 +150,32 @@ class UnfilteredType extends AbstractContentType
     public function getEditFormClass()
     {
         return FormType::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $assets = parent::getAssets($context);
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return $assets;
+        }
+
+        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Unfiltered.js');
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return null;
+        }
+
+        return 'contentInitUnfilteredEdit';
     }
 }

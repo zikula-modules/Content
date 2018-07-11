@@ -2,6 +2,55 @@
 
 var nodeDataAttribute = '_gridstack_node';
 var suspendAutoSave = false;
+var loadedDynamicAssets = { css: [], js: [] };
+
+/**
+ * Loads a script file synchronously and caches it.
+ */
+jQuery.contentGetSyncCachedScript = function (url, options) {
+    // Allow user to set any option except for the specified ones
+    options = jQuery.extend(options || {}, {
+        dataType: 'script',
+        url: url,
+        cache: true,
+        async: false
+    });
+ 
+    return jQuery.ajax(options);
+};
+
+/**
+ * Dynamically loads asset files.
+ */
+function contentPageLoadDynamicAssets(type, pathes) {
+    if (-1 == jQuery.inArray(type, ['css', 'js'])) {
+        return;
+    }
+
+    jQuery.each(pathes, function (index, path) {
+        if (-1 < jQuery.inArray(path, loadedDynamicAssets[type])) {
+            return;
+        }
+
+        if ('css' == type) {
+            jQuery('<link />')
+                .appendTo('head') // first append for IE8 compatibility
+                .attr({
+                    type: 'text/css', 
+                    rel: 'stylesheet',
+                    href: path
+                })
+            ;
+            loadedDynamicAssets[type].push(path);
+        } else if ('js' == type) {
+            jQuery.contentGetSyncCachedScript(path)
+                .done(function (script, textStatus) {
+                    loadedDynamicAssets[type].push(path);
+                })
+            ;
+        }
+    });
+}
 
 /**
  * Initialises the palette for adding new widgets.
@@ -163,10 +212,10 @@ function contentPageInitSectionGrid(selector, gridOptions) {
 
         //console.log('Removed widget that was dragged out of grid:', previousWidget);
         //console.log('Added widget in dropped grid:', newWidget);
-        if (typeof previousWidget == 'undefined') {
+        if ('undefined' === typeof previousWidget) {
             return;
         }
-        if (typeof previousWidget.noResize != 'undefined') {
+        if ('undefined' !== typeof previousWidget.noResize) {
             // dnd between multiple grids
             return;
         }
@@ -182,14 +231,14 @@ function contentPageInitSectionGrid(selector, gridOptions) {
         suspendAutoSave = false;
         contentPageSave();
 
-        contentPageInitWidgetEditing(widget, 'create');
+        contentPageInitWidgetEditing(widget, true);
     });
 }
 
 /**
  * Opens a modal window for creating/editing a widget.
  */
-function contentPageInitWidgetEditing(widget, mode) {
+function contentPageInitWidgetEditing(widget, isCreation) {
     var modal;
     var heading;
     var body;
@@ -212,236 +261,83 @@ function contentPageInitWidgetEditing(widget, mode) {
     heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
     body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
 
+    jQuery('#btnDeleteContent').toggleClass('hidden', isCreation);
     modal.modal('show');
 
-    if ('create' == mode) {
-        parameters = { type: widget.data('typeclass') };
+    if (isCreation) {
+        parameters = { pageId: pageId, type: widget.data('typeclass') };
     } else {
         parameters = { contentItem: widget.attr('id').replace('widget', '') };
     }
 
-    jQuery.ajax({
-        method: 'GET',
-        url: Routing.generate('zikulacontentmodule_contentitem_edit', parameters)/*,
-        cache: false*/
-    }).done(function(data) {
+    jQuery.getJSON(
+        Routing.generate('zikulacontentmodule_contentitem_edit', parameters)
+    ).done(function(data) {
         var typeClass;
-        var fieldPrefix;
 
         typeClass = widget.data('typeclass');
-        body.html(data);
+        body.html(data.form);
 
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeFrom');
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeTo');
         body.find('input, select, textarea').change(zikulaContentExecuteCustomValidationConstraints);
         zikulaContentExecuteCustomValidationConstraints();
 
-        // TODO move to a more appropriate place
-        fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
-        if ('Zikula\\ContentModule\\ContentType\\AuthorType' == typeClass) {
-            initUserLiveSearch(fieldPrefix + 'authorId');
-            jQuery('#' + fieldPrefix + 'authorIdAvatar').next('.help-block').addClass('hidden');
-        } else if ('Zikula\\ContentModule\\ContentType\\GoogleMapType' == typeClass) {
-/**
-{% set googleApiKey = getModVar('ZikulaContentModule', 'googleMapsApiKey', '') %}
-{{ pageAddAsset('javascript', 'https://maps.google.com/maps/api/js?v=3&key=' ~ googleApiKey ~ '&language=' ~ app.request.locale) }}
-
-            {{if !empty($latitude) AND !empty($longitude)}}
-            var myLatlng = new google.maps.LatLng({{$latitude|safetext}}, {{$longitude|safetext}});
-            {{else}}
-            var myLatlng = new google.maps.LatLng(54.336869, 10.119942);
-            {{/if}}
-            var myMapOptions = { 
-                zoom: {{if !empty($zoom)}}{{$zoom|safetext}}{{else}}5{{/if}},
-                center: myLatlng, 
-                scaleControl: true,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-            }; 
-            var map = new google.maps.Map($('googlemap'), myMapOptions); 
-            
-            // add a marker to the map
-            var marker = new google.maps.Marker({ 
-                position: myLatlng,
-                map: map
-            });
-            
-            google.maps.event.addListener(map, 'click', function(event) { 
-                marker.setMap(null);
-                marker = null;
-                marker = new google.maps.Marker({ 
-                    position: event.latLng,
-                    map: map
-                });
-                map.setCenter(event.latLng);
-                coord = event.latLng.toString();
-                coord = coord.split(", ");
-                latitude = coord[0].replace(/\(/, "");
-                longitude = coord[1].replace(/\)/, "");
-                $('latitude').value = latitude;
-                $('longitude').value = longitude;
-                $('zoom').value = map.getZoom();
-            });
-*/
-        } else if ('Zikula\\ContentModule\\ContentType\\GoogleRouteType' == typeClass) {
-/**
-{% set googleApiKey = getModVar('ZikulaContentModule', 'googleMapsApiKey', '') %}
-{{ pageAddAsset('javascript', 'https://maps.google.com/maps/api/js?v=3&key=' ~ googleApiKey ~ '&language=' ~ app.request.locale) }}
-
-            {{if !empty($latitude) AND !empty($longitude)}}
-            var myLatlng = new google.maps.LatLng({{$latitude|safetext}}, {{$longitude|safetext}});
-            {{else}}
-            var myLatlng = new google.maps.LatLng(54.336869, 10.119942);
-            {{/if}}
-            var myMapOptions = { 
-                zoom: {{if !empty($zoom)}}{{$zoom|safetext}}{{else}}5{{/if}},
-                center: myLatlng, 
-                scaleControl: true,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-            }; 
-            var map = new google.maps.Map($('googlemap'), myMapOptions); 
-            
-            // add a marker to the map
-            var marker = new google.maps.Marker({ 
-                position: myLatlng,
-                map: map
-            });
-            
-            google.maps.event.addListener(map, 'click', function(event) { 
-                marker.setMap(null);
-                marker = null;
-                marker = new google.maps.Marker({ 
-                    position: event.latLng,
-                    map: map
-                });
-                map.setCenter(event.latLng);
-                coord = event.latLng.toString();
-                coord = coord.split(", ");
-                latitude = coord[0].replace(/\(/, "");
-                longitude = coord[1].replace(/\)/, "");
-                $('latitude').value = latitude;
-                $('longitude').value = longitude;
-                $('zoom').value = map.getZoom();
-            });
+        contentPageLoadDynamicAssets('css', data.assets.css);
+        contentPageLoadDynamicAssets('js', data.assets.js);
+        if (null !== data.jsEntryPoint && 'function' === typeof window[data.jsEntryPoint]) {
+            window[data.jsEntryPoint]();
         }
-*/
-        } else if ('Zikula\\ContentModule\\ContentType\\OpenStreetMapType' == typeClass) {
-/**
-        $scripts = array(
-            'javascript/ajax/proto_scriptaculous.combined.min.js',
-            'https://www.openlayers.org/api/OpenLayers.js',
-            'https://www.openstreetmap.org/openlayers/OpenStreetMap.js',
-            'modules/Content/javascript/openstreetmap.js');
-        PageUtil::addVar('javascript', $scripts);
 
+        jQuery('body').on('submit', '#contentItemEditForm', function (event) {
+            event.preventDefault();
+            return false;
+        });
+        jQuery('#btnSaveContent, #btnDeleteContent').click(function (event) {
+            var params;
 
-    var map;
-    function drawmap() {
-        OpenLayers.Lang.setCode('{{$language}}');
-        map = new OpenLayers.Map('map', {
-            projection: new OpenLayers.Projection("EPSG:900913"),
-            displayProjection: new OpenLayers.Projection("EPSG:4326"),
-            controls: [
-                new OpenLayers.Control.MouseDefaults(),
-                new OpenLayers.Control.Attribution()],
-            maxExtent:
-            new OpenLayers.Bounds(-20037508.34,-20037508.34,
-                                    20037508.34, 20037508.34),
-            numZoomLevels: 20,
-            maxResolution: 156543,
-            units: 'meters'
+            event.preventDefault();
+            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+
+            params = 'pageId=' + pageId;
+            if ('btnSaveContent' == jQuery(this).attr('id')) {
+                params += '&action=save&';
+            } else if ('btnDeleteContent' == jQuery(this).attr('id')) {
+                params += '&action=delete&';
+            }
+
+            jQuery.ajax({
+                type: jQuery(this).attr('method'),
+                url: jQuery(this).attr('action'),
+                data: action + jQuery(this).serialize()
+            })
+            .done(function (data) {
+                if ('undefined' !== typeof data.message) {
+                    alert(data.message);
+                }
+                modal.modal('hide');
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if ('undefined' !== typeof jqXHR.responseJSON) {
+                    if (jqXHR.responseJSON.hasOwnProperty('form')) {
+                        jQuery('#contentItemEditFormBody').html(jqXHR.responseJSON.form);
+                    }
+    
+                    jQuery('#contentItemEditFormError').html(jqXHR.responseJSON.message);
+
+                } else {
+                    alert(errorThrown);
+                }    
+            });
         });
 
-        map.addControl(new OpenLayers.Control.PanZoomBar());
-        map.addLayer(new OpenLayers.Layer.OSM.Mapnik("Mapnik"));
-        var markers = new OpenLayers.Layer.Markers("Markers");
-        map.addLayer(markers);
-
-        // set position and zoom - Berlin as default
-        lon = 13.408056;
-        lat = 52.518611;
-        zoom = 6;
-        jumpTo(lon,lat,zoom);
-
-        // add click events
-        var click = new OpenLayers.Control.Click();
-        map.addControl(click);
-        click.activate();
-    }
-
-    OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
-        defaultHandlerOptions: {
-            'single': true,
-            'double': false,
-            'pixelTolerance': 0,
-            'stopSingle': false,
-            'stopDouble': false
-        },
-
-        initialize: function(options) {
-            this.handlerOptions = OpenLayers.Util.extend(
-                {}, this.defaultHandlerOptions
-            );
-            OpenLayers.Control.prototype.initialize.apply(
-                this, arguments
-            ); 
-            this.handler = new OpenLayers.Handler.Click(
-                this, {
-                    'click': this.trigger
-                }, this.handlerOptions
-            );
-        }, 
-
-        trigger: function(e) {
-            // get coordinates and zoom level
-            var lonlat = map.getLonLatFromViewPortPx(e.xy).transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
-            var zoom = map.getZoom();
-
-            // set form values
-            document.getElementById('latitude').value = lonlat.lat;
-            document.getElementById('longitude').value = lonlat.lon;
-            document.getElementById('zoom').value = zoom;
-
-            // set marker
-            addMarker(layer_markers,lonlat.lon,lonlat.lat,"<div><h4>Click</h4></div>",false,0);
-
-            // jump to click position
-            jumpTo(lonlat.lon,lonlat.lat,zoom);
-        }
-    });
-    Event.observe(window, 'load', drawmap);
-
-*/
-        } else if ('Zikula\\ContentModule\\ContentType\\TableOfContentsType' == typeClass) {
-            var contentTocChangedSelection = function() {
-                jQuery('#' + fieldPrefix + 'includeHeadingLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeHeading').val()) < 2);
-                jQuery('#' + fieldPrefix + 'includeSubpageLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeSubpage').val()) < 2);
-                jQuery('#' + fieldPrefix + 'includeSelf').parents('.form-group').toggleClass('hidden', '' == jQuery('#' + fieldPrefix + 'pageId').val());
-            };
-            jQuery('#' + fieldPrefix + 'includeHeading, #' + fieldPrefix + 'includeSubpage, #' + fieldPrefix + 'pageId').change(contentTocChangedSelection);
-            contentTocChangedSelection();
-        } else if ('Zikula\\ContentModule\\ContentType\\UnfilteredType' == typeClass) {
-            var useIframe = jQuery('#' + fieldPrefix + 'useiframe').prop('checked');
-
-            jQuery('#contentUnfilteredTextDetails').toggleClass('hidden', useIframe);
-            jQuery('#contentUnfilteredIframeDetails').toggleClass('hidden', !useIframe);
-
-            jQuery('#' + fieldPrefix + 'useiframe').change(function (event) {
-                jQuery('#contentUnfilteredTextDetails').toggleClass('hidden', jQuery(this).prop('checked'));
-                jQuery('#contentUnfilteredIframeDetails').toggleClass('hidden', !jQuery(this).prop('checked'));
-            });
-        }
-
-        if ('Zikula\\ContentModule\\ContentType\\HtmlType' == typeClass && 'undefined' != typeof ScribiteUtil) {
-            var scribite;
-            scribite = new ScribiteUtil(editorOptions);
-            scribite.createEditors();
-        }
-/**
- * TODO: areaIndex, areaPosition, owningType, contentData
- */
+// TODO: areaIndex, areaPosition, owningType, contentData
 //         modal.modal('hide');
     }).fail(function(jqXHR, textStatus) {
         modal.modal('hide');
+        if (isCreation) {
+            // TODO remove newly created widget
+        }
 
         alert(Translator.__('Failed loading the data.'));
     });
@@ -483,7 +379,7 @@ function contentPageInitWidgetActions() {
         var widget;
 
         widget = jQuery(this).parents('.grid-stack-item').first();
-        contentPageInitWidgetEditing(widget, 'edit');
+        contentPageInitWidgetEditing(widget, false);
     });
     jQuery('.grid-stack .grid-stack-item a.delete-item').unbind('click').click(function (event) {
         event.preventDefault();

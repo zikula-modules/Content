@@ -89,6 +89,7 @@ New features:
 - Content types are now collected based on Symfony container using service tags.
 - Content types are grouped into different categories.
 - The ModuleFunc content type has been renamed to Controller since it now supports not only modules, but all types of Symfony bundles.
+- Google map and route content types support different map types instead of roadmaps only.
 
 Deprecations:
 - The short URL suffix can not be configured anymore.

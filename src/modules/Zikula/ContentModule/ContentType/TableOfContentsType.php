@@ -165,4 +165,31 @@ class TableOfContentsType extends AbstractContentType
     {
         return FormType::class;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $assets = parent::getAssets($context);
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return $assets;
+        }
+
+        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.TableOfContents.js');
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return null;
+        }
+
+        return 'contentInitTocEdit';
+    }
 }

@@ -106,4 +106,35 @@ class OpenStreetMapType extends AbstractContentType
     {
         return FormType::class;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $assets = parent::getAssets($context);
+
+        if (in_array($context, [ContentTypeInterface::CONTEXT_VIEW, ContentTypeInterface::CONTEXT_EDIT])) {
+            $assets['js'][] = 'https://openlayers.org/api/OpenLayers.js';
+            $assets['js'][] = 'https://www.openstreetmap.org/openlayers/OpenStreetMap.js';
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.OpenStreetMap.js');
+        }
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            return 'contentInitOsmDisplay';
+        }
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            return 'contentInitOsmEdit';
+        }
+
+        return null;
+    }
 }

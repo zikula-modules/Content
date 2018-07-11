@@ -14,17 +14,24 @@ namespace Zikula\ContentModule\ContentType;
 
 use \Twig_Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Google route content type.
  */
 class GoogleRouteType extends AbstractContentType
 {
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
     /**
      * @var string
      */
@@ -37,6 +44,8 @@ class GoogleRouteType extends AbstractContentType
      * @param Twig_Environment    $twig             Twig service instance
      * @param FilesystemLoader    $twigLoader       Twig loader service instance
      * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param RequestStack        $requestStack     RequestStack service instance
      * @param string              $googleMapsApiKey Google maps API key
      */
     public function __construct(
@@ -44,10 +53,13 @@ class GoogleRouteType extends AbstractContentType
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        RequestStack $requestStack,
         $googleMapsApiKey
     ) {
+        $this->requestStack = $requestStack;
         $this->googleMapsApiKey = $googleMapsApiKey;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper);
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
     }
 
     /**
@@ -116,6 +128,7 @@ class GoogleRouteType extends AbstractContentType
             'latitude' => '55.8756960390043',
             'longitude' => '12.36185073852539',
             'zoom' => 5,
+            'mapType' => 'roadmap',
             'height' => 400,
             'addressText' => 'Sample street 123,12345 Sample city,Country',
             'topText' => '',
@@ -143,5 +156,41 @@ class GoogleRouteType extends AbstractContentType
     public function getEditFormClass()
     {
         return FormType::class;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAssets($context)
+    {
+        $locale = $this->requestStack->getMasterRequest()->getLocale();
+
+        $assets = parent::getAssets($context);
+
+        $assets['js'][] = 'https://maps.google.com/maps/api/js?v=3&key=' . $this->googleMapsApiKey . '&language=' . $locale;
+
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleRoute.js');
+        }
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleEdit.js');
+        }
+
+        return $assets;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsEntrypoint($context)
+    {
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            return 'contentInitGoogleRouteDisplay';
+        }
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            return 'contentInitGoogleMapEdit';
+        }
+
+        return null;
     }
 }

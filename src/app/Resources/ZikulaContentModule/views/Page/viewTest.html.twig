@@ -39,8 +39,8 @@
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-floppy-o"></i> {{ __('Save') }}</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-trash-o"></i> {{ __('Delete') }}</button>
+                    <button type="button" id="btnSaveContent" class="btn btn-success" data-dismiss="modal"><i class="fa fa-floppy-o"></i> {{ __('Save') }}</button>
+                    <button type="button" id="btnDeleteContent" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-trash-o"></i> {{ __('Delete') }}</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> {{ __('Cancel') }}</button>
                 </div>
             </div>
@@ -61,6 +61,7 @@
         <script>
         /* <![CDATA[ */
 
+            var pageId = 7;
             var serialisedData = [
                 { id: 'section1', widgets: [
                     { id: 12, x: 0, y: 0, width: 3, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\AuthorType', height: {{ widgetDimensions.height }}, panelClass: 'primary', title: '<i class="fa fa-address-card"></i> Author info' },
@@ -102,16 +103,4 @@
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.jQueryUI.min.js'), 112) }}
     {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:css/pageedit.css'), 130) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.PageEditing.js'), 130) }}
-
-    {{ pageAddAsset('stylesheet', zasset('@ZikulaUsersModule:css/livesearch.css')) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaUsersModule:js/Zikula.Users.LiveSearch.js')) }}
-    {% set customStyle %}
-        {# https://stackoverflow.com/questions/3217134 #}
-        <style type="text/css">
-            .ui-autocomplete {
-                z-index: 1500;
-            }
-        </style>
-    {% endset %}
-    {{ pageAddAsset('header', customStyle) }}
 {% endblock %}

@@ -17,6 +17,7 @@ use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 abstract class AbstractContentType implements ContentTypeInterface
 {
@@ -68,6 +69,11 @@ abstract class AbstractContentType implements ContentTypeInterface
     protected $permissionHelper;
 
     /**
+     * @var Asset
+     */
+    protected $assetHelper;
+
+    /**
      * Reference to content item instance which allows to access page data,
      * layout area and styling data and other information.
      * 
@@ -89,12 +95,14 @@ abstract class AbstractContentType implements ContentTypeInterface
      * @param Twig_Environment    $twig             Twig service instance
      * @param FilesystemLoader    $twigLoader       Twig loader service instance
      * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
      */
     public function __construct(
         TranslatorInterface $translator,
         Twig_Environment $twig,
         FilesystemLoader $twigLoader,
-        PermissionHelper $permissionHelper
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper
     ) {
         $this->translator = $translator;
 
@@ -109,6 +117,7 @@ abstract class AbstractContentType implements ContentTypeInterface
         $this->twig = $twig;
         $this->twigLoader = $twigLoader;
         $this->permissionHelper = $permissionHelper;
+        $this->assetHelper = $assetHelper;
 
         $this->data = $this->getDefaultData();
     }
@@ -476,5 +485,33 @@ abstract class AbstractContentType implements ContentTypeInterface
     public function getEditFormOptions()
     {
         return [];
+    }
+
+    /**
+     * Returns an array of required assets.
+     *
+     * @param string $context The target page context (one of CONTEXT* constants)
+     *
+     * @return array
+     */
+    public function getAssets($context)
+    {
+        return [
+            'css' => [],
+            'js' => []
+        ];
+    }
+
+    /**
+     * Returns the name of the JS function to execute or null for nothing.
+     * The function must be registered in the global scope and must not expect any arguments.
+     *
+     * @param string $context The target page context (one of CONTEXT* constants)
+     *
+     * @return string
+     */
+    public function getJsEntrypoint($context)
+    {
+        return null;
     }
 }
