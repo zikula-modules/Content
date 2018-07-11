@@ -635,8 +635,6 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchActiveTo'] = $fragment;
             $filters[] = 'tbl.scope = :searchScope';
             $parameters['searchScope'] = $fragment;
-            $filters[] = 'tbl.stylingClasses LIKE :searchStylingClasses';
-            $parameters['searchStylingClasses'] = '%' . $fragment . '%';
         }
         if ($objectType == 'searchable') {
             $filters[] = 'tbl.searchText LIKE :searchSearchText';

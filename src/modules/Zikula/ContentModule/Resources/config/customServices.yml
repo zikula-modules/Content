@@ -11,6 +11,7 @@ services:
         arguments:
             - '@translator.default'
             - '@zikula_content_module.listentries_helper'
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'stylingClasses', '')"
         tags: ['form.type']
     zikula_content_module.hook_subscriber.form_aware_hook.contentitems:
         class: Zikula\ContentModule\HookSubscriber\ContentItemFormAwareHookSubscriber

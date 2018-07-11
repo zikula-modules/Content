@@ -127,12 +127,12 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $scope = '1';
     
     /**
-     * @ORM\Column(length=255)
+     * @ORM\Column(type="simple_array")
      * @Assert\NotNull()
-     * @Assert\Length(min="0", max="255")
-     * @var string $stylingClasses
+     * @Assert\Type(type="array")
+     * @var array $stylingClasses
      */
-    protected $stylingClasses = '';
+    protected $stylingClasses = [];
     
     
     /**
@@ -457,7 +457,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Returns the styling classes.
      *
-     * @return string
+     * @return array
      */
     public function getStylingClasses()
     {
@@ -467,7 +467,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Sets the styling classes.
      *
-     * @param string $stylingClasses
+     * @param array $stylingClasses
      *
      * @return void
      */

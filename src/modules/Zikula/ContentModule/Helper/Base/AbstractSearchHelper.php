@@ -193,7 +193,6 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     $whereArray[] = 'tbl.workflowState';
                     $whereArray[] = 'tbl.owningType';
                     $whereArray[] = 'tbl.scope';
-                    $whereArray[] = 'tbl.stylingClasses';
                     break;
                 case 'searchable':
                     $whereArray[] = 'tbl.workflowState';

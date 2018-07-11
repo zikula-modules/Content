@@ -148,8 +148,10 @@ application "Content" {
                         listItem "Only not logged in people" ( "2" )
                     }
                 },
-                string "stylingClasses" {
+                array "stylingClasses" {
                     mandatory false
+                    displayType NONE
+                    arrayType SIMPLE_ARRAY
                 }
             }
             indexes {

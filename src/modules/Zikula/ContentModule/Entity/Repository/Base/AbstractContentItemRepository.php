@@ -67,7 +67,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
             'activeFrom',
             'activeTo',
             'scope',
-            'stylingClasses',
             'createdBy',
             'createdDate',
             'updatedBy',

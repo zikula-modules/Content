@@ -40,17 +40,25 @@ class ContentItemType extends AbstractType
     private $listHelper;
 
     /**
+     * @var string
+     */
+    private $stylingClasses;
+
+    /**
      * ContentItemType constructor.
      *
      * @param TranslatorInterface $translator
      * @param ListEntriesHelper $listHelper
+     * @param string stylingClasses
      */
     public function __construct(
         TranslatorInterface $translator,
-        ListEntriesHelper $listHelper
+        ListEntriesHelper $listHelper,
+        $stylingClasses
     ) {
         $this->setTranslator($translator);
         $this->listHelper = $listHelper;
+        $this->stylingClasses = $stylingClasses;
     }
 
     /**
@@ -71,7 +79,6 @@ class ContentItemType extends AbstractType
         $builder->add('active', CheckboxType::class, [
             'label' => $this->__('Active') . ':',
             'attr' => [
-                'class' => '',
                 'title' => $this->__('active ?')
             ],
             'required' => false,
@@ -80,7 +87,7 @@ class ContentItemType extends AbstractType
         $builder->add('activeFrom', DateTimeType::class, [
             'label' => $this->__('Active from') . ':',
             'attr' => [
-                'class' => ' validate-daterange-page'
+                'class' => 'validate-daterange-page'
             ],
             'required' => false,
             'empty_data' => '',
@@ -92,7 +99,7 @@ class ContentItemType extends AbstractType
         $builder->add('activeTo', DateTimeType::class, [
             'label' => $this->__('Active to') . ':',
             'attr' => [
-                'class' => ' validate-daterange-page'
+                'class' => 'validate-daterange-page'
             ],
             'required' => false,
             'empty_data' => '',
@@ -112,7 +119,6 @@ class ContentItemType extends AbstractType
             'label' => $this->__('Scope') . ':',
             'empty_data' => '1',
             'attr' => [
-                'class' => '',
                 'title' => $this->__('Choose the scope.')
             ],
             'required' => true,
@@ -122,15 +128,26 @@ class ContentItemType extends AbstractType
             'expanded' => false
         ]);
 
-        $builder->add('stylingClasses', TextType::class, [
+        $choices = [];
+        $userClasses = explode("\n", $this->stylingClasses);
+        foreach ($userClasses as $class) {
+            list($value, $text) = explode('|', $class);
+            $value = trim($value);
+            $text = trim($text);
+            if (!empty($text) && !empty($value)) {
+                $choices[$text] = $value;
+            }
+        }
+
+        $builder->add('stylingClasses', ChoiceType::class, [
             'label' => $this->__('Styling classes') . ':',
             'empty_data' => '',
             'attr' => [
-                'maxlength' => 255,
-                'class' => '',
-                'title' => $this->__('Enter the styling classes of the content item.')
+                'title' => $this->__('Choose any additional styling classes.')
             ],
             'required' => false,
+            'choices' => $choices,
+            'multiple' => true
         ]);
     }
 
