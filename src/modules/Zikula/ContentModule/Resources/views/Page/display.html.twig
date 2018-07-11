@@ -22,37 +22,31 @@
             <dt>{{ __('Title') }}</dt>
             <dd>{{ page.title }}</dd>
         {% endif %}
-        {% if page.showTitle is not empty %}
-            <dt>{{ __('Show title') }}</dt>
-            <dd>{% if page.showTitle %}
-                <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-            {% else %}
-                <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-            {% endif %}
-            </dd>
+        <dt>{{ __('Show title') }}</dt>
+        <dd>{% if page.showTitle %}
+            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+        {% else %}
+            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
         {% endif %}
+        </dd>
         {% if page.metaDescription is not empty %}
             <dt>{{ __('Meta description') }}</dt>
             <dd>{{ page.metaDescription|safeHtml }}</dd>
         {% endif %}
-        {% if page.skipUiHookSubscriber is not empty %}
-            <dt>{{ __('Skip ui hook subscriber') }}</dt>
-            <dd>{% if page.skipUiHookSubscriber %}
-                <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-            {% else %}
-                <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-            {% endif %}
-            </dd>
+        <dt>{{ __('Skip ui hook subscriber') }}</dt>
+        <dd>{% if page.skipUiHookSubscriber %}
+            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+        {% else %}
+            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
         {% endif %}
-        {% if page.skipFilterHookSubscriber is not empty %}
-            <dt>{{ __('Skip filter hook subscriber') }}</dt>
-            <dd>{% if page.skipFilterHookSubscriber %}
-                <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-            {% else %}
-                <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-            {% endif %}
-            </dd>
+        </dd>
+        <dt>{{ __('Skip filter hook subscriber') }}</dt>
+        <dd>{% if page.skipFilterHookSubscriber %}
+            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+        {% else %}
+            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
         {% endif %}
+        </dd>
         {% if page.layout is not empty %}
             <dt>{{ __('Layout') }}</dt>
             <dd>{% if page.layout is iterable and page.layout|length > 0 %}
@@ -68,22 +62,20 @@
             <dt>{{ __('Views') }}</dt>
             <dd>{{ page.views }}</dd>
         {% endif %}
-        {% if page.active is not empty %}
-            <dt>{{ __('Active') }}</dt>
-            <dd>{% set itemId = page.getKey() %}
-            <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
-                <i class="fa fa-check text-success{% if not page.active %} hidden{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
-                <i class="fa fa-times text-danger{% if page.active %} hidden{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
-            </a>
-            <noscript><div id="noscriptActive{{ itemId }}">
-                {% if page.active %}
-                    <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-                {% else %}
-                    <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-                {% endif %}
-            </div></noscript>
-            </dd>
-        {% endif %}
+        <dt>{{ __('Active') }}</dt>
+        <dd>{% set itemId = page.getKey() %}
+        <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
+            <i class="fa fa-check text-success{% if not page.active %} hidden{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
+            <i class="fa fa-times text-danger{% if page.active %} hidden{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
+        </a>
+        <noscript><div id="noscriptActive{{ itemId }}">
+            {% if page.active %}
+                <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+            {% else %}
+                <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
+            {% endif %}
+        </div></noscript>
+        </dd>
         {% if page.activeFrom is not empty %}
             <dt>{{ __('Active from') }}</dt>
             <dd>{% if page.activeFrom is not empty %}
@@ -96,22 +88,20 @@
                 {{ page.activeTo|localizeddate('medium', 'short') }}
             {% endif %}</dd>
         {% endif %}
-        {% if page.inMenu is not empty %}
-            <dt>{{ __('In menu') }}</dt>
-            <dd>{% set itemId = page.getKey() %}
-            <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
-                <i class="fa fa-check text-success{% if not page.inMenu %} hidden{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
-                <i class="fa fa-times text-danger{% if page.inMenu %} hidden{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
-            </a>
-            <noscript><div id="noscriptInMenu{{ itemId }}">
-                {% if page.inMenu %}
-                    <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-                {% else %}
-                    <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-                {% endif %}
-            </div></noscript>
-            </dd>
-        {% endif %}
+        <dt>{{ __('In menu') }}</dt>
+        <dd>{% set itemId = page.getKey() %}
+        <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
+            <i class="fa fa-check text-success{% if not page.inMenu %} hidden{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"></i>
+            <i class="fa fa-times text-danger{% if page.inMenu %} hidden{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"></i>
+        </a>
+        <noscript><div id="noscriptInMenu{{ itemId }}">
+            {% if page.inMenu %}
+                <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+            {% else %}
+                <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
+            {% endif %}
+        </div></noscript>
+        </dd>
         {% if page.optionalString1 is not empty %}
             <dt>{{ __('Optional string 1') }}</dt>
             <dd>{{ page.optionalString1 }}</dd>
