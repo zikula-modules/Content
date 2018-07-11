@@ -110,7 +110,7 @@ application "Content" {
         },
         entity "contentItem" {
             nameMultiple "contentItems"
-            displayPattern "#areaIndex#-#areaPosition#: #owningBundle# - #owningType#"
+            displayPattern "#owningType#"
             fields {
                 string "owningType" {
                     defaultValue ""

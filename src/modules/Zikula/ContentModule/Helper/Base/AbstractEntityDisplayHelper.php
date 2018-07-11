@@ -103,7 +103,7 @@ abstract class AbstractEntityDisplayHelper
      */
     protected function formatContentItem(ContentItemEntity $entity)
     {
-        return $this->translator->__f('%areaIndex%-%areaPosition%: %owningBundle% - %owningType%', [
+        return $this->translator->__f('%owningType%', [
             '%owningType%' => $entity->getOwningType()
         ]);
     }

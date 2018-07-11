@@ -177,7 +177,7 @@ class ContentItemController extends AbstractContentItemController
             if ('save' == $action) {
                 $page->addContentItems($contentItem);
 
-                // TODO: areaIndex, areaPosition, owningType, contentData
+                // TODO: owningType, contentData
                 $action = $isCreate ? 'submit' : 'update';
 
                 // execute the workflow action
