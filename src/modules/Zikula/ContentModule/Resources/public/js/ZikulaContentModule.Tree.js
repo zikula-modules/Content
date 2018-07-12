@@ -279,6 +279,7 @@ function zikulaContentTreeDropNode(event, data) {
     var node;
     var parentNode;
     var previousNode;
+    var nextNode;
 
     isMultiTreeCopy = 'undefined' !== typeof data.original;
     // when copying between multiple trees refer to original node to get real identifier
@@ -292,12 +293,17 @@ function zikulaContentTreeDropNode(event, data) {
     parentNode = data.new_instance.get_node(data.parent, false);
 
     previousNode = null;
+    nextNode = null;
     if (data.position > 0) {
         previousNode = data.new_instance.get_node(parentNode.children[data.position - 1], false);
+    } else if (data.position < parentNode.children.length - 1)  {
+        nextNode = data.new_instance.get_node(parentNode.children[data.position + 1], false);
     }
 
     if (null !== previousNode) {
         zikulaContentTreeMoveNode(node, previousNode, 'after', isMultiTreeCopy);
+    } else if (null !== nextNode) {
+        zikulaContentTreeMoveNode(node, nextNode, 'before', isMultiTreeCopy);
     } else {
         zikulaContentTreeMoveNode(node, parentNode, 'bottom', isMultiTreeCopy);
     }
