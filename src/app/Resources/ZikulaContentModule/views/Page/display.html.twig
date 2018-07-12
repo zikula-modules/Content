@@ -1,0 +1,165 @@
+{# purpose of this template: pages display view #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
+{% extends 'ZikulaContentModule::' ~ baseTemplate ~ '.html.twig' %}
+{% block pageTitle %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }}{% endblock %}
+{% block title %}
+    {% set templateTitle = page|zikulacontentmodule_formattedTitle|default(__('Page')) %}
+    {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
+{% endblock %}
+{% block admin_page_icon 'eye' %}
+{% block content %}
+    {% set isQuickView = app.request.query.getBoolean('raw', false) %}
+    <div class="zikulacontentmodule-page zikulacontentmodule-display">
+
+    <div class="row">
+        <div class="col-sm-9">
+    {% set itemActions = knp_menu_get('ZikulaContentModule:ItemActionsMenu:menu', [], {entity: page, area: routeArea, context: 'display'}) %}
+    <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
+        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
+    </div>
+    <dl>
+        {% if page.title is not empty %}
+            <dt>{{ __('Title') }}</dt>
+            <dd>{{ page.title }}</dd>
+        {% endif %}
+        <dt>{{ __('Show title') }}</dt>
+        <dd>{% if page.showTitle %}
+            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+        {% else %}
+            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
+        {% endif %}
+        </dd>
+        {% if page.metaDescription is not empty %}
+            <dt>{{ __('Meta description') }}</dt>
+            <dd>{{ page.metaDescription|safeHtml }}</dd>
+        {% endif %}
+        <dt>{{ __('Skip ui hook subscriber') }}</dt>
+        <dd>{% if page.skipUiHookSubscriber %}
+            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+        {% else %}
+            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
+        {% endif %}
+        </dd>
+        <dt>{{ __('Skip filter hook subscriber') }}</dt>
+        <dd>{% if page.skipFilterHookSubscriber %}
+            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
+        {% else %}
+            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
+        {% endif %}
+        </dd>
+        {% if page.layout is not empty %}
+            <dt>{{ __('Layout') }}</dt>
+            <dd>{% if page.layout is iterable and page.layout|length > 0 %}
+                <ul>
+                {% for entry in page.layout %}
+                    <li>{{ entry }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            </dd>
+        {% endif %}
+        {% if page.views is not empty %}
+            <dt>{{ __('Views') }}</dt>
+            <dd>{{ page.views }}</dd>
+        {% endif %}
+        <dt>{{ __('Active') }}</dt>
+        <dd>{% set itemId = page.getKey() %}
+        <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
+            <i class="fa fa-check text-success{% if not page.active %} hidden{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"> {{ __('Active') }}</i>
+            <i class="fa fa-times text-danger{% if page.active %} hidden{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"> {{ __('Inactive') }}</i>
+        </a>
+        <noscript><div id="noscriptActive{{ itemId }}">
+            {% if page.active %}
+                <i class="fa fa-check text-success" title="{{ __('Yes') }}"> {{ __('Active') }}</i>
+            {% else %}
+                <i class="fa fa-times text-danger" title="{{ __('No') }}"> {{ __('Inactive') }}</i>
+            {% endif %}
+        </div></noscript>
+        </dd>
+        {% if page.activeFrom is not empty %}
+            <dt>{{ __('Active from') }}</dt>
+            <dd>{% if page.activeFrom is not empty %}
+                {{ page.activeFrom|localizeddate('medium', 'short') }}
+            {% endif %}</dd>
+        {% endif %}
+        {% if page.activeTo is not empty %}
+            <dt>{{ __('Active to') }}</dt>
+            <dd>{% if page.activeTo is not empty %}
+                {{ page.activeTo|localizeddate('medium', 'short') }}
+            {% endif %}</dd>
+        {% endif %}
+        <dt>{{ __('In menu') }}</dt>
+        <dd>{% set itemId = page.getKey() %}
+        <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
+            <i class="fa fa-check text-success{% if not page.inMenu %} hidden{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"> {{ __('In') }}</i>
+            <i class="fa fa-times text-danger{% if page.inMenu %} hidden{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"> {{ __('Out') }}</i>
+        </a>
+        <noscript><div id="noscriptInMenu{{ itemId }}">
+            {% if page.inMenu %}
+                <i class="fa fa-check text-success" title="{{ __('Yes') }}"> {{ __('In') }}</i>
+            {% else %}
+                <i class="fa fa-times text-danger" title="{{ __('No') }}"> {{ __('Out') }}</i>
+            {% endif %}
+        </div></noscript>
+        </dd>
+        {% if page.optionalString1 is not empty %}
+            <dt>{{ __('Optional string 1') }}</dt>
+            <dd>{{ page.optionalString1 }}</dd>
+        {% endif %}
+        {% if page.optionalString2 is not empty %}
+            <dt>{{ __('Optional string 2') }}</dt>
+            <dd>{{ page.optionalString2 }}</dd>
+        {% endif %}
+        {% if page.optionalText is not empty %}
+            <dt>{{ __('Optional text') }}</dt>
+            <dd>{{ page.optionalText|safeHtml }}</dd>
+        {% endif %}
+        {% if page.currentVersion is not empty %}
+            <dt>{{ __('Current version') }}</dt>
+            <dd>{{ page.currentVersion }}</dd>
+        {% endif %}
+        
+    </dl>
+
+    {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+        {{ include('@ZikulaContentModule/Helper/includeCategoriesDisplay.html.twig', {obj: page}) }}
+    {% endif %}
+    {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
+        <h3 class="relatives">{{ __('Relatives') }}</h3>
+            {{ include(
+                '@ZikulaContentModule/Page/displayTreeRelatives.html.twig',
+                {allParents: true, directParent: true, allChildren: true, directChildren: true, predecessors: true, successors: true, preandsuccessors: true}
+            ) }}
+    {% endif %}
+    {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
+
+    {{ block('display_hooks') }}
+        </div>
+        <div class="col-sm-3">
+            {{ block('related_items') }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block related_items %}
+    {% if routeArea == 'admin' %}
+        <h4>{{ __('Content items') }}</h4>
+    {% else %}
+        <h3>{{ __('Content items') }}</h3>
+    {% endif %}
+    
+    {% if page.contentItems|default %}
+        {{ include(
+            '@ZikulaContentModule/ContentItem/includeDisplayItemListMany.html.twig',
+            {items: page.contentItems}
+        ) }}
+    {% endif %}
+{% endblock %}
+{% block display_hooks %}
+    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
+    {% if hooks is iterable and hooks|length > 0 %}
+        {% for area, hook in hooks %}
+            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

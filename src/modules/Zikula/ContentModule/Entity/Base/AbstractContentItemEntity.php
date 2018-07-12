@@ -140,8 +140,12 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Bidirectional - One contentItem [content item] has many searchables [searchables] (INVERSE SIDE).
      *
-     * @ORM\OneToMany(targetEntity="Zikula\ContentModule\Entity\SearchableEntity", mappedBy="contentItem")
-     * @ORM\JoinTable(name="zikula_content_contentitemsearchables")
+     * @ORM\OneToMany(targetEntity="Zikula\ContentModule\Entity\SearchableEntity", mappedBy="contentItem", cascade={"remove"})
+     * @ORM\JoinTable(name="zikula_content_contentitemsearchables",
+     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" , nullable=false)},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" , nullable=false)}
+     * )
+     * @Assert\NotNull(message="Choosing at least one of the searchables is required.")
      * @var \Zikula\ContentModule\Entity\SearchableEntity[] $searchables
      */
     protected $searchables = null;

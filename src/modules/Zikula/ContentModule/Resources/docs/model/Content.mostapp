@@ -194,6 +194,8 @@ application "Content" {
             sourceAlias "contentItem"
             target "searchable"
             targetAlias "searchables"
+        nullable false
+            cascade REMOVE
         }
     }
     variables {
