@@ -181,7 +181,7 @@ abstract class AbstractControllerHelper
         }
     
         $templateParameters['all'] = 'csv' == $request->getRequestFormat() ? 1 : $request->query->getInt('all', 0);
-        $templateParameters['own'] = $request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', 0));
+        $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', false)) ? 1 : 0;
     
         $resultsPerPage = 0;
         if ($templateParameters['all'] != 1) {
