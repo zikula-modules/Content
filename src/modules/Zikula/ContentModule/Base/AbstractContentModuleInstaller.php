@@ -55,6 +55,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('inheritPermissions', false);
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);
+        $this->setVar('showOnlyOwnEntries', false);
         $this->setVar('filterDataByLocale', false);
         $this->setVar('enabledFinderTypes', 'page');
     

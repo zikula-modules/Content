@@ -115,6 +115,15 @@ abstract class AbstractAppSettings
     protected $linkOwnPagesOnAccountPage = true;
     
     /**
+     * Whether only own entries should be shown on view pages by default or not
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $showOnlyOwnEntries
+     */
+    protected $showOnlyOwnEntries = false;
+    
+    /**
      * Whether automatically filter data in the frontend based on the current locale or not
      *
      * @Assert\NotNull()
@@ -387,6 +396,30 @@ abstract class AbstractAppSettings
     }
     
     /**
+     * Returns the show only own entries.
+     *
+     * @return boolean
+     */
+    public function getShowOnlyOwnEntries()
+    {
+        return $this->showOnlyOwnEntries;
+    }
+    
+    /**
+     * Sets the show only own entries.
+     *
+     * @param boolean $showOnlyOwnEntries
+     *
+     * @return void
+     */
+    public function setShowOnlyOwnEntries($showOnlyOwnEntries)
+    {
+        if (boolval($this->showOnlyOwnEntries) !== boolval($showOnlyOwnEntries)) {
+            $this->showOnlyOwnEntries = boolval($showOnlyOwnEntries);
+        }
+    }
+    
+    /**
      * Returns the filter data by locale.
      *
      * @return boolean
@@ -472,6 +505,9 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['linkOwnPagesOnAccountPage'])) {
             $this->setLinkOwnPagesOnAccountPage($moduleVars['linkOwnPagesOnAccountPage']);
         }
+        if (isset($moduleVars['showOnlyOwnEntries'])) {
+            $this->setShowOnlyOwnEntries($moduleVars['showOnlyOwnEntries']);
+        }
         if (isset($moduleVars['filterDataByLocale'])) {
             $this->setFilterDataByLocale($moduleVars['filterDataByLocale']);
         }
@@ -495,6 +531,7 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'inheritPermissions', $this->getInheritPermissions());
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
+        $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());
         $this->variableApi->set('ZikulaContentModule', 'filterDataByLocale', $this->getFilterDataByLocale());
         $this->variableApi->set('ZikulaContentModule', 'enabledFinderTypes', $this->getEnabledFinderTypes());
     }
