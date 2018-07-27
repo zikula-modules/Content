@@ -2,13 +2,6 @@
 div#z-maincontent.z-module-content table tbody tr td {
     vertical-align: top;
 }
-.table-responsive > .fixed-columns {
-    position: absolute;
-    display: inline-block;
-    width: auto;
-    border-right: 1px solid #ddd;
-    background-color: #fff;
-}
 
 /* display pages */
 .zikulacontentmodule-display p.managelink {
