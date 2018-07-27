@@ -11,20 +11,13 @@ div#z-maincontent.z-module-content table tbody tr td {
 }
 
 /* display pages */
-.zikulacontentmodule-display div.col-sm-3 h3 {
-    color: #333;
-    font-weight: 400;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 8px;
-}
-
-.zikulacontentmodule-display div.col-sm-3 p.managelink {
-    margin-left: 18px;
+.zikulacontentmodule-display p.managelink {
+    margin: 18px 0 0 18px;
 }
 
 .tree-container {
     border: 1px solid #ccc;
-    width: 400px;
+    /*width: 400px;*/
     float: left;
     margin-right: 16px;
 }
