@@ -22,6 +22,9 @@ framework:
                 - name: update
                   from: approved
                   to: approved
+                - name: recover
+                  from: trashed
+                  to: approved
                 - name: trash
                   from: approved
                   to: trashed
