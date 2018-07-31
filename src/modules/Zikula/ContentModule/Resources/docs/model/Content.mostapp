@@ -2,7 +2,7 @@ application "Content" {
     documentation "Flexible hierachical page management."
     vendor "Zikula"
     author "Axel Guckelsberger"
-    email "vorstand@zikula.de"
+    email "info@ziku.la"
     url "https://zikula.de"
     version "5.0.0"
     prefix "content"

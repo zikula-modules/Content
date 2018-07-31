@@ -6,5 +6,5 @@
 
 For questions and other remarks visit our homepage https://zikula.de.
 
-Axel Guckelsberger (vorstand@zikula.de)
+Axel Guckelsberger (info@ziku.la)
 https://zikula.de
