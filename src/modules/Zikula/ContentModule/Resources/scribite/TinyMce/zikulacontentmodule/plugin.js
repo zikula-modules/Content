@@ -31,7 +31,7 @@ tinymce.PluginManager.add('zikulacontentmodule', function(editor, url) {
         getMetadata: function() {
             return {
                 title: 'Content',
-                url: 'https://zikula.de'
+                url: 'https://ziku.la'
             };
         }
     };

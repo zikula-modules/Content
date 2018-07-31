@@ -16,7 +16,7 @@ Note you can even include custom views in `app/Resources/ZikulaContentModule/vie
 
 `php -dmemory_limit=2G bin/console translation:extract en --bundle=ZikulaContentModule --enable-extractor=jms_i18n_routing --output-format=po --exclude-dir=vendor --dir=./modules/Zikula/ContentModule --dir=./app/Resources/ZikulaContentModule`
 
-For questions and other remarks visit our homepage https://zikula.de.
+For questions and other remarks visit our homepage https://ziku.la.
 
 Axel Guckelsberger (info@ziku.la)
-https://zikula.de
+https://ziku.la
