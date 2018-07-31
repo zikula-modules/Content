@@ -3,7 +3,7 @@ application "Content" {
     vendor "Zikula"
     author "Axel Guckelsberger"
     email "info@ziku.la"
-    url "https://zikula.de"
+    url "https://ziku.la"
     version "5.0.0"
     prefix "content"
     generateListContentType false
