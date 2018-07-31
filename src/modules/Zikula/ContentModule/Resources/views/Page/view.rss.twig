@@ -26,7 +26,7 @@
         <webMaster>{{ pageGetVar('adminmail') }}</webMaster>
 {% for page in items %}
     <item>
-        <title><![CDATA[{% if page.updatedDate|default %}{{ page.updatedDate|localizeddate('medium', 'short') }} - {% endif %}{{ page|zikulacontentmodule_formattedTitle|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}]]></title>
+        <title><![CDATA[{{ page|zikulacontentmodule_formattedTitle|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}]]></title>
         <link>{{ url('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}</link>
         <guid>{{ url('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}</guid>
         {% if page.createdBy|default and page.createdBy.getUid() > 0 %}
