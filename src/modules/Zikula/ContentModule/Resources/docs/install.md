@@ -4,7 +4,7 @@
 1. Copy ZikulaContentModule into your `modules` directory. Afterwards you should have a folder named `modules/Zikula/ContentModule/Resources`.
 2. Initialize and activate ZikulaContentModule in the extensions administration.
 
-For questions and other remarks visit our homepage https://zikula.de.
+For questions and other remarks visit our homepage https://ziku.la.
 
 Axel Guckelsberger (info@ziku.la)
-https://zikula.de
+https://ziku.la
