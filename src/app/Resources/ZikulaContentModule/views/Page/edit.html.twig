@@ -40,9 +40,15 @@
                                     {{ form_row(form.title) }}
                                     {% if not isCreate %}
                                         {{ form_row(form.metaDescription) }}
-                                        {{ form_row(form.optionalString1) }}
-                                        {{ form_row(form.optionalString2) }}
-                                        {{ form_row(form.optionalText) }}
+                                        {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) == true %}
+                                            {{ form_row(form.optionalString1) }}
+                                        {% endif %}
+                                        {% if getModVar('ZikulaContentModule', 'enableOptionalString2', false) == true %}
+                                            {{ form_row(form.optionalString2) }}
+                                        {% endif %}
+                                        {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) == true %}
+                                            {{ form_row(form.optionalText) }}
+                                        {% endif %}
                                     {% endif %}
                                     {{ form_row(form.slug) }}
                                 {% else %}
@@ -60,9 +66,15 @@
                 {{ form_row(form.title) }}
                 {% if not isCreate %}
                     {{ form_row(form.metaDescription) }}
-                    {{ form_row(form.optionalString1) }}
-                    {{ form_row(form.optionalString2) }}
-                    {{ form_row(form.optionalText) }}
+                    {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) == true %}
+                        {{ form_row(form.optionalString1) }}
+                    {% endif %}
+                    {% if getModVar('ZikulaContentModule', 'enableOptionalString2', false) == true %}
+                        {{ form_row(form.optionalString2) }}
+                    {% endif %}
+                    {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) == true %}
+                        {{ form_row(form.optionalText) }}
+                    {% endif %}
                 {% endif %}
                 {{ form_row(form.slug) }}
             </fieldset>

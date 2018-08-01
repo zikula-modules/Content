@@ -255,12 +255,12 @@ application "Content" {
                     defaultValue "false"
                     mandatory false
                 },
-                boolean "enableOptionalField1" {
+                boolean "enableOptionalString1" {
                     documentation "If you need an additional string for each page you can enable an optional field."
                     defaultValue "false"
                     mandatory false
                 },
-                boolean "enableOptionalField2" {
+                boolean "enableOptionalString2" {
                     documentation "If you need an additional string for each page you can enable an optional field."
                     defaultValue "false"
                     mandatory false
