@@ -214,8 +214,8 @@ abstract class AbstractConfigType extends AbstractType
             'required' => false,
         ]);
         
-        $builder->add('enableOptionalField1', CheckboxType::class, [
-            'label' => $this->__('Enable optional field 1') . ':',
+        $builder->add('enableOptionalString1', CheckboxType::class, [
+            'label' => $this->__('Enable optional string 1') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
                 'title' => $this->__('If you need an additional string for each page you can enable an optional field.')
@@ -223,13 +223,13 @@ abstract class AbstractConfigType extends AbstractType
             'help' => $this->__('If you need an additional string for each page you can enable an optional field.'),
             'attr' => [
                 'class' => '',
-                'title' => $this->__('The enable optional field 1 option')
+                'title' => $this->__('The enable optional string 1 option')
             ],
             'required' => false,
         ]);
         
-        $builder->add('enableOptionalField2', CheckboxType::class, [
-            'label' => $this->__('Enable optional field 2') . ':',
+        $builder->add('enableOptionalString2', CheckboxType::class, [
+            'label' => $this->__('Enable optional string 2') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
                 'title' => $this->__('If you need an additional string for each page you can enable an optional field.')
@@ -237,7 +237,7 @@ abstract class AbstractConfigType extends AbstractType
             'help' => $this->__('If you need an additional string for each page you can enable an optional field.'),
             'attr' => [
                 'class' => '',
-                'title' => $this->__('The enable optional field 2 option')
+                'title' => $this->__('The enable optional string 2 option')
             ],
             'required' => false,
         ]);
