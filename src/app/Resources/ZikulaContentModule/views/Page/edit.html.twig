@@ -40,13 +40,13 @@
                                     {{ form_row(form.title) }}
                                     {% if not isCreate %}
                                         {{ form_row(form.metaDescription) }}
-                                        {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) == true %}
+                                        {% if form.optionalString1 is defined %}
                                             {{ form_row(form.optionalString1) }}
                                         {% endif %}
-                                        {% if getModVar('ZikulaContentModule', 'enableOptionalString2', false) == true %}
+                                        {% if form.optionalString2 is defined %}
                                             {{ form_row(form.optionalString2) }}
                                         {% endif %}
-                                        {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) == true %}
+                                        {% if form.optionalText is defined %}
                                             {{ form_row(form.optionalText) }}
                                         {% endif %}
                                     {% endif %}
@@ -66,13 +66,13 @@
                 {{ form_row(form.title) }}
                 {% if not isCreate %}
                     {{ form_row(form.metaDescription) }}
-                    {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) == true %}
+                    {% if form.optionalString1 is defined %}
                         {{ form_row(form.optionalString1) }}
                     {% endif %}
-                    {% if getModVar('ZikulaContentModule', 'enableOptionalString2', false) == true %}
+                    {% if form.optionalString2 is defined %}
                         {{ form_row(form.optionalString2) }}
                     {% endif %}
-                    {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) == true %}
+                    {% if form.optionalText is defined %}
                         {{ form_row(form.optionalText) }}
                     {% endif %}
                 {% endif %}
@@ -120,7 +120,6 @@
             </fieldset>
         {% endif %}
         
-        {% if not isCreate %}
         {% if form.moderationSpecificCreator is defined %}
             <fieldset id="moderationFieldsSection">
                 <legend>{{ __('Moderation') }} <i class="fa fa-expand"></i></legend>
@@ -129,7 +128,6 @@
                     {{ form_row(form.moderationSpecificCreationDate) }}
                 </div>
             </fieldset>
-        {% endif %}
         {% endif %}
         
         
@@ -166,12 +164,25 @@
         /* <![CDATA[ */
             
             ( function($) {
+                {% if mode != 'create' %}
+                    function zikulaContentToggleActiveDates() {
+                        var hideDates;
+
+                        hideDates = !$('#zikulacontentmodule_page_active').prop('checked');
+                        $('#zikulacontentmodule_page_activeFrom_date').parents('.form-group').toggleClass('hidden', hideDates);
+                        $('#zikulacontentmodule_page_activeTo_date').parents('.form-group').toggleClass('hidden', hideDates);
+                    }
+                {% endif %}
                 $(document).ready(function() {
                     zikulaContentInitEditForm('{{ mode }}', '{% if mode != 'create' %}{{ page.id }}{% endif %}');
                     zikulaContentInitDateField('zikulacontentmodule_page_activeFrom');
                     zikulaContentInitDateField('zikulacontentmodule_page_activeTo');
                     {% if form.moderationSpecificCreator is defined %}
                         initUserLiveSearch('zikulacontentmodule_page_moderationSpecificCreator');
+                    {% endif %}
+                    {% if mode != 'create' %}
+                        $('#zikulacontentmodule_page_active').change(zikulaContentToggleActiveDates);
+                        zikulaContentToggleActiveDates();
                     {% endif %}
                 });
             })(jQuery);
