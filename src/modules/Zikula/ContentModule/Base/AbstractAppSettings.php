@@ -94,6 +94,33 @@ abstract class AbstractAppSettings
     protected $inheritPermissions = false;
     
     /**
+     * If you need an additional string for each page you can enable an optional field.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $enableOptionalField1
+     */
+    protected $enableOptionalField1 = false;
+    
+    /**
+     * If you need an additional string for each page you can enable an optional field.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $enableOptionalField2
+     */
+    protected $enableOptionalField2 = false;
+    
+    /**
+     * If you need an additional text for each page you can enable an optional field.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $enableOptionalText
+     */
+    protected $enableOptionalText = false;
+    
+    /**
      * The amount of pages shown per page
      *
      * @Assert\Type(type="integer")
@@ -347,6 +374,78 @@ abstract class AbstractAppSettings
     }
     
     /**
+     * Returns the enable optional field 1.
+     *
+     * @return boolean
+     */
+    public function getEnableOptionalField1()
+    {
+        return $this->enableOptionalField1;
+    }
+    
+    /**
+     * Sets the enable optional field 1.
+     *
+     * @param boolean $enableOptionalField1
+     *
+     * @return void
+     */
+    public function setEnableOptionalField1($enableOptionalField1)
+    {
+        if (boolval($this->enableOptionalField1) !== boolval($enableOptionalField1)) {
+            $this->enableOptionalField1 = boolval($enableOptionalField1);
+        }
+    }
+    
+    /**
+     * Returns the enable optional field 2.
+     *
+     * @return boolean
+     */
+    public function getEnableOptionalField2()
+    {
+        return $this->enableOptionalField2;
+    }
+    
+    /**
+     * Sets the enable optional field 2.
+     *
+     * @param boolean $enableOptionalField2
+     *
+     * @return void
+     */
+    public function setEnableOptionalField2($enableOptionalField2)
+    {
+        if (boolval($this->enableOptionalField2) !== boolval($enableOptionalField2)) {
+            $this->enableOptionalField2 = boolval($enableOptionalField2);
+        }
+    }
+    
+    /**
+     * Returns the enable optional text.
+     *
+     * @return boolean
+     */
+    public function getEnableOptionalText()
+    {
+        return $this->enableOptionalText;
+    }
+    
+    /**
+     * Sets the enable optional text.
+     *
+     * @param boolean $enableOptionalText
+     *
+     * @return void
+     */
+    public function setEnableOptionalText($enableOptionalText)
+    {
+        if (boolval($this->enableOptionalText) !== boolval($enableOptionalText)) {
+            $this->enableOptionalText = boolval($enableOptionalText);
+        }
+    }
+    
+    /**
      * Returns the page entries per page.
      *
      * @return integer
@@ -498,6 +597,15 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['inheritPermissions'])) {
             $this->setInheritPermissions($moduleVars['inheritPermissions']);
         }
+        if (isset($moduleVars['enableOptionalField1'])) {
+            $this->setEnableOptionalField1($moduleVars['enableOptionalField1']);
+        }
+        if (isset($moduleVars['enableOptionalField2'])) {
+            $this->setEnableOptionalField2($moduleVars['enableOptionalField2']);
+        }
+        if (isset($moduleVars['enableOptionalText'])) {
+            $this->setEnableOptionalText($moduleVars['enableOptionalText']);
+        }
         if (isset($moduleVars['pageEntriesPerPage'])) {
             $this->setPageEntriesPerPage($moduleVars['pageEntriesPerPage']);
         }
@@ -528,6 +636,9 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());
         $this->variableApi->set('ZikulaContentModule', 'stylingClasses', $this->getStylingClasses());
         $this->variableApi->set('ZikulaContentModule', 'inheritPermissions', $this->getInheritPermissions());
+        $this->variableApi->set('ZikulaContentModule', 'enableOptionalField1', $this->getEnableOptionalField1());
+        $this->variableApi->set('ZikulaContentModule', 'enableOptionalField2', $this->getEnableOptionalField2());
+        $this->variableApi->set('ZikulaContentModule', 'enableOptionalText', $this->getEnableOptionalText());
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
         $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());
