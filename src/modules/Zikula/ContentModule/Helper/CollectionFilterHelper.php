@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use Doctrine\ORM\QueryBuilder;
 use Zikula\ContentModule\Helper\Base\AbstractCollectionFilterHelper;
 
 /**
@@ -18,5 +19,45 @@ use Zikula\ContentModule\Helper\Base\AbstractCollectionFilterHelper;
  */
 class CollectionFilterHelper extends AbstractCollectionFilterHelper
 {
-    // feel free to extend the collection filter helper here
+    /**
+     * @inheritDoc
+     */
+    protected function applyDefaultFiltersForPage(QueryBuilder $qb, array $parameters = [])
+    {
+        $qb = parent::applyDefaultFiltersForPage($qb, $parameters);
+
+        if (null === $this->request) {
+            return $qb;
+        }
+        $routeName = $this->request->get('_route');
+        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin');
+        if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
+            return $qb;
+        }
+
+        $qb->andWhere('tbl.active = 1');
+
+        return $qb;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function applyDefaultFiltersForContentItem(QueryBuilder $qb, array $parameters = [])
+    {
+        $qb = parent::applyDefaultFiltersForContentItem($qb, $parameters);
+
+        if (null === $this->request) {
+            return $qb;
+        }
+        $routeName = $this->request->get('_route');
+        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin');
+        if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
+            return $qb;
+        }
+
+        $qb->andWhere('tbl.active = 1');
+
+        return $qb;
+    }
 }

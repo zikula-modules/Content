@@ -17,6 +17,7 @@ application "Content" {
         Controller/PageController.php,
         Entity/Factory/EntityInitialiser.php,
         Form/Type/PageType.php,
+        Helper/CollectionFilterHelper.php,
         Helper/PermissionHelper.php,
         Menu/ItemActionsMenu.php,
         ZikulaContentModule.php
