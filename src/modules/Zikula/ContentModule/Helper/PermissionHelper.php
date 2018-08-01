@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractPermissionHelper;
 use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
@@ -43,23 +44,6 @@ class PermissionHelper extends AbstractPermissionHelper
         $this->inheritPermissions = $inheritPermissions;
     }
 
-
-    /**
-     * Checks if the content type with the given name may be read.
-     *
-     * @param string  $name
-     * @param integer $userId
-     *
-     * @return boolean
-     */
-    public function mayReadContentType($name, $userId = null)
-    {
-        $component = 'ZikulaContentModule:Plugin:Content';
-        $instance = $name . '::';
-
-        return $this->permissionApi->hasPermission($component, $instance, ACCESS_READ, $userId);
-    }
-
     /**
      * @inheritDoc
      */
@@ -85,5 +69,37 @@ class PermissionHelper extends AbstractPermissionHelper
         }
 
         return false;
+    }
+
+    /**
+     * Checks if the content type with the given name may be read.
+     *
+     * @param PageEntity $entity
+     * @param integer    $userId
+     *
+     * @return boolean
+     */
+    public function mayManagePageContent(PageEntity $entity, $userId = null)
+    {
+        $component = 'ZikulaContentModule:PageContent:';
+        $instance = $entity->getKey() . '::';
+
+        return $this->permissionApi->hasPermission($component, $instance, ACCESS_EDIT, $userId);
+    }
+
+    /**
+     * Checks if the content type with the given name may be read.
+     *
+     * @param string  $name
+     * @param integer $userId
+     *
+     * @return boolean
+     */
+    public function mayReadContentType($name, $userId = null)
+    {
+        $component = 'ZikulaContentModule:Plugin:Content';
+        $instance = $name . '::';
+
+        return $this->permissionApi->hasPermission($component, $instance, ACCESS_READ, $userId);
     }
 }

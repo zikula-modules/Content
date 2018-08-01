@@ -164,11 +164,21 @@ function contentPageTempGetRandomInt(min, max) {
  */
 function contentPageInitSectionActions() {
     jQuery('#widgets h4 .delete-section').unbind('click').click(function (event) {
+        var gridSection;
+        var hasWidgets;
+
         event.preventDefault();
-        if (!confirm(Translator.__('Do you really want to delete this section including all contained items?'))) {
+        gridSection = jQuery(this).parents('.grid-section').first();
+        hasWidgets = gridSection.find('.grid-stack').first().find('.grid-stack-item').length > 0;
+        if (
+            !confirm(
+                hasWidgets
+                    ? Translator.__('Do you really want to delete this section including all contained items?')
+                    : Translator.__('Do you really want to delete this section?')
+            )
+        ) {
             return;
         }
-        var gridSection = jQuery(this).parents('.grid-section').first();
         var grid = gridSection.find('.grid-stack').first().data('gridstack');
         grid.destroy();
         gridSection.remove();

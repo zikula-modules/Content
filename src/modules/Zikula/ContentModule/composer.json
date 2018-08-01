@@ -52,6 +52,7 @@
                 "ZikulaContentModule:ItemListBlock:": "Block title::",
                 "ZikulaContentModule:ItemBlock:": "Block title::",
                 "ZikulaContentModule:Page:": "Page ID::",
+                "ZikulaContentModule:PageContent:": "Page ID::",
                 "ZikulaContentModule:ContentItem:": "ContentItem ID::",
                 "ZikulaContentModule:Page:ContentItem": "Page ID:ContentItem ID:",
                 "ZikulaContentModule:Searchable:": "Searchable ID::",

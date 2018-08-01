@@ -14,7 +14,9 @@ application "Content" {
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,
+        Controller/PageController.php,
         Helper/PermissionHelper.php,
+        Menu/ItemActionsMenu.php,
         ZikulaContentModule.php
     "
     markFiles "
@@ -55,11 +57,13 @@ application "Content" {
                 array "layout" {
                     defaultValue ""
                     mandatory false
+                    visible false
                     arrayType JSON_ARRAY
                 },
                 integer "views" {
                     defaultValue "0"
                     mandatory false
+                    visible false
                 },
                 boolean "active" ajaxTogglability {
                     defaultValue "true"

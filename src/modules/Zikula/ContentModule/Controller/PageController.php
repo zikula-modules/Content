@@ -16,6 +16,7 @@ use Zikula\ContentModule\Controller\Base\AbstractPageController;
 use RuntimeException;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -346,6 +347,68 @@ class PageController extends AbstractPageController
     }
     
     /**
+     * Handles management of content items for a given page.
+     *
+     * @Route("/admin/page/manageContent/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     * @Template("ZikulaContentModule:Page:manageContent.html.twig")
+     *
+     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
+     *
+     * @param Request $request Current request instance
+     * @param PageEntity $page Treated page instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function adminManageContentAction(Request $request, PageEntity $page)
+    {
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->mayManagePageContent($page)) {
+            throw new AccessDeniedException();
+        }
+
+        return [
+            'routeArea' => 'admin',
+            'page' => $page
+        ];
+    }
+
+    /**
+     * Handles management of content items for a given page.
+     *
+     * @Route("/page/manageContent/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     * @Template("ZikulaContentModule:Page:manageContent.html.twig")
+     *
+     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
+     *
+     * @param Request $request Current request instance
+     * @param PageEntity $page Treated page instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function manageContentAction(Request $request, PageEntity $page)
+    {
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->mayManagePageContent($page)) {
+            throw new AccessDeniedException();
+        }
+
+        return [
+            'routeArea' => '',
+            'page' => $page
+        ];
+    }
+    
+    /**
      * @inheritDoc
      *
      * @Route("/admin/page/{slug}.{_format}",
@@ -436,6 +499,4 @@ class PageController extends AbstractPageController
     {
         return parent::handleSelectedEntriesAction($request);
     }
-    
-    // feel free to add your own controller methods here
 }

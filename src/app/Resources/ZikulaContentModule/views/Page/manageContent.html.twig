@@ -1,7 +1,7 @@
 {# purpose of this template: gridstack playground #}
 {% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
-{% block title 'Playground' %}
-{% block admin_page_icon 'list-alt' %}
+{% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Manage content') }}{% endblock %}
+{% block admin_page_icon 'cubes' %}
 {% block content %}
     {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
     {% set widgetDimensions = {width: 4, minWidth: 2, height: 2} %}

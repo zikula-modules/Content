@@ -147,8 +147,9 @@ class ContentItemController extends AbstractContentItemController
         $form = $this->createForm(ContentItemType::class, $contentItem, [
             'action' => $route
         ]);
-        if (null !== $contentType->getEditFormClass() && '' !== $contentType->getEditFormClass() && class_exists($contentType->getEditFormClass())) {
-            $form->add('contentData', $contentType->getEditFormClass(), $contentType->getEditFormOptions());
+        $editFormClass = $contentType->getEditFormClass();
+        if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
+            $form->add('contentData', $editFormClass, $contentType->getEditFormOptions());
         }
 
         $templateParameters = [
