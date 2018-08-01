@@ -188,12 +188,13 @@ function contentPageInitSectionActions() {
 /**
  * Adds another grid section to the current page.
  */
-function contentPageAddSection(sectionId, sectionNumber) {
+function contentPageAddSection(sectionId, sectionNumber, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
     jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="well"><div class="grid-stack"></div></div></div>');
-
-    var newTop = jQuery('#' + sectionId).offset().top - 150;
-    jQuery('html, body').animate({ scrollTop: newTop }, 500);
+    if (true === scrollToSection) {
+        var newTop = jQuery('#' + sectionId).offset().top - 150;
+        jQuery('html, body').animate({ scrollTop: newTop }, 500);
+    }
 }
 
 /**
@@ -509,11 +510,12 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
  * Loads serialised grid and widget data.
  */
 function contentPageLoad() {
+    var sectionNumber;
     contentPageClear();
-    var sectionNumber = 0;
+    sectionNumber = 0;
     _.each(serialisedData, function (section) {
         sectionNumber++;
-        contentPageAddSection(section.id, sectionNumber);
+        contentPageAddSection(section.id, sectionNumber, false);
         contentPageInitSectionActions();
         contentPageUnserialiseWidgets(section.id, section.widgets);
     });
@@ -630,7 +632,7 @@ function unhighlightGrids() {
 jQuery(document).ready(function () {
     jQuery('#addSection').click(function () {
         var sectionNumber = jQuery('#widgets .grid-section').length + 1;
-        contentPageAddSection('section' + sectionNumber, sectionNumber);
+        contentPageAddSection('section' + sectionNumber, sectionNumber, true);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
     });
