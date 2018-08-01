@@ -52,8 +52,8 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('enableRawPlugin', false);
         $this->setVar('stylingClasses', 'greybox|Grey box');
         $this->setVar('inheritPermissions', false);
-        $this->setVar('enableOptionalField1', false);
-        $this->setVar('enableOptionalField2', false);
+        $this->setVar('enableOptionalString1', false);
+        $this->setVar('enableOptionalString2', false);
         $this->setVar('enableOptionalText', false);
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);

@@ -98,18 +98,18 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $enableOptionalField1
+     * @var boolean $enableOptionalString1
      */
-    protected $enableOptionalField1 = false;
+    protected $enableOptionalString1 = false;
     
     /**
      * If you need an additional string for each page you can enable an optional field.
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $enableOptionalField2
+     * @var boolean $enableOptionalString2
      */
-    protected $enableOptionalField2 = false;
+    protected $enableOptionalString2 = false;
     
     /**
      * If you need an additional text for each page you can enable an optional field.
@@ -374,50 +374,50 @@ abstract class AbstractAppSettings
     }
     
     /**
-     * Returns the enable optional field 1.
+     * Returns the enable optional string 1.
      *
      * @return boolean
      */
-    public function getEnableOptionalField1()
+    public function getEnableOptionalString1()
     {
-        return $this->enableOptionalField1;
+        return $this->enableOptionalString1;
     }
     
     /**
-     * Sets the enable optional field 1.
+     * Sets the enable optional string 1.
      *
-     * @param boolean $enableOptionalField1
+     * @param boolean $enableOptionalString1
      *
      * @return void
      */
-    public function setEnableOptionalField1($enableOptionalField1)
+    public function setEnableOptionalString1($enableOptionalString1)
     {
-        if (boolval($this->enableOptionalField1) !== boolval($enableOptionalField1)) {
-            $this->enableOptionalField1 = boolval($enableOptionalField1);
+        if (boolval($this->enableOptionalString1) !== boolval($enableOptionalString1)) {
+            $this->enableOptionalString1 = boolval($enableOptionalString1);
         }
     }
     
     /**
-     * Returns the enable optional field 2.
+     * Returns the enable optional string 2.
      *
      * @return boolean
      */
-    public function getEnableOptionalField2()
+    public function getEnableOptionalString2()
     {
-        return $this->enableOptionalField2;
+        return $this->enableOptionalString2;
     }
     
     /**
-     * Sets the enable optional field 2.
+     * Sets the enable optional string 2.
      *
-     * @param boolean $enableOptionalField2
+     * @param boolean $enableOptionalString2
      *
      * @return void
      */
-    public function setEnableOptionalField2($enableOptionalField2)
+    public function setEnableOptionalString2($enableOptionalString2)
     {
-        if (boolval($this->enableOptionalField2) !== boolval($enableOptionalField2)) {
-            $this->enableOptionalField2 = boolval($enableOptionalField2);
+        if (boolval($this->enableOptionalString2) !== boolval($enableOptionalString2)) {
+            $this->enableOptionalString2 = boolval($enableOptionalString2);
         }
     }
     
@@ -597,11 +597,11 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['inheritPermissions'])) {
             $this->setInheritPermissions($moduleVars['inheritPermissions']);
         }
-        if (isset($moduleVars['enableOptionalField1'])) {
-            $this->setEnableOptionalField1($moduleVars['enableOptionalField1']);
+        if (isset($moduleVars['enableOptionalString1'])) {
+            $this->setEnableOptionalString1($moduleVars['enableOptionalString1']);
         }
-        if (isset($moduleVars['enableOptionalField2'])) {
-            $this->setEnableOptionalField2($moduleVars['enableOptionalField2']);
+        if (isset($moduleVars['enableOptionalString2'])) {
+            $this->setEnableOptionalString2($moduleVars['enableOptionalString2']);
         }
         if (isset($moduleVars['enableOptionalText'])) {
             $this->setEnableOptionalText($moduleVars['enableOptionalText']);
@@ -636,8 +636,8 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());
         $this->variableApi->set('ZikulaContentModule', 'stylingClasses', $this->getStylingClasses());
         $this->variableApi->set('ZikulaContentModule', 'inheritPermissions', $this->getInheritPermissions());
-        $this->variableApi->set('ZikulaContentModule', 'enableOptionalField1', $this->getEnableOptionalField1());
-        $this->variableApi->set('ZikulaContentModule', 'enableOptionalField2', $this->getEnableOptionalField2());
+        $this->variableApi->set('ZikulaContentModule', 'enableOptionalString1', $this->getEnableOptionalString1());
+        $this->variableApi->set('ZikulaContentModule', 'enableOptionalString2', $this->getEnableOptionalString2());
         $this->variableApi->set('ZikulaContentModule', 'enableOptionalText', $this->getEnableOptionalText());
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
