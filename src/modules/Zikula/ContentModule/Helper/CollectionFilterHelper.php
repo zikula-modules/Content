@@ -52,7 +52,7 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
         $routeName = $this->request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin');
-        if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
+        if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('contentItem', ACCESS_ADD)*/) {
             return $qb;
         }
 
