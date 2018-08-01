@@ -357,6 +357,11 @@ function contentPageInitWidgetEditing(widget, isCreation) {
  * Returns the actions for a widget.
  */
 function contentPageGetWidgetActions(widgetId) {
+    var translationState = jQuery('#translationState').data('enabled') == '1' ? '' : ' class="disabled"';
+
+    // TODO
+    translationState = ' class="disabled"';
+
     var actions = `
         <div class="dropdown">
             <a class="dropdown-toggle pull-right" title="${Translator.__('Actions')}" id="dropdownMenu${widgetId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -365,15 +370,15 @@ function contentPageGetWidgetActions(widgetId) {
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu${widgetId}">
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
-                <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-pencil"></i> ${Translator.__('Edit')}</a></li>
-                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-trash-o"></i> ${Translator.__('Delete')}</a></li>
+                <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil"></i> ${Translator.__('Edit')}</a></li>
+                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-o"></i> ${Translator.__('Delete')}</a></li>
+                <li><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
+                <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">${Translator.__('Activity')}</li>
-                <li><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
-                <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
-                <li class="dropdown-header">Dropdown heading</li>
-                <li><a href="#">Something else</a></li>
-                <li class="disabled"><a href="#">Disabled link</a></li>
+                <li class="dropdown-header">${Translator.__('Advanced')}</li>
+                <li class="disabled"><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
+                <li class="disabled"><a class="move-item" title="${Translator.__('Move element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move')}</a></li>
+                <li${translationState}><a class="translate-item" title="${Translator.__('Translate this element')}"><i class="fa fa-fw fa-language"></i> ${Translator.__('Translate')}</a></li>
             </ul>
         </div>
     `;

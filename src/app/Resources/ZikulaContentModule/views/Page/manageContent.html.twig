@@ -7,6 +7,7 @@
     {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
     {% set widgetDimensions = {width: 4, minWidth: 2, height: 2} %}
     <div class="zikulacontentmodule-page zikulacontentmodule-managecontent">
+        <p class="alert alert-info">{{ __('Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.') }}</p>
         <div class="btn-toolbar">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default" id="addSection" title="{{ __('Add another section') }}"><i class="fa fa-plus-circle"></i> {{ __('Add another section') }}</button>
@@ -29,6 +30,7 @@
                 <div id="widgetDimensions" data-width="{{ widgetDimensions.width }}" data-minwidth="{{ widgetDimensions.minWidth }}" data-height="{{ widgetDimensions.height }}" class="hidden"></div>
             </div>
         </div>
+        <div id="translationState" data-enabled="1"></div>{# TODO enabled in Settings module and page language != current language #}
     </div>
     <div id="contentItemEditingModal" class="modal fade">
         <div class="modal-dialog modal-lg">
