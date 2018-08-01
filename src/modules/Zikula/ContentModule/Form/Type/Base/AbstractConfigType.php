@@ -213,6 +213,48 @@ abstract class AbstractConfigType extends AbstractType
             ],
             'required' => false,
         ]);
+        
+        $builder->add('enableOptionalField1', CheckboxType::class, [
+            'label' => $this->__('Enable optional field 1') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('If you need an additional string for each page you can enable an optional field.')
+            ],
+            'help' => $this->__('If you need an additional string for each page you can enable an optional field.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The enable optional field 1 option')
+            ],
+            'required' => false,
+        ]);
+        
+        $builder->add('enableOptionalField2', CheckboxType::class, [
+            'label' => $this->__('Enable optional field 2') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('If you need an additional string for each page you can enable an optional field.')
+            ],
+            'help' => $this->__('If you need an additional string for each page you can enable an optional field.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The enable optional field 2 option')
+            ],
+            'required' => false,
+        ]);
+        
+        $builder->add('enableOptionalText', CheckboxType::class, [
+            'label' => $this->__('Enable optional text') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('If you need an additional text for each page you can enable an optional field.')
+            ],
+            'help' => $this->__('If you need an additional text for each page you can enable an optional field.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The enable optional text option')
+            ],
+            'required' => false,
+        ]);
     }
 
     /**
