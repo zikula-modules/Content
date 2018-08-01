@@ -15,12 +15,15 @@ application "Content" {
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,
         Controller/PageController.php,
+        Entity/Factory/EntityInitialiser.php,
+        Form/Type/PageType.php,
         Helper/PermissionHelper.php,
         Menu/ItemActionsMenu.php,
         ZikulaContentModule.php
     "
     markFiles "
         composer.json,
+        Resources/config/entityFactory.yml,
         Resources/config/helpers.yml,
         Resources/config/services.yml
     "
@@ -249,6 +252,21 @@ application "Content" {
                 },
                 boolean "inheritPermissions" {
                     documentation "Whether to inherit permissions from parent to child pages or not."
+                    defaultValue "false"
+                    mandatory false
+                },
+                boolean "enableOptionalField1" {
+                    documentation "If you need an additional string for each page you can enable an optional field."
+                    defaultValue "false"
+                    mandatory false
+                },
+                boolean "enableOptionalField2" {
+                    documentation "If you need an additional string for each page you can enable an optional field."
+                    defaultValue "false"
+                    mandatory false
+                },
+                boolean "enableOptionalText" {
+                    documentation "If you need an additional text for each page you can enable an optional field."
                     defaultValue "false"
                     mandatory false
                 }

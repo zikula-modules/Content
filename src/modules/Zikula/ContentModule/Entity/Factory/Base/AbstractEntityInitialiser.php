@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\SearchableEntity;
-use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Entity initialiser class used to dynamically apply default values to newly created entities.

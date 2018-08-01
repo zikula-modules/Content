@@ -1,0 +1,170 @@
+{# purpose of this template: build the form to edit an instance of page #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
+{% extends 'ZikulaContentModule::' ~ baseTemplate ~ '.html.twig' %}
+
+{% block title mode == 'create' ? __('Create page') : __('Edit page') %}
+{% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
+{% block content %}
+    {% set isCreate = mode == 'create' %}
+    {% if not isCreate %}
+        {{ zikulacontentmodule_getPagePath(page, false) }}
+    {% endif %}
+    <div class="zikulacontentmodule-page zikulacontentmodule-edit">
+        {% form_theme form with [
+            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+        ] %}
+        {{ form_start(form, {attr: {id: 'pageEditForm', class: 'zikulacontent-edit-form'}}) }}
+        {{ form_errors(form) }}
+        {% if translationsEnabled == true %}
+            <div class="zikula-bootstrap-tab-container">
+                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs">
+                    {% for language in supportedLanguages %}
+                        <li{% if language == app.request.locale %} class="active"{% endif %}>
+                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}">
+                                {% if not form.vars.valid %}
+                                    <span class="label label-danger"><i class="fa fa-warning"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
+                                {% endif %}
+                                {% set hasRequiredFields = language in localesWithMandatoryFields %}
+                                {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|languageName|safeHtml }}{% if hasRequiredFields %}</span>{% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="{{ form.vars.id|lower }}-translation-fields tab-content">
+                    {% for language in supportedLanguages %}
+                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}">
+                            <fieldset>
+                                <legend>{{ language|languageName|safeHtml }}</legend>
+                                {% if language == app.request.locale %}
+                                    {{ form_row(form.title) }}
+                                    {% if not isCreate %}
+                                        {{ form_row(form.metaDescription) }}
+                                        {{ form_row(form.optionalString1) }}
+                                        {{ form_row(form.optionalString2) }}
+                                        {{ form_row(form.optionalText) }}
+                                    {% endif %}
+                                    {{ form_row(form.slug) }}
+                                {% else %}
+                                    {{ form_row(attribute(form, 'translations' ~ language)) }}
+                                {% endif %}
+                            </fieldset>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            {% set language = app.request.locale %}
+            <fieldset>
+                <legend>{{ language|languageName|safeHtml }}</legend>
+                {{ form_row(form.title) }}
+                {% if not isCreate %}
+                    {{ form_row(form.metaDescription) }}
+                    {{ form_row(form.optionalString1) }}
+                    {{ form_row(form.optionalString2) }}
+                    {{ form_row(form.optionalText) }}
+                {% endif %}
+                {{ form_row(form.slug) }}
+            </fieldset>
+        {% endif %}
+        <fieldset>
+            <legend>{{ __('Further properties') }}</legend>
+            {% if mode == 'create' and form.parent is defined %}
+                {{ form_row(form.parent) }}
+            {% endif %}
+            {% if not isCreate %}
+                {{ form_row(form.showTitle, {label: __('Show title on page')}) }}
+                {{ form_row(form.skipUiHookSubscriber, {label: __('Do not display UI hooks on this page')}) }}
+                {{ form_row(form.skipFilterHookSubscriber, {label: __('Do not call filter hooks on this page')}) }}
+                <div class="hidden">
+                    {{ form_row(form.layout) }}
+                </div>
+                <div class="hidden">
+                    {{ form_row(form.views) }}
+                </div>
+                {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.')}) }}
+                {{ form_row(form.activeFrom) }}
+                {{ form_row(form.activeTo) }}
+                {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.')}) }}
+                <div class="hidden">
+                    {{ form_row(form.versionData) }}
+                </div>
+            {% endif %}
+        </fieldset>
+        {% if not isCreate %}
+            {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+                {{ include('@ZikulaContentModule/Helper/includeCategoriesEdit.html.twig', {obj: page}) }}
+            {% endif %}
+        {% endif %}
+        {% if mode != 'create' %}
+            {{ include('@ZikulaContentModule/Helper/includeStandardFieldsEdit.html.twig', {obj: page}) }}
+        {% endif %}
+        
+        {% if formHookTemplates|length > 0 %}
+            <fieldset>
+                {% for hookTemplate in formHookTemplates %}
+                    {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+        
+        {% if not isCreate %}
+        {% if form.moderationSpecificCreator is defined %}
+            <fieldset id="moderationFieldsSection">
+                <legend>{{ __('Moderation') }} <i class="fa fa-expand"></i></legend>
+                <div id="moderationFieldsContent">
+                    {{ form_row(form.moderationSpecificCreator) }}
+                    {{ form_row(form.moderationSpecificCreationDate) }}
+                </div>
+            </fieldset>
+        {% endif %}
+        {% endif %}
+        
+        
+        {# include possible submit actions #}
+        <div class="form-group form-buttons">
+            <div class="col-sm-offset-3 col-sm-9">
+                {% for action in actions %}
+                    {{ form_widget(attribute(form, action.id)) }}
+                    {% if mode == 'create' and action.id == 'submit' and form.submitrepeat is defined %}
+                        {{ form_widget(attribute(form, 'submitrepeat')) }}
+                    {% endif %}
+                {% endfor %}
+                {{ form_widget(form.reset) }}
+                {{ form_widget(form.cancel) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+        {% set hookId = mode != 'create' ? page.id : null %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.form_edit', id=hookId, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
+    {% set formInitScript %}
+        <script>
+        /* <![CDATA[ */
+            
+            ( function($) {
+                $(document).ready(function() {
+                    zikulaContentInitEditForm('{{ mode }}', '{% if mode != 'create' %}{{ page.id }}{% endif %}');
+                    zikulaContentInitDateField('zikulacontentmodule_page_activeFrom');
+                    zikulaContentInitDateField('zikulacontentmodule_page_activeTo');
+                    {% if form.moderationSpecificCreator is defined %}
+                        initUserLiveSearch('zikulacontentmodule_page_moderationSpecificCreator');
+                    {% endif %}
+                });
+            })(jQuery);
+        /* ]]> */
+        </script>
+    {% endset %}
+    {{ pageAddAsset('footer', formInitScript) }}
+{% endblock %}

@@ -11,14 +11,21 @@
 
 namespace Zikula\ContentModule\Twig;
 
+use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
+use Zikula\ContentModule\Entity\PageEntity;
 
 /**
  * Twig extension implementation class.
  */
 class CustomTwigExtension extends Twig_Extension
 {
+    /**
+     * @var RouterInterface
+     */
+    protected $router;
+
     /**
      * @var ContentTypeCollector
      */
@@ -27,9 +34,14 @@ class CustomTwigExtension extends Twig_Extension
     /**
      * CustomTwigExtension constructor.
      *
+     * @param Routerinterface      $router
      * @param ContentTypeCollector $collector
      */
-    public function __construct(ContentTypeCollector $collector) {
+    public function __construct(
+        RouterInterface $router,
+        ContentTypeCollector $collector
+    ) {
+        $this->router = $router;
         $this->collector = $collector;
     }
 
@@ -41,8 +53,47 @@ class CustomTwigExtension extends Twig_Extension
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('zikulacontentmodule_getPagePath', [$this, 'getPagePath'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('zikulacontentmodule_contentTypes', [$this, 'getContentTypes'])
         ];
+    }
+
+    /**
+     * The zikulacontentmodule_getPagePath function returns a breadcrumb style
+     * list of pages.
+     * Examples:
+     *    {{ zikulacontentmodule_getPagePath(myPage) }}
+     *
+     * @param PageEntity|array $page
+     * @param boolean $linkPages
+     *
+     * @return string
+     */
+    public function getPagePath($page, $linkPages = true)
+    {
+        $pages = [];
+
+        $currentPage = $page;
+        $pages[] = $currentPage;
+        while (null !== $currentPage['parent']) {
+            $currentPage = $currentPage['parent'];
+            //if ($currentPage->getLvl() > 0) {
+                array_unshift($pages, $currentPage);
+            //}
+        }
+
+        $output = '<ol class="breadcrumb">';
+        foreach ($pages as $aPage) {
+            $content = $aPage['title'];
+            if (true === $linkPages) {
+                $link = $this->router->generate('zikulacontentmodule_page_display', ['slug' => $aPage['slug']]);
+                $content = '<a href="' . $link . '" title="' . str_replace('"', '', $content) . '">' . $content . '</a>';
+            }
+            $output .= '<li' . ($aPage == $page ? ' class="active"' : '') . '>' . $content . '</li>';
+        }
+        $output .= '</ol>';
+
+        return $output;
     }
 
     /**

@@ -66,7 +66,7 @@ class BreadcrumbType extends AbstractContentType
         ];
     }
 
-/* TODO
+/* TODO compare to CustomTwigExtension#getPagePath!
     function display()
     {
         $path = [];

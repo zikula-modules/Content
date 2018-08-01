@@ -15,3 +15,4 @@ services:
             - "@request_stack"
             - "@zikula_content_module.permission_helper"
             - "@zikula_content_module.listentries_helper"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'stateOfNewPages', '1')"

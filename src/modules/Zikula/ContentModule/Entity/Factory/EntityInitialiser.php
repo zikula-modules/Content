@@ -11,12 +11,67 @@
 
 namespace Zikula\ContentModule\Entity\Factory;
 
+use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\Factory\Base\AbstractEntityInitialiser;
+use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Entity initialiser class used to dynamically apply default values to newly created entities.
  */
 class EntityInitialiser extends AbstractEntityInitialiser
 {
-    // feel free to customise the initialiser
+    /**
+     * @var string State of new pages setting
+     */
+    protected $stateOfNewPages;
+
+    /**
+     * @inheritDoc
+     *
+     * @param string $stateOfNewPages
+     */
+    public function __construct(
+        RequestStack $requestStack,
+        PermissionHelper $permissionHelper,
+        ListEntriesHelper $listEntriesHelper,
+        $stateOfNewPages
+    ) {
+        parent::__construct($requestStack, $permissionHelper, $listEntriesHelper);
+        $this->stateOfNewPages = (int)$stateOfNewPages;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function initPage(PageEntity $entity)
+    {
+        $entity = parent::initPage($entity);
+
+        if ($this->stateOfNewPages < 1 || $this->stateOfNewPages > 4) {
+            $this->stateOfNewPages = 1;
+        }
+
+        switch ($this->stateOfNewPages) {
+            case 1:
+                $entity->setActive(true);
+                $entity->setInMenu(true);
+                break;
+            case 2:
+                $entity->setActive(false);
+                $entity->setInMenu(true);
+                break;
+            case 3:
+                $entity->setActive(true);
+                $entity->setInMenu(false);
+                break;
+            case 4:
+                $entity->setActive(false);
+                $entity->setInMenu(false);
+                break;
+        }
+
+        return $entity;
+    }
 }

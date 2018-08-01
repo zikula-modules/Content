@@ -11,12 +11,73 @@
 
 namespace Zikula\ContentModule\Form\Type;
 
+use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Form\Type\Base\AbstractPageType;
+use Zikula\ContentModule\Form\Type\Field\TranslationType;
+use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
 /**
  * Page editing form type implementation class.
  */
 class PageType extends AbstractPageType
 {
-    // feel free to extend the page editing form type class here
+    /**
+     * @inheritDoc
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        parent::buildForm($builder, $options);
+
+        if ('create' != $options['mode']) {
+            return;
+        }
+
+        // remove detail fields which are only required for editing, but not for creation
+
+        $removeFields = [
+            'metaDescription',
+            'optionalString1',
+            'optionalString2',
+            'optionalText',
+
+            'showTitle',
+            'skipUiHookSubscriber',
+            'skipFilterHookSubscriber',
+            'layout',
+            'views',
+            'active',
+            'activeFrom',
+            'activeTo',
+            'inMenu',
+            'versionData',
+            'categories'
+        ];
+        foreach ($removeFields as $fieldName) {
+            $builder->remove($fieldName);
+        }
+        if ($options['has_moderate_permission'] && !$options['inline_usage']) {
+            $builder->remove('moderationSpecificCreator');
+            $builder->remove('moderationSpecificCreationDate');
+        }
+
+        if ($this->variableApi->getSystemVar('multilingual') && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::TRANSLATIONS, 'page')) {
+            $supportedLanguages = $this->translatableHelper->getSupportedLanguages('page');
+            if (is_array($supportedLanguages) && count($supportedLanguages) > 1) {
+                $currentLanguage = $this->translatableHelper->getCurrentLanguage();
+                //$translatableFields = $this->translatableHelper->getTranslatableFields('page');
+                $translatableFields = ['title', 'slug'];
+                $mandatoryFields = $this->translatableHelper->getMandatoryFields('page');
+                foreach ($supportedLanguages as $language) {
+                    if ($language == $currentLanguage) {
+                        continue;
+                    }
+                    $builder->add('translations' . $language, TranslationType::class, [
+                        'fields' => $translatableFields,
+                        'mandatory_fields' => $mandatoryFields[$language],
+                        'values' => isset($options['translations'][$language]) ? $options['translations'][$language] : []
+                    ]);
+                }
+            }
+        }
+    }
 }
