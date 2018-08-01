@@ -67,8 +67,12 @@
             {{ form_row(form.showTitle) }}
             {{ form_row(form.skipUiHookSubscriber) }}
             {{ form_row(form.skipFilterHookSubscriber) }}
-            {{ form_row(form.layout) }}
-            {{ form_row(form.views) }}
+            <div class="hidden">
+                {{ form_row(form.layout) }}
+            </div>
+            <div class="hidden">
+                {{ form_row(form.views) }}
+            </div>
             {{ form_row(form.active) }}
             {{ form_row(form.activeFrom) }}
             {{ form_row(form.activeTo) }}
