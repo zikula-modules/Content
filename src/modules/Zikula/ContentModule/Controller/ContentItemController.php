@@ -39,12 +39,6 @@ class ContentItemController extends AbstractContentItemController
      *        methods = {"GET"}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function adminIndexAction(Request $request)
     {
@@ -57,12 +51,6 @@ class ContentItemController extends AbstractContentItemController
      * @Route("/contentItems",
      *        methods = {"GET"}
      * )
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function indexAction(Request $request)
     {

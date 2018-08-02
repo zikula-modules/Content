@@ -36,12 +36,6 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function adminIndexAction(Request $request)
     {
@@ -54,12 +48,6 @@ class PageController extends AbstractPageController
      * @Route("/pages",
      *        methods = {"GET"}
      * )
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function indexAction(Request $request)
     {
@@ -75,16 +63,6 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     * @param string $sort         Sorting field
-     * @param string $sortdir      Sorting direction
-     * @param int    $pos          Current pager position
-     * @param int    $num          Amount of entries to display
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function adminViewAction(Request $request, $sort, $sortdir, $pos, $num)
     {
@@ -99,16 +77,6 @@ class PageController extends AbstractPageController
      *        defaults = {"sort" = "", "sortdir" = "asc", "pos" = 1, "num" = 10, "_format" = "html"},
      *        methods = {"GET"}
      * )
-     *
-     * @param Request $request Current request instance
-     * @param string $sort         Sorting field
-     * @param string $sortdir      Sorting direction
-     * @param int    $pos          Current pager position
-     * @param int    $num          Amount of entries to display
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function viewAction(Request $request, $sort, $sortdir, $pos, $num)
     {
@@ -125,14 +93,6 @@ class PageController extends AbstractPageController
      *        options={"expose"=true}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by form handler if page to be edited isn't found
-     * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
      */
     public function adminEditAction(Request $request)
     {
@@ -148,14 +108,6 @@ class PageController extends AbstractPageController
      *        methods = {"GET", "POST"},
      *        options={"expose"=true}
      * )
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by form handler if page to be edited isn't found
-     * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
      */
     public function editAction(Request $request)
     {
@@ -163,163 +115,39 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * Displays a deleted page.
-     *
+     * @inheritDoc
      * @Route("/admin/page/deleted/{id}.{_format}",
      *        requirements = {"id" = "\d+", "_format" = "html"},
      *        defaults = {"_format" = "html"},
      *        methods = {"GET"}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     * @param integer $id      Identifier of entity
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
     public function adminDisplayDeletedAction(Request $request, $id = 0)
     {
-        $page = $this->restoreDeletedEntity($id);
-    
-        $undelete = $request->query->getInt('undelete', 0);
-        if ($undelete == 1) {
-            try {
-                $em = $this->get('doctrine.entitymanager');
-                $metadata = $em->getClassMetaData(get_class($page));
-                $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-                $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-    
-                $versionField = $metadata->versionField;
-                $metadata->setVersioned(false);
-                $metadata->setVersionField(null);
-    
-                $em->persist($page);
-                $em->flush($page);
-    
-                $this->addFlash('status', $this->__('Done! Undeleted page.'));
-    
-                $metadata->setVersioned(true);
-                $metadata->setVersionField($versionField);
-            } catch (\Exception $exception) {
-                $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
-            }
-    
-            $request->query->set('id', $page->getId());
-            $request->query->remove('undelete');
-    
-            return $this->redirectToRoute('zikulacontentmodule_page_admindisplay', $request->query->all());
-        }
-    
-        return parent::adminDisplayAction($request, $page);
+        return parent::adminLisplayDeletedAction($request, $id);
     }
     
     /**
-     * Displays a deleted page.
-     *
+     * @inheritDoc
      * @Route("/page/deleted/{id}.{_format}",
      *        requirements = {"id" = "\d+", "_format" = "html"},
      *        defaults = {"_format" = "html"},
      *        methods = {"GET"}
      * )
-     *
-     * @param Request $request Current request instance
-     * @param integer $id      Identifier of entity
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
     public function displayDeletedAction(Request $request, $id = 0)
     {
-        $page = $this->restoreDeletedEntity($id);
-    
-        $undelete = $request->query->getInt('undelete', 0);
-        if ($undelete == 1) {
-            try {
-                $em = $this->get('doctrine.entitymanager');
-                $metadata = $em->getClassMetaData(get_class($page));
-                $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-                $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-    
-                $versionField = $metadata->versionField;
-                $metadata->setVersioned(false);
-                $metadata->setVersionField(null);
-    
-                $em->persist($page);
-                $em->flush($page);
-    
-                $this->addFlash('status', $this->__('Done! Undeleted page.'));
-    
-                $metadata->setVersioned(true);
-                $metadata->setVersionField($versionField);
-            } catch (\Exception $exception) {
-                $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
-            }
-    
-            $request->query->set('id', $page->getId());
-            $request->query->remove('undelete');
-    
-            return $this->redirectToRoute('zikulacontentmodule_page_display', $request->query->all());
-        }
-    
-        return parent::displayAction($request, $page);
+        return parent::displayDeletedAction($request, $id);
     }
     
     /**
-     * Resets a deleted page back to the last version before it's deletion.
-     *
-     * @return PageEntity The restored entity
-     *
-     * @throws NotFoundHttpException Thrown if page isn't found
-     */
-    protected function restoreDeletedEntity($id = 0)
-    {
-        if (!$id) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
-        }
-    
-        $entityFactory = $this->get('zikula_content_module.entity_factory');
-        $page = $entityFactory->createPage();
-        $page->setId($id);
-        $entityManager = $entityFactory->getObjectManager();
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
-        $logEntries = $logEntriesRepository->getLogEntries($page);
-        $lastVersionBeforeDeletion = null;
-        foreach ($logEntries as $logEntry) {
-            if ($logEntry->getAction() != 'remove') {
-                $lastVersionBeforeDeletion = $logEntry->getVersion();
-                break;
-            }
-        }
-        if (null === $lastVersionBeforeDeletion) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
-        }
-    
-        $logEntriesRepository->revert($page, $lastVersionBeforeDeletion);
-        $page->setCurrentVersion($lastVersionBeforeDeletion + 2);
-    
-        return $page;
-    }
-    
-    /**
-     * This method provides a change history for a given page.
-     *
+     * @inheritDoc
      * @Route("/admin/page/history/{slug}",
      *        requirements = {"slug" = "[^.]+"},
      *        methods = {"GET"}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     * @param integer $slug    Identifier of page
-     *
-     * @return Response Output
-     *
-     * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
      */
     public function adminLoggableHistoryAction(Request $request, $slug = '')
     {
@@ -327,19 +155,11 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * This method provides a change history for a given page.
-     *
+     * @inheritDoc
      * @Route("/page/history/{slug}",
      *        requirements = {"slug" = "[^.]+"},
      *        methods = {"GET"}
      * )
-     *
-     * @param Request $request Current request instance
-     * @param integer $slug    Identifier of page
-     *
-     * @return Response Output
-     *
-     * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
      */
     public function loggableHistoryAction(Request $request, $slug = '')
     {
@@ -419,14 +239,6 @@ class PageController extends AbstractPageController
      * )
      * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by param converter if page to be displayed isn't found
      */
     public function adminDisplayAction(Request $request, PageEntity $page)
     {
@@ -443,14 +255,6 @@ class PageController extends AbstractPageController
      *        options={"expose"=true}
      * )
      * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
-     *
-     * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by param converter if page to be displayed isn't found
      */
     public function displayAction(Request $request, PageEntity $page)
     {
@@ -458,21 +262,11 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * Process status changes for multiple items.
-     *
-     * This function processes the items selected in the admin view page.
-     * Multiple items may have their state changed or be deleted.
-     *
+     * @inheritDoc
      * @Route("/admin/pages/handleSelectedEntries",
      *        methods = {"POST"}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     *
-     * @return RedirectResponse
-     *
-     * @throws RuntimeException Thrown if executing the workflow action fails
      */
     public function adminHandleSelectedEntriesAction(Request $request)
     {
@@ -480,20 +274,10 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * Process status changes for multiple items.
-     *
-     * This function processes the items selected in the admin view page.
-     * Multiple items may have their state changed or be deleted.
-     *
+     * @inheritDoc
      * @Route("/pages/handleSelectedEntries",
      *        methods = {"POST"}
      * )
-     *
-     * @param Request $request Current request instance
-     *
-     * @return RedirectResponse
-     *
-     * @throws RuntimeException Thrown if executing the workflow action fails
      */
     public function handleSelectedEntriesAction(Request $request)
     {

@@ -474,6 +474,122 @@ abstract class AbstractPageController extends AbstractController
     }
     
     /**
+     * Displays a deleted page.
+     *
+     * @param Request $request Current request instance
+     * @param integer $id      Identifier of entity
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be displayed isn't found
+     */
+    public function adminDisplayDeletedAction(Request $request, $id = 0)
+    {
+        return $this->displayDeletedActionInternal($request, $id, true);
+    }
+    
+    /**
+     * Displays a deleted page.
+     *
+     * @param Request $request Current request instance
+     * @param integer $id      Identifier of entity
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be displayed isn't found
+     */
+    public function displayDeletedAction(Request $request, $id = 0)
+    {
+        return $this->displayDeletedActionInternal($request, $id, false);
+    }
+    
+    /**
+     * This method includes the common implementation code for adminDisplayDeletedAction() and displayDeletedAction().
+     *
+     * @param Request $request Current request instance
+     * @param integer $id      Identifier of page
+     * @param boolean $isAdmin Whether the admin area is used or not
+     */
+    protected function displayDeletedActionInternal(Request $request, $id = 0, $isAdmin = false)
+    {
+        $page = $this->restoreDeletedEntity($id);
+        
+        $undelete = $request->query->getInt('undelete', 0);
+        if ($undelete == 1) {
+            try {
+                $em = $this->get('doctrine.entitymanager');
+                $metadata = $em->getClassMetaData(get_class($page));
+                $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+                $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
+        
+                $versionField = $metadata->versionField;
+                $metadata->setVersioned(false);
+                $metadata->setVersionField(null);
+        
+                $em->persist($page);
+                $em->flush($page);
+        
+                $this->addFlash('status', $this->__('Done! Undeleted page.'));
+        
+                $metadata->setVersioned(true);
+                $metadata->setVersionField($versionField);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
+            }
+        
+            $request->query->set('id', $page->getId());
+            $request->query->remove('undelete');
+            $routeArea = $isAdmin ? 'admin' : '';
+        
+            return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $request->query->all());
+        }
+        
+        if ($isAdmin) {
+            return $this->adminDisplayAction($request, $page);
+        }
+        
+        return $this->displayAction($request, $page);
+    }
+    
+    /**
+     * Resets a deleted page back to the last version before it's deletion.
+     *
+     * @return PageEntity The restored entity
+     *
+     * @throws NotFoundHttpException Thrown if page isn't found
+     */
+    protected function restoreDeletedEntity($id = 0)
+    {
+        if (!$id) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+    
+        $entityFactory = $this->get('zikula_content_module.entity_factory');
+        $page = $entityFactory->createPage();
+        $page->setId($id);
+        $entityManager = $entityFactory->getObjectManager();
+        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
+        $logEntries = $logEntriesRepository->getLogEntries($page);
+        $lastVersionBeforeDeletion = null;
+        foreach ($logEntries as $logEntry) {
+            if ($logEntry->getAction() != 'remove') {
+                $lastVersionBeforeDeletion = $logEntry->getVersion();
+                break;
+            }
+        }
+        if (null === $lastVersionBeforeDeletion) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+    
+        $logEntriesRepository->revert($page, $lastVersionBeforeDeletion);
+        $page->setCurrentVersion($lastVersionBeforeDeletion + 2);
+    
+        return $page;
+    }
+    
+    /**
      * This method provides a change history for a given page.
      *
      * @param Request $request Current request instance
