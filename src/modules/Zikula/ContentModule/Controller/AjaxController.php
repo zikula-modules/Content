@@ -26,15 +26,8 @@ class AjaxController extends AbstractAjaxController
 {
     
     /**
-     * Retrieve item list for finder selections in Forms, Content type plugin and Scribite.
-     *
+     * @inheritDoc
      * @Route("/getItemListFinder", methods = {"GET"}, options={"expose"=true})
-     *
-     * @param string $ot      Name of currently used object type
-     * @param string $sort    Sorting field
-     * @param string $sortdir Sorting direction
-     *
-     * @return JsonResponse
      */
     public function getItemListFinderAction(Request $request)
     {
@@ -42,15 +35,8 @@ class AjaxController extends AbstractAjaxController
     }
     
     /**
-     * Checks whether a field value is a duplicate or not.
-     *
+     * @inheritDoc
      * @Route("/checkForDuplicate", methods = {"GET"}, options={"expose"=true})
-     *
-     * @param Request $request Current request instance
-     *
-     * @return JsonResponse
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function checkForDuplicateAction(Request $request)
     {
@@ -58,15 +44,8 @@ class AjaxController extends AbstractAjaxController
     }
     
     /**
-     * Changes a given flag (boolean field) by switching between true and false.
-     *
+     * @inheritDoc
      * @Route("/toggleFlag", methods = {"POST"}, options={"expose"=true})
-     *
-     * @param Request $request Current request instance
-     *
-     * @return JsonResponse
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function toggleFlagAction(Request $request)
     {
@@ -74,15 +53,8 @@ class AjaxController extends AbstractAjaxController
     }
     
     /**
-     * Performs different operations on tree hierarchies.
-     *
+     * @inheritDoc
      * @Route("/handleTreeOperation", methods = {"POST"}, options={"expose"=true})
-     *
-     * @param Request $request Current request instance
-     *
-     * @return JsonResponse
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function handleTreeOperationAction(Request $request)
     {

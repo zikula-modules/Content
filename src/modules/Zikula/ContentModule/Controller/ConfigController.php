@@ -26,18 +26,11 @@ use Zikula\ThemeModule\Engine\Annotation\Theme;
 class ConfigController extends AbstractConfigController
 {
     /**
-     * This method takes care of the application configuration.
-     *
+     * @inheritDoc
      * @Route("/config",
      *        methods = {"GET", "POST"}
      * )
      * @Theme("admin")
-     *
-     * @param Request $request Current request instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function configAction(Request $request)
     {
