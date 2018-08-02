@@ -539,11 +539,9 @@ abstract class AbstractPageController extends AbstractController
                 $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
             }
         
-            $request->query->set('id', $page->getId());
-            $request->query->remove('undelete');
             $routeArea = $isAdmin ? 'admin' : '';
         
-            return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $request->query->all());
+            return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $page->createUrlArgs());
         }
         
         if ($isAdmin) {
