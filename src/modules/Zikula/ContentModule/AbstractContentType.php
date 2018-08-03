@@ -335,9 +335,9 @@ abstract class AbstractContentType implements ContentTypeInterface
 
         $output .= $this->displayStart();
         if (true === $editMode) {
-            $output .= $this->displayView();
-        } else {
             $output .= $this->displayEditing();
+        } else {
+            $output .= $this->displayView();
         }
         $output .= $this->displayEnd();
 

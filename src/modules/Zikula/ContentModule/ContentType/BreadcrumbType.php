@@ -59,44 +59,32 @@ class BreadcrumbType extends AbstractContentType
     {
         return [
             'includeSelf' => true, 
-            'includeHome' => false,
-            'translateTitles' => true, 
-            'useGraphics' => false,
-            'delimiter' => '&raquo;'
+            'includeHome' => false
         ];
     }
 
-/* TODO compare to CustomTwigExtension#getPagePath!
-    function display()
+    public function displayView()
     {
-        $path = [];
-        $pageid = $this->getPageId();
-        while ($pageid > 0) {
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array(
-                        'id' => $pageid,
-                        'includeContent' => false,
-                        'includeLayout' => false,
-                        'translate' => $this->translateTitles));
-            if (!isset($this->includeSelf) || $this->includeSelf || $pageid != $this->getPageId()) {
-                array_unshift($path, $page);
-            }
-            $pageid = $page['parentPageId'];
+        $currentPage = $this->getEntity()->getPage();
+        $this->data['currentPageId'] = $currentPage->getId();
+
+        $pages = [];
+        if (true === $this->data['includeSelf']) {
+            $pages[] = $currentPage;
         }
-        
-        $this->view->assign('thispage', $this->getPageId());
-        $this->view->assign('path', $path);
-        $this->view->assign('useGraphics', $this->useGraphics);
-        $this->view->assign('includeHome', $this->includeHome);
-        $this->view->assign('delimiter', $this->delimiter);
 
-        return $this->view->fetch($this->getTemplate());
+        while (null !== $currentPage['parent']) {
+            $currentPage = $currentPage['parent'];
+            //if ($currentPage->getLvl() > 0) {
+                array_unshift($pages, $currentPage);
+            //}
+        }
+
+        $this->data['pages'] = $pages;
+
+        return parent::displayView();
     }
 
-    function displayEditing()
-    {
-        return '';
-    }
-*/
     /**
      * @inheritDoc
      */

@@ -23,9 +23,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\AuthorType;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\ContentItemType;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
+use Zikula\UsersModule\Entity\UserEntity;
 
 /**
  * Content item controller class providing navigation and interaction functionality.
@@ -330,6 +332,14 @@ class ContentItemController extends AbstractContentItemController
                 }
 
                 $formData = $dataSource->get('zikulacontentmodule_contentitem');
+                // TODO move
+                if ($contentType instanceof AuthorType) {
+                    $contentData = $contentItem->getContentData();
+                    if ($contentData['authorId'] instanceof UserEntity) {
+                        $contentData['authorId'] = $contentData['authorId']->getUid();
+                        $contentItem->setContentData($contentData);
+                    }
+                }
                 if (!isset($formData['stylingClasses'])) {
                     $contentItem->setStylingClasses([]);
                 }

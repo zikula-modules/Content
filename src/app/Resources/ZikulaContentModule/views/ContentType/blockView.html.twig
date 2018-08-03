@@ -1,4 +1,5 @@
-TODO
-<div class="content-block">
-    {$content}
-</div>
+{% if content|default %}
+    <div class="content-block">
+        {{ content|raw }}
+    </div>
+{% endif %}

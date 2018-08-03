@@ -24,6 +24,12 @@ services:
 
     Zikula\ContentModule\ContentType\BlockType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@kernel'
+            - '@router'
+            - '@zikula_blocks_module.block_repository'
+            - '@zikula_blocks_module.api.block'
+            - '@zikula_core.common.theme_engine'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\BlockType:
         parent: zikula_content_module.content_type.form.common

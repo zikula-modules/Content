@@ -11,14 +11,83 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Symfony\Component\Routing\RouterInterface;
+use Zikula\BlocksModule\Api\ApiInterface\BlockApiInterface;
+use Zikula\BlocksModule\Entity\RepositoryInterface\BlockRepositoryInterface;
+use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentType\Form\Type\BlockType as FormType;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
+use Zikula\ThemeModule\Engine\Engine;
 
 /**
  * Block content type.
  */
 class BlockType extends AbstractContentType
 {
+    /**
+     * @var ZikulaHttpKernelInterface
+     */
+    protected $kernel;
+
+    /**
+     * @var RouterInterface
+     */
+    protected $router;
+
+    /**
+     * @var BlockRepositoryInterface
+     */
+    protected $blockRepository;
+
+    /**
+     * @var BlockApiInterface
+     */
+    private $blockApi;
+
+    /**
+     * @var Engine
+     */
+    private $themeEngine;
+
+    /**
+     * BlockType constructor.
+     *
+     * @param TranslatorInterface       $translator       Translator service instance
+     * @param Twig_Environment          $twig             Twig service instance
+     * @param FilesystemLoader          $twigLoader       Twig loader service instance
+     * @param PermissionHelper          $permissionHelper PermissionHelper service instance
+     * @param Asset                     $assetHelper      Asset service instance
+     * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
+     * @param Routerinterface           $router           Router service instance
+     * @param BlockRepositoryInterface  $blockRepository  BlockRepository service instance
+     * @param BlockApiInterface         $blockApi         BlockApi service instance
+     * @param Engine                    $themeEngine      Theme engine service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        ZikulaHttpKernelInterface $kernel,
+        RouterInterface $router,
+        BlockRepositoryInterface $blockRepository,
+        BlockApiInterface $blockApi,
+        Engine $themeEngine
+    ) {
+        $this->kernel = $kernel;
+        $this->router = $router;
+        $this->blockRepository = $blockRepository;
+        $this->blockApi = $blockApi;
+        $this->themeEngine = $themeEngine;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -53,25 +122,118 @@ class BlockType extends AbstractContentType
         ];
     }
 
-/** TODO
-    function display()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        $id = $this->blockid;
-        $blockinfo = BlockUtil::getBlockInfo($id);
+        $this->fetchBlock();
+
+        return parent::displayView();
+    }
+
+/** TODO
+    function displayView()
+    {
+        $blockinfo = BlockUtil::getBlockInfo($this->data['blockId']);
         $modinfo = ModUtil::getInfo($blockinfo['mid']);
         $text = BlockUtil::show($modinfo['name'], $blockinfo['bkey'], $blockinfo);
         $this->view->assign('content', $text);
         return $this->view->fetch($this->getTemplate());
     }
-    function displayEditing()
-    {
-        $id = $this->blockid;
-        $blockinfo = BlockUtil::getBlockInfo($id);
-
-        $output = $blockinfo['title'] . ' (ID=' . $this->blockid . ')';
-        return $output;
-    }
 */
+    /**
+     * @inheritDoc
+     */
+    public function displayEditing()
+    {
+        $output = $this->displayView();
+
+        if ('' == $this->data['content'] && '' != $this->data['noDisplayMessage']) {
+            $output = '<p class="alert alert-info">' . $this->data['noDisplayMessage'] . '</p>';
+        } else {
+            // preview + edit links
+        }
+
+        $block = $this->data['block'];
+        $quickActions = '';
+        $quickActions .= '<a href="javascript:void(0);" title="' . $this->translator->__('Preview block content') . '" onclick="jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); jQuery(this).remove();"><i class="fa fa-2x fa-eye"></i></a>';
+        $quickActions .= ' <a href="' . $this->router->generate('zikulablocksmodule_block_edit', ['blockEntity' => $this->data['blockId']]) . '" title="' . $this->translator->__('Edit this block') . '" target="_blank"><i class="fa fa-2x fa-pencil-square-o"></i></a>';
+        $editOutput = '<h3>' . $block->getTitle() . '</h3>';
+        if ($block->getDescription()) {
+            $editOutput .= '<p><em>' . $block->getDescription() . '</em></p>';
+        }
+        $editOutput .= '<p>' . $quickActions . '</p>';
+        $editOutput .= '<div class="hidden">' . $output . '</div>';
+
+        return $editOutput;
+    }
+
+    /**
+     * Retrieves block information.
+     */
+    protected function fetchBlock()
+    {
+        $this->data['block'] = null;
+        $this->data['content'] = '';
+        $this->data['noDisplayMessage'] = '';
+        if ($this->data['blockId'] < 1) {
+            return;
+        }
+
+        $block = $this->data['block'] = $this->blockRepository->find($this->data['blockId']);
+        if (null === $block) {
+            return;
+        }
+
+        // Check if providing module is available and if block is active.
+        $bundleName = $block->getModule()->getName();
+        $moduleInstance = $this->kernel->getModule($bundleName);
+        if (!isset($moduleInstance)) {
+            $this->data['noDisplayMessage'] = $this->translator->__f('Module %module is not available.', ['%module' => $bundleName]);
+            return;
+        }
+        if (!$block->getActive()) {
+            $this->data['noDisplayMessage'] = $this->translator->__('Block is inactive.');
+            return;
+        }
+
+        // copied from Zikula\BlocksModule\Twig\Extension\BlocksExtension:
+
+        // add theme path to twig loader for theme overrides using namespace notation (e.g. @BundleName/foo)
+        // this duplicates functionality from \Zikula\ThemeModule\EventListener\TemplatePathOverrideListener::setUpThemePathOverrides
+        // but because blockHandlers don't call (and are not considered) a controller, that listener doesn't get called.
+        $theme = $this->themeEngine->getTheme();
+        if ($theme) {
+            $overridePath = $theme->getPath() . '/Resources/' . $bundleName . '/views';
+            if (is_readable($overridePath)) {
+                $paths = $this->twigLoader->getPaths($bundleName);
+                // inject themeOverridePath before the original path in the array
+                array_splice($paths, count($paths) - 1, 0, [$overridePath]);
+                $this->twigLoader->setPaths($paths, $bundleName);
+            }
+        }
+
+        try {
+            $blockInstance = $this->blockApi->createInstanceFromBKey($block->getBkey());
+        } catch (\RuntimeException $e) {
+            return;
+        }
+
+        $positionName = 'contentblock';
+        $blockProperties = $block->getProperties();
+        $blockProperties['bid'] = $block->getBid();
+        $blockProperties['title'] = $block->getTitle();
+        $blockProperties['position'] = $positionName;
+        $content = $blockInstance->display($blockProperties);
+        if (isset($moduleInstance)) {
+            // add module stylesheet to page
+            $moduleInstance->addStylesheet();
+        }
+
+        $this->data['content'] = $this->themeEngine->wrapBlockContentInTheme($content, $block->getTitle(), $block->getBlocktype(), $block->getBid(), $positionName);
+    }
+
     /**
      * @inheritDoc
      */

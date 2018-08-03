@@ -676,7 +676,7 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
         var widgetMarkup = contentPageGetWidgetMarkup(node.id, widgetTitle, widgetPanelClass);
         var widget = jQuery(widgetMarkup);
         var minWidth = 'undefined' != typeof node.minWidth ? node.minWidth : jQuery('#widgetDimensions').data('minwidth');
-        grid.addWidget(widget, node.x, node.y, node.width, node.height, false, node.minWidth);
+        grid.addWidget(widget, node.x, node.y, node.width, /*node.height*/jQuery('#widgetDimensions').data('height'), false, node.minWidth);
         var colOffset = 0;
         if (null !== lastNode && node.y == lastNode.y) {
             colOffset = node.x - (lastNode.x + lastNode.width);
@@ -720,8 +720,8 @@ function contentPageSerialiseWidgets(elements) {
             x: node.x,
             y: node.y,
             width: node.width,
-            minWidth: node.minWidth,
-            height: node.height
+            minWidth: node.minWidth/*,
+            height: node.height*/
         };
     });
 }
