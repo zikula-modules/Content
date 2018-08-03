@@ -54,7 +54,7 @@ class VimeoType extends AbstractType
         $builder
             ->add('url', UrlType::class, [
                 'label' => $this->__('URL to the video clip') . ':',
-                'help' => $this->__('Something like "http://vimeo.com/7504225".')
+                'help' => $this->__('Something like "https://vimeo.com/7504225".')
             ])
             ->add('text', TextareaType::class, [
                 'label' => $this->__('Video description') . ':',

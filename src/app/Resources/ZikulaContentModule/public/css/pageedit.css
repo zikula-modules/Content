@@ -4,6 +4,7 @@
     right: 20px;
     width: 200px;
     height: 200px;
+    z-index: 200;
 }
 .grid-stack {
     min-height: 75px;

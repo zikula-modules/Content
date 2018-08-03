@@ -81,25 +81,22 @@ class VimeoType extends AbstractContentType
         return html_entity_decode(strip_tags($this->data['text']));
     }
 
-/** TODO
-    function displayEditing()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        $output = '<div style="background-color:Lavender; margin:0 auto; padding:10px;">Video-ID : ' . $this->videoId . '</div>';
-        $output .= '<p style="margin: 0 auto">' . DataUtil::formatForDisplay($this->text) . '</p>';
-        return $output;
-    }
-    function isValid(&$data)
-    {
+        $this->data['videoId'] = '';
+        $this->data['details'] = '';
         $r = '/vimeo.com\/([-a-zA-Z0-9_]+)/';
-        if (preg_match($r, $data['url'], $matches)) {
-            $this->videoId = $data['videoId'] = $matches[1];
-            return true;
+        if (preg_match($r, $this->data['url'], $matches)) {
+            $this->data['videoId'] = $matches[1];
+            $this->data['details'] = @unserialize(file_get_contents('https://vimeo.com/api/v2/video/' . $this->data['videoId'] . '.php'));
         }
-       
-        //$message = $this->__('Error! Unrecognized Vimeo URL');
-        return false;
+
+        return parent::displayView();
     }
-*/
+
     /**
      * @inheritDoc
      */
