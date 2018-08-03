@@ -341,6 +341,12 @@ function contentPageInitWidgetEditing(widget, isCreation) {
 
             params = '';
             if ('btnSaveContent' == jQuery(this).attr('id')) {
+                if ('undefined' !== typeof CKEDITOR) {
+                    // update textarea
+                    for (var instanceName in CKEDITOR.instances) {
+                        CKEDITOR.instances[instanceName].updateElement();
+                    }
+                }
                 if (isCreation) {
                     params += 'pageId=' + pageId + '&';
                 }
@@ -368,12 +374,13 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 if ('create' == action) {
                     // update ID
                     widget.attr('id', 'widget' + data.id);
+                    widget.find('.dropdown-menu .dropdown-header .widget-id').text(data.id);
                 } else if ('delete' == action) {
                     contentPageRemoveWidget(widget);
                 }
                 if ('undefined' !== typeof data.message) {
                     jQuery('#widgetUpdateDoneAlert').remove();
-                    zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
                 if ('delete' != action) {
                     suspendAutoSave = false;
@@ -388,7 +395,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                     }
                     formError.html(jqXHR.responseJSON.message);
                 } else {
-                    zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
+                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
                 }    
             });
         });
@@ -406,7 +413,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             // remove newly created widget
             contentPageRemoveWidget(widget);
         }
-        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -434,6 +441,8 @@ function contentPageGetWidgetActions(widgetId) {
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu${widgetId}">
+                <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
+                <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
                 <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil"></i> ${Translator.__('Edit')}</a></li>
                 <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-o"></i> ${Translator.__('Delete')}</a></li>
@@ -465,7 +474,7 @@ function contentPageDeleteWidget(widget) {
         contentPageRemoveWidget(widget);
         if ('undefined' !== typeof data.message) {
             jQuery('#widgetUpdateDoneAlert').remove();
-            zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+            zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
         }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -477,7 +486,7 @@ function contentPageDeleteWidget(widget) {
             errorMessage = errorThrown;
         }
         jQuery('#widgetUpdateErrorAlert').remove();
-        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -517,7 +526,7 @@ function contentPageInitWidgetActions() {
             },
             success: function (data) {
                 jQuery('#widgetUpdateDoneAlert').remove();
-                zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), Translator.__('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
+                zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), Translator.__('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
                 contentPageLoadWidgetData(contentPageGetWidgetId(widget));
             }
         });
@@ -538,7 +547,7 @@ function contentPageInitWidgetActions() {
                 var newWidget = jQuery(widgetMarkup);
 
                 jQuery('#widgetUpdateDoneAlert').remove();
-                zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
 
                 var grid = widget.parents('.grid-stack').first().data('gridstack');
                 grid.addWidget(newWidget, 0, 0, widget.attr('data-gs-width'), widget.attr('data-gs-height'), true, widget.attr('data-gs-min-width'));
@@ -750,11 +759,11 @@ function contentPageSave() {
     })
     .done(function (data) {
         jQuery('#layoutUpdateDoneAlert').remove();
-        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
         jQuery('#layoutUpdateErrorAlert').remove();
-        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
     });
 
     if (jQuery('#debugSavedData').length > 0) {
@@ -846,3 +855,17 @@ jQuery(document).ready(function () {
     suspendAutoSave = false;
     initGridHiglighter();
 });
+
+// repair CKEditor popup focus inside Bootstrap modal
+// https://gist.github.com/james2doyle/65d06029bfd128dd5ecc
+jQuery.fn.modal.Constructor.prototype.enforceFocus = function() {
+    var modal_this = this
+    jQuery(document).on('focusin.modal', function (e) {
+        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+            && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_select')
+            && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_text')
+        ) {
+            modal_this.$element.focus()
+        }
+    })
+};

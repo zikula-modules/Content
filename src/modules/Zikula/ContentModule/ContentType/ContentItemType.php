@@ -11,15 +11,58 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ContentItemType as FormType;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Content item content type.
  */
-class ContentItemType extends AbstractContentType
+class ContentItemType extends AbstractContentType implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
+    /**
+     * @var EntityFactory
+     */
+    private $entityFactory;
+
+    /**
+     * BlockType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param ContainerInterface  $container        Service container
+     * @param EntityFactory       $entityFactory    EntityFactory service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        ContainerInterface $container,
+        EntityFactory $entityFactory
+    ) {
+        $this->setContainer($container);
+        $this->entityFactory = $entityFactory;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
+
     /**
      * @inheritDoc
      */
@@ -62,53 +105,35 @@ class ContentItemType extends AbstractContentType
         ];
     }
 
-/** TODO
-    protected $contentitemid;
-    protected $contentitemtype;
-    protected $contentitemmod;
-    protected $contentitempage;
-    
-    function loadData(&$data)
-    {
-        $this->contentitemid = (int) $data['contentitemid'];
+    /**
+     * @inheritDoc
+     */
+    public function displayView() {
+        if ($this->data['contentItemId'] < 1) {
+            return '';
+        }
 
-        // retieve some additional info on the content item
-        if ($this->contentitemid > 0) {
-            $contentitem = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $this->contentitemid));
-            $this->contentitemtype = $contentitem['type'];
-            $this->contentitemmod = $contentitem['module'];
-            $this->contentitempage = $contentitem['pageId'];
+        $repository = $this->entityFactory->getRepository('contentItem');
+        $contentItem = $repository->selectById($this->data['contentItemId']);
+        if (null === $contentItem) {
+            return '';
         }
-    }
-    function display()
-    {
-        // retrieve the content item and return the output via the plugin display function
-        $contentItem = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $this->contentitemid));
-        
-        if ($contentItem != false) {
-            $output = $contentItem['plugin']->displayStart();
-            $output .= $contentItem['plugin']->display();
-            $output .= $contentItem['plugin']->displayEnd();
-        } else {
-            $output = '';
+
+        $contentTypeClass = $contentItem->getOwningType();
+        if (!class_exists($contentTypeClass) || !$this->container->has($contentTypeClass)) {
+            return '';
         }
-        
-        return $output;
+        if ($contentTypeClass == get_class($this)) {
+            // prevent endless loop
+            return '';
+        }
+
+        $contentType = $this->container->get($contentTypeClass);
+        $contentType->setEntity($contentItem);
+
+        return $contentType->displayView();
     }
-    function displayEditing()
-    {
-        $output = $this->__f('Displays existing Content Item [ID %1$s], Type: %2$s, Module %3$s, Source Page %4$s', array($this->contentitemid, $this->contentitemtype, $this->contentitemmod, $this->contentitempage));
-        return $output;
-    }
-    function getDefaultData()
-    {
-        return array(
-            'contentitemid' => '', 
-            'contentitemtype' => '', 
-            'contentitemmod' => '',
-            'contentitempage' => '');
-    }
-*/
+
     /**
      * @inheritDoc
      */

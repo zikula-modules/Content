@@ -1,3 +1,10 @@
+#notificationContainer {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 200px;
+    height: 200px;
+}
 .grid-stack {
     min-height: 75px;
 }
@@ -18,6 +25,9 @@ h3.panel-title a.pull-right {
 .grid-stack-item.hovered .grid-stack-item-content {
     z-index: 1 !important;
     overflow: visible !important;
+}
+.grid-stack-item.hovered .grid-stack-item-content .panel-body {
+    background-color: #fff;
 }
 .grid-stack-item-content {
     background-color: #fff;

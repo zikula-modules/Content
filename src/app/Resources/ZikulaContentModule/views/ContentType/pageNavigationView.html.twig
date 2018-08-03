@@ -1,14 +1,17 @@
-TODO
-{if $nextpage || $prevpage}
-<table width="100%" border="0">
-    <tr>
-        <td style="background: none repeat scroll 0% 0% transparent ! important;" width="25%">{if $prevpage}
-            <a href="{modurl modname='Content' type='user' func='view' pid=$prevpage.id}" {if $prevpage.onlymembers && !$loggedin}class="members-only"{/if} title="{$prevpage.title|safetext}">{gt text="<- Back"}</a>
-            {/if}</td>
-        <td style="background: none repeat scroll 0% 0% transparent ! important;" align="center"><a href="{modurl modname='Content' type='user' func='view' pid=$page.parentPageId}">{gt text="Overview"}</a></td>
-        <td style="background: none repeat scroll 0% 0% transparent ! important;" width="25%" align="right">{if $nextpage}
-            <a href="{modurl modname='Content' type='user' func='view' pid=$nextpage.id}" {if $nextpage.onlymembers && !$loggedin}class="members-only"{/if} title="{$nextpage.title|safetext}">{gt text="Forward ->"}</a>
-            {/if}</td>
-    </tr>
-</table>
-{/if}
+{% if page.lvl > 0 %}
+    {% set displayRoute = 'zikulacontentmodule_page_display' %}
+    {% set predecessors = zikulacontentmodule_treeSelection('page', node=page, target='predecessors') %}
+    {% set previousPage = predecessors is iterable and predecessors|length > 0 ? predecessors|last : null %}
+    {% set directParent = zikulacontentmodule_treeSelection(objectType='page', node=page, target='directParent') %}
+    {% set successors = zikulacontentmodule_treeSelection(objectType='page', node=page, target='successors') %}
+    {% set nextPage = successors is iterable and successors|length > 0 ? successors|first : null %}
+    <div class="btn-group btn-group-justified" role="group">
+        {% if previousPage|default %}
+            <a href="{{ path(displayRoute, {slug: previousPage.slug}) }}" title="{{ previousPage|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button"><i class="fa fa-fw fa-arrow-left"></i> {{ __('Back') }}</a>
+        {% endif %}
+        <a href="{{ path(displayRoute, {slug: directParent.slug}) }}" title="{{ directParent|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button"><i class="fa fa-fw fa-arrow-up"></i> {{ __('Overview') }}</a>
+        {% if nextPage|default %}
+            <a href="{{ path(displayRoute, {slug: nextPage.slug}) }}" title="{{ nextPage|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button">{{ __('Forward') }} <i class="fa fa-fw fa-arrow-right"></i></a>
+        {% endif %}
+    </div>
+{% endif %}

@@ -132,16 +132,6 @@ class BlockType extends AbstractContentType
         return parent::displayView();
     }
 
-/** TODO
-    function displayView()
-    {
-        $blockinfo = BlockUtil::getBlockInfo($this->data['blockId']);
-        $modinfo = ModUtil::getInfo($blockinfo['mid']);
-        $text = BlockUtil::show($modinfo['name'], $blockinfo['bkey'], $blockinfo);
-        $this->view->assign('content', $text);
-        return $this->view->fetch($this->getTemplate());
-    }
-*/
     /**
      * @inheritDoc
      */
@@ -150,9 +140,7 @@ class BlockType extends AbstractContentType
         $output = $this->displayView();
 
         if ('' == $this->data['content'] && '' != $this->data['noDisplayMessage']) {
-            $output = '<p class="alert alert-info">' . $this->data['noDisplayMessage'] . '</p>';
-        } else {
-            // preview + edit links
+            return '<p class="alert alert-info">' . $this->data['noDisplayMessage'] . '</p>';
         }
 
         $block = $this->data['block'];

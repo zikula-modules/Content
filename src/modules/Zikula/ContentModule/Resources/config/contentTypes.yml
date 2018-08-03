@@ -57,6 +57,9 @@ services:
 
     Zikula\ContentModule\ContentType\ContentItemType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@service_container'
+            - '@zikula_content_module.entity_factory'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ContentItemType:
         parent: zikula_content_module.content_type.form.common
@@ -64,6 +67,9 @@ services:
 
     Zikula\ContentModule\ContentType\ControllerType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@kernel'
+            - '@request_stack'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ControllerType:
         parent: zikula_content_module.content_type.form.common
