@@ -11,15 +11,48 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\VimeoType as FormType;
+use Zikula\ContentModule\Helper\CacheHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Vimeo content type.
  */
 class VimeoType extends AbstractContentType
 {
+    /**
+     * @var CacheHelper
+     */
+    protected $cacheHelper;
+
+    /**
+     * VimeoType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param CacheHelper         $cacheHelper      CacheHelper service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        CacheHelper $cacheHelper
+    ) {
+        $this->cacheHelper = $cacheHelper;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -91,7 +124,10 @@ class VimeoType extends AbstractContentType
         $r = '/vimeo.com\/([-a-zA-Z0-9_]+)/';
         if (preg_match($r, $this->data['url'], $matches)) {
             $this->data['videoId'] = $matches[1];
-            $this->data['details'] = @unserialize(file_get_contents('https://vimeo.com/api/v2/video/' . $this->data['videoId'] . '.php'));
+            $content = $this->cacheHelper->fetch('https://vimeo.com/api/v2/video/' . $this->data['videoId'] . '.php');
+            if (false !== $content) {
+                $this->data['details'] = @unserialize($content);
+            }
         }
 
         return parent::displayView();

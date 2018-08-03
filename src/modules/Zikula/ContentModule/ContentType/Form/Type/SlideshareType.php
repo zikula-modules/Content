@@ -53,11 +53,8 @@ class SlideshareType extends AbstractType
     {
         $builder
             ->add('url', TextType::class, [
-                'label' => $this->__('Slideshare\'s Wordpress code') . ':',
-                'help' => $this->__('Copy Slideshare\'s Wordpress embed code here (including square brackets and all). Click on Embed and Customize to show the wordpress embed code. It should look something like [slideshare id=145849&doc=prototype-jquery-going-from-one-to-the-other-1193346036472971-5]'),
-                'attr' => [
-                    'maxlength' => 200
-                ]
+                'label' => $this->__('URL to the slide') . ':',
+                'help' => $this->__('Something like "https://www.slideshare.net/1Marc/jquery-essentials".')
             ])
             ->add('text', TextareaType::class, [
                 'label' => $this->__('Slide description') . ':',

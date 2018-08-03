@@ -136,6 +136,8 @@ services:
 
     Zikula\ContentModule\ContentType\SlideshareType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@zikula_content_module.cache_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\SlideshareType:
         parent: zikula_content_module.content_type.form.common
@@ -166,6 +168,8 @@ services:
 
     Zikula\ContentModule\ContentType\VimeoType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@zikula_content_module.cache_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\VimeoType:
         parent: zikula_content_module.content_type.form.common
@@ -173,6 +177,8 @@ services:
 
     Zikula\ContentModule\ContentType\YouTubeType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@zikula_content_module.cache_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\YouTubeType:
         parent: zikula_content_module.content_type.form.common

@@ -1,4 +1,9 @@
 services:
+    zikula_content_module.cache_helper:
+        class: Zikula\ContentModule\Helper\CacheHelper
+        arguments:
+            - '@filesystem'
+            - '%kernel.cache_dir%/ZikulaContentModule/'
     zikula_content_module.collector.content_type_collector:
         class: Zikula\ContentModule\Collector\ContentTypeCollector
     zikula_content_module.custom_twig_extension:
