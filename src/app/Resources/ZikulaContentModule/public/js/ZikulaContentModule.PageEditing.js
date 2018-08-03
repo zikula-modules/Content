@@ -20,6 +20,13 @@ jQuery.contentGetSyncCachedScript = function (url, options) {
 };
 
 /**
+ * Returns the content item identifier for a given widget.
+ */
+function contentPageGetWidgetId(widget) {
+    return widget.attr('id').replace('widget', '');
+}
+
+/**
  * Dynamically loads asset files.
  */
 function contentPageLoadDynamicAssets(type, pathes) {
@@ -173,11 +180,16 @@ function contentPageInitSectionActions() {
         if (
             !confirm(
                 hasWidgets
-                    ? Translator.__('Do you really want to delete this section including all contained items?')
+                    ? Translator.__('Do you really want to delete this section including all contained content?')
                     : Translator.__('Do you really want to delete this section?')
             )
         ) {
             return;
+        }
+        if (hasWidgets) {
+            gridSection.find('.grid-stack').first().find('.grid-stack-item').each(function (index) {
+                contentPageDeleteWidget(jQuery(this));
+            });
         }
         var grid = gridSection.find('.grid-stack').first().data('gridstack');
         grid.destroy();
@@ -289,7 +301,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
     if (isCreation) {
         parameters = { pageId: pageId, type: widget.data('typeclass') };
     } else {
-        parameters = { contentItem: widget.attr('id').replace('widget', '') };
+        parameters = { contentItem: contentPageGetWidgetId(widget) };
     }
 
     jQuery.getJSON(
@@ -327,16 +339,19 @@ function contentPageInitWidgetEditing(widget, isCreation) {
 
             event.preventDefault();
 
-            params = 'pageId=' + pageId;
+            params = '';
             if ('btnSaveContent' == jQuery(this).attr('id')) {
-                params += '&action=save&';
+                if (isCreation) {
+                    params += 'pageId=' + pageId + '&';
+                }
+                params += 'action=save&';
                 action = isCreation ? 'create' : 'update';
             } else if ('btnDeleteContent' == jQuery(this).attr('id')) {
-                params += '&action=delete&';
+                params += 'action=delete&';
                 action = 'delete';
             }
 
-            if ('delete' == action && !confirm(Translator.__('Do you really want to delete this item?'))) {
+            if ('delete' == action && !confirm(Translator.__('Do you really want to delete this content?'))) {
                 return;
             }
 
@@ -357,11 +372,14 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                     contentPageRemoveWidget(widget);
                 }
                 if ('undefined' !== typeof data.message) {
+                    jQuery('#widgetUpdateDoneAlert').remove();
                     zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
-                suspendAutoSave = false;
-                contentPageSave();
-                contentPageLoadWidgetData(widget.attr('id').replace('widget', ''));
+                if ('delete' != action) {
+                    suspendAutoSave = false;
+                    contentPageSave();
+                    contentPageLoadWidgetData(contentPageGetWidgetId(widget));
+                }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if ('undefined' !== typeof jqXHR.responseJSON) {
@@ -380,8 +398,6 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             if (isCreation) {
                 // remove newly created widget
                 contentPageRemoveWidget(widget);
-                suspendAutoSave = false;
-                contentPageSave();
             }
         });
     }).fail(function(jqXHR, textStatus) {
@@ -425,14 +441,44 @@ function contentPageGetWidgetActions(widgetId) {
                 <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Advanced')}</li>
-                <li class="disabled"><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
-                <li class="disabled"><a class="move-item" title="${Translator.__('Move element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move')}</a></li>
+                <li><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
+                <li class="disabled"><a class="move-item" title="${Translator.__('Move this element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move')}</a></li>
                 <li${translationState}><a class="translate-item" title="${Translator.__('Translate this element')}"><i class="fa fa-fw fa-language"></i> ${Translator.__('Translate')}</a></li>
             </ul>
         </div>
     `;
 
     return actions;
+}
+
+/**
+ * Deletes a widget.
+ */
+function contentPageDeleteWidget(widget) {
+    jQuery.ajax({
+        type: 'post',
+        url: Routing.generate('zikulacontentmodule_contentitem_edit', {contentItem: contentPageGetWidgetId(widget)}),
+        data: { action: 'delete' },
+        async: false
+    })
+    .done(function (data) {
+        contentPageRemoveWidget(widget);
+        if ('undefined' !== typeof data.message) {
+            jQuery('#widgetUpdateDoneAlert').remove();
+            zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+        }
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        var errorMessage;
+
+        if ('undefined' !== typeof jqXHR.responseJSON) {
+            errorMessage = jqXHR.responseJSON.message;
+        } else {
+            errorMessage = errorThrown;
+        }
+        jQuery('#widgetUpdateErrorAlert').remove();
+        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
+    });
 }
 
 /**
@@ -446,14 +492,69 @@ function contentPageInitWidgetActions() {
         contentPageInitWidgetEditing(widget, false);
     });
     jQuery('.grid-stack .grid-stack-item a.delete-item').unbind('click').click(function (event) {
+        var widget;
+
         event.preventDefault();
-        if (!confirm(Translator.__('Do you really want to delete this item?'))) {
+        if (!confirm(Translator.__('Do you really want to delete this content?'))) {
             return;
         }
 
-        var item = jQuery(this).parents('.grid-stack-item').first();
-        var grid = item.parent().data('gridstack');
-        grid.removeWidget(item);
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        contentPageDeleteWidget(widget);
+    });
+    jQuery('.grid-stack .grid-stack-item a.activate-item, .grid-stack .grid-stack-item a.deactivate-item').unbind('click').click(function (event) {
+        var widget;
+
+        event.preventDefault();
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        jQuery.ajax({
+            method: 'POST',
+            url: Routing.generate('zikulacontentmodule_ajax_toggleflag'),
+            data: {
+                ot: 'contentItem',
+                field: 'active',
+                id: contentPageGetWidgetId(widget)
+            },
+            success: function (data) {
+                jQuery('#widgetUpdateDoneAlert').remove();
+                zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), Translator.__('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
+                contentPageLoadWidgetData(contentPageGetWidgetId(widget));
+            }
+        });
+    });
+    jQuery('.grid-stack .grid-stack-item a.clone-item').unbind('click').click(function (event) {
+        var widget;
+
+        event.preventDefault();
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        jQuery.ajax({
+            method: 'POST',
+            url: Routing.generate('zikulacontentmodule_contentitem_duplicate', {contentItem: contentPageGetWidgetId(widget)}),
+            data: {pageId: pageId},
+            success: function (data) {
+                var widgetTitle = Translator.__('Content item');
+                var widgetPanelClass = 'primary';
+                var widgetMarkup = contentPageGetWidgetMarkup(data.id, widgetTitle, widgetPanelClass);
+                var newWidget = jQuery(widgetMarkup);
+
+                jQuery('#widgetUpdateDoneAlert').remove();
+                zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+
+                var grid = widget.parents('.grid-stack').first().data('gridstack');
+                grid.addWidget(newWidget, 0, 0, widget.attr('data-gs-width'), widget.attr('data-gs-height'), true, widget.attr('data-gs-min-width'));
+
+                contentPageLoadWidgetData(data.id);
+                newWidget.find('.panel-title .dropdown .dropdown-menu .edit-item').click();
+            }
+        });
+    });
+    jQuery('.grid-stack .grid-stack-item a.move-item').unbind('click').click(function (event) {
+        event.preventDefault();
+        alert('TODO');
+    });
+    jQuery('.grid-stack .grid-stack-item a.translate-item').unbind('click').click(function (event) {
+        event.preventDefault();
+        alert('TODO');
     });
     jQuery('.grid-stack-item').hover(
         function() {
@@ -574,6 +675,7 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
         var widgetPanelClass = 'primary';
         var widgetMarkup = contentPageGetWidgetMarkup(node.id, widgetTitle, widgetPanelClass);
         var widget = jQuery(widgetMarkup);
+        var minWidth = 'undefined' != typeof node.minWidth ? node.minWidth : jQuery('#widgetDimensions').data('minwidth');
         grid.addWidget(widget, node.x, node.y, node.width, node.height, false, node.minWidth);
         var colOffset = 0;
         if (null !== lastNode && node.y == lastNode.y) {
@@ -614,7 +716,7 @@ function contentPageSerialiseWidgets(elements) {
         var node = widget.data(nodeDataAttribute);
 
         return {
-            id: widget.attr('id').replace('widget', ''),
+            id: contentPageGetWidgetId(widget),
             x: node.x,
             y: node.y,
             width: node.width,
