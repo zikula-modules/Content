@@ -129,20 +129,6 @@ class UnfilteredType extends AbstractContentType
         ];
     }
 
-/** TODO
-    function displayEditing()
-    {
-        $output = '<div style="background-color: Lavender; padding: 10px">';
-        if ($this->useiframe) {
-            $output .= $this->__f('An <strong>iframe</strong> is included with<br />src = %1$s<br />width = %2$s and height = %3$s', array($this->iframesrc, $this->iframewidth, $this->iframeheight));
-        } else {
-            $output .= $this->__f('The following <strong>unfiltered text</strong> will be included literally<br />%s', DataUtil::formatForDisplay($this->text));
-        }
-        $output .= '</div>';
-
-        return $output;
-    }
-*/
     /**
      * @inheritDoc
      */

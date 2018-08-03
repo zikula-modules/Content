@@ -1,20 +1,18 @@
-TODO
-{if $useiframe}
 <div class="content-paragraph">
-<iframe 
- src="{$iframeSrc}" 
- name="{$iframeName}" 
- title="{$iframeTitle}" 
- style="{$iframeStyle}" 
- width="{$iframeWidth}" 
- height="{$iframeHeight}" 
- frameborder="{$iframeBorder}" 
- scrolling="{$iframeScrolling}">
- {if $iframeAllowTransparancy}allowtransparancy{/if}
-</iframe>
+{% if useiframe %}
+    <iframe
+        src="{{ iframeSrc|e('html_attr') }}"
+        {% if iframeName|default %} name="{{ iframeName|e('html_attr') }}"{% endif %}
+        {% if iframeTitle|default %} title="{{ iframeTitle|e('html_attr') }}"{% endif %}
+        {% if iframeStyle|default %} style="{{ iframeStyle|e('html_attr') }}"{% endif %}
+        {% if iframeWidth|default %} width="{{ iframeWidth|e('html_attr') }}"{% endif %}
+        {% if iframeHeight|default %} height="{{ iframeHeight|e('html_attr') }}"{% endif %}
+        {% if iframeBorder|default %} frameborder="{{ iframeBorder|e('html_attr') }}"{% endif %}
+        {% if iframeScrolling|default %} scrolling="{{ iframeScrolling|e('html_attr') }}"{% endif %}
+        {% if iframeAllowTransparancy %}allowtransparancy{% endif %}
+    >
+    </iframe>
+{% else %}
+    {{ text|raw }}
+{% endif %}
 </div>
-{else}
-<div class="content-paragraph">
-    {$text|raw}
-</div>
-{/if}
