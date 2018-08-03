@@ -89,17 +89,29 @@ h3.panel-title a.pull-right {
 .affix-top, .affix {
     position: static;
 }
-@media (min-width: 979px) {
+@media (min-width: 768px) {
     #palette.affix-top {
         position: static;
-        margin-top: 30px;
     }
-    
     #palette.affix {
         position: fixed;
-        top: 70px;
+        top: 56px;
+        width: 283px;
+    }
+}
+@media (min-width: 992px) {
+    #palette.affix {
+        width: 293px;
+    }
+}
+@media (min-width: 1200px) {
+    #palette.affix {
         width: 262px;
     }
+}
+
+#widgets {
+padding: 0;
 }
 
 #grid-displayer {

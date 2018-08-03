@@ -7,44 +7,34 @@
     {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
     {% set widgetDimensions = {width: 4, minWidth: 2, height: 2} %}
     <div class="zikulacontentmodule-page zikulacontentmodule-managecontent">
-        <p class="alert alert-info">{{ __('Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.') }}</p>
-        <div class="btn-toolbar">
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" id="addSection" title="{{ __('Add another section') }}"><i class="fa fa-plus-circle"></i> {{ __('Add another section') }}</button>
-            </div>
-            <div class="btn-group" role="group">
-                <button type="button" class="btn btn-default" id="savePage"><i class="fa fa-download"></i> Save page</button>
-                <button type="button" class="btn btn-default" id="loadPage" disabled="disabled"><i class="fa fa-upload"></i> Load page</button>
-                <button type="button" class="btn btn-default" id="clearPage" disabled="disabled"><i class="fa fa-trash-o"></i> Clear page</button>
-            </div>
-        </div>
-        <br />
         <div id="editFrame" class="row">
-            <div class="col-sm-4 col-md-3">
+            <div class="col-sm-5 col-md-4 col-lg-3">
                 {{ include('@ZikulaContentModule/Page/palette.html.twig') }}
             </div>
-            <div class="col-sm-8 col-md-9">
+            <div class="col-sm-7 col-md-8 col-lg-9">
+                <p class="alert alert-info">{{ __('Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.') }}</p>
                 <div id="widgets" class="container-fluid"></div>
+                {#
                     <hr />
                     <pre id="debugSavedData" cols="100" rows="10" readonly="readonly"></pre>
+                #}
                 <div id="widgetDimensions" data-width="{{ widgetDimensions.width }}" data-minwidth="{{ widgetDimensions.minWidth }}" data-height="{{ widgetDimensions.height }}" class="hidden"></div>
             </div>
         </div>
         <div id="translationState" data-enabled="1"></div>{# TODO enabled in Settings module and page language != current language #}
     </div>
-    <div id="contentItemEditingModal" class="modal fade">
+    <div id="contentItemEditingModal" class="modal fade" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btnSaveContent" class="btn btn-success" data-dismiss="modal"><i class="fa fa-floppy-o"></i> {{ __('Save') }}</button>
-                    <button type="button" id="btnDeleteContent" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-trash-o"></i> {{ __('Delete') }}</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> {{ __('Cancel') }}</button>
+                    <button type="button" id="btnSaveContent" class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ __('Save') }}</button>
+                    <button type="button" id="btnDeleteContent" class="btn btn-danger"><i class="fa fa-trash-o"></i> {{ __('Delete') }}</button>
+                    <button type="button" id="btnCancelContent" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> {{ __('Cancel') }}</button>
                 </div>
             </div>
         </div>
@@ -63,19 +53,16 @@
     {% set customScript %}
         <script>
         /* <![CDATA[ */
-
-            var pageId = 7;
-            var serialisedData = [
-                { id: 'section1', widgets: [
-                    { id: 12, x: 0, y: 0, width: 3, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\AuthorType', height: {{ widgetDimensions.height }}, panelClass: 'primary', title: '<i class="fa fa-address-card"></i> Author info' },
-                    { id: 34, x: 4, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\HtmlType', height: {{ widgetDimensions.height }}, panelClass: 'warning', title: '<i class="fa fa-code"></i> HTML (only guests)' },
-                    { id: 56, x: 8, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\HeadingType', height: {{ widgetDimensions.height }}, panelClass: 'danger', title: '<i class="fa fa-newspaper-o"></i> News (inactive)' },
-                ]},
-                { id: 'section2', widgets: [
-                    { id: 78, x: 0, y: 0, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\VimeoType', height: {{ widgetDimensions.height }}, panelClass: 'success', title: '<i class="fa fa-vimeo"></i> Vimeo (only users)' },
-                    { id: 90, x: 3, y: 2, width: {{ widgetDimensions.width }}, minWidth: {{ widgetDimensions.minWidth }}, typeClass: 'Zikula\\ContentModule\\ContentType\\YouTubeType', height: {{ widgetDimensions.height }}, panelClass: 'info', title: '<i class="fa fa-youtube"></i> YouTube Video' }
-                ]}
-            ];
+            var pageId = {{ page.id }};
+            {% if page.layout is iterable and page.layout|length > 0 %}
+                var widgetData = {{ page.layout|json_encode|raw }};
+            {% else %}
+                var widgetData = [
+                    {
+                        id: 'section1', widgets: []
+                    }
+                ];
+            {% endif %}
 
             var gridOptions = {
                 acceptWidgets: true,

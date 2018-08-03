@@ -30,5 +30,25 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ContentItemEntity extends BaseEntity
 {
-    // feel free to add your own methods here
+    /**
+     * Checks whether this content item is currently active or not.
+     *
+     * @return boolean
+     */
+    public function isCurrentlyActive()
+    {
+        if (!$this->getActive()) {
+            return false;
+        }
+
+        $now = new \DateTime();
+        if (null !== $this->getActiveFrom() && $this->getActiveFrom() > $now) {
+            return false;
+        }
+        if (null !== $this->getActiveTo() && $this->getActiveTo() < $now) {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -1,9 +1,8 @@
-TODO
-{if !empty($anchorName)}<a id="{$anchorName}" name="{$anchorName}"></a>{/if}
-<{$headingType} id="heading_{$contentId}" class="content-heading">
-    {if $displayPageTitle}
-    {$title|safetext}
-    {else}
-    {$text}
-    {/if}
-</{$headingType}>
+{% if anchorName|default %}<a id="{{ anchorName|e('html_attr') }}" name="{{ anchorName|e('html_attr') }}"></a>{% endif %}
+<{{ headingType }} id="heading_{{ contentId }}" class="content-heading">
+{% if displayPageTitle %}
+    {{ pageGetVar('title', text) }}
+{% else %}
+    {{ text }}
+{% endif %}
+</{{ headingType }}>

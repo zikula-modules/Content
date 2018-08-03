@@ -186,15 +186,7 @@ class PageController extends AbstractPageController
      */
     public function adminManageContentAction(Request $request, PageEntity $page)
     {
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
-        if (!$permissionHelper->mayManagePageContent($page)) {
-            throw new AccessDeniedException();
-        }
-
-        return [
-            'routeArea' => 'admin',
-            'page' => $page
-        ];
+        return $this->manageContentInternal($request, $page, true);
     }
 
     /**
@@ -217,15 +209,99 @@ class PageController extends AbstractPageController
      */
     public function manageContentAction(Request $request, PageEntity $page)
     {
+        return $this->manageContentInternal($request, $page, false);
+    }
+
+    /**
+     * This method includes the common implementation code for adminManageContentAction() and manageContentAction().
+     *
+     * @param Request $request Current request instance
+     * @param PageEntity $page Treated page instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    protected function manageContentInternal(Request $request, PageEntity $page, $isAdmin = false)
+    {
         $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayManagePageContent($page)) {
             throw new AccessDeniedException();
         }
 
+        $routeArea = $isAdmin ? 'admin' : '';
+
+        // detect return url
+        $routePrefix = 'zikulacontentmodule_page_' . $routeArea;
+        $returnUrl = $this->get('router')->generate($routePrefix . 'view');
+        if ($request->headers->has('referer')) {
+            $currentReferer = $request->headers->get('referer');
+            if ($currentReferer != $request->getUri()) {
+                $returnUrl = $currentReferer;
+            }
+        }
+
+        // try to guarantee that only one person at a time can be editing this entity
+        $hasPageLockModule = $this->get('kernel')->isBundle('ZikulaPageLockModule');
+        if (true === $hasPageLockModule) {
+            $lockingApi = $this->get('zikula_pagelock_module.api.locking');
+            $lockName = 'ZikulaContentModulePageContent' . $page->getKey();
+
+            $lockingApi->addLock($lockName, $returnUrl);
+        }
+
         return [
-            'routeArea' => '',
-            'page' => $page
+            'routeArea' => $routeArea,
+            'page' => $page,
+            'returnUrl' => $returnUrl
         ];
+    }
+
+    /**
+     * Saves the layout data for a given page.
+     *
+     * @Route("/page/updateLayout/{id}",
+     *        requirements = {"id" = "\d+"},
+     *        defaults = {"id" = "0"},
+     *        methods = {"POST"},
+     *        options={"expose"=true}
+     * )
+     *
+     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectById", "mapping": {"id": "id"}, "map_method_signature" = true})
+     *
+     * @param Request $request Current request instance
+     * @param PageEntity $page Treated page instance
+     *
+     * @return JsonResponse Output
+     *
+     * @throws NotFoundHttpException Thrown if the page was not found
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function updateLayoutAction(Request $request, PageEntity $page)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->mayManagePageContent($page)) {
+            throw new AccessDeniedException();
+        }
+
+        $layoutData = $request->request->get('layoutData', []);
+        $page->setLayout($layoutData);
+
+        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+        $success = $workflowHelper->executeAction($page, 'update');
+        if (!$success) {
+            return $this->json(['message' => $this->__('Error! An error occured during layout persistence.')], Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->json(['message' => $this->__('Done! Layout saved!')]);
     }
     
     /**

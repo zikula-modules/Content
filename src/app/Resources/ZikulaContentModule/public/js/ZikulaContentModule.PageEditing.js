@@ -182,6 +182,8 @@ function contentPageInitSectionActions() {
         var grid = gridSection.find('.grid-stack').first().data('gridstack');
         grid.destroy();
         gridSection.remove();
+
+        contentPageSave();
     });
 }
 
@@ -239,11 +241,19 @@ function contentPageInitSectionGrid(selector, gridOptions) {
         contentPageApplyDimensionConstraints(widget);
         contentPagePreparePaletteEntryForAddition(widget, newId);
 
-        suspendAutoSave = false;
-        contentPageSave();
-
         contentPageInitWidgetEditing(widget, true);
     });
+}
+
+/**
+ * Handle dynamic toggle of publication interval date fields.
+ */
+function contentPageToggleContentActiveDates() {
+    var hideDates;
+
+    hideDates = !jQuery('#zikulacontentmodule_contentitem_active').prop('checked');
+    jQuery('#zikulacontentmodule_contentitem_activeFrom_date').parents('.form-group').toggleClass('hidden', hideDates);
+    jQuery('#zikulacontentmodule_contentitem_activeTo_date').parents('.form-group').toggleClass('hidden', hideDates);
 }
 
 /**
@@ -273,6 +283,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
     body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
 
     jQuery('#btnDeleteContent').toggleClass('hidden', isCreation);
+    jQuery('#btnCancelContent').removeClass('hidden');
     modal.modal('show');
 
     if (isCreation) {
@@ -284,13 +295,16 @@ function contentPageInitWidgetEditing(widget, isCreation) {
     jQuery.getJSON(
         Routing.generate('zikulacontentmodule_contentitem_edit', parameters)
     ).done(function(data) {
-        var typeClass;
+        var form;
+        var formBody;
+        var formError;
 
-        typeClass = widget.data('typeclass');
         body.html(data.form);
 
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeFrom');
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeTo');
+        jQuery('#zikulacontentmodule_contentitem_active').change(contentPageToggleContentActiveDates);
+        contentPageToggleContentActiveDates();
         body.find('input, select, textarea').change(zikulaContentExecuteCustomValidationConstraints);
         zikulaContentExecuteCustomValidationConstraints();
 
@@ -300,58 +314,92 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             window[data.jsEntryPoint]();
         }
 
-        jQuery('body').on('submit', '#contentItemEditForm', function (event) {
+        form = body.find('#contentItemEditForm');
+        formBody = body.find('#contentItemEditFormBody');
+        formError = body.find('#contentItemEditFormError');
+        form.on('submit', function (event) {
             event.preventDefault();
             return false;
         });
-        jQuery('#btnSaveContent, #btnDeleteContent').click(function (event) {
+        jQuery('#btnSaveContent, #btnDeleteContent').unbind('click').click(function (event) {
             var params;
+            var action;
 
             event.preventDefault();
-            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
 
             params = 'pageId=' + pageId;
             if ('btnSaveContent' == jQuery(this).attr('id')) {
                 params += '&action=save&';
+                action = isCreation ? 'create' : 'update';
             } else if ('btnDeleteContent' == jQuery(this).attr('id')) {
                 params += '&action=delete&';
+                action = 'delete';
             }
 
+            if ('delete' == action && !confirm(Translator.__('Do you really want to delete this item?'))) {
+                return;
+            }
+
+            jQuery('#btnCancelContent').addClass('hidden');
+            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+
             jQuery.ajax({
-                type: jQuery(this).attr('method'),
-                url: jQuery(this).attr('action'),
-                data: action + jQuery(this).serialize()
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: params + form.serialize()
             })
             .done(function (data) {
-                if ('undefined' !== typeof data.message) {
-                    alert(data.message);
-                }
                 modal.modal('hide');
+                if ('create' == action) {
+                    // update ID
+                    widget.attr('id', 'widget' + data.id);
+                } else if ('delete' == action) {
+                    contentPageRemoveWidget(widget);
+                }
+                if ('undefined' !== typeof data.message) {
+                    zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                }
+                suspendAutoSave = false;
+                contentPageSave();
+                contentPageLoadWidgetData(widget.attr('id').replace('widget', ''));
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if ('undefined' !== typeof jqXHR.responseJSON) {
                     if (jqXHR.responseJSON.hasOwnProperty('form')) {
-                        jQuery('#contentItemEditFormBody').html(jqXHR.responseJSON.form);
+                        formBody.html(jqXHR.responseJSON.form);
                     }
-    
-                    jQuery('#contentItemEditFormError').html(jqXHR.responseJSON.message);
-
+                    formError.html(jqXHR.responseJSON.message);
                 } else {
-                    alert(errorThrown);
+                    zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
                 }    
             });
         });
-
-// TODO: owningType, contentData
-//         modal.modal('hide');
+        jQuery('#btnCancelContent').unbind('click').click(function (event) {
+            event.preventDefault();
+            jQuery(this).addClass('hidden');
+            if (isCreation) {
+                // remove newly created widget
+                contentPageRemoveWidget(widget);
+                suspendAutoSave = false;
+                contentPageSave();
+            }
+        });
     }).fail(function(jqXHR, textStatus) {
         modal.modal('hide');
         if (isCreation) {
-            // TODO remove newly created widget
+            // remove newly created widget
+            contentPageRemoveWidget(widget);
         }
-
-        alert(Translator.__('Failed loading the data.'));
+        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
     });
+}
+
+/**
+ * Removes a specific widget.
+ */
+function contentPageRemoveWidget(widget) {
+    var grid = widget.parents('.grid-stack').first().data('gridstack');
+    grid.removeWidget(widget);
 }
 
 /**
@@ -444,16 +492,44 @@ function contentPageGetWidgetMarkup(nodeId, title, panelClass) {
 function contentPageGetWidgetPanelMarkup(nodeId, title) {
     var widgetActions = contentPageGetWidgetActions(nodeId);
     var widgetTitle = '<h3 class="panel-title">' + widgetActions + '<span class="title">' + title + '</span></h3>';
-    var widgetContent = '<p>content here</p><p><small class="width-note" style="background-color: #ffe"></small></p>';
+    var widgetContent = '<p>content here</p>';
+    widgetContent += '<p><small class="width-note" style="background-color: #ffe"></small></p>';
 
     return '<div class="panel-heading">' + widgetTitle + '</div><div class="panel-body">' + widgetContent + '</div>';
+}
+
+/**
+ * Updates a widget with it's data.
+ */
+function contentPageLoadWidgetData(nodeId) {
+    var widget;
+
+    widget = jQuery('#widget' + nodeId);
+
+    widget.find('.panel-title .title').html(Translator.__('Loading...'));
+    widget.find('.panel-body').html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+    jQuery.getJSON(Routing.generate('zikulacontentmodule_contentitem_displayediting', {contentItem: nodeId}), function (data) {
+        var isActive;
+        widget.find('.panel-title .title').html(data.title);
+        widget.find('.panel-body').html(data.content + '<p><small class="width-note" style="background-color: #ffe"></small></p>');
+        widget.find('.panel').removeClass(function (index, className) {
+            return (className.match (/(^|\s)panel-\S+/g) || []).join(' ');
+        }).addClass('panel-' + data.panelClass);
+
+        isActive = data.panelClass != 'danger';
+        widget.find('.panel-title .dropdown .dropdown-menu .activate-item').toggleClass('hidden', isActive);
+        widget.find('.panel-title .dropdown .dropdown-menu .deactivate-item').toggleClass('hidden', !isActive);
+    });
 }
 
 /**
  * Updates grid attributes for all widgets.
  */
 function contentPageUpdateAllGridAttributes() {
-    _.each(serialisedData, function (section) {
+    if (jQuery('#debugSavedData').length < 1) {
+        return;
+    }
+    _.each(widgetData, function (section) {
         var lastNode = null;
         var widgets = GridStackUI.Utils.sort(section.widgets);
         _.each(widgets, function (node) {
@@ -474,6 +550,9 @@ function contentPageUpdateAllGridAttributes() {
  * Determines grid attributes for a widget.
  */
 function contentPageUpdateGridAttributes(widget, colOffset) {
+    if (jQuery('#debugSavedData').length < 1) {
+        return;
+    }
     var node = widget.data(nodeDataAttribute);
     var gridAttributes = 'col-sm-' + node.width;
     if (colOffset > 0) {
@@ -491,9 +570,10 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
     var lastNode = null;
     var widgets = GridStackUI.Utils.sort(widgetList);
     _.each(widgets, function (node) {
-        var widgetMarkup = contentPageGetWidgetMarkup(node.id, node.title, node.panelClass);
+        var widgetTitle = Translator.__('Content item');
+        var widgetPanelClass = 'primary';
+        var widgetMarkup = contentPageGetWidgetMarkup(node.id, widgetTitle, widgetPanelClass);
         var widget = jQuery(widgetMarkup);
-        widget.data('typeclass', node.typeClass);
         grid.addWidget(widget, node.x, node.y, node.width, node.height, false, node.minWidth);
         var colOffset = 0;
         if (null !== lastNode && node.y == lastNode.y) {
@@ -504,6 +584,9 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
         contentPageUpdateGridAttributes(widget, colOffset);
         lastNode = node;
     });
+    _.each(widgets, function (node) {
+        contentPageLoadWidgetData(node.id);
+    });
 }
 
 /**
@@ -513,7 +596,7 @@ function contentPageLoad() {
     var sectionNumber;
     contentPageClear();
     sectionNumber = 0;
-    _.each(serialisedData, function (section) {
+    _.each(widgetData, function (section) {
         sectionNumber++;
         contentPageAddSection(section.id, sectionNumber, false);
         contentPageInitSectionActions();
@@ -536,10 +619,7 @@ function contentPageSerialiseWidgets(elements) {
             y: node.y,
             width: node.width,
             minWidth: node.minWidth,
-            height: node.height,
-            typeClass: widget.data('typeclass'), 
-            panelClass: widget.find('.panel').first().attr('class').replace('grid-stack-item-content panel panel-', '').replace(' ui-draggable-handle', ''),
-            title: widget.find('h3.panel-title span.title').first().html()
+            height: node.height
         };
     });
 }
@@ -551,7 +631,7 @@ function contentPageSave() {
     if (true === suspendAutoSave) {
         return;
     }
-    serialisedData = _.map(jQuery('#widgets .grid-section'), function (section) {
+    widgetData = _.map(jQuery('#widgets .grid-section'), function (section) {
         section = jQuery(section);
         return {
             id: section.attr('id'),
@@ -559,9 +639,25 @@ function contentPageSave() {
         }
     });
 
-    jQuery('#debugSavedData').text(JSON.stringify(serialisedData, null, '    '));
+    jQuery.ajax({
+        type: 'post',
+        url: Routing.generate('zikulacontentmodule_page_updatelayout', {id: pageId}),
+        data: {
+            layoutData: widgetData
+        }
+    })
+    .done(function (data) {
+        jQuery('#layoutUpdateDoneAlert').remove();
+        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        jQuery('#layoutUpdateErrorAlert').remove();
+        zikulaContentSimpleAlert(jQuery('#widgets').first(), Translator.__('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
+    });
 
-    jQuery('#loadPage, #clearPage').prop('disabled', false);
+    if (jQuery('#debugSavedData').length > 0) {
+        jQuery('#debugSavedData').text(JSON.stringify(widgetData, null, '    '));
+    }
 
     contentPageUpdateAllGridAttributes();
     contentPageInitWidgetActions();
@@ -635,14 +731,16 @@ jQuery(document).ready(function () {
         contentPageAddSection('section' + sectionNumber, sectionNumber, true);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
+        contentPageSave();
     });
-
+    jQuery('#exitPage').click(function (event) {
+        event.preventDefault();
+        window.location = jQuery(this).data('url');
+    });
     contentPageInitPalette();
 
-    jQuery('#savePage').click(contentPageSave);
-    jQuery('#loadPage').click(contentPageLoad);
-    jQuery('#clearPage').click(contentPageClear);
-
+    suspendAutoSave = true;
     contentPageLoad();
+    suspendAutoSave = false;
     initGridHiglighter();
 });
