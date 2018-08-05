@@ -29,6 +29,8 @@ h3.panel-title a.pull-right {
 }
 .grid-stack-item.hovered .grid-stack-item-content .panel-body {
     background-color: #fff;
+    border: 1px solid #ccc;
+    border-top-width: 0;
 }
 .grid-stack-item-content {
     background-color: #fff;
