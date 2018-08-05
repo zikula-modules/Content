@@ -30,7 +30,7 @@ class AuthorType extends AbstractContentType
     /**
      * @var CurrentUserApiInterface
      */
-    private $currentUserApi;
+    protected $currentUserApi;
 
     /**
      * @var UserRepositoryInterface
@@ -105,6 +105,16 @@ class AuthorType extends AbstractContentType
         $authorName = null !== $user ? $user->getUname() : $this->__('Unknown author');
 
         return html_entity_decode(strip_tags($authorName));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
+    {
+        $this->data['author'] = $this->userRepository->find($this->data['authorId']);
+
+        return parent::displayView();
     }
 
     /**

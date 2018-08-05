@@ -108,8 +108,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $scope = '1';
     
     /**
-     * @ORM\Column(type="simple_array")
-     * @Assert\NotNull()
+     * @ORM\Column(type="simple_array", nullable=true)
      * @Assert\Type(type="array")
      * @var array $stylingClasses
      */
@@ -411,7 +410,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     public function setStylingClasses($stylingClasses)
     {
         if ($this->stylingClasses !== $stylingClasses) {
-            $this->stylingClasses = isset($stylingClasses) ? $stylingClasses : '';
+            $this->stylingClasses = $stylingClasses;
         }
     }
     

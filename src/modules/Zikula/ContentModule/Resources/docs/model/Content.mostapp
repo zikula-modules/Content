@@ -15,6 +15,7 @@ application "Content" {
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,
         Controller/PageController.php,
+        Entity/ContentItemEntity.php,
         Entity/Factory/EntityInitialiser.php,
         Form/Type/PageType.php,
         Helper/CollectionFilterHelper.php,
@@ -150,7 +151,7 @@ application "Content" {
                         listItem "Only not logged in people" ( "2" )
                     }
                 },
-                array "stylingClasses" {
+                array "stylingClasses" nullable {
                     mandatory false
                     displayType NONE
                     arrayType SIMPLE_ARRAY

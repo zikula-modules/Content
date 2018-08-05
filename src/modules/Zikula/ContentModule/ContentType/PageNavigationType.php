@@ -51,51 +51,13 @@ class PageNavigationType extends AbstractContentType
         return $this->__('Allows to navigate within pages on the same level.');
     }
 
-/** TODO
-    function display()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        $prevpage = null;
-        $nextpage = null;
+        $this->data['page'] = $this->getEntity()->getPage();
 
-        $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId));
-
-        $tables = DBUtil::getTables();
-        $pageTable = $tables['content_page'];
-        $pageColumn = $tables['content_page_column'];
-
-        $options = array('makeTree' => true);
-        $options['orderBy'] = 'position';
-        $options['orderDir'] = 'desc';
-        $options['pageSize'] = 1;
-        $options['filter']['superParentId'] = $page['parentPageId'];
-
-        if ($page['position'] > 0) {
-            $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] < $page[position]";
-
-            $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
-            if (count($pages) > 0) {
-                $prevpage = $pages[0];
-            }
-        }
-
-        if (isset($page['position']) && $page['position'] >= 0) {
-            $options['orderDir'] = 'asc';
-            $options['filter']['where'] = "$pageColumn[level] = $page[level] and $pageColumn[position] > $page[position]";
-            $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
-            if (count($pages) > 0) {
-                $nextpage = $pages[0];
-            }
-        }
-
-        $this->view->assign('loggedin', UserUtil::isLoggedIn());
-        $this->view->assign('page', $page);
-        $this->view->assign('prevpage', $prevpage);
-        $this->view->assign('nextpage', $nextpage);
-        return $this->view->fetch($this->getTemplate());
+        return parent::displayView();
     }
-    function displayEditing()
-    {
-        return "<h3>" . $this->__('Page navigation')."</h3>";
-    }
-*/
 }

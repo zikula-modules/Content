@@ -86,6 +86,7 @@ New features:
 - Beside UI hooks and filter hooks also form aware hooks are supported.
 - Provides plugins for Scribite editors (CKEditor, Quill, Sommernote, TinyMCE).
 - Replaced old page layout types by a new concept for dynamic page layouts.
+- Publication of content types can be restricted using start and/or end dates.
 - Content types are now collected based on Symfony container using service tags.
 - Content types are grouped into different categories.
 - The ModuleFunc content type has been renamed to Controller since it now supports not only modules, but all types of Symfony bundles.

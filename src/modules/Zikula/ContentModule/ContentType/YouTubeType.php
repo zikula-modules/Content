@@ -11,15 +11,48 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\YouTubeType as FormType;
+use Zikula\ContentModule\Helper\CacheHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * YouTube content type.
  */
 class YouTubeType extends AbstractContentType
 {
+    /**
+     * @var CacheHelper
+     */
+    protected $cacheHelper;
+
+    /**
+     * YouTubeType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param CacheHelper         $cacheHelper      CacheHelper service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        CacheHelper $cacheHelper
+    ) {
+        $this->cacheHelper = $cacheHelper;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -83,42 +116,26 @@ class YouTubeType extends AbstractContentType
         return html_entity_decode(strip_tags($this->data['text']));
     }
 
-/** TODO
-    function display()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        if ($this->videoId == $this->url) {
-            // may happen when using translations
-            $r = '/\?v=([-a-zA-Z0-9_]+)(&|$)/';
-            if (preg_match($r, $this->url, $matches)) {
-                $this->videoId = $matches[1];
-            }
-        }
-        $this->view->assign('showRelated', ($this->showRelated ? '1' : '0'));
-        $this->view->assign('autoplay', ($this->autoplay ? '1' : '0'));
-
-        return $this->view->fetch($this->getTemplate());
-    }
-    function displayEditing()
-    {
-        $output = '<div style="background-color:Lavender; margin:0 auto; padding:10px;">' . $this->__f('<strong>Video-ID : %1$s</strong>', array($this->videoId));
-        $output .= '<br />' . ($this->showRelated ? $this->__('Related videos are shown') : $this->__('Related videos not shown'));
-        $output .= $this->autoplay ? '<br />'.$this->__('Video is autoplayed') : '';
-        $output .= '</div>';
-        $output .= '<p style="margin: 0 auto">' . DataUtil::formatForDisplay($this->text) . '</p>';
-        return $output;
-    }
-    function isValid(&$data)
-    {
+        $this->data['videoId'] = '';
         $r = '/\?v=([-a-zA-Z0-9_]+)(&|$)/';
-        if (preg_match($r, $data['url'], $matches)) {
-            $this->videoId = $data['videoId'] = $matches[1];
+        if (preg_match($r, $this->data['url'], $matches)) {
+            $this->data['videoId'] = $matches[1];
+            // TODO fetch additional data if needed
+            // https://developers.google.com/youtube/v3/docs/
+            /*$content = $this->cacheHelper->fetch('someurl' . $this->data['videoId'] . '.php');
+            if (false !== $content) {
+                $this->data['details'] = @json_decode($content, true);
+            }*/
         }
-        if (empty($this->videoId)) {
-            return $this->view->setPluginErrorMsg('url', 'Value of url not valid');
-        }
-        return true;
+
+        return parent::displayView();
     }
-*/
+
     /**
      * @inheritDoc
      */

@@ -1,24 +1,40 @@
-TODO
-{if $displayMode=='inline'}
-<div class="content-video content-youtube embed-responsive embed-responsive-{#16by9#}4by3">
-    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{$videoId}?feature=player_detailpage&amp;rel={$showRelated}&amp;autoplay={$autoplay}" frameborder="0" allowfullscreen></iframe>
-    <p><small>{$text|safetext}&nbsp;|&nbsp;<a href="http://www.youtube.com/v/{$videoId}&amp;rel={$showRelated}&amp;autoplay={$autoplay}">YouTube.com</a></small></p>
+{% if videoId|default %}
+{% set videoUrlParameters = '&rel=' ~ (showRelated ? '1' : '0') ~ '&autoplay=' ~ (autoplay ? '1' : '0') %}
+{% set videoUrl = 'https://www.youtube.com/v/' ~ videoId ~ videoUrlParameters %}
+<div class="content-video content-youtube">
+    {% if displayMode == 'inline' %}
+        <div class="embed-responsive embed-responsive-{#16by9#}4by3">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoId|e('html_attr') }}?feature=player_detailpage{{ videoUrlParameters|e('html_attr') }}" frameborder="0" webkitallowfullScreen mozallowfullscreen allowfullscreen seamless></iframe>
+        </div>
+        <p><small>{% if text|default %}{{ text|nl2br|safeHtml }}&nbsp;|&nbsp;{% endif %}<a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %}>youtube.com</a></small></p>
+    {% else %}
+        <div class="text-center">
+            <p>
+                <a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} data-toggle="modal" data-target="#content{{ contentId }}Modal"><img src="https://img.youtube.com/vi/{{ videoId|e('html_attr') }}/hqdefault.jpg" alt="{% if text|default %}{{ text|striptags|e('html_attr') }}{% else %}{{ __('Video') }}{% endif %}" class="img-responsive" style="margin: 0 auto" /></a>
+            </p>
+            {% if text|default %}<p><small>{{ text|nl2br|safeHtml }}</small></p>{% endif %}
+            <p><a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} class="btn btn-default" data-toggle="modal" data-target="#content{{ contentId }}Modal"><i class="fa fa-play-circle-o fa-3x"></i><br />{{ __('Play video') }}</a></p>
+        </div>
+        <div class="modal fade" id="content{{ contentId }}Modal" tabindex="-1" role="dialog"{% if text|default %} aria-labelledby="content{{ contentId }}ModalLabel"{% endif %} data-backdrop="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}"><span aria-hidden="true">&times;</span></button>
+                        {% if text|default %}
+                            <h4 class="modal-title" id="content{{ contentId }}ModalLabel">{{ text|striptags }}</h4>
+                        {% endif %}
+                    </div>
+                    <div class="modal-body">
+                        <div class="embed-responsive embed-responsive-{#16by9#}4by3">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ videoId|e('html_attr') }}" frameborder="0" webkitallowfullScreen mozallowfullscreen allowfullscreen seamless></iframe>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 </div>
-{else}
-{pageaddvar name="javascript" value="prototype"}
-{pageaddvar name="javascript" value="modules/Content/lib/vendor/lightwindow/javascript/lightwindow.js"}
-{pageaddvar name="stylesheet" value="modules/Content/lib/vendor/lightwindow/css/lightwindow.css"}
-
-{* Not allowed in allow_url_fopen=0 case so disabled
-{assign var="image" value="http://img.youtube.com/vi/$videoId/default.jpg"}
-{assign var="imageSize" value=$image|getimagesize}
-*}
-
-<dl class="content-video content-youtube">
-    <dt>
-        <a title="{$text|safetext}" href="http://www.youtube.com/v/{$videoId}&amp;rel={$showRelated}&amp;autoplay={$autoplay}" class="lightwindow page-options" params="lightwindow_loading_animation=false"><img src="https://img.youtube.com/vi/{$videoId}/default.jpg" alt="{$text|safetext}" /></a>
-    </dt>
-    <dd>{$text|safetext}</dd>
-    <dd><a title="{$text|safetext}" href="http://www.youtube.com/v/{$videoId}&amp;rel={$showRelated}&amp;autoplay={$autoplay}" class="play-icon lightwindow page-options" params="lightwindow_loading_animation=false">{gt text="Play Video"}</a></dd>
-</dl>
-{/if}
+{% endif %}

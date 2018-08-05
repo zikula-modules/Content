@@ -11,15 +11,48 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\SlideshareType as FormType;
+use Zikula\ContentModule\Helper\CacheHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Slideshare content type.
  */
 class SlideshareType extends AbstractContentType
 {
+    /**
+     * @var CacheHelper
+     */
+    protected $cacheHelper;
+
+    /**
+     * SlideshareType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param CacheHelper         $cacheHelper      CacheHelper service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        CacheHelper $cacheHelper
+    ) {
+        $this->cacheHelper = $cacheHelper;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -60,45 +93,44 @@ class SlideshareType extends AbstractContentType
         return [
             'url' => '',
             'text' => '',
-            'slideId' => '',
             'width' => 599,
             'height' => 487
         ];
     }
 
-/** TODO
-    function display()
+    /**
+     * @inheritDoc
+     */
+    public function getSearchableText()
     {
-        $this->view->assign('url', $this->url)
-                   ->assign('text', $this->text)
-                   ->assign('slideId', $this->slideId)
-                   ->assign('width', $this->width)
-                   ->assign('height', $this->height);
-
-        $urlParts = explode(' ', $this->url);
-        $urlParts = explode('&', $urlParts[1]);
-        $urlParts = explode('=', $urlParts[0]);
-        $this->view->assign('id', $urlParts[1]);
-
-        return $this->view->fetch($this->getTemplate());
+        return html_entity_decode(strip_tags($this->data['text']));
     }
-    function displayEditing()
+
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        $output = '<div style="background-color:#ddd; width:320px; height:200px; margin:0 auto; padding:15px;">' . $this->__f('Slideshare: %s', $this->slideId) . '</div>';
-        $output .= '<p style="width:320px; margin:0 auto;">' . DataUtil::formatForDisplay($this->text) . '</p>';
-        return $output;
-    }
-    function isValid(&$data)
-    {
-        // [slideshare id=3318451&doc=rainfallreport-100302124103-phpapp02]
-        $r = '/^[slideshare id=[0-9]+\&doc=([^&]+?)\]/';
-        if (preg_match($r, $data['url'], $matches)) {
-            $this->slideId = $data['slideId'] = $matches[1];
-            return true;
+        $this->data['slideUrl'] = '';
+        $this->data['details'] = '';
+
+        if ('' != $this->data['url']) {
+            $content = $this->cacheHelper->fetch('https://www.slideshare.net/api/oembed/2?url=' . $this->data['url'] . '&format=json');
+            if (false !== $content) {
+                $this->data['details'] = @json_decode($content, true);
+                // see https://www.beliefmedia.com.au/slideshare-wordpress
+                /* Since building new embed code (due scaling), we'll snatch embed URL */
+                $html = $this->data['details']['html'];
+                $regex = '$\b(https?)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]$i';
+                preg_match_all($regex, $html, $result);
+                $fullUrl = $result['0']['0'];
+                $this->data['slideUrl'] = $fullUrl;
+            }
         }
-        return false;
+
+        return parent::displayView();
     }
-*/
+
     /**
      * @inheritDoc
      */

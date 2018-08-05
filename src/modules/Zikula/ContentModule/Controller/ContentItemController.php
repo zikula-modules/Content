@@ -23,9 +23,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\ContentModule\ContentType\AuthorType;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\ContentItemType;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
+use Zikula\UsersModule\Entity\UserEntity;
 
 /**
  * Content item controller class providing navigation and interaction functionality.
@@ -58,11 +60,171 @@ class ContentItemController extends AbstractContentItemController
     }
     
     /**
+     * This action displays a content item in editing mode.
+     *
+     * @Route("/item/displayEditing/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
+     *
+     * @param Request $request Current request instance
+     * @param ContentItemEntity $contentItem
+     *
+     * @return JsonResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if item isn't found
+     * @throws RuntimeException      Thrown if item type isn't found
+     */
+    public function displayEditingAction(Request $request, ContentItemEntity $contentItem = null)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+
+        if (null === $contentItem) {
+            throw new NotFoundHttpException($this->__('No such content found.'));
+        }
+
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->mayEdit($contentItem)) {
+            throw new AccessDeniedException();
+        }
+
+        $contentTypeClass = $contentItem->getOwningType();
+        $container = $this->get('service_container');
+        if (!class_exists($contentTypeClass) || !$container->has($contentTypeClass)) {
+            throw new RuntimeException($this->__('Invalid content type received.'));
+        }
+
+        $contentType = $container->get($contentTypeClass);
+        $contentType->setEntity($contentItem);
+
+        return $this->json([
+            'title' => $this->getWidgetTitle($contentItem, $contentType),
+            'content' => $contentType->display(true),
+            'panelClass' => $this->getWidgetPanelClass($contentItem)
+        ]);
+    }
+
+    /**
+     * The zikulacontentmodule_widgetTitle filter displays the title for the widget
+     * of a given content item entity.
+     * Example:
+     *     {{ contentItem|zikulacontentmodule_widgetTitle }}
+     *
+     * @param ContentItemEntity $item
+     * @param ContentTypeInterface $contentType
+     *
+     * @return string Widget title
+     */
+    protected function getWidgetTitle(ContentItemEntity $item, ContentTypeInterface $contentType)
+    {
+        $icon = '<i class="fa fa-' . $contentType->getIcon() . '"></i>';
+        $title = $contentType->getTitle();
+
+        $translator = $this->get('translator.default');
+        if (!$item->isCurrentlyActive()) {
+            $title .= ' (' . $translator->__('inactive') . ')';
+        } elseif ('1' != $item->getScope()) {
+            $scope = $item->getScope();
+            if ('0' == $scope) {
+                $title .= ' (' . $translator->__('only users') . ')';
+            } elseif ('2' == $scope) {
+                $title .= ' (' . $translator->__('only guests') . ')';
+            }
+        } elseif (count($item->getStylingClasses()) > 0) {
+            $title .= ' (' . $translator->__('has styles') . ')';
+        }
+
+        return $icon . ' ' . $title;
+    }
+
+    /**
+     * The zikulacontentmodule_widgetPanelClass filter displays the name
+     * of a bootstrap panel class for a given content item entity.
+     * Example:
+     *     {{ contentItem|zikulacontentmodule_widgetPanelClass }}
+     *
+     * @param ContentItemEntity $item
+     *
+     * @return string Widget panel class name
+     */
+    protected function getWidgetPanelClass(ContentItemEntity $item)
+    {
+        $result = 'primary';
+
+        if (!$item->isCurrentlyActive()) {
+            $result = 'danger';
+        } elseif ('1' != $item->getScope()) {
+            $scope = $item->getScope();
+            if ('0' == $scope) {
+                $result = 'success';
+            } elseif ('2' == $scope) {
+                $result = 'warning';
+            }
+        } elseif (count($item->getStylingClasses()) > 0) {
+            $result = 'info';
+        }
+
+        return $result;
+    }
+
+    /**
+     * This action duplicates a given content items.
+     *
+     * @Route("/item/duplicate/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
+     *
+     * @param Request $request Current request instance
+     * @param ContentItemEntity $contentItem
+     *
+     * @return JsonResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page or content item isn't found
+     */
+    public function duplicateAction(Request $request, ContentItemEntity $contentItem = null)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+
+        if (null === $contentItem) {
+            throw new NotFoundHttpException($this->__('No such content found.'));
+        }
+
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->mayEdit($contentItem)) {
+            throw new AccessDeniedException();
+        }
+
+        $pageId = $request->request->getInt('pageId', 0);
+        if ($pageId < 1) {
+            throw new RuntimeException($this->__('Invalid input received.'));
+        }
+
+        $factory = $this->get('zikula_content_module.entity_factory');
+        $page = $factory->getRepository('page')->selectById($pageId);
+        if (null === $page) {
+            throw new NotFoundHttpException();
+        }
+
+        $newItem = clone $contentItem;
+        $page->addContentItems($newItem);
+
+        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+        $success = $workflowHelper->executeAction($newItem, 'submit');
+        if (!$success) {
+            return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+        }
+
+        return $this->json(['id' => $newItem->getId(), 'message' => $this->__('Done! Content saved!')]);
+    }
+
+    /**
      * This action provides a handling of edit requests for content items.
      *
      * @Route("/item/edit/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
+     * @param ContentItemEntity $contentItem
      *
      * @return JsonResponse
      *
@@ -77,7 +239,7 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $contentTypeClass = null;
-        $isCreate = false;
+        $isCreation = false;
 
         $isPost = $request->isMethod('POST');
         $dataSource = $isPost ? $request->request : $request->query;
@@ -85,12 +247,12 @@ class ContentItemController extends AbstractContentItemController
         // permission check
         $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (null === $contentItem) {
-            $isCreate = true;
+            $isCreation = true;
             if (!$permissionHelper->hasComponentPermission('page', ACCESS_ADD)) {
                 throw new AccessDeniedException();
             }
             $pageId = $dataSource->getInt('pageId', 0);
-            $contentTypeClass = $dataSource->get('type', '');
+            $contentTypeClass = $request->query->get('type', '');
             if ($pageId < 1 || empty($contentTypeClass) || !class_exists($contentTypeClass)) {
                 throw new RuntimeException($this->__('Invalid input received.'));
             }
@@ -116,12 +278,12 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $contentType = $container->get($contentTypeClass);
-        if (true === $isCreate) {
+        if (true === $isCreation) {
             $contentItem->setContentData($contentType->getDefaultData());
         }
 
         $routeArgs = [];
-        if ($isCreate) {
+        if ($isCreation) {
             $routeArgs = [
                 'type' => $contentTypeClass
             ];
@@ -141,7 +303,7 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $templateParameters = [
-            'mode' => (true === $isCreate ? 'create' : 'edit'),
+            'mode' => (true === $isCreation ? 'create' : 'edit'),
             'contentItem' => $contentItem,
             'form' => $form->createView(),
             'contentType' => $contentType,
@@ -155,26 +317,41 @@ class ContentItemController extends AbstractContentItemController
             $templateParameters['formHookTemplates'] = $formHook->getTemplates();
         }
 
-        if ($isPost && $form->handleRequest($request)->isValid()) {
+        if ($isPost) {
             $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-            $action = $this->request->request->get('action', '');
+            $action = $request->request->get('action', '');
             if (!in_array($action, ['save', 'delete'])) {
                 throw new RuntimeException($this->__('Invalid action received.'));
             }
 
+            $form->handleRequest($request);
+            //if ($form->isValid()) // TODO investigate
             if ('save' == $action) {
-                $page->addContentItems($contentItem);
-
-                // TODO: owningType, contentData
-                $action = $isCreate ? 'submit' : 'update';
-
-                // execute the workflow action
-                $success = $workflowHelper->executeAction($contentItem, $action);
-                if (!$success) {
-                    return $this->json(['message' => $this->__('Error! An error occured during content submission.')], Response::HTTP_BAD_REQUEST);
+                if (true === $isCreation) {
+                    $page->addContentItems($contentItem);
                 }
 
-                return $this->json(['message' => $this->__('Done! Content saved!')]);
+                $formData = $dataSource->get('zikulacontentmodule_contentitem');
+                // TODO move
+                if ($contentType instanceof AuthorType) {
+                    $contentData = $contentItem->getContentData();
+                    if ($contentData['authorId'] instanceof UserEntity) {
+                        $contentData['authorId'] = $contentData['authorId']->getUid();
+                        $contentItem->setContentData($contentData);
+                    }
+                }
+                if (!isset($formData['stylingClasses'])) {
+                    $contentItem->setStylingClasses([]);
+                }
+                $workflowAction = $isCreation ? 'submit' : 'update';
+
+                // execute the workflow action
+                $success = $workflowHelper->executeAction($contentItem, $workflowAction);
+                if (!$success) {
+                    return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+                }
+
+                return $this->json(['id' => $contentItem->getId(), 'message' => $this->__('Done! Content saved!')]);
             }
             if ('delete' == $action) {
                 // determine available workflow actions

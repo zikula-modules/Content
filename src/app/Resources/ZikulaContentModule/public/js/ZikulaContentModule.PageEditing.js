@@ -20,6 +20,13 @@ jQuery.contentGetSyncCachedScript = function (url, options) {
 };
 
 /**
+ * Returns the content item identifier for a given widget.
+ */
+function contentPageGetWidgetId(widget) {
+    return widget.attr('id').replace('widget', '');
+}
+
+/**
  * Dynamically loads asset files.
  */
 function contentPageLoadDynamicAssets(type, pathes) {
@@ -173,15 +180,22 @@ function contentPageInitSectionActions() {
         if (
             !confirm(
                 hasWidgets
-                    ? Translator.__('Do you really want to delete this section including all contained items?')
+                    ? Translator.__('Do you really want to delete this section including all contained content?')
                     : Translator.__('Do you really want to delete this section?')
             )
         ) {
             return;
         }
+        if (hasWidgets) {
+            gridSection.find('.grid-stack').first().find('.grid-stack-item').each(function (index) {
+                contentPageDeleteWidget(jQuery(this));
+            });
+        }
         var grid = gridSection.find('.grid-stack').first().data('gridstack');
         grid.destroy();
         gridSection.remove();
+
+        contentPageSave();
     });
 }
 
@@ -239,11 +253,19 @@ function contentPageInitSectionGrid(selector, gridOptions) {
         contentPageApplyDimensionConstraints(widget);
         contentPagePreparePaletteEntryForAddition(widget, newId);
 
-        suspendAutoSave = false;
-        contentPageSave();
-
         contentPageInitWidgetEditing(widget, true);
     });
+}
+
+/**
+ * Handle dynamic toggle of publication interval date fields.
+ */
+function contentPageToggleContentActiveDates() {
+    var hideDates;
+
+    hideDates = !jQuery('#zikulacontentmodule_contentitem_active').prop('checked');
+    jQuery('#zikulacontentmodule_contentitem_activeFrom_date').parents('.form-group').toggleClass('hidden', hideDates);
+    jQuery('#zikulacontentmodule_contentitem_activeTo_date').parents('.form-group').toggleClass('hidden', hideDates);
 }
 
 /**
@@ -273,24 +295,28 @@ function contentPageInitWidgetEditing(widget, isCreation) {
     body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
 
     jQuery('#btnDeleteContent').toggleClass('hidden', isCreation);
+    jQuery('#btnCancelContent').removeClass('hidden');
     modal.modal('show');
 
     if (isCreation) {
         parameters = { pageId: pageId, type: widget.data('typeclass') };
     } else {
-        parameters = { contentItem: widget.attr('id').replace('widget', '') };
+        parameters = { contentItem: contentPageGetWidgetId(widget) };
     }
 
     jQuery.getJSON(
         Routing.generate('zikulacontentmodule_contentitem_edit', parameters)
     ).done(function(data) {
-        var typeClass;
+        var form;
+        var formBody;
+        var formError;
 
-        typeClass = widget.data('typeclass');
         body.html(data.form);
 
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeFrom');
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeTo');
+        jQuery('#zikulacontentmodule_contentitem_active').change(contentPageToggleContentActiveDates);
+        contentPageToggleContentActiveDates();
         body.find('input, select, textarea').change(zikulaContentExecuteCustomValidationConstraints);
         zikulaContentExecuteCustomValidationConstraints();
 
@@ -300,58 +326,103 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             window[data.jsEntryPoint]();
         }
 
-        jQuery('body').on('submit', '#contentItemEditForm', function (event) {
+        form = body.find('#contentItemEditForm');
+        formBody = body.find('#contentItemEditFormBody');
+        formError = body.find('#contentItemEditFormError');
+        form.on('submit', function (event) {
             event.preventDefault();
             return false;
         });
-        jQuery('#btnSaveContent, #btnDeleteContent').click(function (event) {
+        jQuery('#btnSaveContent, #btnDeleteContent').unbind('click').click(function (event) {
             var params;
+            var action;
 
             event.preventDefault();
-            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
 
-            params = 'pageId=' + pageId;
+            params = '';
             if ('btnSaveContent' == jQuery(this).attr('id')) {
-                params += '&action=save&';
+                if ('undefined' !== typeof CKEDITOR) {
+                    // update textarea
+                    for (var instanceName in CKEDITOR.instances) {
+                        CKEDITOR.instances[instanceName].updateElement();
+                    }
+                }
+                if (isCreation) {
+                    params += 'pageId=' + pageId + '&';
+                }
+                params += 'action=save&';
+                action = isCreation ? 'create' : 'update';
             } else if ('btnDeleteContent' == jQuery(this).attr('id')) {
-                params += '&action=delete&';
+                params += 'action=delete&';
+                action = 'delete';
             }
 
+            if ('delete' == action && !confirm(Translator.__('Do you really want to delete this content?'))) {
+                return;
+            }
+
+            jQuery('#btnCancelContent').addClass('hidden');
+            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+
             jQuery.ajax({
-                type: jQuery(this).attr('method'),
-                url: jQuery(this).attr('action'),
-                data: action + jQuery(this).serialize()
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: params + form.serialize()
             })
             .done(function (data) {
-                if ('undefined' !== typeof data.message) {
-                    alert(data.message);
-                }
                 modal.modal('hide');
+                if ('create' == action) {
+                    // update ID
+                    widget.attr('id', 'widget' + data.id);
+                    widget.find('.dropdown-menu .dropdown-header .widget-id').text(data.id);
+                } else if ('delete' == action) {
+                    contentPageRemoveWidget(widget);
+                }
+                if ('undefined' !== typeof data.message) {
+                    jQuery('#widgetUpdateDoneAlert').remove();
+                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                }
+                if ('delete' != action) {
+                    suspendAutoSave = false;
+                    contentPageSave();
+                    contentPageLoadWidgetData(contentPageGetWidgetId(widget));
+                }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 if ('undefined' !== typeof jqXHR.responseJSON) {
                     if (jqXHR.responseJSON.hasOwnProperty('form')) {
-                        jQuery('#contentItemEditFormBody').html(jqXHR.responseJSON.form);
+                        formBody.html(jqXHR.responseJSON.form);
                     }
-    
-                    jQuery('#contentItemEditFormError').html(jqXHR.responseJSON.message);
-
+                    formError.html(jqXHR.responseJSON.message);
                 } else {
-                    alert(errorThrown);
+                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
                 }    
             });
         });
-
-// TODO: owningType, contentData
-//         modal.modal('hide');
+        jQuery('#btnCancelContent').unbind('click').click(function (event) {
+            event.preventDefault();
+            jQuery(this).addClass('hidden');
+            if (isCreation) {
+                // remove newly created widget
+                contentPageRemoveWidget(widget);
+            }
+        });
     }).fail(function(jqXHR, textStatus) {
         modal.modal('hide');
         if (isCreation) {
-            // TODO remove newly created widget
+            // remove newly created widget
+            contentPageRemoveWidget(widget);
         }
-
-        alert(Translator.__('Failed loading the data.'));
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
     });
+}
+
+/**
+ * Removes a specific widget.
+ */
+function contentPageRemoveWidget(widget) {
+    var grid = widget.parents('.grid-stack').first().data('gridstack');
+    grid.removeWidget(widget);
 }
 
 /**
@@ -370,6 +441,8 @@ function contentPageGetWidgetActions(widgetId) {
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu${widgetId}">
+                <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
+                <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
                 <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil"></i> ${Translator.__('Edit')}</a></li>
                 <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-o"></i> ${Translator.__('Delete')}</a></li>
@@ -377,14 +450,44 @@ function contentPageGetWidgetActions(widgetId) {
                 <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Advanced')}</li>
-                <li class="disabled"><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
-                <li class="disabled"><a class="move-item" title="${Translator.__('Move element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move')}</a></li>
+                <li><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
+                <li class="disabled"><a class="move-item" title="${Translator.__('Move this element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move')}</a></li>
                 <li${translationState}><a class="translate-item" title="${Translator.__('Translate this element')}"><i class="fa fa-fw fa-language"></i> ${Translator.__('Translate')}</a></li>
             </ul>
         </div>
     `;
 
     return actions;
+}
+
+/**
+ * Deletes a widget.
+ */
+function contentPageDeleteWidget(widget) {
+    jQuery.ajax({
+        type: 'post',
+        url: Routing.generate('zikulacontentmodule_contentitem_edit', {contentItem: contentPageGetWidgetId(widget)}),
+        data: { action: 'delete' },
+        async: false
+    })
+    .done(function (data) {
+        contentPageRemoveWidget(widget);
+        if ('undefined' !== typeof data.message) {
+            jQuery('#widgetUpdateDoneAlert').remove();
+            zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+        }
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        var errorMessage;
+
+        if ('undefined' !== typeof jqXHR.responseJSON) {
+            errorMessage = jqXHR.responseJSON.message;
+        } else {
+            errorMessage = errorThrown;
+        }
+        jQuery('#widgetUpdateErrorAlert').remove();
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
+    });
 }
 
 /**
@@ -398,14 +501,69 @@ function contentPageInitWidgetActions() {
         contentPageInitWidgetEditing(widget, false);
     });
     jQuery('.grid-stack .grid-stack-item a.delete-item').unbind('click').click(function (event) {
+        var widget;
+
         event.preventDefault();
-        if (!confirm(Translator.__('Do you really want to delete this item?'))) {
+        if (!confirm(Translator.__('Do you really want to delete this content?'))) {
             return;
         }
 
-        var item = jQuery(this).parents('.grid-stack-item').first();
-        var grid = item.parent().data('gridstack');
-        grid.removeWidget(item);
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        contentPageDeleteWidget(widget);
+    });
+    jQuery('.grid-stack .grid-stack-item a.activate-item, .grid-stack .grid-stack-item a.deactivate-item').unbind('click').click(function (event) {
+        var widget;
+
+        event.preventDefault();
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        jQuery.ajax({
+            method: 'POST',
+            url: Routing.generate('zikulacontentmodule_ajax_toggleflag'),
+            data: {
+                ot: 'contentItem',
+                field: 'active',
+                id: contentPageGetWidgetId(widget)
+            },
+            success: function (data) {
+                jQuery('#widgetUpdateDoneAlert').remove();
+                zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), Translator.__('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
+                contentPageLoadWidgetData(contentPageGetWidgetId(widget));
+            }
+        });
+    });
+    jQuery('.grid-stack .grid-stack-item a.clone-item').unbind('click').click(function (event) {
+        var widget;
+
+        event.preventDefault();
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        jQuery.ajax({
+            method: 'POST',
+            url: Routing.generate('zikulacontentmodule_contentitem_duplicate', {contentItem: contentPageGetWidgetId(widget)}),
+            data: {pageId: pageId},
+            success: function (data) {
+                var widgetTitle = Translator.__('Content item');
+                var widgetPanelClass = 'primary';
+                var widgetMarkup = contentPageGetWidgetMarkup(data.id, widgetTitle, widgetPanelClass);
+                var newWidget = jQuery(widgetMarkup);
+
+                jQuery('#widgetUpdateDoneAlert').remove();
+                zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+
+                var grid = widget.parents('.grid-stack').first().data('gridstack');
+                grid.addWidget(newWidget, 0, 0, widget.attr('data-gs-width'), widget.attr('data-gs-height'), true, widget.attr('data-gs-min-width'));
+
+                contentPageLoadWidgetData(data.id);
+                newWidget.find('.panel-title .dropdown .dropdown-menu .edit-item').click();
+            }
+        });
+    });
+    jQuery('.grid-stack .grid-stack-item a.move-item').unbind('click').click(function (event) {
+        event.preventDefault();
+        alert('TODO');
+    });
+    jQuery('.grid-stack .grid-stack-item a.translate-item').unbind('click').click(function (event) {
+        event.preventDefault();
+        alert('TODO');
     });
     jQuery('.grid-stack-item').hover(
         function() {
@@ -444,16 +602,44 @@ function contentPageGetWidgetMarkup(nodeId, title, panelClass) {
 function contentPageGetWidgetPanelMarkup(nodeId, title) {
     var widgetActions = contentPageGetWidgetActions(nodeId);
     var widgetTitle = '<h3 class="panel-title">' + widgetActions + '<span class="title">' + title + '</span></h3>';
-    var widgetContent = '<p>content here</p><p><small class="width-note" style="background-color: #ffe"></small></p>';
+    var widgetContent = '<p>content here</p>';
+    widgetContent += '<p><small class="width-note" style="background-color: #ffe"></small></p>';
 
     return '<div class="panel-heading">' + widgetTitle + '</div><div class="panel-body">' + widgetContent + '</div>';
+}
+
+/**
+ * Updates a widget with it's data.
+ */
+function contentPageLoadWidgetData(nodeId) {
+    var widget;
+
+    widget = jQuery('#widget' + nodeId);
+
+    widget.find('.panel-title .title').html(Translator.__('Loading...'));
+    widget.find('.panel-body').html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+    jQuery.getJSON(Routing.generate('zikulacontentmodule_contentitem_displayediting', {contentItem: nodeId}), function (data) {
+        var isActive;
+        widget.find('.panel-title .title').html(data.title);
+        widget.find('.panel-body').html(data.content + '<p><small class="width-note" style="background-color: #ffe"></small></p>');
+        widget.find('.panel').removeClass(function (index, className) {
+            return (className.match (/(^|\s)panel-\S+/g) || []).join(' ');
+        }).addClass('panel-' + data.panelClass);
+
+        isActive = data.panelClass != 'danger';
+        widget.find('.panel-title .dropdown .dropdown-menu .activate-item').toggleClass('hidden', isActive);
+        widget.find('.panel-title .dropdown .dropdown-menu .deactivate-item').toggleClass('hidden', !isActive);
+    });
 }
 
 /**
  * Updates grid attributes for all widgets.
  */
 function contentPageUpdateAllGridAttributes() {
-    _.each(serialisedData, function (section) {
+    if (jQuery('#debugSavedData').length < 1) {
+        return;
+    }
+    _.each(widgetData, function (section) {
         var lastNode = null;
         var widgets = GridStackUI.Utils.sort(section.widgets);
         _.each(widgets, function (node) {
@@ -474,6 +660,9 @@ function contentPageUpdateAllGridAttributes() {
  * Determines grid attributes for a widget.
  */
 function contentPageUpdateGridAttributes(widget, colOffset) {
+    if (jQuery('#debugSavedData').length < 1) {
+        return;
+    }
     var node = widget.data(nodeDataAttribute);
     var gridAttributes = 'col-sm-' + node.width;
     if (colOffset > 0) {
@@ -491,10 +680,12 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
     var lastNode = null;
     var widgets = GridStackUI.Utils.sort(widgetList);
     _.each(widgets, function (node) {
-        var widgetMarkup = contentPageGetWidgetMarkup(node.id, node.title, node.panelClass);
+        var widgetTitle = Translator.__('Content item');
+        var widgetPanelClass = 'primary';
+        var widgetMarkup = contentPageGetWidgetMarkup(node.id, widgetTitle, widgetPanelClass);
         var widget = jQuery(widgetMarkup);
-        widget.data('typeclass', node.typeClass);
-        grid.addWidget(widget, node.x, node.y, node.width, node.height, false, node.minWidth);
+        var minWidth = 'undefined' != typeof node.minWidth ? node.minWidth : jQuery('#widgetDimensions').data('minwidth');
+        grid.addWidget(widget, node.x, node.y, node.width, /*node.height*/jQuery('#widgetDimensions').data('height'), false, node.minWidth);
         var colOffset = 0;
         if (null !== lastNode && node.y == lastNode.y) {
             colOffset = node.x - (lastNode.x + lastNode.width);
@@ -503,6 +694,9 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
         }
         contentPageUpdateGridAttributes(widget, colOffset);
         lastNode = node;
+    });
+    _.each(widgets, function (node) {
+        contentPageLoadWidgetData(node.id);
     });
 }
 
@@ -513,7 +707,7 @@ function contentPageLoad() {
     var sectionNumber;
     contentPageClear();
     sectionNumber = 0;
-    _.each(serialisedData, function (section) {
+    _.each(widgetData, function (section) {
         sectionNumber++;
         contentPageAddSection(section.id, sectionNumber, false);
         contentPageInitSectionActions();
@@ -531,15 +725,12 @@ function contentPageSerialiseWidgets(elements) {
         var node = widget.data(nodeDataAttribute);
 
         return {
-            id: widget.attr('id').replace('widget', ''),
+            id: contentPageGetWidgetId(widget),
             x: node.x,
             y: node.y,
             width: node.width,
-            minWidth: node.minWidth,
-            height: node.height,
-            typeClass: widget.data('typeclass'), 
-            panelClass: widget.find('.panel').first().attr('class').replace('grid-stack-item-content panel panel-', '').replace(' ui-draggable-handle', ''),
-            title: widget.find('h3.panel-title span.title').first().html()
+            minWidth: node.minWidth/*,
+            height: node.height*/
         };
     });
 }
@@ -551,7 +742,7 @@ function contentPageSave() {
     if (true === suspendAutoSave) {
         return;
     }
-    serialisedData = _.map(jQuery('#widgets .grid-section'), function (section) {
+    widgetData = _.map(jQuery('#widgets .grid-section'), function (section) {
         section = jQuery(section);
         return {
             id: section.attr('id'),
@@ -559,9 +750,25 @@ function contentPageSave() {
         }
     });
 
-    jQuery('#debugSavedData').text(JSON.stringify(serialisedData, null, '    '));
+    jQuery.ajax({
+        type: 'post',
+        url: Routing.generate('zikulacontentmodule_page_updatelayout', {id: pageId}),
+        data: {
+            layoutData: widgetData
+        }
+    })
+    .done(function (data) {
+        jQuery('#layoutUpdateDoneAlert').remove();
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        jQuery('#layoutUpdateErrorAlert').remove();
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
+    });
 
-    jQuery('#loadPage, #clearPage').prop('disabled', false);
+    if (jQuery('#debugSavedData').length > 0) {
+        jQuery('#debugSavedData').text(JSON.stringify(widgetData, null, '    '));
+    }
 
     contentPageUpdateAllGridAttributes();
     contentPageInitWidgetActions();
@@ -635,14 +842,30 @@ jQuery(document).ready(function () {
         contentPageAddSection('section' + sectionNumber, sectionNumber, true);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
+        contentPageSave();
     });
-
+    jQuery('#exitPage').click(function (event) {
+        event.preventDefault();
+        window.location = jQuery(this).data('url');
+    });
     contentPageInitPalette();
 
-    jQuery('#savePage').click(contentPageSave);
-    jQuery('#loadPage').click(contentPageLoad);
-    jQuery('#clearPage').click(contentPageClear);
-
+    suspendAutoSave = true;
     contentPageLoad();
+    suspendAutoSave = false;
     initGridHiglighter();
 });
+
+// repair CKEditor popup focus inside Bootstrap modal
+// https://gist.github.com/james2doyle/65d06029bfd128dd5ecc
+jQuery.fn.modal.Constructor.prototype.enforceFocus = function() {
+    var modal_this = this
+    jQuery(document).on('focusin.modal', function (e) {
+        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+            && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_select')
+            && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_text')
+        ) {
+            modal_this.$element.focus()
+        }
+    })
+};

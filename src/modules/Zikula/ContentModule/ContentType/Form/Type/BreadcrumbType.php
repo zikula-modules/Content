@@ -13,7 +13,6 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -58,21 +57,6 @@ class BreadcrumbType extends AbstractType
             ->add('includeHome', CheckboxType::class, [
                 'label' => $this->__('Include home as first breadcrumb') . ':',
                 'required' => false
-            ])
-            ->add('translateTitles', CheckboxType::class, [
-                'label' => $this->__('Show translated titles') . ':',
-                'required' => false
-            ])
-            ->add('useGraphics', CheckboxType::class, [
-                'label' => $this->__('Use graphical breadcrumb trail (default is plain text)') . ':',
-                'required' => false
-            ])
-            ->add('delimiter', TextType::class, [
-                'label' => $this->__('Delimiter') . ':',
-                'required' => false,
-                'attr' => [
-                    'maxlength' => 30
-                ]
             ])
         ;
     }

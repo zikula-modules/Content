@@ -194,7 +194,7 @@ abstract class AbstractContentType implements ContentTypeInterface
     {
         $this->entity = $entity;
 
-        $this->data = unserialize($entity->getContentData());
+        $this->data = $entity->getContentData();
     }
 
     /**
@@ -335,9 +335,9 @@ abstract class AbstractContentType implements ContentTypeInterface
 
         $output .= $this->displayStart();
         if (true === $editMode) {
-            $output .= $this->displayView();
-        } else {
             $output .= $this->displayEditing();
+        } else {
+            $output .= $this->displayView();
         }
         $output .= $this->displayEnd();
 
@@ -357,9 +357,11 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     protected function displayStart()
     {
+        $classHtml = '';
         $stylingClasses = $this->getEntity()->getStylingClasses();
-
-        $classHtml = empty($stylingClasses) ? '' : ' class="' . $stylingClasses . '"';
+        if (null !== $stylingClasses && is_array($stylingClasses) && count($stylingClasses) > 0) {
+            $classHtml = ' class="' . implode(' ', $stylingClasses) . '"';
+        }
 
         return '<div' . $classHtml . '>' . "\n";
     }
@@ -371,16 +373,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     protected function displayEnd()
     {
-        $html = '';
-        //if ($this->addedStyle) {
-            $html = '</div>';
-            // check for edit mode on and clear the floating elements in that case
-            // TODO
-            if (SessionUtil::getVar('ContentEditMode')) {
-                $html .= '<div style="clear: both"></div>';
-            }
-        //}
-        return $html;
+        return '</div>';
     }
 
     /**
