@@ -11,7 +11,7 @@
     },
     "version": {
         "semver": "5.0.0",
-        "compatibility": ">=2.0.7 <3.0.0",
+        "compatibility": ">=2.0.8 <3.0.0",
         "composerpath": "composer.json",
         "description": "Flexible hierachical page management.",
         "keywords": [
