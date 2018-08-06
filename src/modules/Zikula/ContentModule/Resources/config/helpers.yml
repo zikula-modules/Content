@@ -51,6 +51,7 @@ services:
         class: Zikula\ContentModule\Helper\ListEntriesHelper
         arguments:
             - "@translator.default"
+            - "@zikula_groups_module.group_repository"
     
     zikula_content_module.model_helper:
         class: Zikula\ContentModule\Helper\ModelHelper

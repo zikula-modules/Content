@@ -100,12 +100,12 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $activeTo;
     
     /**
-     * @ORM\Column(length=1)
+     * @ORM\Column(length=4)
      * @Assert\NotBlank()
      * @ContentAssert\ListEntry(entityName="contentItem", propertyName="scope", multiple=false)
      * @var string $scope
      */
-    protected $scope = '1';
+    protected $scope = '0';
     
     /**
      * @ORM\Column(type="simple_array", nullable=true)

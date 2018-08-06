@@ -123,15 +123,22 @@ class ContentItemController extends AbstractContentItemController
         $translator = $this->get('translator.default');
         if (!$item->isCurrentlyActive()) {
             $title .= ' (' . $translator->__('inactive') . ')';
-        } elseif ('1' != $item->getScope()) {
+        } elseif ('0' != $item->getScope()) {
             $scope = $item->getScope();
-            if ('0' == $scope) {
-                $title .= ' (' . $translator->__('only users') . ')';
-            } elseif ('2' == $scope) {
-                $title .= ' (' . $translator->__('only guests') . ')';
+            if ('-1' == $scope) {
+                $title .= ' (' . $translator->__('only logged in members') . ')';
+            } elseif ('-2' == $scope) {
+                $title .= ' (' . $translator->__('only not logged in people') . ')';
+            } else {
+                $groupId = intval($scope);
+                $groupRepository = $this->get('zikula_groups_module.group_repository');
+                $group = $groupRepository->find($groupId);
+                if (null !== $group) {
+                    $title .= ' (' . $translator->__f('only %group', ['%group' => $group->getName()]) . ')';
+                } else {
+                    $title .= ' (' . $translator->__('specific group') . ')';
+                }
             }
-        } elseif (count($item->getStylingClasses()) > 0) {
-            $title .= ' (' . $translator->__('has styles') . ')';
         }
 
         return $icon . ' ' . $title;
@@ -153,15 +160,15 @@ class ContentItemController extends AbstractContentItemController
 
         if (!$item->isCurrentlyActive()) {
             $result = 'danger';
-        } elseif ('1' != $item->getScope()) {
+        } elseif ('0' != $item->getScope()) {
             $scope = $item->getScope();
-            if ('0' == $scope) {
+            if ('-1' == $scope || '-2' == $scope) {
                 $result = 'success';
-            } elseif ('2' == $scope) {
+            } elseif ('1' == $scope || '2' == $scope) {
                 $result = 'warning';
+            } else {
+                $result = 'info';
             }
-        } elseif (count($item->getStylingClasses()) > 0) {
-            $result = 'info';
         }
 
         return $result;

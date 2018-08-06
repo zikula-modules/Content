@@ -11,12 +11,50 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Helper\Base\AbstractListEntriesHelper;
+use Zikula\GroupsModule\Entity\RepositoryInterface\GroupRepositoryInterface;
 
 /**
  * Helper implementation class for list field entries related methods.
  */
 class ListEntriesHelper extends AbstractListEntriesHelper
 {
-    // feel free to add your own convenience methods here
+    /**
+     * @var GroupRepositoryInterface
+     */
+    protected $groupRepository;
+
+    /**
+     * ListEntriesHelper constructor.
+     *
+     * @param TranslatorInterface $translator Translator service instance
+     * @param GroupRepositoryInterface $groupRepository GroupRepository service instance
+     */
+    public function __construct(TranslatorInterface $translator, GroupRepositoryInterface $groupRepository)
+    {
+        parent::__construct($translator);
+        $this->groupRepository = $groupRepository;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getScopeEntriesForContentItem()
+    {
+        $states = parent::getScopeEntriesForContentItem();
+
+        $groups = $this->groupRepository->findAll();
+        foreach ($groups as $group) {
+            $states[] = [
+                'value'   => $group->getGid(),
+                'text'    => $this->__f('Group %group', ['%group' => $group->getName()]),
+                'title'   => '',
+                'image'   => '',
+                'default' => false
+            ];
+        }
+
+        return $states;
+    }
 }
