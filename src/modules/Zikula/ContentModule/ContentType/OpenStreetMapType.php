@@ -82,22 +82,6 @@ class OpenStreetMapType extends AbstractContentType
         return html_entity_decode(strip_tags($this->data['text']));
     }
 
-/** TODO
-    function display()
-    {
-        $this->view->assign('zoom', $this->zoom);
-        $this->view->assign('height', $this->height);
-        $this->view->assign('text', DataUtil::formatForDisplayHTML($this->text));
-        $this->view->assign('contentId', $this->contentId);
-        $this->view->assign('language', ZLanguage::getLanguageCode());
-
-        return $this->view->fetch($this->getTemplate());
-    }
-    function displayEditing()
-    {
-        return DataUtil::formatForDisplay($this->text);
-    }
-*/
     /**
      * @inheritDoc
      */

@@ -11,15 +11,58 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use RuntimeException;
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\TabNavigationType as FormType;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Tab navigation content type.
  */
 class TabNavigationType extends AbstractContentType
 {
+    /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var ContentDisplayHelper
+     */
+    protected $displayHelper;
+
+    /**
+     * TabNavigationType constructor.
+     *
+     * @param TranslatorInterface  $translator       Translator service instance
+     * @param Twig_Environment     $twig             Twig service instance
+     * @param FilesystemLoader     $twigLoader       Twig loader service instance
+     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
+     * @param Asset                $assetHelper      Asset service instance
+     * @param EntityFactory        $entityFactory    EntityFactory service instance
+     * @param ContentDisplayHelper $displayHelper    ContentDisplayHelper service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        EntityFactory $entityFactory,
+        ContentDisplayHelper $displayHelper
+    ) {
+        $this->entityFactory = $entityFactory;
+        $this->displayHelper = $displayHelper;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -66,52 +109,53 @@ class TabNavigationType extends AbstractContentType
         ];
     }
 
-/** TODO
-    public function display()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
         // Convert the variables into arrays
-        $contentItemIds = explode(';', str_replace(' ', '', $this->contentItemIds));
-        $tabTitles = explode(';', $this->tabTitles);
-        $tabLinks = explode(';', str_replace(' ', '', $this->tabLinks));
+        $contentItemIds = explode(';', str_replace(' ', '', $this->data['contentItemIds']));
+        $tabTitles = explode(';', $this->data['tabTitles']);
+        $tabLinks = explode(';', str_replace(' ', '', $this->data['tabLinks']));
+        if (!count($contentItemIds)) {
+            return '';
+        }
+        if (count($contentItemIds) != count($tabTitles) || count($contentItemIds) != count($tabLinks)) {
+            return '';
+        }
+
+        $repository = $this->entityFactory->getRepository('contentItem');
 
         // Make an array with output display of the Content items to tab
-        $itemsToTab = array();
+        $itemsToTab = [];
         foreach ($contentItemIds as $key => $contentItemId) {
-            if (($contentItem = ModUtil::apiFunc('Content', 'Content', 'getContent', array('id' => $contentItemId))) != false) {
-                $itemsToTab[$key]['display'] = $contentItem['plugin']->displayStart() . $contentItem['plugin']->display() . $contentItem['plugin']->displayEnd();
-                $itemsToTab[$key]['title'] = $tabTitles[$key];
-                $itemsToTab[$key]['link'] = isset($tabLinks[$key]) ? $tabLinks[$key] : 'tab'.$key;
+            $contentItem = $repository->selectById($contentItemId);
+            if (null === $contentItem) {
+                continue;
+            }
+
+            try {
+                $contentType = $this->displayHelper->initContentType($contentItem);
+                $itemsToTab[] = [
+                    'display' => $contentType->display(false),//displayView(),
+                    'title' => $tabTitles[$key],
+                    'link' => isset($tabLinks[$key]) ? $tabLinks[$key] : $key
+                ];
+            } catch (RuntimeException $exception) {
+                // ignore
             }
         }
 
-        // assign variables and call the template
-        $this->view->assign('itemsToTab', $itemsToTab);
-        $this->view->assign('tabType', $this->tabType);
-        $this->view->assign('tabStyle', $this->tabStyle);
-        $this->view->assign('contentId', $this->contentId);
-        return $this->view->fetch($this->getTemplate());
+        if (!count($itemsToTab)) {
+            return '';
+        }
+
+        $this->data['itemsToTab'] = $itemsToTab;
+
+        return parent::displayView();
     }
 
-    public function displayEditing()
-    {
-        $output = '<h3>' . $this->__f('Tab navigation of Content items %s', $this->contentItemIds) . '</h3>';
-        $output .= '<p>';
-        switch($this->tabType) {
-            case 1:
-            $output .= $this->__('Tab navigation type') . ': ' . $this->__('Bootstrap - nav nav-tabs');
-            break;
-            case 2:
-            $output .= $this->__('Tab navigation type') . ': ' . $this->__('Bootstrap - nav nav-pills');
-            break;
-            case 3:
-            $output .= $this->__('Tab navigation type') . ': ' . $this->__('Bootstrap - nav nav-pills nav-stacked (col-sm3/col-sm-9)');
-            break;
-        }
-        $output .= '<br />' . $this->__('You can disable the individual Content Items if you only want to display them in this Tab Navigation.');
-        $output .= '</p>';
-        return $output;
-    }
-*/
     /**
      * @inheritDoc
      */

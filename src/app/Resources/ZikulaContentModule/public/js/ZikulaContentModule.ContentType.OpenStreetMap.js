@@ -1,10 +1,85 @@
 'use strict';
 
+var layers;
+var layerMarkers;
+var layerVectors;
+var map;
+var icons;
+var showPopupOnHover = false;
+
 /**
  * Initialises the OSM view.
  */
 function contentInitOsmDisplay() {
-    // TODO
+    var descriptionToggleText = [
+        Translator.__('Show information on the map'),
+        Translator.__('Hide information on the map')
+    ];
+
+    var language = jQuery('html').length > 0 ? jQuery('html').first().attr('lang') : 'en';
+    OpenLayers.Lang.setCode(language);
+
+    jQuery('.content-openstreetmap').each(function (index) {
+        var latitude;
+        var longitude;
+        var zoom;
+        var urlParameters;
+
+        var description;
+
+        latitude = jQuery(this).data('latitude');
+        longitude = jQuery(this).data('longitude');
+        zoom = jQuery(this).data('zoom');
+        // Checks the URL for parameters of the permalink and overwrites the default values if necessary.
+        urlParameters = osmGetUrlParameters();
+
+        if (null != urlParameters['lat']) {
+            latitude = parseFloat(urlParameters['lat']);
+        }
+        if (null != urlParameters['lon']) {
+            longitude = parseFloat(urlParameters['lon']);
+        }
+        if (null != urlParameters['zoom']) {
+            zoom = parseInt(urlParameters['zoom']);
+        }
+
+        map = contentInitOsmMap(jQuery(this).data('mapid'));
+
+        // add overlay layers
+        layerMarkers = new OpenLayers.Layer.Markers('Marker', {
+            projection: new OpenLayers.Projection('EPSG:4326'),
+            visibility: true,
+            displayInLayerSwitcher: false
+        });
+        layerVectors = new OpenLayers.Layer.Vector('Drawings', {
+            displayInLayerSwitcher: false
+        });
+        map.addLayer(layerVectors);
+        map.addLayer(layerMarkers);
+
+        layers = [];
+
+        var layerMapnik = new OpenLayers.Layer.OSM.Mapnik('Mapnik');
+        map.addLayer(layerMapnik);
+
+        layers.push([layerMapnik, 'layer_layerMapnik']);
+        setLayer(map, 0);
+
+        // jump to the correct location...
+        jumpTo(latitude, longitude, zoom);
+
+        // add the used markers icons...
+        icons = [];
+        icons[0] = ['https://openlayers.org/api/img/marker.png', 21, 25, 0.5, 1];
+
+        // add the marker
+        description = jQuery('#' + jQuery(this).data('descriptionid')).length > 0 ? jQuery('#' + jQuery(this).data('descriptionid')).html() : '';
+        addMarker(layerMarkers, longitude, latitude, '<div><h4>' + description + '</h4></div>', false, 0);
+
+        // again a jump to location
+        jumpTo(latitude, longitude, zoom);
+        checkUtilVersion(4);
+    });
 }
 
 /**
@@ -15,7 +90,6 @@ function contentInitOsmEdit() {
     var latitude;
     var longitude;
     var zoom;
-    var map;
 
     fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
 
@@ -34,30 +108,16 @@ function contentInitOsmEdit() {
         zoom = 5;
     }
 
-    var language = 'en'; // TODO
-
+    var language = jQuery('html').length > 0 ? jQuery('html').first().attr('lang') : 'en';
     OpenLayers.Lang.setCode(language);
-    map = new OpenLayers.Map('map', {
-        projection: new OpenLayers.Projection('EPSG:900913'),
-        displayProjection: new OpenLayers.Projection('EPSG:4326'),
-        controls: [
-            new OpenLayers.Control.MouseDefaults(),
-            new OpenLayers.Control.Attribution()],
-        maxExtent:
-        new OpenLayers.Bounds(-20037508.34,-20037508.34,
-                                20037508.34, 20037508.34),
-        numZoomLevels: 20,
-        maxResolution: 156543,
-        units: 'meters'
-    });
 
-    map.addControl(new OpenLayers.Control.PanZoomBar());
-    map.addLayer(new OpenLayers.Layer.OSM.Mapnik('Mapnik'));
-    var markers = new OpenLayers.Layer.Markers('Markers');
-    map.addLayer(markers);
+    map = contentInitOsmMap('map');
 
-    // set position and zoom - Berlin as default
-    jumpTo(longitude, latitude, zoom);
+    //map.addLayer(new OpenLayers.Layer.OSM.Mapnik('Mapnik'));
+    map.addLayer(new OpenLayers.Layer.Markers('Markers'));
+
+    // set position and zoom
+    jumpTo(latitude, longitude, zoom);
 
     // add click events
     var click = new OpenLayers.Control.Click();
@@ -65,7 +125,28 @@ function contentInitOsmEdit() {
     click.activate();
 }
 
-// TODO
+/**
+ * Initialises a new OSM map.
+ */
+function contentInitOsmMap(mapId) {
+    var map;
+
+    map = new OpenLayers.Map(mapId, {
+        projection: new OpenLayers.Projection('EPSG:900913'),
+        displayProjection: new OpenLayers.Projection('EPSG:4326'),
+        controls: [
+            new OpenLayers.Control.Navigation({'zoomWheelEnabled': false}),
+            new OpenLayers.Control.LayerSwitcher(),
+            new OpenLayers.Control.PanZoomBar()
+        ],
+        maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
+        numZoomLevels: 18,
+        maxResolution: 156543,
+        units: 'meters'
+    });
+
+    return map;
+}
 
 OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
     defaultHandlerOptions: {
@@ -96,7 +177,8 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
         fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
 
         // get coordinates and zoom level
-        var lonlat = map.getLonLatFromViewPortPx(event.xy).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+        var lonlat = map.getLonLatFromViewPortPx(event.xy)
+            .transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
         var zoom = map.getZoom();
 
         // set form values
@@ -105,22 +187,23 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
         jQuery('#' + fieldPrefix + 'zoom').val(zoom);
 
         // set marker
-        addMarker(layer_markers,lonlat.lon,lonlat.lat, '<div><h4>' . Translator.__('Click') . '</h4></div>', false, 0);
+        addMarker(layerMarkers, lonlat.lon, lonlat.lat, '<div><h4>' + Translator.__('Click') + '</h4></div>', false, 0);
 
         // jump to click position
-        jumpTo(lonlat.lon, lonlat.lat, zoom);
+        jumpTo(lonlat.lat, lonlat.lon, zoom);
     }
 });
 
 
-/*
+/**
  * Some functions from the example at http://wiki.openstreetmap.org/wiki/DE:Karte_in_Webseite_einbinden,
  * slightly modified.
  */
-function jumpTo(lon, lat, zoom) {
-    var x = Lon2Merc(lon);
-    var y = Lat2Merc(lat);
+function jumpTo(latitude, longitude, zoom) {
+    var x = Lon2Merc(longitude);
+    var y = Lat2Merc(latitude);
     map.setCenter(new OpenLayers.LonLat(x, y), zoom);
+
     return false;
 }
 
@@ -135,7 +218,6 @@ function Lat2Merc(lat) {
 }
 
 function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
-
     // transform coordinates into LonLat
     var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
 
@@ -155,39 +237,40 @@ function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
      */
     // Click
     var markerClick = function(evt) {
-    // Wenn das Popup nicht sichtbar ist, dann kann es nicht fest sichtbar sein
-    if (!this.popup.visible())
-        this.popup.clicked = false;
-    if (this.popup.clicked == true) {
-        this.popup.clicked = false;
-        this.popup.hide();
+        if (!this.popup.visible()) {
+            this.popup.clicked = false;
         }
-        else {
-        this.popup.clicked = true;
-        if (!this.popup.visible())
-            this.popup.show();
-    }
+        if (this.popup.clicked == true) {
+            this.popup.clicked = false;
+            this.popup.hide();
+        } else {
+            this.popup.clicked = true;
+            if (!this.popup.visible()) {
+                this.popup.show();
+            }
+        }
         OpenLayers.Event.stop(evt);
     };
     // Hover
     var markerHover = function(evt) {
-    // Wenn das Popup nicht sichtbar ist, dann kann es nicht fest sichtbar sein
-    if (!this.popup.visible())
-        this.popup.clicked = false;
-    if (!this.popup.clicked)
-        this.popup.show();
+        if (!this.popup.visible()) {
+            this.popup.clicked = false;
+        }
+        if (!this.popup.clicked) {
+            this.popup.show();
+        }
 
-    OpenLayers.Event.stop(evt);
+        OpenLayers.Event.stop(evt);
     }
     // Hover End
     var markerHoverEnd = function(evt) {
-    if (!this.popup.clicked) {
-        this.popup.hide();
-    }
-    OpenLayers.Event.stop(evt);
+        if (!this.popup.clicked) {
+            this.popup.hide();
+        }
+        OpenLayers.Event.stop(evt);
     }
 
-    // Events auf den Marker registrieren und als Objekt das Feature übergeben
+    // register marker events for feature
     marker.events.register('mousedown', feature, markerClick);
     if (showPopupOnHover) {
         marker.events.register('mouseover', feature, markerHover);
@@ -197,23 +280,22 @@ function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
     // add created marker to layer
     layer.addMarker(marker);
 
-    // Popup erstellen, der Karte hinzufügen und anzeigen, falls gewünscht
+    // create popup and show it if desired
     map.addPopup(feature.createPopup(feature.closeBox));
 
-    if (showPopupOnLoad != true) {
-        // Wenn das Popup nicht angezeigt werden soll, verstecken und auf 'nicht angeklickt' setzen
+    if (true != showPopupOnLoad) {
+        // if popup should not be shown hide it
         feature.popup.hide();
         feature.popup.clicked = false;
     } else {
-        // Das Popup wird direkt angezeigt und zwar solange bis man es explizit schließt
+        // directly show popup
         feature.popup.clicked = true;
     }
 
     return marker;
 }
 
-/*
- *
+/**
  * Creates a new marker icon
  *
  * using the icons-array (defined in the html-file)
@@ -248,74 +330,49 @@ function getCycleTileURL(bounds) {
 
     x = ((x % limit) + limit) % limit;
 
-    return this.url + z + "/" + x + "/" + y + "." + this.type;
+    return this.url + z + '/' + x + '/' + y + '.' + this.type;
 }
 
-/*
- * Funktion zum Zerlegen der URL um die Parameter zu erhalten (für den Permalink)
- * Splits the URL in its parameters
+/**
+ * Splits URL to gather parameters for permalink.
  */
-function get_parameters() {
-    // erzeugt für jeden in der url übergebenen parameter einen wert
-    // bsp: x.htm?nachname=Munch&vorname=Alex&bildfile=wasserfall.jpg  erzeugt
-    // variable nachname mit wert Munch  und
-    // variable vorname mit wert Alex
-    // variable bildfile mit wert wasserfall.jpg
-    var hier = document.URL;
-    var parameterzeile = hier.substr((hier.indexOf("?")+1));
-    var trennpos;
-    var endpos;
-    var paramname;
-    var paramwert;
+function osmGetUrlParameters() {
+    // creates a value for each parameter in the URL.
+    // e.g.: x.htm?lastname=Munch&firstname=Alex&imagefile=water.jpg creates
+    // variable lastname with value Munch and
+    // variable firstname with value Alex and
+    // variable imagefile with value water.jpg
+    var thisUrl = document.URL;
+    var parameterLine = thisUrl.substr((thisUrl.indexOf('?') + 1));
+    var separatorPos;
+    var endPos;
+    var paramName;
+    var paramValue;
     var parameters = new Object();
-    while (parameterzeile != '') {
-        trennpos = parameterzeile.indexOf('=');
-        endpos = parameterzeile.indexOf('&');
-        if (endpos < 0) {
-            endpos = 500000;
+    while ('' != parameterLine) {
+        separatorPos = parameterLine.indexOf('=');
+        endPos = parameterLine.indexOf('&');
+        if (endPos < 0) {
+            endPos = 500000;
         }
-        paramname = parameterzeile.substr(0, trennpos);
-        paramwert = parameterzeile.substring(trennpos + 1, endpos);
-        parameters[paramname] = paramwert;
-        //eval (paramname + ' = "' + paramwert + '"');
-        parameterzeile = parameterzeile.substr(endpos+1);
+        paramName = parameterLine.substr(0, separatorPos);
+        paramValue = parameterLine.substring(separatorPos + 1, endPos);
+        parameters[paramName] = paramValue;
+        //eval (paramName + ' = "' + paramValue + '"');
+        parameterLine = parameterLine.substr(endPos + 1);
     }
 
     return parameters;
 }
 
-/*
- * Wie der Name schon sagt ebenfalls für den Permalink, überprüft ob die Parameter in der URL gefunden wurden und überschreibt
- * sie gegebenenfalls.
- * Checks the url for parameters of the permalink and overwrites the default values if necessary.
- */
-function checkForPermalink() {
-    var parameters = get_parameters();
-
-    if (parameters['zoom'] != null)
-        zoom = parseInt(parameters['zoom']);
-    if (parameters['lat'] != null)
-        lat = parseFloat(parameters['lat']);
-    if (parameters['lon'] != null)
-        lon = parseFloat(parameters['lon']);
-}
-
 /**
- * Debug function.
+ * For layer switcher with buttons.
  */
-function var_dump(obj) {
-    if (typeof obj == 'object') {
-        return "Type: "+typeof(obj)+((obj.constructor) ? "\nConstructor: "+obj.constructor : "")+"\nValue: " + obj;
-    }
+function setLayer(map, id) {
+    var varName;
+    var name;
 
-    return "Type: "+typeof(obj)+"\nValue: "+obj;
-}
-
-/*
- * Für den Layer-Switcher mit Buttons
- */
-function setLayer(id) {
-    if (document.getElementById('layer') != null) {
+    if (null != document.getElementById('layer')) {
         for (var i = 0; i < layers.length; ++i) {
             document.getElementById(layers[i][1]).className = '';
         }
@@ -323,12 +380,12 @@ function setLayer(id) {
     varName = layers[id][0];
     name = layers[id][1];
     map.setBaseLayer(varName);
-    if (document.getElementById('layer') != null) {
+    if (null != document.getElementById('layer')) {
         document.getElementById(name).className = 'active';
     }
 }
 
-/*
+/**
  * Toggles description of the map.
  */
 function toggleInfo() {
@@ -345,17 +402,15 @@ function toggleInfo() {
 }
 
 /*
- * Zeichnet verschiedene Arten von geometrischen Objekten
- * Draws different kinds of geometric objects
+ * Draws different kinds of geometric objects.
  */
-
 function drawLine(coordinates, style) {
     var linePoints = createPointsArrayFromCoordinates(coordinates);
 
     var line = new OpenLayers.Geometry.LineString(linePoints);
     var vector = new OpenLayers.Feature.Vector(line, null, style);
 
-    layer_vectors.addFeatures(vector);
+    layerVectors.addFeatures(vector);
 
     return vector;
 }
@@ -366,7 +421,7 @@ function drawPolygon(coordinates, style) {
     var polygon = new OpenLayers.Geometry.Polygon([linearRing]);
     var vector = new OpenLayers.Feature.Vector(polygon, null, style);
 
-    layer_vectors.addFeatures(vector);
+    layerVectors.addFeatures(vector);
 
     return vector;
 }

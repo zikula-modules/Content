@@ -61,7 +61,7 @@ class FeedType extends AbstractType
             ])
             ->add('refreshTime', IntegerType::class, [
                 'label' => $this->__('Refresh time') . ':',
-                'input_group' => ['right' => $this->__('minutes')]
+                'input_group' => ['right' => $this->__('hours')]
             ])
             ->add('maxNoOfItems', IntegerType::class, [
                 'label' => $this->__('Max. no. of items to display') . ':'

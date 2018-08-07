@@ -92,7 +92,6 @@ class GoogleMapType extends AbstractType
             ])
             ->add('height', IntegerType::class, [
                 'label' => $this->__('Height of the displayed map') . ':',
-                'help' => $this->__('(below 350 pixels the navigation controls will be small)'),
                 'attr' => [
                     'maxlength' => 4
                 ],
@@ -109,12 +108,24 @@ class GoogleMapType extends AbstractType
                 'help' => $this->__('(can contain HTML markup. Leave this field empty for disabling the popup window.'),
                 'required' => false
             ])
+            ->add('trafficOverlay', CheckboxType::class, [
+                'label' => $this->__('Display a traffic overlay') . ':',
+                'required' => false
+            ])
+            ->add('bicycleOverlay', CheckboxType::class, [
+                'label' => $this->__('Display a bicycle overlay') . ':',
+                'required' => false
+            ])
             ->add('streetViewControl', CheckboxType::class, [
                 'label' => $this->__('Display the streetview control') . ':',
                 'required' => false
             ])
             ->add('directionsLink', CheckboxType::class, [
                 'label' => $this->__('Display a link to directions to this location in Google Maps') . ':',
+                'required' => false
+            ])
+            ->add('directionsInline', CheckboxType::class, [
+                'label' => $this->__('Display directions inline within the map') . ':',
                 'required' => false
             ])
         ;

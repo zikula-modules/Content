@@ -98,7 +98,7 @@ class UnfilteredType extends AbstractContentType
     public function isActive()
     {
         // Only active when the admin has enabled this plugin
-        return $this->enableRawPlugin;
+        return $this->enableRawPlugin && parent::isActive();
     }
 
     /**

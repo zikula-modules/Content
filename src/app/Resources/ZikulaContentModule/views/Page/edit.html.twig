@@ -88,12 +88,6 @@
                 {{ form_row(form.showTitle, {label: __('Show title on page')}) }}
                 {{ form_row(form.skipUiHookSubscriber, {label: __('Do not display UI hooks on this page')}) }}
                 {{ form_row(form.skipFilterHookSubscriber, {label: __('Do not call filter hooks on this page')}) }}
-                <div class="hidden">
-                    {{ form_row(form.layout) }}
-                </div>
-                <div class="hidden">
-                    {{ form_row(form.views) }}
-                </div>
                 {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.')}) }}
                 {{ form_row(form.activeFrom) }}
                 {{ form_row(form.activeTo) }}

@@ -11,11 +11,11 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\BlocksModule\Entity\BlockEntity;
+use Zikula\BlocksModule\Entity\RepositoryInterface\BlockRepositoryInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
@@ -27,20 +27,20 @@ class BlockType extends AbstractType
     use TranslatorTrait;
 
     /**
-     * @var ObjectManager The object manager to be used for determining the repository
+     * @var BlockRepositoryInterface
      */
-    private $objectManager;
+    protected $blockRepository;
 
     /**
      * BlockType constructor.
      *
-     * @param TranslatorInterface $translator    Translator service instance
-     * @param ObjectManager       $objectManager The object manager to be used for determining the repositories
+     * @param TranslatorInterface      $translator      Translator service instance
+     * @param BlockRepositoryInterface $blockRepository BlockRepository service instance
      */
-    public function __construct(TranslatorInterface $translator, ObjectManager $objectManager)
+    public function __construct(TranslatorInterface $translator, BlockRepositoryInterface $blockRepository)
     {
         $this->setTranslator($translator);
-        $this->objectManager = $objectManager;
+        $this->blockRepository = $blockRepository;
     }
 
     /**
@@ -58,8 +58,7 @@ class BlockType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $blockRepository = $this->objectManager->getRepository(BlockEntity::class);
-        $blocks = $blockRepository->findAll();
+        $blocks = $this->blockRepository->findAll();
 
         $choices = [];
         foreach ($blocks as $block) {

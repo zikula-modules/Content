@@ -19,6 +19,8 @@ application "Content" {
         Entity/Factory/EntityInitialiser.php,
         Form/Type/PageType.php,
         Helper/CollectionFilterHelper.php,
+        Helper/ControllerHelper.php,
+        Helper/ListEntriesHelper.php,
         Helper/PermissionHelper.php,
         Menu/ItemActionsMenu.php,
         ZikulaContentModule.php
@@ -144,11 +146,11 @@ application "Content" {
                 },
                 list "scope" {
                     defaultValue "1"
-                    length 1
+                    length 4
                     items {
-                        default listItem "Public (all)" ( "1" ),
-                        listItem "Only logged in members" ( "0" ),
-                        listItem "Only not logged in people" ( "2" )
+                        default listItem "Public (all)" ( "0" ),
+                        listItem "Only logged in members" ( "-1" ),
+                        listItem "Only not logged in people" ( "-2" )
                     }
                 },
                 array "stylingClasses" nullable {

@@ -91,7 +91,6 @@ class GoogleRouteType extends AbstractType
             ])
             ->add('height', IntegerType::class, [
                 'label' => $this->__('Height of the displayed map') . ':',
-                'help' => $this->__('(below 350 pixels the navigation controls will be small)'),
                 'attr' => [
                     'maxlength' => 4
                 ],

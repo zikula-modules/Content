@@ -7,7 +7,9 @@ function contentInitAuthorEdit() {
     var fieldPrefix;
 
     fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
-    initUserLiveSearch(fieldPrefix + 'authorId');
+    initUserLiveSearch(fieldPrefix + 'author');
 
-    jQuery('#' + fieldPrefix + 'authorIdAvatar').next('.help-block').addClass('hidden');
+    jQuery('#' + fieldPrefix + 'authorSelector').val(jQuery('#authorUserName').text());
+
+    jQuery('#' + fieldPrefix + 'authorAvatar').next('.help-block').addClass('hidden');
 }

@@ -320,21 +320,21 @@ abstract class AbstractListEntriesHelper
     {
         $states = [];
         $states[] = [
-            'value'   => '1',
+            'value'   => '0',
             'text'    => $this->__('Public (all)'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
-            'value'   => '0',
+            'value'   => '-1',
             'text'    => $this->__('Only logged in members'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
-            'value'   => '2',
+            'value'   => '-2',
             'text'    => $this->__('Only not logged in people'),
             'title'   => '',
             'image'   => '',

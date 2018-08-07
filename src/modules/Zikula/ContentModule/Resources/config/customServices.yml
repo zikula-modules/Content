@@ -4,6 +4,13 @@ services:
         arguments:
             - '@filesystem'
             - '%kernel.cache_dir%/ZikulaContentModule/'
+    zikula_content_module.content_display_helper:
+        class: Zikula\ContentModule\Helper\ContentDisplayHelper
+        arguments:
+            - '@service_container'
+            - '@translator.default'
+            - '@zikula_theme_module.api.page_asset'
+            - '@zikula_groups_module.group_repository'
     zikula_content_module.collector.content_type_collector:
         class: Zikula\ContentModule\Collector\ContentTypeCollector
     zikula_content_module.custom_twig_extension:

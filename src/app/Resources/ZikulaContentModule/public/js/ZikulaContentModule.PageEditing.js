@@ -50,10 +50,11 @@ function contentPageLoadDynamicAssets(type, pathes) {
             ;
             loadedDynamicAssets[type].push(path);
         } else if ('js' == type) {
+            loadedDynamicAssets[type].push(path);
             jQuery.contentGetSyncCachedScript(path)
-                .done(function (script, textStatus) {
+                /*.done(function (script, textStatus) {
                     loadedDynamicAssets[type].push(path);
-                })
+                })*/
             ;
         }
     });
@@ -320,11 +321,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
         body.find('input, select, textarea').change(zikulaContentExecuteCustomValidationConstraints);
         zikulaContentExecuteCustomValidationConstraints();
 
-        contentPageLoadDynamicAssets('css', data.assets.css);
-        contentPageLoadDynamicAssets('js', data.assets.js);
-        if (null !== data.jsEntryPoint && 'function' === typeof window[data.jsEntryPoint]) {
-            window[data.jsEntryPoint]();
-        }
+        contentPageInitialiseAssetsAndEntrypoint(data);
 
         form = body.find('#contentItemEditForm');
         formBody = body.find('#contentItemEditFormBody');
@@ -357,7 +354,13 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 action = 'delete';
             }
 
-            if ('delete' == action && !confirm(Translator.__('Do you really want to delete this content?'))) {
+            if ('delete' != action) {
+                // check input validation
+                zikulaContentExecuteCustomValidationConstraints();
+                if (!form.get(0).checkValidity()) {
+                    return;
+                }
+            } else if ('delete' == action && !confirm(Translator.__('Do you really want to delete this content?'))) {
                 return;
             }
 
@@ -445,7 +448,7 @@ function contentPageGetWidgetActions(widgetId) {
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
                 <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil"></i> ${Translator.__('Edit')}</a></li>
-                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-o"></i> ${Translator.__('Delete')}</a></li>
+                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-o text-danger"></i> ${Translator.__('Delete')}</a></li>
                 <li><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
                 <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
                 <li role="separator" class="divider"></li>
@@ -609,6 +612,25 @@ function contentPageGetWidgetPanelMarkup(nodeId, title) {
 }
 
 /**
+ * Loads content item assets and executes entry point.
+ */
+function contentPageInitialiseAssetsAndEntrypoint(data) {
+    if ('undefined' !== typeof data.assets) {
+        if ('undefined' !== typeof data.assets.css) {
+            contentPageLoadDynamicAssets('css', data.assets.css);
+        }
+        if ('undefined' !== typeof data.assets.js) {
+            contentPageLoadDynamicAssets('js', data.assets.js);
+        }
+    }
+    if ('undefined' !== typeof data.jsEntryPoint) {
+        if (null !== data.jsEntryPoint && 'function' === typeof window[data.jsEntryPoint]) {
+            window[data.jsEntryPoint]();
+        }
+    }
+}
+
+/**
  * Updates a widget with it's data.
  */
 function contentPageLoadWidgetData(nodeId) {
@@ -629,6 +651,8 @@ function contentPageLoadWidgetData(nodeId) {
         isActive = data.panelClass != 'danger';
         widget.find('.panel-title .dropdown .dropdown-menu .activate-item').toggleClass('hidden', isActive);
         widget.find('.panel-title .dropdown .dropdown-menu .deactivate-item').toggleClass('hidden', !isActive);
+
+        contentPageInitialiseAssetsAndEntrypoint(data);
     });
 }
 
@@ -717,9 +741,18 @@ function contentPageLoad() {
 }
 
 /**
+ * Sorts widget for serialisation.
+ */
+function contentPageSortWidgetsForSave(nodes) {
+    return _.sortBy(nodes, ['y', 'x']);
+}
+
+/**
  * Collects widget data for serialisation.
  */
 function contentPageSerialiseWidgets(elements) {
+    elements = contentPageSortWidgetsForSave(elements);
+
     return _.map(elements, function (widget) {
         widget = jQuery(widget);
         var node = widget.data(nodeDataAttribute);

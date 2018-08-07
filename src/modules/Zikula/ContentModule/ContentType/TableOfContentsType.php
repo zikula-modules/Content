@@ -11,15 +11,68 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Symfony\Component\Routing\RouterInterface;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType as FormType;
+use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Table of contents content type.
  */
 class TableOfContentsType extends AbstractContentType
 {
+    /**
+     * @var RouterInterface
+     */
+    protected $router;
+
+    /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var ContentDisplayHelper
+     */
+    protected $displayHelper;
+
+    /**
+     * TableOfContentsType constructor.
+     *
+     * @param TranslatorInterface  $translator       Translator service instance
+     * @param Twig_Environment     $twig             Twig service instance
+     * @param FilesystemLoader     $twigLoader       Twig loader service instance
+     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
+     * @param Asset                $assetHelper      Asset service instance
+     * @param Routerinterface      $router           Router service instance
+     * @param EntityFactory        $entityFactory    EntityFactory service instance
+     * @param ContentDisplayHelper $displayHelper    ContentDisplayHelper service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        RouterInterface $router,
+        EntityFactory $entityFactory,
+        ContentDisplayHelper $displayHelper
+    ) {
+        $this->router = $router;
+        $this->entityFactory = $entityFactory;
+        $this->displayHelper = $displayHelper;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -57,8 +110,8 @@ class TableOfContentsType extends AbstractContentType
      */
     public function getDefaultData()
     {
-        return [
-            'pageId' => 0/* TODO $this->pageId */,
+        $data = [
+            'page' => 0,
             'includeSelf' => false,
             'includeNotInMenu' => false,
             'includeHeading' => 0, 
@@ -66,97 +119,101 @@ class TableOfContentsType extends AbstractContentType
             'includeSubpage' => 1,
             'includeSubpageLevel' => 0
         ];
+
+        if (null !== $this->getEntity()) {
+            $data['page'] = $this->getEntity()->getPage()->getId();
+        }
+
+        return $data;
     }
 
-/** TODO    
-    public function display()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        $tables = DBUtil::getTables();
-        $pageColumn = $tables['content_page_column'];
-
-        $options = array('makeTree' => true, 'expandContent' => false);
-        $options['orderBy'] = 'setLeft';
-
         // get the current active page where this contentitem is in
-        $curPage = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pageId, 'makeTree' => false, 'includeContent' => false));
+        $this->data['currentPage'] = $this->getEntity()->getPage();
 
-        if ($this->pageId == 0 && $this->includeSubpage) {
-            if ($this->includeSubpage == 2) {
-                $options['filter']['where'] = "$pageColumn[level] <= ".($this->includeSubpageLevel-1);
-            }
+        $this->data['toc'] = [];
+        $pageId = $this->data['page'];
+        if (!$pageId) {
+            $pageId = 0;
+        }
+
+        $repository = $this->entityFactory->getRepository('page');
+        $filters = [];
+
+        if ($pageId == 0) {
+            $filters[] = 'tbl.lvl = 0';
         } else {
-            if ($this->includeSubpage) {
-                if ($this->includeSubpage == 2 && $this->includeSubpageLevel > 0) {
-                    $page = ModUtil::apiFunc('Content', 'page', 'getPage', array('id' => $this->pageId));
-                    if ($page === false) {
-                        return '';
-                    }
-                    $options['filter']['where'] = "$pageColumn[level] <= ".($page['level'] + $this->includeSubpageLevel);
-                }
-                $options['filter']['superParentId'] = $this->pageId;
-            } else {
-                // this is a special case, this is also applied if pageId==0 and no subpages included, which makes no sense
-                $options['filter']['parentId'] = $this->pageId;
-            }
-        }
-        if (!$this->includeNotInMenu) {
-            $options['filter']['checkInMenu'] = true;
-        }
-        if ($this->includeHeadingLevel >= 0) {
-            $options['includeContent'] = true;
-        }
-        $pages = ModUtil::apiFunc('Content', 'Page', 'getPages', $options);
-
-        if ($this->pageId != 0 && !$this->includeSelf) {
-            $toc = $this->_genTocRecursive($pages[0], 0);
-        } else {
-            $toc = array();
-            foreach (array_keys($pages) as $page) {
-                $toc['toc'][] = $this->_genTocRecursive($pages[$page], ($this->pageId == 0 ? 1 : 0));
-            }
-        }
-
-        $this->view->assign('page', $curPage);
-        $this->view->assign('toc', $toc);
-        $this->view->assign('contentId', $this->contentId);
-        return $this->view->fetch($this->getTemplate());
-    }
-    
-    protected function _genTocRecursive(&$pages, $level)
-    {
-        $toc = array();
-        $pageurl = ModUtil::url('Content', 'user', 'view', array('pageId' => $pages['id']));
-        if ($pages['content'] && ($this->includeHeading == 1 || $this->includeHeadingLevel - $level >= 0)) {
-            foreach (array_keys($pages['content']) as $area) {
-                foreach (array_keys($pages['content'][$area]) as $id) {
-                    $plugin = &$pages['content'][$area][$id];
-                    if ($plugin['plugin'] != null && $plugin['plugin']->getModule() == 'Content' && $plugin['plugin']->getName() == 'Heading') {
-                        $toc[] = array('title' => $plugin['plugin']->getText(), 'url' => $pageurl . "#heading_" . $plugin['id'], 'level' => $level, 'css' => 'content-toc-heading');
-                    }
+            $page = null;
+            if ($pageId > 0) {
+                $page = $repository->selectById($pageId);
+                if (false === $page) {
+                    return '';
                 }
             }
+            $filters[] = 'tbl.id = ' . $pageId;
+        }
+        if (!$this->data['includeNotInMenu']) {
+            $filters[] = 'tbl.inMenu = 1';
         }
 
-        if ($pages['subPages']) {
-            foreach (array_keys($pages['subPages']) as $id) {
-                $toc[] = $this->_genTocRecursive($pages['subPages'][$id], $level + 1);
+        $where = implode(' AND ', $filters);
+        $useJoins = $this->data['includeHeading'] && $this->data['includeHeadingLevel'] > 0;
+
+        $pages = $repository->selectWhere($where, 'tbl.lft', $useJoins);
+        $this->data['toc']['toc'] = [];
+        foreach ($pages as $page) {
+            $this->data['toc']['toc'][] = $this->_genTocRecursive($page, ($pageId == 0 ? 1 : 0));
+        }
+
+        return parent::displayView();
+    }
+
+    protected function _genTocRecursive(PageEntity $page, $level)
+    {
+        $toc = [];
+        $pageUrl = $this->router->generate('zikulacontentmodule_page_display', ['slug' => $page->getSlug()]);
+
+        $includeHeadings = $this->data['includeHeading'] == 1 || ($this->data['includeHeading'] == 2 && $this->data['includeHeadingLevel'] - $level >= 0);
+        if ($includeHeadings && count($page->getContentItems())) {
+            foreach ($page->getContentItems() as $contentItem) {
+                if ('Zikula\\ContentModule\\ContentType\\HeadingType' != $contentItem->getOwningType()) {
+                    continue;
+                }
+                $contentType = $this->displayHelper->initContentType($contentItem);
+                $output = $contentType->displayView();
+                $headingData = $contentType->getData();
+                $headingText = $headingData['text'];
+
+                $toc[] = [
+                    'title' => $headingText,
+                    'url' => $pageUrl . '#heading_' . $contentItem->getId(),
+                    'level' => $level,
+                    'css' => 'content-toc-heading'
+                ];
             }
         }
 
-        return array('pageId' => $pages['id'], 'title' => $pages['title'], 'url' => $pageurl, 'level' => $level, 'css' => '', 'toc' => $toc);
-    }
-    
-    public function displayEditing()
-    {
-        if ($this->pageId == 0) {
-            $title = $this->__('All pages');
-        } else {
-            $page = ModUtil::apiFunc('Content', 'Page', 'getPage', array('id' => $this->pageId, 'includeContent' => false, 'translate' => false, 'filter' => array('checkActive' => false)));
-            $title = $page['title'];
+        $includeChildren = $this->data['includeSubpage'] == 1 || ($this->data['includeSubpage'] == 2 && $this->data['includeSubpageLevel'] - $level >= 0);
+        if ($includeChildren && count($page->getChildren())) {
+            foreach ($page->getChildren() as $subPage) {
+                $toc[] = $this->_genTocRecursive($subPage, $level + 1);
+            }
         }
-        return "<h3>" . $this->__f('Table of contents of %s', htmlspecialchars($title)) . "</h3>";
+
+        return [
+            'pageId' => $page->getId(),
+            'title' => $page->getTitle(),
+            'url' => $pageUrl,
+            'level' => $level,
+            'css' => '',
+            'toc' => $toc
+        ];
     }
-*/
+
     /**
      * @inheritDoc
      */

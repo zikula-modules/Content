@@ -1,16 +1,15 @@
-TODO
-{if isset($toc.toc)}
-<ul class="content-toc">
-    {foreach from=$toc.toc item="item"}
-    {if isset($item.pageId) && ($item.pageId == $page.id)}
-    <li class="content-toc-level_{$item.level} content-toc-active">{$item.title|safetext}
-    {else}
-    <li class="content-toc-level_{$item.level} {$item.css}"><a href="{$item.url|safetext}">{$item.title|safetext}</a>
-    {/if}
-        {if !empty($item.toc)}
-        {include file="contenttype/tableofcontents_view.tpl" toc=$item}
-        {/if}
-    </li>
-    {/foreach}
-</ul>
-{/if}
+{% if toc.toc|default %}
+    <ul class="content-toc">
+        {% for item in toc.toc %}
+            {% if item.pageId|default and item.pageId == currentPage.id %}
+                <li class="content-toc-level_{{ item.level }} content-toc-active">{% if includeSelf %}{{ item.title }}{% endif %}
+            {% else %}
+                <li class="content-toc-level_{{ item.level }} {{ item.css }}"><a href="{{ item.url|e('html_attr') }}">{{ item.title }}</a>
+            {% endif %}
+            {% if item.toc|default %}
+                {{ include('@ZikulaContentModule/ContentType/tableOfContentsView.html.twig', {toc: item}) }}
+            {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

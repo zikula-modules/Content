@@ -50,7 +50,7 @@ class AuthorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('authorId', UserLiveSearchType::class, [
+            ->add('author', UserLiveSearchType::class, [
                 'label' => $this->__('Author') . ':',
                 'attr' => [
                     'maxlength' => 11,
