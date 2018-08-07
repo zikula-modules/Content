@@ -347,7 +347,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     public function set_objectType($_objectType)
     {
         if ($this->_objectType != $_objectType) {
-            $this->_objectType = $_objectType;
+            $this->_objectType = isset($_objectType) ? $_objectType : '';
         }
     }
     
