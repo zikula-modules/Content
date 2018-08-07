@@ -76,21 +76,23 @@ class HeadingType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function getSearchableText()
+    public function getData()
     {
-        return html_entity_decode(strip_tags($this->data['text']));
+        $data = parent::getData();
+
+        if (true === $data['displayPageTitle']) {
+            $data['text'] = $this->getEntity()->getPage()->getTitle();
+        }
+
+        return $data;
     }
 
     /**
      * @inheritDoc
      */
-    public function displayView()
+    public function getSearchableText()
     {
-        if (true === $this->data['displayPageTitle']) {
-            $this->data['text'] = $this->getEntity()->getPage()->getTitle();
-        }
-
-        return parent::displayView();
+        return html_entity_decode(strip_tags($this->data['text']));
     }
 
     /**

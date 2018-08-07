@@ -1,36 +1,37 @@
-TODO
 <div class="row">
     <div class="col-sm-12">
-        <div{if !empty($tabStyle)} class="{$tabStyle}"{/if} role="tabpanel">
-            {if $tabType == 1}
+        <div{% if tabStyle|default %} class="{{ tabStyle|e('html_attr') }}"{% endif %} role="tabpanel">
+            {% if tabType == 1 %}
             <ul class="nav nav-tabs" role="tablist">
-            {elseif $tabType == 2}
+            {% elseif tabType == 2 %}
             <ul class="nav nav-pills" role="tablist">
-            {elseif $tabType == 3}
+            {% elseif tabType == 3 %}
             <div class="col-sm-3">
             <ul class="nav nav-pills nav-stacked" role="tablist">
-            {/if}
+            {% endif %}
             {# Nav tabs #}
-            {foreach from=$itemsToTab item='itemToTab' name='itemToTab'}
-                <li role="presentation"{if $smarty.foreach.itemToTab.first} class="active"{/if}><a href="#{$itemToTab.link}" aria-controls="{$itemToTab.link}" role="tab" data-toggle="tab">{$itemToTab.title}</a></li>
-            {/foreach}
+            {% for itemToTab in itemsToTab %}
+                <li role="presentation"{% if loop.first %} class="active"{% endif %}><a href="#tab{{ contentId }}{{ itemToTab.link|e('html_attr') }}" aria-controls="{{ itemToTab.link|e('html_attr') }}" role="tab" data-toggle="tab">{{ itemToTab.title }}</a></li>
+            {% endfor %}
             </ul>
-            {if $tabType == 3}
+            {% if tabType == 3 %}
             </div>
-            {/if}
+            {% endif %}
 
             {# Tab panes #}
-            {if $tabType == 3}
+            {% if tabType == 3 %}
             <div class="col-sm-9">
-            {/if}
+            {% endif %}
             <div class="tab-content">
-            {foreach from=$itemsToTab item='itemToTab' name='itemToTab'}
-                <div role="tabpanel" class="tab-pane fade in{if $smarty.foreach.itemToTab.first} active{/if}" id="{$itemToTab.link}">{$itemToTab.display}</div>
-            {/foreach}
+            {% for itemToTab in itemsToTab %}
+                <div role="tabpanel" class="tab-pane fade{% if loop.first %} in active{% endif %}" id="tab{{ contentId }}{{ itemToTab.link|e('html_attr') }}">
+                    {{ itemToTab.display|raw }}
+                </div>
+            {% endfor %}
             </div>
-            {if $tabType == 3}
+            {% if tabType == 3 %}
             </div>
-            {/if}
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,1 +1,2 @@
-{{ form_row(form.authorId) }}
+{{ form_row(form.author) }}
+<div id="authorUserName" class="hidden">{{ form.vars.data.author|profileLinkByUserId|striptags }}</div>

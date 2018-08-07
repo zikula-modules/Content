@@ -308,6 +308,15 @@ abstract class AbstractContentType implements ContentTypeInterface
     }
 
     /**
+     * Returns an array of current data values.
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
      * Returns searchable text, that is all the text that is searchable through Zikula's standard
      * search interface. You must strip the text of any HTML tags and other structural information
      * before returning the text. If you have multiple searchable text fields then concatenate all
@@ -383,7 +392,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function displayView()
     {
-        $templateParameters = $this->data;
+        $templateParameters = $this->getData();
         $templateParameters['contentId'] = null !== $this->getEntity() ? $this->getEntity()->getId() : 0;
 
         return $this->twig->render($this->getViewTemplatePath(), $templateParameters);

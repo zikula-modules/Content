@@ -31,6 +31,8 @@ services:
             - "@zikula_content_module.collection_filter_helper"
             - "@zikula_content_module.model_helper"
             - "@zikula_content_module.feature_activation_helper"
+        calls:
+            - [setContentDisplayHelper, ["@zikula_content_module.content_display_helper"]]
     
     zikula_content_module.entity_display_helper:
         class: Zikula\ContentModule\Helper\EntityDisplayHelper

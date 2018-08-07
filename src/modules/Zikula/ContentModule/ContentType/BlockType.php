@@ -47,12 +47,12 @@ class BlockType extends AbstractContentType
     /**
      * @var BlockApiInterface
      */
-    private $blockApi;
+    protected $blockApi;
 
     /**
      * @var Engine
      */
-    private $themeEngine;
+    protected $themeEngine;
 
     /**
      * BlockType constructor.

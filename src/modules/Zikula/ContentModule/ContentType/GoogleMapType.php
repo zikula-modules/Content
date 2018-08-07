@@ -144,12 +144,6 @@ class GoogleMapType extends AbstractContentType
         return html_entity_decode(strip_tags($this->data['text']));
     }
 
-/** TODO
-    function displayEditing()
-    {
-        return $this->__f('Map at longitude: %1$s, latitude: %2$s, description: %3$s', array(substr($this->longitude,0,6).'...', substr($this->latitude,0,6).'...', DataUtil::formatForDisplay($this->text)));
-    }
-*/
     /**
      * @inheritDoc
      */

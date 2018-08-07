@@ -11,42 +11,43 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-
+use RuntimeException;
 use \Twig_Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ContentItemType as FormType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\ContentDisplayHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Content item content type.
  */
-class ContentItemType extends AbstractContentType implements ContainerAwareInterface
+class ContentItemType extends AbstractContentType
 {
-    use ContainerAwareTrait;
-
     /**
      * @var EntityFactory
      */
-    private $entityFactory;
+    protected $entityFactory;
 
     /**
-     * BlockType constructor.
+     * @var ContentDisplayHelper
+     */
+    protected $displayHelper;
+
+    /**
+     * ContentItemType constructor.
      *
-     * @param TranslatorInterface $translator       Translator service instance
-     * @param Twig_Environment    $twig             Twig service instance
-     * @param FilesystemLoader    $twigLoader       Twig loader service instance
-     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
-     * @param Asset               $assetHelper      Asset service instance
-     * @param ContainerInterface  $container        Service container
-     * @param EntityFactory       $entityFactory    EntityFactory service instance
+     * @param TranslatorInterface  $translator       Translator service instance
+     * @param Twig_Environment     $twig             Twig service instance
+     * @param FilesystemLoader     $twigLoader       Twig loader service instance
+     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
+     * @param Asset                $assetHelper      Asset service instance
+     * @param EntityFactory        $entityFactory    EntityFactory service instance
+     * @param ContentDisplayHelper $displayHelper    ContentDisplayHelper service instance
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -54,14 +55,13 @@ class ContentItemType extends AbstractContentType implements ContainerAwareInter
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
         Asset $assetHelper,
-        ContainerInterface $container,
-        EntityFactory $entityFactory
+        EntityFactory $entityFactory,
+        ContentDisplayHelper $displayHelper
     ) {
-        $this->setContainer($container);
         $this->entityFactory = $entityFactory;
+        $this->displayHelper = $displayHelper;
         parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
     }
-
 
     /**
      * @inheritDoc
@@ -108,7 +108,8 @@ class ContentItemType extends AbstractContentType implements ContainerAwareInter
     /**
      * @inheritDoc
      */
-    public function displayView() {
+    public function displayView()
+    {
         if ($this->data['contentItemId'] < 1) {
             return '';
         }
@@ -119,17 +120,11 @@ class ContentItemType extends AbstractContentType implements ContainerAwareInter
             return '';
         }
 
-        $contentTypeClass = $contentItem->getOwningType();
-        if (!class_exists($contentTypeClass) || !$this->container->has($contentTypeClass)) {
+        try {
+            $contentType = $this->displayHelper->initContentType($contentItem);
+        } catch (RuntimeException $exception) {
             return '';
         }
-        if ($contentTypeClass == get_class($this)) {
-            // prevent endless loop
-            return '';
-        }
-
-        $contentType = $this->container->get($contentTypeClass);
-        $contentType->setEntity($contentItem);
 
         return $contentType->displayView();
     }

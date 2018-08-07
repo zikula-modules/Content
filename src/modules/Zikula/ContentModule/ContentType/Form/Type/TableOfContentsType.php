@@ -59,7 +59,7 @@ class TableOfContentsType extends AbstractType
             $this->__('Yes, limited') => 2
         ];
         $builder
-            ->add('pageId', EntityTreeType::class, [
+            ->add('page', EntityTreeType::class, [
                 'class' => PageEntity::class,
                 'multiple' => false,
                 'expanded' => false,

@@ -19,6 +19,7 @@ application "Content" {
         Entity/Factory/EntityInitialiser.php,
         Form/Type/PageType.php,
         Helper/CollectionFilterHelper.php,
+        Helper/ControllerHelper.php,
         Helper/ListEntriesHelper.php,
         Helper/PermissionHelper.php,
         Menu/ItemActionsMenu.php,

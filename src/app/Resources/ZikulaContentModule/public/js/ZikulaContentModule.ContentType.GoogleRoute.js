@@ -4,6 +4,7 @@
  * Initialises the google route view.
  */
 function contentInitGoogleRouteDisplay() {
+    console.log('google route display');
     // TODO
 }
 

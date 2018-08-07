@@ -140,7 +140,7 @@ class ComputerCodeType extends AbstractContentType
      * @param boolean $usePre
      * @return string
      */
-    private function transformCode($code, $usePre)
+    protected function transformCode($code, $usePre)
     {
         $lines = explode("\n", $code);
         $html = "<div class=\"content-computercode\"><ol class=\"codelisting\">\n";

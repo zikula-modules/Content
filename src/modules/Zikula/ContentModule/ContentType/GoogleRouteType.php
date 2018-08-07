@@ -143,12 +143,6 @@ class GoogleRouteType extends AbstractContentType
         return html_entity_decode(strip_tags($this->data['addressText'] . $this->data['topText'] . $this->data['bottomText']));
     }
 
-/**
-    function displayEditing()
-    {
-        return $this->__f('Map route at longitude: %1$s, latitude: %2$s, description: %3$s', array(substr($this->longitude,0,6).'...', substr($this->latitude,0,6).'...', DataUtil::formatForDisplay($this->text)));
-    }
-*/
     /**
      * @inheritDoc
      */

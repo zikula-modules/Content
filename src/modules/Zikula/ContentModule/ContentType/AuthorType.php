@@ -91,9 +91,14 @@ class AuthorType extends AbstractContentType
      */
     public function getDefaultData()
     {
-        return [
-            'authorId' => $this->currentUserApi->get('uid')
+        $data = [
+            'author' => $this->currentUserApi->get('uid')
         ];
+
+        $user = $this->userRepository->find($data['author']);
+        $data['authorName'] = $user->getUname();
+
+        return $data;
     }
 
     /**
@@ -101,10 +106,7 @@ class AuthorType extends AbstractContentType
      */
     public function getSearchableText()
     {
-        $user = $this->userRepository->find($this->data['authorId']);
-        $authorName = null !== $user ? $user->getUname() : $this->__('Unknown author');
-
-        return html_entity_decode(strip_tags($authorName));
+        return html_entity_decode(strip_tags($this->data['authorName']));
     }
 
     /**
@@ -112,7 +114,9 @@ class AuthorType extends AbstractContentType
      */
     public function displayView()
     {
-        $this->data['author'] = $this->userRepository->find($this->data['authorId']);
+        $user = $this->userRepository->find($this->data['author']);
+        $this->data['author'] = $user;
+        $this->data['authorName'] = null !== $user ? $user->getUname() : $this->__('Unknown author');
 
         return parent::displayView();
     }

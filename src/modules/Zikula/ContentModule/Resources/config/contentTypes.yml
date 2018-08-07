@@ -34,7 +34,7 @@ services:
     Zikula\ContentModule\ContentType\Form\Type\BlockType:
         parent: zikula_content_module.content_type.form.common
         arguments:
-            - '@doctrine.orm.default_entity_manager'
+            - '@zikula_blocks_module.block_repository'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\BreadcrumbType:
@@ -58,8 +58,8 @@ services:
     Zikula\ContentModule\ContentType\ContentItemType:
         parent: zikula_content_module.content_type.common
         arguments:
-            - '@service_container'
             - '@zikula_content_module.entity_factory'
+            - '@zikula_content_module.content_display_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ContentItemType:
         parent: zikula_content_module.content_type.form.common
@@ -145,6 +145,10 @@ services:
 
     Zikula\ContentModule\ContentType\TableOfContentsType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@router'
+            - '@zikula_content_module.entity_factory'
+            - '@zikula_content_module.content_display_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType:
         parent: zikula_content_module.content_type.form.common
@@ -152,6 +156,9 @@ services:
 
     Zikula\ContentModule\ContentType\TabNavigationType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@zikula_content_module.entity_factory'
+            - '@zikula_content_module.content_display_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\TabNavigationType:
         parent: zikula_content_module.content_type.form.common

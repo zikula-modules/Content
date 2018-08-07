@@ -24,7 +24,9 @@ use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\AuthorType;
+use Zikula\ContentModule\ContentType\TableOfContentsType;
 use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\Type\ContentItemType;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 use Zikula\UsersModule\Entity\UserEntity;
@@ -88,90 +90,11 @@ class ContentItemController extends AbstractContentItemController
             throw new AccessDeniedException();
         }
 
-        $contentTypeClass = $contentItem->getOwningType();
-        $container = $this->get('service_container');
-        if (!class_exists($contentTypeClass) || !$container->has($contentTypeClass)) {
-            throw new RuntimeException($this->__('Invalid content type received.'));
-        }
+        $displayHelper = $this->get('zikula_content_module.content_display_helper');
 
-        $contentType = $container->get($contentTypeClass);
-        $contentType->setEntity($contentItem);
+        $editDetails = $displayHelper->getDetailsForDisplayEditing($contentItem);
 
-        return $this->json([
-            'title' => $this->getWidgetTitle($contentItem, $contentType),
-            'content' => $contentType->display(true),
-            'panelClass' => $this->getWidgetPanelClass($contentItem)
-        ]);
-    }
-
-    /**
-     * The zikulacontentmodule_widgetTitle filter displays the title for the widget
-     * of a given content item entity.
-     * Example:
-     *     {{ contentItem|zikulacontentmodule_widgetTitle }}
-     *
-     * @param ContentItemEntity $item
-     * @param ContentTypeInterface $contentType
-     *
-     * @return string Widget title
-     */
-    protected function getWidgetTitle(ContentItemEntity $item, ContentTypeInterface $contentType)
-    {
-        $icon = '<i class="fa fa-' . $contentType->getIcon() . '"></i>';
-        $title = $contentType->getTitle();
-
-        $translator = $this->get('translator.default');
-        if (!$item->isCurrentlyActive()) {
-            $title .= ' (' . $translator->__('inactive') . ')';
-        } elseif ('0' != $item->getScope()) {
-            $scope = $item->getScope();
-            if ('-1' == $scope) {
-                $title .= ' (' . $translator->__('only logged in members') . ')';
-            } elseif ('-2' == $scope) {
-                $title .= ' (' . $translator->__('only not logged in people') . ')';
-            } else {
-                $groupId = intval($scope);
-                $groupRepository = $this->get('zikula_groups_module.group_repository');
-                $group = $groupRepository->find($groupId);
-                if (null !== $group) {
-                    $title .= ' (' . $translator->__f('only %group', ['%group' => $group->getName()]) . ')';
-                } else {
-                    $title .= ' (' . $translator->__('specific group') . ')';
-                }
-            }
-        }
-
-        return $icon . ' ' . $title;
-    }
-
-    /**
-     * The zikulacontentmodule_widgetPanelClass filter displays the name
-     * of a bootstrap panel class for a given content item entity.
-     * Example:
-     *     {{ contentItem|zikulacontentmodule_widgetPanelClass }}
-     *
-     * @param ContentItemEntity $item
-     *
-     * @return string Widget panel class name
-     */
-    protected function getWidgetPanelClass(ContentItemEntity $item)
-    {
-        $result = 'primary';
-
-        if (!$item->isCurrentlyActive()) {
-            $result = 'danger';
-        } elseif ('0' != $item->getScope()) {
-            $scope = $item->getScope();
-            if ('-1' == $scope || '-2' == $scope) {
-                $result = 'success';
-            } elseif ('1' == $scope || '2' == $scope) {
-                $result = 'warning';
-            } else {
-                $result = 'info';
-            }
-        }
-
-        return $result;
+        return $this->json($editDetails);
     }
 
     /**
@@ -272,19 +195,16 @@ class ContentItemController extends AbstractContentItemController
 
             $contentItem = $factory->createContentItem();
             $contentItem->setOwningType($contentTypeClass);
+            $page->addContentItems($contentItem);
         } else {
             if (!$permissionHelper->mayEdit($contentItem)) {
                 throw new AccessDeniedException();
             }
-            $contentTypeClass = $contentItem->getOwningType();
         }
 
-        $container = $this->get('service_container');
-        if (!$container->has($contentTypeClass)) {
-            throw new RuntimeException($this->__('Invalid content type received.'));
-        }
+        $displayHelper = $this->get('zikula_content_module.content_display_helper');
+        $contentType = $displayHelper->initContentType($contentItem);
 
-        $contentType = $container->get($contentTypeClass);
         if (true === $isCreation) {
             $contentItem->setContentData($contentType->getDefaultData());
         }
@@ -300,6 +220,17 @@ class ContentItemController extends AbstractContentItemController
             ];
         }
         $route = $this->get('router')->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
+
+        // TODO move
+        if ($contentType instanceof TableOfContentsType) {
+            $contentData = $contentItem->getContentData();
+            if ($contentData['page'] < 1) {
+                $contentData['page'] = null;
+            } else {
+                $contentData['page'] = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectById($contentData['page'], false);
+            }
+            $contentItem->setContentData($contentData);
+        }
 
         $form = $this->createForm(ContentItemType::class, $contentItem, [
             'action' => $route
@@ -342,8 +273,14 @@ class ContentItemController extends AbstractContentItemController
                 // TODO move
                 if ($contentType instanceof AuthorType) {
                     $contentData = $contentItem->getContentData();
-                    if ($contentData['authorId'] instanceof UserEntity) {
-                        $contentData['authorId'] = $contentData['authorId']->getUid();
+                    if ($contentData['author'] instanceof UserEntity) {
+                        $contentData['author'] = $contentData['author']->getUid();
+                        $contentItem->setContentData($contentData);
+                    }
+                } elseif ($contentType instanceof TableOfContentsType) {
+                    $contentData = $contentItem->getContentData();
+                    if ($contentData['page'] instanceof PageEntity) {
+                        $contentData['page'] = $contentData['page']->getId();
                         $contentItem->setContentData($contentData);
                     }
                 }

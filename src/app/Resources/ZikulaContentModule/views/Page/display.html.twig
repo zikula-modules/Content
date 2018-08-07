@@ -6,40 +6,27 @@
     {% set templateTitle = page|zikulacontentmodule_formattedTitle|default(__('Page')) %}
     {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
 {% endblock %}
+{% block titleArea %}
+    {% if page.showTitle %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
 {% block admin_page_icon 'eye' %}
 {% block content %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}
     <div class="zikulacontentmodule-page zikulacontentmodule-display">
 
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-xs-12">
     {% set itemActions = knp_menu_get('ZikulaContentModule:ItemActionsMenu:menu', [], {entity: page, area: routeArea, context: 'display'}) %}
     <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
         {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
     </div>
     <dl>
-        {% if page.title is not empty %}
-            <dt>{{ __('Title') }}</dt>
-            <dd>{{ page.title }}</dd>
-        {% endif %}
-        <dt>{{ __('Show title') }}</dt>
-        <dd>{% if page.showTitle %}
-            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-        {% else %}
-            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-        {% endif %}
-        </dd>
         {% if page.metaDescription is not empty %}
             <dt>{{ __('Meta description') }}</dt>
             <dd>{{ page.metaDescription|safeHtml }}</dd>
         {% endif %}
-        <dt>{{ __('Skip ui hook subscriber') }}</dt>
-        <dd>{% if page.skipUiHookSubscriber %}
-            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-        {% else %}
-            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-        {% endif %}
-        </dd>
         <dt>{{ __('Skip filter hook subscriber') }}</dt>
         <dd>{% if page.skipFilterHookSubscriber %}
             <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
@@ -47,17 +34,6 @@
             <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
         {% endif %}
         </dd>
-        {% if page.layout is not empty %}
-            <dt>{{ __('Layout') }}</dt>
-            <dd>{% if page.layout is iterable and page.layout|length > 0 %}
-                <ul>
-                {% for entry in page.layout %}
-                    <li>{{ entry }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            </dd>
-        {% endif %}
         {% if page.views is not empty %}
             <dt>{{ __('Views') }}</dt>
             <dd>{{ page.views }}</dd>
@@ -102,15 +78,15 @@
             {% endif %}
         </div></noscript>
         </dd>
-        {% if page.optionalString1 is not empty %}
+        {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) and page.optionalString1 is not empty %}
             <dt>{{ __('Optional string 1') }}</dt>
             <dd>{{ page.optionalString1 }}</dd>
         {% endif %}
-        {% if page.optionalString2 is not empty %}
+        {% if getModVar('ZikulaContentModule', 'enableOptionalString2', false) and page.optionalString2 is not empty %}
             <dt>{{ __('Optional string 2') }}</dt>
             <dd>{{ page.optionalString2 }}</dd>
         {% endif %}
-        {% if page.optionalText is not empty %}
+        {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) and page.optionalText is not empty %}
             <dt>{{ __('Optional text') }}</dt>
             <dd>{{ page.optionalText|safeHtml }}</dd>
         {% endif %}
@@ -121,45 +97,59 @@
         
     </dl>
 
+    <h3 class="content-elements">{{ __('Content elements') }}</h3>
+    {{ block('content_elements') }}
+
     {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
         {{ include('@ZikulaContentModule/Helper/includeCategoriesDisplay.html.twig', {obj: page}) }}
     {% endif %}
-    {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
+    {#% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
         <h3 class="relatives">{{ __('Relatives') }}</h3>
             {{ include(
                 '@ZikulaContentModule/Page/displayTreeRelatives.html.twig',
                 {allParents: true, directParent: true, allChildren: true, directChildren: true, predecessors: true, successors: true, preandsuccessors: true}
             ) }}
-    {% endif %}
+    {% endif %#}
     {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
-
-    {{ block('display_hooks') }}
-        </div>
-        <div class="col-sm-3">
-            {{ block('related_items') }}
+    {% if not page.skipUiHookSubscriber %}
+        {{ block('display_hooks') }}
+    {% endif %}
         </div>
     </div>
 </div>
-{% endblock %}
-{% block related_items %}
-    {% if routeArea == 'admin' %}
-        <h4>{{ __('Content items') }}</h4>
-    {% else %}
-        <h3>{{ __('Content items') }}</h3>
-    {% endif %}
-    
-    {% if page.contentItems|default %}
-        {{ include(
-            '@ZikulaContentModule/ContentItem/includeDisplayItemListMany.html.twig',
-            {items: page.contentItems}
-        ) }}
-    {% endif %}
 {% endblock %}
 {% block display_hooks %}
     {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
     {% if hooks is iterable and hooks|length > 0 %}
         {% for area, hook in hooks %}
             <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+{% block content_elements %}
+    {% if page.layout|default and page.layout is iterable and page.layout|length > 0 %}
+        {% for section in page.layout if section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
+            <div class="row">
+                {% set lastWidget = null %}
+                {% for widget in section.widgets %}
+                    {% set colOffset = 0 %}
+                    {% if lastWidget|default and widget.y == lastWidget.y %}
+                        {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
+                    {% else %}
+                        {% set colOffset = widget.x %}
+                    {% endif %}
+                    {% set contentElement = null %}
+                    {% for item in page.contentItems if item.id == widget.id %}
+                        {% set contentElement = item %}
+                    {% endfor %}
+                    {% if contentElement != null %}
+                        <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
+                            {{ contentElements[widget.id]|raw }}
+                        </div>
+                    {% endif %}
+                    {% set lastWidget = widget %}
+                {% endfor %}
+            </div>
         {% endfor %}
     {% endif %}
 {% endblock %}

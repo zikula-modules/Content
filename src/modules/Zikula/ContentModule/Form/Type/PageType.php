@@ -26,6 +26,9 @@ class PageType extends AbstractPageType
     {
         parent::buildForm($builder, $options);
 
+        $builder->remove('layout');
+        $builder->remove('views');
+
         if ('create' != $options['mode']) {
             $removeFields = [];
             if (!$this->variableApi->get('ZikulaContentModule', 'enableOptionalString1', false)) {
@@ -54,8 +57,6 @@ class PageType extends AbstractPageType
             'showTitle',
             'skipUiHookSubscriber',
             'skipFilterHookSubscriber',
-            'layout',
-            'views',
             'active',
             'activeFrom',
             'activeTo',

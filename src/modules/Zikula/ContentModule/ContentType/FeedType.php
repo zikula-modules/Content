@@ -143,7 +143,7 @@ class FeedType extends AbstractContentType
      * @param string $string
      * @return string
      */
-    private function decode($string)
+    protected function decode($string)
     {
         return mb_convert_encoding($s, mb_detect_encoding($s), $this->feed->get_encoding());
     }
