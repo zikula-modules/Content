@@ -26,7 +26,7 @@ function contentInitGoogleMapEdit() {
         longitude = 10.119942;
     }
 
-    zoom = jQuery('#' + fieldPrefix + 'zoom').val();
+    zoom = parseInt(jQuery('#' + fieldPrefix + 'zoom').val());
     if (!zoom) {
         zoom = 5;
     }
@@ -53,6 +53,8 @@ function contentInitGoogleMapEdit() {
     });
 
     google.maps.event.addListener(map, 'click', function(event) { 
+        var coord;
+
         marker.setMap(null);
         marker = null;
         marker = new google.maps.Marker({ 
@@ -64,12 +66,13 @@ function contentInitGoogleMapEdit() {
         coord = coord.split(', ');
         latitude = coord[0].replace(/\(/, '');
         longitude = coord[1].replace(/\)/, '');
+
         jQuery('#' + fieldPrefix + 'latitude').val(latitude);
         jQuery('#' + fieldPrefix + 'longitude').val(longitude);
         jQuery('#' + fieldPrefix + 'zoom').val(map.getZoom());
     });
 
-    jQuery('#' + fieldPrefix + 'mapType').change(function () {
+    jQuery('#' + fieldPrefix + 'mapType_0, #' + fieldPrefix + 'mapType_1, #' + fieldPrefix + 'mapType_2, #' + fieldPrefix + 'mapType_3').change(function () {
         map.setMapTypeId(jQuery(this).val());
     });
 }

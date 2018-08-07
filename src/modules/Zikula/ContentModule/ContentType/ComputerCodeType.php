@@ -104,27 +104,32 @@ class ComputerCodeType extends AbstractContentType
         return html_entity_decode(strip_tags($this->data['text']));
     }
 
-/** TODO
-    function display()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        if ('bbcode' == $this->codeFilter && $this->kernel->isBundle('ZikulaBBCodeModule')) {
-            $code = '[code]' . $this->text . '[/code]';
+        $this->data['formattedText'] = '';
+
+        $unformattedText = $this->data['text'];
+        if ('bbcode' == $this->data['codeFilter'] && $this->kernel->isBundle('ZikulaBBCodeModule')) {
+            $this->data['formattedText'] = $this->transformCode($unformattedText);
+            /* @todo update as soon as the BBCode module has been migrated to Zikula 2
+            $code = '[code]' . $unformattedText . '[/code]';
             PageUtil::addVar('stylesheet', 'modules/BBCode/style/style.css');
-            return ModUtil::apiFunc('BBCode', 'User', 'transform', array('message' => $code));
-        } elseif ('lumicula' == $this->codeFilter && $this->kernel->isBundle('PhaidonLuMicuLaModule')) {
-            ...
-        }
+            $this->data['formattedText'] = ModUtil::apiFunc('BBCode', 'User', 'transform', array('message' => $code));
+            */
+        } elseif ('lumicula' == $this->data['codeFilter'] && $this->kernel->isBundle('PhaidonLuMicuLaModule')) {
+            $this->data['formattedText'] = $this->transformCode($unformattedText);
+            /* @todo update as soon as the LuMicuLa module has been migrated to Zikula 2
+            */
         } else {
-            return $this->transformCode($this->text, true);
+            $this->data['formattedText'] = $this->transformCode($unformattedText);
         }
+
+        return parent::displayView();
     }
 
-    function displayEditing()
-    {
-        // <pre> does not work in IE 7 with the portal javascript
-        return $this->transformCode($this->text, false);
-    }
-*/
     /**
      * @inheritDoc
      */
@@ -137,27 +142,20 @@ class ComputerCodeType extends AbstractContentType
      * Processes the code.
      *
      * @param string $code
-     * @param boolean $usePre
      * @return string
      */
-    protected function transformCode($code, $usePre)
+    protected function transformCode($code)
     {
         $lines = explode("\n", $code);
-        $html = "<div class=\"content-computercode\"><ol class=\"codelisting\">\n";
+        $html = "<ol class=\"codelisting\">\n";
 
-        for ($i = 1, $cou = count($lines); $i <= $cou; ++$i) {
-            if ($usePre) {
-                $line = empty($lines[$i - 1]) ? ' ' : htmlspecialchars($lines[$i - 1]);
-                $line = '<div><pre>' . $line . '</pre></div>';
-            } else {
-                $line = empty($lines[$i - 1]) ? '&nbsp;' : htmlspecialchars($lines[$i - 1]);
-                $line = str_replace(' ', '&nbsp;', $line);
-                $line = '<div>' . $line . '</div>';
-            }
+        for ($i = 1, $amountOfLines = count($lines); $i <= $amountOfLines; ++$i) {
+            $line = empty($lines[$i - 1]) ? ' ' : htmlspecialchars($lines[$i - 1]);
+            $line = '<div><pre>' . $line . '</pre></div>';
             $html .= "<li>$line</li>\n";
         }
 
-        $html .= "</ol></div>\n";
+        $html .= "</ol>\n";
 
         return $html;
     }

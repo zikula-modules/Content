@@ -1,107 +1,23 @@
-TODO
-{* This code is for displaying directions directly into the inline map
-<div class="z-formrow">
-    <label for="routestart">{gt text="Get directions from start address"}</label>
-    <input type="text" id="routestart" name="routestart" maxlength="255" class="text" value=""/>
-    <input onclick="calcRoute();" type="submit" name="calcRoute" value="{gt text="Show Directions"}" />
-    <input onclick="clearRoute();" type="submit" name="clearRoute" value="{gt text="Clear Directions"}" />
+<div class="content-googlemap hidden" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ latitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ text|striptags|truncate(200)|e('html_attr') }}" data-markerinfo="{{ infoText|striptags|e('html_attr') }}" data-trafficoverlay="{{ trafficOverlay ? 'true' : 'false' }}" data-bicycleoverlay="{{ bicycleOverlay ? 'true' : 'false' }}" data-streetviewcontrol="{{ streetViewControl ? 'true' : 'false' }}" data-inlinedirections="{{ directionsInline ? 'true' : 'false' }}">
+    {% if directionsInline %}
+        <div class="form-group">
+            <label for="routeStart{{ contentId }}" class="control-label">{{ __('Get directions from start address') }}</label>
+            <input type="text" id="routeStart{{ contentId }}" maxlength="255" value="" class="form-control" />
+            <button type="button" id="calcRoute{{ contentId }}" class="btn btn-default hidden"><i class="fa fa-map-signs"></i> {{ __('Show directions') }}</button>
+            <button type="button" id="clearRoute{{ contentId }}" class="btn btn-default hidden"><i class="fa fa-undo"></i> {{ __('Clear directions') }}</button>
+        </div>
+    {% endif %}
+    {% if directionsLink %}
+        {# See for maps parameters: http://mapki.com/wiki/Google_Map_Parameters #}
+        <p><a href="https://maps.google.com/maps?f=d&amp;daddr={{ latitude }},{{ longitude }}&amp;mrsp=1&amp;hl={{ app.request.locale }}&amp;ie=UTF8&amp;z=10" title="{{ __('Get directions to this location') }}">{{ __('Get directions to this location') }}</a></p>
+    {% endif %}
+    <div id="map{{ contentId }}" class="map{% if directionsInline %} pull-left{% endif %}" style="width: 100%; height: {{ height }}px"></div>
+    {% if directionsInline %}
+        <div id="directions{{ contentId }}" class="map-directions pull-right" style="width: 0%; height: {{ height }}px"></div>
+        <br style="clear: both" />
+    {% endif %}
+    <p class="content-description">{{ text }}</p>
 </div>
-*}
-
-{* See for maps parameters: http://mapki.com/wiki/Google_Map_Parameters *}
-{if $directionslink}
-<a href="http://maps.google.com/maps?f=d&amp;daddr={$latitude|safetext},{$longitude|safetext}&amp;mrsp=1&amp;hl={$language}&amp;ie=UTF8&amp;z=10" title="">{gt text="Get directions to this location"}</a>
-{/if}
-
-<div class="content-googlemap">
-    <div id="googlemap{$contentId}" class="map" style="width: 100%; height: {$height|safetext}px"></div>
-    <p class="content-description">{$text|safehtml}</p>
-{* This code is for displaying directions directly into the inline map
-    <div id="googlemap{$contentId}" class="map" style="float:left; width: 100%; height: {$height|safetext}px"></div>
-    <div id="directions{$contentId}" class="map" style="float: right; width: 0%; height: {$height|safetext}px"></div>
-*}
-</div>
-
-<script type="text/javascript">
-    //<![CDATA[
-{{* This code is for displaying directions directly into the inline map
-    var directionsService{{$contentId}} = new google.maps.DirectionsService();
-    var directionsDisplay{{$contentId}};
-*}}    
-    var map{{$contentId}};
-    var myLatlng{{$contentId}};
-    Event.observe(window, 'load',
-        function() {
-            myLatlng{{$contentId}} = new google.maps.LatLng({{$latitude|safetext}}, {{$longitude|safetext}});
-            var myMapOptions{{$contentId}} = { 
-                zoom: {{$zoom|safetext}},
-                center: myLatlng{{$contentId}},
-                scaleControl: true,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                streetViewControl: {{if $streetviewcontrol}}true{{else}}false{{/if}}
-            }; 
-            map{{$contentId}} = new google.maps.Map($('googlemap{{$contentId}}'), myMapOptions{{$contentId}});
-            
-            {{* This code is for displaying directions directly into the inline map
-            directionsDisplay{{$contentId}} = new google.maps.DirectionsRenderer();
-            *}}
-            
-            // add a marker to the map
-            var marker{{$contentId}} = new google.maps.Marker({
-                position: myLatlng{{$contentId}},
-                map: map{{$contentId}},
-                title: '{{$text|strip_tags|truncate:200|safetext}}'
-            }); 
-
-            // display an infowindow when clicking on the marker
-            var contentString{{$contentId}} = '{{$infotext|strip|safehtml}}';
-            var infowindow{{$contentId}} = new google.maps.InfoWindow({ 
-                content: contentString{{$contentId}}
-            }); 
-            google.maps.event.addListener(marker{{$contentId}}, 'click', function() { 
-                infowindow{{$contentId}}.open(map{{$contentId}}, marker{{$contentId}}); 
-            });
-
-            {{* This code is for displaying an traffic and/or bicycle overlay
-            // overlay the map with a traficlayer if available in your region:
-            // http://code.google.com/apis/maps/documentation/javascript/overlays.html#TrafficLayer
-            var trafficLayer{{$contentId}} = new google.maps.TrafficLayer();
-            trafficLayer{{$contentId}}.setMap(map{{$contentId}});
-
-            // overlay the map with a bicyclelayer (currently only in the US)
-            // http://code.google.com/apis/maps/documentation/javascript/overlays.html#BicyclingLayer
-            var bikeLayer{{$contentId}} = new google.maps.BicyclingLayer();
-            bikeLayer{{$contentId}}.setMap(map{{$contentId}});
-            *}}
-        }
-    );
-{{* This code is for displaying directions directly into the inline map
-    function calcRoute() {
-        var start{{$contentId}} = $F('routestart');
-        var request{{$contentId}} = {
-            origin: start{{$contentId}},
-            destination: myLatlng{{$contentId}},
-            travelMode: google.maps.DirectionsTravelMode.DRIVING
-        };
-        directionsService{{$contentId}}.route(request{{$contentId}}, function(result, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                // adjust the width of the map and directions panel
-                $('googlemap{{$contentId}}').setStyle({width: '50%', height: '600px'});
-                $('directions{{$contentId}}').setStyle({width: '50%', height: '600px'});
-                directionsDisplay{{$contentId}}.setDirections(result);
-                directionsDisplay{{$contentId}}.setMap(map{{$contentId}});
-                directionsDisplay{{$contentId}}.setPanel($('directions{{$contentId}}'));
-            }
-        });
-    }
-    function clearRoute() {
-        $('googlemap{{$contentId}}').setStyle({width: '100%', height: '{{$height}}px'});
-        $('directions{{$contentId}}').setStyle({width: '0%', height: '{{$height}}px'});
-        map{{$contentId}}.setCenter(myLatlng{{$contentId}});
-        directionsDisplay{{$contentId}}.setMap(null);
-        directionsDisplay{{$contentId}}.setPanel(null);
-        directionsDisplay{{$contentId}}.setDirections(null);
-    }
-*}}
-    //]]>
-</script>
+<noscript>
+    <p><img src="https://maps.google.com/maps/api/staticmap?size=600x{{ height }}&amp;maptype={{ mapType }}&amp;center={{ latitude }},{{ longitude }}&amp;markers={{ latitude }},{{ longitude }}&amp;zoom={{ zoom }}&amp;key={{ getModVar('ZikulaContentModule', 'googleMapsApiKey', '') }}" alt="{{ text|e('html_attr') }}" title="{{ text|e('html_attr') }}" class="img-responsive" /></p>
+</noscript>

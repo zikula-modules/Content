@@ -107,7 +107,7 @@ class GoogleRouteType extends AbstractContentType
     public function isActive()
     {
         // Only active when the API key is available
-        return '' != $this->googleMapsApiKey;
+        return '' != $this->googleMapsApiKey && parent::isActive();
     }
 
     /**
@@ -160,14 +160,21 @@ class GoogleRouteType extends AbstractContentType
 
         $assets = parent::getAssets($context);
 
-        $assets['js'][] = 'https://maps.google.com/maps/api/js?v=3&key=' . $this->googleMapsApiKey . '&language=' . $locale;
-
         if (ContentTypeInterface::CONTEXT_VIEW == $context) {
             $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleRoute.js');
         }
         if (ContentTypeInterface::CONTEXT_EDIT == $context) {
             $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleEdit.js');
         }
+
+        $googleMapsScript = 'https://maps.google.com/maps/api/js?v=3&key=' . $this->googleMapsApiKey . '&language=' . $locale;
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            $googleMapsScript .= '&callback=contentInitGoogleRouteDisplay';
+        }
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            $googleMapsScript .= '&callback=contentInitGoogleMapEdit';
+        }
+        $assets['js'][] = $googleMapsScript;
 
         return $assets;
     }
@@ -177,9 +184,9 @@ class GoogleRouteType extends AbstractContentType
      */
     public function getJsEntrypoint($context)
     {
-        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+        /*if (ContentTypeInterface::CONTEXT_VIEW == $context) {
             return 'contentInitGoogleRouteDisplay';
-        }
+        }*/
         if (ContentTypeInterface::CONTEXT_EDIT == $context) {
             return 'contentInitGoogleMapEdit';
         }

@@ -1,21 +1,24 @@
-TODO
-<div class="content-rss">
-{*    <h3><a href="{$feed.permalink}">{$feed.title}</a></h3>*}
-
-    {if count($feed.items) > 0}
-    {if $includeContent}
-    {foreach from=$feed.items item=item}
-    <div class="content-rss-item">
-        <h4><a href="{$item.permalink}">{$item.title}</a></h4>
-        {if $item.description}<div class="content-rss-descr">{$item.description}</div>{/if}
-    </div>
-    {/foreach}
-    {else}
-    <ul>
-        {foreach from=$feed.items item=item}
-        <li><a href="{$item.permalink}">{$item.title}</a></li>
-        {/foreach}
-    </ul>
-    {/if}
-    {/if}
+<div class="content-feed">
+    <h3><a href="{{ feed.permalink|e('html_attr') }}" title="{{ feed.title|e('html_attr') }}">{{ feed.title }}</a></h3>
+    {#% if feed.description %}
+        <p>{{ feed.description }}</p>
+    {% endif %#}
+    {% if feed.items|length > 0 %}
+        <div class="list-group">
+            {% for item in feed.items %}
+                <a href="{{ item.permalink|e('html_attr') }}" title="{{ item.title|e('html_attr') }}" class="list-group-item">
+                    {% if includeContent %}
+                        <h4 class="list-group-item-heading">{{ item.title }}</h4>
+                        {% if item.description %}
+                            <p class="list-group-item-text">
+                                {{ item.description }}
+                            </p>
+                        {% endif %}
+                    {% else %}
+                        {{ item.title }}
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
 </div>

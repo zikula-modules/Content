@@ -1,0 +1,11 @@
+.map {
+    min-height: 200px;
+    margin-bottom: 30px;
+}
+#contentItemEditFormBody .map {
+    min-height: 400px;
+}
+.map-directions {
+    max-height: 1000px;
+    overflow: auto;
+}

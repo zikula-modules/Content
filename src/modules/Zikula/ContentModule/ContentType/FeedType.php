@@ -11,15 +11,48 @@
 
 namespace Zikula\ContentModule\ContentType;
 
+use \Twig_Environment;
+use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\FeedType as FormType;
+use Zikula\ContentModule\Helper\CacheHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Feed content type.
  */
 class FeedType extends AbstractContentType
 {
+    /**
+     * @var CacheHelper
+     */
+    protected $cacheHelper;
+
+    /**
+     * FeedType constructor.
+     *
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param Twig_Environment    $twig             Twig service instance
+     * @param FilesystemLoader    $twigLoader       Twig loader service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param Asset               $assetHelper      Asset service instance
+     * @param CacheHelper         $cacheHelper      CacheHelper service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        Twig_Environment $twig,
+        FilesystemLoader $twigLoader,
+        PermissionHelper $permissionHelper,
+        Asset $assetHelper,
+        CacheHelper $cacheHelper
+    ) {
+        $this->cacheHelper = $cacheHelper;
+        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
+    }
+
     /**
      * @inheritDoc
      */
@@ -55,32 +88,12 @@ class FeedType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function getAdminInfo()
-    {
-        // TODO
-        return $this->__('You need to install the SimplePie system plugin in order to activate this plugin.');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isActive()
-    {
-        // check for the availability of the SimplePie systemplugin that provides SimplePie
-        // TODO
-        return true;
-        return false;//PluginUtil::isAvailable(PluginUtil::getServiceId('SystemPlugin_SimplePie_Plugin'));
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
             'url' => '',
             'includeContent' => false,
-            'refreshTime' => 60,
+            'refreshTime' => 2,
             'maxNoOfItems' => 10
         ];
     }
@@ -90,45 +103,53 @@ class FeedType extends AbstractContentType
      */
     public function getSearchableText()
     {
-        return html_entity_decode(strip_tags($this->data['text']));
+        return html_entity_decode(strip_tags($this->data['url']));
     }
 
-/** TODO
-    function display()
+    /**
+     * @inheritDoc
+     */
+    public function displayView()
     {
-        // call SimplePieFeed that provides SimplePie
-        $this->feed = new SimplePieFeed($this->url, $this->refreshTime * 60, System::getVar('temp'));
-        $this->feed->init();
-        $items = $this->feed->get_items();
-        //$items = $this->feed->get_items(0, $this->maxNoOfItems);
-        //$theFeed->enable_order_by_date(true);
-
-        $itemsData = array();
-        foreach ($items as $item) {
-            if (count($itemsData) < $this->maxNoOfItems) {
-                $itemsData[] = array(
-                    'title' => $this->decode($item->get_title()),
-                    'description' => $this->decode($item->get_description()),
-                    'permalink' => $item->get_permalink());
-            }
+        $cacheDirectory = $this->cacheHelper->getCacheDirectory();
+        $feed = new \SimplePie();
+        if (file_exists($cacheDirectory)) {
+            $feed->set_cache_location($cacheDirectory);
+            $feed->set_cache_duration($this->data['refreshTime'] * 60 * 60);
+        } else {
+            $feed->enable_cache(false);
         }
-        $this->feedData = array(
-            'title' => $this->decode($this->feed->get_title()),
-            'description' => $this->decode($this->feed->get_description()),
-            'permalink' => $this->feed->get_permalink(),
-            'items' => $itemsData);
+        $feed->set_feed_url($this->data['url']);
+        if (true !== $feed->init()) {
+            return '';
+        }
 
-        $this->view->assign('feed', $this->feedData);
-        $this->view->assign('includeContent', $this->includeContent);
+        $feedItems = $feed->get_items();
+        $feedEncoding = $feed->get_encoding();
 
-        return $this->view->fetch($this->getTemplate());
+        $items = [];
+        foreach ($feedItems as $item) {
+            if (count($items) >= $this->data['maxNoOfItems']) {
+                break;
+            }
+
+            $items[] = [
+                'title' => $this->decode($item->get_title(), $feedEncoding),
+                'description' => strip_tags(html_entity_decode($this->decode($item->get_description(), $feedEncoding))),
+                'permalink' => $item->get_permalink()
+            ];
+        }
+
+        $this->data['feed'] = [
+            'title' => $this->decode($feed->get_title(), $feedEncoding),
+            'description' => strip_tags(html_entity_decode($this->decode($feed->get_description(), $feedEncoding))),
+            'permalink' => $feed->get_permalink(),
+            'items' => $items
+        ];
+
+        return parent::displayView();
     }
 
-    function displayEditing()
-    {
-        return "<input value=\"" . DataUtil::formatForDisplay($this->url) . "\" style=\"width: 30em\" readonly=readonly/>";
-    }
-*/
     /**
      * @inheritDoc
      */
@@ -141,10 +162,11 @@ class FeedType extends AbstractContentType
      * Decodes data from the feed.
      *
      * @param string $string
+     * @param string $feedEncoding
      * @return string
      */
-    protected function decode($string)
+    protected function decode($string, $feedEncoding)
     {
-        return mb_convert_encoding($s, mb_detect_encoding($s), $this->feed->get_encoding());
+        return mb_convert_encoding($string, mb_detect_encoding($string), $feedEncoding);
     }
 }

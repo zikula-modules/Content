@@ -74,7 +74,7 @@ class ComputerCodeType extends AbstractType
             ])
             ->add('codeFilter', ChoiceType::class, [
                 'label' => $this->__('Code filter') . ':',
-                'help' => $this->__('If ZikulaBBCodeModule or PhaidonLuMicuLaModule is available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.'),
+                'help' => $this->__('If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.'),
                 'choices' => $filterChoices,
                 'expanded' => true
             ])

@@ -1,27 +1,24 @@
-TODO
-<div id="routemapcontainer" class="hidden">
-    <div class="grid_8 alpha" style="padding-left: 20px">
-        <h3 style="margin-left: 0; margin-bottom: 30px">{$topText}</h3>
-        <label for="fromAddress">Ihre Adresse:</label><br />
-        <input type="text" id="fromAddress" name="from" value="" size="30" style="margin-top: 10px; margin-bottom: 10px" />
-        <input type="button" id="startcalc" value="Route berechnen!" /><br />
-        <input type="hidden" id="totitle" name="totitle" value="{$addressText}" />
-        <input type="hidden" id="tolat" name="tolat" value="{$latitude}" />
-        <input type="hidden" id="tolong" name="tolong" value="{$longitude}" />
-        <span class="fontsize10">Straße (optional), Ort, Land (optional)</span>
-        <br /><br />
-        <div class="googlemap" style="margin-top: 20px">
-            <div id="routemap" class="map" style="width: 100%; height: 350px"></div>
-            <p class="content-description">{$bottomText}</p>
+<div class="content-googleroute row hidden" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ latitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ __('Destination address') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
+    <div class="col-sm-7">
+        <h3>{{ topText }}</h3>
+        <div class="form-group">
+            <label for="fromAddress{{ contentId }}" class="control-label">Ihre Adresse:</label><br />
+            <div class="input-group">
+                <input type="text" id="fromAddress{{ contentId }}" name="from" value="" maxlength="255" class="form-control" />
+                <span class="input-group-btn">
+                    <button type="button" id="startCalc{{ contentId }}" class="btn btn-default"><i class="fa fa-map-signs"></i> {{ __('Calculate route!') }}</button>
+                </span>
+            </div>
+            <small class="help-block">{{ __('Street (optional), Location, Country (optional)') }}</small>
         </div>
+        <br /><br />
+        <div id="map{{ contentId }}" class="map" style="width: 100%; height: {{ height }}px"></div>
+        <p class="content-description">{{ bottomText }}</p>
+        <div id="warningsPanel{{ contentId }}" class="alert alert-warning hidden"></div>
     </div>
-    <div class="grid_7 prefix_1 omega" id="directions" style="">
-
+    <div id="directions{{ contentId }}" class="col-sm-5 hidden map-directions">
     </div>
-    <div class="clear">&nbsp;</div>
-    &nbsp;
-    <div id="warnings_panel"></div>
 </div>
 <noscript>
-    <p><img src="http://maps.google.com/staticmap?size=600x350&amp;center={$latitude|safetext},{$longitude|safetext}&amp;markers={$latitude|safetext},{$longitude|safetext}&amp;zoom={$zoom}" alt="{$modvars.ZConfig.sitename|safetext}" title="{$modvars.ZConfig.sitename|safetext}" /></p>
+    <p><img src="https://maps.google.com/maps/api/staticmap?size=600x{{ height }}&amp;maptype={{ mapType }}&amp;center={{ latitude }},{{ longitude }}&amp;markers={{ latitude }},{{ longitude }}&amp;zoom={{ zoom }}&amp;key={{ getModVar('ZikulaContentModule', 'googleMapsApiKey', '') }}" alt="{{ topText|e('html_attr') }}" title="{{ topText|e('html_attr') }}" class="img-responsive" /></p>
 </noscript>

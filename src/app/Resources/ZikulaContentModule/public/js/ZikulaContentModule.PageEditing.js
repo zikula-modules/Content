@@ -354,7 +354,13 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 action = 'delete';
             }
 
-            if ('delete' == action && !confirm(Translator.__('Do you really want to delete this content?'))) {
+            if ('delete' != action) {
+                // check input validation
+                zikulaContentExecuteCustomValidationConstraints();
+                if (!form.get(0).checkValidity()) {
+                    return;
+                }
+            } else if ('delete' == action && !confirm(Translator.__('Do you really want to delete this content?'))) {
                 return;
             }
 

@@ -30,6 +30,11 @@ class CacheHelper
     protected $cacheDirectory;
 
     /**
+     * @var integer
+     */
+    protected $lifeTime;
+
+    /**
      * CacheHelper constructor.
      *
      * @param Filesystem $filesystem     Filesystem service instance
@@ -49,6 +54,8 @@ class CacheHelper
                 // ignore (for now)
             }
         }
+
+        $this->setLifeTime(2);
     }
 
     /**
@@ -93,13 +100,32 @@ class CacheHelper
     }
 
     /**
+     * Returns the cache directory.
+     *
+     * @return string
+     */
+    public function getCacheDirectory()
+    {
+        return $this->cacheDirectory;
+    }
+
+    /**
+     * Sets the lifetime of cache files.
+     *
+     * @param integer $hours
+     */
+    public function setLifeTime($hours)
+    {
+        $this->lifeTime = intval($hours);
+    }
+
+    /**
      * Returns lifetime of cache files.
      *
      * @return string
      */
-    protected function getLifetime()
+    public function getLifetime()
     {
-        // two hours
-        return 'PT2H';
+        return 'PT' . $this->lifeTime . 'H';
     }
 }

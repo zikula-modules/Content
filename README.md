@@ -11,7 +11,8 @@
   4. [Upgrading](#upgrading)
   5. [Implementing custom content types](#contenttypes)
   6. [Changelog](#changelog)
-  7. [Questions, bugs and contributing](#contributing)
+  7. [TODO](#todo)
+  8. [Questions, bugs and contributing](#contributing)
 
 
 <a name="introduction" />
@@ -92,6 +93,7 @@ New features:
 - Content types are grouped into different categories.
 - The ModuleFunc content type has been renamed to Controller since it now supports not only modules, but all types of Symfony bundles.
 - Google map and route content types support different map types instead of roadmaps only.
+- Slideshare and vimeo content types fetch additional data from the corresponding APIs.
 
 Deprecations:
 - The short URL suffix can not be configured anymore.
@@ -101,6 +103,14 @@ Deprecations:
 - The Camtasia content type has been removed.
 - The Flickr content type has been removed. A better choice is the Flickr media type in the media module which is going to provide a generic media content type soon (see https://github.com/cmfcmf/MediaModule/issues/2 for reference).
 - The FlashMovie content type has been removed. This is better handled by a media module, too.
+
+
+<a name="todo" />
+
+## TODO
+
+- The `ComputerCodeType` needs to be updated for supporting the BBCode and LuMicuLa modules as soon as they have been migrated to Zikula 2. There are @todo markers for that.
+- The `YouTubeType` could be enhanced to fetch additional data from API. It should use the `CacheHelper` like `SlideshareType` and `VimeoType`. There is a @todo marker for that.
 
 
 <a name="contributing" />

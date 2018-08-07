@@ -77,6 +77,8 @@ services:
 
     Zikula\ContentModule\ContentType\FeedType:
         parent: zikula_content_module.content_type.common
+        arguments:
+            - '@zikula_content_module.cache_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\FeedType:
         parent: zikula_content_module.content_type.form.common
