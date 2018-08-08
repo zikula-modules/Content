@@ -30,7 +30,6 @@ class LinkContainer extends AbstractLinkContainer
 
         $routeArea = LinkContainerInterface::TYPE_ADMIN == $type ? 'admin' : '';
 
-        // TODO properly add to tree... ModelHelper#canBeCreated returns false
         $addNewPageLink = [
             'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'edit'),
             'text' => $this->__('Add a new page', 'zikulacontentmodule'),
@@ -57,7 +56,6 @@ class LinkContainer extends AbstractLinkContainer
                 }
             }
         } elseif (in_array($type, [LinkContainerInterface::TYPE_ADMIN, LinkContainerInterface::TYPE_USER])) {
-            // TODO
             $pagesSubLinks = [];
             if ($hasAddPermissions) {
                 $pagesSubLinks[] = $addNewPageLink;
@@ -99,14 +97,7 @@ class LinkContainer extends AbstractLinkContainer
                 'title' => $this->__('Show content by category', 'zikulacontentmodule'),
                 'icon' => 'archive fa-fw'
             ];
-/** TODO probably unneeded because normal view shows link for viewing deleted pages if some exist
-            if ($routeArea == 'admin' && $hasEditPermissions) {
-                [
-                    'url'  => ModUtil::url('Content', 'admin', 'deletedpages'),
-                    'text' => $this->__('Restore pages')
-                ]
-            }
-*/
+
             foreach ($links as $k => $v) {
                 if ($v['text'] == $this->__('Pages', 'zikulacontentmodule')) {
                     $links[$k]['icon'] = 'book';
