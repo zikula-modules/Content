@@ -56,7 +56,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     /**
      * Retrieves an array with all fields which can be used for sorting instances.
      *
-     * @return string[] Sorting fields array
+     * @return string[] List of sorting field names
      */
     public function getAllowedSortingFields()
     {
