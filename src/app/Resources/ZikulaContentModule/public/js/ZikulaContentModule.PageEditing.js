@@ -39,6 +39,15 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
 
     var downloadAsset = function(path) {
         if (-1 < jQuery.inArray(path, loadedDynamicAssets[type])) {
+            if ('js' == type) {
+                if (pathes.length > 0) {
+                    downloadAsset(pathes.shift());
+                } else {
+                    if (null !== jsEntryPoint && 'function' === typeof window[jsEntryPoint]) {
+                        window[jsEntryPoint]();
+                    }
+                }
+            }
             return;
         }
 

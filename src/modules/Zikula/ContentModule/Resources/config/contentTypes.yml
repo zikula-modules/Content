@@ -118,10 +118,10 @@ services:
         parent: zikula_content_module.content_type.form.common
         tags: ['form.type']
 
-    Zikula\ContentModule\ContentType\OpenStreetMapType:
+    Zikula\ContentModule\ContentType\LeafletMapType:
         parent: zikula_content_module.content_type.common
         tags: ['zikula.content_type']
-    Zikula\ContentModule\ContentType\Form\Type\OpenStreetMapType:
+    Zikula\ContentModule\ContentType\Form\Type\LeafletMapType:
         parent: zikula_content_module.content_type.form.common
         tags: ['form.type']
 

@@ -93,6 +93,7 @@ New features:
 - Content types are grouped into different categories.
 - The ModuleFunc content type has been renamed to Controller since it now supports not only modules, but all types of Symfony bundles.
 - Google map and route content types support different map types instead of roadmaps only.
+- OpenStreetMap content type has been replaced by a much more powerful Leaflet content type.
 - Slideshare and vimeo content types fetch additional data from the corresponding APIs.
 
 Deprecations:

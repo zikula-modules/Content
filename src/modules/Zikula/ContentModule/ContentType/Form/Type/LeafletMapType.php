@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,9 +22,9 @@ use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
 /**
- * Open street map form type class.
+ * Leaflet map form type class.
  */
-class OpenStreetMapType extends AbstractType
+class LeafletMapType extends AbstractType
 {
     use TranslatorTrait;
 
@@ -53,14 +54,14 @@ class OpenStreetMapType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('latitude', TextType::class, [
+            ->add('latitude', NumberType::class, [
                 'label' => $this->__('Latitude') . ':',
                 'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
                 'attr' => [
                     'maxlength' => 30
                 ]
             ])
-            ->add('longitude', TextType::class, [
+            ->add('longitude', NumberType::class, [
                 'label' => $this->__('Longitude') . ':',
                 'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
                 'attr' => [
@@ -89,6 +90,19 @@ class OpenStreetMapType extends AbstractType
                     'maxlength' => 255
                 ]
             ])
+            ->add('tileLayerUrl', TextType::class, [
+                'label' => $this->__('URL of tile layer to use') . ':',
+                'help' => $this->__('See http://leaflet-extras.github.io/leaflet-providers/preview/ for examples.'),
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
+            ->add('tileLayerAttribution', TextType::class, [
+                'label' => $this->__('Attribution for tile layer to use') . ':',
+                'attr' => [
+                    'maxlength' => 255
+                ]
+            ])
         ;
     }
 
@@ -97,6 +111,6 @@ class OpenStreetMapType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'zikulacontentmodule_contenttype_openstreetmap';
+        return 'zikulacontentmodule_contenttype_leaflet';
     }
 }
