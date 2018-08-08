@@ -219,12 +219,11 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @Gedmo\Slug(fields={"title"}, updatable=true, unique=true, separator="-", style="lower", handlers={
-      *     @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\TreeSlugHandler", options={
-      *         @Gedmo\SlugHandlerOption(name="parentRelationField", value="parent")
-     ,
-      *         @Gedmo\SlugHandlerOption(name="separator", value="/")
-      *     })
-      * })
+     *     @Gedmo\SlugHandler(class="Gedmo\Sluggable\Handler\TreeSlugHandler", options={
+     *         @Gedmo\SlugHandlerOption(name="parentRelationField", value="parent"),
+     *         @Gedmo\SlugHandlerOption(name="separator", value="/")
+     *     })
+     * })
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Length(min="1", max="255")
      * @var string $slug
@@ -1100,10 +1099,19 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Creates url arguments array for easy creation of display urls.
      *
+     * @param boolean $forEditing
+     *
      * @return array List of resulting arguments
      */
-    public function createUrlArgs()
+    public function createUrlArgs($forEditing = false)
     {
+        if (true === $forEditing) {
+            return [
+                'id' => $this->getId(),
+                'slug' => $this->getSlug()
+            ];
+        }
+    
         return [
             'slug' => $this->getSlug()
         ];

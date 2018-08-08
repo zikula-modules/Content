@@ -1,9 +1,9 @@
 'use strict';
 
+var maps = {};
 var layers;
 var layerMarkers;
 var layerVectors;
-var map;
 var icons;
 var showPopupOnHover = false;
 
@@ -20,6 +20,8 @@ function contentInitOsmDisplay() {
     OpenLayers.Lang.setCode(language);
 
     jQuery('.content-openstreetmap').each(function (index) {
+        var mapId;
+        var contentId;
         var latitude;
         var longitude;
         var zoom;
@@ -27,6 +29,9 @@ function contentInitOsmDisplay() {
 
         var description;
 
+        jQuery(this).removeClass('hidden');
+        mapId = jQuery(this).data('mapid');
+        contentId = mapId.replace('map', '');
         latitude = jQuery(this).data('latitude');
         longitude = jQuery(this).data('longitude');
         zoom = jQuery(this).data('zoom');
@@ -43,10 +48,10 @@ function contentInitOsmDisplay() {
             zoom = parseInt(urlParameters['zoom']);
         }
 
-        map = contentInitOsmMap(jQuery(this).data('mapid'));
+        maps[contentId] = contentInitOsmMap(jQuery(this).data('mapid'));
 
         // add overlay layers
-        layerMarkers = new OpenLayers.Layer.Markers('Marker', {
+        layerMarkers = new OpenLayers.Layer.Markers('Markers', {
             projection: new OpenLayers.Projection('EPSG:4326'),
             visibility: true,
             displayInLayerSwitcher: false
@@ -54,19 +59,19 @@ function contentInitOsmDisplay() {
         layerVectors = new OpenLayers.Layer.Vector('Drawings', {
             displayInLayerSwitcher: false
         });
-        map.addLayer(layerVectors);
-        map.addLayer(layerMarkers);
+        maps[contentId].addLayer(layerVectors);
+        maps[contentId].addLayer(layerMarkers);
 
         layers = [];
 
         var layerMapnik = new OpenLayers.Layer.OSM.Mapnik('Mapnik');
-        map.addLayer(layerMapnik);
+        maps[contentId].addLayer(layerMapnik);
 
         layers.push([layerMapnik, 'layer_layerMapnik']);
-        setLayer(map, 0);
+        setLayer(maps[contentId], 0);
 
         // jump to the correct location...
-        jumpTo(latitude, longitude, zoom);
+        jumpTo(contentId, latitude, longitude, zoom);
 
         // add the used markers icons...
         icons = [];
@@ -74,23 +79,35 @@ function contentInitOsmDisplay() {
 
         // add the marker
         description = jQuery('#' + jQuery(this).data('descriptionid')).length > 0 ? jQuery('#' + jQuery(this).data('descriptionid')).html() : '';
-        addMarker(layerMarkers, longitude, latitude, '<div><h4>' + description + '</h4></div>', false, 0);
+        addMarker(contentId, layerMarkers, longitude, latitude, '<div><h4>' + description + '</h4></div>', false, 0);
 
         // again a jump to location
-        jumpTo(latitude, longitude, zoom);
+        jumpTo(contentId, latitude, longitude, zoom);
         checkUtilVersion(4);
     });
 }
+
+var editHasWaited = false;
 
 /**
  * Initialises the OSM editing.
  */
 function contentInitOsmEdit() {
+    if (!editHasWaited) {
+        window.setTimeout(function() {
+            editHasWaited = true;
+            contentInitOsmEdit();
+        }, 1000);
+        return;
+    }
+
+    var contentId;
     var fieldPrefix;
     var latitude;
     var longitude;
     var zoom;
 
+    contentId = 'edit';
     fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
 
     latitude = jQuery('#' + fieldPrefix + 'latitude').val();
@@ -111,17 +128,17 @@ function contentInitOsmEdit() {
     var language = jQuery('html').length > 0 ? jQuery('html').first().attr('lang') : 'en';
     OpenLayers.Lang.setCode(language);
 
-    map = contentInitOsmMap('map');
+    maps[contentId] = contentInitOsmMap('map');
 
-    //map.addLayer(new OpenLayers.Layer.OSM.Mapnik('Mapnik'));
-    map.addLayer(new OpenLayers.Layer.Markers('Markers'));
+    //maps[contentId].addLayer(new OpenLayers.Layer.OSM.Mapnik('Mapnik'));
+    maps[contentId].addLayer(new OpenLayers.Layer.Markers('Markers'));
 
     // set position and zoom
-    jumpTo(latitude, longitude, zoom);
+    jumpTo(contentId, latitude, longitude, zoom);
 
     // add click events
     var click = new OpenLayers.Control.Click();
-    map.addControl(click);
+    maps[contentId].addControl(click);
     click.activate();
 }
 
@@ -187,10 +204,10 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
         jQuery('#' + fieldPrefix + 'zoom').val(zoom);
 
         // set marker
-        addMarker(layerMarkers, lonlat.lon, lonlat.lat, '<div><h4>' + Translator.__('Click') + '</h4></div>', false, 0);
+        addMarker(contentId, layerMarkers, lonlat.lon, lonlat.lat, '<div><h4>' + Translator.__('Click') + '</h4></div>', false, 0);
 
         // jump to click position
-        jumpTo(lonlat.lat, lonlat.lon, zoom);
+        jumpTo(contentId, lonlat.lat, lonlat.lon, zoom);
     }
 });
 
@@ -199,10 +216,10 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
  * Some functions from the example at http://wiki.openstreetmap.org/wiki/DE:Karte_in_Webseite_einbinden,
  * slightly modified.
  */
-function jumpTo(latitude, longitude, zoom) {
+function jumpTo(contentId, latitude, longitude, zoom) {
     var x = Lon2Merc(longitude);
     var y = Lat2Merc(latitude);
-    map.setCenter(new OpenLayers.LonLat(x, y), zoom);
+    maps[contentId].setCenter(new OpenLayers.LonLat(x, y), zoom);
 
     return false;
 }
@@ -217,7 +234,7 @@ function Lat2Merc(lat) {
     return 20037508.34 * lat / 180;
 }
 
-function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
+function addMarker(contentId, layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
     // transform coordinates into LonLat
     var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
 
@@ -281,7 +298,7 @@ function addMarker(layer, lon, lat, popupContentHTML, showPopupOnLoad, iconId) {
     layer.addMarker(marker);
 
     // create popup and show it if desired
-    map.addPopup(feature.createPopup(feature.closeBox));
+    maps[contentId].addPopup(feature.createPopup(feature.closeBox));
 
     if (true != showPopupOnLoad) {
         // if popup should not be shown hide it
@@ -315,22 +332,6 @@ function makeIcon(iconId) {
     var icon = new OpenLayers.Icon(icons[iconId][0],size,offset);
 
     return icon;
-}
-
-function getCycleTileURL(bounds) {
-   var res = this.map.getResolution();
-   var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-   var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-   var z = this.map.getZoom();
-   var limit = Math.pow(2, z);
-
-   if (y < 0 || y >= limit) {
-       return null;
-   }
-
-    x = ((x % limit) + limit) % limit;
-
-    return this.url + z + '/' + x + '/' + y + '.' + this.type;
 }
 
 /**

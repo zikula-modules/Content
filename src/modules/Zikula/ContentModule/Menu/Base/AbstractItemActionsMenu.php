@@ -107,7 +107,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
                 $title = $this->__('Edit', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'edit',
-                    'routeParameters' => $entity->createUrlArgs()
+                    'routeParameters' => $entity->createUrlArgs(true)
                 ]);
                 $menu[$title]->setLinkAttribute('title', $this->__('Edit this page', 'zikulacontentmodule'));
                 if ($context == 'display') {

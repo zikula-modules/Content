@@ -244,7 +244,8 @@ abstract class AbstractTwigExtension extends Twig_Extension
         $idPrefix = 'tree' . $rootId . 'node_' . $node->getKey();
         $title = $descriptionFieldName != '' ? strip_tags($node[$descriptionFieldName]) : '';
     
-        $urlArgs = $node->createUrlArgs();
+        $needsArg = in_array($objectType, ['page']);
+        $urlArgs = $needsArg ? $node->createUrlArgs(true) : $node->createUrlArgs();
         $urlDataAttributes = '';
         foreach ($urlArgs as $field => $value) {
             $urlDataAttributes .= ' data-' . $field . '="' . $value . '"';

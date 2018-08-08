@@ -83,16 +83,11 @@ abstract class AbstractEditHandler
     protected $idField = null;
 
     /**
-     * Identifier or slug of treated entity.
+     * Identifier of treated entity.
      *
-     * @var integer|string
+     * @var integer
      */
     protected $idValue = 0;
-
-    /**
-     * List of object types with unique slugs.
-     */
-    protected $entitiesWithUniqueSlugs = ['page'];
 
     /**
      * Code defining the redirect goal after command handling.
@@ -344,32 +339,18 @@ abstract class AbstractEditHandler
         // store current uri for repeated creations
         $this->repeatReturnUrl = $this->request->getUri();
     
-        $this->idField = in_array($this->objectType, $this->entitiesWithUniqueSlugs) ? 'slug' : $this->entityFactory->getIdField($this->objectType);
+        $this->idField = $this->entityFactory->getIdField($this->objectType);
     
         // retrieve identifier of the object we wish to edit
         $routeParams = $this->request->get('_route_params', []);
-        if ($this->idField == 'slug') {
-            if (array_key_exists($this->idField, $routeParams)) {
-                $this->idValue = !empty($routeParams[$this->idField]) ? $routeParams[$this->idField] : '';
-            }
-            if (empty($this->idValue)) {
-                $this->idValue = $this->request->query->get($this->idField, '');
-            }
+        if (array_key_exists($this->idField, $routeParams)) {
+            $this->idValue = (int) !empty($routeParams[$this->idField]) ? $routeParams[$this->idField] : 0;
         }
-        if (empty($this->idValue)) {
-            if ($this->idField == 'slug') {
-                $this->idField = 'id';
-            }
-    
-            if (array_key_exists($this->idField, $routeParams)) {
-                $this->idValue = (int) !empty($routeParams[$this->idField]) ? $routeParams[$this->idField] : 0;
-            }
-            if (0 === $this->idValue) {
-                $this->idValue = $this->request->query->getInt($this->idField, 0);
-            }
-            if (0 === $this->idValue && $this->idField != 'id') {
-                $this->idValue = $this->request->query->getInt('id', 0);
-            }
+        if (0 === $this->idValue) {
+            $this->idValue = $this->request->query->getInt($this->idField, 0);
+        }
+        if (0 === $this->idValue && $this->idField != 'id') {
+            $this->idValue = $this->request->query->getInt('id', 0);
         }
     
         $entity = null;
@@ -520,10 +501,6 @@ abstract class AbstractEditHandler
      */
     protected function initEntityForEditing()
     {
-        if (in_array($this->objectType, $this->entitiesWithUniqueSlugs)) {
-            return $this->entityFactory->getRepository($this->objectType)->selectBySlug($this->idValue);
-        }
-    
         return $this->entityFactory->getRepository($this->objectType)->selectById($this->idValue);
     }
     

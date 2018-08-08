@@ -123,7 +123,10 @@ class SlideshareType extends AbstractContentType
                 $html = $this->data['details']['html'];
                 $regex = '$\b(https?)://[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]$i';
                 preg_match_all($regex, $html, $result);
-                $fullUrl = $result['0']['0'];
+                $fullUrl = '';
+                if (isset($result['0']['0'])) {
+                    $fullUrl = $result['0']['0'];
+                }
                 $this->data['slideUrl'] = $fullUrl;
             }
         }

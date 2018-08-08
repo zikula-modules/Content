@@ -73,7 +73,7 @@ abstract class AbstractEditHandler extends EditHandler
     }
     
     /**
-     * Creates the form type.
+     * @inheritDoc
      */
     protected function createForm()
     {
@@ -81,9 +81,7 @@ abstract class AbstractEditHandler extends EditHandler
     }
     
     /**
-     * Returns the form options.
-     *
-     * @return array
+     * @inheritDoc
      */
     protected function getFormOptions()
     {
@@ -103,6 +101,22 @@ abstract class AbstractEditHandler extends EditHandler
         return $options;
     }
 
+
+    /**
+     * @inheritDoc
+     */
+    protected function initEntityForEditing()
+    {
+        $entity = parent::initEntityForEditing();
+        if (null === $entity) {
+            return $entity;
+        }
+    
+        $slugParts = explode('/', $entity->getSlug());
+        $entity->setSlug(end($slugParts));
+    
+        return $entity;
+    }
 
     /**
      * Get list of allowed redirect codes.
