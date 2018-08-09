@@ -718,7 +718,7 @@ abstract class AbstractPageController extends AbstractController
                         ];
                     }
                     if (is_array($value)) {
-                        $value = implode(', ', $value);
+                        $value = is_array(reset($value)) ? 'Array' : implode(', ', $value);
                     }
                     if ($logEntry->getVersion() <= $minVersion) {
                         $diffValues[$field]['old'] = $value;
