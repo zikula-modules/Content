@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Helper;
 
 use Doctrine\ORM\QueryBuilder;
 use Zikula\ContentModule\Helper\Base\AbstractCollectionFilterHelper;
+use Zikula\UsersModule\Constant as UsersConstant;
 
 /**
  * Entity collection filter helper implementation class.
@@ -33,6 +34,8 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         if (in_array('tblContentItems', $qb->getAllAliases())) {
             $qb->andWhere('tblContentItems.active = 1');
             $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItems');
+            $qb->andWhere('tblContentItems.scope IN (:allowedScopes)')
+               ->setParameter('allowedScopes', $this->getUserScopes());
         }
 
         return $qb;
@@ -52,6 +55,8 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         if (in_array('tblPage', $qb->getAllAliases())) {
             $qb->andWhere('tblPage.active = 1');
             $qb = $this->applyDateRangeFilterForPage($qb, 'tblPage');
+            $qb->andWhere('tbl.scope IN (:allowedScopes)')
+               ->setParameter('allowedScopes', $this->getUserScopes());
         }
 
         return $qb;
@@ -67,6 +72,9 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         if (null === $this->request) {
             return true;
         }
+        if ($this->request->isXmlHttpRequest()) {
+            return true;
+        }
         $routeName = $this->request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin') || false !== strpos($routeName, 'zikulacontentmodule_contentitem_admin');
         if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
@@ -77,5 +85,31 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
 
         return false;
+    }
+
+    /**
+     * Returns the allowed content item scopes for the current user.
+     *
+     * @return array
+     */
+    protected function getUserScopes()
+    {
+        $scopes = [];
+        $scopes[] = '0'; // public (all)
+
+        $isLoggedIn = $this->currentUserApi->isLoggedIn();
+        if ($isLoggedIn) {
+            $scopes[] = '-1'; // only logged in members
+        } else {
+            $scopes[] = '-2'; // only not logged in people
+        }
+
+        // get user groups
+        $groups = $this->currentUserApi->get('groups');
+        foreach ($groups as $group) {
+            $scopes[] = strval($group->getGid());
+        }
+
+        return $scopes;
     }
 }
