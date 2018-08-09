@@ -15,6 +15,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\ContentType\Form\DataTransformer\AuthorTransformer;
+use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 
 /**
@@ -25,13 +27,20 @@ class AuthorType extends AbstractType
     use TranslatorTrait;
 
     /**
+     * @var UserRepositoryInterface
+     */
+    protected $userRepository;
+
+    /**
      * AuthorType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface     $translator     Translator service instance
+     * @param UserRepositoryInterface $userRepository UserRepository service instance
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, UserRepositoryInterface $userRepository)
     {
         $this->setTranslator($translator);
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -59,6 +68,8 @@ class AuthorType extends AbstractType
                 'help' => $this->__('Here you can choose a user which will be used as author.')
             ])
         ;
+        $transformer = new AuthorTransformer($this->userRepository);
+        $builder->get('author')->addModelTransformer($transformer);
     }
 
     /**

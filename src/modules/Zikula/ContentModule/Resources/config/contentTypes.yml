@@ -20,6 +20,8 @@ services:
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\AuthorType:
         parent: zikula_content_module.content_type.form.common
+        arguments:
+            - '@zikula_users_module.user_repository'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\BlockType:
@@ -154,6 +156,8 @@ services:
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType:
         parent: zikula_content_module.content_type.form.common
+        arguments:
+            - '@zikula_content_module.entity_factory'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\TabNavigationType:
