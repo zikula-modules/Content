@@ -793,13 +793,15 @@ function contentPageSerialiseWidgets(elements) {
  * Saves serialised grid and widget data.
  */
 function contentPageSave() {
+    var sectionCounter;
     if (true === suspendAutoSave) {
         return;
     }
+    sectionCounter = 0;
     widgetData = _.map(jQuery('#widgets .grid-section'), function (section) {
         section = jQuery(section);
         return {
-            id: section.attr('id'),
+            id: 'section' + ++sectionCounter,
             widgets: contentPageSerialiseWidgets(section.find('.well > .grid-stack > .grid-stack-item:visible').not('.grid-stack-placeholder'))
         }
     });

@@ -364,10 +364,9 @@ abstract class AbstractEditHandler
                     $lockName = 'ZikulaContentModule' . $this->objectTypeCapital . $entity->getKey();
                     $this->lockingApi->addLock($lockName, $this->getRedirectUrl(['commandName' => '']));
                 }
-            }
-    
-            if (!$this->permissionHelper->mayEdit($entity)) {
-                throw new AccessDeniedException();
+                if (!$this->permissionHelper->mayEdit($entity)) {
+                    throw new AccessDeniedException();
+                }
             }
         } else {
             $permissionLevel = ACCESS_EDIT;
@@ -578,7 +577,7 @@ abstract class AbstractEditHandler
     }
 
     /**
-     * Get list of allowed redirect codes.
+     * Returns a list of allowed redirect codes.
      *
      * @return string[] list of possible redirect codes
      */
@@ -593,6 +592,7 @@ abstract class AbstractEditHandler
 
     /**
      * Command event handler.
+     * This event handler is called when a command is issued by the user.
      *
      * @param array $args List of arguments
      *
@@ -771,7 +771,7 @@ abstract class AbstractEditHandler
     }
 
     /**
-     * This method executes a certain workflow action.
+     * Executes a certain workflow action.
      *
      * @param array $args List of arguments from handleCommand method
      *
