@@ -16,6 +16,9 @@
             <li>{{ __f('Updated by %user', {'%user': obj.updatedBy.uname}) }}</li>
             <li>{{ __f('Updated on %date', {'%date': obj.updatedDate|localizeddate('medium', 'short')}) }}</li>
         {% endif %}
+        {% if obj._objectType == 'page' %}
+            <li>{{ __('Current version') }}: {{ obj.currentVersion }}</li>
+        {% endif %}
         </ul>
     {% if tabs|default(false) == true %}
         </div>
