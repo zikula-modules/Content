@@ -1,7 +1,7 @@
 {# Purpose of this template: Display item information for previewing from other modules #}
 <dl id="page{{ page.getKey() }}">
 <dt>{{ page|zikulacontentmodule_formattedTitle|notifyFilters('content.filter_hooks.pages.filter')|safeHtml }}</dt>
-{% if page.metaDescription is not empty %}<dd>{{ page.metaDescription }}</dd>{% endif %}
+{% if page.optionalText is not empty %}<dd>{{ page.optionalText }}</dd>{% endif %}
 {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
     <dd>
         <dl class="category-list">

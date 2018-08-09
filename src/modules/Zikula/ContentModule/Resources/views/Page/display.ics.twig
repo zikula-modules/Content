@@ -14,7 +14,7 @@ DTSTAMP:{{ 'now'|date('Ymd\THi00\Z') }}
 ORGANIZER;CN="{{ page.createdBy.getUname() }}":MAILTO:{{ page.createdBy.getEmail() }}
 CATEGORIES:{% for propName, catMapping in page.categories %}{% if not loop.first %},{% endif %}{{ catMapping.category.display_name[lang]|upper }}{% endfor %}
 SUMMARY{{ page|zikulacontentmodule_formattedTitle|zikulacontentmodule_icalText }}
-{% if page.metaDescription is not empty %}DESCRIPTION{{ page.metaDescription|zikulacontentmodule_icalText }}{% endif %}
+{% if page.optionalText is not empty %}DESCRIPTION{{ page.optionalText|zikulacontentmodule_icalText }}{% endif %}
 PRIORITY:5
 CLASS:PUBLIC
 STATUS:CONFIRMED

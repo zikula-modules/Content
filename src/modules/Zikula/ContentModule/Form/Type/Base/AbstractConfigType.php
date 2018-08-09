@@ -105,48 +105,13 @@ abstract class AbstractConfigType extends AbstractType
             'expanded' => false
         ]);
         
-        $listEntries = $this->listHelper->getEntries('appSettings', 'pageInfoLocation');
-        $choices = [];
-        $choiceAttributes = [];
-        foreach ($listEntries as $entry) {
-            $choices[$entry['text']] = $entry['value'];
-            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
-        }
-        $builder->add('pageInfoLocation', ChoiceType::class, [
-            'label' => $this->__('Page info location') . ':',
-            'empty_data' => '',
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('Choose the page info location.')
-            ],
-            'required' => true,
-            'choices' => $choices,
-            'choice_attr' => $choiceAttributes,
-            'multiple' => false,
-            'expanded' => false
-        ]);
-        
-        $builder->add('overridePageTitle', CheckboxType::class, [
-            'label' => $this->__('Override page title') . ':',
-            'label_attr' => [
-                'class' => 'tooltips',
-                'title' => $this->__('Override page title with the Content page title')
-            ],
-            'help' => $this->__('Override page title with the Content page title'),
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('The override page title option')
-            ],
-            'required' => false,
-        ]);
-        
         $builder->add('countPageViews', CheckboxType::class, [
             'label' => $this->__('Count page views') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access.')
+                'title' => $this->__('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.')
             ],
-            'help' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access.'),
+            'help' => $this->__('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.'),
             'attr' => [
                 'class' => '',
                 'title' => $this->__('The count page views option')
@@ -158,9 +123,9 @@ abstract class AbstractConfigType extends AbstractType
             'label' => $this->__('Google maps api key') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->__('If you want to use Google maps you need an API key for it.')
+                'title' => $this->__('If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".')
             ],
-            'help' => $this->__('If you want to use Google maps you need an API key for it.'),
+            'help' => $this->__('If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".'),
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,

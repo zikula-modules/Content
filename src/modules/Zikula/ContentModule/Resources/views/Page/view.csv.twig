@@ -4,7 +4,7 @@
 {% endspaceless %}
 {% for page in items %}
 {% spaceless %}
-    "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription|safeHtml }}";"{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}";"{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}";"{% if page.layout is iterable and page.layout|length > 0 %}
+    "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription }}";"{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}";"{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}";"{% if page.layout is iterable and page.layout|length > 0 %}
         <ul>
         {% for entry in page.layout %}
             <li>{{ entry }}</li>

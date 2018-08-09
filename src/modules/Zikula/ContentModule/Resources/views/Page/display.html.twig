@@ -31,7 +31,7 @@
         </dd>
         {% if page.metaDescription is not empty %}
             <dt>{{ __('Meta description') }}</dt>
-            <dd>{{ page.metaDescription|safeHtml }}</dd>
+            <dd>{{ page.metaDescription }}</dd>
         {% endif %}
         <dt>{{ __('Skip ui hook subscriber') }}</dt>
         <dd>{% if page.skipUiHookSubscriber %}

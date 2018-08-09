@@ -11,6 +11,8 @@
 
 namespace Zikula\ContentModule\Twig;
 
+use Doctrine\DBAL\Driver\Connection;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
@@ -22,6 +24,16 @@ use Zikula\ContentModule\Entity\PageEntity;
 class CustomTwigExtension extends Twig_Extension
 {
     /**
+     * @var Connection
+     */
+    protected $databaseConnection;
+
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
      * @var RouterInterface
      */
     protected $router;
@@ -32,17 +44,31 @@ class CustomTwigExtension extends Twig_Extension
     protected $collector;
 
     /**
+     * @var boolean
+     */
+    protected $countPageViews;
+
+    /**
      * CustomTwigExtension constructor.
      *
+     * @param Connection           $connection
+     * @param RequestStack         $requestStack
      * @param Routerinterface      $router
      * @param ContentTypeCollector $collector
+     * @param boolean              $countPageViews
      */
     public function __construct(
+        Connection $connection,
+        RequestStack $requestStack,
         RouterInterface $router,
-        ContentTypeCollector $collector
+        ContentTypeCollector $collector,
+        $countPageViews
     ) {
+        $this->databaseConnection = $connection;
+        $this->requestStack = $requestStack;
         $this->router = $router;
         $this->collector = $collector;
+        $this->countPageViews = $countPageViews;
     }
 
     /**
@@ -54,7 +80,8 @@ class CustomTwigExtension extends Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('zikulacontentmodule_getPagePath', [$this, 'getPagePath'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('zikulacontentmodule_contentTypes', [$this, 'getContentTypes'])
+            new \Twig_SimpleFunction('zikulacontentmodule_contentTypes', [$this, 'getContentTypes']),
+            new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews'])
         ];
     }
 
@@ -113,5 +140,40 @@ class CustomTwigExtension extends Twig_Extension
         }
 
         return $this->collector->getActive();
+    }
+
+    /**
+     * The zikulacontentmodule_increaseAmountOfPageViews function increases the view counter of a specific page.
+     * It uses Doctrine DBAL to avoid creating a new page version.
+     * Examples:
+     *    {{ zikulacontentmodule_increaseAmountOfPageViews(page) }}
+     *
+     * @param PageEntity $page The given page instance
+     */
+    public function increaseAmountOfPageViews(PageEntity $page)
+    {
+        if (!$this->countPageViews) {
+            return;
+        }
+
+        $pageId = $page->getId();
+
+        // check against session to see if user was already counted
+        $request = $this->requestStack->getCurrentRequest();
+        $doCount = true;
+        if (null !== $request) {
+            if ($request->getSession()->has('ContentReadPage' . $pageId)) {
+                $doCount = false;
+            } else {
+                $request->getSession()->set('ContentReadPage' . $pageId, 1);
+            }
+        }
+        if (!$doCount) {
+            return;
+        }
+
+        $views = $page->getViews() + 1;
+
+        $this->databaseConnection->update('zikula_content_page', ['views' => $views], ['id' => $pageId]);
     }
 }

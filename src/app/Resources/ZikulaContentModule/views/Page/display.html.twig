@@ -4,7 +4,14 @@
 {% block pageTitle %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }}{% endblock %}
 {% block title %}
     {% set templateTitle = page|zikulacontentmodule_formattedTitle|default(__('Page')) %}
-    {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
+    {% if page.skipFilterHookSubscriber %}
+        {{ templateTitle|safeHtml }}
+    {% else %}
+        {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
+    {% endif %}
+    {% if page.metaDescription is not empty %}
+        {{ pageSetVar('meta.description', page.metaDescription|striptags) }}
+    {% endif %}
 {% endblock %}
 {% block titleArea %}
     {% if page.showTitle %}
@@ -14,7 +21,7 @@
 {% block admin_page_icon 'eye' %}
 {% block content %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}
-    <div class="zikulacontentmodule-page zikulacontentmodule-display">
+    <div id="page{{ page.id }}" class="zikulacontentmodule-page zikulacontentmodule-display">
 
     <div class="row">
         <div class="col-xs-12">
@@ -22,62 +29,8 @@
     <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
         {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
     </div>
+    {# enable if needed
     <dl>
-        {% if page.metaDescription is not empty %}
-            <dt>{{ __('Meta description') }}</dt>
-            <dd>{{ page.metaDescription|safeHtml }}</dd>
-        {% endif %}
-        <dt>{{ __('Skip filter hook subscriber') }}</dt>
-        <dd>{% if page.skipFilterHookSubscriber %}
-            <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-        {% else %}
-            <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-        {% endif %}
-        </dd>
-        {% if page.views is not empty %}
-            <dt>{{ __('Views') }}</dt>
-            <dd>{{ page.views }}</dd>
-        {% endif %}
-        <dt>{{ __('Active') }}</dt>
-        <dd>{% set itemId = page.getKey() %}
-        <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
-            <i class="fa fa-check text-success{% if not page.active %} hidden{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"> {{ __('Active') }}</i>
-            <i class="fa fa-times text-danger{% if page.active %} hidden{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"> {{ __('Inactive') }}</i>
-        </a>
-        <noscript><div id="noscriptActive{{ itemId }}">
-            {% if page.active %}
-                <i class="fa fa-check text-success" title="{{ __('Yes') }}"> {{ __('Active') }}</i>
-            {% else %}
-                <i class="fa fa-times text-danger" title="{{ __('No') }}"> {{ __('Inactive') }}</i>
-            {% endif %}
-        </div></noscript>
-        </dd>
-        {% if page.activeFrom is not empty %}
-            <dt>{{ __('Active from') }}</dt>
-            <dd>{% if page.activeFrom is not empty %}
-                {{ page.activeFrom|localizeddate('medium', 'short') }}
-            {% endif %}</dd>
-        {% endif %}
-        {% if page.activeTo is not empty %}
-            <dt>{{ __('Active to') }}</dt>
-            <dd>{% if page.activeTo is not empty %}
-                {{ page.activeTo|localizeddate('medium', 'short') }}
-            {% endif %}</dd>
-        {% endif %}
-        <dt>{{ __('In menu') }}</dt>
-        <dd>{% set itemId = page.getKey() %}
-        <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
-            <i class="fa fa-check text-success{% if not page.inMenu %} hidden{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}"> {{ __('In') }}</i>
-            <i class="fa fa-times text-danger{% if page.inMenu %} hidden{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}"> {{ __('Out') }}</i>
-        </a>
-        <noscript><div id="noscriptInMenu{{ itemId }}">
-            {% if page.inMenu %}
-                <i class="fa fa-check text-success" title="{{ __('Yes') }}"> {{ __('In') }}</i>
-            {% else %}
-                <i class="fa fa-times text-danger" title="{{ __('No') }}"> {{ __('Out') }}</i>
-            {% endif %}
-        </div></noscript>
-        </dd>
         {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) and page.optionalString1 is not empty %}
             <dt>{{ __('Optional string 1') }}</dt>
             <dd>{{ page.optionalString1 }}</dd>
@@ -90,16 +43,14 @@
             <dt>{{ __('Optional text') }}</dt>
             <dd>{{ page.optionalText|safeHtml }}</dd>
         {% endif %}
-        {% if page.currentVersion is not empty %}
-            <dt>{{ __('Current version') }}</dt>
-            <dd>{{ page.currentVersion }}</dd>
+        {% if page.views is not empty %}
+            <dt>{{ __('Views') }}</dt>
+            <dd>{{ page.views }}</dd>
         {% endif %}
-        
     </dl>
-
-    <h3 class="content-elements">{{ __('Content elements') }}</h3>
+    #}
     {{ block('content_elements') }}
-
+    {# enable if needed
     {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
         {{ include('@ZikulaContentModule/Helper/includeCategoriesDisplay.html.twig', {obj: page}) }}
     {% endif %}
@@ -109,14 +60,16 @@
                 '@ZikulaContentModule/Page/displayTreeRelatives.html.twig',
                 {allParents: true, directParent: true, allChildren: true, directChildren: true, predecessors: true, successors: true, preandsuccessors: true}
             ) }}
-    {% endif %#}
+    {% endif %# }
     {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
+    #}
     {% if not page.skipUiHookSubscriber %}
         {{ block('display_hooks') }}
     {% endif %}
         </div>
     </div>
 </div>
+{{ zikulacontentmodule_increaseAmountOfPageViews(page) }}
 {% endblock %}
 {% block display_hooks %}
     {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}

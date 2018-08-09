@@ -153,7 +153,7 @@ abstract class AbstractEntityDisplayHelper
     public function getDescriptionFieldName($objectType)
     {
         if ($objectType == 'page') {
-            return 'metaDescription';
+            return 'optionalText';
         }
         if ($objectType == 'contentItem') {
             return 'owningType';

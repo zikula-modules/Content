@@ -46,7 +46,7 @@ application "Content" {
                     defaultValue "true"
                     mandatory false
                 },
-                text "metaDescription" translatable {
+                string "metaDescription" translatable {
                     defaultValue ""
                     mandatory false
                     displayType DISPLAY
@@ -222,26 +222,13 @@ application "Content" {
                         listItem "New pages will be inactive and not available in the menu" ( "4" )
                     }
                 },
-                list "pageInfoLocation" {
-                    defaultValue ""
-                    length 10
-                    items {
-                        default listItem "Top of the page, left of the page title" ( "top" ),
-                        listItem "Bottom of the page" ( "bottom" )
-                    }
-                },
-                boolean "overridePageTitle" {
-                    documentation "Override page title with the Content page title"
-                    defaultValue "true"
-                    mandatory false
-                },
                 boolean "countPageViews" {
-                    documentation "Page views are only counted when not in preview or edit mode and only when the user has no edit access."
+                    documentation "Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages."
                     defaultValue "false"
                     mandatory false
                 },
                 string "googleMapsApiKey" {
-                    documentation "If you want to use Google maps you need an API key for it."
+                    documentation "If you want to use Google maps you need an API key for it. You should enable both \"Maps JavaScript API\" and \"Maps Static API\"."
                     mandatory false
                 },
                 boolean "enableRawPlugin" {

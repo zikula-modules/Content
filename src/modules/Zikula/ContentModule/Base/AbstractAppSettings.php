@@ -33,23 +33,7 @@ abstract class AbstractAppSettings
     protected $stateOfNewPages = '1';
     
     /**
-     * @Assert\NotBlank()
-     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="pageInfoLocation", multiple=false)
-     * @var string $pageInfoLocation
-     */
-    protected $pageInfoLocation = 'top';
-    
-    /**
-     * Override page title with the Content page title
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     * @var boolean $overridePageTitle
-     */
-    protected $overridePageTitle = true;
-    
-    /**
-     * Page views are only counted when not in preview or edit mode and only when the user has no edit access.
+     * Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -58,7 +42,7 @@ abstract class AbstractAppSettings
     protected $countPageViews = false;
     
     /**
-     * If you want to use Google maps you need an API key for it.
+     * If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".
      *
      * @Assert\NotNull()
      * @Assert\Length(min="0", max="255")
@@ -202,54 +186,6 @@ abstract class AbstractAppSettings
     {
         if ($this->stateOfNewPages !== $stateOfNewPages) {
             $this->stateOfNewPages = isset($stateOfNewPages) ? $stateOfNewPages : '';
-        }
-    }
-    
-    /**
-     * Returns the page info location.
-     *
-     * @return string
-     */
-    public function getPageInfoLocation()
-    {
-        return $this->pageInfoLocation;
-    }
-    
-    /**
-     * Sets the page info location.
-     *
-     * @param string $pageInfoLocation
-     *
-     * @return void
-     */
-    public function setPageInfoLocation($pageInfoLocation)
-    {
-        if ($this->pageInfoLocation !== $pageInfoLocation) {
-            $this->pageInfoLocation = isset($pageInfoLocation) ? $pageInfoLocation : '';
-        }
-    }
-    
-    /**
-     * Returns the override page title.
-     *
-     * @return boolean
-     */
-    public function getOverridePageTitle()
-    {
-        return $this->overridePageTitle;
-    }
-    
-    /**
-     * Sets the override page title.
-     *
-     * @param boolean $overridePageTitle
-     *
-     * @return void
-     */
-    public function setOverridePageTitle($overridePageTitle)
-    {
-        if (boolval($this->overridePageTitle) !== boolval($overridePageTitle)) {
-            $this->overridePageTitle = boolval($overridePageTitle);
         }
     }
     
@@ -576,12 +512,6 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['stateOfNewPages'])) {
             $this->setStateOfNewPages($moduleVars['stateOfNewPages']);
         }
-        if (isset($moduleVars['pageInfoLocation'])) {
-            $this->setPageInfoLocation($moduleVars['pageInfoLocation']);
-        }
-        if (isset($moduleVars['overridePageTitle'])) {
-            $this->setOverridePageTitle($moduleVars['overridePageTitle']);
-        }
         if (isset($moduleVars['countPageViews'])) {
             $this->setCountPageViews($moduleVars['countPageViews']);
         }
@@ -629,8 +559,6 @@ abstract class AbstractAppSettings
     public function save()
     {
         $this->variableApi->set('ZikulaContentModule', 'stateOfNewPages', $this->getStateOfNewPages());
-        $this->variableApi->set('ZikulaContentModule', 'pageInfoLocation', $this->getPageInfoLocation());
-        $this->variableApi->set('ZikulaContentModule', 'overridePageTitle', $this->getOverridePageTitle());
         $this->variableApi->set('ZikulaContentModule', 'countPageViews', $this->getCountPageViews());
         $this->variableApi->set('ZikulaContentModule', 'googleMapsApiKey', $this->getGoogleMapsApiKey());
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());
