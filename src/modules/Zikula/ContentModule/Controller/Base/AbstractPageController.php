@@ -260,7 +260,8 @@ abstract class AbstractPageController extends AbstractController
         }
         
         $requestedVersion = $request->query->getInt('version', 0);
-        if ($requestedVersion > 0) {
+        $versionPermLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
+        if ($requestedVersion > 0 && $permissionHelper->hasEntityPermission($page, $versionPermLevel)) {
             // preview of a specific version is desired
             $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
             $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
@@ -599,6 +600,7 @@ abstract class AbstractPageController extends AbstractController
      * @return Response Output
      *
      * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function adminLoggableHistoryAction(Request $request, $slug = '')
     {
@@ -614,6 +616,7 @@ abstract class AbstractPageController extends AbstractController
      * @return Response Output
      *
      * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function loggableHistoryAction(Request $request, $slug = '')
     {
@@ -637,6 +640,12 @@ abstract class AbstractPageController extends AbstractController
         $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+        
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
+        if (!$permissionHelper->hasEntityPermission($page, $permLevel)) {
+            throw new AccessDeniedException();
         }
         
         $routeArea = $isAdmin ? 'admin' : '';
