@@ -206,39 +206,44 @@ abstract class AbstractPageController extends AbstractController
      * This action provides a item detail view in the admin area.
      *
      * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
+     * @param string $slug Slug of treated page instance
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by param converter if page to be displayed isn't found
+     * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
-    public function adminDisplayAction(Request $request, PageEntity $page)
+    public function adminDisplayAction(Request $request, $slug)
     {
-        return $this->displayInternal($request, $page, true);
+        return $this->displayInternal($request, $slug, true);
     }
     
     /**
      * This action provides a item detail view.
      *
      * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
+     * @param string $slug Slug of treated page instance
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by param converter if page to be displayed isn't found
+     * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
-    public function displayAction(Request $request, PageEntity $page)
+    public function displayAction(Request $request, $slug)
     {
-        return $this->displayInternal($request, $page, false);
+        return $this->displayInternal($request, $slug, false);
     }
     
     /**
      * This method includes the common implementation code for adminDisplay() and display().
      */
-    protected function displayInternal(Request $request, PageEntity $page, $isAdmin = false)
+    protected function displayInternal(Request $request, $slug, $isAdmin = false)
     {
+        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+        
         $objectType = 'page';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
@@ -299,7 +304,6 @@ abstract class AbstractPageController extends AbstractController
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by form handler if page to be edited isn't found
      * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
      */
     public function adminEditAction(Request $request)
@@ -315,7 +319,6 @@ abstract class AbstractPageController extends AbstractController
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown by form handler if page to be edited isn't found
      * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
      */
     public function editAction(Request $request)

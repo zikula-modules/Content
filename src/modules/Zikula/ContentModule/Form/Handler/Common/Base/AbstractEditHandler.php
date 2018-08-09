@@ -364,10 +364,9 @@ abstract class AbstractEditHandler
                     $lockName = 'ZikulaContentModule' . $this->objectTypeCapital . $entity->getKey();
                     $this->lockingApi->addLock($lockName, $this->getRedirectUrl(['commandName' => '']));
                 }
-            }
-    
-            if (!$this->permissionHelper->mayEdit($entity)) {
-                throw new AccessDeniedException();
+                if (!$this->permissionHelper->mayEdit($entity)) {
+                    throw new AccessDeniedException();
+                }
             }
         } else {
             $permissionLevel = ACCESS_EDIT;
