@@ -114,6 +114,18 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
+                if ($permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
+                    $title = $this->__('Add sub page', 'zikulacontentmodule');
+                    $menu->addChild($title, [
+                        'route' => $routePrefix . $routeArea . 'edit',
+                        'routeParameters' => ['parent' => $entity->getKey()]
+                    ]);
+                    $menu[$title]->setLinkAttribute('title', $this->__('Add a sub page to this page', 'zikulacontentmodule'));
+                    if ($context == 'display') {
+                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                    }
+                    $menu[$title]->setAttribute('icon', 'fa fa-child');
+                }
                 if (in_array($context, ['view', 'display'])) {
                     $logEntriesRepo = $this->container->get('zikula_content_module.entity_factory')->getObjectManager()->getRepository('ZikulaContentModule:PageLogEntryEntity');
                     $logEntries = $logEntriesRepo->getLogEntries($entity);
