@@ -69,6 +69,7 @@
         </div>
     </div>
 </div>
+{{ zikulacontentmodule_increaseAmountOfPageViews(page) }}
 {% endblock %}
 {% block display_hooks %}
     {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}

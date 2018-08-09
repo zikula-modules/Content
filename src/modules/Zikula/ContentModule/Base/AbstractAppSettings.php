@@ -33,7 +33,7 @@ abstract class AbstractAppSettings
     protected $stateOfNewPages = '1';
     
     /**
-     * Page views are only counted when not in preview or edit mode and only when the user has no edit access. Enable if you want to use the block showing most viewed pages.
+     * Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")

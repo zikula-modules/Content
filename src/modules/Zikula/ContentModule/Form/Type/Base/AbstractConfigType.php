@@ -109,9 +109,9 @@ abstract class AbstractConfigType extends AbstractType
             'label' => $this->__('Count page views') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access. Enable if you want to use the block showing most viewed pages.')
+                'title' => $this->__('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.')
             ],
-            'help' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access. Enable if you want to use the block showing most viewed pages.'),
+            'help' => $this->__('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.'),
             'attr' => [
                 'class' => '',
                 'title' => $this->__('The count page views option')
