@@ -13,7 +13,6 @@ namespace Zikula\ContentModule\Helper;
 
 use Doctrine\ORM\QueryBuilder;
 use Zikula\ContentModule\Helper\Base\AbstractCollectionFilterHelper;
-use Zikula\UsersModule\Constant as UsersConstant;
 
 /**
  * Entity collection filter helper implementation class.
