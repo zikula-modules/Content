@@ -149,7 +149,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
         if (in_array('page', $allowedObjectTypes)
             && $this->permissionHelper->hasComponentPermission('page', $permLevel)) {
             $links[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'tree']),
+                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view'),
                 'text' => $this->__('Pages', 'zikulacontentmodule'),
                 'title' => $this->__('Pages list', 'zikulacontentmodule')
             ];
