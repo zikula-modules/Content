@@ -786,7 +786,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     {
         $selection = ', tblContentItems';
     
-        $selection = ', tblCategories';
+        $selection .= ', tblCategories';
     
         return $selection;
     }
