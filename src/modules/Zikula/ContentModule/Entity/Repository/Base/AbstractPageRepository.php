@@ -335,6 +335,10 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
         $qb = $this->addIdListFilter($idList, $qb);
     
+        if (!$slimMode && null !== $this->collectionFilterHelper) {
+            $qb = $this->collectionFilterHelper->applyDefaultFilters('page', $qb);
+        }
+    
         $query = $this->getQueryFromBuilder($qb);
     
         $results = $query->getResult();
@@ -368,6 +372,10 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     
         if ($excludeId > 0) {
             $qb = $this->addExclusion($qb, [$excludeId]);
+        }
+    
+        if (!$slimMode && null !== $this->collectionFilterHelper) {
+            $qb = $this->collectionFilterHelper->applyDefaultFilters('page', $qb);
         }
     
         $query = $this->getQueryFromBuilder($qb);
@@ -408,7 +416,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     public function getListQueryBuilder($where = '', $orderBy = '', $useJoins = true, $slimMode = false)
     {
         $qb = $this->genericBaseQuery($where, $orderBy, $useJoins, $slimMode);
-        if ((!$useJoins || !$slimMode) && null !== $this->collectionFilterHelper) {
+        if (!$slimMode && null !== $this->collectionFilterHelper) {
             $qb = $this->collectionFilterHelper->addCommonViewFilters('page', $qb);
         }
     

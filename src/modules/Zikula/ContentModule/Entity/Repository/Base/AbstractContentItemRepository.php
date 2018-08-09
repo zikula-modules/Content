@@ -328,6 +328,10 @@ abstract class AbstractContentItemRepository extends EntityRepository
         $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
         $qb = $this->addIdListFilter($idList, $qb);
     
+        if (!$slimMode && null !== $this->collectionFilterHelper) {
+            $qb = $this->collectionFilterHelper->applyDefaultFilters('contentItem', $qb);
+        }
+    
         $query = $this->getQueryFromBuilder($qb);
     
         $results = $query->getResult();
@@ -366,7 +370,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
     public function getListQueryBuilder($where = '', $orderBy = '', $useJoins = true, $slimMode = false)
     {
         $qb = $this->genericBaseQuery($where, $orderBy, $useJoins, $slimMode);
-        if ((!$useJoins || !$slimMode) && null !== $this->collectionFilterHelper) {
+        if (!$slimMode && null !== $this->collectionFilterHelper) {
             $qb = $this->collectionFilterHelper->addCommonViewFilters('contentItem', $qb);
         }
     
