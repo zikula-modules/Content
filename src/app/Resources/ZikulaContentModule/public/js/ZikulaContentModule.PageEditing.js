@@ -670,6 +670,10 @@ function contentPageLoadWidgetData(nodeId) {
         widget.find('.panel-title .dropdown .dropdown-menu .deactivate-item').toggleClass('hidden', !isActive);
 
         contentPageInitialiseAssetsAndEntrypoint(data);
+    }).fail(function(jqxhr, textStatus, error) {
+        if ('error' == textStatus && 'Not Found' == error) {
+            widget.remove();
+        }
     });
 }
 

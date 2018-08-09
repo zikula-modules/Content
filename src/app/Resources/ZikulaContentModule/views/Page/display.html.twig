@@ -132,17 +132,17 @@
             <div class="row">
                 {% set lastWidget = null %}
                 {% for widget in section.widgets %}
-                    {% set colOffset = 0 %}
-                    {% if lastWidget|default and widget.y == lastWidget.y %}
-                        {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
-                    {% else %}
-                        {% set colOffset = widget.x %}
-                    {% endif %}
                     {% set contentElement = null %}
                     {% for item in page.contentItems if item.id == widget.id %}
                         {% set contentElement = item %}
                     {% endfor %}
                     {% if contentElement != null %}
+                        {% set colOffset = 0 %}
+                        {% if lastWidget|default and widget.y == lastWidget.y %}
+                            {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
+                        {% else %}
+                            {% set colOffset = widget.x %}
+                        {% endif %}
                         <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
                             {{ contentElements[widget.id]|raw }}
                         </div>
