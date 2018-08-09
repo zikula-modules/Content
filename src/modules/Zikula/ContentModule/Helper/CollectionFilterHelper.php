@@ -25,17 +25,15 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
     protected function applyDefaultFiltersForPage(QueryBuilder $qb, array $parameters = [])
     {
         $qb = parent::applyDefaultFiltersForPage($qb, $parameters);
-
-        if (null === $this->request) {
-            return $qb;
-        }
-        $routeName = $this->request->get('_route');
-        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin');
-        if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
+        if (true === $this->skipDefaultFilters()) {
             return $qb;
         }
 
         $qb->andWhere('tbl.active = 1');
+        if (in_array('tblContentItems', $qb->getAllAliases())) {
+            $qb->andWhere('tblContentItems.active = 1');
+            $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItems');
+        }
 
         return $qb;
     }
@@ -46,18 +44,38 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
     protected function applyDefaultFiltersForContentItem(QueryBuilder $qb, array $parameters = [])
     {
         $qb = parent::applyDefaultFiltersForContentItem($qb, $parameters);
-
-        if (null === $this->request) {
-            return $qb;
-        }
-        $routeName = $this->request->get('_route');
-        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin');
-        if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('contentItem', ACCESS_ADD)*/) {
+        if (true === $this->skipDefaultFilters()) {
             return $qb;
         }
 
         $qb->andWhere('tbl.active = 1');
+        if (in_array('tblPage', $qb->getAllAliases())) {
+            $qb->andWhere('tblPage.active = 1');
+            $qb = $this->applyDateRangeFilterForPage($qb, 'tblPage');
+        }
 
         return $qb;
+    }
+
+    /**
+     * Checks if default filters should be skipped for the current request.
+     *
+     * @return boolean
+     */
+    protected function skipDefaultFilters()
+    {
+        if (null === $this->request) {
+            return true;
+        }
+        $routeName = $this->request->get('_route');
+        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin') || false !== strpos($routeName, 'zikulacontentmodule_contentitem_admin');
+        if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
+            return true;
+        }
+        if (in_array($routeName, ['zikulacontentmodule_page_managecontent', 'zikulacontentmodule_contentitem_displayediting'])) {
+            return true;
+        }
+
+        return false;
     }
 }

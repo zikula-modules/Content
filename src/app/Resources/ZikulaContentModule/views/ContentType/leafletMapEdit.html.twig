@@ -1,7 +1,7 @@
 <p class="alert alert-info">{{ __('Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.') }}</p>
 
-<div class="content-openstreetmap">
-    <div id="openstreetmap" class="map"></div>
+<div class="content-leaflet">
+    <div id="leafletmap" class="map"></div>
 </div>
 
 {{ form_row(form.latitude) }}
@@ -9,3 +9,5 @@
 {{ form_row(form.zoom) }}
 {{ form_row(form.height) }}
 {{ form_row(form.text) }}
+{{ form_row(form.tileLayerUrl) }}
+{{ form_row(form.tileLayerAttribution) }}

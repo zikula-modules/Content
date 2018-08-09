@@ -14,8 +14,6 @@ namespace Zikula\ContentModule\Controller;
 use Zikula\ContentModule\Controller\Base\AbstractPageController;
 
 use RuntimeException;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -175,18 +173,17 @@ class PageController extends AbstractPageController
      * )
      * @Template("ZikulaContentModule:Page:manageContent.html.twig")
      *
-     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
-     *
      * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
+     * @param string $slug Slug of treated page instance
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function adminManageContentAction(Request $request, PageEntity $page)
+    public function adminManageContentAction(Request $request, $slug)
     {
-        return $this->manageContentInternal($request, $page, true);
+        return $this->manageContentInternal($request, $slug, true);
     }
 
     /**
@@ -198,32 +195,37 @@ class PageController extends AbstractPageController
      * )
      * @Template("ZikulaContentModule:Page:manageContent.html.twig")
      *
-     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
-     *
      * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
+     * @param string $slug Slug of treated page instance
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function manageContentAction(Request $request, PageEntity $page)
+    public function manageContentAction(Request $request, $slug)
     {
-        return $this->manageContentInternal($request, $page, false);
+        return $this->manageContentInternal($request, $slug, false);
     }
 
     /**
      * This method includes the common implementation code for adminManageContentAction() and manageContentAction().
      *
      * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
+     * @param string $slug Slug of treated page instance
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    protected function manageContentInternal(Request $request, PageEntity $page, $isAdmin = false)
+    protected function manageContentInternal(Request $request, $slug, $isAdmin = false)
     {
+        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+
         $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayManagePageContent($page)) {
             throw new AccessDeniedException();
@@ -267,22 +269,21 @@ class PageController extends AbstractPageController
      *        options={"expose"=true}
      * )
      *
-     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectById", "mapping": {"id": "id"}, "map_method_signature" = true})
-     *
      * @param Request $request Current request instance
-     * @param PageEntity $page Treated page instance
+     * @param integer $id Identifier of treated page instance
      *
      * @return JsonResponse Output
      *
      * @throws NotFoundHttpException Thrown if the page was not found
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function updateLayoutAction(Request $request, PageEntity $page)
+    public function updateLayoutAction(Request $request, $id)
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
 
+        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectById($id);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
@@ -313,12 +314,11 @@ class PageController extends AbstractPageController
      *        methods = {"GET"},
      *        options={"expose"=true}
      * )
-     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
      * @Theme("admin")
      */
-    public function adminDisplayAction(Request $request, PageEntity $page)
+    public function adminDisplayAction(Request $request, $slug)
     {
-        return parent::adminDisplayAction($request, $page);
+        return parent::adminDisplayAction($request, $slug);
     }
     
     /**
@@ -330,11 +330,10 @@ class PageController extends AbstractPageController
      *        methods = {"GET"},
      *        options={"expose"=true}
      * )
-     * @ParamConverter("page", class="ZikulaContentModule:PageEntity", options = {"repository_method" = "selectBySlug", "mapping": {"slug": "slugTitle"}, "map_method_signature" = true})
      */
-    public function displayAction(Request $request, PageEntity $page)
+    public function displayAction(Request $request, $slug)
     {
-        return parent::displayAction($request, $page);
+        return parent::displayAction($request, $slug);
     }
     
     /**

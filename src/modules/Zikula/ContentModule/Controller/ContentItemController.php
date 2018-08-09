@@ -23,13 +23,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\ContentModule\ContentTypeInterface;
-use Zikula\ContentModule\ContentType\AuthorType;
-use Zikula\ContentModule\ContentType\TableOfContentsType;
 use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\Type\ContentItemType;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
-use Zikula\UsersModule\Entity\UserEntity;
 
 /**
  * Content item controller class providing navigation and interaction functionality.
@@ -221,17 +217,6 @@ class ContentItemController extends AbstractContentItemController
         }
         $route = $this->get('router')->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
 
-        // TODO move
-        if ($contentType instanceof TableOfContentsType) {
-            $contentData = $contentItem->getContentData();
-            if ($contentData['page'] < 1) {
-                $contentData['page'] = null;
-            } else {
-                $contentData['page'] = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectById($contentData['page'], false);
-            }
-            $contentItem->setContentData($contentData);
-        }
-
         $form = $this->createForm(ContentItemType::class, $contentItem, [
             'action' => $route
         ]);
@@ -270,20 +255,6 @@ class ContentItemController extends AbstractContentItemController
                 }
 
                 $formData = $dataSource->get('zikulacontentmodule_contentitem');
-                // TODO move
-                if ($contentType instanceof AuthorType) {
-                    $contentData = $contentItem->getContentData();
-                    if ($contentData['author'] instanceof UserEntity) {
-                        $contentData['author'] = $contentData['author']->getUid();
-                        $contentItem->setContentData($contentData);
-                    }
-                } elseif ($contentType instanceof TableOfContentsType) {
-                    $contentData = $contentItem->getContentData();
-                    if ($contentData['page'] instanceof PageEntity) {
-                        $contentData['page'] = $contentData['page']->getId();
-                        $contentItem->setContentData($contentData);
-                    }
-                }
                 if (!isset($formData['stylingClasses'])) {
                     $contentItem->setStylingClasses([]);
                 }

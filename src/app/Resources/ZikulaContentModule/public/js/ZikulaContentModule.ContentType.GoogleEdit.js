@@ -16,13 +16,13 @@ function contentInitGoogleMapEdit() {
 
     fieldPrefix = 'zikulacontentmodule_contentitem_contentData_';
 
-    latitude = jQuery('#' + fieldPrefix + 'latitude').val();
-    if (!latitude) {
+    latitude = parseFloat(jQuery('#' + fieldPrefix + 'latitude').val().replace(',', '.'));
+    if (!latitude || isNaN(latitude)) {
         latitude = 54.336869;
     }
 
-    longitude = jQuery('#' + fieldPrefix + 'longitude').val();
-    if (!longitude) {
+    longitude = parseFloat(jQuery('#' + fieldPrefix + 'longitude').val().replace(',', '.'));
+    if (!longitude || isNaN(longitude)) {
         longitude = 10.119942;
     }
 

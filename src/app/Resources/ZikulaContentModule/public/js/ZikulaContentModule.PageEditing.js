@@ -29,13 +29,25 @@ function contentPageGetWidgetId(widget) {
 /**
  * Dynamically loads asset files.
  */
-function contentPageLoadDynamicAssets(type, pathes) {
+function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
     if (-1 == jQuery.inArray(type, ['css', 'js'])) {
         return;
     }
+    if (pathes.length < 1) {
+        return;
+    }
 
-    jQuery.each(pathes, function (index, path) {
+    var downloadAsset = function(path) {
         if (-1 < jQuery.inArray(path, loadedDynamicAssets[type])) {
+            if ('js' == type) {
+                if (pathes.length > 0) {
+                    downloadAsset(pathes.shift());
+                } else {
+                    if (null !== jsEntryPoint && 'function' === typeof window[jsEntryPoint]) {
+                        window[jsEntryPoint]();
+                    }
+                }
+            }
             return;
         }
 
@@ -50,14 +62,23 @@ function contentPageLoadDynamicAssets(type, pathes) {
             ;
             loadedDynamicAssets[type].push(path);
         } else if ('js' == type) {
-            loadedDynamicAssets[type].push(path);
             jQuery.contentGetSyncCachedScript(path)
-                /*.done(function (script, textStatus) {
+                .done(function (script, textStatus) {
                     loadedDynamicAssets[type].push(path);
-                })*/
+
+                    if (pathes.length > 0) {
+                        downloadAsset(pathes.shift());
+                    } else {
+                        if (null !== jsEntryPoint && 'function' === typeof window[jsEntryPoint]) {
+                            window[jsEntryPoint]();
+                        }
+                    }
+                })
             ;
         }
-    });
+    };
+
+    downloadAsset(pathes.shift());
 }
 
 /**
@@ -617,15 +638,11 @@ function contentPageGetWidgetPanelMarkup(nodeId, title) {
 function contentPageInitialiseAssetsAndEntrypoint(data) {
     if ('undefined' !== typeof data.assets) {
         if ('undefined' !== typeof data.assets.css) {
-            contentPageLoadDynamicAssets('css', data.assets.css);
+            contentPageLoadDynamicAssets('css', data.assets.css, null);
         }
         if ('undefined' !== typeof data.assets.js) {
-            contentPageLoadDynamicAssets('js', data.assets.js);
-        }
-    }
-    if ('undefined' !== typeof data.jsEntryPoint) {
-        if (null !== data.jsEntryPoint && 'function' === typeof window[data.jsEntryPoint]) {
-            window[data.jsEntryPoint]();
+            var jsEntryPoint = 'undefined' !== typeof data.jsEntryPoint ? data.jsEntryPoint : null;
+            contentPageLoadDynamicAssets('js', data.assets.js, jsEntryPoint);
         }
     }
 }
@@ -653,6 +670,10 @@ function contentPageLoadWidgetData(nodeId) {
         widget.find('.panel-title .dropdown .dropdown-menu .deactivate-item').toggleClass('hidden', !isActive);
 
         contentPageInitialiseAssetsAndEntrypoint(data);
+    }).fail(function(jqxhr, textStatus, error) {
+        if ('error' == textStatus && 'Not Found' == error) {
+            widget.remove();
+        }
     });
 }
 
@@ -772,13 +793,15 @@ function contentPageSerialiseWidgets(elements) {
  * Saves serialised grid and widget data.
  */
 function contentPageSave() {
+    var sectionCounter;
     if (true === suspendAutoSave) {
         return;
     }
+    sectionCounter = 0;
     widgetData = _.map(jQuery('#widgets .grid-section'), function (section) {
         section = jQuery(section);
         return {
-            id: section.attr('id'),
+            id: 'section' + ++sectionCounter,
             widgets: contentPageSerialiseWidgets(section.find('.well > .grid-stack > .grid-stack-item:visible').not('.grid-stack-placeholder'))
         }
     });

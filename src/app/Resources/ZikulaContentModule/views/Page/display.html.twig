@@ -129,20 +129,20 @@
 {% block content_elements %}
     {% if page.layout|default and page.layout is iterable and page.layout|length > 0 %}
         {% for section in page.layout if section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
-            <div class="row">
+            <div class="row section">
                 {% set lastWidget = null %}
                 {% for widget in section.widgets %}
-                    {% set colOffset = 0 %}
-                    {% if lastWidget|default and widget.y == lastWidget.y %}
-                        {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
-                    {% else %}
-                        {% set colOffset = widget.x %}
-                    {% endif %}
                     {% set contentElement = null %}
                     {% for item in page.contentItems if item.id == widget.id %}
                         {% set contentElement = item %}
                     {% endfor %}
                     {% if contentElement != null %}
+                        {% set colOffset = 0 %}
+                        {% if lastWidget|default and widget.y == lastWidget.y %}
+                            {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
+                        {% else %}
+                            {% set colOffset = widget.x %}
+                        {% endif %}
                         <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
                             {{ contentElements[widget.id]|raw }}
                         </div>

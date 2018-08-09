@@ -1,5 +1,0 @@
-<div class="content-openstreetmap hidden" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ latitude }}" data-zoom="{{ zoom }}" data-descriptionid="text{{ contentId }}">
-    <div id="map{{ contentId }}" class="map" style="width: 100%; height: {{ height }}px"></div>
-    <div id="text{{ contentId }}">{{ text|safeHtml }}</div>
-    <div id="osm{{ contentId }}">©<a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> {{ __('and') }} <a href="https://www.openstreetmap.org/copyright" target="_blank">participants</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/deed{% if app.request.locale == 'de' %}.de{% endif %}" target="_blank">CC-BY-SA</a></div>
-</div>

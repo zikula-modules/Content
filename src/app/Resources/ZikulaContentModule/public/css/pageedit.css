@@ -7,7 +7,8 @@
     z-index: 200;
 }
 .grid-stack {
-    min-height: 75px;
+    min-height: 100px;
+    /* this must not be padding-bottom: 100px */
 }
 /*.grid-stack-one-column-mode {
     background-color: blue;

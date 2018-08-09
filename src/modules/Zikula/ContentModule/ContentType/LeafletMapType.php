@@ -13,12 +13,12 @@ namespace Zikula\ContentModule\ContentType;
 
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
-use Zikula\ContentModule\ContentType\Form\Type\OpenStreetMapType as FormType;
+use Zikula\ContentModule\ContentType\Form\Type\LeafletMapType as FormType;
 
 /**
- * Open street map content type.
+ * Leaflet map content type.
  */
-class OpenStreetMapType extends AbstractContentType
+class LeafletMapType extends AbstractContentType
 {
     /**
      * @inheritDoc
@@ -33,7 +33,7 @@ class OpenStreetMapType extends AbstractContentType
      */
     public function getIcon()
     {
-        return 'map-pin';
+        return 'leaf';
     }
 
     /**
@@ -41,7 +41,7 @@ class OpenStreetMapType extends AbstractContentType
      */
     public function getTitle()
     {
-        return $this->__('OpenStreetMap map');
+        return $this->__('Leaflet map');
     }
 
     /**
@@ -49,7 +49,7 @@ class OpenStreetMapType extends AbstractContentType
      */
     public function getDescription()
     {
-        return $this->__('Display OpenStreetMap map position.');
+        return $this->__('Display Leaflet map position.');
     }
 
     /**
@@ -70,7 +70,9 @@ class OpenStreetMapType extends AbstractContentType
             'longitude' => '12.36185073852539',
             'zoom' => 5,
             'height' => 400,
-            'text' => ''
+            'text' => '',
+            'tileLayerUrl' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'tileLayerAttribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         ];
     }
 
@@ -98,9 +100,11 @@ class OpenStreetMapType extends AbstractContentType
         $assets = parent::getAssets($context);
 
         if (in_array($context, [ContentTypeInterface::CONTEXT_VIEW, ContentTypeInterface::CONTEXT_EDIT])) {
-            $assets['js'][] = 'https://openlayers.org/api/OpenLayers.js';
-            $assets['js'][] = 'https://www.openstreetmap.org/openlayers/OpenStreetMap.js';
-            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.OpenStreetMap.js');
+            $pathToStyle = $this->assetHelper->resolve('@ZikulaContentModule:css/style.css');
+            $pathToLeaflet = str_replace('Resources/public/css/style.css', '', $pathToStyle) . 'vendor/drmonty/leaflet/';
+            $assets['css'][] = $pathToLeaflet . 'css/leaflet.css';
+            $assets['js'][] = $pathToLeaflet . 'js/leaflet.min.js';
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.LeafletMap.js');
         }
 
         return $assets;
@@ -112,10 +116,10 @@ class OpenStreetMapType extends AbstractContentType
     public function getJsEntrypoint($context)
     {
         if (ContentTypeInterface::CONTEXT_VIEW == $context) {
-            return 'contentInitOsmDisplay';
+            return 'contentInitLeafletDisplay';
         }
         if (ContentTypeInterface::CONTEXT_EDIT == $context) {
-            return 'contentInitOsmEdit';
+            return 'contentInitLeafletEdit';
         }
 
         return null;

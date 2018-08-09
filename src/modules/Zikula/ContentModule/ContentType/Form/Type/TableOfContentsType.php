@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\ContentType\Form\DataTransformer\PageTransformer;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 
@@ -29,13 +31,20 @@ class TableOfContentsType extends AbstractType
     use TranslatorTrait;
 
     /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
      * TableOfContentsType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator    Translator service instance
+     * @param EntityFactory       $entityFactory EntityFactory service instance
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, EntityFactory $entityFactory)
     {
         $this->setTranslator($translator);
+        $this->entityFactory = $entityFactory;
     }
 
     /**
@@ -105,6 +114,8 @@ class TableOfContentsType extends AbstractType
                 'required' => false
             ])
         ;
+        $transformer = new PageTransformer($this->entityFactory);
+        $builder->get('page')->addModelTransformer($transformer);
     }
 
     /**
