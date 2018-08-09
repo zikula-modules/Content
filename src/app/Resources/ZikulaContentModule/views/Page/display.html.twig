@@ -129,7 +129,7 @@
 {% block content_elements %}
     {% if page.layout|default and page.layout is iterable and page.layout|length > 0 %}
         {% for section in page.layout if section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
-            <div class="row">
+            <div class="row section">
                 {% set lastWidget = null %}
                 {% for widget in section.widgets %}
                     {% set contentElement = null %}
