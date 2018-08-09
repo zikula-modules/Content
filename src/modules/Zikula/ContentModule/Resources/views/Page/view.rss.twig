@@ -36,7 +36,7 @@
         <category><![CDATA[{{ __('Categories') }}: {% for catMapping in page.categories %}{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}{% endfor %}]]></category>
         <description>
             <![CDATA[
-            {{ page.metaDescription|replace({'<br>': '<br />'}) }}
+            {{ page.optionalText|replace({'<br>': '<br />'}) }}
             ]]>
         </description>
         {% if page.createdDate|default %}

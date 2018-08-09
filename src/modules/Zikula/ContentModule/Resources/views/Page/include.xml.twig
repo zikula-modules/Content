@@ -3,7 +3,7 @@
     <id>{{ page.id }}</id>
     <title><![CDATA[{{ page.title }}]]></title>
     <showTitle>{% if not page.showTitle %}0{% else %}1{% endif %}</showTitle>
-    <metaDescription><![CDATA[{{ page.metaDescription|safeHtml }}]]></metaDescription>
+    <metaDescription><![CDATA[{{ page.metaDescription }}]]></metaDescription>
     <skipUiHookSubscriber>{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}</skipUiHookSubscriber>
     <skipFilterHookSubscriber>{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}</skipFilterHookSubscriber>
     <layout>{% if page.layout is iterable and page.layout|length > 0 %}

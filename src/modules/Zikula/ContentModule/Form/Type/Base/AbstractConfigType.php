@@ -109,9 +109,9 @@ abstract class AbstractConfigType extends AbstractType
             'label' => $this->__('Count page views') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access.')
+                'title' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access. Enable if you want to use the block showing most viewed pages.')
             ],
-            'help' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access.'),
+            'help' => $this->__('Page views are only counted when not in preview or edit mode and only when the user has no edit access. Enable if you want to use the block showing most viewed pages.'),
             'attr' => [
                 'class' => '',
                 'title' => $this->__('The count page views option')
@@ -123,9 +123,9 @@ abstract class AbstractConfigType extends AbstractType
             'label' => $this->__('Google maps api key') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->__('If you want to use Google maps you need an API key for it.')
+                'title' => $this->__('If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".')
             ],
-            'help' => $this->__('If you want to use Google maps you need an API key for it.'),
+            'help' => $this->__('If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".'),
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,

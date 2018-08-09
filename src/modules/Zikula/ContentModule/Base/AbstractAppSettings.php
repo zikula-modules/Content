@@ -33,7 +33,7 @@ abstract class AbstractAppSettings
     protected $stateOfNewPages = '1';
     
     /**
-     * Page views are only counted when not in preview or edit mode and only when the user has no edit access.
+     * Page views are only counted when not in preview or edit mode and only when the user has no edit access. Enable if you want to use the block showing most viewed pages.
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -42,7 +42,7 @@ abstract class AbstractAppSettings
     protected $countPageViews = false;
     
     /**
-     * If you want to use Google maps you need an API key for it.
+     * If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".
      *
      * @Assert\NotNull()
      * @Assert\Length(min="0", max="255")

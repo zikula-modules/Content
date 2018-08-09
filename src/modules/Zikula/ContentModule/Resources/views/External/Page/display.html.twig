@@ -34,7 +34,7 @@
     {# you can enable more details about the item: #}
     {#
         <p class="zikulacontentmodule-external-description">
-            {% if page.metaDescription is not empty %}{{ page.metaDescription }}<br />{% endif %}
+            {% if page.optionalText is not empty %}{{ page.optionalText }}<br />{% endif %}
             {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
                 <dl class="category-list">
                 {% for propName, catMapping in page.categories %}

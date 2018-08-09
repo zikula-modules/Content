@@ -37,12 +37,12 @@
         {% endif %}
         <summary type="html">
             <![CDATA[
-            {{ page.metaDescription|truncate(150, true, '&hellip;')|default('-') }}
+            {{ page.optionalText|truncate(150, true, '&hellip;')|default('-') }}
             ]]>
         </summary>
         <content type="html">
             <![CDATA[
-            {{ page.optionalText|replace({ '<br>': '<br />' }) }}
+            {{ page.title|replace({ '<br>': '<br />' }) }}
             ]]>
         </content>
     </entry>

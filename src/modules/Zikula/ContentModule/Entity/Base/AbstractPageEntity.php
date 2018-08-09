@@ -84,10 +84,10 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @Gedmo\Translatable
-     * @ORM\Column(type="text", length=2000)
+     * @ORM\Column(length=255)
      * @Assert\NotNull()
-     * @Assert\Length(min="0", max="2000")
-     * @var text $metaDescription
+     * @Assert\Length(min="0", max="255")
+     * @var string $metaDescription
      */
     protected $metaDescription = '';
     
@@ -450,7 +450,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Returns the meta description.
      *
-     * @return text
+     * @return string
      */
     public function getMetaDescription()
     {
@@ -460,7 +460,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Sets the meta description.
      *
-     * @param text $metaDescription
+     * @param string $metaDescription
      *
      * @return void
      */
