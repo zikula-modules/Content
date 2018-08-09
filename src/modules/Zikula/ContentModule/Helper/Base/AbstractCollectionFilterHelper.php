@@ -12,7 +12,6 @@
 namespace Zikula\ContentModule\Helper\Base;
 
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Constant as UsersConstant;
@@ -28,9 +27,9 @@ use Zikula\ContentModule\Helper\PermissionHelper;
 abstract class AbstractCollectionFilterHelper
 {
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
 
     /**
      * @var PermissionHelper
@@ -75,7 +74,7 @@ abstract class AbstractCollectionFilterHelper
         $showOnlyOwnEntries,
         $filterDataByLocale
     ) {
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->currentUserApi = $currentUserApi;
         $this->categoryHelper = $categoryHelper;
@@ -169,19 +168,20 @@ abstract class AbstractCollectionFilterHelper
     protected function getViewQuickNavParametersForPage($context = '', array $args = [])
     {
         $parameters = [];
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $parameters;
         }
     
-        $parameters['catId'] = $this->request->query->get('catId', '');
+        $parameters['catId'] = $request->query->get('catId', '');
         $parameters['catIdList'] = $this->categoryHelper->retrieveCategoriesFromRequest('page', 'GET');
-        $parameters['workflowState'] = $this->request->query->get('workflowState', '');
-        $parameters['q'] = $this->request->query->get('q', '');
-        $parameters['showTitle'] = $this->request->query->get('showTitle', '');
-        $parameters['skipUiHookSubscriber'] = $this->request->query->get('skipUiHookSubscriber', '');
-        $parameters['skipFilterHookSubscriber'] = $this->request->query->get('skipFilterHookSubscriber', '');
-        $parameters['active'] = $this->request->query->get('active', '');
-        $parameters['inMenu'] = $this->request->query->get('inMenu', '');
+        $parameters['workflowState'] = $request->query->get('workflowState', '');
+        $parameters['q'] = $request->query->get('q', '');
+        $parameters['showTitle'] = $request->query->get('showTitle', '');
+        $parameters['skipUiHookSubscriber'] = $request->query->get('skipUiHookSubscriber', '');
+        $parameters['skipFilterHookSubscriber'] = $request->query->get('skipFilterHookSubscriber', '');
+        $parameters['active'] = $request->query->get('active', '');
+        $parameters['inMenu'] = $request->query->get('inMenu', '');
     
         return $parameters;
     }
@@ -197,15 +197,16 @@ abstract class AbstractCollectionFilterHelper
     protected function getViewQuickNavParametersForContentItem($context = '', array $args = [])
     {
         $parameters = [];
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $parameters;
         }
     
-        $parameters['page'] = $this->request->query->get('page', 0);
-        $parameters['workflowState'] = $this->request->query->get('workflowState', '');
-        $parameters['scope'] = $this->request->query->get('scope', '');
-        $parameters['q'] = $this->request->query->get('q', '');
-        $parameters['active'] = $this->request->query->get('active', '');
+        $parameters['page'] = $request->query->get('page', 0);
+        $parameters['workflowState'] = $request->query->get('workflowState', '');
+        $parameters['scope'] = $request->query->get('scope', '');
+        $parameters['q'] = $request->query->get('q', '');
+        $parameters['active'] = $request->query->get('active', '');
     
         return $parameters;
     }
@@ -221,14 +222,15 @@ abstract class AbstractCollectionFilterHelper
     protected function getViewQuickNavParametersForSearchable($context = '', array $args = [])
     {
         $parameters = [];
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $parameters;
         }
     
-        $parameters['contentItem'] = $this->request->query->get('contentItem', 0);
-        $parameters['workflowState'] = $this->request->query->get('workflowState', '');
-        $parameters['searchLanguage'] = $this->request->query->get('searchLanguage', '');
-        $parameters['q'] = $this->request->query->get('q', '');
+        $parameters['contentItem'] = $request->query->get('contentItem', 0);
+        $parameters['workflowState'] = $request->query->get('workflowState', '');
+        $parameters['searchLanguage'] = $request->query->get('searchLanguage', '');
+        $parameters['q'] = $request->query->get('q', '');
     
         return $parameters;
     }
@@ -242,10 +244,11 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function addCommonViewFiltersForPage(QueryBuilder $qb)
     {
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $qb;
         }
-        $routeName = $this->request->get('_route');
+        $routeName = $request->get('_route');
         if (false !== strpos($routeName, 'edit')) {
             return $qb;
         }
@@ -314,10 +317,11 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function addCommonViewFiltersForContentItem(QueryBuilder $qb)
     {
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $qb;
         }
-        $routeName = $this->request->get('_route');
+        $routeName = $request->get('_route');
         if (false !== strpos($routeName, 'edit')) {
             return $qb;
         }
@@ -373,10 +377,11 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function addCommonViewFiltersForSearchable(QueryBuilder $qb)
     {
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $qb;
         }
-        $routeName = $this->request->get('_route');
+        $routeName = $request->get('_route');
         if (false !== strpos($routeName, 'edit')) {
             return $qb;
         }
@@ -425,16 +430,17 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function applyDefaultFiltersForPage(QueryBuilder $qb, array $parameters = [])
     {
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $qb;
         }
-        $routeName = $this->request->get('_route');
+        $routeName = $request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin');
         if ($isAdminArea) {
             return $qb;
         }
     
-        $showOnlyOwnEntries = (bool)$this->request->query->getInt('own', $this->showOnlyOwnEntries);
+        $showOnlyOwnEntries = (bool)$request->query->getInt('own', $this->showOnlyOwnEntries);
     
         if (!in_array('workflowState', array_keys($parameters)) || empty($parameters['workflowState'])) {
             // per default we show approved pages only
@@ -465,16 +471,17 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function applyDefaultFiltersForContentItem(QueryBuilder $qb, array $parameters = [])
     {
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $qb;
         }
-        $routeName = $this->request->get('_route');
+        $routeName = $request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_contentitem_admin');
         if ($isAdminArea) {
             return $qb;
         }
     
-        $showOnlyOwnEntries = (bool)$this->request->query->getInt('own', $this->showOnlyOwnEntries);
+        $showOnlyOwnEntries = (bool)$request->query->getInt('own', $this->showOnlyOwnEntries);
     
         if (!in_array('workflowState', array_keys($parameters)) || empty($parameters['workflowState'])) {
             // per default we show approved content items only
@@ -505,16 +512,17 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function applyDefaultFiltersForSearchable(QueryBuilder $qb, array $parameters = [])
     {
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return $qb;
         }
-        $routeName = $this->request->get('_route');
+        $routeName = $request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_searchable_admin');
         if ($isAdminArea) {
             return $qb;
         }
     
-        $showOnlyOwnEntries = (bool)$this->request->query->getInt('own', $this->showOnlyOwnEntries);
+        $showOnlyOwnEntries = (bool)$request->query->getInt('own', $this->showOnlyOwnEntries);
     
         if (!in_array('workflowState', array_keys($parameters)) || empty($parameters['workflowState'])) {
             // per default we show approved searchables only
@@ -528,7 +536,7 @@ abstract class AbstractCollectionFilterHelper
         }
     
         if (true === (bool)$this->filterDataByLocale) {
-            $allowedLocales = ['', $this->request->getLocale()];
+            $allowedLocales = ['', $request->getLocale()];
             if (!in_array('searchLanguage', array_keys($parameters)) || empty($parameters['searchLanguage'])) {
                 $qb->andWhere('tbl.searchLanguage IN (:currentSearchLanguage)')
                    ->setParameter('currentSearchLanguage', $allowedLocales);
@@ -551,11 +559,12 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function applyDateRangeFilterForPage(QueryBuilder $qb, $alias = 'tbl')
     {
-        $startDate = $this->request->query->get('activeFrom', date('Y-m-d H:i:s'));
+        $request = $this->requestStack->getCurrentRequest();
+        $startDate = $request->query->get('activeFrom', date('Y-m-d H:i:s'));
         $qb->andWhere('(' . $alias . '.activeFrom <= :startDate OR ' . $alias . '.activeFrom IS NULL)')
            ->setParameter('startDate', $startDate);
     
-        $endDate = $this->request->query->get('activeTo', date('Y-m-d H:i:s'));
+        $endDate = $request->query->get('activeTo', date('Y-m-d H:i:s'));
         $qb->andWhere('(' . $alias . '.activeTo >= :endDate OR ' . $alias . '.activeTo IS NULL)')
            ->setParameter('endDate', $endDate);
     
@@ -572,11 +581,12 @@ abstract class AbstractCollectionFilterHelper
      */
     protected function applyDateRangeFilterForContentItem(QueryBuilder $qb, $alias = 'tbl')
     {
-        $startDate = $this->request->query->get('activeFrom', date('Y-m-d H:i:s'));
+        $request = $this->requestStack->getCurrentRequest();
+        $startDate = $request->query->get('activeFrom', date('Y-m-d H:i:s'));
         $qb->andWhere('(' . $alias . '.activeFrom <= :startDate OR ' . $alias . '.activeFrom IS NULL)')
            ->setParameter('startDate', $startDate);
     
-        $endDate = $this->request->query->get('activeTo', date('Y-m-d H:i:s'));
+        $endDate = $request->query->get('activeTo', date('Y-m-d H:i:s'));
         $qb->andWhere('(' . $alias . '.activeTo >= :endDate OR ' . $alias . '.activeTo IS NULL)')
            ->setParameter('endDate', $endDate);
     

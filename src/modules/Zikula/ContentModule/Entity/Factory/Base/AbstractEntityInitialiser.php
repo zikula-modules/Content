@@ -11,7 +11,6 @@
 
 namespace Zikula\ContentModule\Entity\Factory\Base;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
@@ -25,9 +24,9 @@ use Zikula\ContentModule\Helper\PermissionHelper;
 abstract class AbstractEntityInitialiser
 {
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
 
     /**
      * @var PermissionHelper
@@ -51,7 +50,7 @@ abstract class AbstractEntityInitialiser
         PermissionHelper $permissionHelper,
         ListEntriesHelper $listEntriesHelper
     ) {
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->listEntriesHelper = $listEntriesHelper;
     }
@@ -97,7 +96,7 @@ abstract class AbstractEntityInitialiser
      */
     public function initSearchable(SearchableEntity $entity)
     {
-        $entity->setSearchLanguage($this->request->getLocale());
+        $entity->setSearchLanguage($this->requestStack->getCurrentRequest()->getLocale());
 
         return $entity;
     }

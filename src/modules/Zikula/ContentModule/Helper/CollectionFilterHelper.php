@@ -68,13 +68,14 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
      */
     protected function skipDefaultFilters()
     {
-        if (null === $this->request) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
             return true;
         }
-        if ($this->request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
             return true;
         }
-        $routeName = $this->request->get('_route');
+        $routeName = $request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin') || false !== strpos($routeName, 'zikulacontentmodule_contentitem_admin');
         if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
             return true;
