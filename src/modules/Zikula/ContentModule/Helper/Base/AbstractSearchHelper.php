@@ -16,7 +16,6 @@ use Doctrine\ORM\Query\Expr\Composite;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -44,9 +43,9 @@ abstract class AbstractSearchHelper implements SearchableInterface
     protected $session;
     
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
     
     /**
      * @var EntityFactory
@@ -104,7 +103,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
     ) {
         $this->setTranslator($translator);
         $this->session = $session;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->entityFactory = $entityFactory;
         $this->controllerHelper = $controllerHelper;
         $this->entityDisplayHelper = $entityDisplayHelper;
@@ -163,10 +162,11 @@ abstract class AbstractSearchHelper implements SearchableInterface
         // retrieve list of activated object types
         $searchTypes = $this->getSearchTypes();
         $entitiesWithDisplayAction = ['page'];
+        $request = $this->requestStack->getCurrentRequest();
     
         foreach ($searchTypes as $searchTypeCode => $typeInfo) {
             $isActivated = false;
-            $searchSettings = $this->request->query->get('zikulasearchmodule_search', []);
+            $searchSettings = $request->query->get('zikulasearchmodule_search', []);
             $moduleActivationInfo = $searchSettings['modules'];
             if (isset($moduleActivationInfo['ZikulaContentModule'])) {
                 $moduleActivationInfo = $moduleActivationInfo['ZikulaContentModule'];
@@ -245,7 +245,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
                 $displayUrl = '';
                 if ($hasDisplayAction) {
                     $urlArgs = $entity->createUrlArgs();
-                    $urlArgs['_locale'] = (null !== $languageField && !empty($entity[$languageField])) ? $entity[$languageField] : $this->request->getLocale();
+                    $urlArgs['_locale'] = (null !== $languageField && !empty($entity[$languageField])) ? $entity[$languageField] : $request->getLocale();
                     $displayUrl = new RouteUrl('zikulacontentmodule_' . strtolower($objectType) . '_display', $urlArgs);
                 }
     

@@ -14,7 +14,6 @@ namespace Zikula\ContentModule\Listener\Base;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zikula\Core\Event\GenericEvent;
@@ -31,9 +30,9 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     protected $filesystem;
     
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
     
     /**
      * ThirdPartyListener constructor.
@@ -46,7 +45,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     public function __construct(Filesystem $filesystem, RequestStack $requestStack)
     {
         $this->filesystem = $filesystem;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
     }
     
     /**
@@ -98,7 +97,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
             [
                 'module' => 'ZikulaContentModule',
                 'type' => 'javascript',
-                'path' => $this->request->getBasePath() . '/web/modules/zikulacontent/js/ZikulaContentModule.Finder.js'
+                'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/js/ZikulaContentModule.Finder.js'
             ]
         );
     }
@@ -119,7 +118,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->request->getBasePath() . '/web/modules/zikulacontent/scribite/CKEditor/zikulacontentmodule/',
+            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/CKEditor/zikulacontentmodule/',
             'file' => 'plugin.js',
             'img' => 'ed_zikulacontentmodule.gif'
         ]);
@@ -141,7 +140,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->request->getBasePath() . '/web/modules/zikulacontent/scribite/Quill/zikulacontentmodule/plugin.js'
+            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/Quill/zikulacontentmodule/plugin.js'
         ]);
     }
     
@@ -161,7 +160,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->request->getBasePath() . '/web/modules/zikulacontent/scribite/Summernote/zikulacontentmodule/plugin.js'
+            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/Summernote/zikulacontentmodule/plugin.js'
         ]);
     }
     
@@ -181,7 +180,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->request->getBasePath() . '/web/modules/zikulacontent/scribite/TinyMce/zikulacontentmodule/plugin.js'
+            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/TinyMce/zikulacontentmodule/plugin.js'
         ]);
     }
 }

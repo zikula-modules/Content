@@ -12,7 +12,6 @@
 namespace Zikula\ContentModule\Helper\Base;
 
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -32,9 +31,9 @@ abstract class AbstractControllerHelper
     use TranslatorTrait;
 
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
 
     /**
      * @var FormFactoryInterface
@@ -89,7 +88,7 @@ abstract class AbstractControllerHelper
         FeatureActivationHelper $featureActivationHelper
     ) {
         $this->setTranslator($translator);
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->formFactory = $formFactory;
         $this->variableApi = $variableApi;
         $this->entityFactory = $entityFactory;
@@ -165,7 +164,7 @@ abstract class AbstractControllerHelper
             throw new \Exception($this->__('Error! Invalid object type received.'));
         }
     
-        $request = $this->request;
+        $request = $this->requestStack->getCurrentRequest();
         $repository = $this->entityFactory->getRepository($objectType);
     
         // parameter for used sorting field
@@ -283,7 +282,7 @@ abstract class AbstractControllerHelper
      */
     protected function determineDefaultViewSorting($objectType)
     {
-        $request = $this->request;
+        $request = $this->requestStack->getCurrentRequest();
         $repository = $this->entityFactory->getRepository($objectType);
     
         $sort = $request->query->get('sort', '');
@@ -324,7 +323,7 @@ abstract class AbstractControllerHelper
             // build RouteUrl instance for display hooks
             $entity = $templateParameters[$objectType];
             $urlParameters = $entity->createUrlArgs();
-            $urlParameters['_locale'] = $this->request->getLocale();
+            $urlParameters['_locale'] = $this->requestStack->getCurrentRequest()->getLocale();
             $templateParameters['currentUrlObject'] = new RouteUrl('zikulacontentmodule_' . strtolower($objectType) . '_display', $urlParameters);
         }
     
@@ -367,7 +366,7 @@ abstract class AbstractControllerHelper
     
         if ($context == 'controllerAction') {
             if (!isset($args['action'])) {
-                $routeName = $this->request->get('_route');
+                $routeName = $this->requestStack->getCurrentRequest()->get('_route');
                 $routeNameParts = explode('_', $routeName);
                 $args['action'] = end($routeNameParts);
             }

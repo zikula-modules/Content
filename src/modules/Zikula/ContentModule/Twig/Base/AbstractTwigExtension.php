@@ -11,7 +11,6 @@
 
 namespace Zikula\ContentModule\Twig\Base;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
@@ -36,9 +35,9 @@ abstract class AbstractTwigExtension extends Twig_Extension
     protected $router;
     
     /**
-     * @var Request
+     * @var RequestStack
      */
-    protected $request;
+    protected $requestStack;
     
     /**
      * @var VariableApiInterface
@@ -89,7 +88,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
     {
         $this->setTranslator($translator);
         $this->router = $router;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->requestStack = $requestStack;
         $this->variableApi = $variableApi;
         $this->entityFactory = $entityFactory;
         $this->entityDisplayHelper = $entityDisplayHelper;
@@ -350,7 +349,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
         $result = str_replace('€', 'Euro', $result);
         $result = ereg_replace("(\r\n|\n|\r)", '=0D=0A', $result);
     
-        return ';LANGUAGE=' . $this->request->getLocale() . ';ENCODING=QUOTED-PRINTABLE:' . $result . "\r\n";
+        return ';LANGUAGE=' . $this->requestStack->getCurrentRequest()->getLocale() . ';ENCODING=QUOTED-PRINTABLE:' . $result . "\r\n";
     }
     
     

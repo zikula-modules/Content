@@ -46,7 +46,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         if ($this->templateParameters['mode'] == 'create') {
             if (!$this->modelHelper->canBeCreated($this->objectType)) {
-                $this->request->getSession()->getFlashBag()->add('error', $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!'));
+                $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!'));
                 $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname'), 'entity' => $this->objectType];
                 $this->logger->notice('{app}: User {user} tried to create a new {entity}, but failed as it other items are required which must be created before.', $logArgs);
     
@@ -55,7 +55,7 @@ abstract class AbstractEditHandler extends EditHandler
         }
         
         if ($this->templateParameters['mode'] == 'edit') {
-            $this->request->getSession()->set('ZikulaContentModuleEntityVersion', $this->entityRef->getCurrentVersion());
+            $this->requestStack->getCurrentRequest()->getSession()->set('ZikulaContentModuleEntityVersion', $this->entityRef->getCurrentVersion());
         }
     
         $entityData = $this->entityRef->toArray();
@@ -245,10 +245,10 @@ abstract class AbstractEditHandler extends EditHandler
         $action = $args['commandName'];
         
         $applyLock = $this->templateParameters['mode'] != 'create' && $action != 'delete';
-        $expectedVersion = $this->request->getSession()->get('ZikulaContentModuleEntityVersion', 1);
+        $expectedVersion = $this->requestStack->getCurrentRequest()->getSession()->get('ZikulaContentModuleEntityVersion', 1);
     
         $success = false;
-        $flashBag = $this->request->getSession()->getFlashBag();
+        $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
         try {
             if ($applyLock) {
                 // assert version
@@ -290,8 +290,9 @@ abstract class AbstractEditHandler extends EditHandler
             return $this->repeatReturnUrl;
         }
     
-        if ($this->request->getSession()->has('zikulacontentmodule' . $this->objectTypeCapital . 'Referer')) {
-            $this->request->getSession()->remove('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
+        $session = $this->requestStack->getCurrentRequest()->getSession();
+        if ($session->has('zikulacontentmodule' . $this->objectTypeCapital . 'Referer')) {
+            $session->remove('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
         }
     
         // normal usage, compute return url from given redirect code
