@@ -222,14 +222,6 @@ application "Content" {
                         listItem "New pages will be inactive and not available in the menu" ( "4" )
                     }
                 },
-                list "pageInfoLocation" {
-                    defaultValue ""
-                    length 10
-                    items {
-                        default listItem "Top of the page, left of the page title" ( "top" ),
-                        listItem "Bottom of the page" ( "bottom" )
-                    }
-                },
                 boolean "overridePageTitle" {
                     documentation "Override page title with the Content page title"
                     defaultValue "true"

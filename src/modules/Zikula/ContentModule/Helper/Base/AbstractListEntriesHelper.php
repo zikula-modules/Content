@@ -158,9 +158,6 @@ abstract class AbstractListEntriesHelper
                     case 'stateOfNewPages':
                         $result = false;
                         break;
-                    case 'pageInfoLocation':
-                        $result = false;
-                        break;
                     case 'enabledFinderTypes':
                         $result = true;
                         break;
@@ -216,9 +213,6 @@ abstract class AbstractListEntriesHelper
                 switch ($fieldName) {
                     case 'stateOfNewPages':
                         $entries = $this->getStateOfNewPagesEntriesForAppSettings();
-                        break;
-                    case 'pageInfoLocation':
-                        $entries = $this->getPageInfoLocationEntriesForAppSettings();
                         break;
                     case 'enabledFinderTypes':
                         $entries = $this->getEnabledFinderTypesEntriesForAppSettings();
@@ -416,32 +410,6 @@ abstract class AbstractListEntriesHelper
         $states[] = [
             'value'   => '4',
             'text'    => $this->__('New pages will be inactive and not available in the menu'),
-            'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-    
-        return $states;
-    }
-    
-    /**
-     * Get 'page info location' list entries.
-     *
-     * @return array Array with desired list entries
-     */
-    public function getPageInfoLocationEntriesForAppSettings()
-    {
-        $states = [];
-        $states[] = [
-            'value'   => 'top',
-            'text'    => $this->__('Top of the page, left of the page title'),
-            'title'   => '',
-            'image'   => '',
-            'default' => true
-        ];
-        $states[] = [
-            'value'   => 'bottom',
-            'text'    => $this->__('Bottom of the page'),
             'title'   => '',
             'image'   => '',
             'default' => false

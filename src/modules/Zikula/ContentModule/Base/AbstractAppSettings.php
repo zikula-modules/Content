@@ -33,13 +33,6 @@ abstract class AbstractAppSettings
     protected $stateOfNewPages = '1';
     
     /**
-     * @Assert\NotBlank()
-     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="pageInfoLocation", multiple=false)
-     * @var string $pageInfoLocation
-     */
-    protected $pageInfoLocation = 'top';
-    
-    /**
      * Override page title with the Content page title
      *
      * @Assert\NotNull()
@@ -202,30 +195,6 @@ abstract class AbstractAppSettings
     {
         if ($this->stateOfNewPages !== $stateOfNewPages) {
             $this->stateOfNewPages = isset($stateOfNewPages) ? $stateOfNewPages : '';
-        }
-    }
-    
-    /**
-     * Returns the page info location.
-     *
-     * @return string
-     */
-    public function getPageInfoLocation()
-    {
-        return $this->pageInfoLocation;
-    }
-    
-    /**
-     * Sets the page info location.
-     *
-     * @param string $pageInfoLocation
-     *
-     * @return void
-     */
-    public function setPageInfoLocation($pageInfoLocation)
-    {
-        if ($this->pageInfoLocation !== $pageInfoLocation) {
-            $this->pageInfoLocation = isset($pageInfoLocation) ? $pageInfoLocation : '';
         }
     }
     
@@ -576,9 +545,6 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['stateOfNewPages'])) {
             $this->setStateOfNewPages($moduleVars['stateOfNewPages']);
         }
-        if (isset($moduleVars['pageInfoLocation'])) {
-            $this->setPageInfoLocation($moduleVars['pageInfoLocation']);
-        }
         if (isset($moduleVars['overridePageTitle'])) {
             $this->setOverridePageTitle($moduleVars['overridePageTitle']);
         }
@@ -629,7 +595,6 @@ abstract class AbstractAppSettings
     public function save()
     {
         $this->variableApi->set('ZikulaContentModule', 'stateOfNewPages', $this->getStateOfNewPages());
-        $this->variableApi->set('ZikulaContentModule', 'pageInfoLocation', $this->getPageInfoLocation());
         $this->variableApi->set('ZikulaContentModule', 'overridePageTitle', $this->getOverridePageTitle());
         $this->variableApi->set('ZikulaContentModule', 'countPageViews', $this->getCountPageViews());
         $this->variableApi->set('ZikulaContentModule', 'googleMapsApiKey', $this->getGoogleMapsApiKey());

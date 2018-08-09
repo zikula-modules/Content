@@ -105,27 +105,6 @@ abstract class AbstractConfigType extends AbstractType
             'expanded' => false
         ]);
         
-        $listEntries = $this->listHelper->getEntries('appSettings', 'pageInfoLocation');
-        $choices = [];
-        $choiceAttributes = [];
-        foreach ($listEntries as $entry) {
-            $choices[$entry['text']] = $entry['value'];
-            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
-        }
-        $builder->add('pageInfoLocation', ChoiceType::class, [
-            'label' => $this->__('Page info location') . ':',
-            'empty_data' => '',
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('Choose the page info location.')
-            ],
-            'required' => true,
-            'choices' => $choices,
-            'choice_attr' => $choiceAttributes,
-            'multiple' => false,
-            'expanded' => false
-        ]);
-        
         $builder->add('overridePageTitle', CheckboxType::class, [
             'label' => $this->__('Override page title') . ':',
             'label_attr' => [
