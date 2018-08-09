@@ -105,20 +105,6 @@ abstract class AbstractConfigType extends AbstractType
             'expanded' => false
         ]);
         
-        $builder->add('overridePageTitle', CheckboxType::class, [
-            'label' => $this->__('Override page title') . ':',
-            'label_attr' => [
-                'class' => 'tooltips',
-                'title' => $this->__('Override page title with the Content page title')
-            ],
-            'help' => $this->__('Override page title with the Content page title'),
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('The override page title option')
-            ],
-            'required' => false,
-        ]);
-        
         $builder->add('countPageViews', CheckboxType::class, [
             'label' => $this->__('Count page views') . ':',
             'label_attr' => [

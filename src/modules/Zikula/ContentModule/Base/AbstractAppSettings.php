@@ -33,15 +33,6 @@ abstract class AbstractAppSettings
     protected $stateOfNewPages = '1';
     
     /**
-     * Override page title with the Content page title
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     * @var boolean $overridePageTitle
-     */
-    protected $overridePageTitle = true;
-    
-    /**
      * Page views are only counted when not in preview or edit mode and only when the user has no edit access.
      *
      * @Assert\NotNull()
@@ -195,30 +186,6 @@ abstract class AbstractAppSettings
     {
         if ($this->stateOfNewPages !== $stateOfNewPages) {
             $this->stateOfNewPages = isset($stateOfNewPages) ? $stateOfNewPages : '';
-        }
-    }
-    
-    /**
-     * Returns the override page title.
-     *
-     * @return boolean
-     */
-    public function getOverridePageTitle()
-    {
-        return $this->overridePageTitle;
-    }
-    
-    /**
-     * Sets the override page title.
-     *
-     * @param boolean $overridePageTitle
-     *
-     * @return void
-     */
-    public function setOverridePageTitle($overridePageTitle)
-    {
-        if (boolval($this->overridePageTitle) !== boolval($overridePageTitle)) {
-            $this->overridePageTitle = boolval($overridePageTitle);
         }
     }
     
@@ -545,9 +512,6 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['stateOfNewPages'])) {
             $this->setStateOfNewPages($moduleVars['stateOfNewPages']);
         }
-        if (isset($moduleVars['overridePageTitle'])) {
-            $this->setOverridePageTitle($moduleVars['overridePageTitle']);
-        }
         if (isset($moduleVars['countPageViews'])) {
             $this->setCountPageViews($moduleVars['countPageViews']);
         }
@@ -595,7 +559,6 @@ abstract class AbstractAppSettings
     public function save()
     {
         $this->variableApi->set('ZikulaContentModule', 'stateOfNewPages', $this->getStateOfNewPages());
-        $this->variableApi->set('ZikulaContentModule', 'overridePageTitle', $this->getOverridePageTitle());
         $this->variableApi->set('ZikulaContentModule', 'countPageViews', $this->getCountPageViews());
         $this->variableApi->set('ZikulaContentModule', 'googleMapsApiKey', $this->getGoogleMapsApiKey());
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());

@@ -45,7 +45,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     
         // set up all our vars with initial values
         $this->setVar('stateOfNewPages', '1');
-        $this->setVar('overridePageTitle', true);
         $this->setVar('countPageViews', false);
         $this->setVar('googleMapsApiKey', '');
         $this->setVar('enableRawPlugin', false);
