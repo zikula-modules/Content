@@ -127,13 +127,13 @@ abstract class AbstractItemListBlockType extends AbstractType
             'entityCategoryClass' => 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity',
             'showRegistryLabels' => true
         ]);
-
+    
         $categoryRepository = $this->categoryRepository;
         $builder->get('categories')->addModelTransformer(new CallbackTransformer(
             function ($catIds) use ($categoryRepository, $objectType, $hasMultiSelection) {
                 $categoryMappings = [];
                 $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity';
-
+    
                 $catIds = is_array($catIds) ? $catIds : explode(',', $catIds);
                 foreach ($catIds as $catId) {
                     $category = $categoryRepository->find($catId);
@@ -143,20 +143,20 @@ abstract class AbstractItemListBlockType extends AbstractType
                     $mapping = new $entityCategoryClass(null, $category, null);
                     $categoryMappings[] = $mapping;
                 }
-
+    
                 if (!$hasMultiSelection) {
                     $categoryMappings = count($categoryMappings) > 0 ? reset($categoryMappings) : null;
                 }
-
+    
                 return $categoryMappings;
             },
             function ($result) use ($hasMultiSelection) {
                 $catIds = [];
-
+    
                 foreach ($result as $categoryMapping) {
                     $catIds[] = $categoryMapping->getCategory()->getId();
                 }
-
+    
                 return $catIds;
             }
         ));
@@ -176,6 +176,7 @@ abstract class AbstractItemListBlockType extends AbstractType
             'choices' => [
                 $this->__('Random') => 'random',
                 $this->__('Newest') => 'newest',
+                $this->__('Updated') => 'updated',
                 $this->__('Default') => 'default'
             ],
             'multiple' => false,
