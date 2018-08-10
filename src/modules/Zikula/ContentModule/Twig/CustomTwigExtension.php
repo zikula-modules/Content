@@ -17,6 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
+use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\CategoryHelper;
@@ -127,6 +128,7 @@ class CustomTwigExtension extends Twig_Extension
             new \Twig_SimpleFunction('zikulacontentmodule_getPagePath', [$this, 'getPagePath'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('zikulacontentmodule_contentTypes', [$this, 'getContentTypes']),
             new \Twig_SimpleFunction('zikulacontentmodule_contentDetails', [$this, 'getContentDetails']),
+            new \Twig_SimpleFunction('zikulacontentmodule_maySeeElement', [$this, 'isElementVisible']),
             new \Twig_SimpleFunction('zikulacontentmodule_categoryInfo', [$this, 'getCategoryInfo']),
             new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews'])
         ];
@@ -205,6 +207,33 @@ class CustomTwigExtension extends Twig_Extension
         }
 
         return $contentElements;
+    }
+
+    /**
+     * The zikulacontentmodule_maySeeElement function checks whether a given
+     * content item is visible for the current user or not.
+     * Examples:
+     *    {% if zikulacontentmodule_maySeeElement(contentItem) %}
+     *
+     * @return boolean
+     */
+    public function isElementVisible(ContentItemEntity $contentItem)
+    {
+        if (!$contentItem->getActive()) {
+            return false;
+        }
+        $now = new \DateTime();
+        if (null !== $contentItem->getActiveFrom() && $contentItem->getActiveFrom() > $now) {
+            return false;
+        }
+        if (null !== $contentItem->getActiveTo() && $contentItem->getActiveTo() < $now) {
+            return false;
+        }
+        if (!in_array($contentItem->getScope(), $this->collectionFilterHelper->getUserScopes())) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -31,10 +31,13 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
 
         $qb->andWhere('tbl.active = 1');
         if (in_array('tblContentItems', $qb->getAllAliases())) {
-            $qb->andWhere('tblContentItems.active = 1');
-            $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItems');
-            $qb->andWhere('tblContentItems.scope IN (:allowedScopes)')
-               ->setParameter('allowedScopes', $this->getUserScopes());
+            $routeName = $this->requestStack->getCurrentRequest()->get('_route');
+            if ('zikulacontentmodule_page_display' != $routeName) {
+                $qb->andWhere('tblContentItems.active = 1');
+                $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItems');
+                $qb->andWhere('tblContentItems.scope IN (:allowedScopes)')
+                   ->setParameter('allowedScopes', $this->getUserScopes());
+            }
         }
 
         return $qb;
@@ -99,7 +102,7 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
      *
      * @return array
      */
-    protected function getUserScopes()
+    public function getUserScopes()
     {
         $scopes = [];
         $scopes[] = '0'; // public (all)

@@ -102,18 +102,20 @@
                         {% set contentElement = item %}
                     {% endfor %}
                     {% if contentElement != null and showElement == true %}
-                        {% set colOffset = 0 %}
-                        {% if lastWidget|default and widget.y == lastWidget.y %}
-                            {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
-                        {% else %}
-                            {% set colOffset = widget.x %}
-                        {% endif %}
-                        <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
-                            {{ contentElements[widget.id]|raw }}
-                        </div>
-                        {% if showElement == true and inList is defined and list == 'extended' %}
-                            {# extended list shows only the first content element #}
-                            {% set showElement = false %}
+                        {% if zikulacontentmodule_maySeeElement(contentElement) %}
+                            {% set colOffset = 0 %}
+                            {% if lastWidget|default and widget.y == lastWidget.y %}
+                                {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
+                            {% else %}
+                                {% set colOffset = widget.x %}
+                            {% endif %}
+                            <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
+                                {{ contentElements[widget.id]|raw }}
+                            </div>
+                            {% if showElement == true and inList is defined and list == 'extended' %}
+                                {# extended list shows only the first content element #}
+                                {% set showElement = false %}
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                     {% set lastWidget = widget %}
