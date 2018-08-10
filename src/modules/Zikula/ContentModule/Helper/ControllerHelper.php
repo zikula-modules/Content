@@ -18,5 +18,5 @@ use Zikula\ContentModule\Helper\Base\AbstractControllerHelper;
  */
 class ControllerHelper extends AbstractControllerHelper
 {
-    // feel free to extend the controller helper here
+    // feel free to add your own convenience methods here
 }

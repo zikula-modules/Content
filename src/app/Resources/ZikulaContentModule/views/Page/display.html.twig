@@ -9,10 +9,10 @@
 {% block pageTitle %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }}{% endblock %}
 {% block title %}
     {% set templateTitle = page|zikulacontentmodule_formattedTitle|default(__('Page')) %}
-    {% if page.skipHookSubscribers %}
-        {{ templateTitle|safeHtml }}
-    {% else %}
+    {% if page.supportsHookSubscribers %}
         {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
+    {% else %}
+        {{ templateTitle|safeHtml }}
     {% endif %}
     {% if page.metaDescription is not empty %}
         {{ pageSetVar('meta.description', page.metaDescription|striptags) }}
@@ -70,7 +70,7 @@
     {% endif %}
     {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
     #}
-    {% if not page.skipHookSubscribers %}
+    {% if page.supportsHookSubscribers %}
         {{ block('display_hooks') }}
     {% endif %}
         </div>
