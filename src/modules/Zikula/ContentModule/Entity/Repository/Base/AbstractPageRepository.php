@@ -452,6 +452,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
      */
     public function getSelectWherePaginatedQuery(QueryBuilder $qb, $currentPage = 1, $resultsPerPage = 25)
     {
+        if ($currentPage < 1) {
+            $currentPage = 1;
+        }
+        if ($resultsPerPage < 1) {
+            $resultsPerPage = 25;
+        }
         $query = $this->getQueryFromBuilder($qb);
         $offset = ($currentPage-1) * $resultsPerPage;
     
