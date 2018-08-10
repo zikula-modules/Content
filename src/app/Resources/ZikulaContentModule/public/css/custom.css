@@ -1,9 +1,77 @@
+/* general editing */
 .row.section {
     margin: 25px 0;
 }
 
+/* content items */
+div.greybox,
+div.redbox,
+div.yellowbox,
+div.greenbox,
+div.orangeannouncementbox,
+div.greenimportantbox {
+    padding: 15px;
+    margin-bottom: 15px;
+}
+div.greybox {
+    color: #222;
+    background-color: #efefef;
+    border: 1px solid #dedede;
+}
+div.redbox {
+    color: #800000;
+    background-color: #ffeedd;
+    border: 1px solid #dd0000;
+}
+div.yellowbox {
+    color: #222;
+    background: #ffffcc;
+    border: 1px solid #dedede;
+}
+div.greenbox {
+    color: #006000;
+    background-color: #dfc;
+    border: 1px solid #33aa33;
+}
+div.orangeannouncementbox {
+    color: #440000;
+    background-color: #ffce80;
+    border: 0px solid #e59d45;
+}
+div.greenimportantbox {
+    color: #003300;
+    background-color: #ecf291;
+    border: 0px solid #94994c;
+}
+div.orangeannouncementbox,
+div.greenimportantbox {
+    padding-left: 60px;
+}
+.zikulacontentmodule-display div.orangeannouncementbox:before,
+.zikulacontentmodule-display div.greenimportantbox:before {
+    color: #666;
+    font-family: 'FontAwesome';
+    font-size: 32px;
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    left: 25px;
+    top: 10px;
+}
+.zikulacontentmodule-display div.orangeannouncementbox:before {
+    content: '\f0a1';
+}
+.zikulacontentmodule-display div.greenimportantbox:before {
+    content: '\f06a';
+}
+
+/* specific content types */
 .map {
     min-height: 200px;
+    border: 1px solid #666;
+    padding: 15px;
     margin-bottom: 30px;
 }
 #contentItemEditFormBody .map {
@@ -12,4 +80,37 @@
 .map-directions {
     max-height: 1000px;
     overflow: auto;
+}
+
+.content-computercode {
+    overflow: auto;
+    border: 1px solid #333;
+    padding: 15px;
+    margin: 10px 0;
+}
+.zikulacontentmodule-managecontent .content-computercode {
+    border: none;
+}
+.content-computercode li,
+.content-computercode li pre {
+    font: 100% monospace;
+}
+.content-computercode li pre {
+    margin: 0;
+    padding: 4px;
+    border: none;
+}
+
+.content-quote blockquote {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin: 0 2em;
+}
+.content-quote blockquote p {
+    margin: 0;
+    padding: 0;
+    text-align: left !important;
+}
+.content-quote p.source {
+    text-align: right !important;
 }
