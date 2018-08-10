@@ -11,6 +11,8 @@
 
 namespace Zikula\ContentModule\Block\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemListBlockType;
 
 /**
@@ -18,5 +20,14 @@ use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemListBlockType;
  */
 class ItemListBlockType extends AbstractItemListBlockType
 {
-    // feel free to extend the list block form type class here
+    /**
+     * @inheritDoc
+     */
+    public function addObjectTypeField(FormBuilderInterface $builder, array $options = [])
+    {
+        $builder->add('objectType', HiddenType::class, [
+            'label' => $this->__('Object type') . ':',
+            'empty_data' => 'page'
+        ]);
+    }
 }

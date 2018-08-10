@@ -15,6 +15,7 @@ application "Content" {
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
+        Block/Form/Type/ItemListBlockType.php,
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,

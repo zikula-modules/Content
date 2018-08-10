@@ -12,11 +12,13 @@
 namespace Zikula\ContentModule\Block\Form\Type\Base;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -30,13 +32,20 @@ abstract class AbstractItemListBlockType extends AbstractType
     use TranslatorTrait;
 
     /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+
+    /**
      * ItemListBlockType constructor.
      *
      * @param TranslatorInterface $translator Translator service instance
+     * @param CategoryRepositoryInterface $categoryRepository
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, CategoryRepositoryInterface $categoryRepository)
     {
         $this->setTranslator($translator);
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -101,7 +110,8 @@ abstract class AbstractItemListBlockType extends AbstractType
             return;
         }
     
-        $hasMultiSelection = $options['category_helper']->hasMultipleSelection($options['object_type']);
+        $objectType = $options['object_type'];
+        $hasMultiSelection = $options['category_helper']->hasMultipleSelection($objectType);
         $builder->add('categories', CategoriesType::class, [
             'label' => ($hasMultiSelection ? $this->__('Categories') : $this->__('Category')) . ':',
             'empty_data' => $hasMultiSelection ? [] : null,
@@ -113,10 +123,43 @@ abstract class AbstractItemListBlockType extends AbstractType
             'required' => false,
             'multiple' => $hasMultiSelection,
             'module' => 'ZikulaContentModule',
-            'entity' => ucfirst($options['object_type']) . 'Entity',
-            'entityCategoryClass' => 'Zikula\ContentModule\Entity\\' . ucfirst($options['object_type']) . 'CategoryEntity',
+            'entity' => ucfirst($objectType) . 'Entity',
+            'entityCategoryClass' => 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity',
             'showRegistryLabels' => true
         ]);
+
+        $categoryRepository = $this->categoryRepository;
+        $builder->get('categories')->addModelTransformer(new CallbackTransformer(
+            function ($catIds) use ($categoryRepository, $objectType, $hasMultiSelection) {
+                $categoryMappings = [];
+                $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity';
+
+                $catIds = is_array($catIds) ? $catIds : explode(',', $catIds);
+                foreach ($catIds as $catId) {
+                    $category = $categoryRepository->find($catId);
+                    if (null === $category) {
+                        continue;
+                    }
+                    $mapping = new $entityCategoryClass(null, $category, null);
+                    $categoryMappings[] = $mapping;
+                }
+
+                if (!$hasMultiSelection) {
+                    $categoryMappings = count($categoryMappings) > 0 ? reset($categoryMappings) : null;
+                }
+
+                return $categoryMappings;
+            },
+            function ($result) use ($hasMultiSelection) {
+                $catIds = [];
+
+                foreach ($result as $categoryMapping) {
+                    $catIds[] = $categoryMapping->getCategory()->getId();
+                }
+
+                return $catIds;
+            }
+        ));
     }
 
     /**
