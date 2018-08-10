@@ -1,10 +1,15 @@
 {# purpose of this template: pages display view #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends 'ZikulaContentModule::' ~ baseTemplate ~ '.html.twig' %}
+{% block appTitle %}
+    {% if inList is not defined %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
 {% block pageTitle %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }}{% endblock %}
 {% block title %}
     {% set templateTitle = page|zikulacontentmodule_formattedTitle|default(__('Page')) %}
-    {% if page.skipFilterHookSubscriber %}
+    {% if page.skipHookSubscribers %}
         {{ templateTitle|safeHtml }}
     {% else %}
         {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
@@ -14,7 +19,7 @@
     {% endif %}
 {% endblock %}
 {% block titleArea %}
-    {% if page.showTitle %}
+    {% if page.showTitle and inList is not defined %}
         {{ parent() }}
     {% endif %}
 {% endblock %}
@@ -25,10 +30,12 @@
 
     <div class="row">
         <div class="col-xs-12">
-    {% set itemActions = knp_menu_get('ZikulaContentModule:ItemActionsMenu:menu', [], {entity: page, area: routeArea, context: 'display'}) %}
-    <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
-        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
-    </div>
+            {% if inList is not defined %}
+                {% set itemActions = knp_menu_get('ZikulaContentModule:ItemActionsMenu:menu', [], {entity: page, area: routeArea, context: 'display'}) %}
+                <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
+                    {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
+                </div>
+            {% endif %}
     {# enable if needed
     <dl>
         {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) and page.optionalString1 is not empty %}
@@ -50,20 +57,20 @@
     </dl>
     #}
     {{ block('content_elements') }}
-    {# enable if needed
-    {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+    {% if routeArea == 'admin' and featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
         {{ include('@ZikulaContentModule/Helper/includeCategoriesDisplay.html.twig', {obj: page}) }}
     {% endif %}
-    {#% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
+    {# enable if needed
+    {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
         <h3 class="relatives">{{ __('Relatives') }}</h3>
             {{ include(
                 '@ZikulaContentModule/Page/displayTreeRelatives.html.twig',
                 {allParents: true, directParent: true, allChildren: true, directChildren: true, predecessors: true, successors: true, preandsuccessors: true}
             ) }}
-    {% endif %# }
+    {% endif %}
     {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
     #}
-    {% if not page.skipUiHookSubscriber %}
+    {% if not page.skipHookSubscribers %}
         {{ block('display_hooks') }}
     {% endif %}
         </div>
@@ -81,7 +88,12 @@
 {% endblock %}
 {% block content_elements %}
     {% if page.layout|default and page.layout is iterable and page.layout|length > 0 %}
-        {% for section in page.layout if section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
+        {% set contentElements = zikulacontentmodule_contentDetails(page) %}
+        {% set showElement = true %}
+        {% if inList is defined %}
+            {% set showElement = list in ['extended', 'complete'] %}
+        {% endif %}
+        {% for section in page.layout if showElement == true and section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
             <div class="row section">
                 {% set lastWidget = null %}
                 {% for widget in section.widgets %}
@@ -89,7 +101,7 @@
                     {% for item in page.contentItems if item.id == widget.id %}
                         {% set contentElement = item %}
                     {% endfor %}
-                    {% if contentElement != null %}
+                    {% if contentElement != null and showElement == true %}
                         {% set colOffset = 0 %}
                         {% if lastWidget|default and widget.y == lastWidget.y %}
                             {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
@@ -99,10 +111,19 @@
                         <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
                             {{ contentElements[widget.id]|raw }}
                         </div>
+                        {% if showElement == true and inList is defined and list == 'extended' %}
+                            {# extended list shows only the first content element #}
+                            {% set showElement = false %}
+                        {% endif %}
                     {% endif %}
                     {% set lastWidget = widget %}
                 {% endfor %}
             </div>
         {% endfor %}
+    {% endif %}
+{% endblock %}
+{% block footer %}
+    {% if inList is not defined %}
+        {{ parent() }}
     {% endif %}
 {% endblock %}

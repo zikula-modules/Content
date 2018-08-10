@@ -63,18 +63,11 @@
             {% if showTitleFilter is defined and showTitleFilter != true %}
                 </div>
             {% endif %}
-            {% if skipUiHookSubscriberFilter is defined and skipUiHookSubscriberFilter != true %}
+            {% if skipHookSubscribersFilter is defined and skipHookSubscribersFilter != true %}
                 <div class="hidden">
             {% endif %}
-                {{ form_row(quickNavForm.skipUiHookSubscriber) }}
-            {% if skipUiHookSubscriberFilter is defined and skipUiHookSubscriberFilter != true %}
-                </div>
-            {% endif %}
-            {% if skipFilterHookSubscriberFilter is defined and skipFilterHookSubscriberFilter != true %}
-                <div class="hidden">
-            {% endif %}
-                {{ form_row(quickNavForm.skipFilterHookSubscriber) }}
-            {% if skipFilterHookSubscriberFilter is defined and skipFilterHookSubscriberFilter != true %}
+                {{ form_row(quickNavForm.skipHookSubscribers) }}
+            {% if skipHookSubscribersFilter is defined and skipHookSubscribersFilter != true %}
                 </div>
             {% endif %}
             {% if activeFilter is defined and activeFilter != true %}

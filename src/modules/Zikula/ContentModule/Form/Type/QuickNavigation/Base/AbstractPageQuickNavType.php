@@ -186,7 +186,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 ],
                 'choices' =>             [
                     $this->__('Title') => 'title',
-                    $this->__('Show title') => 'showTitle',
                     $this->__('Views') => 'views',
                     $this->__('Active') => 'active',
                     $this->__('Active from') => 'activeFrom',
@@ -267,20 +266,8 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 $this->__('Yes') => 'yes'
             ]
         ]);
-        $builder->add('skipUiHookSubscriber', ChoiceType::class, [
-            'label' => $this->__('Skip ui hook subscriber'),
-            'attr' => [
-                'class' => 'input-sm'
-            ],
-            'required' => false,
-            'placeholder' => $this->__('All'),
-            'choices' => [
-                $this->__('No') => 'no',
-                $this->__('Yes') => 'yes'
-            ]
-        ]);
-        $builder->add('skipFilterHookSubscriber', ChoiceType::class, [
-            'label' => $this->__('Skip filter hook subscriber'),
+        $builder->add('skipHookSubscribers', ChoiceType::class, [
+            'label' => $this->__('Skip hook subscribers'),
             'attr' => [
                 'class' => 'input-sm'
             ],

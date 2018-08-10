@@ -1,14 +1,14 @@
 {# purpose of this template: pages list view #}
 {% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
-{% block title own ? __('My pages') : __('Pages list') %}
+{% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ __('My pages') }}{% elseif routeArea == 'admin' %}{{ __('Pages list') }}{% elseif list == 'complete' %}{{ __('Complete pages list') }}{% elseif list == 'extended' %}{{ __('Extended pages list') }}{% elseif list == 'categories' %}{{ __('Categories list') }}{% else %}{{ __('Pages list') }}{% endif %}{% endblock %}
 {% block admin_page_icon 'list-alt' %}
 {% block content %}
+{% if routeArea == 'admin' %}
 <div class="zikulacontentmodule-page zikulacontentmodule-view">
-
     {{ block('page_nav_links') }}
 
     {{ include('@ZikulaContentModule/Page/viewQuickNav.html.twig', {workflowStateFilter: false}) }}{# see template file for available options #}
-
+{% set countPageViews = getModVar('ZikulaContentModule', 'countPageViews', false) %}
     {% if routeArea == 'admin' %}
     <form action="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="pagesViewForm" class="form-horizontal" role="form">
         <div>
@@ -21,8 +21,9 @@
                 {% endif %}
                 <col id="cItemActionsStart" />
                 <col id="cTitle" />
-                <col id="cShowTitle" />
-                <col id="cViews" />
+                {% if countPageViews %}
+                    <col id="cViews" />
+                {% endif %}
                 <col id="cActive" />
                 <col id="cActiveFrom" />
                 <col id="cActiveTo" />
@@ -40,12 +41,11 @@
                 <th id="hTitle" scope="col" class="text-left">
                     <a href="{{ sort.title.url }}" title="{{ __f('Sort by %s', {'%s': 'title'}) }}" class="{{ sort.title.class }}">{{ __('Title') }}</a>
                 </th>
-                <th id="hShowTitle" scope="col" class="text-center">
-                    <a href="{{ sort.showTitle.url }}" title="{{ __f('Sort by %s', {'%s': 'show title'}) }}" class="{{ sort.showTitle.class }}">{{ __('Show title') }}</a>
-                </th>
-                <th id="hViews" scope="col" class="text-right">
-                    <a href="{{ sort.views.url }}" title="{{ __f('Sort by %s', {'%s': 'views'}) }}" class="{{ sort.views.class }}">{{ __('Views') }}</a>
-                </th>
+                {% if countPageViews %}
+                    <th id="hViews" scope="col" class="text-right">
+                        <a href="{{ sort.views.url }}" title="{{ __f('Sort by %s', {'%s': 'views'}) }}" class="{{ sort.views.class }}">{{ __('Views') }}</a>
+                    </th>
+                {% endif %}
                 <th id="hActive" scope="col" class="text-center">
                     <a href="{{ sort.active.url }}" title="{{ __f('Sort by %s', {'%s': 'active'}) }}" class="{{ sort.active.class }}">{{ __('Active') }}</a>
                 </th>
@@ -82,16 +82,11 @@
                 <td headers="hTitle" class="text-left">
                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ __('View detail page')|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</a>
                 </td>
-                <td headers="hShowTitle" class="text-center">
-                    {% if page.showTitle %}
-                        <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-                    {% else %}
-                        <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-                    {% endif %}
-                </td>
-                <td headers="hViews" class="text-right">
-                    {{ page.views }}
-                </td>
+                {% if countPageViews %}
+                    <td headers="hViews" class="text-right">
+                        {{ page.views }}
+                    </td>
+                {% endif %}
                 <td headers="hActive" class="text-center">
                     {% set itemId = page.getKey() %}
                     <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
@@ -136,7 +131,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}10{% else %}9{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}{{ countPageViews ? 9 : 8 }}{% else %}{{ countPageViews ? 8 : 7 }}{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>
@@ -168,6 +163,65 @@
 
     {{ block('display_hooks') }}
 </div>
+{% else %}{# user area #}
+    {% set list = app.request.query.get('list', '') %}
+    <div class="zikulacontentmodule-page zikulacontentmodule-view list-{{ list|default('simple') }}">
+        {% if list != 'categories' %}
+            {% if items|length > 0 %}
+                {% if list not in ['extended', 'complete', 'categories'] %}
+                    <ul>
+                        {% for page in items %}
+                            <li><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% elseif list == 'extended' %}
+                    {% for page in items %}
+                        <h2><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a></h2>
+                        {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page') }}</a></p>
+                    {% endfor %}
+                {% elseif list == 'complete' %}
+                    {% for page in items %}
+                        {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page') }}</a></p>
+                        {% if not loop.last %}
+                            <hr />
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if all != 1 and pager|default %}
+                    {{ pager({rowcount: pager.amountOfItems, limit: pager.itemsPerPage, display: 'page', route: 'zikulacontentmodule_page_' ~ routeArea ~ 'view'}) }}
+                {% endif %}
+            {% else %}
+                <p>{{ __('No pages found.') }}</p>
+            {% endif %}
+        {% elseif list == 'categories' %}
+            <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}) }}</h3>
+            {% set categoryInfoPerRegistry = zikulacontentmodule_categoryInfo() %}
+            {% if categoryInfoPerRegistry|length > 0 %}
+                {% for registryLabel, categoryInfo in categoryInfoPerRegistry %}
+                    <h4>{{ registryLabel }}</h4>
+                    {% set categories = categoryInfo.categories %}
+                    {% if categories|length > 0 %}
+                        {% set pageCounts = categoryInfo.pageCounts %}
+                        <p>{{ __('The available categories:') }}</p>
+                        <ul>
+                            {% for category in categories %}
+                                {% set categoryName = category.display_name[app.request.locale]|default(category.name) %}
+                                {% set amountOfPages = pageCounts[category.id]|default(0) %}
+                                <li><a href="{{ path('zikulacontentmodule_page_view', {catId: category.id}) }}" title="{{ categoryName|e('html_attr') }}">{{ categoryName }}</a> ({{ _fn('%amount% page', '%amount% pages', amountOfPages, {'%amount%': amountOfPages}) }})</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>{{ __('No categories found.') }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>{{ __('No categories found.') }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endif %}
 {% endblock %}
 {% block page_nav_links %}
     <p>

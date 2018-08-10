@@ -96,18 +96,9 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $skipUiHookSubscriber
+     * @var boolean $skipHookSubscribers
      */
-    protected $skipUiHookSubscriber = false;
-    
-    /**
-     * @Gedmo\Versioned
-     * @ORM\Column(type="boolean")
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     * @var boolean $skipFilterHookSubscriber
-     */
-    protected $skipFilterHookSubscriber = false;
+    protected $skipHookSubscribers = false;
     
     /**
      * @Gedmo\Versioned
@@ -472,50 +463,26 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     }
     
     /**
-     * Returns the skip ui hook subscriber.
+     * Returns the skip hook subscribers.
      *
      * @return boolean
      */
-    public function getSkipUiHookSubscriber()
+    public function getSkipHookSubscribers()
     {
-        return $this->skipUiHookSubscriber;
+        return $this->skipHookSubscribers;
     }
     
     /**
-     * Sets the skip ui hook subscriber.
+     * Sets the skip hook subscribers.
      *
-     * @param boolean $skipUiHookSubscriber
+     * @param boolean $skipHookSubscribers
      *
      * @return void
      */
-    public function setSkipUiHookSubscriber($skipUiHookSubscriber)
+    public function setSkipHookSubscribers($skipHookSubscribers)
     {
-        if (boolval($this->skipUiHookSubscriber) !== boolval($skipUiHookSubscriber)) {
-            $this->skipUiHookSubscriber = boolval($skipUiHookSubscriber);
-        }
-    }
-    
-    /**
-     * Returns the skip filter hook subscriber.
-     *
-     * @return boolean
-     */
-    public function getSkipFilterHookSubscriber()
-    {
-        return $this->skipFilterHookSubscriber;
-    }
-    
-    /**
-     * Sets the skip filter hook subscriber.
-     *
-     * @param boolean $skipFilterHookSubscriber
-     *
-     * @return void
-     */
-    public function setSkipFilterHookSubscriber($skipFilterHookSubscriber)
-    {
-        if (boolval($this->skipFilterHookSubscriber) !== boolval($skipFilterHookSubscriber)) {
-            $this->skipFilterHookSubscriber = boolval($skipFilterHookSubscriber);
+        if (boolval($this->skipHookSubscribers) !== boolval($skipHookSubscribers)) {
+            $this->skipHookSubscribers = boolval($skipHookSubscribers);
         }
     }
     

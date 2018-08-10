@@ -57,46 +57,58 @@ class LinkContainer extends AbstractLinkContainer
             }
         } elseif (in_array($type, [LinkContainerInterface::TYPE_ADMIN, LinkContainerInterface::TYPE_USER])) {
             $pagesSubLinks = [];
-            if ($hasAddPermissions) {
-                $pagesSubLinks[] = $addNewPageLink;
-            }
 
-            $pagesSubLinks[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view'),
-                'text' => $this->__('Tabular view', 'zikulacontentmodule'),
-                'title' => $this->__('Shows the pages table', 'zikulacontentmodule'),
-                'icon' => 'table fa-fw'
-            ];
-            $pagesSubLinks[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'tree']),
-                'text' => $this->__('Hierarchy view', 'zikulacontentmodule'),
-                'title' => $this->__('Shows the pages tree', 'zikulacontentmodule'),
-                'icon' => 'code-fork fa-fw'
-            ];
-            $pagesSubLinks[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'sitemap']),
-                'text' => $this->__('Sitemap', 'zikulacontentmodule'),
-                'title' => $this->__('Sitemap', 'zikulacontentmodule'),
-                'icon' => 'sitemap fa-fw'
-            ];
-            $pagesSubLinks[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'extended']),
-                'text' => $this->__('Extended', 'zikulacontentmodule'),
-                'title' => $this->__('Extended page list (showing page headers)', 'zikulacontentmodule'),
-                'icon' => 'list fa-fw'
-            ];
-            $pagesSubLinks[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'complete']),
-                'text' => $this->__('Complete', 'zikulacontentmodule'),
-                'title' => $this->__('Complete page list (showing complete pages)', 'zikulacontentmodule'),
-                'icon' => 'th-large fa-fw'
-            ];
-            $pagesSubLinks[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'categories']),
-                'text' => $this->__('Category list', 'zikulacontentmodule'),
-                'title' => $this->__('Show content by category', 'zikulacontentmodule'),
-                'icon' => 'archive fa-fw'
-            ];
+            if ('admin' == $routeArea) {
+                if ($hasAddPermissions) {
+                    $pagesSubLinks[] = $addNewPageLink;
+                }
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view'),
+                    'text' => $this->__('Tabular view', 'zikulacontentmodule'),
+                    'title' => $this->__('Shows the pages table', 'zikulacontentmodule'),
+                    'icon' => 'table fa-fw'
+                ];
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'tree']),
+                    'text' => $this->__('Hierarchy view', 'zikulacontentmodule'),
+                    'title' => $this->__('Shows the pages tree', 'zikulacontentmodule'),
+                    'icon' => 'code-fork fa-fw'
+                ];
+            } else {
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_sitemap'),
+                    'text' => $this->__('Sitemap', 'zikulacontentmodule'),
+                    'title' => $this->__('Sitemap', 'zikulacontentmodule'),
+                    'icon' => 'sitemap fa-fw'
+                ];
+                if ($hasAddPermissions) {
+                    $pagesSubLinks[] = $addNewPageLink;
+                }
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_view'),
+                    'text' => $this->__('Simple list', 'zikulacontentmodule'),
+                    'title' => $this->__('Shows a simple list of pages', 'zikulacontentmodule'),
+                    'icon' => 'table fa-fw'
+                ];
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'extended']),
+                    'text' => $this->__('Extended list', 'zikulacontentmodule'),
+                    'title' => $this->__('Shows an extended list of pages with first content elements', 'zikulacontentmodule'),
+                    'icon' => 'list fa-fw'
+                ];
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'complete']),
+                    'text' => $this->__('Complete list', 'zikulacontentmodule'),
+                    'title' => $this->__('Shows a complete list of pages with complete content', 'zikulacontentmodule'),
+                    'icon' => 'th-large fa-fw'
+                ];
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'categories']),
+                    'text' => $this->__('Categories list', 'zikulacontentmodule'),
+                    'title' => $this->__('Shows content grouped by categories', 'zikulacontentmodule'),
+                    'icon' => 'archive fa-fw'
+                ];
+            }
 
             foreach ($links as $k => $v) {
                 if ($v['text'] == $this->__('Pages', 'zikulacontentmodule')) {

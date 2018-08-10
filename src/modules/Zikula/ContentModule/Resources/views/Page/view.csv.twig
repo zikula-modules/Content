@@ -1,10 +1,10 @@
 {# purpose of this template: pages view csv view #}
-{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip ui hook subscriber') }}";"{{ __('Skip filter hook subscriber') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Current version') }}";"{{ __('Version data') }}";"{{ __('Content items') }}"
+{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip hook subscribers') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Current version') }}";"{{ __('Version data') }}";"{{ __('Content items') }}"
 {% endspaceless %}
 {% for page in items %}
 
 {% spaceless %}
-    "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription }}";"{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}";"{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}";"{% if page.layout is iterable and page.layout|length > 0 %}
+    "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription }}";"{% if not page.skipHookSubscribers %}0{% else %}1{% endif %}";"{% if page.layout is iterable and page.layout|length > 0 %}
         <ul>
         {% for entry in page.layout if entry is not iterable %}
             <li>{{ entry }}</li>

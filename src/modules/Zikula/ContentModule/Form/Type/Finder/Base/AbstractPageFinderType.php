@@ -159,7 +159,6 @@ abstract class AbstractPageFinderType extends AbstractType
                 'empty_data' => '',
                 'choices' => [
                     $this->__('Title') => 'title',
-                    $this->__('Show title') => 'showTitle',
                     $this->__('Views') => 'views',
                     $this->__('Active') => 'active',
                     $this->__('Active from') => 'activeFrom',

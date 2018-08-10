@@ -49,7 +49,14 @@ class PageController extends AbstractPageController
      */
     public function indexAction(Request $request)
     {
-        return parent::indexAction($request);
+        // permission check
+        $permLevel = ACCESS_READ;
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
+            throw new AccessDeniedException();
+        }
+
+        return $this->redirectToRoute('zikulacontentmodule_page_sitemap');
     }
     
     /**
@@ -303,6 +310,72 @@ class PageController extends AbstractPageController
         }
 
         return $this->json(['message' => $this->__('Done! Layout saved!')]);
+    }
+
+    /**
+     * Displays a sitemap.
+     *
+     * @Route("/sitemap.{_format}",
+     *        requirements = {"_format" = "html|xml"},
+     *        defaults = {"_format" = "html"},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param Request $request Current request instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function sitemapAction(Request $request)
+    {
+        // permission check
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
+            throw new AccessDeniedException();
+        }
+
+        $rootPages = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectWhere('tbl.lvl = 0');
+
+        return $this->render('@ZikulaContentModule/Page/sitemap.' . $request->getRequestFormat() . '.twig', [
+            'pages' => $rootPages
+        ]);
+    }
+    
+    /**
+     * Displays sub pages of a given page.
+     *
+     * @Route("/subpages/{slug}.{_format}",
+     *        requirements = {"slug" = "[^.]+", "_format" = "html"},
+     *        defaults = {"_format" = "html"},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param Request $request Current request instance
+     * @param string $slug Slug of treated page instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be displayed isn't found
+     */
+    public function subpagesAction(Request $request, $slug)
+    {
+        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+        
+        // permission check
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasEntityPermission($page, ACCESS_READ)) {
+            throw new AccessDeniedException();
+        }
+
+        return $this->get('zikula_content_module.view_helper')->processTemplate('page', 'subpages', [
+            'page' => $page,
+            'routeArea' => ''
+        ]);
     }
     
     /**

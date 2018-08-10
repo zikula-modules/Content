@@ -8,6 +8,10 @@ application "Content" {
     prefix "content"
     generateListContentType false
     generateDetailContentType false
+    generateRssTemplates false
+    generateAtomTemplates false
+    generateKmlTemplates false
+    generateIcsTemplates false
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
@@ -45,18 +49,14 @@ application "Content" {
                 boolean "showTitle" {
                     defaultValue "true"
                     mandatory false
+                    displayType DISPLAY
                 },
                 string "metaDescription" translatable {
                     defaultValue ""
                     mandatory false
                     displayType DISPLAY
                 },
-                boolean "skipUiHookSubscriber" {
-                    defaultValue "false"
-                    mandatory false
-                    displayType DISPLAY
-                },
-                boolean "skipFilterHookSubscriber" {
+                boolean "skipHookSubscribers" {
                     defaultValue "false"
                     mandatory false
                     displayType DISPLAY
