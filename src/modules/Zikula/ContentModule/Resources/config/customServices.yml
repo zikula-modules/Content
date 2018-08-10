@@ -24,6 +24,7 @@ services:
             - '@zikula_content_module.category_helper'
             - '@zikula_categories_module.category_repository'
             - '@zikula_content_module.entity_factory'
+            - '@zikula_content_module.collection_filter_helper'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'countPageViews', false)"
         tags: ['twig.extension']
     zikula_content_module.form.type.content_item:

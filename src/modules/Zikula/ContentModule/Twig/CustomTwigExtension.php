@@ -20,6 +20,7 @@ use Zikula\ContentModule\Collector\ContentTypeCollector;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\CategoryHelper;
+use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
 
 /**
@@ -68,6 +69,11 @@ class CustomTwigExtension extends Twig_Extension
     protected $entityFactory;
 
     /**
+     * @var CollectionFilterHelper
+     */
+    protected $collectionFilterHelper;
+
+    /**
      * @var boolean
      */
     protected $countPageViews;
@@ -83,6 +89,7 @@ class CustomTwigExtension extends Twig_Extension
      * @param CategoryHelper              $categoryHelper
      * @param CategoryRepositoryInterface $categoryRepository
      * @param EntityFactory               $entityFactory
+     * @param CollectionFilterHelper      $collectionFilterHelper
      * @param boolean                     $countPageViews
      */
     public function __construct(
@@ -94,6 +101,7 @@ class CustomTwigExtension extends Twig_Extension
         CategoryHelper $categoryHelper,
         CategoryRepositoryInterface $categoryRepository,
         EntityFactory $entityFactory,
+        CollectionFilterHelper $collectionFilterHelper,
         $countPageViews
     ) {
         $this->databaseConnection = $connection;
@@ -104,6 +112,7 @@ class CustomTwigExtension extends Twig_Extension
         $this->categoryHelper = $categoryHelper;
         $this->categoryRepository = $categoryRepository;
         $this->entityFactory = $entityFactory;
+        $this->collectionFilterHelper = $collectionFilterHelper;
         $this->countPageViews = $countPageViews;
     }
 
@@ -228,6 +237,7 @@ class CustomTwigExtension extends Twig_Extension
             $pageCounts = [];
             foreach ($categories as $category) {
                 $qb = $pageRepository->getCountQuery('', true);
+                $qb = $this->collectionFilterHelper->applyDefaultFilters('page', $qb);
                 $qb->andWhere('tblCategories.category = :category')
                     ->setParameter('category', $category->getId());
                 $pageCount = $qb->getQuery()->getSingleScalarResult();
