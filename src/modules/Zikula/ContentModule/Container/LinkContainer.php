@@ -67,12 +67,14 @@ class LinkContainer extends AbstractLinkContainer
                 'title' => $this->__('Shows the pages table', 'zikulacontentmodule'),
                 'icon' => 'table fa-fw'
             ];
-            $pagesSubLinks[] = [
-                'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'tree']),
-                'text' => $this->__('Hierarchy view', 'zikulacontentmodule'),
-                'title' => $this->__('Shows the pages tree', 'zikulacontentmodule'),
-                'icon' => 'code-fork fa-fw'
-            ];
+            if ($hasAddPermissions) {
+                $pagesSubLinks[] = [
+                    'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'tree']),
+                    'text' => $this->__('Hierarchy view', 'zikulacontentmodule'),
+                    'title' => $this->__('Shows the pages tree', 'zikulacontentmodule'),
+                    'icon' => 'code-fork fa-fw'
+                ];
+            }
             $pagesSubLinks[] = [
                 'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'sitemap']),
                 'text' => $this->__('Sitemap', 'zikulacontentmodule'),
