@@ -278,7 +278,7 @@ abstract class AbstractPageController extends AbstractController
         ];
         
         $controllerHelper = $this->get('zikula_content_module.controller_helper');
-        $templateParameters = $controllerHelper->processDisplayActionParameters($objectType, $templateParameters, true);
+        $templateParameters = $controllerHelper->processDisplayActionParameters($objectType, $templateParameters, $page->supportsHookSubscribers());
         
         // fetch and return the appropriate template
         $response = $this->get('zikula_content_module.view_helper')->processTemplate($objectType, 'display', $templateParameters);
