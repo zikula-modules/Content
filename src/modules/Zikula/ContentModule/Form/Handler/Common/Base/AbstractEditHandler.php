@@ -234,6 +234,13 @@ abstract class AbstractEditHandler
     protected $templateParameters = [];
 
     /**
+     * Original slug.
+     *
+     * @var string
+     */
+    protected $originalSlug = '';
+
+    /**
      * EditHandler constructor.
      *
      * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
@@ -322,11 +329,15 @@ abstract class AbstractEditHandler
         $this->returnTo = $request->query->get('returnTo', null);
         // default to referer
         $refererSessionVar = 'zikulacontentmodule' . $this->objectTypeCapital . 'Referer';
-        if (null === $this->returnTo && $request->headers->has('referer')) {
-            $currentReferer = $request->headers->get('referer');
-            if ($currentReferer != $request->getUri()) {
-                $this->returnTo = $currentReferer;
-                $request->getSession()->set($refererSessionVar, $this->returnTo);
+        if (null === $this->returnTo) {
+            if ($request->getSession()->has($refererSessionVar)) {
+                $this->returnTo = $request->getSession()->get($refererSessionVar);
+            } elseif ($request->headers->has('referer')) {
+                $currentReferer = $request->headers->get('referer');
+                if ($currentReferer != $request->getUri()) {
+                    $this->returnTo = $currentReferer;
+                    $request->getSession()->set($refererSessionVar, $this->returnTo);
+                }
             }
         }
         if (null === $this->returnTo && $request->getSession()->has($refererSessionVar)) {
