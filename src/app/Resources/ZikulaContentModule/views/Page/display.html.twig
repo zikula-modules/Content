@@ -70,20 +70,20 @@
     {% endif %}
     {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
     #}
-    {% if page.supportsHookSubscribers %}
-        {{ block('display_hooks') }}
-    {% endif %}
+    {{ block('display_hooks') }}
         </div>
     </div>
 </div>
 {{ zikulacontentmodule_increaseAmountOfPageViews(page) }}
 {% endblock %}
 {% block display_hooks %}
-    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
-    {% if hooks is iterable and hooks|length > 0 %}
-        {% for area, hook in hooks %}
-            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
-        {% endfor %}
+    {% if page.supportsHookSubscribers %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 {% endblock %}
 {% block content_elements %}
