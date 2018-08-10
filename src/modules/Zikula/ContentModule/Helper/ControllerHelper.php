@@ -18,16 +18,5 @@ use Zikula\ContentModule\Helper\Base\AbstractControllerHelper;
  */
 class ControllerHelper extends AbstractControllerHelper
 {
-    /**
-     * @inheritDoc
-     */
-    public function processDisplayActionParameters($objectType, array $templateParameters = [], $hasHookSubscriber = false)
-    {
-        if ('page' == $objectType) {
-            $entity = $templateParameters[$objectType];
-            $hasHookSubscriber = !$entity->getSkipHookSubscribers();
-        }
-
-        return parent::processDisplayActionParameters($objectType, $templateParameters, $hasHookSubscriber);
-    }
+    // feel free to extend the controller helper here
 }
