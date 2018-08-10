@@ -502,20 +502,17 @@ abstract class AbstractContentItemRepository extends EntityRepository
     public function getCountQuery($where = '', $useJoins = false)
     {
         $selection = 'COUNT(tbl.id) AS numContentItems';
-        if (true === $useJoins) {
-            $selection .= $this->addJoinsToSelection();
-        }
     
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($selection)
            ->from($this->mainEntityClass, 'tbl');
     
-        if (!empty($where)) {
-            $qb->andWhere($where);
-        }
-    
         if (true === $useJoins) {
             $this->addJoinsToFrom($qb);
+        }
+    
+        if (!empty($where)) {
+            $qb->andWhere($where);
         }
     
         return $qb;

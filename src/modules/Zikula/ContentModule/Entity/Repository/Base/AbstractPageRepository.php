@@ -548,20 +548,17 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     public function getCountQuery($where = '', $useJoins = false)
     {
         $selection = 'COUNT(tbl.id) AS numPages';
-        if (true === $useJoins) {
-            $selection .= $this->addJoinsToSelection();
-        }
     
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($selection)
            ->from($this->mainEntityClass, 'tbl');
     
-        if (!empty($where)) {
-            $qb->andWhere($where);
-        }
-    
         if (true === $useJoins) {
             $this->addJoinsToFrom($qb);
+        }
+    
+        if (!empty($where)) {
+            $qb->andWhere($where);
         }
     
         return $qb;
