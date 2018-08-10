@@ -230,7 +230,8 @@ class ContentItemController extends AbstractContentItemController
             'contentItem' => $contentItem,
             'form' => $form->createView(),
             'contentType' => $contentType,
-            'contentFormTemplate' => $contentType->getEditTemplatePath()
+            'contentFormTemplate' => $contentType->getEditTemplatePath(),
+            'supportsHookSubscribers' => $contentItem->supportsHookSubscribers()
         ];
 
         if ($contentItem->supportsHookSubscribers()) {
@@ -289,20 +290,24 @@ class ContentItemController extends AbstractContentItemController
                     return $this->json(['message' => $this->__('Error! It is not allowed to delete this content item.')], Response::HTTP_BAD_REQUEST);
                 }
 
-                // Let any ui hooks perform additional validation actions
-                $validationErrors = $hookHelper->callValidationHooks($contentItem, UiHooksCategory::TYPE_VALIDATE_DELETE);
-                if (count($validationErrors) > 0) {
-                    return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
+                if ($contentItem->supportsHookSubscribers()) {
+                    // Let any ui hooks perform additional validation actions
+                    $validationErrors = $hookHelper->callValidationHooks($contentItem, UiHooksCategory::TYPE_VALIDATE_DELETE);
+                    if (count($validationErrors) > 0) {
+                        return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
+                    }
                 }
 
                 // execute the workflow action
                 $success = $workflowHelper->executeAction($contentItem, $deleteActionId);
 
-                // Call form aware processing hooks
-                $hookHelper->callFormProcessHooks($form, $contentItem, FormAwareCategory::TYPE_PROCESS_DELETE);
+                if ($contentItem->supportsHookSubscribers()) {
+                    // Call form aware processing hooks
+                    $hookHelper->callFormProcessHooks($form, $contentItem, FormAwareCategory::TYPE_PROCESS_DELETE);
 
-                // Let any ui hooks know that we have deleted the «name.formatForDisplay»
-                $hookHelper->callProcessHooks($contentItem, UiHooksCategory::TYPE_PROCESS_DELETE);
+                    // Let any ui hooks know that we have deleted the content item
+                    $hookHelper->callProcessHooks($contentItem, UiHooksCategory::TYPE_PROCESS_DELETE);
+                }
 
                 if (!$success) {
                     return $this->json(['message' => $this->__('Error! An error occured during content deletion.')], Response::HTTP_BAD_REQUEST);

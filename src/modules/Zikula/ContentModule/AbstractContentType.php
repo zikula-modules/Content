@@ -395,7 +395,14 @@ abstract class AbstractContentType implements ContentTypeInterface
         $templateParameters = $this->getData();
         $templateParameters['contentId'] = null !== $this->getEntity() ? $this->getEntity()->getId() : 0;
 
-        return $this->twig->render($this->getViewTemplatePath(), $templateParameters);
+        $contentTypeOutput = $this->twig->render($this->getViewTemplatePath(), $templateParameters);
+
+        $outerTemplate = '@ZikulaContentModule/ContentItem/display.html.twig';
+
+        return $this->twig->render($outerTemplate, [
+            'contentTypeOutput' => $contentTypeOutput,
+            'contentItem' => $this->getEntity()
+        ]);
     }
 
     /**

@@ -12,11 +12,13 @@
         </div>
         {{ form_end(form) }}
     </div>
-    {% set hookId = mode != 'create' ? contentItem.id : null %}
-    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=hookId, outputAsArray=true) %}
-    {% if hooks is iterable and hooks|length > 0 %}
-        {% for area, hook in hooks %}
-            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
-        {% endfor %}
+    {% if supportsHookSubscribers %}
+        {% set hookId = mode != 'create' ? contentItem.id : null %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=hookId, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 </div>
