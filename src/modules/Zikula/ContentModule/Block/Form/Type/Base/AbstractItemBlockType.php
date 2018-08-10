@@ -86,11 +86,8 @@ abstract class AbstractItemBlockType extends AbstractType
     {
         $builder->add('objectType', HiddenType::class, [
             'label' => $this->__('Object type') . ':',
-            'empty_data' => 'page',
-            'attr' => [
-                'title' => $this->__('If you change this please save the block once to reload the parameters below.')
-            ],
-            'help' => $this->__('If you change this please save the block once to reload the parameters below.')    ]);
+            'empty_data' => 'page'
+        ]);
     }
 
     /**
