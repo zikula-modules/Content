@@ -62,7 +62,6 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     {
         return [
             'title',
-            'showTitle',
             'views',
             'active',
             'activeFrom',

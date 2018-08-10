@@ -21,7 +21,6 @@
                 {% endif %}
                 <col id="cItemActionsStart" />
                 <col id="cTitle" />
-                <col id="cShowTitle" />
                 <col id="cViews" />
                 <col id="cActive" />
                 <col id="cActiveFrom" />
@@ -39,9 +38,6 @@
                 <th id="hItemActionsStart" scope="col" class="z-w02">{{ __('Actions') }}</th>
                 <th id="hTitle" scope="col" class="text-left">
                     <a href="{{ sort.title.url }}" title="{{ __f('Sort by %s', {'%s': 'title'}) }}" class="{{ sort.title.class }}">{{ __('Title') }}</a>
-                </th>
-                <th id="hShowTitle" scope="col" class="text-center">
-                    <a href="{{ sort.showTitle.url }}" title="{{ __f('Sort by %s', {'%s': 'show title'}) }}" class="{{ sort.showTitle.class }}">{{ __('Show title') }}</a>
                 </th>
                 <th id="hViews" scope="col" class="text-right">
                     <a href="{{ sort.views.url }}" title="{{ __f('Sort by %s', {'%s': 'views'}) }}" class="{{ sort.views.class }}">{{ __('Views') }}</a>
@@ -81,13 +77,6 @@
                 </td>
                 <td headers="hTitle" class="text-left">
                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ __('View detail page')|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</a>
-                </td>
-                <td headers="hShowTitle" class="text-center">
-                    {% if page.showTitle %}
-                        <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-                    {% else %}
-                        <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-                    {% endif %}
                 </td>
                 <td headers="hViews" class="text-right">
                     {{ page.views }}
@@ -136,7 +125,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}10{% else %}9{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}9{% else %}8{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>

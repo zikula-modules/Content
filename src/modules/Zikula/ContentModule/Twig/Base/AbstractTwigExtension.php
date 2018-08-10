@@ -11,7 +11,6 @@
 
 namespace Zikula\ContentModule\Twig\Base;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -33,11 +32,6 @@ abstract class AbstractTwigExtension extends Twig_Extension
      * @var RouterInterface
      */
     protected $router;
-    
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
     
     /**
      * @var VariableApiInterface
@@ -69,7 +63,6 @@ abstract class AbstractTwigExtension extends Twig_Extension
      *
      * @param TranslatorInterface $translator     Translator service instance
      * @param Routerinterface     $router         Router service instance
-     * @param RequestStack        $requestStack   RequestStack service instance
      * @param VariableApiInterface   $variableApi    VariableApi service instance
      * @param EntityFactory       $entityFactory     EntityFactory service instance
      * @param EntityDisplayHelper $entityDisplayHelper EntityDisplayHelper service instance
@@ -79,7 +72,6 @@ abstract class AbstractTwigExtension extends Twig_Extension
     public function __construct(
         TranslatorInterface $translator,
         RouterInterface $router,
-        RequestStack $requestStack,
         VariableApiInterface $variableApi,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper,
@@ -88,7 +80,6 @@ abstract class AbstractTwigExtension extends Twig_Extension
     {
         $this->setTranslator($translator);
         $this->router = $router;
-        $this->requestStack = $requestStack;
         $this->variableApi = $variableApi;
         $this->entityFactory = $entityFactory;
         $this->entityDisplayHelper = $entityDisplayHelper;
@@ -130,7 +121,6 @@ abstract class AbstractTwigExtension extends Twig_Extension
     {
         return [
             new \Twig_SimpleFilter('zikulacontentmodule_listEntry', [$this, 'getListEntry']),
-            new \Twig_SimpleFilter('zikulacontentmodule_icalText', [$this, 'formatIcalText']),
             new \Twig_SimpleFilter('zikulacontentmodule_formattedTitle', [$this, 'getFormattedEntityTitle']),
             new \Twig_SimpleFilter('zikulacontentmodule_objectState', [$this, 'getObjectState'], ['is_safe' => ['html']])
         ];
@@ -331,25 +321,6 @@ abstract class AbstractTwigExtension extends Twig_Extension
         }
     
         return $result;
-    }
-    
-    
-    /**
-     * The zikulacontentmodule_icalText filter outputs a given text for the ics output format.
-     * Example:
-     *     {{ 'someString'|zikulacontentmodule_icalText }}
-     *
-     * @param string $string The given output string
-     *
-     * @return string Processed string for ics output
-     */
-    public function formatIcalText($string)
-    {
-        $result = preg_replace('/<a href="(.*)">.*<\/a>/i', "$1", $string);
-        $result = str_replace('€', 'Euro', $result);
-        $result = ereg_replace("(\r\n|\n|\r)", '=0D=0A', $result);
-    
-        return ';LANGUAGE=' . $this->requestStack->getCurrentRequest()->getLocale() . ';ENCODING=QUOTED-PRINTABLE:' . $result . "\r\n";
     }
     
     

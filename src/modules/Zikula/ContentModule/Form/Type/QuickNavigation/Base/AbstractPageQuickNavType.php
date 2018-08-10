@@ -186,7 +186,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 ],
                 'choices' =>             [
                     $this->__('Title') => 'title',
-                    $this->__('Show title') => 'showTitle',
                     $this->__('Views') => 'views',
                     $this->__('Active') => 'active',
                     $this->__('Active from') => 'activeFrom',

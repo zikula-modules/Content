@@ -8,7 +8,7 @@
     {{ block('page_nav_links') }}
 
     {{ include('@ZikulaContentModule/Page/viewQuickNav.html.twig', {workflowStateFilter: false}) }}{# see template file for available options #}
-
+{% set countPageViews = getModVar('ZikulaContentModule', 'countPageViews', false) %}
     {% if routeArea == 'admin' %}
     <form action="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="pagesViewForm" class="form-horizontal" role="form">
         <div>
@@ -21,8 +21,9 @@
                 {% endif %}
                 <col id="cItemActionsStart" />
                 <col id="cTitle" />
-                <col id="cShowTitle" />
-                <col id="cViews" />
+                {% if countPageViews %}
+                    <col id="cViews" />
+                {% endif %}
                 <col id="cActive" />
                 <col id="cActiveFrom" />
                 <col id="cActiveTo" />
@@ -40,12 +41,11 @@
                 <th id="hTitle" scope="col" class="text-left">
                     <a href="{{ sort.title.url }}" title="{{ __f('Sort by %s', {'%s': 'title'}) }}" class="{{ sort.title.class }}">{{ __('Title') }}</a>
                 </th>
-                <th id="hShowTitle" scope="col" class="text-center">
-                    <a href="{{ sort.showTitle.url }}" title="{{ __f('Sort by %s', {'%s': 'show title'}) }}" class="{{ sort.showTitle.class }}">{{ __('Show title') }}</a>
-                </th>
-                <th id="hViews" scope="col" class="text-right">
-                    <a href="{{ sort.views.url }}" title="{{ __f('Sort by %s', {'%s': 'views'}) }}" class="{{ sort.views.class }}">{{ __('Views') }}</a>
-                </th>
+                {% if countPageViews %}
+                    <th id="hViews" scope="col" class="text-right">
+                        <a href="{{ sort.views.url }}" title="{{ __f('Sort by %s', {'%s': 'views'}) }}" class="{{ sort.views.class }}">{{ __('Views') }}</a>
+                    </th>
+                {% endif %}
                 <th id="hActive" scope="col" class="text-center">
                     <a href="{{ sort.active.url }}" title="{{ __f('Sort by %s', {'%s': 'active'}) }}" class="{{ sort.active.class }}">{{ __('Active') }}</a>
                 </th>
@@ -82,16 +82,11 @@
                 <td headers="hTitle" class="text-left">
                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ __('View detail page')|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</a>
                 </td>
-                <td headers="hShowTitle" class="text-center">
-                    {% if page.showTitle %}
-                        <i class="fa fa-check text-success" title="{{ __('Yes') }}"></i>
-                    {% else %}
-                        <i class="fa fa-times text-danger" title="{{ __('No') }}"></i>
-                    {% endif %}
-                </td>
-                <td headers="hViews" class="text-right">
-                    {{ page.views }}
-                </td>
+                {% if countPageViews %}
+                    <td headers="hViews" class="text-right">
+                        {{ page.views }}
+                    </td>
+                {% endif %}
                 <td headers="hActive" class="text-center">
                     {% set itemId = page.getKey() %}
                     <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
@@ -136,7 +131,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}10{% else %}9{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}{{ countPageViews ? 9 : 8 }}{% else %}{{ countPageViews ? 8 : 7 }}{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>

@@ -157,7 +157,6 @@ abstract class AbstractPageController extends AbstractController
         
         $sortableColumns->addColumns([
             new Column('title'),
-            new Column('showTitle'),
             new Column('views'),
             new Column('active'),
             new Column('activeFrom'),
@@ -283,16 +282,6 @@ abstract class AbstractPageController extends AbstractController
         
         // fetch and return the appropriate template
         $response = $this->get('zikula_content_module.view_helper')->processTemplate($objectType, 'display', $templateParameters);
-        
-        if ('ics' == $request->getRequestFormat()) {
-            $fileName = $objectType . '_' .
-                (property_exists($page, 'slug')
-                    ? $page['slug']
-                    : $this->get('zikula_content_module.entity_display_helper')->getFormattedTitle($page)
-                ) . '.ics'
-            ;
-            $response->headers->set('Content-Disposition', 'attachment; filename=' . $fileName);
-        }
         
         return $response;
     }

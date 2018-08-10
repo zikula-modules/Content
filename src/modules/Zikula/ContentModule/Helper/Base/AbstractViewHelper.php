@@ -175,20 +175,11 @@ abstract class AbstractViewHelper
                 $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
                 $response->headers->set('Content-Disposition', 'attachment; filename=' . $type . '-list.csv');
                 break;
-            case 'ics.twig':
-                $response->headers->set('Content-Type', 'text/calendar; charset=utf-8');
-                break;
             case 'json.twig':
                 $response->headers->set('Content-Type', 'application/json');
                 break;
             case 'xml.twig':
                 $response->headers->set('Content-Type', 'text/xml');
-                break;
-            case 'atom.twig':
-                $response->headers->set('Content-Type', 'application/atom+xml');
-                break;
-            case 'rss.twig':
-                $response->headers->set('Content-Type', 'application/rss+xml');
                 break;
         }
     
@@ -233,15 +224,15 @@ abstract class AbstractViewHelper
         $hasAdminAccess = $this->permissionHelper->hasComponentPermission($type, ACCESS_ADMIN);
         if ($func == 'view') {
             if ($hasAdminAccess) {
-                $extensions = ['csv', 'rss', 'atom', 'xml', 'json', 'pdf'];
+                $extensions = ['csv', 'xml', 'json', 'pdf'];
             } else {
-                $extensions = ['rss', 'atom', 'pdf'];
+                $extensions = ['pdf'];
             }
         } elseif ($func == 'display') {
             if ($hasAdminAccess) {
-                $extensions = ['xml', 'json', 'ics', 'pdf'];
+                $extensions = ['xml', 'json', 'pdf'];
             } else {
-                $extensions = ['ics', 'pdf'];
+                $extensions = ['pdf'];
             }
         }
     
