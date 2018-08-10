@@ -42,7 +42,7 @@ abstract class AbstractItemListBlockType extends AbstractType
      * @param TranslatorInterface $translator Translator service instance
      * @param CategoryRepositoryInterface $categoryRepository
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, CategoryRepositoryInterface $categoryRepository)
     {
         $this->setTranslator($translator);
         $this->categoryRepository = $categoryRepository;
