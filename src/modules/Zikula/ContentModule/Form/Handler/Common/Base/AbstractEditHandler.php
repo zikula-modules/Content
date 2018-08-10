@@ -331,7 +331,7 @@ abstract class AbstractEditHandler
         $refererSessionVar = 'zikulacontentmodule' . $this->objectTypeCapital . 'Referer';
         if (null === $this->returnTo && $request->headers->has('referer')) {
             $currentReferer = $request->headers->get('referer');
-            if ($currentReferer != $request->getUri()) {
+            if ($currentReferer != urldecode($request->getUri())) {
                 $this->returnTo = $currentReferer;
                 $request->getSession()->set($refererSessionVar, $this->returnTo);
             }
