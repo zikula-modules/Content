@@ -106,6 +106,7 @@ abstract class AbstractEditHandler extends EditHandler
             return $entity;
         }
     
+        $this->originalSlug = $entity->getSlug();
         $slugParts = explode('/', $entity->getSlug());
         $entity->setSlug(end($slugParts));
     
@@ -174,7 +175,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         if ($objectIsPersisted) {
             // redirect to the detail page of treated page
-            $url = $this->router->generate($routePrefix . 'display', ['slug' => $this->idValue['slug']]);
+            $url = $this->router->generate($routePrefix . 'display', [$this->originalSlug]);
         }
     
         return $url;
