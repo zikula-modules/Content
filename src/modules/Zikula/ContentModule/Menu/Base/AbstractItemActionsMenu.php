@@ -80,9 +80,11 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
         
             if ($routeArea == 'admin') {
                 $title = $this->__('Preview', 'zikulacontentmodule');
+                $previewRouteParameters = $entity->createUrlArgs();
+                $previewRouteParameters['preview'] = 1;
                 $menu->addChild($title, [
                     'route' => $routePrefix . 'display',
-                    'routeParameters' => $entity->createUrlArgs()
+                    'routeParameters' => $previewRouteParameters
                 ]);
                 $menu[$title]->setLinkAttribute('target', '_blank');
                 $menu[$title]->setLinkAttribute('title', $this->__('Open preview page', 'zikulacontentmodule'));
