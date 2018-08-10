@@ -10,7 +10,7 @@
                 {% if page.children|length > 0 %}
                     {{ include('@ZikulaContentModule/Page/subpagesInclude.html.twig', {pages: page.children}) }}
                 {% else %}
-                    <p>{{ __('No subpages available.') }}</p>
+                    <p>{{ __('No subpages found.') }}</p>
                 {% endif %}
             </div>
         </div>

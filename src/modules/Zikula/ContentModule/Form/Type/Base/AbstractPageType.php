@@ -252,20 +252,11 @@ abstract class AbstractPageType extends AbstractType
             'required' => false,
         ]);
         
-        $builder->add('skipUiHookSubscriber', CheckboxType::class, [
-            'label' => $this->__('Skip ui hook subscriber') . ':',
+        $builder->add('skipHookSubscribers', CheckboxType::class, [
+            'label' => $this->__('Skip hook subscribers') . ':',
             'attr' => [
                 'class' => '',
-                'title' => $this->__('skip ui hook subscriber ?')
-            ],
-            'required' => false,
-        ]);
-        
-        $builder->add('skipFilterHookSubscriber', CheckboxType::class, [
-            'label' => $this->__('Skip filter hook subscriber') . ':',
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('skip filter hook subscriber ?')
+                'title' => $this->__('skip hook subscribers ?')
             ],
             'required' => false,
         ]);

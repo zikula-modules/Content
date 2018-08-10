@@ -178,8 +178,7 @@ abstract class AbstractCollectionFilterHelper
         $parameters['workflowState'] = $request->query->get('workflowState', '');
         $parameters['q'] = $request->query->get('q', '');
         $parameters['showTitle'] = $request->query->get('showTitle', '');
-        $parameters['skipUiHookSubscriber'] = $request->query->get('skipUiHookSubscriber', '');
-        $parameters['skipFilterHookSubscriber'] = $request->query->get('skipFilterHookSubscriber', '');
+        $parameters['skipHookSubscribers'] = $request->query->get('skipHookSubscribers', '');
         $parameters['active'] = $request->query->get('active', '');
         $parameters['inMenu'] = $request->query->get('inMenu', '');
     
@@ -275,7 +274,7 @@ abstract class AbstractCollectionFilterHelper
                 }
                 continue;
             }
-            if (in_array($k, ['showTitle', 'skipUiHookSubscriber', 'skipFilterHookSubscriber', 'active', 'inMenu'])) {
+            if (in_array($k, ['showTitle', 'skipHookSubscribers', 'active', 'inMenu'])) {
                 // boolean filter
                 if ($v == 'no') {
                     $qb->andWhere('tbl.' . $k . ' = 0');

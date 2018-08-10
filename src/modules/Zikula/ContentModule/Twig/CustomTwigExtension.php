@@ -15,8 +15,12 @@ use Doctrine\DBAL\Driver\Connection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
+use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Helper\CategoryHelper;
+use Zikula\ContentModule\Helper\ContentDisplayHelper;
 
 /**
  * Twig extension implementation class.
@@ -44,6 +48,26 @@ class CustomTwigExtension extends Twig_Extension
     protected $collector;
 
     /**
+     * @var ContentDisplayHelper
+     */
+    protected $displayHelper;
+
+    /**
+     * @var CategoryHelper
+     */
+    protected $categoryHelper;
+
+    /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+
+    /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
      * @var boolean
      */
     protected $countPageViews;
@@ -51,23 +75,35 @@ class CustomTwigExtension extends Twig_Extension
     /**
      * CustomTwigExtension constructor.
      *
-     * @param Connection           $connection
-     * @param RequestStack         $requestStack
-     * @param Routerinterface      $router
-     * @param ContentTypeCollector $collector
-     * @param boolean              $countPageViews
+     * @param Connection                  $connection
+     * @param RequestStack                $requestStack
+     * @param Routerinterface             $router
+     * @param ContentTypeCollector        $collector
+     * @param ContentDisplayHelper        $displayHelper
+     * @param CategoryHelper              $categoryHelper
+     * @param CategoryRepositoryInterface $categoryRepository
+     * @param EntityFactory               $entityFactory
+     * @param boolean                     $countPageViews
      */
     public function __construct(
         Connection $connection,
         RequestStack $requestStack,
         RouterInterface $router,
         ContentTypeCollector $collector,
+        ContentDisplayHelper $displayHelper,
+        CategoryHelper $categoryHelper,
+        CategoryRepositoryInterface $categoryRepository,
+        EntityFactory $entityFactory,
         $countPageViews
     ) {
         $this->databaseConnection = $connection;
         $this->requestStack = $requestStack;
         $this->router = $router;
         $this->collector = $collector;
+        $this->displayHelper = $displayHelper;
+        $this->categoryHelper = $categoryHelper;
+        $this->categoryRepository = $categoryRepository;
+        $this->entityFactory = $entityFactory;
         $this->countPageViews = $countPageViews;
     }
 
@@ -81,6 +117,8 @@ class CustomTwigExtension extends Twig_Extension
         return [
             new \Twig_SimpleFunction('zikulacontentmodule_getPagePath', [$this, 'getPagePath'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('zikulacontentmodule_contentTypes', [$this, 'getContentTypes']),
+            new \Twig_SimpleFunction('zikulacontentmodule_contentDetails', [$this, 'getContentDetails']),
+            new \Twig_SimpleFunction('zikulacontentmodule_categoryInfo', [$this, 'getCategoryInfo']),
             new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews'])
         ];
     }
@@ -140,6 +178,69 @@ class CustomTwigExtension extends Twig_Extension
         }
 
         return $this->collector->getActive();
+    }
+
+    /**
+     * The zikulacontentmodule_contentDetails function returns all required details
+     * for displaying content items of a given page.
+     * Examples:
+     *    {% set contentElements = zikulacontentmodule_contentDetails(page) %}
+     *
+     * @return array
+     */
+    public function getContentDetails(PageEntity $page)
+    {
+        $contentElements = [];
+        foreach ($page->getContentItems() as $contentItem) {
+            $contentElements[$contentItem->getId()] = $this->displayHelper->getDetailsForDisplayView($contentItem);
+        }
+
+        return $contentElements;
+    }
+
+    /**
+     * The zikulacontentmodule_categoryInfo function returns all main categories
+     * together with the amount of included pages.
+     * Examples:
+     *    {% set categoryInfoPerRegistry = zikulacontentmodule_categoryInfo() %}
+     *
+     * @return array
+     */
+    public function getCategoryInfo()
+    {
+        $properties = $this->categoryHelper->getAllPropertiesWithMainCat('page');
+        if (!count($properties)) {
+            return [];
+        }
+
+        $categoryInfoPerRegistry = [];
+        $locale = $this->requestStack->getCurrentRequest()->getLocale();
+        $pageRepository = $this->entityFactory->getRepository('page');
+
+        foreach ($properties as $categoryId) {
+            $baseCategory = $this->categoryRepository->find($categoryId);
+            if (null === $baseCategory) {
+                continue;
+            }
+            $registryLabel = isset($baseCategory['display_name'][$locale]) ? $baseCategory['display_name'][$locale] : $baseCategory['display_name']['en'];
+
+            $categories = $baseCategory->getChildren();
+            $pageCounts = [];
+            foreach ($categories as $category) {
+                $qb = $pageRepository->getCountQuery('', true);
+                $qb->andWhere('tblCategories.category = :category')
+                    ->setParameter('category', $category->getId());
+                $pageCount = $qb->getQuery()->getSingleScalarResult();
+                $pageCounts[$category->getId()] = $pageCount;
+            }
+
+            $categoryInfoPerRegistry[$registryLabel] = [
+                'categories' => $categories,
+                'pageCounts' => $pageCounts
+            ];
+        }
+
+        return $categoryInfoPerRegistry;
     }
 
     /**

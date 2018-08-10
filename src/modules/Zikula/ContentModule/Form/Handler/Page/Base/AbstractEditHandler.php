@@ -175,7 +175,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         if ($objectIsPersisted) {
             // redirect to the detail page of treated page
-            $url = $this->router->generate($routePrefix . 'display', ['slug' => $this->originalSlug]);
+            $url = $this->router->generate($routePrefix . 'display', [$this->originalSlug]);
         }
     
         return $url;

@@ -19,37 +19,15 @@ use Zikula\ContentModule\Helper\Base\AbstractControllerHelper;
 class ControllerHelper extends AbstractControllerHelper
 {
     /**
-     * @var ContentDisplayHelper
-     */
-    protected $displayHelper;
-
-    /**
-     * Sets the content display helper.
-     *
-     * @param ContentDisplayHelper $displayHelper
-     */
-    public function setContentDisplayHelper(ContentDisplayHelper $displayHelper)
-    {
-        $this->displayHelper = $displayHelper;
-    }
-
-    /**
      * @inheritDoc
      */
     public function processDisplayActionParameters($objectType, array $templateParameters = [], $hasHookSubscriber = false)
     {
         if ('page' == $objectType) {
             $entity = $templateParameters[$objectType];
-            $hasHookSubscriber = !$entity->getSkipUiHookSubscriber();
-        }
-        $parameters = parent::processDisplayActionParameters($objectType, $templateParameters, $hasHookSubscriber);
-        if ('page' == $objectType) {
-            $parameters['contentElements'] = [];
-            foreach ($entity->getContentItems() as $contentItem) {
-                $parameters['contentElements'][$contentItem->getId()] = $this->displayHelper->getDetailsForDisplayView($contentItem);
-            }
+            $hasHookSubscriber = !$entity->getSkipHookSubscribers();
         }
 
-        return $parameters;
+        return parent::processDisplayActionParameters($objectType, $templateParameters, $hasHookSubscriber);
     }
 }

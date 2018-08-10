@@ -56,12 +56,7 @@ application "Content" {
                     mandatory false
                     displayType DISPLAY
                 },
-                boolean "skipUiHookSubscriber" {
-                    defaultValue "false"
-                    mandatory false
-                    displayType DISPLAY
-                },
-                boolean "skipFilterHookSubscriber" {
+                boolean "skipHookSubscribers" {
                     defaultValue "false"
                     mandatory false
                     displayType DISPLAY
