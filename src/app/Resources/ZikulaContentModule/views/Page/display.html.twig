@@ -9,10 +9,10 @@
 {% block pageTitle %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }}{% endblock %}
 {% block title %}
     {% set templateTitle = page|zikulacontentmodule_formattedTitle|default(__('Page')) %}
-    {% if page.skipHookSubscribers %}
-        {{ templateTitle|safeHtml }}
-    {% else %}
+    {% if page.supportsHookSubscribers %}
         {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
+    {% else %}
+        {{ templateTitle|safeHtml }}
     {% endif %}
     {% if page.metaDescription is not empty %}
         {{ pageSetVar('meta.description', page.metaDescription|striptags) }}
@@ -70,7 +70,7 @@
     {% endif %}
     {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
     #}
-    {% if not page.skipHookSubscribers %}
+    {% if page.supportsHookSubscribers %}
         {{ block('display_hooks') }}
     {% endif %}
         </div>
@@ -102,18 +102,20 @@
                         {% set contentElement = item %}
                     {% endfor %}
                     {% if contentElement != null and showElement == true %}
-                        {% set colOffset = 0 %}
-                        {% if lastWidget|default and widget.y == lastWidget.y %}
-                            {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
-                        {% else %}
-                            {% set colOffset = widget.x %}
-                        {% endif %}
-                        <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
-                            {{ contentElements[widget.id]|raw }}
-                        </div>
-                        {% if showElement == true and inList is defined and list == 'extended' %}
-                            {# extended list shows only the first content element #}
-                            {% set showElement = false %}
+                        {% if zikulacontentmodule_maySeeElement(contentElement) %}
+                            {% set colOffset = 0 %}
+                            {% if lastWidget|default and widget.y == lastWidget.y %}
+                                {% set colOffset = widget.x - (lastWidget.x + lastWidget.width) %}
+                            {% else %}
+                                {% set colOffset = widget.x %}
+                            {% endif %}
+                            <div id="contentElement{{ widget.id }}" class="content-element {{ contentElement.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
+                                {{ contentElements[widget.id]|raw }}
+                            </div>
+                            {% if showElement == true and inList is defined and list == 'extended' %}
+                                {# extended list shows only the first content element #}
+                                {% set showElement = false %}
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                     {% set lastWidget = widget %}

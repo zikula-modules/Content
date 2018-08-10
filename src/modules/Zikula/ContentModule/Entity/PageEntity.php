@@ -33,5 +33,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class PageEntity extends BaseEntity
 {
-    // feel free to add your own methods here
+    /**
+     * @inheritDoc
+     */
+    public function supportsHookSubscribers()
+    {
+        return !$this->getSkipHookSubscribers();
+    }
 }
