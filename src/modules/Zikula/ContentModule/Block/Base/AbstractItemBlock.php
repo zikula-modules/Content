@@ -21,11 +21,15 @@ use Zikula\ContentModule\Block\Form\Type\ItemBlockType;
 abstract class AbstractItemBlock extends AbstractBlockHandler
 {
     /**
-     * Display the block content.
-     *
-     * @param array $properties The block properties
-     *
-     * @return string
+     * @inheritDoc
+     */
+    public function getType()
+    {
+        return $this->__('Single content item');
+    }
+    
+    /**
+     * @inheritDoc
      */
     public function display(array $properties = [])
     {
@@ -71,9 +75,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     }
     
     /**
-     * Returns the fully qualified class name of the block's form class.
-     *
-     * @return string Template path
+     * @inheritDoc
      */
     public function getFormClassName()
     {
@@ -81,9 +83,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     }
     
     /**
-     * Returns an array of form options.
-     *
-     * @return array Options array
+     * @inheritDoc
      */
     public function getFormOptions()
     {
@@ -109,9 +109,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     }
     
     /**
-     * Returns the template used for rendering the editing form.
-     *
-     * @return string Template path
+     * @inheritDoc
      */
     public function getFormTemplate()
     {
