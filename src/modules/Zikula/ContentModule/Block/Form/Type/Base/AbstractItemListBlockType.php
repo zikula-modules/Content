@@ -176,6 +176,7 @@ abstract class AbstractItemListBlockType extends AbstractType
             'choices' => [
                 $this->__('Random') => 'random',
                 $this->__('Newest') => 'newest',
+                $this->__('Updated') => 'updated',
                 $this->__('Default') => 'default'
             ],
             'multiple' => false,
