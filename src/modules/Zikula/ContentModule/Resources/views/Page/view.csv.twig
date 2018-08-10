@@ -1,12 +1,12 @@
 {# purpose of this template: pages view csv view #}
-{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip ui hook subscriber') }}";"{{ __('Skip filter hook subscriber') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Current version') }}";"{{ __('Version data') }}";"{{ __('Workflow state') }}"
-;"{{ __('Content items') }}"
+{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip ui hook subscriber') }}";"{{ __('Skip filter hook subscriber') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Current version') }}";"{{ __('Version data') }}";"{{ __('Content items') }}"
 {% endspaceless %}
 {% for page in items %}
+
 {% spaceless %}
     "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription }}";"{% if not page.skipUiHookSubscriber %}0{% else %}1{% endif %}";"{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}";"{% if page.layout is iterable and page.layout|length > 0 %}
         <ul>
-        {% for entry in page.layout %}
+        {% for entry in page.layout if entry is not iterable %}
             <li>{{ entry }}</li>
         {% endfor %}
         </ul>
@@ -17,13 +17,12 @@
         {{ page.activeTo|localizeddate('medium', 'short') }}
     {% endif %}";"{% if not page.inMenu %}0{% else %}1{% endif %}";"{{ page.optionalString1 }}";"{{ page.optionalString2 }}";"{{ page.optionalText|safeHtml }}";"{{ page.currentVersion }}";"{% if page.versionData is iterable and page.versionData|length > 0 %}
         <ul>
-        {% for entry in page.versionData %}
+        {% for entry in page.versionData if entry is not iterable %}
             <li>{{ entry }}</li>
         {% endfor %}
         </ul>
     {% endif %}
-    ";"{{ page.workflowState|zikulacontentmodule_objectState(false)|lower }}"
-    ;"
+    ";"
     {% if page.contentItems|default %}
         {% for relatedItem in page.contentItems %}
         {{ relatedItem|zikulacontentmodule_formattedTitle }}{% if not loop.last %}, {% endif %}
