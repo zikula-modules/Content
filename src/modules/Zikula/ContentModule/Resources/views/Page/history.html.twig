@@ -3,18 +3,18 @@
 {% block title isDiffView == true ? __f('Compare versions of %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) : __f('Page change history for %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) %}
 {% block admin_page_icon isDiffView == true ? 'arrows-h' : 'history' %}
 {% block content %}
-    {% if isDiffView != true %}
-        {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.VersionHistory.js')) }}
-    {% endif %}
-    {{ block('page_nav_links') }}
     <div class="zikulacontentmodule-page zikulacontentmodule-history">
+        {% if isDiffView != true %}
+            {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.VersionHistory.js')) }}
+        {% endif %}
+        {{ block('page_nav_links') }}
         {% if isDiffView == true %}
             {{ block('diff_view') }}
         {% else %}
             {{ block('history_table') }}
         {% endif %}
+        {{ block('page_nav_links') }}
     </div>
-    {{ block('page_nav_links') }}
 {% endblock %}
 {% block page_nav_links %}
     <p>

@@ -49,7 +49,14 @@ class PageController extends AbstractPageController
      */
     public function indexAction(Request $request)
     {
-        return parent::indexAction($request);
+        // permission check
+        $permLevel = ACCESS_READ;
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
+            throw new AccessDeniedException();
+        }
+
+        return $this->redirectToRoute('zikulacontentmodule_page_sitemap');
     }
     
     /**
@@ -303,6 +310,37 @@ class PageController extends AbstractPageController
         }
 
         return $this->json(['message' => $this->__('Done! Layout saved!')]);
+    }
+
+    /**
+     * Displays a sitemap.
+     *
+     * @Route("/sitemap.{_format}",
+     *        requirements = {"_format" = "html|xml"},
+     *        defaults = {"_format" = "html"},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param Request $request Current request instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function sitemapAction(Request $request)
+    {
+        // permission check
+        $permLevel = ACCESS_READ;
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
+            throw new AccessDeniedException();
+        }
+
+        $rootPages = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectWhere('tbl.lvl = 0');
+
+        return $this->render('@ZikulaContentModule/Page/sitemap.' . $request->getRequestFormat() . '.twig', [
+            'pages' => $rootPages
+        ]);
     }
     
     /**

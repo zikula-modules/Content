@@ -80,7 +80,11 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
             return true;
         }
-        if (in_array($routeName, ['zikulacontentmodule_page_managecontent', 'zikulacontentmodule_contentitem_displayediting'])) {
+        if (in_array($routeName, [
+            'zikulacontentmodule_page_managecontent',
+            'zikulacontentmodule_contentitem_displayediting',
+            'zikulacontentmodule_page_sitemap'
+        ])) {
             return true;
         }
 
