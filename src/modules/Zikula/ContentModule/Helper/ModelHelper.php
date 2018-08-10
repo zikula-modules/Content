@@ -18,5 +18,15 @@ use Zikula\ContentModule\Helper\Base\AbstractModelHelper;
  */
 class ModelHelper extends AbstractModelHelper
 {
-    // feel free to add your own convenience methods here
+    /**
+     * @inheritDocs
+     */
+    public function resolveSortParameter($objectType = '', $sorting = 'default')
+    {
+        if ('page' == $objectType && 'views' == $sorting) {
+            return 'views DESC';
+        }
+
+        return parent::resolveSortParameter($objectType, $sorting);
+    }
 }

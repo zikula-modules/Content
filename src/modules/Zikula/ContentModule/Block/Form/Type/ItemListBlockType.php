@@ -11,7 +11,7 @@
 
 namespace Zikula\ContentModule\Block\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemListBlockType;
 
@@ -25,9 +25,34 @@ class ItemListBlockType extends AbstractItemListBlockType
      */
     public function addObjectTypeField(FormBuilderInterface $builder, array $options = [])
     {
-        $builder->add('objectType', HiddenType::class, [
-            'label' => $this->__('Object type') . ':',
-            'empty_data' => 'page'
+        return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addSortingField(FormBuilderInterface $builder, array $options = [])
+    {
+        $builder->add('sorting', ChoiceType::class, [
+            'label' => $this->__('Sorting') . ':',
+            'empty_data' => 'default',
+            'choices' => [
+                $this->__('Random') => 'random',
+                $this->__('Newest') => 'newest',
+                $this->__('Updated') => 'updated',
+                $this->__('Views') => 'views',
+                $this->__('Default') => 'default'
+            ],
+            'multiple' => false,
+            'expanded' => false
         ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addTemplateFields(FormBuilderInterface $builder, array $options = [])
+    {
+        return;
     }
 }

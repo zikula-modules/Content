@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Block\Form\Type;
 
+use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemBlockType;
 
 /**
@@ -18,5 +19,19 @@ use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemBlockType;
  */
 class ItemBlockType extends AbstractItemBlockType
 {
-    // feel free to extend the detail block form type class here
+    /**
+     * @inheritDoc
+     */
+    public function addObjectTypeField(FormBuilderInterface $builder, array $options = [])
+    {
+        return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addTemplateField(FormBuilderInterface $builder, array $options = [])
+    {
+        return;
+    }
 }

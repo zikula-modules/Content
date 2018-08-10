@@ -15,6 +15,7 @@ application "Content" {
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
+        Block/Form/Type/ItemBlockType.php,
         Block/Form/Type/ItemListBlockType.php,
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
@@ -26,8 +27,14 @@ application "Content" {
         Form/Type/PageType.php,
         Helper/CollectionFilterHelper.php,
         Helper/ListEntriesHelper.php,
+        Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
         Menu/ItemActionsMenu.php,
+        Resources/views/Block/itemlist_contentItem_display_description.html.twig,
+        Resources/views/Block/itemlist_contentItem_display.html.twig,
+        Resources/views/Block/itemlist_page_display_description.html.twig,
+        Resources/views/Block/itemlist_searchable_display_description.html.twig,
+        Resources/views/Block/itemlist_searchable_display.html.twig,
         ZikulaContentModule.php
     "
     markFiles "

@@ -1,0 +1,7 @@
+{# Purpose of this template: Edit block for generic item list view #}
+{% if form.categories is defined %}
+    {{ form_row(form.categories) }}
+{% endif %}
+{{ form_row(form.sorting) }}
+{{ form_row(form.amount) }}
+{{ form_row(form.filter) }}
