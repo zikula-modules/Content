@@ -8,13 +8,11 @@
             {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.VersionHistory.js')) }}
         {% endif %}
         {{ block('page_nav_links') }}
-        <div class="zikulacontentmodule-page zikulacontentmodule-history">
-            {% if isDiffView == true %}
-                {{ block('diff_view') }}
-            {% else %}
-                {{ block('history_table') }}
-            {% endif %}
-        </div>
+        {% if isDiffView == true %}
+            {{ block('diff_view') }}
+        {% else %}
+            {{ block('history_table') }}
+        {% endif %}
         {{ block('page_nav_links') }}
     </div>
 {% endblock %}
