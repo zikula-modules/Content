@@ -8,7 +8,7 @@
     <skipFilterHookSubscriber>{% if not page.skipFilterHookSubscriber %}0{% else %}1{% endif %}</skipFilterHookSubscriber>
     <layout>{% if page.layout is iterable and page.layout|length > 0 %}
         <ul>
-        {% for entry in page.layout %}
+        {% for entry in page.layout if entry is not iterable %}
             <li>{{ entry }}</li>
         {% endfor %}
         </ul>
@@ -29,13 +29,12 @@
     <currentVersion>{{ page.currentVersion }}</currentVersion>
     <versionData>{% if page.versionData is iterable and page.versionData|length > 0 %}
         <ul>
-        {% for entry in page.versionData %}
+        {% for entry in page.versionData if entry is not iterable %}
             <li>{{ entry }}</li>
         {% endfor %}
         </ul>
     {% endif %}
     </versionData>
-    <workflowState>{{ page.workflowState|zikulacontentmodule_objectState(false)|lower }}</workflowState>
     <contentItems>
     {% if page.contentItems|default %}
         {% for relatedItem in page.contentItems %}
