@@ -88,5 +88,33 @@ pipeline {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'build/api', reportFiles: 'index.html', reportName: 'API Documentation', reportTitles: ''])
             }
         }
+        stage('Create release packages') {
+            steps {
+                sh 'rm -rf release'
+                sh 'mkdir release'
+
+                sh 'rm -rf releaseWork'
+                sh 'mkdir releaseWork'
+                sh 'cd releaseWork'
+
+                sh 'cp -R ../src/* .'
+                sh 'cd modules/Zikula/ContentModule'
+                sh '../../../../build/composer.phar install --no-dev'
+                sh 'cd ../../../'
+                sh 'cp -R app/Resources/ZikulaContentModule/* modules/Zikula/ContentModule/Resources/'
+                sh 'rm -rf app'
+
+
+                sh 'zip -D -r ../release/Content.zip .'
+                sh 'tar cfvz ../release/Content.tar.gz ./'
+
+                def artifacts = 'release/**'
+                archiveArtifacts([
+                    artifacts: artifacts,
+                    fingerprint: true,
+                    onlyIfSuccessful: true
+                ])
+            }
+        }
     }
 }
