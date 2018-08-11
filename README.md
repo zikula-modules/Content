@@ -95,6 +95,8 @@ New features:
 - Google map and route content types support different map types instead of roadmaps only.
 - OpenStreetMap content type has been replaced by a much more powerful Leaflet content type.
 - Slideshare and vimeo content types fetch additional data from the corresponding APIs.
+- Menu block has new options for different navigation types and sub pages handling.
+- All blocks showing lists of pages have included detection of currently active page.
 
 Deprecations:
 - The short URL suffix can not be configured anymore.

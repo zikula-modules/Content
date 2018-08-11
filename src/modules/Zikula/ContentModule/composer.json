@@ -53,6 +53,7 @@
                 "ZikulaContentModule::": "::",
                 "ZikulaContentModule:ItemListBlock:": "Block title::",
                 "ZikulaContentModule:ItemBlock:": "Block title::",
+                "ZikulaContentModule:MenuBlock:": "Block title::",
                 "ZikulaContentModule:SubPagesBlock:": "Block title::",
                 "ZikulaContentModule:Page:": "Page ID::",
                 "ZikulaContentModule:PageContent:": "Page ID::",

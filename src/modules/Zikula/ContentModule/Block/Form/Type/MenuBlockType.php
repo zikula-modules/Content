@@ -13,27 +13,41 @@ namespace Zikula\ContentModule\Block\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
+use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 
 /**
- * Sub pages block form type implementation class.
+ * Menu block form type implementation class.
  */
-class SubPagesBlockType extends AbstractType
+class MenuBlockType extends AbstractType
 {
     use TranslatorTrait;
 
     /**
-     * SubPagesBlockType constructor.
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * MenuBlockType constructor.
      *
      * @param TranslatorInterface $translator Translator service instance
+     * @param EntityFactory $entityFactory
      */
-    public function __construct(TranslatorInterface $translator)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        EntityFactory $entityFactory
+    ) {
         $this->setTranslator($translator);
+        $this->entityFactory = $entityFactory;
     }
 
     /**
@@ -51,6 +65,33 @@ class SubPagesBlockType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('navType', ChoiceType::class, [
+            'label' => $this->__('Navigation type') . ':',
+            'choices' => [
+                $this->__('None') => '0',
+                $this->__('Tabs') => '1',
+                $this->__('Pills') => '2',
+                $this->__('Navbar') => '3'
+            ]
+        ]);
+        $builder->add('subPagesHandling', ChoiceType::class, [
+            'label' => $this->__('Sub pages handling') . ':',
+            'choices' => [
+                $this->__('Hide them') => 'hide',
+                $this->__('Use dropdowns') => 'dropdown'
+            ]
+        ]);
+        $builder->add('root', EntityTreeType::class, [
+            'class' => PageEntity::class,
+            'multiple' => false,
+            'expanded' => false,
+            'use_joins' => false,
+            'placeholder' => $this->__('All pages'),
+            'required' => false,
+            'label' => $this->__('Include the following subpages') . ':',
+        ]);
+        $transformer = new PageTransformer($this->entityFactory);
+        $builder->get('root')->addModelTransformer($transformer);
         $builder->add('amount', IntegerType::class, [
             'label' => $this->__('Amount') . ':',
             'attr' => [
@@ -81,6 +122,6 @@ class SubPagesBlockType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'zikulacontentmodule_subpagesblock';
+        return 'zikulacontentmodule_menublock';
     }
 }

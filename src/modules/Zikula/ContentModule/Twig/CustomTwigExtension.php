@@ -23,6 +23,7 @@ use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Twig extension implementation class.
@@ -48,6 +49,11 @@ class CustomTwigExtension extends Twig_Extension
      * @var ContentTypeCollector
      */
     protected $collector;
+
+    /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
 
     /**
      * @var ContentDisplayHelper
@@ -86,6 +92,7 @@ class CustomTwigExtension extends Twig_Extension
      * @param RequestStack                $requestStack
      * @param Routerinterface             $router
      * @param ContentTypeCollector        $collector
+     * @param PermissionHelper            $permissionHelper
      * @param ContentDisplayHelper        $displayHelper
      * @param CategoryHelper              $categoryHelper
      * @param CategoryRepositoryInterface $categoryRepository
@@ -98,6 +105,7 @@ class CustomTwigExtension extends Twig_Extension
         RequestStack $requestStack,
         RouterInterface $router,
         ContentTypeCollector $collector,
+        PermissionHelper $permissionHelper,
         ContentDisplayHelper $displayHelper,
         CategoryHelper $categoryHelper,
         CategoryRepositoryInterface $categoryRepository,
@@ -109,6 +117,7 @@ class CustomTwigExtension extends Twig_Extension
         $this->requestStack = $requestStack;
         $this->router = $router;
         $this->collector = $collector;
+        $this->permissionHelper = $permissionHelper;
         $this->displayHelper = $displayHelper;
         $this->categoryHelper = $categoryHelper;
         $this->categoryRepository = $categoryRepository;
@@ -130,7 +139,9 @@ class CustomTwigExtension extends Twig_Extension
             new \Twig_SimpleFunction('zikulacontentmodule_contentDetails', [$this, 'getContentDetails']),
             new \Twig_SimpleFunction('zikulacontentmodule_maySeeElement', [$this, 'isElementVisible']),
             new \Twig_SimpleFunction('zikulacontentmodule_categoryInfo', [$this, 'getCategoryInfo']),
-            new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews'])
+            new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews']),
+            new \Twig_SimpleFunction('zikulacontentmodule_hasReadAccess', [$this, 'hasReadAccess']),
+            new \Twig_SimpleFunction('zikulacontentmodule_isCurrentPage', [$this, 'isCurrentPage'])
         ];
     }
 
@@ -315,5 +326,46 @@ class CustomTwigExtension extends Twig_Extension
         $views = $page->getViews() + 1;
 
         $this->databaseConnection->update('zikula_content_page', ['views' => $views], ['id' => $pageId]);
+    }
+
+    /**
+     * The zikulacontentmodule_hasReadAccess function checks whether the currrent user
+     * may read a certain entity or not.
+     * Examples:
+     *    {% if zikulacontentmodule_hasReadAccess(page) %}
+     *
+     * @param PageEntity $page The given page instance
+     */
+    public function hasReadAccess(PageEntity $page)
+    {
+        return $this->permissionHelper->mayRead($page);
+    }
+
+    /**
+     * The zikulacontentmodule_isCurrentPage function checks whether
+     * the currrent page should be considered as active or not.
+     * Examples:
+     *    {% if zikulacontentmodule_isCurrentPage(page) %}
+     *
+     * @param PageEntity $page The given page instance
+     */
+    public function isCurrentPage(PageEntity $page)
+    {
+        $requestUri = $this->requestStack->getCurrentRequest()->getRequestUri();
+        $pagePath = $this->router->generate('zikulacontentmodule_page_display', ['slug' => $page->getSlug()]);
+        if ($pagePath == $requestUri) {
+            return true;
+        }
+
+        if (count($page->getChildren()) > 0) {
+            foreach ($page->getChildren() as $subPage) {
+                $isSubPageActive = $this->isCurrentPage($subPage);
+                if ($isSubPageActive) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

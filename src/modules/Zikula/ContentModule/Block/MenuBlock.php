@@ -12,19 +12,19 @@
 namespace Zikula\ContentModule\Block;
 
 use Zikula\BlocksModule\AbstractBlockHandler;
-use Zikula\ContentModule\Block\Form\Type\SubPagesBlockType;
+use Zikula\ContentModule\Block\Form\Type\MenuBlockType;
 
 /**
- * Sub pages block implementation class.
+ * Menu block implementation class.
  */
-class SubPagesBlock extends AbstractBlockHandler
+class MenuBlock extends AbstractBlockHandler
 {
     /**
      * @inheritDoc
      */
     public function getType()
     {
-        return $this->__('Sub pages of current page');
+        return $this->__('Content menu block');
     }
     
     /**
@@ -33,60 +33,51 @@ class SubPagesBlock extends AbstractBlockHandler
     public function display(array $properties = [])
     {
         // only show block content if the user has the required permissions
-        if (!$this->hasPermission('ZikulaContentModule:SubPagesBlock:', "$properties[title]::", ACCESS_OVERVIEW)) {
+        if (!$this->hasPermission('ZikulaContentModule:MenuBlock:', "$properties[title]::", ACCESS_OVERVIEW)) {
             return '';
         }
 
-        $entities = [];
-        $objectCount = 0;
+        // set default values for all params which are not properly set
+        $defaults = $this->getDefaults();
+        $properties = array_merge($defaults, $properties);
 
-        $pageId = 0;
-        $repository = $this->get('zikula_content_module.entity_factory')->getRepository('page');
-        $request = $this->get('request_stack')->getCurrentRequest();
-        $routeName = $request->get('_route');
-        if (in_array($routeName, ['zikulacontentmodule_page_display', 'zikulacontentmodule_page_admindisplay'])
-            && $request->attributes->has('slug')) {
-            $page = $repository->selectBySlug($request->attributes->get('slug'), false);
-            $pageId = null !== $page ? $page->getId() : null;
+        $customFilters = [];
+        if (0 < $properties['root']) {
+            $customFilters[] = 'tbl.parent = ' . $properties['root'];
+        /*} else {
+            $customFilters[] = 'tbl.parent IS NULL';*/
         }
-        if ($pageId > 0) {
-            // set default values for all params which are not properly set
-            $defaults = $this->getDefaults();
-            $properties = array_merge($defaults, $properties);
+        if (true === $properties['inMenu']) {
+            $customFilters[] = 'tbl.inMenu = 1';
+        }
 
-            $customFilters = [];
-            $customFilters[] = 'tbl.parent = ' . $pageId;
-            if (true === $properties['inMenu']) {
-                $customFilters[] = 'tbl.inMenu = 1';
+        if (count($customFilters) > 0) {
+            if (!empty($properties['filter'])) {
+                $properties['filter'] = '(' . $properties['filter'] . ') AND ' . implode(' AND ', $customFilters);
+            } else {
+                $properties['filter'] = implode(' AND ', $customFilters);
             }
+        }
 
-            if (count($customFilters) > 0) {
-                if (!empty($properties['filter'])) {
-                    $properties['filter'] = '(' . $properties['filter'] . ') AND ' . implode(' AND ', $customFilters);
-                } else {
-                    $properties['filter'] = implode(' AND ', $customFilters);
-                }
-            }
+        // create query
+        $orderBy = '';
+        $repository = $this->get('zikula_content_module.entity_factory')->getRepository('page');
+        $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy);
 
-            // create query
-            $orderBy = '';
-            $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy);
-
-            // get objects from database
-            $currentPage = 1;
-            $resultsPerPage = $properties['amount'];
-            $query = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
-            try {
-                list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
-            } catch (\Exception $exception) {
-                $entities = [];
-                $objectCount = 0;
-            }
+        // get objects from database
+        $currentPage = 1;
+        $resultsPerPage = $properties['amount'];
+        $query = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
+        try {
+            list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
+        } catch (\Exception $exception) {
+            $entities = [];
+            $objectCount = 0;
         }
 
         // set a block title
         if (empty($properties['title'])) {
-            $properties['title'] = $this->__('ZikulaContentModule subpages');
+            $properties['title'] = $this->__('ZikulaContentModule menu');
         }
 
         $template = $this->getDisplayTemplate($properties);
@@ -110,7 +101,7 @@ class SubPagesBlock extends AbstractBlockHandler
      */
     protected function getDisplayTemplate(array $properties = [])
     {
-        return '@ZikulaContentModule/Block/subpages_display.html.twig';
+        return '@ZikulaContentModule/Block/menu_display.html.twig';
     }
 
     /**
@@ -118,7 +109,7 @@ class SubPagesBlock extends AbstractBlockHandler
      */
     public function getFormClassName()
     {
-        return SubPagesBlockType::class;
+        return MenuBlockType::class;
     }
 
     /**
@@ -126,7 +117,7 @@ class SubPagesBlock extends AbstractBlockHandler
      */
     public function getFormTemplate()
     {
-        return '@ZikulaContentModule/Block/subpages_modify.html.twig';
+        return '@ZikulaContentModule/Block/menu_modify.html.twig';
     }
 
     /**
@@ -157,6 +148,9 @@ class SubPagesBlock extends AbstractBlockHandler
     protected function getDefaults()
     {
         return [
+            'navType' => 0,
+            'subPagesHandling' => 'hide',
+            'root' => 0,
             'amount' => 5,
             'inMenu' => true,
             'filter' => ''

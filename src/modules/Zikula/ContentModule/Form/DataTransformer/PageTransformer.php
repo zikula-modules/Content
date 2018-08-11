@@ -51,7 +51,7 @@ class PageTransformer implements DataTransformerInterface
         }
 
         if (is_numeric($value)) {
-            return $this->entityFactory->getRepository('page')->selectById($value, false);
+            return $value > 0 ? $this->entityFactory->getRepository('page')->selectById($value, false) : null;
         }
 
         return $value;

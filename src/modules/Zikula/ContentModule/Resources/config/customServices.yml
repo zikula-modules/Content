@@ -20,6 +20,7 @@ services:
             - '@request_stack'
             - '@router'
             - '@zikula_content_module.collector.content_type_collector'
+            - '@zikula_content_module.permission_helper'
             - '@zikula_content_module.content_display_helper'
             - '@zikula_content_module.category_helper'
             - '@zikula_categories_module.category_repository'
@@ -33,6 +34,12 @@ services:
             - '@translator.default'
             - '@zikula_content_module.listentries_helper'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'stylingClasses', '')"
+        tags: ['form.type']
+    zikula_content_module.form.type.block.menu:
+        class: Zikula\ContentModule\Block\Form\Type\MenuBlockType
+        arguments:
+            - '@translator.default'
+            - '@zikula_content_module.entity_factory'
         tags: ['form.type']
     zikula_content_module.form.type.block.subpages:
         class: Zikula\ContentModule\Block\Form\Type\SubPagesBlockType
