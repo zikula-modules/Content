@@ -89,7 +89,7 @@ pipeline {
                 sh 'rm -rf releaseWork && mkdir releaseWork'
 
                 sh 'cp -R src/* releaseWork'
-                sh 'cd releaseWork/modules/Zikula/ContentModule && ../../../../build/composer.phar install --no-dev && cd ../../../../'
+                sh 'cd releaseWork/modules/Zikula/ContentModule && ../../../../build/composer.phar install --no-dev --optimize-autoloader && cd ../../../../'
                 sh 'cp -R releaseWork/app/Resources/ZikulaContentModule/* releaseWork/modules/Zikula/ContentModule/Resources/'
                 sh 'rm -rf releaseWork/app'
 
