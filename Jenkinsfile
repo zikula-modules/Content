@@ -8,16 +8,11 @@ pipeline {
     stages {
         stage('Prepare') {
             steps {
-                sh 'rm -rf build/api'
-                sh 'rm -rf build/coverage'
-                sh 'rm -rf build/logs'
-                sh 'rm -rf build/pdepend'
-                sh 'rm -rf build/phpdox'
-                sh 'mkdir build/api'
-                sh 'mkdir build/coverage'
-                sh 'mkdir build/logs'
-                sh 'mkdir build/pdepend'
-                sh 'mkdir build/phpdox'
+                sh 'rm -rf build/api && mkdir build/api'
+                sh 'rm -rf build/coverage && mkdir build/coverage'
+                sh 'rm -rf build/logs && mkdir build/logs'
+                sh 'rm -rf build/pdepend && mkdir build/pdepend'
+                sh 'rm -rf build/phpdox && mkdir build/phpdox'
             }
         }
         stage('Composer Install') {
@@ -90,11 +85,8 @@ pipeline {
         }
         stage('Create release packages') {
             steps {
-                sh 'rm -rf release'
-                sh 'mkdir release'
-
-                sh 'rm -rf releaseWork'
-                sh 'mkdir releaseWork'
+                sh 'rm -rf release && mkdir release'
+                sh 'rm -rf releaseWork && mkdir releaseWork'
                 sh 'cd releaseWork'
 
                 sh 'cp -R ../src/* .'
