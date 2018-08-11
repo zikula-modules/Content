@@ -40,6 +40,8 @@ class ItemListBlock extends AbstractItemListBlock
         $customFilters = [];
         if (0 < $properties['root']) {
             $customFilters[] = 'tbl.parent = ' . $properties['root'];
+        /*} else {
+            $customFilters[] = 'tbl.parent IS NULL';*/
         }
         if (true === $properties['inMenu']) {
             $customFilters[] = 'tbl.inMenu = 1';
