@@ -11,9 +11,17 @@
 
 namespace Zikula\ContentModule\Block\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
+use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemListBlockType;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
+use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
+use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
 /**
  * List block form type implementation class.
@@ -21,11 +29,53 @@ use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemListBlockType;
 class ItemListBlockType extends AbstractItemListBlockType
 {
     /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * ItemListBlockType constructor.
+     *
+     * @param TranslatorInterface $translator Translator service instance
+     * @param EntityFactory $entityFactory
+     * @param CategoryRepositoryInterface $categoryRepository
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        EntityFactory $entityFactory,
+        CategoryRepositoryInterface $categoryRepository
+    ) {
+        parent::__construct($translator, $categoryRepository);
+        $this->entityFactory = $entityFactory;
+    }
+
+    /**
      * @inheritDoc
      */
-    public function addObjectTypeField(FormBuilderInterface $builder, array $options = [])
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        return;
+        $builder->add('root', EntityTreeType::class, [
+            'class' => PageEntity::class,
+            'multiple' => false,
+            'expanded' => false,
+            'use_joins' => false,
+            'placeholder' => $this->__('All pages'),
+            'required' => false,
+            'label' => $this->__('Include the following subpages') . ':',
+        ]);
+        $transformer = new PageTransformer($this->entityFactory);
+        $builder->get('root')->addModelTransformer($transformer);
+
+        if ($options['feature_activation_helper']->isEnabled(FeatureActivationHelper::CATEGORIES, $options['object_type'])) {
+            $this->addCategoriesField($builder, $options);
+        }
+        $this->addSortingField($builder, $options);
+        $this->addAmountField($builder, $options);
+        $builder->add('inMenu', CheckboxType::class, [
+            'label' => $this->__('Use only pages activated for the menu') . ':',
+            'required' => false
+        ]);
+        $this->addFilterField($builder, $options);
     }
 
     /**
@@ -46,13 +96,5 @@ class ItemListBlockType extends AbstractItemListBlockType
             'multiple' => false,
             'expanded' => false
         ]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addTemplateFields(FormBuilderInterface $builder, array $options = [])
-    {
-        return;
     }
 }

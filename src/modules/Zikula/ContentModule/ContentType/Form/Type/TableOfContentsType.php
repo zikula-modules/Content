@@ -18,9 +18,9 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
-use Zikula\ContentModule\ContentType\Form\DataTransformer\PageTransformer;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 
 /**

@@ -1,6 +1,6 @@
 {% if pages|length > 0 %}
 <ul>
-    {% for page in pages if page.inMenu and hasPermission('ZikulaContentModule:Page:', page.id ~ '::', 'ACCESS_READ') %}
+    {% for page in pages if hasPermission('ZikulaContentModule:Page:', page.id ~ '::', 'ACCESS_READ') %}
         <li>
             <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a>
             {{ include('@ZikulaContentModule/Block/pageListInclude.html.twig', {pages: page.children}) }}

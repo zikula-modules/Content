@@ -17,6 +17,7 @@ application "Content" {
     skipFiles "
         Block/Form/Type/ItemBlockType.php,
         Block/Form/Type/ItemListBlockType.php,
+        Block/ItemListBlock.php,
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,
@@ -40,6 +41,7 @@ application "Content" {
     markFiles "
         composer.json,
         Resources/config/entityFactory.yml,
+        Resources/config/forms.yml,
         Resources/config/helpers.yml,
         Resources/config/services.yml
     "
