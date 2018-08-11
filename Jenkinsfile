@@ -87,18 +87,15 @@ pipeline {
             steps {
                 sh 'rm -rf release && mkdir release'
                 sh 'rm -rf releaseWork && mkdir releaseWork'
-                sh 'cd releaseWork'
 
-                sh 'cp -R ../src/* .'
-                sh 'cd modules/Zikula/ContentModule'
-                sh '../../../../build/composer.phar install --no-dev'
-                sh 'cd ../../../'
-                sh 'cp -R app/Resources/ZikulaContentModule/* modules/Zikula/ContentModule/Resources/'
-                sh 'rm -rf app'
+                sh 'cp -R src/* releaseWork'
+                sh 'cd releaseWork/modules/Zikula/ContentModule && ../../../../build/composer.phar install --no-dev && cd ../../../../'
+                sh 'cp -R releaseWork/app/Resources/ZikulaContentModule/* releaseWork/modules/Zikula/ContentModule/Resources/'
+                sh 'rm -rf releaseWork/app'
 
 
-                sh 'zip -D -r ../release/Content.zip .'
-                sh 'tar cfvz ../release/Content.tar.gz ./'
+                sh 'zip -D -r release/Content.zip releaseWork'
+                sh 'tar cfvz release/Content.tar.gz releaseWork'
 
                 archiveArtifacts([
                     artifacts: 'release/**',
