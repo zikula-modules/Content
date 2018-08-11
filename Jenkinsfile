@@ -108,9 +108,8 @@ pipeline {
                 sh 'zip -D -r ../release/Content.zip .'
                 sh 'tar cfvz ../release/Content.tar.gz ./'
 
-                def artifacts = 'release/**'
                 archiveArtifacts([
-                    artifacts: artifacts,
+                    artifacts: 'release/**',
                     fingerprint: true,
                     onlyIfSuccessful: true
                 ])
