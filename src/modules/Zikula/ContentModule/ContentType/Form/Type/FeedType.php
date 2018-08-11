@@ -53,7 +53,7 @@ class FeedType extends AbstractType
     {
         $builder
             ->add('url', UrlType::class, [
-                'label' => $this->__('URL of RSS feed') . ':'
+                'label' => $this->__('URL of RSS or Atom feed') . ':'
             ])
             ->add('includeContent', CheckboxType::class, [
                 'label' => $this->__('Include feed text in addition to the title') . ':',

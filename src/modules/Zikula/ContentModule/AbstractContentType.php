@@ -130,6 +130,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function __($msg, $locale = null)
     {
+        /** @Ignore */
         return $this->translator->__($msg, $this->domain, $locale);
     }
 
@@ -144,6 +145,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function _n($m1, $m2, $n, $locale = null)
     {
+        /** @Ignore */
         return $this->translator->_n($m1, $m2, $n, $this->domain, $locale);
     }
 
@@ -157,6 +159,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function __f($msg, $param, $locale = null)
     {
+        /** @Ignore */
         return $this->translator->__f($msg, $param, $this->domain, $locale);
     }
 
@@ -172,6 +175,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function _fn($m1, $m2, $n, $param, $locale = null)
     {
+        /** @Ignore */
         return $this->translator->_fn($m1, $m2, $n, $param, $this->domain, $locale);
     }
 

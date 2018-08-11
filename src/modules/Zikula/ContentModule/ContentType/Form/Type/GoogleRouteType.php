@@ -57,21 +57,21 @@ class GoogleRouteType extends AbstractType
         $builder
             ->add('latitude', NumberType::class, [
                 'label' => $this->__('Latitude') . ':',
-                'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
+                'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                 'attr' => [
                     'maxlength' => 30
                 ]
             ])
             ->add('longitude', NumberType::class, [
                 'label' => $this->__('Longitude') . ':',
-                'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
+                'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                 'attr' => [
                     'maxlength' => 30
                 ]
             ])
             ->add('zoom', RangeType::class, [
                 'label' => $this->__('Zoom level') . ':',
-                'help' => $this->__('(from 0 for the entire world to 21 for individual buildings)'),
+                'help' => $this->__('From 0 for the entire world to 21 for individual buildings.'),
                 'attr' => [
                     'min' => 0,
                     'max' => 21

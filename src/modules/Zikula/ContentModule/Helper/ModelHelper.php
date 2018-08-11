@@ -19,7 +19,7 @@ use Zikula\ContentModule\Helper\Base\AbstractModelHelper;
 class ModelHelper extends AbstractModelHelper
 {
     /**
-     * @inheritDocs
+     * @inheritDoc
      */
     public function resolveSortParameter($objectType = '', $sorting = 'default')
     {

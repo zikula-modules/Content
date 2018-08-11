@@ -90,7 +90,7 @@ class GoogleRouteType extends AbstractContentType
      */
     public function getDescription()
     {
-        return $this->__('Display Google map with route planning.');
+        return $this->__('Display a Google map with route planning.');
     }
 
     /**

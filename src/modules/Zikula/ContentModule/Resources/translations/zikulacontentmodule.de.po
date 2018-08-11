@@ -1,0 +1,1796 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Content 5.0.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Axel Guckelsberger <info@guite.de>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "%field% set to <em>%value%</em>"
+msgstr "%field% auf <em>%value%</em> gesetzt"
+
+msgid "%field% set to:"
+msgstr "%field% gesetzt zu:"
+
+msgid "%owningType%"
+msgstr "%owningType%"
+
+msgid "%searchLanguage%"
+msgstr "%searchLanguage%"
+
+msgid "%title%"
+msgstr "%title%"
+
+msgid "10"
+msgstr "10"
+
+msgid "100"
+msgstr "100"
+
+msgid "15"
+msgstr "15"
+
+msgid "20"
+msgstr "20"
+
+msgid "30"
+msgstr "30"
+
+msgid "5"
+msgstr "5"
+
+msgid "50"
+msgstr "50"
+
+msgid "A CSS class name that will be used on the tab navigation."
+msgstr "Eine CSS-Klasse, die für die Reiter-Navigation verwendet wird."
+
+msgid "A highlighted quote with source."
+msgstr "Ein hervorgehobenes Zitat mit Quellenangabe."
+
+msgid ""
+"A list of CSS class names available for styling of content elements. The end "
+"user can select these classes for each element on a page - for instance "
+"\"note\" for an element styled as a note. Write one class name on each line. "
+"Please separate the CSS classes and displaynames with | - eg. \"note | Memo"
+"\"."
+msgstr ""
+"Eine Liste mit CSS-Klassen zum Layouten der Inhalte. Diese Klassen können "
+"für jedes Element auf einer Seite ausgewählt werden - zum Beispiel \"note\" "
+"für ein Element, das wie eine Notiz gestaltet werden soll. Bitte nur eine "
+"Klasse je Zeile angeben. Die CSS-Klassen und Anzeigenamen müssen mit | "
+"getrennt werden. Beispiel: \"note | Memo\"."
+
+msgid ""
+"A list of Content item IDs semicolon separated, e.g. \"3;12\". Make sure "
+"that the Content item IDs you select already exist. You can disable the "
+"individual Content items if you only want to display them in this tab "
+"navigation."
+msgstr ""
+"Eine durch Semikoli getrennte Liste von Inhaltselement-IDs, z. B. \"3;12\". "
+"Bitte sicherstellen, dass die Inhaltselemente zu den IDs bereits existieren. "
+"Die einzelnen Inhaltselemente können deaktiviert werden, falls sie "
+"ausschließlich in dieser Reiternavigation dargestellt werden sollen."
+
+msgid ""
+"A numeral that has a precision to 6 decimal places. For example, 40.714728."
+msgstr "Eine Zahl mit bis zu 6 Nachstellen. Zum Beispiel 40.714728."
+
+msgid "A plugin for unfiltered raw output (iframes, JavaScript, banners, etc)."
+msgstr ""
+"Ein Plugin für die Ausgabe von ungefiltertem Rohtext (IFrames, JavaScript, "
+"Banner, etc)."
+
+msgid ""
+"A table of contents of headings and subpages (built from the available "
+"Content pages)."
+msgstr ""
+"Ein Inhaltsverzeichnis mit Überschriften und Unterseiten (basierend auf den "
+"verfügbaren Inhaltsseiten)."
+
+msgid ""
+"A text editor for computer code. Line numbers are added to the text and it "
+"is displayed in a monospaced font."
+msgstr ""
+"Ein Texteditor für Quelltexte. Zeilennummern werden zum Text hinzugefügt. "
+"Der Code wird in einer Konstantschrift angezeigt."
+
+msgid "Absolute url to the page"
+msgstr "Absolute URL zu der Seite"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "Active from"
+msgstr "Aktiv von"
+
+msgid "Active to"
+msgstr "Aktiv bis"
+
+msgid "Add a new page"
+msgstr "Neue Seite hinzufügen"
+
+msgid "Add a sub page to this page"
+msgstr "Unterseite zu dieser Seite hinzufügen"
+
+msgid "Add quote text here..."
+msgstr "Zitat hier hinzufügen ..."
+
+msgid "Add root node"
+msgstr "Wurzelknoten hinzufügen"
+
+msgid "Add sub page"
+msgstr "Unterseite hinzufügen"
+
+msgid "Add text here..."
+msgstr "Text hier hinzufügen..."
+
+msgid "Add unfiltered text here ..."
+msgstr "Ungefilterten Text hier hinzufügen ..."
+
+msgid "All"
+msgstr "Alle"
+
+msgid "All children"
+msgstr "Alle Kinder"
+
+msgid "All except approved"
+msgstr "Alle außer freigegebene"
+
+msgid "All except trashed"
+msgstr "Alle außer weggeworfene"
+
+msgid "All pages"
+msgstr "Alle Seiten"
+
+msgid "All parents"
+msgstr "Alle Eltern"
+
+msgid "Allow transparancy on the iframe"
+msgstr "Transparenz beim Iframe erlauben"
+
+msgid "Allows to navigate within pages on the same level."
+msgstr "Erlaubt das Navigieren innerhalb von Seiten derselben Ebene."
+
+msgid "Amount"
+msgstr "Anzahl"
+
+msgid "Approved"
+msgstr "Freigegeben"
+
+msgid "Ascending"
+msgstr "Aufsteigend"
+
+msgid "Attribution for tile layer to use"
+msgstr "Zuschreibung für das zu verwendende Tile Layer"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Author information"
+msgstr "Autor Informationen"
+
+msgid "Autoplay the video when displayed"
+msgstr "Das Video bei der Anzeige automatisch abspielen"
+
+msgid "Back to detail view"
+msgstr "Zurück zur Detailansicht"
+
+msgid "Back to history"
+msgstr "Zurück zur Historie"
+
+msgid "Back to overview"
+msgstr "Zurück zur Übersicht"
+
+msgid "Back to paginated view"
+msgstr "Zurück zur Seitenansicht"
+
+msgid "Backend"
+msgstr "Backend"
+
+msgid "Block"
+msgstr "Block"
+
+msgid "Block is inactive."
+msgstr "Der Block ist inaktiv."
+
+msgid "Block to display"
+msgstr "Anzuzeigender Block"
+
+msgid "Breadcrumb"
+msgstr "Breadcrumb"
+
+msgid ""
+"Can contain HTML markup. Leave this field empty for disabling the popup "
+"window."
+msgstr ""
+"Kann HTML-Markup enthalten. Das Feld leer lassen, um das Popup-Fenster zu "
+"deaktivieren."
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Categories"
+msgstr "Kategorien"
+
+msgid "Categories list"
+msgstr "Liste der Kategorien"
+
+msgid "Category"
+msgstr "Kategorie"
+
+msgid "Change selection"
+msgstr "Auswahl ändern"
+
+msgid "Changes"
+msgstr "Änderungen"
+
+msgid "Choose action"
+msgstr "Aktion wählen"
+
+msgid "Choose an option"
+msgstr "Eine Option auswählen"
+
+msgid "Choose any additional styling classes."
+msgstr "Wähle jegliche zusätzlichen CSS-Klassen."
+
+msgid "Choose the enabled finder types."
+msgstr "Die aktivierten Finder-Typen auswählen."
+
+msgid "Choose the parent page."
+msgstr "Die übergeordnete Seite auswählen."
+
+msgid "Choose the scope."
+msgstr "Die Sichtbarkeit auswählen."
+
+msgid "Choose the start page."
+msgstr "Die Startseite auswählen."
+
+msgid "Choose the state of new pages."
+msgstr "Den Zustand von neuen Seiten auswählen."
+
+msgid "Code filter"
+msgstr "Code-Filter"
+
+msgid "Collapse all"
+msgstr "Alle einklappen"
+
+msgid "Collapse all nodes"
+msgstr "Alle Knoten einklappen"
+
+msgid "Compare selected versions"
+msgstr "Ausgewählte Versionen vergleichen"
+
+msgid "Compare versions of %entityTitle%"
+msgstr "Vergleiche Versionen von %entityTitle%"
+
+msgid "Complete list"
+msgstr "Komplette Liste"
+
+msgid "Computer code"
+msgstr "Quelltext"
+
+msgid "Computer code lines"
+msgstr "Quelltextzeilen"
+
+msgid "Content Backend"
+msgstr "Content Backend"
+
+msgid "Content has been approved and is available online."
+msgstr "Der Inhalt wurde freigegeben und ist online verfügbar."
+
+msgid ""
+"Content has been marked as deleted, but is still persisted in the database."
+msgstr ""
+"Der Inhalt wurde als gelöscht markiert, aber ist noch in der Datenbank "
+"gespeichert."
+
+msgid "Content item IDs"
+msgstr "IDs der Inhaltselemente"
+
+msgid "Content item filter hooks subscriber"
+msgstr "Inhaltselement Filter-Hooks Abonnent"
+
+msgid "Content item form aware subscriber"
+msgstr "Inhaltselement Form-Aware Abonnent"
+
+msgid "Content item ui hooks subscriber"
+msgstr "Inhaltselement UI-Hooks Abonnent"
+
+msgid "Content items"
+msgstr "Inhaltselemente"
+
+msgid "Content menu block"
+msgstr "Content Menüblock"
+
+msgid "Controller"
+msgstr "Controller"
+
+msgid "Count page views"
+msgstr "Seitenaufrufe zählen"
+
+msgid "Create"
+msgstr "Erstellen"
+
+msgid "Create page"
+msgstr "Seite erstellen"
+
+msgid "Created by %user"
+msgstr "Erstellt von %user"
+
+msgid "Created by %user on %date"
+msgstr "Erstellt von %user am %date"
+
+msgid "Created on %date"
+msgstr "Erstellt am %date"
+
+msgid "Creation"
+msgstr "Erstellung"
+
+msgid "Creation and update"
+msgstr "Erstellung und Änderung"
+
+msgid "Creation date"
+msgstr "Erstellungsdatum"
+
+msgid "Creator"
+msgstr "Ersteller"
+
+msgid "Current version"
+msgstr "Aktuelle Version"
+
+msgid "Custom style class"
+msgstr "Eigene Style-Klasse"
+
+msgid "Custom template"
+msgstr "Eigene Vorlage"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Default"
+msgstr "Standard"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Delete content permanently."
+msgstr "Den Inhalt dauerhaft löschen."
+
+msgid "Deleted"
+msgstr "Gelöscht"
+
+msgid "Deleted pages"
+msgstr "Gelöschte Seiten"
+
+msgid "Descending"
+msgstr "Absteigend"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Description to be shown below the map"
+msgstr "Beschreibung, die unter der Karte angezeigt wird"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Direct children"
+msgstr "Direkte Kinder"
+
+msgid "Direct parent"
+msgstr "Direkte Eltern"
+
+msgid "Display Zikula blocks."
+msgstr "Zikula-Blöcke anzeigen."
+
+msgid "Display a Google map position."
+msgstr "Eine Google-Karte mit Position anzeigen."
+
+msgid "Display a Google map with route planning."
+msgstr "Eine Google-Karte mit Routenplanung anzeigen."
+
+msgid "Display a Leaflet map position."
+msgstr "Eine Leaflet-Karte mit Position anzeigen."
+
+msgid "Display a Vimeo video clip."
+msgstr "Ein Vimeo-Video anzeigen."
+
+msgid "Display a YouTube video clip."
+msgstr "Ein YouTube-Video anzeigen."
+
+msgid "Display a bicycle overlay"
+msgstr "Ein Overlay für Fahrräder anzeigen"
+
+msgid "Display a link to directions to this location in Google Maps"
+msgstr "Einen Link zur Wegbeschreibung zu diesem Ort in Google Maps anzeigen"
+
+msgid "Display a traffic overlay"
+msgstr "Ein Overlay für Verkehr anzeigen"
+
+msgid "Display controller output from any installed module, theme or bundle."
+msgstr ""
+"Die Controller-Ausgabe von irgend einem installierten Modul, Theme oder "
+"Bundle anzeigen."
+
+msgid "Display directions inline within the map"
+msgstr "Wegbeschreibung inline innerhalb der Karte anzeigen"
+
+msgid "Display list of items in an Atom or RSS feed."
+msgstr "Die Liste von Einträgen in einem Atom- oder RSS-Feed anzeigen."
+
+msgid "Display mode"
+msgstr "Anzeigemodus"
+
+msgid "Display slides from slideshare.com."
+msgstr "Präsentationen von slideshare.com anzeigen."
+
+msgid "Display the page title"
+msgstr "Den Titel der Seite anzeigen"
+
+msgid "Display the streetview control"
+msgstr "Die Streetview-Steuerung anzeigen"
+
+msgid "Doctrine Exception"
+msgstr "Doctrine Fehler"
+
+msgid "Done! Content deleted!"
+msgstr "Erledigt! Inhalt gelöscht!"
+
+msgid "Done! Content saved!"
+msgstr "Erledigt! Inhalt gespeichert!"
+
+msgid "Done! Item created."
+msgstr "Erledigt! Eintrag erstellt."
+
+msgid "Done! Item deleted."
+msgstr "Erledigt! Eintrag gelöscht."
+
+msgid "Done! Item updated."
+msgstr "Erledigt! Eintrag geändert."
+
+msgid "Done! Layout saved!"
+msgstr "Erledigt! Layout gespeichert!"
+
+msgid "Done! Module configuration updated."
+msgstr "Erledigt! Modulkonfiguration aktualisiert."
+
+msgid "Done! Page created."
+msgstr "Erledigt! Seite erstellt."
+
+msgid "Done! Page deleted."
+msgstr "Erledigt! Seite gelöscht."
+
+msgid "Done! Page updated."
+msgstr "Erledigt! Seite geändert."
+
+msgid "Done! Reverted page to version %version%."
+msgstr "Done! Seite auf Version %version% zurückgesetzt."
+
+msgid "Done! Undeleted page."
+msgstr "Erledigt! Seite wiederhergestellt."
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Edit content items workflow"
+msgstr "Workflow für Inhaltselemente bearbeiten"
+
+msgid "Edit page"
+msgstr "Seite bearbeiten"
+
+msgid "Edit pages workflow"
+msgstr "Workflow für Seiten bearbeiten"
+
+msgid "Edit searchables workflow"
+msgstr "Workflow für Suchsubjekte bearbeiten"
+
+msgid "Edit this block"
+msgstr "Diesen Block bearbeiten"
+
+msgid "Edit this page"
+msgstr "Diese Seite bearbeiten"
+
+msgid "Edit workflow for content items"
+msgstr "Workflow für Inhaltselemente bearbeiten"
+
+msgid "Edit workflow for pages"
+msgstr "Workflow für Seiten bearbeiten"
+
+msgid "Edit workflow for searchables"
+msgstr "Workflow für Suchsubjekte bearbeiten"
+
+msgid "Enable optional string 1"
+msgstr "Optionale Zeichenkette 1 aktivieren"
+
+msgid "Enable optional string 2"
+msgstr "Optionale Zeichenkette 2 aktivieren"
+
+msgid "Enable optional text"
+msgstr "Optionalen Text aktivieren"
+
+msgid "Enable raw plugin"
+msgstr "Plugin für ungefilterten Rohtext aktivieren"
+
+msgid "Enabled finder types"
+msgstr "Aktivierte Finder-Typen"
+
+msgid "Enter one entry per line."
+msgstr "Einen Eintrag je Zeile eingeben."
+
+msgid "Enter the active from of the page."
+msgstr "Das aktiv-von-Datum der Seite eingeben."
+
+msgid "Enter the active to of the page."
+msgstr "Das aktiv-bis-Datum der Seite eingeben."
+
+msgid "Enter the google maps api key."
+msgstr "Den Google Maps API-Schlüssel eingeben."
+
+msgid "Enter the layout of the page."
+msgstr "Das Layout der Seite eingeben."
+
+msgid "Enter the meta description of the page."
+msgstr "Die Meta-Beschreibung der Seite eingeben."
+
+msgid "Enter the optional string 1 of the page."
+msgstr "Den optionalen String 1 der Seite eingeben."
+
+msgid "Enter the optional string 2 of the page."
+msgstr "Den optionalen String 2 der Seite eingeben."
+
+msgid "Enter the optional text of the page."
+msgstr "Den optionalen Text der Seite eingeben."
+
+msgid "Enter the page entries per page."
+msgstr "Die Anzahl der Seiten je Seite eingeben."
+
+msgid "Enter the styling classes."
+msgstr "Die CSS-Klassen eingeben."
+
+msgid "Enter the title of the page."
+msgstr "Den Seitentitel eingeben."
+
+msgid "Enter the version data of the page."
+msgstr "Die Versionsdaten der Seite eingeben."
+
+msgid "Enter the views of the page."
+msgstr "Die Aufrufe der Seite eingeben."
+
+msgid "Entry to display"
+msgstr "Anzuzeigender Eintrag"
+
+msgid "Error! An error occured during content deletion."
+msgstr "Fehler! Beim Löschen des Inhalts ist ein Fehler aufgetreten."
+
+msgid "Error! An error occured during layout persistence."
+msgstr "Fehler! Beim Speichern des Layouts ist ein Fehler aufgetreten."
+
+msgid "Error! An error occured during saving the content."
+msgstr "Fehler! Beim Speichern des Inhalts ist ein Fehler aufgetreten."
+
+msgid ""
+"Error! Could not create a category registry for the %entity% entity. If you "
+"want to use categorisation, register at least one registry in the Categories "
+"administration."
+msgstr ""
+"Fehler! Es konnte keine Kategorien-Registrierung für die Entität %entity% "
+"erstellt werden. Um die Kategorisierung zu nutzen, bitte mindestens eine "
+"Registrierung in der Kategorienverwaltung anlegen."
+
+msgid "Error! Could not determine workflow actions."
+msgstr "Fehler! Die Workflow-Aktionen konnten nicht ermittelt werden."
+
+msgid "Error! Could not resolve %template% template."
+msgstr "Fehler! Die Vorlage %template% konnte nicht aufgelöst werden."
+
+msgid "Error! Creation attempt failed."
+msgstr "Fehler! Erstellung fehlgeschlagen."
+
+msgid "Error! Deletion attempt failed."
+msgstr "Fehler! Löschversuch fehlgeschlagen."
+
+msgid "Error! Invalid object type received."
+msgstr "Fehler! Ungültigen Objekttyp erhalten."
+
+msgid "Error! It is not allowed to delete this content item."
+msgstr "Fehler! Es ist nicht erlaubt, dieses Inhaltselement zu löschen."
+
+msgid "Error! Please check your input."
+msgstr "Fehler! Bitte die Eingaben prüfen."
+
+msgid "Error! Reverting page to version %version% failed."
+msgstr "Fehler! Zurücksetzen der Seite auf Version %version% fehlgeschlagen."
+
+msgid "Error! Update attempt failed."
+msgstr "Fehler! Aktualisierung fehlgeschlagen."
+
+msgid "Error: Invalid editor context given for external controller action."
+msgstr ""
+"Fehler: ungültiger Editor Kontext für externe Controller-Aktion gegeben."
+
+msgid "Error: invalid destination node."
+msgstr "Fehler: ungültiger Zielknoten."
+
+msgid "Error: invalid direction."
+msgstr "Fehler: ungültige Richtung."
+
+msgid "Error: invalid input."
+msgstr "Fehler: ungültige Eingabe."
+
+msgid "Error: invalid node."
+msgstr "Fehler: ungültiger Knoten."
+
+msgid "Error: invalid operation."
+msgstr "Fehler: ungültiger Vorgang."
+
+msgid "Error: invalid parent node."
+msgstr "Fehler: ungültiger Elternknoten."
+
+msgid "Error: invalid root node."
+msgstr "Fehler: ungültiger Wurzelknoten."
+
+msgid "Errors"
+msgstr "Fehler"
+
+msgid "Example"
+msgstr "Beispiel"
+
+msgid "Existing content"
+msgstr "Existierender Inhalt"
+
+msgid "Expand all"
+msgstr "Alle aufklappen"
+
+msgid "Expand all nodes"
+msgstr "Alle Knoten aufklappen"
+
+msgid "Extended list"
+msgstr "Erweiterte Liste"
+
+msgid "Feed"
+msgstr "Feed"
+
+msgid "Field name"
+msgstr "Feldname"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Filter (expert option)"
+msgstr "Filter ( Expertenoption )"
+
+msgid "Filter data by locale"
+msgstr "Daten nach Sprachumgebung filtern"
+
+msgid "From 0 for the entire world to 21 for individual buildings."
+msgstr "Von 0 für die ganze Welt bis 21 für einzelne Gebäude."
+
+msgid "Frontend"
+msgstr "Frontend"
+
+msgid "Function arguments"
+msgstr "Funktionsargumente"
+
+msgid "Further properties"
+msgstr "Weitere Eigenschaften"
+
+msgid "General settings"
+msgstr "Allgemeine Einstellungen"
+
+msgid "Google map"
+msgstr "Google-Karte"
+
+msgid "Google map route"
+msgstr "Google-Karte Route"
+
+msgid "Google maps api key"
+msgstr "Google Maps API-Schlüssel"
+
+msgid "Group %group"
+msgstr "Gruppe %group"
+
+msgid "HTML editor for adding markup text to your page."
+msgstr "Ein HTML-Editor zum Hinzufügen von Markup-Text zur Seite."
+
+msgid "HTML text"
+msgstr "HTML-Text"
+
+msgid "Header to be shown above the map"
+msgstr "Kopfzeile, die über der Karte angezeigt wird"
+
+msgid "Heading"
+msgstr "Überschrift"
+
+msgid "Heading type"
+msgstr "Art der Überschrift"
+
+msgid "Height of the displayed map"
+msgstr "Höhe der angezeigten Karte"
+
+msgid "Here you can choose a custom creation date."
+msgstr "Hier kann ein abweichendes Erstellungsdatum ausgewählt werden."
+
+msgid "Here you can choose a user which will be set as creator."
+msgstr ""
+"Hier kann ein Benutzer ausgewählt werden, der als Ersteller verwendet wird."
+
+msgid "Here you can choose a user which will be used as author."
+msgstr ""
+"Hier kann ein Benutzer ausgewählt werden, der als Autor verwendet wird."
+
+msgid "Here you can configure parameters for list views."
+msgstr "Hier können Parameter für Listenansichten eingestellt werden."
+
+msgid "Here you can inspect and amend the existing workflows."
+msgstr "Hier können die bestehenden Workflows angeschaut und verändert werden."
+
+msgid "Here you can manage all basic settings for this application."
+msgstr ""
+"Hier können alle Grundeinstellungen für diese Anwendung verwaltet werden."
+
+msgid "Hide them"
+msgstr "Verstecke sie"
+
+msgid "Hierarchy view"
+msgstr "Hierarchieansicht"
+
+msgid "History"
+msgstr "Historie"
+
+msgid "Hybrid"
+msgstr "Hybrid"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "ID of content item to display"
+msgstr "ID des anzuzeigenden Inhaltselementes"
+
+msgid "ID of page"
+msgstr "ID der Seite"
+
+msgid ""
+"If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter "
+"your code with them instead of the native filter. There is no need to hook "
+"these modules to Content for this functionality."
+msgstr ""
+"Falls ZikulaBBCodeModule oder PhaidonLuMicuLaModule verfügbar sind, kann der "
+"Code mit ihnen statt des nativen Filters gefiltert werden. Diese Module "
+"müssen für diese Funktionalität nicht in Content eingehakt werden."
+
+msgid ""
+"If this setting is enabled the text field above will be ignored and iframe "
+"parameters will be used."
+msgstr ""
+"Wenn diese Einstellung aktiviert ist, wird das obige Textfeld ignoriert und "
+"statt dessen werden die Iframe Parameter verwendet."
+
+msgid ""
+"If this setting is enabled the text field above will be ignored and the page "
+"title will be displayed instead."
+msgstr ""
+"Wenn diese Einstellung aktiviert ist, wird das obige Textfeld ignoriert und "
+"statt dessen wird der Seitentitel angezeigt."
+
+msgid ""
+"If you change this please save the block once to reload the parameters below."
+msgstr ""
+"Wenn das geändert wird, bitte den Block einmal speichern, um die Parameter "
+"unten neu zu laden."
+
+msgid ""
+"If you need an additional string for each page you can enable an optional "
+"field."
+msgstr ""
+"Falls eine zusätzliche Zeichenkette für jede Seite benötigt wird, kann ein "
+"optionales Feld aktiviert werden."
+
+msgid ""
+"If you need an additional text for each page you can enable an optional "
+"field."
+msgstr ""
+"Falls ein zusätzlicher Text für jede Seite benötigt wird, kann ein "
+"optionales Feld aktiviert werden."
+
+msgid ""
+"If you want to use Google maps you need an API key for it. You should enable "
+"both \"Maps JavaScript API\" and \"Maps Static API\"."
+msgstr ""
+"Zur Verwendung von Google Maps wird ein API-Schlüssel benötigt. Es sollten "
+"sowohl die \"Maps JavaScript API\" als auch \"Maps Static API\" aktiviert "
+"werden."
+
+msgid "In menu"
+msgstr "Im Menü"
+
+msgid "Include feed text in addition to the title"
+msgstr "Feed-Text zusätzlich zum Titel einbinden"
+
+msgid "Include heading items on pages"
+msgstr "Zwischenüberschriften aufnehmen"
+
+msgid "Include heading items up to page level"
+msgstr "Überschriften aufnehmen bis zu Seitenebene"
+
+msgid "Include home as first breadcrumb"
+msgstr "Startseite als ersten Breadcrumb aufnehmen"
+
+msgid "Include self as last breadcrumb"
+msgstr "Aktuelle Seite als letzten Breadcrumb aufnehmen"
+
+msgid "Include self into the table of contents"
+msgstr "Aktuelle Seite ins Inhaltsverzeichnis aufnehmen"
+
+msgid "Include subpages"
+msgstr "Unterseiten aufnehmen"
+
+msgid "Include subpages into table up to level"
+msgstr "Unterseiten im Inhaltsverzeichnis aufnehmen bis zu Ebene"
+
+msgid "Include subpages that are not in the menus"
+msgstr "Unterseiten einbeziehen, die nicht in Menüs sind"
+
+msgid "Include the following page"
+msgstr "Die folgende Seite aufnehmen"
+
+msgid "Include the following subpages"
+msgstr "Folgende Unterseiten aufnehmen"
+
+msgid "Inherit permissions"
+msgstr "Zugriffsrechte vererben"
+
+msgid "Initial"
+msgstr "Anfänglich"
+
+msgid "Integration"
+msgstr "Integration"
+
+msgid "Internal anchor link name"
+msgstr "Name für internen Anker-Link"
+
+msgid ""
+"Internal named links for the tabs, semicolon separated and no spaces, e.g. "
+"\"news;calendar\"."
+msgstr ""
+"Intern benannte Links für die Reiter, getrennt durch Semikoli ohne "
+"Leerzeichen, z. B. \"news;calendar\"."
+
+msgid "Invalid action received."
+msgstr "Ungültige Aktion erhalten."
+
+msgid "Invalid content type received."
+msgstr "Ungültigen Inhaltstyp erhalten."
+
+msgid "Invalid input received."
+msgstr "Ungültige Eingabe erhalten."
+
+msgid "Invalid object type received."
+msgstr "Ungültigen Objekttyp erhalten."
+
+msgid "Invalid user identifier received."
+msgstr "Ungültigen Benutzer Identifier erhalten."
+
+msgid "Last update"
+msgstr "Letzte Änderung"
+
+msgid "Latitude"
+msgstr "Breitengrad"
+
+msgid "Layout"
+msgstr "Layout"
+
+msgid "Leaflet map"
+msgstr "Leaflet-Karte"
+
+msgid "Leave empty for no internal anchor link."
+msgstr "Leer lassen für keinen internen Anker-Link."
+
+msgid "Link names"
+msgstr "Link-Namen"
+
+msgid "Link own pages on account page"
+msgstr "Eigene Seiten im Benutzerkonto verlinken"
+
+msgid "List of content items"
+msgstr "Liste der Inhaltselemente"
+
+msgid "List views"
+msgstr "Listenansichten"
+
+msgid "Longitude"
+msgstr "Längengrad"
+
+msgid "Manage content"
+msgstr "Inhalt verwalten"
+
+msgid "Manage content elements of page"
+msgstr "Inhaltselemente der Seite verwalten"
+
+msgid "Manage settings for this application"
+msgstr "Einstellungen für diese Anwendung verwalten"
+
+msgid "Map type"
+msgstr "Kartentyp"
+
+msgid "Max. no. of items to display"
+msgstr "Max. Anzahl der anzuzeigenden Einträge"
+
+msgid ""
+"Maximum number of pages-in-pages reached! You probably included this page in "
+"itself."
+msgstr ""
+"Maximale Anzahl der Seiten-in-Seiten erreicht! Möglicherweise wurde diese "
+"Seite in sich selbst eingebunden und dadurch eine Endlosschleife erzeugt."
+
+msgid "Meta description"
+msgstr "Meta-Beschreibung"
+
+msgid "Moderation"
+msgstr "Moderation"
+
+msgid "Module %module is not available."
+msgstr "Das Modul %module ist nicht verfügbar."
+
+msgid "My pages"
+msgstr "Meine Seiten"
+
+msgid "MyModuleName:Controller:method"
+msgstr "MeinModulname:Controller:methode"
+
+msgid "Name of the source"
+msgstr "Quellenangabe"
+
+msgid "Navbar"
+msgstr "Navbar"
+
+msgid "Navigation type"
+msgstr "Art der Navigation"
+
+msgid "Needs to be located in the \"External/YourEntity/\" directory."
+msgstr "Muss sich in dem Verzeichnis \"External/YourEntity/\" befinden."
+
+msgid "New child node"
+msgstr "Neuer Kindknoten"
+
+msgid "New pages will be active and available in the menu"
+msgstr "Neue Seiten sind aktiv und verfügbar im Menü"
+
+msgid "New pages will be active and not available in the menu"
+msgstr "Neue Seiten sind aktiv und nicht verfügbar im Menü"
+
+msgid "New pages will be inactive and available in the menu"
+msgstr "Neue Seiten sind inaktiv und verfügbar im Menü"
+
+msgid "New pages will be inactive and not available in the menu"
+msgstr "Neue Seiten sind inaktiv und nicht verfügbar im Menü"
+
+msgid "New root node"
+msgstr "Neuer Wurzelknoten"
+
+msgid "Newest"
+msgstr "Neueste"
+
+msgid "No"
+msgstr "Nein"
+
+msgid "No pages found."
+msgstr "Keine Seiten gefunden."
+
+msgid "No such content found."
+msgstr "Keinen solchen Inhalt gefunden."
+
+msgid "No such item found."
+msgstr "Keinen solchen Eintrag gefunden."
+
+msgid "No such item."
+msgstr "Keinen solchen Eintrag gefunden."
+
+msgid "No such page found."
+msgstr "Keine solche Seite gefunden."
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Note: this value must not exceed %amount% characters."
+msgstr "Hinweis: Dieser Wert darf %amount% Zeichen nicht überschreiten."
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Object type"
+msgstr "Objekttyp"
+
+msgid "One field updated|%amount% fields updated"
+msgstr "Ein Feld geändert|%amount% Felder geändert"
+
+msgid "Only ajax access is allowed!"
+msgstr "Nur Ajax-Zugriff ist erlaubt!"
+
+msgid "Only digits are allowed."
+msgstr "Nur Ziffern sind erlaubt."
+
+msgid "Only item titles"
+msgstr "Nur Titel der Einträge"
+
+msgid "Only logged in members"
+msgstr "Nur angemeldete Mitglieder"
+
+msgid "Only not logged in people"
+msgstr "Nur unangemeldete Besucher"
+
+msgid "Open preview page"
+msgstr "Vorschauseite öffnen"
+
+msgid "Operation"
+msgstr "Vorgang"
+
+msgid "Operation cancelled."
+msgstr "Vorgang abgebrochen."
+
+msgid "Optional string 1"
+msgstr "Optionale Zeichenkette 1"
+
+msgid "Optional string 2"
+msgstr "Optionale Zeichenkette 2"
+
+msgid "Optional text"
+msgstr "Optionaler Text"
+
+msgid "Page"
+msgstr "Seite"
+
+msgid "Page %id%"
+msgstr "Seite %id%"
+
+msgid "Page change history for %entityTitle%"
+msgstr "Seiten-Änderungshistorie für %entityTitle%"
+
+msgid "Page entries per page"
+msgstr "Anzahl der Seiten je Seite"
+
+msgid "Page filter hooks subscriber"
+msgstr "Seite Filter-Hooks Abonnent"
+
+msgid "Page form aware subscriber"
+msgstr "Seite Form-Aware Abonnent"
+
+msgid "Page hierarchy"
+msgstr "Seitenhierarchie"
+
+msgid "Page navigation"
+msgstr "Seitennavigation"
+
+msgid "Page size"
+msgstr "Seitengröße"
+
+msgid "Page ui hooks subscriber"
+msgstr "Seite UI-Hooks Abonnent"
+
+msgid ""
+"Page views are only counted when the user has no edit access. Enable if you "
+"want to use the block showing most viewed pages."
+msgstr ""
+"Seitenaufrufe werden nur gezählt, wenn der Benutzer keine Bearbeitungsrechte "
+"hat. Aktivieren, wenn der Block mit den am meisten angeschauten Seiten "
+"angezeigt werden soll."
+
+msgid "Pages"
+msgstr "Seiten"
+
+msgid "Pages list"
+msgstr "Seitenliste"
+
+msgid "Parent page"
+msgstr "Übergeordnete Seite"
+
+msgid "Paste as"
+msgstr "Einfügen als"
+
+msgid "Permalink"
+msgstr "Permalink"
+
+msgid "Pills"
+msgstr "Pills"
+
+msgid "Predecessors"
+msgstr "Vorgänger"
+
+msgid "Preview"
+msgstr "Vorschau"
+
+msgid "Preview block content"
+msgstr "Vorschau für Blockinhalt"
+
+msgid "Preview controller content"
+msgstr "Vorschau für Controllerinhalt"
+
+msgid "Preview page %id%"
+msgstr "Vorschau für Seite %id%"
+
+msgid "Preview version %version%"
+msgstr "Vorschau für Version %version%"
+
+msgid "Public (all)"
+msgstr "Öffentlich (alle)"
+
+msgid "Quick navigation"
+msgstr "Schnellnavigation"
+
+msgid "Quick search"
+msgstr "Schnellsuche"
+
+msgid "Quote"
+msgstr "Zitat"
+
+msgid "Quote text"
+msgstr "Zitierter Text"
+
+msgid "Random"
+msgstr "Zufällig"
+
+msgid "Read more"
+msgstr "Weiterlesen"
+
+msgid "Recover"
+msgstr "Wiederherstellen"
+
+msgid "Reference and display an already existing content item."
+msgstr "Ein bereits existierendes Inhaltselement referenzieren und anzeigen."
+
+msgid "Refresh time"
+msgstr "Aktualisierungsintervall"
+
+msgid "Related pages"
+msgstr "Verbundene Seiten"
+
+msgid "Relative link to the page"
+msgstr "Relativer Link zur Seite"
+
+msgid "Relatives"
+msgstr "Verwandte"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+msgid "Reset to empty value"
+msgstr "Auf leeren Wert zurücksetzen"
+
+msgid "Revert to version %version%"
+msgstr "Zurücksetzen auf Version %version%"
+
+msgid "Roadmap"
+msgstr "Fahrplan"
+
+msgid "Satellite"
+msgstr "Satellit"
+
+msgid "Scope"
+msgstr "Sichtbarkeit"
+
+msgid "Search"
+msgstr "Suchen"
+
+msgid "Search and select page"
+msgstr "Eine Seite suchen und auswählen"
+
+msgid "Search for"
+msgstr "Suche nach"
+
+msgid "Searchable filter hooks subscriber"
+msgstr "Suchsubjekt Filter-Hooks Abonnent"
+
+msgid "Searchables"
+msgstr "Suchsubjekte"
+
+msgid "Section heading (or page title) for structuring large amounts of text."
+msgstr ""
+"Bereichsüberschrift (oder Seitentitel) zur Strukturierung längerer Texte."
+
+msgid ""
+"See https://leaflet-extras.github.io/leaflet-providers/preview/ for examples."
+msgstr ""
+"Siehe https://leaflet-extras.github.io/leaflet-providers/preview/ für "
+"Beispiele."
+
+msgid "Select"
+msgstr "Auswählen"
+
+msgid "Send private message to %userName%"
+msgstr "Schicke eine private Nachricht an %userName%"
+
+msgid "Separate with &, for example:"
+msgstr "Mit & trennen, zum Beispiel:"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Show all entries"
+msgstr "Alle Einträge anzeigen"
+
+msgid "Show also entries from other users"
+msgstr "Auch Einträge von anderen Benutzern anzeigen"
+
+msgid "Show breadcrumbs for hierarchical pages."
+msgstr "Breadcrumbs für hierarchische Seiten anzeigen."
+
+msgid "Show only own entries"
+msgstr "Nur eigene Einträge anzeigen"
+
+msgid "Show related videos"
+msgstr "Verbundene Videos anzeigen"
+
+msgid "Show title"
+msgstr "Titel anzeigen"
+
+msgid "Show video in modal window"
+msgstr "Video in einem modalen Fenster anzeigen"
+
+msgid "Show video inline"
+msgstr "Video eingebettet anzeigen"
+
+msgid "Shows a complete list of pages with complete content"
+msgstr "Zeigt eine komplette Liste von Seiten mit komplettem Inhalt"
+
+msgid "Shows a simple list of pages"
+msgstr "Zeigt eine einfache Liste von Seiten"
+
+msgid "Shows all items except these which are approved"
+msgstr "Zeige alle Einträge außer den freigegebenen"
+
+msgid "Shows all items except these which are trashed"
+msgstr "Zeige alle Einträge außer den weggeworfenen"
+
+msgid "Shows an extended list of pages with first content elements"
+msgstr "Zeigt eine erweiterte Liste von Seiten mit ersten Inhaltselementen"
+
+msgid "Shows content grouped by categories"
+msgstr "Zeigt Inhalte gruppiert nach Kategorien"
+
+msgid "Shows the pages table"
+msgstr "Zeigt die Seitentabelle"
+
+msgid "Shows the pages tree"
+msgstr "Zeigt den Seitenbaum"
+
+msgid "Siblings"
+msgstr "Geschwister"
+
+msgid "Simple list"
+msgstr "Einfache Liste"
+
+msgid "Single content item"
+msgstr "Einzelne Inhaltsseite"
+
+msgid "Sitemap"
+msgstr "Sitemap"
+
+msgid "Skip hook subscribers"
+msgstr "Hook-Abonnenten überspringen"
+
+msgid "Slide description"
+msgstr "Beschreibung der Präsentation"
+
+msgid "Slideshare"
+msgstr "Slideshare"
+
+msgid "Slideshare's embedded player height"
+msgstr "Slideshare eingebetteter Player Höhe"
+
+msgid "Slideshare's embedded player width"
+msgstr "Slideshare eingebetteter Player Breite"
+
+msgid "Something like \"https://vimeo.com/7504225\"."
+msgstr "So etwas wie \"https://vimeo.com/7504225\"."
+
+msgid "Something like \"https://www.slideshare.net/1Marc/jquery-essentials\"."
+msgstr "So etwas wie \"https://www.slideshare.net/1Marc/jquery-essentials\"."
+
+msgid "Something like \"https://www.youtube.com/watch?v=LIwJ0gCPLsg\"."
+msgstr "So etwas wie \"https://www.youtube.com/watch?v=LIwJ0gCPLsg\"."
+
+msgid "Sorry, but an error occured during the %action% action."
+msgstr ""
+"Entschuldigung, aber während der Aktion %action% ist ein Fehler aufgetreten."
+
+msgid ""
+"Sorry, but an error occured during the %action% action. Please apply the "
+"changes again!"
+msgstr ""
+"Entschuldigung, aber während der Aktion %action% ist ein Fehler aufgetreten. "
+"Bitte die Änderungen noch einmal anwenden!"
+
+msgid ""
+"Sorry, but someone else has already changed this record. Please apply the "
+"changes again!"
+msgstr ""
+"Entschuldigung, aber jemand anderes hat diesen Eintrag bereits verändert. "
+"Bitte die Änderungen noch einmal anwenden!"
+
+msgid ""
+"Sorry, but you can not create the page yet as other items are required which "
+"must be created before!"
+msgstr ""
+"Entschuldigung, aber die Seite kann noch nicht erstellt werden, da andere "
+"Einträge benötigt werden, die zuvor erstellt werden müssen!"
+
+msgid "Sort by"
+msgstr "Sortieren nach"
+
+msgid "Sort by %s"
+msgstr "Sortieren nach %s"
+
+msgid "Sort direction"
+msgstr "Sortierrichtung"
+
+msgid "Sorting"
+msgstr "Sortierung"
+
+msgid "Source"
+msgstr "Quelle"
+
+msgid "Stacked pills"
+msgstr "Gestapelte Pills"
+
+msgid "State"
+msgstr "Zustand"
+
+msgid "State of new pages"
+msgstr "Zustand von neuen Seiten"
+
+msgid "Styling classes"
+msgstr "CSS-Klassen"
+
+msgid "Sub pages handling"
+msgstr "Behandlung von Unterseiten"
+
+msgid "Sub pages of current page"
+msgstr "Unterseiten der aktuellen Seite"
+
+msgid "Submit"
+msgstr "Absenden"
+
+msgid "Submit and repeat"
+msgstr "Absenden und wiederholen"
+
+msgid "Successors"
+msgstr "Nachfolger"
+
+msgid "Switch to administration area."
+msgstr "Zum Verwaltungsbereich wechseln."
+
+msgid "Switch to hierarchy view"
+msgstr "Zur Hierarchieansicht wechseln"
+
+msgid "Switch to table view"
+msgstr "Zur Tabellenansicht wechseln"
+
+msgid "Switch to user area."
+msgstr "Zum Benutzerbereich wechseln."
+
+msgid "Tab navigation"
+msgstr "Reiter-Navigation"
+
+msgid "Tab navigation with existing Content items."
+msgstr "Reiter-Navigation mit existierenden Inhaltselementen."
+
+msgid "Tab titles"
+msgstr "Titel der Reiter"
+
+msgid "Table of contents"
+msgstr "Inhaltsverzeichnis"
+
+msgid "Tabs"
+msgstr "Schriftart Reiter (Tabs)"
+
+msgid "Tabular view"
+msgstr "Tabellarische Ansicht"
+
+msgid "Template"
+msgstr "Vorlage"
+
+msgid "Terrain"
+msgstr "Gelände"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Text to be shown below the map"
+msgstr "Beschreibung, die unter der Karte angezeigt wird"
+
+msgid "Text to be shown in the popup window of the marker"
+msgstr "Text, der im Popup-Fenster des Markers angezeigt wird"
+
+msgid "The amount of pages shown per page"
+msgstr "Die Anzahl von je Seite angezeigten Seiten"
+
+msgid "The count page views option"
+msgstr "Die Option zum Zählen von Seitenaufrufen"
+
+msgid "The enable optional string 1 option"
+msgstr "Die Option zum Aktivieren der optionalen Zeichenkette 1"
+
+msgid "The enable optional string 2 option"
+msgstr "Die Option zum Aktivieren der optionalen Zeichenkette 2"
+
+msgid "The enable optional text option"
+msgstr "Die Option zum Aktivieren des optionalen Textes"
+
+msgid "The enable raw plugin option"
+msgstr "Die Option zum Aktivieren des Plugins für ungefilterten Rohtext"
+
+msgid "The filter data by locale option"
+msgstr "Die Option zum Filtern von Daten durch die Sprachumgebung"
+
+msgid "The inherit permissions option"
+msgstr "Die Option zum Vererben von Zugriffsrechten"
+
+msgid "The link own pages on account page option"
+msgstr "Die Option zur Verlinkung eigener Seiten im Benutzerkonto"
+
+msgid "The maximum amount of items to be shown."
+msgstr "Die maximale Anzahl von Elementen, die angezeigt werden."
+
+msgid "The operation was successful."
+msgstr "Der Vorgang war erfolgreich."
+
+msgid "The setting has been successfully changed."
+msgstr "Die Einstellung wurde erfolgreich geändert."
+
+msgid "The show only own entries option"
+msgstr "Option zum ausschließlichen Anzeigen von eigenen Einträgen"
+
+msgid "The target address"
+msgstr "Die Zieladresse"
+
+msgid "The value \"%value%\" is not allowed for the \"%property%\" property."
+msgstr ""
+"Der Wert \"%value%\" ist für die Eigenschaft \"%property%\" nicht zulässig."
+
+msgid "These options allow you to configure integration aspects."
+msgstr "Diese Optionen erlauben das Einstellen von Integrationsaspekten."
+
+msgid "This is a new child node"
+msgstr "Dies ist ein neuer Kindknoten"
+
+msgid "This is a new root node"
+msgstr "Dies ist ein neuer Wurzelknoten"
+
+msgid "This is an optional filter."
+msgstr "Dies ist ein optionaler Filter."
+
+msgid "This setting is disabled. Click here to enable it."
+msgstr "Diese Einstellung ist deaktiviert. Klicke hier um sie zu aktivieren."
+
+msgid "This setting is enabled. Click here to disable it."
+msgstr "Diese Einstellung ist aktiviert. Klicke hier um sie zu deaktivieren."
+
+msgid "Title"
+msgstr "Titel"
+
+msgid ""
+"Titles for the tabs, semicolon separated, e.g. \"Recent News;Calender\"."
+msgstr ""
+"Titel für die Reiter, getrennt durch Semikoli, z. B. \"Letzte Neuigkeiten;"
+"Kalender\"."
+
+msgid "Trash"
+msgstr "Wegwerfen"
+
+msgid "Trashed"
+msgstr "Weggeworfen"
+
+msgid "Tree button toolbar"
+msgstr "Tree Button-Toolbar"
+
+msgid "URL of RSS or Atom feed"
+msgstr "URL des RSS- oder Atom-Feeds"
+
+msgid "URL of tile layer to use"
+msgstr "URL des zu verwendenden Tile Layers"
+
+msgid "URL to the slide"
+msgstr "URL zur Präsentation"
+
+msgid "URL to the video clip"
+msgstr "URL zum Video-Clip"
+
+msgid "Undelete page %id%"
+msgstr "Wiederherstellen der Seite %id%"
+
+msgid "Unfiltered raw text"
+msgstr "Ungefilterter Rohtext"
+
+msgid "Unfiltered text"
+msgstr "Ungefilterter Text"
+
+msgid "Unknown author"
+msgstr "Unbekannter Autor"
+
+msgid "Update"
+msgstr "Aktualisieren"
+
+msgid "Update configuration"
+msgstr "Einstellungen aktualisieren"
+
+msgid "Update date"
+msgstr "Änderungsdatum"
+
+msgid "Updated"
+msgstr "Geändert"
+
+msgid "Updated by %user"
+msgstr "Geändert von %user"
+
+msgid "Updated by %user on %date"
+msgstr "Geändert von %user am %date"
+
+msgid "Updated on %date"
+msgstr "Geändert am %date"
+
+msgid "Updater"
+msgstr "Änderer"
+
+msgid "Use BBCode filter"
+msgstr "BBCode-Filter verwenden"
+
+msgid "Use LuMicuLa filter"
+msgstr "LuMicuLa-Filter verwenden"
+
+msgid "Use an iframe instead of the text field"
+msgstr "Ein Iframe statt eines Textfeldes verwenden"
+
+msgid "Use dropdowns"
+msgstr "Dropdowns verwenden"
+
+msgid "Use native filter"
+msgstr "Nativen Filter verwenden"
+
+msgid "Use only pages activated for the menu"
+msgstr "Nur für das Menü aktivierte Seiten verwenden"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "Various information about the author of the page."
+msgstr "Verschiedene Informationen über den Autor dieser Seite."
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Version %version%"
+msgstr "Version %version%"
+
+msgid "Version data"
+msgstr "Versionsdaten"
+
+msgid "Video description"
+msgstr "Videobeschreibung"
+
+msgid "View deleted pages"
+msgstr "Gelöschte Seiten anschauen"
+
+msgid "View detail page"
+msgstr "Detailseite anschauen"
+
+msgid "Views"
+msgstr "Aufrufe"
+
+msgid "Vimeo video"
+msgstr "Vimeo-Video"
+
+msgid "Watch version history"
+msgstr "Versionshistorie anschauen"
+
+msgid "Welcome to the content item section of the Content application."
+msgstr "Willkommen zum Bereich der Inhaltselemente der Content-Anwendung."
+
+msgid "Welcome to the page section of the Content application."
+msgstr "Willkommen zum Seitenbereich der Content-Anwendung."
+
+msgid "Welcome to the searchable section of the Content application."
+msgstr "Willkommen zum Bereich der Suchsubjekte der Content-Anwendung."
+
+msgid ""
+"Whether automatically filter data in the frontend based on the current "
+"locale or not"
+msgstr ""
+"Ob die Daten im Frontend automatisch basierend auf der aktuellen "
+"Sprachumgebung gefiltert werden sollen oder nicht"
+
+msgid ""
+"Whether only own entries should be shown on view pages by default or not"
+msgstr ""
+"Ob per Standard nur eigene Einträge auf Listenseiten angezeigt werden sollen "
+"oder nicht"
+
+msgid "Whether to add a link to pages of the current user on his account page"
+msgstr ""
+"Ob ein Link zu den Seiten des aktuellen Nutzers auf seiner Benutzerseite "
+"hinzugefügt werden soll"
+
+msgid ""
+"Whether to enable the unfiltered raw text plugin. Use this plugin with "
+"caution and if you can trust your editors, since no filtering is being done "
+"on the content. To be used for iframes, JavaScript blocks, etc."
+msgstr ""
+"Ob das Plugin für ungefilterten Rohtext aktiviert werden soll. Dieses Plugin "
+"ist mit Vorsicht und nur in Verbindung mit vertrauenswürdigen Redakteuren zu "
+"verwenden, da der Inhalt nicht gefiltert wird. Kann für iframes, JavaScript-"
+"Blöcke, etc. benutzt werden."
+
+msgid "Whether to inherit permissions from parent to child pages or not."
+msgstr ""
+"Ob die Zugriffsrechte von Elternseiten zu Unterseiten vererbt werden sollen "
+"oder nicht."
+
+msgid ""
+"Which sections are supported in the Finder component (used by Scribite plug-"
+"ins)."
+msgstr ""
+"Weche Sektionen in der Finder-Komponente genutzt werden sollen (genutzt "
+"durch Scribite Plugins)."
+
+msgid "With description"
+msgstr "Mit Beschreibung"
+
+msgid "With selected pages"
+msgstr "Die ausgewählten Seiten"
+
+msgid "Workflows"
+msgstr "Arbeitsabläufe"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "Yes, limited"
+msgstr "Ja, limitiert"
+
+msgid "Yes, unlimited"
+msgstr "Ja, unlimitiert"
+
+msgid ""
+"You can input a custom permalink for the page or let this field free to "
+"create one automatically."
+msgstr ""
+"Es kann entweder ein individueller Permalink für die Seite eingegeben oder "
+"dieses Feld freigelassen werden, um automatisch einen zu erstellen."
+
+msgid ""
+"You need to explicitly enable a checkbox in the configuration form to "
+"activate this plugin."
+msgstr ""
+"Um dieses Plugin zu aktivieren, muß eine Checkbox in den Grundeinstellungen "
+"explizit aktiviert werden."
+
+msgid ""
+"You need to specify a Google Maps API key in the configuration form in order "
+"to activate this plugin."
+msgstr ""
+"Um dieses Plugin zu aktivieren, muß ein Google Maps API-Schlüssel in den "
+"Grundeinstellungen angegeben werden."
+
+msgid "YouTube video"
+msgstr "YouTube-Video"
+
+msgid "ZikulaContentModule items"
+msgstr "ZikulaContentModule Einträge"
+
+msgid "ZikulaContentModule menu"
+msgstr "ZikulaContentModule Menü"
+
+msgid "ZikulaContentModule subpages"
+msgstr "ZikulaContentModule Unterseiten"
+
+msgid "Zoom level"
+msgstr "Zoomstufe"
+
+msgid "active ?"
+msgstr "aktiv ?"
+
+msgid "an empty collection"
+msgstr "eine leere Liste"
+
+msgid "an empty value"
+msgstr "ein leerer Wert"
+
+msgid "hours"
+msgstr "Stunden"
+
+msgid ""
+"if heading items are included and not unlimited; select 0 to include the "
+"headings only for the selected page"
+msgstr ""
+"wenn Überschriften eingebunden und nicht limitiert sind; 0 auswählen, um die "
+"Überschriften nur für die ausgewählte Seite einzubinden"
+
+msgid "if page isn't 'All pages'"
+msgstr "wenn Seite nicht 'Alle Seiten'"
+
+msgid "if subpages are included and not unlimited"
+msgstr "wenn Unterseiten eingebunden und nicht limitiert sind"
+
+msgid "iframe border"
+msgstr "iframe Rahmen"
+
+msgid "iframe height"
+msgstr "iframe Höhe"
+
+msgid "iframe name parameter"
+msgstr "ifrage Name Parameter"
+
+msgid "iframe scrolling"
+msgstr "iframe Scrolling"
+
+msgid "iframe src"
+msgstr "iframe Quelle"
+
+msgid "iframe style"
+msgstr "iframe Style"
+
+msgid "iframe title parameter"
+msgstr "iframe Titel Parameter"
+
+msgid "iframe width"
+msgstr "iframe Breite"
+
+msgid "in menu ?"
+msgstr "im Menü ?"
+
+msgid "inactive"
+msgstr "inaktiv"
+
+msgid "latest"
+msgstr "neueste"
+
+msgid "no title defined"
+msgstr "kein Titel definiert"
+
+msgid "only %group"
+msgstr "nur %group"
+
+msgid "only logged in members"
+msgstr "nur angemeldete Mitglieder"
+
+msgid "only not logged in people"
+msgstr "nur unangemeldete Besucher"
+
+msgid "pixels"
+msgstr "Pixel"
+
+msgid "show title ?"
+msgstr "Titel zeigen ?"
+
+msgid "skip hook subscribers ?"
+msgstr "Hook-Abonnenten überspringen ?"
+
+msgid "specific group"
+msgstr "spezifische Gruppe"
+
+msgid "the scrolling parameter of the iframe, e.g. \"no\""
+msgstr "der Scrolling Parameter des iframes, z.B. \"no\""
+
+msgid "the src parameter of the iframe"
+msgstr "der Quellparameter des iframes"
+
+msgid "the style parameter of the iframe, e.g. \"border:0\""
+msgstr "die Style Parameter des iframes, z.B. \"border:0\""
+
+msgid "version"
+msgstr "Version"
+
+#~ msgid "All pages."
+#~ msgstr "Alle Seiten."

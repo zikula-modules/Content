@@ -49,7 +49,7 @@ class LeafletMapType extends AbstractContentType
      */
     public function getDescription()
     {
-        return $this->__('Display Leaflet map position.');
+        return $this->__('Display a Leaflet map position.');
     }
 
     /**

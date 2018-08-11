@@ -642,7 +642,7 @@ function contentPageGetWidgetMarkup(nodeId, title, panelClass) {
 function contentPageGetWidgetPanelMarkup(nodeId, title) {
     var widgetActions = contentPageGetWidgetActions(nodeId);
     var widgetTitle = '<h3 class="panel-title">' + widgetActions + '<span class="title">' + title + '</span></h3>';
-    var widgetContent = '<p>content here</p>';
+    var widgetContent = '<p></p>';
     widgetContent += '<p><small class="width-note" style="background-color: #ffe"></small></p>';
 
     return '<div class="panel-heading">' + widgetTitle + '</div><div class="panel-body">' + widgetContent + '</div>';

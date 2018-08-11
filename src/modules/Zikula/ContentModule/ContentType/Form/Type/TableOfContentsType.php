@@ -73,7 +73,7 @@ class TableOfContentsType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'use_joins' => false,
-                'placeholder' => $this->__('All pages.'),
+                'placeholder' => $this->__('All pages'),
                 'required' => false,
                 'label' => $this->__('Page'),
                 'attr' => [
@@ -82,7 +82,7 @@ class TableOfContentsType extends AbstractType
             ])
             ->add('includeSelf', CheckboxType::class, [
                 'label' => $this->__('Include self into the table of contents') . ':',
-                'help' => $this->__('if page isn\'t \'All pages\')'),
+                'help' => $this->__('if page isn\'t \'All pages\''),
                 'required' => false
             ])
             ->add('includeNotInMenu', CheckboxType::class, [
