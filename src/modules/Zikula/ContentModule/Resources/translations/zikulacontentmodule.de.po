@@ -1394,7 +1394,7 @@ msgid "Table of contents"
 msgstr "Inhaltsverzeichnis"
 
 msgid "Tabs"
-msgstr "Schriftart Reiter (Tabs)"
+msgstr "Tabs"
 
 msgid "Tabular view"
 msgstr "Tabellarische Ansicht"

@@ -163,6 +163,7 @@ services:
     Zikula\ContentModule\ContentType\TabNavigationType:
         parent: zikula_content_module.content_type.common
         arguments:
+            - '@request_stack'
             - '@zikula_content_module.entity_factory'
             - '@zikula_content_module.content_display_helper'
         tags: ['zikula.content_type']

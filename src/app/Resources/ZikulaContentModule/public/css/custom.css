@@ -86,7 +86,7 @@ div.greenimportantbox {
     overflow: auto;
     border: 1px solid #333;
     padding: 15px;
-    margin: 10px 0;
+    margin-bottom: 30px;
 }
 .zikulacontentmodule-managecontent .content-computercode {
     border: none;
@@ -113,4 +113,8 @@ div.greenimportantbox {
 }
 .content-quote p.source {
     text-align: right !important;
+}
+
+.zikula-content-module-tab-navigation-type .tab-pane div {
+    border: none;
 }
