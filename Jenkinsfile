@@ -94,8 +94,8 @@ pipeline {
                 sh 'rm -rf releaseWork/app'
 
 
-                sh 'cd releaseWork && zip -D -r release/Content.zip . && cd ..'
-                sh 'cd releaseWork && tar cfvz release/Content.tar.gz . && cd ..'
+                sh 'cd releaseWork && zip -D -r ../release/Content.zip . && cd ..'
+                sh 'cd releaseWork && tar cfvz ../release/Content.tar.gz . && cd ..'
 
                 archiveArtifacts([
                     artifacts: 'release/**',
