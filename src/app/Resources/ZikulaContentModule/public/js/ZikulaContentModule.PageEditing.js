@@ -804,7 +804,15 @@ function contentPageLoad() {
  * Sorts widget for serialisation.
  */
 function contentPageSortWidgetsForSave(nodes) {
-    return _.sortBy(nodes, ['y', 'x']);
+    return nodes.sort(function (a, b) {
+        var aNode = jQuery(a).data(nodeDataAttribute);
+        var bNode = jQuery(b).data(nodeDataAttribute);
+        if (aNode.y != bNode.y) {
+            return ((aNode.y < bNode.y) ? -1 : ((aNode.y > bNode.y) ? 1 : 0));
+        }
+
+        return ((aNode.x < bNode.x) ? -1 : ((aNode.x > bNode.x) ? 1 : 0));
+    });
 }
 
 /**

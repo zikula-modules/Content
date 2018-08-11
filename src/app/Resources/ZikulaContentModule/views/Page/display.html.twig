@@ -37,41 +37,30 @@
                     {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
                 </div>
             {% endif %}
-    {# enable if needed
-    <dl>
-        {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) and page.optionalString1 is not empty %}
-            <dt>{{ __('Optional string 1') }}</dt>
-            <dd>{{ page.optionalString1 }}</dd>
-        {% endif %}
-        {% if getModVar('ZikulaContentModule', 'enableOptionalString2', false) and page.optionalString2 is not empty %}
-            <dt>{{ __('Optional string 2') }}</dt>
-            <dd>{{ page.optionalString2 }}</dd>
-        {% endif %}
-        {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) and page.optionalText is not empty %}
-            <dt>{{ __('Optional text') }}</dt>
-            <dd>{{ page.optionalText|safeHtml }}</dd>
-        {% endif %}
-        {% if page.views is not empty %}
-            <dt>{{ __('Views') }}</dt>
-            <dd>{{ page.views }}</dd>
-        {% endif %}
-    </dl>
-    #}
-    {{ block('content_elements') }}
-    {% if routeArea == 'admin' and featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
-        {{ include('@ZikulaContentModule/Helper/includeCategoriesDisplay.html.twig', {obj: page}) }}
-    {% endif %}
-    {# enable if needed
-    {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
-        <h3 class="relatives">{{ __('Relatives') }}</h3>
-            {{ include(
-                '@ZikulaContentModule/Page/displayTreeRelatives.html.twig',
-                {allParents: true, directParent: true, allChildren: true, directChildren: true, predecessors: true, successors: true, preandsuccessors: true}
-            ) }}
-    {% endif %}
-    {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
-    #}
-    {{ block('display_hooks') }}
+            {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) and page.optionalString1 is not empty %}
+                <p class="optional-string1">{{ page.optionalString1 }}</p>
+            {% endif %}
+            {% if getModVar('ZikulaContentModule', 'enableOptionalString2', false) and page.optionalString2 is not empty %}
+                <p class="optional-string2">{{ page.optionalString2 }}</p>
+            {% endif %}
+            {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) and page.optionalText is not empty %}
+                <div class="optional-text">{{ __('Optional text') }}</div>
+            {% endif %}
+            {{ block('content_elements') }}
+            {% if routeArea == 'admin' and featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+                {{ include('@ZikulaContentModule/Helper/includeCategoriesDisplay.html.twig', {obj: page}) }}
+            {% endif %}
+            {# enable if needed
+            {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
+                <h3 class="relatives">{{ __('Relatives') }}</h3>
+                    {{ include(
+                        '@ZikulaContentModule/Page/displayTreeRelatives.html.twig',
+                        {allParents: true, directParent: true, allChildren: true, directChildren: true, predecessors: true, successors: true, preandsuccessors: true}
+                    ) }}
+            {% endif %}
+            {{ include('@ZikulaContentModule/Helper/includeStandardFieldsDisplay.html.twig', {obj: page}) }}
+            #}
+            {{ block('display_hooks') }}
         </div>
     </div>
 </div>
