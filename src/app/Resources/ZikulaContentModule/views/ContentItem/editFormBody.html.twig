@@ -18,7 +18,7 @@
 {% endif %}
 <fieldset>
     <legend>{{ __('Options') }}</legend>
-    {{ form_row(form.active, {help: __('You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.')}) }}
+    {{ form_row(form.active, {help: __('You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.', 'zikula')}) }}
     {{ form_row(form.activeFrom) }}
     {{ form_row(form.activeTo) }}
     {{ form_row(form.scope) }}
