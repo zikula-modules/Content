@@ -52,27 +52,27 @@ class SubPagesBlockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('amount', IntegerType::class, [
-            'label' => $this->__('Amount') . ':',
+            'label' => $this->__('Amount', 'zikulacontentmodule') . ':',
             'attr' => [
                 'maxlength' => 2,
-                'title' => $this->__('The maximum amount of items to be shown.') . ' ' . $this->__('Only digits are allowed.')
+                'title' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule')
             ],
-            'help' => $this->__('The maximum amount of items to be shown.') . ' ' . $this->__('Only digits are allowed.'),
+            'help' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule'),
             'empty_data' => 5,
             'scale' => 0
         ]);
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->__('Use only pages activated for the menu') . ':',
+            'label' => $this->__('Use only pages activated for the menu', 'zikulacontentmodule') . ':',
             'required' => false
         ]);
         $builder->add('filter', TextType::class, [
-            'label' => $this->__('Filter (expert option)') . ':',
+            'label' => $this->__('Filter (expert option)', 'zikulacontentmodule') . ':',
             'required' => false,
             'attr' => [
                 'maxlength' => 255,
-                'title' => $this->__('Example') . ': tbl.age >= 18'
+                'title' => $this->__('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
             ],
-            'help' => $this->__('Example') . ': tbl.age >= 18'
+            'help' => $this->__('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
         ]);
     }
 

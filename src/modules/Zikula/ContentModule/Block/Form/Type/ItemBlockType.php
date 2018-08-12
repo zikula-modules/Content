@@ -33,7 +33,7 @@ class ItemBlockType extends AbstractItemBlockType
             'expanded' => false,
             'use_joins' => false,
             'required' => true,
-            'label' => $this->__('Include the following page') . ':',
+            'label' => $this->__('Include the following page', 'zikulacontentmodule') . ':',
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('id')->addModelTransformer($transformer);

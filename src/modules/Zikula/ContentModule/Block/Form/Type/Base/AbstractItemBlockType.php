@@ -85,7 +85,7 @@ abstract class AbstractItemBlockType extends AbstractType
     public function addObjectTypeField(FormBuilderInterface $builder, array $options = [])
     {
         $builder->add('objectType', HiddenType::class, [
-            'label' => $this->__('Object type') . ':',
+            'label' => $this->__('Object type', 'zikulacontentmodule') . ':',
             'empty_data' => 'page'
         ]);
     }
@@ -113,7 +113,7 @@ abstract class AbstractItemBlockType extends AbstractType
             'expanded' => false,
             'choices' => $choices,
             'required' => true,
-            'label' => $this->__('Entry to display') . ':'
+            'label' => $this->__('Entry to display', 'zikulacontentmodule') . ':'
         ]);
     }
 
@@ -127,15 +127,15 @@ abstract class AbstractItemBlockType extends AbstractType
     {
         $builder
             ->add('customTemplate', TextType::class, [
-                'label' => $this->__('Custom template') . ':',
+                'label' => $this->__('Custom template', 'zikulacontentmodule') . ':',
                 'required' => false,
                 'attr' => [
                     'maxlength' => 80,
-                    'title' => $this->__('Example') . ': displaySpecial.html.twig'
+                    'title' => $this->__('Example', 'zikulacontentmodule') . ': displaySpecial.html.twig'
                 ],
                 'help' => [
-                    $this->__('Example') . ': <em>displaySpecial.html.twig</em>',
-                    $this->__('Needs to be located in the "External/YourEntity/" directory.')
+                    $this->__('Example', 'zikulacontentmodule') . ': <em>displaySpecial.html.twig</em>',
+                    $this->__('Needs to be located in the "External/YourEntity/" directory.', 'zikulacontentmodule')
                 ]
             ])
         ;

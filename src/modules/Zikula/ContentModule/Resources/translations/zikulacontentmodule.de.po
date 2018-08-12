@@ -668,7 +668,7 @@ msgid "Filter"
 msgstr "Filter"
 
 msgid "Filter (expert option)"
-msgstr "Filter ( Expertenoption )"
+msgstr "Filter (Expertenoption)"
 
 msgid "Filter data by locale"
 msgstr "Daten nach Sprachumgebung filtern"

@@ -66,19 +66,19 @@ class MenuBlockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('navType', ChoiceType::class, [
-            'label' => $this->__('Navigation type') . ':',
+            'label' => $this->__('Navigation type', 'zikulacontentmodule') . ':',
             'choices' => [
-                $this->__('None') => '0',
-                $this->__('Tabs') => '1',
-                $this->__('Pills') => '2',
-                $this->__('Navbar') => '3'
+                $this->__('None', 'zikulacontentmodule') => '0',
+                $this->__('Tabs', 'zikulacontentmodule') => '1',
+                $this->__('Pills', 'zikulacontentmodule') => '2',
+                $this->__('Navbar', 'zikulacontentmodule') => '3'
             ]
         ]);
         $builder->add('subPagesHandling', ChoiceType::class, [
-            'label' => $this->__('Sub pages handling') . ':',
+            'label' => $this->__('Sub pages handling', 'zikulacontentmodule') . ':',
             'choices' => [
-                $this->__('Hide them') => 'hide',
-                $this->__('Use dropdowns') => 'dropdown'
+                $this->__('Hide them', 'zikulacontentmodule') => 'hide',
+                $this->__('Use dropdowns', 'zikulacontentmodule') => 'dropdown'
             ]
         ]);
         $builder->add('root', EntityTreeType::class, [
@@ -86,34 +86,34 @@ class MenuBlockType extends AbstractType
             'multiple' => false,
             'expanded' => false,
             'use_joins' => false,
-            'placeholder' => $this->__('All pages'),
+            'placeholder' => $this->__('All pages', 'zikulacontentmodule'),
             'required' => false,
-            'label' => $this->__('Include the following subpages') . ':',
+            'label' => $this->__('Include the following subpages', 'zikulacontentmodule') . ':',
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);
         $builder->add('amount', IntegerType::class, [
-            'label' => $this->__('Amount') . ':',
+            'label' => $this->__('Amount', 'zikulacontentmodule') . ':',
             'attr' => [
                 'maxlength' => 2,
-                'title' => $this->__('The maximum amount of items to be shown.') . ' ' . $this->__('Only digits are allowed.')
+                'title' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule')
             ],
-            'help' => $this->__('The maximum amount of items to be shown.') . ' ' . $this->__('Only digits are allowed.'),
+            'help' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule'),
             'empty_data' => 5,
             'scale' => 0
         ]);
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->__('Use only pages activated for the menu') . ':',
+            'label' => $this->__('Use only pages activated for the menu', 'zikulacontentmodule') . ':',
             'required' => false
         ]);
         $builder->add('filter', TextType::class, [
-            'label' => $this->__('Filter (expert option)') . ':',
+            'label' => $this->__('Filter (expert option)', 'zikulacontentmodule') . ':',
             'required' => false,
             'attr' => [
                 'maxlength' => 255,
-                'title' => $this->__('Example') . ': tbl.age >= 18'
+                'title' => $this->__('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
             ],
-            'help' => $this->__('Example') . ': tbl.age >= 18'
+            'help' => $this->__('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
         ]);
     }
 
