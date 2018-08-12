@@ -58,21 +58,21 @@ class GoogleMapType extends AbstractType
         $builder
             ->add('latitude', NumberType::class, [
                 'label' => $this->__('Latitude') . ':',
-                'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
+                'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                 'attr' => [
                     'maxlength' => 30
                 ]
             ])
             ->add('longitude', NumberType::class, [
                 'label' => $this->__('Longitude') . ':',
-                'help' => $this->__('(a comma-separated numeral that has a precision to 6 decimal places. For example, 40.714728)'),
+                'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                 'attr' => [
                     'maxlength' => 30
                 ]
             ])
             ->add('zoom', RangeType::class, [
                 'label' => $this->__('Zoom level') . ':',
-                'help' => $this->__('(from 0 for the entire world to 21 for individual buildings)'),
+                'help' => $this->__('From 0 for the entire world to 21 for individual buildings.'),
                 'attr' => [
                     'min' => 0,
                     'max' => 21
@@ -106,7 +106,7 @@ class GoogleMapType extends AbstractType
             ])
             ->add('infoText', TextareaType::class, [
                 'label' => $this->__('Text to be shown in the popup window of the marker') . ':',
-                'help' => $this->__('(can contain HTML markup. Leave this field empty for disabling the popup window.'),
+                'help' => $this->__('Can contain HTML markup. Leave this field empty for disabling the popup window.'),
                 'required' => false
             ])
             ->add('trafficOverlay', CheckboxType::class, [

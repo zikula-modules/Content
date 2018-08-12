@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType;
 use RuntimeException;
 use \Twig_Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
@@ -28,6 +29,11 @@ use Zikula\ThemeModule\Engine\Asset;
  */
 class TabNavigationType extends AbstractContentType
 {
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
     /**
      * @var EntityFactory
      */
@@ -46,6 +52,7 @@ class TabNavigationType extends AbstractContentType
      * @param FilesystemLoader     $twigLoader       Twig loader service instance
      * @param PermissionHelper     $permissionHelper PermissionHelper service instance
      * @param Asset                $assetHelper      Asset service instance
+     * @param RequestStack         $requestStack     RequestStack service instance
      * @param EntityFactory        $entityFactory    EntityFactory service instance
      * @param ContentDisplayHelper $displayHelper    ContentDisplayHelper service instance
      */
@@ -55,9 +62,11 @@ class TabNavigationType extends AbstractContentType
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
         Asset $assetHelper,
+        RequestStack $requestStack,
         EntityFactory $entityFactory,
         ContentDisplayHelper $displayHelper
     ) {
+        $this->requestStack = $requestStack;
         $this->entityFactory = $entityFactory;
         $this->displayHelper = $displayHelper;
         parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
@@ -127,7 +136,10 @@ class TabNavigationType extends AbstractContentType
 
         $repository = $this->entityFactory->getRepository('contentItem');
 
-        // Make an array with output display of the Content items to tab
+        // set session flag to allow selection of inactive content items, too
+        $this->requestStack->getMasterRequest()->getSession()->set('ContentAllowInactiveElements', 1);
+
+        // Make an array with output display of the content items to tab
         $itemsToTab = [];
         foreach ($contentItemIds as $key => $contentItemId) {
             $contentItem = $repository->selectById($contentItemId);
@@ -146,6 +158,8 @@ class TabNavigationType extends AbstractContentType
                 // ignore
             }
         }
+
+        $this->requestStack->getMasterRequest()->getSession()->remove('ContentAllowInactiveElements');
 
         if (!count($itemsToTab)) {
             return '';

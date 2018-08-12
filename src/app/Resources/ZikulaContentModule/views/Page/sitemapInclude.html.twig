@@ -1,8 +1,9 @@
 {% if pages|length > 0 %}
 <ul>
-    {% for page in pages if page.inMenu and hasPermission('ZikulaContentModule:Page:', page.id ~ '::', 'ACCESS_READ') %}
+    {% for page in pages if page.inMenu and zikulacontentmodule_hasReadAccess(page) %}
         <li>
-            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a>
+            {% set pageTitle = page|zikulacontentmodule_formattedTitle %}
+            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>
             {{ include('@ZikulaContentModule/Page/sitemapInclude.html.twig', {pages: page.children}) }}
         </li>
     {% endfor %}

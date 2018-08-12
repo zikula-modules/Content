@@ -66,9 +66,9 @@ class TabNavigationType extends AbstractType
             ->add('tabType', ChoiceType::class, [
                 'label' => $this->__('Navigation type') . ':',
                 'choices' => [
-                    $this->__('Tabs') => '1',
-                    $this->__('Pills') => '2',
-                    $this->__('Stacked pills') . ' (col-sm3/col-sm-9)' => '3'
+                    $this->__('Tabs') => 1,
+                    $this->__('Pills') => 2,
+                    $this->__('Stacked pills') . ' (col-sm3/col-sm-9)' => 3
                 ]
             ])
             ->add('tabStyle', TextType::class, [

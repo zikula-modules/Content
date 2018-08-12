@@ -1,0 +1,12 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+
+msgid "Choosing a content item is required."
+msgstr "Choosing a content item is required."
+msgid "Choosing at least one of the searchables is required."
+msgstr "Choosing at least one of the searchables is required."
+msgid "The start must be before the end."
+msgstr "The start must be before the end."

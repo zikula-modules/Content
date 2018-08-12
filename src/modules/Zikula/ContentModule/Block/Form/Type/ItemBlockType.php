@@ -13,6 +13,9 @@ namespace Zikula\ContentModule\Block\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemBlockType;
+use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
+use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 
 /**
  * Detail block form type implementation class.
@@ -22,16 +25,17 @@ class ItemBlockType extends AbstractItemBlockType
     /**
      * @inheritDoc
      */
-    public function addObjectTypeField(FormBuilderInterface $builder, array $options = [])
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        return;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addTemplateField(FormBuilderInterface $builder, array $options = [])
-    {
-        return;
+        $builder->add('id', EntityTreeType::class, [
+            'class' => PageEntity::class,
+            'multiple' => false,
+            'expanded' => false,
+            'use_joins' => false,
+            'required' => true,
+            'label' => $this->__('Include the following page', 'zikulacontentmodule') . ':',
+        ]);
+        $transformer = new PageTransformer($this->entityFactory);
+        $builder->get('id')->addModelTransformer($transformer);
     }
 }

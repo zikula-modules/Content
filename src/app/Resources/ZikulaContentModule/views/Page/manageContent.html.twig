@@ -15,7 +15,7 @@
                 {{ include('@ZikulaContentModule/Page/palette.html.twig') }}
             </div>
             <div class="col-sm-7 col-md-8 col-lg-9">
-                <p class="alert alert-info">{{ __('Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.') }}</p>
+                <p class="alert alert-info">{{ __('Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.', 'zikula') }}</p>
                 <div id="widgets" class="container-fluid"></div>
                 {#
                     <hr />
@@ -59,12 +59,28 @@
             var pageId = {{ page.id }};
             {% if page.layout is iterable and page.layout|length > 0 %}
                 var widgetData = {{ page.layout|json_encode|raw }};
+                var orphanData = [];
+                {% set processedItemIds = [] %}
+                {% for section in page.layout if section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
+                        {% for widget in section.widgets %}
+                            {% for item in page.contentItems if item.id == widget.id %}
+                                {% set processedItemIds = processedItemIds|merge([item.id]) %}
+                            {% endfor %}
+                        {% endfor %}
+                {% endfor %}
+                {% if processedItemIds|length < page.contentItems|length %}
+                    {# there are elements which are not included in page layout information yet, so we append them at the end #}
+                        {% for contentItem in page.contentItems if contentItem.id not in processedItemIds %}
+                            orphanData.push({{ contentItem.id }});
+                        {% endfor %}
+                {% endif %}
             {% else %}
                 var widgetData = [
                     {
                         id: 'section1', widgets: []
                     }
                 ];
+                var orphanData = [];
             {% endif %}
 
             var gridOptions = {

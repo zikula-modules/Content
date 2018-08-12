@@ -1,8 +1,15 @@
 {% if pages|length > 0 %}
-<ul>
-    {% for page in pages if page.inMenu and hasPermission('ZikulaContentModule:Page:', page.id ~ '::', 'ACCESS_READ') %}
-        <li>
-            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a>
+<ul{% if context|default == 'menuBlock' and vars.subPagesHandling|default == 'dropdown' %} class="dropdown-menu"{% endif %}>
+    {% if includeSelf|default(false) == true %}
+        <li{% if context|default == 'menuBlock' %} role="presentation"{% endif %}{% if isActivePage|default(false) %} class="active"{% endif %}>
+            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.parent.slug}) }}" title="{{ page.parent.title|e('html_attr') }}">{{ __('Overview') }}</a>
+        </li>
+    {% endif %}
+    {% for page in pages if zikulacontentmodule_hasReadAccess(page) %}
+        {% set pageTitle = page|zikulacontentmodule_formattedTitle %}
+        {% set isActivePage = zikulacontentmodule_isCurrentPage(page) %}
+        <li{% if context|default == 'menuBlock' %} role="presentation"{% endif %}{% if isActivePage %} class="active"{% endif %}>
+            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>
             {{ include('@ZikulaContentModule/Block/pageListInclude.html.twig', {pages: page.children}) }}
         </li>
     {% endfor %}

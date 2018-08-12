@@ -100,10 +100,10 @@
                 </div>
                 #}
                 <div role="tabpanel" class="tab-pane fade" id="tabPlugins" aria-labelledby="pluginsTab">
-                    {% set tabTitle = __('Available plugins') %}
+                    {% set tabTitle = __('Available plugins', 'zikula') %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{{ __('Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.') }}</p>
+                        <p class="alert alert-info">{{ __('Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.', 'zikula') }}</p>
                         {% set allContentTypes = zikulacontentmodule_contentTypes(true) %}
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover table-condensed">

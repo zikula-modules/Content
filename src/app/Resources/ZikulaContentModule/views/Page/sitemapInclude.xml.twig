@@ -1,4 +1,4 @@
-{% for page in pages if page.inMenu and hasPermission('ZikulaContentModule:Page:', page.id ~ '::', 'ACCESS_READ') %}
+{% for page in pages if page.inMenu and zikulacontentmodule_hasReadAccess(page) %}
 <url>
     <loc>{{ url('zikulacontentmodule_page_display', {slug: page.slug}) }}</loc>
     <changefreq>daily</changefreq>

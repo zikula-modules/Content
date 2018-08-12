@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Menu;
 
+use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
 
 /**
@@ -18,5 +19,37 @@ use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
  */
 class MenuBuilder extends AbstractMenuBuilder
 {
-    // feel free to add own extensions here
+    /**
+     * @inheritDoc
+     */
+    public function createItemActionsMenu(array $options = [])
+    {
+        $menu = parent::createItemActionsMenu($options);
+        if (!isset($options['entity']) || !isset($options['area']) || !isset($options['context'])) {
+            return $menu;
+        }
+
+        $entity = $options['entity'];
+        if (!($entity instanceof PageEntity)) {
+            return $menu;
+        }
+
+        if ($this->permissionHelper->mayManagePageContent($entity)) {
+            $routePrefix = 'zikulacontentmodule_page_';
+            $routeArea = $options['area'];
+            $context = $options['context'];
+            $title = $this->__('Manage content', 'zikulacontentmodule');
+            $menu->addChild($title, [
+                'route' => $routePrefix . $routeArea . 'managecontent',
+                'routeParameters' => $entity->createUrlArgs()
+            ]);
+            $menu[$title]->setLinkAttribute('title', $this->__('Manage content elements of page', 'zikulacontentmodule'));
+            if ($context == 'display') {
+                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+            }
+            $menu[$title]->setAttribute('icon', 'fa fa-cubes');
+        }
+
+        return $menu;
+    }
 }

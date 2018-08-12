@@ -18,5 +18,43 @@ use Zikula\ContentModule\Block\Base\AbstractItemListBlock;
  */
 class ItemListBlock extends AbstractItemListBlock
 {
-    // feel free to extend the item list block here
+    /**
+     * @inheritDoc
+     */
+    protected function getDefaults()
+    {
+        $defaults = parent::getDefaults();
+        $defaults['root'] = 0;
+        $defaults['inMenu'] = true;
+
+        return $defaults;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function resolveCategoryIds(array $properties = [])
+    {
+        $properties = parent::resolveCategoryIds($properties);
+
+        $customFilters = [];
+        if (0 < $properties['root']) {
+            $customFilters[] = 'tbl.parent = ' . $properties['root'];
+        /*} else {
+            $customFilters[] = 'tbl.parent IS NULL';*/
+        }
+        if (true === $properties['inMenu']) {
+            $customFilters[] = 'tbl.inMenu = 1';
+        }
+
+        if (count($customFilters) > 0) {
+            if (!empty($properties['filter'])) {
+                $properties['filter'] = '(' . $properties['filter'] . ') AND ' . implode(' AND ', $customFilters);
+            } else {
+                $properties['filter'] = implode(' AND ', $customFilters);
+            }
+        }
+
+        return $properties;
+    }
 }

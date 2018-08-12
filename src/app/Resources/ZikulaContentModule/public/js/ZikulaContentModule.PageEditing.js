@@ -565,10 +565,9 @@ function contentPageInitWidgetActions() {
             url: Routing.generate('zikulacontentmodule_contentitem_duplicate', {contentItem: contentPageGetWidgetId(widget)}),
             data: {pageId: pageId},
             success: function (data) {
-                var widgetTitle = Translator.__('Content item');
-                var widgetPanelClass = 'primary';
-                var widgetMarkup = contentPageGetWidgetMarkup(data.id, widgetTitle, widgetPanelClass);
-                var newWidget = jQuery(widgetMarkup);
+                var newWidget;
+
+                newWidget = contentPageCreateNewWidget(data.id);
 
                 jQuery('#widgetUpdateDoneAlert').remove();
                 zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
@@ -612,6 +611,23 @@ function contentPageClear() {
 }
 
 /**
+ * Builds a placeholder widget for a new content item.
+ */
+function contentPageCreateNewWidget(nodeId) {
+    var widgetTitle;
+    var widgetPanelClass;
+    var widgetMarkup;
+    var widget;
+
+    widgetTitle = Translator.__('Content item');
+    widgetPanelClass = 'primary';
+    widgetMarkup = contentPageGetWidgetMarkup(nodeId, widgetTitle, widgetPanelClass);
+    widget = jQuery(widgetMarkup);
+
+    return widget;
+}
+
+/**
  * Builds a widget.
  */
 function contentPageGetWidgetMarkup(nodeId, title, panelClass) {
@@ -626,7 +642,7 @@ function contentPageGetWidgetMarkup(nodeId, title, panelClass) {
 function contentPageGetWidgetPanelMarkup(nodeId, title) {
     var widgetActions = contentPageGetWidgetActions(nodeId);
     var widgetTitle = '<h3 class="panel-title">' + widgetActions + '<span class="title">' + title + '</span></h3>';
-    var widgetContent = '<p>content here</p>';
+    var widgetContent = '<p></p>';
     widgetContent += '<p><small class="width-note" style="background-color: #ffe"></small></p>';
 
     return '<div class="panel-heading">' + widgetTitle + '</div><div class="panel-body">' + widgetContent + '</div>';
@@ -725,10 +741,9 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
     var lastNode = null;
     var widgets = GridStackUI.Utils.sort(widgetList);
     _.each(widgets, function (node) {
-        var widgetTitle = Translator.__('Content item');
-        var widgetPanelClass = 'primary';
-        var widgetMarkup = contentPageGetWidgetMarkup(node.id, widgetTitle, widgetPanelClass);
-        var widget = jQuery(widgetMarkup);
+        var widget;
+
+        widget = contentPageCreateNewWidget(node.id);
         var minWidth = 'undefined' != typeof node.minWidth ? node.minWidth : jQuery('#widgetDimensions').data('minwidth');
         grid.addWidget(widget, node.x, node.y, node.width, /*node.height*/jQuery('#widgetDimensions').data('height'), false, node.minWidth);
         var colOffset = 0;
@@ -758,6 +773,30 @@ function contentPageLoad() {
         contentPageInitSectionActions();
         contentPageUnserialiseWidgets(section.id, section.widgets);
     });
+    if (orphanData.length > 0) {
+        sectionNumber++;
+        contentPageAddSection('section' + sectionNumber, sectionNumber, false);
+        contentPageInitSectionActions();
+        contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
+        _.each(orphanData, function (contentItemId) {
+            var newWidget;
+            var grid;
+            var width;
+            var height;
+            var minWidth;
+
+            newWidget = contentPageCreateNewWidget(contentItemId);
+
+            grid = jQuery('#section' + sectionNumber + ' .grid-stack').first().data('gridstack');
+            width = jQuery('#widgetDimensions').data('width');
+            height = jQuery('#widgetDimensions').data('height');
+            minWidth = jQuery('#widgetDimensions').data('minwidth');
+            grid.addWidget(newWidget, 0, 0, width, height, true, minWidth);
+
+            contentPageLoadWidgetData(contentItemId);
+        });
+
+    }
     contentPageInitWidgetActions();
 }
 
@@ -765,7 +804,15 @@ function contentPageLoad() {
  * Sorts widget for serialisation.
  */
 function contentPageSortWidgetsForSave(nodes) {
-    return _.sortBy(nodes, ['y', 'x']);
+    return nodes.sort(function (a, b) {
+        var aNode = jQuery(a).data(nodeDataAttribute);
+        var bNode = jQuery(b).data(nodeDataAttribute);
+        if (aNode.y != bNode.y) {
+            return ((aNode.y < bNode.y) ? -1 : ((aNode.y > bNode.y) ? 1 : 0));
+        }
+
+        return ((aNode.x < bNode.x) ? -1 : ((aNode.x > bNode.x) ? 1 : 0));
+    });
 }
 
 /**

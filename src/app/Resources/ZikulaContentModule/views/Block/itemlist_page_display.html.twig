@@ -1,7 +1,7 @@
 {# Purpose of this template: Display pages within an external context #}
-<div class="content-block">
+<div class="content-block content-pages">
 {% if items|length > 0 %}
-    {{ include('@ZikulaContentModule/Page/pageListInclude.html.twig', {pages: items}) }}
+    {{ include('@ZikulaContentModule/Block/pageListInclude.html.twig', {pages: items, context: 'listBlock'}) }}
 {% else %}
     <p>{{ __('No pages found.') }}</p>
 {% endif %}

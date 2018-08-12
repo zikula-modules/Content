@@ -1,6 +1,6 @@
 imports:
   - { resource: 'appSettings.yml' }
-  - { resource: 'linkContainer.yml' }
+  - { resource: 'menu.yml' }
   - { resource: 'entityFactory.yml' }
   - { resource: 'eventSubscriber.yml' }
   - { resource: 'validators.yml' }

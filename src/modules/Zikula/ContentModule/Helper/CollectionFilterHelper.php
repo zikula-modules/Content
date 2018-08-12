@@ -53,6 +53,10 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
             return $qb;
         }
 
+        if ($this->requestStack->getCurrentRequest()->getSession()->has('ContentAllowInactiveElements')) {
+            return $qb;
+        }
+
         $qb->andWhere('tbl.active = 1');
         if (in_array('tblPage', $qb->getAllAliases())) {
             $qb->andWhere('tblPage.active = 1');

@@ -1,0 +1,155 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: Content 5.0.0\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Axel Guckelsberger <info@guite.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "Actions"
+msgstr "Aktionen"
+
+msgid "Activate"
+msgstr "Aktivieren"
+
+msgid "Activate this element"
+msgstr "Dieses Element aktivieren"
+
+msgid "Add child node"
+msgstr "Kindknoten hinzufügen"
+
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Basic"
+msgstr "Basis"
+
+msgid "Content item"
+msgstr "Inhaltselement"
+
+msgid "Could not persist your change."
+msgstr "Die Änderung konnte nicht gespeichert werden."
+
+msgid "Deactivate"
+msgstr "Deaktivieren"
+
+msgid "Deactivate this element"
+msgstr "Dieses Element deaktivieren"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Delete section"
+msgstr "Bereich löschen"
+
+msgid "Delete this element"
+msgstr "Dieses Element löschen"
+
+msgid "Delete this node"
+msgstr "Diesen Knoten löschen"
+
+msgid "Display"
+msgstr "Anzeigen"
+
+msgid "Do you really want to delete this content?"
+msgstr "Soll dieser Inhalt wirklich gelöscht werden?"
+
+msgid "Do you really want to delete this entry?"
+msgstr "Soll dieser Eintrag wirklich gelöscht werden?"
+
+msgid "Do you really want to delete this section including all contained content?"
+msgstr "Soll dieser Bereich wirklich mitsamt allen enthaltenen Inhalten gelöscht werden?"
+
+msgid "Do you really want to delete this section?"
+msgstr "Soll dieser Bereich wirklich gelöscht werden?"
+
+msgid "Do you really want to remove this node including all child nodes?"
+msgstr "Soll dieser Knoten mitsamt aller Kindknoten wirklich gelöscht werden?"
+
+msgid "Do you really want to remove this node?"
+msgstr "Soll dieser Knoten wirklich gelöscht werden?"
+
+msgid "Done! Content saved!"
+msgstr "Erledigt! Inhalt gespeichert!"
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Duplicate this element"
+msgstr "Dieses Element duplizieren"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Edit this element"
+msgstr "Dieses Element bearbeiten"
+
+msgid "Error"
+msgstr "Fehler"
+
+msgid "Failed loading the data."
+msgstr "Fehler beim Laden der Daten."
+
+msgid "Invalid node id"
+msgstr "Ungültige Knoten-Id."
+
+msgid "Loading..."
+msgstr "Lade..."
+
+msgid "Move"
+msgstr "Verschieben"
+
+msgid "Move down"
+msgstr "Nach unten"
+
+msgid "Move one position down"
+msgstr "Eine Position nach unten verschieben"
+
+msgid "Move one position up"
+msgstr "Eine Position nach oben verschieben"
+
+msgid "Move this element to another page"
+msgstr "Dieses Element zu einer anderen Seite verschieben"
+
+msgid "Move to bottom"
+msgstr "Ganz nach unten"
+
+msgid "Move to bottom position"
+msgstr "Ganz nach unten verschieben"
+
+msgid "Move to top"
+msgstr "Ganz nach oben"
+
+msgid "Move to top position"
+msgstr "Ganz nach oben verschieben"
+
+msgid "Move up"
+msgstr "Nach oben"
+
+msgid "Section"
+msgstr "Bereich"
+
+msgid "Show detail page"
+msgstr "Detailseite anzeigen"
+
+msgid "Show edit form"
+msgstr "Bearbeitungsformular anzeigen"
+
+msgid "Success"
+msgstr "Erfolg"
+
+msgid "The start must be before the end."
+msgstr "Der Beginn muss vor dem Ende liegen."
+
+msgid "Translate"
+msgstr "Übersetzen"
+
+msgid "Translate this element"
+msgstr "Dieses Element übersetzen"

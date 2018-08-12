@@ -17,6 +17,7 @@ application "Content" {
     skipFiles "
         Block/Form/Type/ItemBlockType.php,
         Block/Form/Type/ItemListBlockType.php,
+        Block/ItemListBlock.php,
         Container/LinkContainer.php,
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,
@@ -29,7 +30,7 @@ application "Content" {
         Helper/ListEntriesHelper.php,
         Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
-        Menu/ItemActionsMenu.php,
+        Menu/MenuBuilder.php,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
         Resources/views/Block/itemlist_contentItem_display.html.twig,
         Resources/views/Block/itemlist_page_display_description.html.twig,
@@ -40,6 +41,7 @@ application "Content" {
     markFiles "
         composer.json,
         Resources/config/entityFactory.yml,
+        Resources/config/forms.yml,
         Resources/config/helpers.yml,
         Resources/config/services.yml
     "

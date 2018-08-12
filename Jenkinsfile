@@ -8,16 +8,11 @@ pipeline {
     stages {
         stage('Prepare') {
             steps {
-                sh 'rm -rf build/api'
-                sh 'rm -rf build/coverage'
-                sh 'rm -rf build/logs'
-                sh 'rm -rf build/pdepend'
-                sh 'rm -rf build/phpdox'
-                sh 'mkdir build/api'
-                sh 'mkdir build/coverage'
-                sh 'mkdir build/logs'
-                sh 'mkdir build/pdepend'
-                sh 'mkdir build/phpdox'
+                sh 'rm -rf build/api && mkdir build/api'
+                sh 'rm -rf build/coverage && mkdir build/coverage'
+                sh 'rm -rf build/logs && mkdir build/logs'
+                sh 'rm -rf build/pdepend && mkdir build/pdepend'
+                sh 'rm -rf build/phpdox && mkdir build/phpdox'
             }
         }
         stage('Composer Install') {
@@ -86,6 +81,27 @@ pipeline {
             steps {
                 sh 'vendor/bin/phpdox -f build/phpdox.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'build/api', reportFiles: 'index.html', reportName: 'API Documentation', reportTitles: ''])
+            }
+        }
+        stage('Create release packages') {
+            steps {
+                sh 'rm -rf release && mkdir release'
+                sh 'rm -rf releaseWork && mkdir releaseWork'
+
+                sh 'cp -R src/* releaseWork'
+                sh 'cd releaseWork/modules/Zikula/ContentModule && ../../../../build/composer.phar install --no-dev --optimize-autoloader && cd ../../../../'
+                sh 'cp -R releaseWork/app/Resources/ZikulaContentModule/* releaseWork/modules/Zikula/ContentModule/Resources/'
+                sh 'rm -rf releaseWork/app'
+
+
+                sh 'cd releaseWork && zip -D -r ../release/Content.zip . && cd ..'
+                sh 'cd releaseWork && tar cfvz ../release/Content.tar.gz . && cd ..'
+
+                archiveArtifacts([
+                    artifacts: 'release/**',
+                    fingerprint: true,
+                    onlyIfSuccessful: true
+                ])
             }
         }
     }
