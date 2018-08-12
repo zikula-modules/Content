@@ -12,23 +12,84 @@
 namespace Zikula\ContentModule\Menu\Base;
 
 use Knp\Menu\FactoryInterface;
-use Knp\Menu\MenuItem;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Knp\Menu\ItemInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\SearchableEntity;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\EntityDisplayHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 
 /**
- * This is the item actions menu implementation class.
+ * This is the menu builder implementation class.
  */
-class AbstractItemActionsMenu implements ContainerAwareInterface
+class AbstractMenuBuilder
 {
-    use ContainerAwareTrait;
     use TranslatorTrait;
+
+    /**
+     * @var FactoryInterface
+     */
+    protected $factory;
+
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
+
+    /**
+     * @var EntityDisplayHelper
+     */
+    protected $entityDisplayHelper;
+
+    /**
+     * @var CurrentUserApiInterface
+     */
+    protected $currentUserApi;
+
+    /**
+     * MenuBuilder constructor.
+     *
+     * @param TranslatorInterface     $translator          Translator service instance
+     * @param FactoryInterface        $factory             Factory service instance
+     * @param RequestStack            $requestStack        RequestStack service instance
+     * @param EntityFactory           $entityFactory       EntityFactory service instance
+     * @param PermissionHelper        $permissionHelper    PermissionHelper service instance
+     * @param EntityDisplayHelper     $entityDisplayHelper EntityDisplayHelper service instance
+     * @param CurrentUserApiInterface $currentUserApi      CurrentUserApi service instance
+     */
+    public function __construct(
+        TranslatorInterface $translator,
+        FactoryInterface $factory,
+        RequestStack $requestStack,
+        EntityFactory $entityFactory,
+        PermissionHelper $permissionHelper,
+        EntityDisplayHelper $entityDisplayHelper,
+        CurrentUserApiInterface $currentUserApi)
+    {
+        $this->setTranslator($translator);
+        $this->factory = $factory;
+        $this->requestStack = $requestStack;
+        $this->entityFactory = $entityFactory;
+        $this->permissionHelper = $permissionHelper;
+        $this->entityDisplayHelper = $entityDisplayHelper;
+        $this->currentUserApi = $currentUserApi;
+    }
 
     /**
      * Sets the translator.
@@ -41,39 +102,31 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
     }
 
     /**
-     * Builds the menu.
+     * Builds the item actions menu.
      *
-     * @param FactoryInterface $factory Menu factory
-     * @param array            $options List of additional options
+     * @param array $options List of additional options
      *
-     * @return MenuItem The assembled menu
+     * @return ItemInterface The assembled menu
      */
-    public function menu(FactoryInterface $factory, array $options = [])
+    public function createItemActionsMenu(array $options = [])
     {
-        $menu = $factory->createItem('itemActions');
+        $menu = $this->factory->createItem('itemActions');
         if (!isset($options['entity']) || !isset($options['area']) || !isset($options['context'])) {
             return $menu;
         }
-
-        $this->setTranslator($this->container->get('translator.default'));
 
         $entity = $options['entity'];
         $routeArea = $options['area'];
         $context = $options['context'];
 
-        $permissionHelper = $this->container->get('zikula_content_module.permission_helper');
-        $currentUserApi = $this->container->get('zikula_users_module.current_user');
-        $entityDisplayHelper = $this->container->get('zikula_content_module.entity_display_helper');
-
         // return empty menu for preview of deleted items
-        $request = $this->container->get('request_stack')->getMasterRequest();
-        $routeName = $request->get('_route');
+        $routeName = $this->requestStack->getMasterRequest()->get('_route');
         if (stristr($routeName, 'displaydeleted')) {
             return $menu;
         }
         $menu->setChildrenAttribute('class', 'list-inline item-actions');
 
-        $currentUserId = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
+        $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
         if ($entity instanceof PageEntity) {
             $routePrefix = 'zikulacontentmodule_page_';
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
@@ -99,13 +152,13 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
                     'route' => $routePrefix . $routeArea . 'display',
                     'routeParameters' => $entity->createUrlArgs()
                 ]);
-                $menu[$title]->setLinkAttribute('title', str_replace('"', '', $entityDisplayHelper->getFormattedTitle($entity)));
+                $menu[$title]->setLinkAttribute('title', str_replace('"', '', $this->entityDisplayHelper->getFormattedTitle($entity)));
                 if ($context == 'display') {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-eye');
             }
-            if ($permissionHelper->mayEdit($entity)) {
+            if ($this->permissionHelper->mayEdit($entity)) {
                 $title = $this->__('Edit', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'edit',
@@ -116,7 +169,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
-                if ($permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
+                if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
                     $title = $this->__('Add sub page', 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'edit',
@@ -129,7 +182,7 @@ class AbstractItemActionsMenu implements ContainerAwareInterface
                     $menu[$title]->setAttribute('icon', 'fa fa-child');
                 }
                 if (in_array($context, ['view', 'display'])) {
-                    $logEntriesRepo = $this->container->get('zikula_content_module.entity_factory')->getObjectManager()->getRepository('ZikulaContentModule:PageLogEntryEntity');
+                    $logEntriesRepo = $this->entityFactory->getObjectManager()->getRepository('ZikulaContentModule:PageLogEntryEntity');
                     $logEntries = $logEntriesRepo->getLogEntries($entity);
                     if (count($logEntries) > 1) {
                         $title = $this->__('History', 'zikulacontentmodule');

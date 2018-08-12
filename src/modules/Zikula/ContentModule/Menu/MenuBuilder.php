@@ -11,21 +11,21 @@
 
 namespace Zikula\ContentModule\Menu;
 
-use Knp\Menu\FactoryInterface;
 use Zikula\ContentModule\Entity\PageEntity;
-use Zikula\ContentModule\Menu\Base\AbstractItemActionsMenu;
+use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
 
 /**
- * This is the item actions menu implementation class.
+ * This is the menu builder implementation class.
  */
-class ItemActionsMenu extends AbstractItemActionsMenu
+class MenuBuilder extends AbstractMenuBuilder
 {
+
     /**
      * @inheritDoc
      */
-    public function menu(FactoryInterface $factory, array $options = [])
+    public function createItemActionsMenu(array $options = [])
     {
-        $menu = parent::menu($factory, $options);
+        $menu = parent::createItemActionsMenu($options);
         if (!isset($options['entity']) || !isset($options['area']) || !isset($options['context'])) {
             return $menu;
         }
@@ -35,8 +35,7 @@ class ItemActionsMenu extends AbstractItemActionsMenu
             return $menu;
         }
 
-        $permissionHelper = $this->container->get('zikula_content_module.permission_helper');
-        if ($permissionHelper->mayManagePageContent($entity)) {
+        if ($this->permissionHelper->mayManagePageContent($entity)) {
             $routePrefix = 'zikulacontentmodule_page_';
             $routeArea = $options['area'];
             $context = $options['context'];

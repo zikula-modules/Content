@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col-xs-12">
             {% if inList is not defined %}
-                {% set itemActions = knp_menu_get('ZikulaContentModule:ItemActionsMenu:menu', [], {entity: page, area: routeArea, context: 'display'}) %}
+                {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'display'}) %}
                 <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
                     {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
                 </div>

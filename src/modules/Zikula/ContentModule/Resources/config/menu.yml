@@ -1,0 +1,22 @@
+services:
+    zikula_content_module.link_container:
+        class: Zikula\ContentModule\Container\LinkContainer
+        arguments:
+            - "@translator.default"
+            - "@router"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_content_module.controller_helper"
+            - "@zikula_content_module.permission_helper"
+        tags: ['zikula.link_container']
+    zikula_content_module.menu_builder:
+        class: Zikula\ContentModule\Menu\MenuBuilder
+        arguments:
+            - "@translator.default"
+            - "@knp_menu.factory"
+            - "@request_stack"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.permission_helper"
+            - "@zikula_content_module.entity_display_helper"
+            - "@zikula_users_module.current_user"
+        tags:
+            - { name: knp_menu.menu_builder, method: createItemActionsMenu, alias: zikulaContentMenuItemActions }

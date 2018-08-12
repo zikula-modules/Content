@@ -156,49 +156,63 @@ function zikulaContentTreeContextMenuActions(theNode) {
     var currentNode;
     var currentNodeDom;
     var isRoot;
-    var nodeEntityRouteArgs;
     
     rootId = theNode.id.split('_')[0].replace('tree', '').replace('node', '');
     currentNode = trees[objectType + 'Tree' + rootId].jstree('get_node', theNode, false);
     currentNodeDom = trees[objectType + 'Tree' + rootId].jstree('get_node', theNode, true);
     isRoot = (currentNode.id === 'tree' + rootId + 'node_' + rootId);
     nodeEntityId = currentNode.id.replace('tree' + rootId + 'node_', '');
-    nodeEntityRouteArgs = {};
-    
-    jQuery.each(routeArgNames, function (index, value) {
-        nodeEntityRouteArgs[value] = currentNodeDom.data(value);
-    });
     
     var actions = {};
     
-    if (true === hasDisplayAction) {
-        actions.display = {
-            label: Translator.__('Display'),
-            title: Translator.__('Show detail page'),
+    var hasItemActions = jQuery('#itemActions' + nodeEntityId + ' ul li a').length > 0;
+    jQuery('#itemActions' + nodeEntityId + ' ul li a').each(function (index) {
+        var link;
+    
+        link = jQuery(this);
+        actions['itemAction' + (index + 1)] = {
+            label: link.text().trim(),
+            title: link.attr('title'),
             action: function (node) {
-                document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_display', nodeEntityRouteArgs, true);
+                document.location.href = link.attr('href');
             },
-            icon: 'fa fa-fw fa-eye'
+            icon: link.parent().attr('icon') + ' fa-fw'
+        };
+    });
+    if (!hasItemActions) {
+        var nodeEntityRouteArgs = {};
+        jQuery.each(routeArgNames, function (index, value) {
+            nodeEntityRouteArgs[value] = currentNodeDom.data(value);
+        });
+        if (true === hasDisplayAction) {
+            actions.display = {
+                label: Translator.__('Display'),
+                title: Translator.__('Show detail page'),
+                action: function (node) {
+                    document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_display', nodeEntityRouteArgs, true);
+                },
+                icon: 'fa fa-fw fa-eye'
+            };
+        }
+        if (true === hasEditAction) {
+            actions.edit = {
+                label: Translator.__('Edit'),
+                title: Translator.__('Show edit form'),
+                action: function (node) {
+                    document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_edit', nodeEntityRouteArgs, true);
+                },
+                icon: 'fa fa-fw fa-pencil-square-o'
+            };
+        }
+        actions.addChildNode = {
+            label: Translator.__('Add child node'),
+            title: Translator.__('Add child node'),
+            action: function (node) {
+                zikulaContentPerformTreeOperation(objectType, rootId, 'addChildNode');
+            },
+            icon: 'fa fa-fw fa-plus'
         };
     }
-    if (true === hasEditAction) {
-        actions.edit = {
-            label: Translator.__('Edit'),
-            title: Translator.__('Show edit form'),
-            action: function (node) {
-                document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_edit', nodeEntityRouteArgs, true);
-            },
-            icon: 'fa fa-fw fa-pencil-square-o'
-        };
-    }
-    actions.addChildNode = {
-        label: Translator.__('Add child node'),
-        title: Translator.__('Add child node'),
-        action: function (node) {
-            zikulaContentPerformTreeOperation(objectType, rootId, 'addChildNode');
-        },
-        icon: 'fa fa-fw fa-plus'
-    };
     actions.deleteNode = {
         label: Translator.__('Delete'),
         title: Translator.__('Delete this node'),
