@@ -11,6 +11,8 @@
 
 namespace Zikula\ContentModule\Twig\Base;
 
+use Knp\Menu\Matcher\Matcher;
+use Knp\Menu\Renderer\ListRenderer;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -20,6 +22,7 @@ use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\WorkflowHelper;
+use Zikula\ContentModule\Menu\MenuBuilder;
 
 /**
  * Twig extension base class.
@@ -59,6 +62,11 @@ abstract class AbstractTwigExtension extends Twig_Extension
     protected $listHelper;
     
     /**
+     * @var MenuBuilder
+     */
+    protected $menuBuilder;
+    
+    /**
      * TwigExtension constructor.
      *
      * @param TranslatorInterface $translator     Translator service instance
@@ -68,6 +76,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
      * @param EntityDisplayHelper $entityDisplayHelper EntityDisplayHelper service instance
      * @param WorkflowHelper      $workflowHelper WorkflowHelper service instance
      * @param ListEntriesHelper   $listHelper     ListEntriesHelper service instance
+     * @param MenuBuilder         $menuBuilder    MenuBuilder service instance
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -76,7 +85,8 @@ abstract class AbstractTwigExtension extends Twig_Extension
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper,
         WorkflowHelper $workflowHelper,
-        ListEntriesHelper $listHelper)
+        ListEntriesHelper $listHelper,
+        MenuBuilder $menuBuilder)
     {
         $this->setTranslator($translator);
         $this->router = $router;
@@ -85,6 +95,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
         $this->entityDisplayHelper = $entityDisplayHelper;
         $this->workflowHelper = $workflowHelper;
         $this->listHelper = $listHelper;
+        $this->menuBuilder = $menuBuilder;
     }
     
     /**
@@ -206,10 +217,15 @@ abstract class AbstractTwigExtension extends Twig_Extension
         $repository = $this->entityFactory->getRepository($objectType);
         $descriptionFieldName = $this->entityDisplayHelper->getDescriptionFieldName($objectType);
     
-        $result = '';
+        $result = [
+            'nodes' => '',
+            'actions' => ''
+        ];
         foreach ($tree as $node) {
             if ($node->getLvl() < 1 || $node->getKey() == $rootId) {
-                $result .= $this->processTreeItemWithChildren($objectType, $node, $routeArea, $rootId, $descriptionFieldName, $hasEditAction);
+                list ($nodes, $actions) = $this->processTreeItemWithChildren($objectType, $node, $routeArea, $rootId, $descriptionFieldName, $hasEditAction);
+                $result['nodes'] .= $nodes;
+                $result['actions'] .= $actions;
             }
         }
     
@@ -247,19 +263,30 @@ abstract class AbstractTwigExtension extends Twig_Extension
             $liContent = '<a href="' . $url . '" title="' . str_replace('"', '', $title) . '">' . $liContent . '</a>';
         }
     
-        $treeItem = $liTag . $liContent;
+        $nodeItem = $liTag . $liContent;
+    
+        $itemActionsMenu = $this->menuBuilder->createItemActionsMenu(['entity' => $node, 'area' => $routeArea, 'context' => 'view']);
+        $renderer = new ListRenderer(new Matcher());
+    
+        $actions = '<li id="itemActions' . $node->getKey() . '">';
+        $actions .= $renderer->render($itemActionsMenu);
+        $actions = str_replace(' class="first"', '', $actions);
+        $actions = str_replace(' class="last"', '', $actions);
+        $actions .= '</li>';
     
         if (count($node->getChildren()) > 0) {
-            $treeItem .= '<ul>';
+            $nodeItem .= '<ul>';
             foreach ($node->getChildren() as $childNode) {
-                $treeItem .= $this->processTreeItemWithChildren($objectType, $childNode, $routeArea, $rootId, $descriptionFieldName, $hasEditAction);
+                list ($subNodes, $subActions) = $this->processTreeItemWithChildren($objectType, $childNode, $routeArea, $rootId, $descriptionFieldName, $hasEditAction);
+                $nodeItem .= $subNodes;
+                $actions .= $subActions;
             }
-            $treeItem .= '</ul>';
+            $nodeItem .= '</ul>';
         }
     
-        $treeItem .= '</li>';
+        $nodeItem .= '</li>';
     
-        return $treeItem;
+        return [$nodeItem, $actions];
     }
     
     
