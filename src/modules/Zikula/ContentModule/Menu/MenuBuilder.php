@@ -19,7 +19,6 @@ use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
  */
 class MenuBuilder extends AbstractMenuBuilder
 {
-
     /**
      * @inheritDoc
      */
