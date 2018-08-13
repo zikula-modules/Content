@@ -215,7 +215,12 @@ abstract class AbstractPageController extends AbstractController
      */
     public function adminDisplayAction(Request $request, $slug)
     {
-        return $this->displayInternal($request, $slug, true);
+        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+    
+        return $this->displayInternal($request, $page, true);
     }
     
     /**
@@ -231,19 +236,19 @@ abstract class AbstractPageController extends AbstractController
      */
     public function displayAction(Request $request, $slug)
     {
-        return $this->displayInternal($request, $slug, false);
+        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+    
+        return $this->displayInternal($request, $page, false);
     }
     
     /**
      * This method includes the common implementation code for adminDisplay() and display().
      */
-    protected function displayInternal(Request $request, $slug, $isAdmin = false)
+    protected function displayInternal(Request $request, PageEntity $page, $isAdmin = false)
     {
-        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
-        if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
-        }
-        
         $objectType = 'page';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
