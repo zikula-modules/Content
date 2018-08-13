@@ -56,6 +56,12 @@ class PermissionHelper extends AbstractPermissionHelper
             return $result;
         }
 
+        if ('approved' != $entity->getWorkflowState()) {
+            if (ACCESS_READ == $permissionLevel && $this->currentUserApi->get('uid') != $entity->getCreatedBy()->getUid()) {
+                return false;
+            }
+        }
+
         if (!$this->inheritPermissions) {
             return $result;
         }
