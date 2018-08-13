@@ -15,7 +15,6 @@ services:
             - "@knp_menu.factory"
             - "@event_dispatcher"
             - "@request_stack"
-            - "@zikula_content_module.entity_factory"
             - "@zikula_content_module.permission_helper"
             - "@zikula_content_module.entity_display_helper"
             - "@zikula_users_module.current_user"

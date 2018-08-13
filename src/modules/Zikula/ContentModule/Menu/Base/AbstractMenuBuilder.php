@@ -21,7 +21,6 @@ use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\SearchableEntity;
-use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
@@ -51,11 +50,6 @@ class AbstractMenuBuilder
     protected $requestStack;
 
     /**
-     * @var EntityFactory
-     */
-    protected $entityFactory;
-
-    /**
      * @var PermissionHelper
      */
     protected $permissionHelper;
@@ -77,7 +71,6 @@ class AbstractMenuBuilder
      * @param FactoryInterface         $factory             Factory service instance
      * @param EventDispatcherInterface $eventDispatcher     EventDispatcher service instance
      * @param RequestStack             $requestStack        RequestStack service instance
-     * @param EntityFactory            $entityFactory       EntityFactory service instance
      * @param PermissionHelper         $permissionHelper    PermissionHelper service instance
      * @param EntityDisplayHelper      $entityDisplayHelper EntityDisplayHelper service instance
      * @param CurrentUserApiInterface  $currentUserApi      CurrentUserApi service instance
@@ -87,7 +80,6 @@ class AbstractMenuBuilder
         FactoryInterface $factory,
         EventDispatcherInterface $eventDispatcher,
         RequestStack $requestStack,
-        EntityFactory $entityFactory,
         PermissionHelper $permissionHelper,
         EntityDisplayHelper $entityDisplayHelper,
         CurrentUserApiInterface $currentUserApi)
@@ -96,7 +88,6 @@ class AbstractMenuBuilder
         $this->factory = $factory;
         $this->eventDispatcher = $eventDispatcher;
         $this->requestStack = $requestStack;
-        $this->entityFactory = $entityFactory;
         $this->permissionHelper = $permissionHelper;
         $this->entityDisplayHelper = $entityDisplayHelper;
         $this->currentUserApi = $currentUserApi;
@@ -197,21 +188,17 @@ class AbstractMenuBuilder
                         $menu[$title]->setAttribute('icon', 'fa fa-child');
                     }
                 }
-                if (in_array($context, ['view', 'display'])) {
-                    $logEntriesRepo = $this->entityFactory->getObjectManager()->getRepository('ZikulaContentModule:PageLogEntryEntity');
-                    $logEntries = $logEntriesRepo->getLogEntries($entity);
-                    if (count($logEntries) > 1) {
-                        $title = $this->__('History', 'zikulacontentmodule');
-                        $menu->addChild($title, [
-                            'route' => $routePrefix . $routeArea . 'loggablehistory',
-                            'routeParameters' => $entity->createUrlArgs()
-                        ]);
-                        $menu[$title]->setLinkAttribute('title', $this->__('Watch version history', 'zikulacontentmodule'));
-                        if ($context == 'display') {
-                            $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
-                        }
-                        $menu[$title]->setAttribute('icon', 'fa fa-history');
+                if (in_array($context, ['view', 'display']) && $entity->getCurrentVersion() > 1) {
+                    $title = $this->__('History', 'zikulacontentmodule');
+                    $menu->addChild($title, [
+                        'route' => $routePrefix . $routeArea . 'loggablehistory',
+                        'routeParameters' => $entity->createUrlArgs()
+                    ]);
+                    $menu[$title]->setLinkAttribute('title', $this->__('Watch version history', 'zikulacontentmodule'));
+                    if ($context == 'display') {
+                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
+                    $menu[$title]->setAttribute('icon', 'fa fa-history');
                 }
             }
             if ($context == 'display') {
