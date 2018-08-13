@@ -202,7 +202,7 @@
                         <li>the current workflow state </li>
                         <li>This field is not unique and allows no null values.</li>
                         <li>The list is represented by a single-valued dropdown list.</li>
-                        <li>Available entries: <ul><li>Initial (initial)</li><li>Approved (approved)</li><li>Trashed (trashed)</li><li>Deleted (deleted)</li></ul></li>
+                        <li>Available entries: <ul><li>Initial (initial)</li><li>Deferred (deferred)</li><li>Approved (approved)</li><li>Trashed (trashed)</li><li>Deleted (deleted)</li></ul></li>
                     </ul>
                 </td>
             </tr>
@@ -594,6 +594,7 @@
                 <td headers="hPageWorkflowStates hPageWorkflowDescription">
                     <ul>
                         <li><strong>Initial:</strong> content is just created and not persisted yet.</li>
+                        <li><strong>Deferred:</strong> content has not been submitted yet or has been waiting, but was rejected. Allows users to manage their contributions, otherwise rejected content would be deleted.</li>
                         <li><strong>Approved:</strong> content has been approved and is available online.</li>
                         <li><strong>Deleted:</strong> content has been deleted from the database.</li>
                     </ul>
@@ -601,7 +602,7 @@
             </tr>
             <tr>
                 <th id="hPageWorkflowOwnerPermission" scope="row" headers="hPageWorkflowName">Users are able to manage and edit their own data</th>
-                <td headers="hPageWorkflowOwnerPermission hPageWorkflowDescription" class="text-center"><i class="fa fa-times"></i>
+                <td headers="hPageWorkflowOwnerPermission hPageWorkflowDescription" class="text-center"><i class="fa fa-check"></i>
                 </td>
             </tr>
             <tr>

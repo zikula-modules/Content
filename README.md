@@ -97,6 +97,8 @@ New features:
 - Slideshare and vimeo content types fetch additional data from the corresponding APIs.
 - Menu block has new options for different navigation types and sub pages handling.
 - All blocks showing lists of pages have included detection of currently active page.
+- Content elements can be moved and copied to other pages.
+- Added owner permission support to allow non-admin users to manage their own pages.
 
 Deprecations:
 - The short URL suffix can not be configured anymore.
@@ -114,7 +116,6 @@ Deprecations:
 
 - The `ComputerCodeType` needs to be updated for supporting the BBCode and LuMicuLa modules as soon as they have been migrated to Zikula 2. There are @todo markers for that.
 - The `YouTubeType` could be enhanced to fetch additional data from API. It should use the `CacheHelper` like `SlideshareType` and `VimeoType`. There is a @todo marker for that.
-- The `CacheHelper` should use a cleaner way to fetch remote data than `file_get_contents`, for example [Guzzle](http://docs.guzzlephp.org/en/stable/). There is a @todo marker for that.
 
 
 <a name="contributing" />

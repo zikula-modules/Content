@@ -15,6 +15,7 @@
     {% else %}
         {{ templateTitle|safeHtml }}
     {% endif %}
+    {% if routeArea == 'admin' %} <small>({{ page.workflowState|zikulacontentmodule_objectState(false)|lower }})</small>{% endif %}
     {% if page.metaDescription is not empty %}
         {{ pageSetVar('meta.description', page.metaDescription|striptags) }}
     {% endif %}

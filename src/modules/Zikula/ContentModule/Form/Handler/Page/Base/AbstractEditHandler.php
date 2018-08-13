@@ -19,6 +19,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use RuntimeException;
+use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
 /**
@@ -105,6 +106,13 @@ abstract class AbstractEditHandler extends EditHandler
         $entity = parent::initEntityForEditing();
         if (null === $entity) {
             return $entity;
+        }
+    
+        // only allow editing for the owner or people with higher permissions
+        $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
+        $isOwner = null !== $entity && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
+        if (!$isOwner && !$this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
+            throw new AccessDeniedException();
         }
     
         $this->originalSlug = $entity->getSlug();
@@ -217,6 +225,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         $message = '';
         switch ($args['commandName']) {
+            case 'defer':
             case 'submit':
                 if ($this->templateParameters['mode'] == 'create') {
                     $message = $this->__('Done! Page created.');

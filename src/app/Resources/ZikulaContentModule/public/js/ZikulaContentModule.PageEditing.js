@@ -82,6 +82,18 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
 }
 
 /**
+ * Checks if a touch device is used or not.
+ */
+function contentPageIsTouchDevice() {
+    try {
+        document.createEvent('TouchEvent');
+        return true;
+    } catch(e) {
+        return false;
+    }
+}
+
+/**
  * Initialises the palette for adding new widgets.
  */
 function contentPageInitPalette() {
@@ -107,7 +119,7 @@ function contentPageInitPalette() {
         opacity: 0.75,
         zIndex: 100,
         start: function (event, ui) {
-            highlightGrids();
+            contentPageHighlightGrids();
 
             // update widget size for placeholder
             var widget = jQuery(this);
@@ -138,6 +150,9 @@ function contentPageInitPalette() {
             suspendAutoSave = false;
         }
     });
+    if (contentPageIsTouchDevice()) {
+        jQuery('body').addClass('touch-device');
+    }
 }
 
 /**
@@ -242,20 +257,20 @@ function contentPageInitSectionGrid(selector, gridOptions) {
     jQuery(selector).on('change', contentPageSave);
 
     jQuery(selector).on('resizestart', function (event, ui) {
-        highlightGrids();
+        contentPageHighlightGrids();
     });
     jQuery(selector).on('resizestop', function (event, ui) {
-        unhighlightGrids();
+        contentPageUnhighlightGrids();
     });
     jQuery(selector).on('dragstart', function (event, ui) {
-        highlightGrids();
+        contentPageHighlightGrids();
     });
-    jQuery(selector).on('dragstop', function (event, ui) {
-        unhighlightGrids();
+    jQuery('body').on('dragstop', function (event, ui) {
+        contentPageUnhighlightGrids();
     });
 
     jQuery(selector).on('dropped', function (event, previousWidget, newWidget) {
-        unhighlightGrids();
+        contentPageUnhighlightGrids();
 
         //console.log('Removed widget that was dragged out of grid:', previousWidget);
         //console.log('Added widget in dropped grid:', newWidget);
@@ -450,6 +465,110 @@ function contentPageRemoveWidget(widget) {
 }
 
 /**
+ * Opens a modal window for moving/copying a widget.
+ */
+function contentPageInitWidgetMovingCopying(widget) {
+    var modal;
+    var heading;
+    var body;
+
+    modal = jQuery('#contentItemEditingModal');
+
+    // see https://stackoverflow.com/questions/19506672/
+    if (
+        ((modal.data('bs.modal') || {})._isShown) /* Bootstrap 4 */
+    ||
+        ((modal.data('bs.modal') || {}).isShown) /* Bootstrap 3 */
+    ) {
+        return;
+    }
+
+    heading = modal.find('.modal-header h4.modal-title').first();
+    body = modal.find('.modal-body').first();
+
+    heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
+    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+
+    jQuery('#btnDeleteContent').addClass('hidden');
+    jQuery('#btnCancelContent').removeClass('hidden');
+    modal.modal('show');
+
+    jQuery.getJSON(
+        Routing.generate('zikulacontentmodule_contentitem_movecopy', { contentItem: contentPageGetWidgetId(widget) })
+    ).done(function(data) {
+        var form;
+        var formBody;
+        var formError;
+
+        body.html(data.form);
+
+        body.find('input, select').change(zikulaContentExecuteCustomValidationConstraints);
+        zikulaContentExecuteCustomValidationConstraints();
+
+        form = body.find('#contentItemEditForm');
+        formBody = body.find('#contentItemEditFormBody');
+        formError = body.find('#contentItemEditFormError');
+        form.on('submit', function (event) {
+            event.preventDefault();
+            return false;
+        });
+        jQuery('#btnSaveContent').unbind('click').click(function (event) {
+            event.preventDefault();
+
+            // check input validation
+            zikulaContentExecuteCustomValidationConstraints();
+            if (!form.get(0).checkValidity()) {
+                return;
+            }
+
+            if (pageId == jQuery('#zikulacontentmodule_movecopycontentitem_destinationPage').val()) {
+                alert(Translator.__('Destination page must not be the current page.'));
+                return;
+            }
+
+            var operationType = jQuery('input[type=radio]:checked').first().val();
+
+            jQuery('#btnCancelContent').addClass('hidden');
+            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+
+            jQuery.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize()
+            })
+            .done(function (data) {
+                modal.modal('hide');
+                if ('undefined' !== typeof data.message) {
+                    jQuery('#widgetUpdateDoneAlert').remove();
+                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                }
+                if ('move' == operationType) {
+                    contentPageRemoveWidget(widget);
+                    contentPageSave();
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if ('undefined' !== typeof jqXHR.responseJSON) {
+                    if (jqXHR.responseJSON.hasOwnProperty('form')) {
+                        formBody.html(jqXHR.responseJSON.form);
+                    }
+                    formError.html(jqXHR.responseJSON.message);
+                } else {
+                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
+                }    
+            });
+        });
+        jQuery('#btnCancelContent').unbind('click').click(function (event) {
+            event.preventDefault();
+            jQuery(this).addClass('hidden');
+        });
+    }).fail(function(jqXHR, textStatus) {
+        modal.modal('hide');
+        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
+    });
+}
+
+/**
  * Returns the actions for a widget.
  */
 function contentPageGetWidgetActions(widgetId) {
@@ -464,7 +583,7 @@ function contentPageGetWidgetActions(widgetId) {
                 <span class="sr-only">${Translator.__('Actions')}</span>
                 <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu${widgetId}">
+            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu${widgetId}">
                 <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
@@ -475,7 +594,7 @@ function contentPageGetWidgetActions(widgetId) {
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Advanced')}</li>
                 <li><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
-                <li class="disabled"><a class="move-item" title="${Translator.__('Move this element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move')}</a></li>
+                <li><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move/Copy')}</a></li>
                 <li${translationState}><a class="translate-item" title="${Translator.__('Translate this element')}"><i class="fa fa-fw fa-language"></i> ${Translator.__('Translate')}</a></li>
             </ul>
         </div>
@@ -490,7 +609,7 @@ function contentPageGetWidgetActions(widgetId) {
 function contentPageDeleteWidget(widget) {
     jQuery.ajax({
         type: 'post',
-        url: Routing.generate('zikulacontentmodule_contentitem_edit', {contentItem: contentPageGetWidgetId(widget)}),
+        url: Routing.generate('zikulacontentmodule_contentitem_edit', { contentItem: contentPageGetWidgetId(widget) }),
         data: { action: 'delete' },
         async: false
     })
@@ -521,6 +640,7 @@ function contentPageInitWidgetActions() {
     jQuery('.grid-stack .grid-stack-item a.edit-item').unbind('click').click(function (event) {
         var widget;
 
+        event.preventDefault();
         widget = jQuery(this).parents('.grid-stack-item').first();
         contentPageInitWidgetEditing(widget, false);
     });
@@ -562,7 +682,7 @@ function contentPageInitWidgetActions() {
         widget = jQuery(this).parents('.grid-stack-item').first();
         jQuery.ajax({
             method: 'POST',
-            url: Routing.generate('zikulacontentmodule_contentitem_duplicate', {contentItem: contentPageGetWidgetId(widget)}),
+            url: Routing.generate('zikulacontentmodule_contentitem_duplicate', { contentItem: contentPageGetWidgetId(widget) }),
             data: {pageId: pageId},
             success: function (data) {
                 var newWidget;
@@ -580,9 +700,12 @@ function contentPageInitWidgetActions() {
             }
         });
     });
-    jQuery('.grid-stack .grid-stack-item a.move-item').unbind('click').click(function (event) {
+    jQuery('.grid-stack .grid-stack-item a.move-copy-item').unbind('click').click(function (event) {
+        var widget;
+
         event.preventDefault();
-        alert('TODO');
+        widget = jQuery(this).parents('.grid-stack-item').first();
+        contentPageInitWidgetMovingCopying(widget);
     });
     jQuery('.grid-stack .grid-stack-item a.translate-item').unbind('click').click(function (event) {
         event.preventDefault();
@@ -882,14 +1005,14 @@ var gridsHighlighted = false;
 /**
  * Initialises the grid highlighter.
  */
-function initGridHiglighter() {
+function contentPageInitGridHiglighter() {
     jQuery('body').prepend('<div id="grid-displayer" class="hidden"><div class="gd-container"><div class="gd-row"></div></div></div>');
 }
 
 /**
  * Displays the grid columns for easier orientation.
  */
-function highlightGrids() {
+function contentPageHighlightGrids() {
     var options = {
         amountOfColumns: 12,
         gutterWidth: 18,
@@ -931,7 +1054,7 @@ function highlightGrids() {
 /**
  * Removes the grid columns display again.
  */
-function unhighlightGrids() {
+function contentPageUnhighlightGrids() {
     jQuery('#grid-displayer').addClass('hidden');
     gridsHighlighted = false;
 }
@@ -956,7 +1079,7 @@ jQuery(document).ready(function () {
     suspendAutoSave = true;
     contentPageLoad();
     suspendAutoSave = false;
-    initGridHiglighter();
+    contentPageInitGridHiglighter();
 });
 
 // repair CKEditor popup focus inside Bootstrap modal

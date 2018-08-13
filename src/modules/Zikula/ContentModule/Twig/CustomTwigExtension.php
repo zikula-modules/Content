@@ -334,10 +334,21 @@ class CustomTwigExtension extends Twig_Extension
      * Examples:
      *    {% if zikulacontentmodule_hasReadAccess(page) %}
      *
-     * @param PageEntity $page The given page instance
+     * @param PageEntity|integer $page The given page instance or its identifier
      */
-    public function hasReadAccess(PageEntity $page)
+    public function hasReadAccess($page)
     {
+        if (!($page instanceof PageEntity)) {
+            $page = intval($page);
+            if (!$page) {
+                return false;
+            }
+            $page = $this->entityFactory->getRepository('page')->selectById($page, false);
+            if (null === $page) {
+                return false;
+            }
+        }
+
         return $this->permissionHelper->mayRead($page);
     }
 

@@ -25,6 +25,7 @@ use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\ContentItemType;
+use Zikula\ContentModule\Form\Type\MoveCopyContentItemType;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 
 /**
@@ -129,7 +130,7 @@ class ContentItemController extends AbstractContentItemController
         $factory = $this->get('zikula_content_module.entity_factory');
         $page = $factory->getRepository('page')->selectById($pageId);
         if (null === $page) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException($this->__('Page not found.'));
         }
 
         $newItem = clone $contentItem;
@@ -186,7 +187,7 @@ class ContentItemController extends AbstractContentItemController
             $factory = $this->get('zikula_content_module.entity_factory');
             $page = $factory->getRepository('page')->selectById($pageId);
             if (null === $page) {
-                throw new NotFoundHttpException();
+                throw new NotFoundHttpException($this->__('Page not found.'));
             }
 
             $contentItem = $factory->createContentItem();
@@ -243,7 +244,7 @@ class ContentItemController extends AbstractContentItemController
 
         if ($isPost) {
             $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-            $action = $request->request->get('action', '');
+            $action = $dataSource->get('action', '');
             if (!in_array($action, ['save', 'delete'])) {
                 throw new RuntimeException($this->__('Invalid action received.'));
             }
@@ -323,6 +324,122 @@ class ContentItemController extends AbstractContentItemController
             'form' => $this->renderView('@ZikulaContentModule/ContentItem/' . $template, $templateParameters),
             'assets' => $contentType->getAssets(ContentTypeInterface::CONTEXT_EDIT),
             'jsEntryPoint' => $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_EDIT)
+        ];
+
+        if (!$isPost) {
+            return $this->json($output);
+        }
+
+        $output['message'] = $this->__('Error! Please check your input.');
+
+        return $this->json($output, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * This action provides a handling of move and copy requests for content items.
+     *
+     * @Route("/item/movecopy/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
+     *
+     * @param Request $request Current request instance
+     * @param ContentItemEntity $contentItem
+     *
+     * @return JsonResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if item to be moved/copied isn't found
+     */
+    public function movecopyAction(Request $request, ContentItemEntity $contentItem = null)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+        }
+
+        $isPost = $request->isMethod('POST');
+
+        // permission check
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (null === $contentItem) {
+            throw new NotFoundHttpException($this->__('Content item not found.'));
+        }
+        if (!$permissionHelper->mayEdit($contentItem)) {
+            throw new AccessDeniedException();
+        }
+
+        $routeArgs = [
+            'contentItem' => $contentItem->getId()
+        ];
+        $route = $this->get('router')->generate('zikulacontentmodule_contentitem_movecopy', $routeArgs);
+
+        $formData = $isPost ? $request->request->get('zikulacontentmodule_movecopycontentitem') : [];
+        $operationType = $isPost && isset($formData['operationType']) ? $formData['operationType'] : 'copy';
+        if (!in_array($operationType, ['move', 'copy'])) {
+            $operationType = 'copy';
+        }
+
+        $form = $this->createForm(MoveCopyContentItemType::class, [
+            'operationType' => $operationType
+        ], [
+            'action' => $route
+        ]);
+
+        $templateParameters = [
+            'contentItem' => $contentItem,
+            'form' => $form->createView()
+        ];
+
+        if ($isPost) {
+            $form->handleRequest($request);
+            //if ($form->isValid()) // TODO investigate
+
+            $sourcePageId = $contentItem->getPage()->getId();
+            $destinationPageId = $formData['destinationPage'];
+            if (!$sourcePageId) {
+                throw new NotFoundHttpException($this->__('Source page not found.'));
+            }
+            if (!$destinationPageId) {
+                throw new NotFoundHttpException($this->__('Destination page not found.'));
+            }
+            if ($sourcePageId == $destinationPageId) {
+                throw new RuntimeException($this->__('Destination page must not be the current page.'));
+            }
+            $factory = $this->get('zikula_content_module.entity_factory');
+            $sourcePage = $factory->getRepository('page')->selectById($sourcePageId);
+            if (null === $sourcePage) {
+                throw new NotFoundHttpException($this->__('Source page not found.'));
+            }
+            $destinationPage = $factory->getRepository('page')->selectById($destinationPageId);
+            if (null === $destinationPage) {
+                throw new NotFoundHttpException($this->__('Destination page not found.'));
+            }
+
+            $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+            if ('move' == $operationType) {
+                $sourcePage->removeContentItems($contentItem);
+                $destinationPage->addContentItems($contentItem);
+                $success = $workflowHelper->executeAction($contentItem, 'update');
+                if (!$success) {
+                    return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+                }
+            } elseif ('copy' == $operationType) {
+                $newItem = clone $contentItem;
+                $destinationPage->addContentItems($newItem);
+
+                $success = $workflowHelper->executeAction($newItem, 'submit');
+                if (!$success) {
+                    return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+                }
+            }
+
+            return $this->json([
+                'id' => $contentItem->getId(),
+                'message' => ('move' == $operationType ? $this->__('Done! Content moved!') : $this->__('Done! Content copied!'))
+            ]);
+        }
+
+        $template = (!$isPost ? 'moveCopy' : 'moveCopyFormBody') . '.html.twig';
+
+        $output = [
+            'form' => $this->renderView('@ZikulaContentModule/ContentItem/' . $template, $templateParameters)
         ];
 
         if (!$isPost) {

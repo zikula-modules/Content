@@ -444,6 +444,11 @@ abstract class AbstractCollectionFilterHelper
         if (!in_array('workflowState', array_keys($parameters)) || empty($parameters['workflowState'])) {
             // per default we show approved pages only
             $onlineStates = ['approved'];
+            if ($showOnlyOwnEntries) {
+                // allow the owner to see his pages
+                $onlineStates[] = 'deferred';
+                $onlineStates[] = 'trashed';
+            }
             $qb->andWhere('tbl.workflowState IN (:onlineStates)')
                ->setParameter('onlineStates', $onlineStates);
         }
@@ -611,6 +616,8 @@ abstract class AbstractCollectionFilterHelper
         $parameters = [];
     
         if ($objectType == 'page') {
+            $filters[] = 'tbl.workflowState = :searchWorkflowState';
+            $parameters['searchWorkflowState'] = $fragment;
             $filters[] = 'tbl.title LIKE :searchTitle';
             $parameters['searchTitle'] = '%' . $fragment . '%';
             $filters[] = 'tbl.metaDescription LIKE :searchMetaDescription';

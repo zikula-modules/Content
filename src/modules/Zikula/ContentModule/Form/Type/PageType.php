@@ -55,8 +55,7 @@ class PageType extends AbstractPageType
             'optionalText',
 
             'showTitle',
-            'skipUiHookSubscriber',
-            'skipFilterHookSubscriber',
+            'skipHookSubscribers',
             'active',
             'activeFrom',
             'activeTo',

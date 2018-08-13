@@ -61,6 +61,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     public function getAllowedSortingFields()
     {
         return [
+            'workflowState',
             'title',
             'views',
             'active',
