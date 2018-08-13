@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use GuzzleHttp\Client;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -89,8 +90,12 @@ class CacheHelper
         }
 
         // fetch from source
-        // @todo cleaner way for fetching remote content
-        $result = @file_get_contents($url);
+        $client = new Client();
+        $response = $client->get($url);
+        $result = '';
+        if (200 == $response->getStatusCode()) {
+            $result = (string) $response->getBody();
+        }
 
         if ($hasCache) {
             file_put_contents($cacheFile, $result);

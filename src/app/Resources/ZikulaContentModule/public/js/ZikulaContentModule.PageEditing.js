@@ -568,7 +568,7 @@ function contentPageGetWidgetActions(widgetId) {
                 <span class="sr-only">${Translator.__('Actions')}</span>
                 <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu${widgetId}">
+            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu${widgetId}">
                 <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
