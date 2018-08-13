@@ -28,7 +28,7 @@ abstract class AbstractContentEvents
      * @see Zikula\ContentModule\Menu\MenuBuilder::createItemActionsMenu()
      * @var string
      */
-    const MENU_ITEMACTIONS_PRE_CONFIGURE = 'zikulacontentmoduleitemactionsmenu_pre_configure';
+    const MENU_ITEMACTIONS_PRE_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_pre_configure';
     
     /**
      * The zikulacontentmodule.itemactionsmenu_post_configure event is thrown after the item actions
@@ -40,7 +40,7 @@ abstract class AbstractContentEvents
      * @see Zikula\ContentModule\Menu\MenuBuilder::createItemActionsMenu()
      * @var string
      */
-    const MENU_ITEMACTIONS_POST_CONFIGURE = 'zikulacontentmoduleitemactionsmenu_post_configure';
+    const MENU_ITEMACTIONS_POST_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_post_configure';
     /**
      * The zikulacontentmodule.page_post_load event is thrown when pages
      * are loaded from the database.
