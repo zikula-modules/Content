@@ -64,3 +64,11 @@ services:
             - '@translator.default'
         tags:
             - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.ui_hooks.contentitems' }
+    zikula_content_module.menu_module_listener:
+        class: Zikula\ContentModule\Listener\MenuModuleListener
+        arguments:
+            - '@router'
+            - '@zikula_content_module.entity_factory'
+            - '@zikula_content_module.permission_helper'
+            - '@zikula_content_module.entity_display_helper'
+        tags: ['kernel.event_subscriber']

@@ -9,10 +9,11 @@
   2. [Requirements](#requirements)
   3. [Installation](#installation)
   4. [Upgrading](#upgrading)
-  5. [Implementing custom content types](#contenttypes)
-  6. [Changelog](#changelog)
-  7. [TODO](#todo)
-  8. [Questions, bugs and contributing](#contributing)
+  5. [Integration with menu module](#menumodule)
+  6. [Implementing custom content types](#contenttypes)
+  7. [Changelog](#changelog)
+  8. [TODO](#todo)
+  9. [Questions, bugs and contributing](#contributing)
 
 
 <a name="introduction" />
@@ -49,6 +50,13 @@ The Content module is installed like this:
 
 The upgrade process from earlier versions to 1.5.0 has not been implemented yet.
 Please see issue #198 for reference.
+
+
+<a name="menumodule" />
+
+## Integration with menu module
+
+Content offers a dedicated menu block. But it can also be combined with menus from the menu module which is provided by Zikula core. You can add nodes with a placeholder title like `ContentPages_123` whereby `123` is either the ID of a certain page. When displaying the menu this placeholder will be replaced by the corresponding pages sub tree. Note that only those pages are shown which are currently active, have the "in menu" flag enabled and visible to the current user.
 
 
 <a name="contenttypes" />
