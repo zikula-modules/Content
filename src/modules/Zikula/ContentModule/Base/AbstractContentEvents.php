@@ -11,11 +11,36 @@
 
 namespace Zikula\ContentModule\Base;
 
+use Zikula\ContentModule\Listener\EntityLifecycleListener;
+
 /**
  * Events definition base class.
  */
 abstract class AbstractContentEvents
 {
+    /**
+     * The zikulacontentmodule.itemactionsmenu_pre_configure event is thrown before the item actions
+     * menu is built in the menu builder.
+     *
+     * The event listener receives an
+     * Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent instance.
+     *
+     * @see Zikula\ContentModule\Menu\MenuBuilder::createItemActionsMenu()
+     * @var string
+     */
+    const MENU_ITEMACTIONS_PRE_CONFIGURE = 'zikulacontentmoduleitemactionsmenu_pre_configure';
+    
+    /**
+     * The zikulacontentmodule.itemactionsmenu_post_configure event is thrown after the item actions
+     * menu has been built in the menu builder.
+     *
+     * The event listener receives an
+     * Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent instance.
+     *
+     * @see Zikula\ContentModule\Menu\MenuBuilder::createItemActionsMenu()
+     * @var string
+     */
+    const MENU_ITEMACTIONS_POST_CONFIGURE = 'zikulacontentmoduleitemactionsmenu_post_configure';
     /**
      * The zikulacontentmodule.page_post_load event is thrown when pages
      * are loaded from the database.
@@ -23,7 +48,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterPageEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postLoad()
+     * @see EntityLifecycleListener::postLoad()
      * @var string
      */
     const PAGE_POST_LOAD = 'zikulacontentmodule.page_post_load';
@@ -35,7 +60,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterPageEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::prePersist()
+     * @see EntityLifecycleListener::prePersist()
      * @var string
      */
     const PAGE_PRE_PERSIST = 'zikulacontentmodule.page_pre_persist';
@@ -47,7 +72,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterPageEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postPersist()
+     * @see EntityLifecycleListener::postPersist()
      * @var string
      */
     const PAGE_POST_PERSIST = 'zikulacontentmodule.page_post_persist';
@@ -59,7 +84,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterPageEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::preRemove()
+     * @see EntityLifecycleListener::preRemove()
      * @var string
      */
     const PAGE_PRE_REMOVE = 'zikulacontentmodule.page_pre_remove';
@@ -71,7 +96,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterPageEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postRemove()
+     * @see EntityLifecycleListener::postRemove()
      * @var string
      */
     const PAGE_POST_REMOVE = 'zikulacontentmodule.page_post_remove';
@@ -83,7 +108,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterPageEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::preUpdate()
+     * @see EntityLifecycleListener::preUpdate()
      * @var string
      */
     const PAGE_PRE_UPDATE = 'zikulacontentmodule.page_pre_update';
@@ -95,7 +120,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterPageEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postUpdate()
+     * @see EntityLifecycleListener::postUpdate()
      * @var string
      */
     const PAGE_POST_UPDATE = 'zikulacontentmodule.page_post_update';
@@ -107,7 +132,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterContentItemEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postLoad()
+     * @see EntityLifecycleListener::postLoad()
      * @var string
      */
     const CONTENTITEM_POST_LOAD = 'zikulacontentmodule.contentitem_post_load';
@@ -119,7 +144,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterContentItemEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::prePersist()
+     * @see EntityLifecycleListener::prePersist()
      * @var string
      */
     const CONTENTITEM_PRE_PERSIST = 'zikulacontentmodule.contentitem_pre_persist';
@@ -131,7 +156,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterContentItemEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postPersist()
+     * @see EntityLifecycleListener::postPersist()
      * @var string
      */
     const CONTENTITEM_POST_PERSIST = 'zikulacontentmodule.contentitem_post_persist';
@@ -143,7 +168,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterContentItemEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::preRemove()
+     * @see EntityLifecycleListener::preRemove()
      * @var string
      */
     const CONTENTITEM_PRE_REMOVE = 'zikulacontentmodule.contentitem_pre_remove';
@@ -155,7 +180,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterContentItemEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postRemove()
+     * @see EntityLifecycleListener::postRemove()
      * @var string
      */
     const CONTENTITEM_POST_REMOVE = 'zikulacontentmodule.contentitem_post_remove';
@@ -167,7 +192,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterContentItemEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::preUpdate()
+     * @see EntityLifecycleListener::preUpdate()
      * @var string
      */
     const CONTENTITEM_PRE_UPDATE = 'zikulacontentmodule.contentitem_pre_update';
@@ -179,7 +204,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterContentItemEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postUpdate()
+     * @see EntityLifecycleListener::postUpdate()
      * @var string
      */
     const CONTENTITEM_POST_UPDATE = 'zikulacontentmodule.contentitem_post_update';
@@ -191,7 +216,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterSearchableEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postLoad()
+     * @see EntityLifecycleListener::postLoad()
      * @var string
      */
     const SEARCHABLE_POST_LOAD = 'zikulacontentmodule.searchable_post_load';
@@ -203,7 +228,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterSearchableEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::prePersist()
+     * @see EntityLifecycleListener::prePersist()
      * @var string
      */
     const SEARCHABLE_PRE_PERSIST = 'zikulacontentmodule.searchable_pre_persist';
@@ -215,7 +240,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterSearchableEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postPersist()
+     * @see EntityLifecycleListener::postPersist()
      * @var string
      */
     const SEARCHABLE_POST_PERSIST = 'zikulacontentmodule.searchable_post_persist';
@@ -227,7 +252,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterSearchableEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::preRemove()
+     * @see EntityLifecycleListener::preRemove()
      * @var string
      */
     const SEARCHABLE_PRE_REMOVE = 'zikulacontentmodule.searchable_pre_remove';
@@ -239,7 +264,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterSearchableEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postRemove()
+     * @see EntityLifecycleListener::postRemove()
      * @var string
      */
     const SEARCHABLE_POST_REMOVE = 'zikulacontentmodule.searchable_post_remove';
@@ -251,7 +276,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterSearchableEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::preUpdate()
+     * @see EntityLifecycleListener::preUpdate()
      * @var string
      */
     const SEARCHABLE_PRE_UPDATE = 'zikulacontentmodule.searchable_pre_update';
@@ -263,7 +288,7 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\FilterSearchableEvent instance.
      *
-     * @see Zikula\ContentModule\Listener\EntityLifecycleListener::postUpdate()
+     * @see EntityLifecycleListener::postUpdate()
      * @var string
      */
     const SEARCHABLE_POST_UPDATE = 'zikulacontentmodule.searchable_post_update';

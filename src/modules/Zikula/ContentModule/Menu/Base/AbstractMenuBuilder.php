@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Menu\Base;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -21,6 +22,8 @@ use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\SearchableEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\ContentEvents;
+use Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
@@ -36,6 +39,11 @@ class AbstractMenuBuilder
      * @var FactoryInterface
      */
     protected $factory;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
     /**
      * @var RequestStack
@@ -65,17 +73,19 @@ class AbstractMenuBuilder
     /**
      * MenuBuilder constructor.
      *
-     * @param TranslatorInterface     $translator          Translator service instance
-     * @param FactoryInterface        $factory             Factory service instance
-     * @param RequestStack            $requestStack        RequestStack service instance
-     * @param EntityFactory           $entityFactory       EntityFactory service instance
-     * @param PermissionHelper        $permissionHelper    PermissionHelper service instance
-     * @param EntityDisplayHelper     $entityDisplayHelper EntityDisplayHelper service instance
-     * @param CurrentUserApiInterface $currentUserApi      CurrentUserApi service instance
+     * @param TranslatorInterface      $translator          Translator service instance
+     * @param FactoryInterface         $factory             Factory service instance
+     * @param EventDispatcherInterface $eventDispatcher     EventDispatcher service instance
+     * @param RequestStack             $requestStack        RequestStack service instance
+     * @param EntityFactory            $entityFactory       EntityFactory service instance
+     * @param PermissionHelper         $permissionHelper    PermissionHelper service instance
+     * @param EntityDisplayHelper      $entityDisplayHelper EntityDisplayHelper service instance
+     * @param CurrentUserApiInterface  $currentUserApi      CurrentUserApi service instance
      */
     public function __construct(
         TranslatorInterface $translator,
         FactoryInterface $factory,
+        EventDispatcherInterface $eventDispatcher,
         RequestStack $requestStack,
         EntityFactory $entityFactory,
         PermissionHelper $permissionHelper,
@@ -84,6 +94,7 @@ class AbstractMenuBuilder
     {
         $this->setTranslator($translator);
         $this->factory = $factory;
+        $this->eventDispatcher = $eventDispatcher;
         $this->requestStack = $requestStack;
         $this->entityFactory = $entityFactory;
         $this->permissionHelper = $permissionHelper;
@@ -125,6 +136,8 @@ class AbstractMenuBuilder
             return $menu;
         }
         $menu->setChildrenAttribute('class', 'list-inline item-actions');
+
+        $this->eventDispatcher->dispatch(ContentEvents::MENU_ITEMACTIONS_PRE_CONFIGURE, new ConfigureItemActionsMenuEvent($this->factory, $menu, $options));
 
         $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
         if ($entity instanceof PageEntity) {
@@ -220,6 +233,8 @@ class AbstractMenuBuilder
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
         
         }
+
+        $this->eventDispatcher->dispatch(ContentEvents::MENU_ITEMACTIONS_POST_CONFIGURE, new ConfigureItemActionsMenuEvent($this->factory, $menu, $options));
 
         return $menu;
     }

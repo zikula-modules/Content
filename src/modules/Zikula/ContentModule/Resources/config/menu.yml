@@ -13,6 +13,7 @@ services:
         arguments:
             - "@translator.default"
             - "@knp_menu.factory"
+            - "@event_dispatcher"
             - "@request_stack"
             - "@zikula_content_module.entity_factory"
             - "@zikula_content_module.permission_helper"
