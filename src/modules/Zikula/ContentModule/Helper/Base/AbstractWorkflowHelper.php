@@ -105,6 +105,11 @@ abstract class AbstractWorkflowHelper
              'ui' => 'danger'
          ];
          $states[] = [
+             'value' => 'deferred',
+             'text' => $this->translator->__('Deferred'),
+             'ui' => 'danger'
+         ];
+         $states[] = [
              'value' => 'approved',
              'text' => $this->translator->__('Approved'),
              'ui' => 'success'
@@ -183,8 +188,14 @@ abstract class AbstractWorkflowHelper
     {
         $title = '';
         switch ($actionId) {
+            case 'defer':
+                $title = $this->translator->__('Defer');
+                break;
             case 'submit':
                 $title = $this->translator->__('Submit');
+                break;
+            case 'reject':
+                $title = $this->translator->__('Reject');
                 break;
             case 'trash':
                 $title = $this->translator->__('Trash');
@@ -221,8 +232,14 @@ abstract class AbstractWorkflowHelper
     {
         $buttonClass = '';
         switch ($actionId) {
+            case 'defer':
+                $buttonClass = '';
+                break;
             case 'submit':
                 $buttonClass = 'success';
+                break;
+            case 'reject':
+                $buttonClass = '';
                 break;
             case 'trash':
                 $buttonClass = '';

@@ -4,7 +4,7 @@
 {% block pageTitle %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }}{% endblock %}
 {% block title %}
     {% set templateTitle = page|zikulacontentmodule_formattedTitle|default(__('Page')) %}
-    {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}
+    {{ templateTitle|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}{% if routeArea == 'admin' %} <small>({{ page.workflowState|zikulacontentmodule_objectState(false)|lower }})</small>{% endif %}
 {% endblock %}
 {% block admin_page_icon 'eye' %}
 {% block content %}
@@ -18,6 +18,10 @@
         {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
     </div>
     <dl>
+        {% if page.workflowState is not empty and routeArea == 'admin' %}
+            <dt>{{ __('State') }}</dt>
+            <dd>{{ page.workflowState|zikulacontentmodule_listEntry('page', 'workflowState') }}</dd>
+        {% endif %}
         {% if page.title is not empty %}
             <dt>{{ __('Title') }}</dt>
             <dd>{{ page.title }}</dd>

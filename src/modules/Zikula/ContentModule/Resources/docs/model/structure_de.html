@@ -202,7 +202,7 @@
                         <li>the current workflow state </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
                         <li>Die Liste wird durch eine einwertige Dropdownliste repräsentiert.</li>
-                        <li>Verfügbare Einträge: <ul><li>Initial (initial)</li><li>Approved (approved)</li><li>Trashed (trashed)</li><li>Deleted (deleted)</li></ul></li>
+                        <li>Verfügbare Einträge: <ul><li>Initial (initial)</li><li>Deferred (deferred)</li><li>Approved (approved)</li><li>Trashed (trashed)</li><li>Deleted (deleted)</li></ul></li>
                     </ul>
                 </td>
             </tr>
@@ -594,6 +594,7 @@
                 <td headers="hPageWorkflowStates hPageWorkflowDescription">
                     <ul>
                         <li><strong>Initial:</strong> Inhalt wurde soeben erstellt und noch nicht persistiert.</li>
+                        <li><strong>Zurückgestellt:</strong> Inhalt wurde noch nicht eingereicht oder wartete und wurde zurückgewiesen. Erlaubt es Benutzern, ihre Einreichungen zu verwalten, ansonsten würden zurückgewiesene Inhalte gelöscht.</li>
                         <li><strong>Freigegeben:</strong> Inhalt wurde freigegeben und ist online verfügbar.</li>
                         <li><strong>Gelöscht:</strong> Inhalt wurde aus der Datenbank gelöscht.</li>
                     </ul>
@@ -601,7 +602,7 @@
             </tr>
             <tr>
                 <th id="hPageWorkflowOwnerPermission" scope="row" headers="hPageWorkflowName">Benutzer können ihre eigenen Daten verwalten und bearbeiten</th>
-                <td headers="hPageWorkflowOwnerPermission hPageWorkflowDescription" class="text-center"><i class="fa fa-times"></i>
+                <td headers="hPageWorkflowOwnerPermission hPageWorkflowDescription" class="text-center"><i class="fa fa-check"></i>
                 </td>
             </tr>
             <tr>

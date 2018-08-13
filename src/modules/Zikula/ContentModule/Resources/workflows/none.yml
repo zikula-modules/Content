@@ -12,22 +12,32 @@ framework:
                 - Zikula\ContentModule\Entity\SearchableEntity
             places:
                 - initial
+                - deferred
                 - approved
                 - trashed
                 - deleted
             transitions:
-                - name: submit
+                - name: defer
                   from: initial
+                  to: deferred
+                - name: submit
+                  from: [initial, deferred]
                   to: approved
                 - name: update
                   from: approved
                   to: approved
+                - name: update
+                  from: deferred
+                  to: deferred
                 - name: recover
                   from: trashed
-                  to: approved
+                  to: deferred
+                - name: trash
+                  from: deferred
+                  to: trashed
+                - name: delete
+                  from: [deferred, approved, trashed]
+                  to: deleted
                 - name: trash
                   from: approved
                   to: trashed
-                - name: delete
-                  from: [approved, trashed]
-                  to: deleted

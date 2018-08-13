@@ -51,6 +51,7 @@ application "Content" {
             displayPattern "#title#"
             lockType PAGELOCK_OPTIMISTIC
             tree NESTED
+            ownerPermission true
             fields {
                 string "title" translatable {
                     defaultValue ""

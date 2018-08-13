@@ -34,6 +34,7 @@
         </ul>
     {% endif %}
     </versionData>
+    <workflowState>{{ page.workflowState|zikulacontentmodule_objectState(false)|lower }}</workflowState>
     <contentItems>
     {% if page.contentItems|default %}
         {% for relatedItem in page.contentItems %}

@@ -20,6 +20,9 @@
                     <col id="cSelect" />
                 {% endif %}
                 <col id="cItemActionsStart" />
+                {% if routeArea == 'admin' %}
+                <col id="cWorkflowState" />
+                {% endif %}
                 <col id="cTitle" />
                 {% if countPageViews %}
                     <col id="cViews" />
@@ -38,6 +41,11 @@
                     </th>
                 {% endif %}
                 <th id="hItemActionsStart" scope="col" class="z-w02">{{ __('Actions') }}</th>
+                {% if routeArea == 'admin' %}
+                <th id="hWorkflowState" scope="col" class="text-left">
+                    <a href="{{ sort.workflowState.url }}" title="{{ __f('Sort by %s', {'%s': 'state'}) }}" class="{{ sort.workflowState.class }}">{{ __('State') }}</a>
+                </th>
+                {% endif %}
                 <th id="hTitle" scope="col" class="text-left">
                     <a href="{{ sort.title.url }}" title="{{ __f('Sort by %s', {'%s': 'title'}) }}" class="{{ sort.title.class }}">{{ __('Title') }}</a>
                 </th>
@@ -79,7 +87,10 @@
                         {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
                     </div>
                 </td>
-                <td headers="hTitle" class="text-left">
+                {% if routeArea == 'admin' %}<td headers="hWorkflowState" class="text-left nowrap">
+                    {{ page.workflowState|zikulacontentmodule_objectState }}
+                </td>
+                {% endif %}<td headers="hTitle" class="text-left">
                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ __('View detail page')|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</a>
                 </td>
                 {% if countPageViews %}
@@ -131,7 +142,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}{{ countPageViews ? 9 : 8 }}{% else %}{{ countPageViews ? 8 : 7 }}{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}{{ countPageViews ? 10 : 9 }}{% else %}{{ countPageViews ? 8 : 7 }}{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>

@@ -172,27 +172,30 @@ class AbstractMenuBuilder
                 $menu[$title]->setAttribute('icon', 'fa fa-eye');
             }
             if ($this->permissionHelper->mayEdit($entity)) {
-                $title = $this->__('Edit', 'zikulacontentmodule');
-                $menu->addChild($title, [
-                    'route' => $routePrefix . $routeArea . 'edit',
-                    'routeParameters' => $entity->createUrlArgs(true)
-                ]);
-                $menu[$title]->setLinkAttribute('title', $this->__('Edit this page', 'zikulacontentmodule'));
-                if ($context == 'display') {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
-                }
-                $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
-                if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
-                    $title = $this->__('Add sub page', 'zikulacontentmodule');
+                // only allow editing for the owner or people with higher permissions
+                if ($isOwner || $this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
+                    $title = $this->__('Edit', 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'edit',
-                        'routeParameters' => ['parent' => $entity->getKey()]
+                        'routeParameters' => $entity->createUrlArgs(true)
                     ]);
-                    $menu[$title]->setLinkAttribute('title', $this->__('Add a sub page to this page', 'zikulacontentmodule'));
+                    $menu[$title]->setLinkAttribute('title', $this->__('Edit this page', 'zikulacontentmodule'));
                     if ($context == 'display') {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
-                    $menu[$title]->setAttribute('icon', 'fa fa-child');
+                    $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
+                    if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
+                        $title = $this->__('Add sub page', 'zikulacontentmodule');
+                        $menu->addChild($title, [
+                            'route' => $routePrefix . $routeArea . 'edit',
+                            'routeParameters' => ['parent' => $entity->getKey()]
+                        ]);
+                        $menu[$title]->setLinkAttribute('title', $this->__('Add a sub page to this page', 'zikulacontentmodule'));
+                        if ($context == 'display') {
+                            $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                        }
+                        $menu[$title]->setAttribute('icon', 'fa fa-child');
+                    }
                 }
                 if (in_array($context, ['view', 'display'])) {
                     $logEntriesRepo = $this->entityFactory->getObjectManager()->getRepository('ZikulaContentModule:PageLogEntryEntity');

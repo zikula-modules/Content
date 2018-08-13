@@ -98,6 +98,7 @@ New features:
 - Menu block has new options for different navigation types and sub pages handling.
 - All blocks showing lists of pages have included detection of currently active page.
 - Content elements can be moved and copied to other pages.
+- Added owner permission support to allow non-admin users to manage their own pages.
 
 Deprecations:
 - The short URL suffix can not be configured anymore.

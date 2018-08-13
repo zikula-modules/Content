@@ -44,6 +44,7 @@
             <label for="{$baseID}Sort" class="col-sm-3 control-label">{gt text='Sort by'}:</label>
             <div class="col-sm-9">
                 <select id="{$baseID}Sort" name="sort" class="form-control">
+                    <option value="workflowState"{if $sort eq 'workflowState'} selected="selected"{/if}>{gt text='Workflow state'}</option>
                     <option value="title"{if $sort eq 'title'} selected="selected"{/if}>{gt text='Title'}</option>
                     <option value="views"{if $sort eq 'views'} selected="selected"{/if}>{gt text='Views'}</option>
                     <option value="active"{if $sort eq 'active'} selected="selected"{/if}>{gt text='Active'}</option>

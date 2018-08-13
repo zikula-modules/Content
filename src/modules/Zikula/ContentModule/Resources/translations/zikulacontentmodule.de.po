@@ -147,6 +147,9 @@ msgstr "Alle Kinder"
 msgid "All except approved"
 msgstr "Alle außer freigegebene"
 
+msgid "All except deferred"
+msgstr "Alle außer zurückgestellte"
+
 msgid "All except trashed"
 msgstr "Alle außer weggeworfene"
 
@@ -295,6 +298,12 @@ msgstr ""
 "Der Inhalt wurde als gelöscht markiert, aber ist noch in der Datenbank "
 "gespeichert."
 
+msgid ""
+"Content has not been submitted yet or has been waiting, but was rejected."
+msgstr ""
+"Der Inhalt wurde noch nicht eingereicht oder hat auf Freigabe gewartet, "
+"wurde aber abgewiesen."
+
 msgid "Content item IDs"
 msgstr "IDs der Inhaltselemente"
 
@@ -366,6 +375,12 @@ msgstr "Datum"
 
 msgid "Default"
 msgstr "Standard"
+
+msgid "Defer"
+msgstr "Zurückstellen"
+
+msgid "Deferred"
+msgstr "Zurückgestellt"
 
 msgid "Delete"
 msgstr "Löschen"
@@ -1181,6 +1196,9 @@ msgstr "Ein bereits existierendes Inhaltselement referenzieren und anzeigen."
 msgid "Refresh time"
 msgstr "Aktualisierungsintervall"
 
+msgid "Reject"
+msgstr "Ablehnen"
+
 msgid "Related pages"
 msgstr "Verbundene Seiten"
 
@@ -1280,6 +1298,9 @@ msgstr "Zeigt eine einfache Liste von Seiten"
 
 msgid "Shows all items except these which are approved"
 msgstr "Zeige alle Einträge außer den freigegebenen"
+
+msgid "Shows all items except these which are deferred"
+msgstr "Zeige alle Einträge außer den zurückgestellten"
 
 msgid "Shows all items except these which are trashed"
 msgstr "Zeige alle Einträge außer den weggeworfenen"
@@ -1682,6 +1703,9 @@ msgstr "Mit Beschreibung"
 
 msgid "With selected pages"
 msgstr "Die ausgewählten Seiten"
+
+msgid "Workflow state"
+msgstr "Workflow-Zustand"
 
 msgid "Workflows"
 msgstr "Arbeitsabläufe"

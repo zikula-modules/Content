@@ -156,6 +156,7 @@ abstract class AbstractPageController extends AbstractController
         }
         
         $sortableColumns->addColumns([
+            new Column('workflowState'),
             new Column('title'),
             new Column('views'),
             new Column('active'),
