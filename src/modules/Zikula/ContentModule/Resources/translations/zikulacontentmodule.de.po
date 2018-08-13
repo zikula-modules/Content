@@ -304,6 +304,9 @@ msgstr "Inhaltselement Filter-Hooks Abonnent"
 msgid "Content item form aware subscriber"
 msgstr "Inhaltselement Form-Aware Abonnent"
 
+msgid "Content item not found."
+msgstr "Inhaltselement nicht gefunden."
+
 msgid "Content item ui hooks subscriber"
 msgstr "Inhaltselement UI-Hooks Abonnent"
 
@@ -315,6 +318,9 @@ msgstr "Content Menüblock"
 
 msgid "Controller"
 msgstr "Controller"
+
+msgid "Copy"
+msgstr "Kopieren"
 
 msgid "Count page views"
 msgstr "Seitenaufrufe zählen"
@@ -382,6 +388,15 @@ msgstr "Beschreibung"
 msgid "Description to be shown below the map"
 msgstr "Beschreibung, die unter der Karte angezeigt wird"
 
+msgid "Destination page"
+msgstr "Zielseite"
+
+msgid "Destination page must not be the current page."
+msgstr "Die Zielseite darf nicht der Quellseite entsprechen."
+
+msgid "Destination page not found."
+msgstr "Zielseite nicht gefunden."
+
 msgid "Details"
 msgstr "Details"
 
@@ -444,8 +459,14 @@ msgstr "Die Streetview-Steuerung anzeigen"
 msgid "Doctrine Exception"
 msgstr "Doctrine Fehler"
 
+msgid "Done! Content copied!"
+msgstr "Erledigt! Inhalt kopiert!"
+
 msgid "Done! Content deleted!"
 msgstr "Erledigt! Inhalt gelöscht!"
+
+msgid "Done! Content moved!"
+msgstr "Erledigt! Inhalt verschoben!"
 
 msgid "Done! Content saved!"
 msgstr "Erledigt! Inhalt gespeichert!"
@@ -942,6 +963,9 @@ msgstr "Moderation"
 msgid "Module %module is not available."
 msgstr "Das Modul %module ist nicht verfügbar."
 
+msgid "Move"
+msgstr "Verschieben"
+
 msgid "My pages"
 msgstr "Meine Seiten"
 
@@ -1038,6 +1062,9 @@ msgstr "Vorgang"
 msgid "Operation cancelled."
 msgstr "Vorgang abgebrochen."
 
+msgid "Operation type"
+msgstr "Art des Vorgangs"
+
 msgid "Optional string 1"
 msgstr "Optionale Zeichenkette 1"
 
@@ -1070,6 +1097,9 @@ msgstr "Seitenhierarchie"
 
 msgid "Page navigation"
 msgstr "Seitennavigation"
+
+msgid "Page not found."
+msgstr "Seite nicht gefunden."
 
 msgid "Page size"
 msgstr "Seitengröße"
@@ -1341,6 +1371,9 @@ msgstr "Sortierung"
 
 msgid "Source"
 msgstr "Quelle"
+
+msgid "Source page not found."
+msgstr "Quellseite nicht gefunden."
 
 msgid "Stacked pills"
 msgstr "Gestapelte Pills"

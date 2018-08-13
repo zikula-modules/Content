@@ -1,0 +1,15 @@
+{% form_theme form with [
+    '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+    'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+] %}
+<div class="container-fluid">
+    <div class="row">
+        {{ showflashes() }}
+        <div id="contentItemEditFormError"></div>
+        {{ form_start(form, {attr: {id: 'contentItemEditForm', class: 'zikulacontent-edit-form'}}) }}
+        <div id="contentItemEditFormBody">
+            {{ include('@ZikulaContentModule/ContentItem/moveCopyFormBody.html.twig') }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>

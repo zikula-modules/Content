@@ -61,7 +61,7 @@ class ItemListBlockType extends AbstractItemListBlockType
             'use_joins' => false,
             'placeholder' => $this->__('All pages', 'zikulacontentmodule'),
             'required' => false,
-            'label' => $this->__('Include the following subpages', 'zikulacontentmodule') . ':',
+            'label' => $this->__('Include the following subpages', 'zikulacontentmodule') . ':'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);

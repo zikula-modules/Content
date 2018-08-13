@@ -97,6 +97,7 @@ New features:
 - Slideshare and vimeo content types fetch additional data from the corresponding APIs.
 - Menu block has new options for different navigation types and sub pages handling.
 - All blocks showing lists of pages have included detection of currently active page.
+- Content elements can be moved and copied to other pages.
 
 Deprecations:
 - The short URL suffix can not be configured anymore.
