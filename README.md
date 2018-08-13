@@ -56,7 +56,7 @@ Please see issue #198 for reference.
 
 ## Integration with menu module
 
-Content offers a dedicated menu block. But it can also be combined with menus from the menu module which is provided by Zikula core. You can add nodes with a placeholder title like `ContentPages_123` whereby `123` is either the ID of a certain page. When displaying the menu this placeholder will be replaced by the corresponding pages sub tree. Note that only those pages are shown which are currently active, have the "in menu" flag enabled and visible to the current user.
+Content offers a dedicated menu block. But it can also be combined with menus from the menu module which is provided by Zikula core. You can add nodes with a placeholder title like `ContentPages_123` whereby `123` is the ID of a certain page. When displaying the menu this placeholder will be replaced by the corresponding pages sub tree. Note that only those pages are shown which are currently active, have the "in menu" flag enabled and visible to the current user.
 
 
 <a name="contenttypes" />
