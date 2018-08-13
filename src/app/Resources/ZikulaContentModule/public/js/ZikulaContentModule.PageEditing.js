@@ -82,6 +82,18 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
 }
 
 /**
+ * Checks if a touch device is used or not.
+ */
+function contentPageIsTouchDevice() {
+    try {
+        document.createEvent('TouchEvent');
+        return true;
+    } catch(e) {
+        return false;
+    }
+}
+
+/**
  * Initialises the palette for adding new widgets.
  */
 function contentPageInitPalette() {
@@ -107,7 +119,7 @@ function contentPageInitPalette() {
         opacity: 0.75,
         zIndex: 100,
         start: function (event, ui) {
-            highlightGrids();
+            contentPageHighlightGrids();
 
             // update widget size for placeholder
             var widget = jQuery(this);
@@ -138,6 +150,9 @@ function contentPageInitPalette() {
             suspendAutoSave = false;
         }
     });
+    if (contentPageIsTouchDevice()) {
+        jQuery('body').addClass('is-touch-device');
+    }
 }
 
 /**
@@ -242,20 +257,20 @@ function contentPageInitSectionGrid(selector, gridOptions) {
     jQuery(selector).on('change', contentPageSave);
 
     jQuery(selector).on('resizestart', function (event, ui) {
-        highlightGrids();
+        contentPageHighlightGrids();
     });
     jQuery(selector).on('resizestop', function (event, ui) {
-        unhighlightGrids();
+        contentPageUnhighlightGrids();
     });
     jQuery(selector).on('dragstart', function (event, ui) {
-        highlightGrids();
+        contentPageHighlightGrids();
     });
     jQuery('body').on('dragstop', function (event, ui) {
-        unhighlightGrids();
+        contentPageUnhighlightGrids();
     });
 
     jQuery(selector).on('dropped', function (event, previousWidget, newWidget) {
-        unhighlightGrids();
+        contentPageUnhighlightGrids();
 
         //console.log('Removed widget that was dragged out of grid:', previousWidget);
         //console.log('Added widget in dropped grid:', newWidget);
@@ -990,14 +1005,14 @@ var gridsHighlighted = false;
 /**
  * Initialises the grid highlighter.
  */
-function initGridHiglighter() {
+function contentPageInitGridHiglighter() {
     jQuery('body').prepend('<div id="grid-displayer" class="hidden"><div class="gd-container"><div class="gd-row"></div></div></div>');
 }
 
 /**
  * Displays the grid columns for easier orientation.
  */
-function highlightGrids() {
+function contentPageHighlightGrids() {
     var options = {
         amountOfColumns: 12,
         gutterWidth: 18,
@@ -1039,7 +1054,7 @@ function highlightGrids() {
 /**
  * Removes the grid columns display again.
  */
-function unhighlightGrids() {
+function contentPageUnhighlightGrids() {
     jQuery('#grid-displayer').addClass('hidden');
     gridsHighlighted = false;
 }
@@ -1064,7 +1079,7 @@ jQuery(document).ready(function () {
     suspendAutoSave = true;
     contentPageLoad();
     suspendAutoSave = false;
-    initGridHiglighter();
+    contentPageInitGridHiglighter();
 });
 
 // repair CKEditor popup focus inside Bootstrap modal

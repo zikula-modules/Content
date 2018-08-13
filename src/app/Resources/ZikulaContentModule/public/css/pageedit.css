@@ -66,6 +66,9 @@ h3.panel-title a.pull-right {
     max-height: 240px;
     overflow: scroll;
 }
+.is-touch-device #palette .panel-body {
+    padding: 10px 10px 10px 40px;
+}
 #palette .grid-stack-item {
     display: block;
     border: 2px dashed #333;
@@ -75,6 +78,9 @@ h3.panel-title a.pull-right {
     padding: 5px;
     z-index: 10;
     min-width: 200px;
+}
+.is-touch-device #palette .grid-stack-item {
+    min-width: 180px;
 }
 #palette .grid-stack-item:hover {
     margin-bottom: 6px;
