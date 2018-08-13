@@ -551,11 +551,7 @@ abstract class AbstractPageController extends AbstractController
             return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $page->createUrlArgs());
         }
         
-        if ($isAdmin) {
-            return $this->adminDisplayAction($request, $page);
-        }
-        
-        return $this->displayAction($request, $page);
+        return $this->displayInternal($request, $page, $isAdmin);
     }
     
     /**
