@@ -1217,6 +1217,12 @@ msgstr "Zurücksetzen"
 msgid "Reset to empty value"
 msgstr "Auf leeren Wert zurücksetzen"
 
+msgid "Reuse"
+msgstr "Wiederverwenden"
+
+msgid "Reuse for new page"
+msgstr "Für neue Seite wiederverwenden"
+
 msgid "Revert to version %version%"
 msgstr "Zurücksetzen auf Version %version%"
 

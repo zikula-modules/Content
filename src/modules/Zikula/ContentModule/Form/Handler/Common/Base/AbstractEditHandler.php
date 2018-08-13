@@ -399,6 +399,11 @@ abstract class AbstractEditHandler
             return new RedirectResponse($this->getRedirectUrl(['commandName' => 'cancel']), 302);
         }
     
+        if (in_array($this->objectType, ['page'])) {
+            $this->originalSlug = $entity->getSlug();
+            $slugParts = explode('/', $entity->getSlug());
+            $entity->setSlug(end($slugParts));
+        }
         // save entity reference for later reuse
         $this->entityRef = $entity;
     

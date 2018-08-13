@@ -97,7 +97,6 @@ abstract class AbstractEditHandler extends EditHandler
         return $options;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -114,10 +113,6 @@ abstract class AbstractEditHandler extends EditHandler
         if (!$isOwner && !$this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
             throw new AccessDeniedException();
         }
-    
-        $this->originalSlug = $entity->getSlug();
-        $slugParts = explode('/', $entity->getSlug());
-        $entity->setSlug(end($slugParts));
     
         return $entity;
     }

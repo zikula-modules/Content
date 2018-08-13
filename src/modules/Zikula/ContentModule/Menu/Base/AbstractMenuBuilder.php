@@ -175,6 +175,16 @@ class AbstractMenuBuilder
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
+                    $title = $this->__('Reuse', 'zikulacontentmodule');
+                    $menu->addChild($title, [
+                        'route' => $routePrefix . $routeArea . 'edit',
+                        'routeParameters' => ['astemplate' => $entity->getKey()]
+                    ]);
+                    $menu[$title]->setLinkAttribute('title', $this->__('Reuse for new page', 'zikulacontentmodule'));
+                    if ($context == 'display') {
+                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                    }
+                    $menu[$title]->setAttribute('icon', 'fa fa-files-o');
                     if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
                         $title = $this->__('Add sub page', 'zikulacontentmodule');
                         $menu->addChild($title, [
