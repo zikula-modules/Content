@@ -250,7 +250,7 @@ function contentPageInitSectionGrid(selector, gridOptions) {
     jQuery(selector).on('dragstart', function (event, ui) {
         highlightGrids();
     });
-    jQuery(selector).on('dragstop', function (event, ui) {
+    jQuery('body').on('dragstop', function (event, ui) {
         unhighlightGrids();
     });
 
