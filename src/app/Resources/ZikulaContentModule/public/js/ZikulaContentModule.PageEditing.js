@@ -151,7 +151,7 @@ function contentPageInitPalette() {
         }
     });
     if (contentPageIsTouchDevice()) {
-        jQuery('body').addClass('is-touch-device');
+        jQuery('body').addClass('touch-device');
     }
 }
 
