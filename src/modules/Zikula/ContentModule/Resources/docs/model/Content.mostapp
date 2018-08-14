@@ -6,6 +6,7 @@ application "Content" {
     url "https://ziku.la"
     version "5.0.0"
     prefix "content"
+    amountOfExampleRows 1
     generateListContentType false
     generateDetailContentType false
     generateRssTemplates false
@@ -27,6 +28,7 @@ application "Content" {
         Entity/PageEntity.php,
         Form/Type/PageType.php,
         Helper/CollectionFilterHelper.php,
+        Helper/ExampleDataHelper.php,
         Helper/ListEntriesHelper.php,
         Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
