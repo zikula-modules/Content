@@ -142,7 +142,7 @@ class ContentItemController extends AbstractContentItemController
             return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json(['id' => $newItem->getId(), 'message' => $this->__('Done! Content saved!')]);
+        return $this->json(['id' => $newItem->getId(), 'message' => $this->__('Done! Content saved.')]);
     }
 
     /**
@@ -262,13 +262,29 @@ class ContentItemController extends AbstractContentItemController
                 }
                 $workflowAction = $isCreation ? 'submit' : 'update';
 
+                if ($contentItem->supportsHookSubscribers()) {
+                    // Let any ui hooks perform additional validation actions
+                    $validationErrors = $hookHelper->callValidationHooks($contentItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
+                    if (count($validationErrors) > 0) {
+                        return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
+                    }
+                }
+
                 // execute the workflow action
                 $success = $workflowHelper->executeAction($contentItem, $workflowAction);
                 if (!$success) {
                     return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
                 }
 
-                return $this->json(['id' => $contentItem->getId(), 'message' => $this->__('Done! Content saved!')]);
+                if ($contentItem->supportsHookSubscribers()) {
+                    // Call form aware processing hooks
+                    $hookHelper->callFormProcessHooks($form, $contentItem, FormAwareCategory::TYPE_PROCESS_EDIT);
+
+                    // Let any ui hooks know that we have updated the content item
+                    $hookHelper->callProcessHooks($contentItem, UiHooksCategory::TYPE_PROCESS_EDIT);
+                }
+
+                return $this->json(['id' => $contentItem->getId(), 'message' => $this->__('Done! Content saved.')]);
             }
             if ('delete' == $action) {
                 // determine available workflow actions
@@ -302,6 +318,10 @@ class ContentItemController extends AbstractContentItemController
                 // execute the workflow action
                 $success = $workflowHelper->executeAction($contentItem, $deleteActionId);
 
+                if (!$success) {
+                    return $this->json(['message' => $this->__('Error! An error occured during content deletion.')], Response::HTTP_BAD_REQUEST);
+                }
+
                 if ($contentItem->supportsHookSubscribers()) {
                     // Call form aware processing hooks
                     $hookHelper->callFormProcessHooks($form, $contentItem, FormAwareCategory::TYPE_PROCESS_DELETE);
@@ -310,11 +330,7 @@ class ContentItemController extends AbstractContentItemController
                     $hookHelper->callProcessHooks($contentItem, UiHooksCategory::TYPE_PROCESS_DELETE);
                 }
 
-                if (!$success) {
-                    return $this->json(['message' => $this->__('Error! An error occured during content deletion.')], Response::HTTP_BAD_REQUEST);
-                }
-
-                return $this->json(['message' => $this->__('Done! Content deleted!')]);
+                return $this->json(['message' => $this->__('Done! Content deleted.')]);
             }
         }
 
@@ -432,7 +448,7 @@ class ContentItemController extends AbstractContentItemController
 
             return $this->json([
                 'id' => $contentItem->getId(),
-                'message' => ('move' == $operationType ? $this->__('Done! Content moved!') : $this->__('Done! Content copied!'))
+                'message' => ('move' == $operationType ? $this->__('Done! Content moved.') : $this->__('Done! Content copied.'))
             ]);
         }
 

@@ -28,10 +28,14 @@
                     <col id="cViews" />
                 {% endif %}
                 <col id="cActive" />
+                {#
                 <col id="cActiveFrom" />
                 <col id="cActiveTo" />
+                #}
                 <col id="cInMenu" />
+                <col id="cUpdatedDate" />
                 <col id="cCurrentVersion" />
+                <col id="cCategory" />
             </colgroup>
             <thead>
             <tr>
@@ -57,17 +61,25 @@
                 <th id="hActive" scope="col" class="text-center">
                     <a href="{{ sort.active.url }}" title="{{ __f('Sort by %s', {'%s': 'active'}) }}" class="{{ sort.active.class }}">{{ __('Active') }}</a>
                 </th>
+                {#
                 <th id="hActiveFrom" scope="col" class="text-left">
                     <a href="{{ sort.activeFrom.url }}" title="{{ __f('Sort by %s', {'%s': 'active from'}) }}" class="{{ sort.activeFrom.class }}">{{ __('Active from') }}</a>
                 </th>
                 <th id="hActiveTo" scope="col" class="text-left">
                     <a href="{{ sort.activeTo.url }}" title="{{ __f('Sort by %s', {'%s': 'active to'}) }}" class="{{ sort.activeTo.class }}">{{ __('Active to') }}</a>
                 </th>
+                #}
                 <th id="hInMenu" scope="col" class="text-center">
                     <a href="{{ sort.inMenu.url }}" title="{{ __f('Sort by %s', {'%s': 'in menu'}) }}" class="{{ sort.inMenu.class }}">{{ __('In menu') }}</a>
                 </th>
+                <th id="hUpdatedDate" scope="col" class="text-left">
+                    <a href="{{ sort.updatedDate.url }}" title="{{ __f('Sort by %s', {'%s': 'updated date'}) }}" class="{{ sort.updatedDate.class }}">{{ __('Updated date', 'zikula') }}</a>
+                </th>
                 <th id="hCurrentVersion" scope="col" class="text-right">
                     <a href="{{ sort.currentVersion.url }}" title="{{ __f('Sort by %s', {'%s': 'current version'}) }}" class="{{ sort.currentVersion.class }}">{{ __('Current version') }}</a>
+                </th>
+                <th id="hCategory" scope="col" class="text-left">
+                    {{ __('Category') }}
                 </th>
             </tr>
             </thead>
@@ -111,7 +123,14 @@
                             <i class="fa fa-times text-danger" title="{{ __('No') }}"{{ __('Inactive', 'zikula') }}></i>
                         {% endif %}
                     </div></noscript>
+                    {% if page.activeFrom is not empty %}
+                        <br />{{ __f('only from %date', {'%date': page.activeFrom|localizeddate('short', 'short')}, 'zikula') }}
+                    {% endif %}
+                    {% if page.activeTo is not empty %}
+                        <br />{{ __f('only until %date', {'%date': page.activeTo|localizeddate('short', 'short')}, 'zikula') }}
+                    {% endif %}
                 </td>
+                {#
                 <td headers="hActiveFrom" class="text-left">
                     {% if page.activeFrom is not empty %}
                         {{ page.activeFrom|localizeddate('medium', 'short') }}
@@ -122,6 +141,7 @@
                         {{ page.activeTo|localizeddate('medium', 'short') }}
                     {% endif %}
                 </td>
+                #}
                 <td headers="hInMenu" class="text-center">
                     {% set itemId = page.getKey() %}
                     <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
@@ -136,8 +156,21 @@
                         {% endif %}
                     </div></noscript>
                 </td>
+                <td headers="hCurrentVersion" class="text-left">
+                    {% if page.updatedBy|default and page.updatedBy.uid > 0 %}
+                        {% set profileLink = page.updatedBy.uid|profileLinkByUserId %}
+                        {{ __f('on %date by %user', {'%date': page.updatedDate|localizeddate('short', 'none'), '%user': profileLink}, 'zikula')|raw }}
+                    {% else %}
+                        {{ __f('on %date', {'%date': page.updatedDate|localizeddate('short', 'none')}, 'zikula')|raw }}
+                    {% endif %}
+                </td>
                 <td headers="hCurrentVersion" class="text-right">
                     {{ page.currentVersion }}
+                </td>
+                <td headers="hCategory" class="text-left">
+                    {% for catMapping in page.categories %}
+                        {{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
                 </td>
             </tr>
         {% else %}

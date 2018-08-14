@@ -216,7 +216,7 @@ application "Content" {
             sourceAlias "contentItem"
             target "searchable"
             targetAlias "searchables"
-        nullable false
+            nullable false
             cascade REMOVE
         }
     }

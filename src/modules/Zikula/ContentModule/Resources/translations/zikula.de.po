@@ -22,12 +22,6 @@ msgstr "Aktionen"
 msgid "Active"
 msgstr "Aktiv"
 
-msgid "Active from"
-msgstr "Aktiv von"
-
-msgid "Active to"
-msgstr "Aktiv bis"
-
 msgid "Add another section"
 msgstr "Anderen Bereich hinzufügen"
 
@@ -313,6 +307,9 @@ msgstr "Diese Einstellung ist aktiviert. Klicke hier um sie zu deaktivieren."
 msgid "Title"
 msgstr "Titel"
 
+msgid "Updated date"
+msgstr "Änderungsdatum"
+
 msgid ""
 "Use this feature carefully! Some extensions do not work when displayed "
 "together with other ones. DO NOT create circular references, e.g., adding a "
@@ -375,3 +372,21 @@ msgstr ""
 msgid ""
 "Zikula blocks and content from third party modules like appointments, etc."
 msgstr "Zikula Blöcke und Inhalt von Drittmodulen wie Termine etc."
+
+msgid "on %date"
+msgstr "am %date"
+
+msgid "on %date by %user"
+msgstr "am %date von %user"
+
+msgid "only from %date"
+msgstr "nur ab %date"
+
+msgid "only until %date"
+msgstr "nur bis %date"
+
+#~ msgid "Active from"
+#~ msgstr "Aktiv von"
+
+#~ msgid "Active to"
+#~ msgstr "Aktiv bis"
