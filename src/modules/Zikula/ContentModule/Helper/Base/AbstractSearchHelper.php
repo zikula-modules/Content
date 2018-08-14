@@ -128,7 +128,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
     public function amendForm(FormBuilderInterface $builder)
     {
         if (!$this->permissionHelper->hasPermission(ACCESS_READ)) {
-            return '';
+            return;
         }
     
         $builder->add('active', HiddenType::class, [
@@ -200,13 +200,13 @@ abstract class AbstractSearchHelper implements SearchableInterface
             $repository = $this->entityFactory->getRepository($objectType);
     
             // build the search query without any joins
-            $qb = $repository->genericBaseQuery('', '', false);
+            $qb = $repository->getListQueryBuilder('', '', false);
     
             // build where expression for given search type
             $whereExpr = $this->formatWhere($qb, $words, $whereArray, $searchType);
             $qb->andWhere($whereExpr);
     
-            $query = $qb->getQuery();
+            $query = $repository->getQueryFromBuilder($qb);
     
             // set a sensitive limit
             $query->setFirstResult(0)
