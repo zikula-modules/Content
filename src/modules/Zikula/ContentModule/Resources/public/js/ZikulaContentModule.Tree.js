@@ -218,7 +218,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             action: function (node) {
                 var confirmQuestion;
                 var amountOfChildren;
-        
+    
                 confirmQuestion = Translator.__('Do you really want to remove this node?');
                 amountOfChildren = currentNode.children.length;
                 if (amountOfChildren > 0) {
