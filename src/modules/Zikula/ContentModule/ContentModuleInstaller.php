@@ -29,7 +29,6 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
         }
 
         $this->setVar('stylingClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box\norangeannouncementbox|Orange announcement box\ngreenimportantbox|Green important box");
-        $this->setVar('filterDataByLocale', true);
 
         return $result;
     }

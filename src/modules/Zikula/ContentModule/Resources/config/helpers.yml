@@ -18,7 +18,6 @@ services:
             - "@zikula_users_module.current_user"
             - "@zikula_content_module.category_helper"
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'showOnlyOwnEntries', false)"
-            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'filterDataByLocale', false)"
     
     zikula_content_module.controller_helper:
         class: Zikula\ContentModule\Helper\ControllerHelper
