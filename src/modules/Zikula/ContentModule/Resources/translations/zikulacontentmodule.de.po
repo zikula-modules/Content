@@ -474,17 +474,17 @@ msgstr "Die Streetview-Steuerung anzeigen"
 msgid "Doctrine Exception"
 msgstr "Doctrine Fehler"
 
-msgid "Done! Content copied!"
-msgstr "Erledigt! Inhalt kopiert!"
+msgid "Done! Content copied."
+msgstr "Erledigt! Inhalt kopiert."
 
-msgid "Done! Content deleted!"
-msgstr "Erledigt! Inhalt gelöscht!"
+msgid "Done! Content deleted."
+msgstr "Erledigt! Inhalt gelöscht."
 
-msgid "Done! Content moved!"
-msgstr "Erledigt! Inhalt verschoben!"
+msgid "Done! Content moved."
+msgstr "Erledigt! Inhalt verschoben."
 
-msgid "Done! Content saved!"
-msgstr "Erledigt! Inhalt gespeichert!"
+msgid "Done! Content saved."
+msgstr "Erledigt! Inhalt gespeichert."
 
 msgid "Done! Item created."
 msgstr "Erledigt! Eintrag erstellt."
@@ -495,8 +495,8 @@ msgstr "Erledigt! Eintrag gelöscht."
 msgid "Done! Item updated."
 msgstr "Erledigt! Eintrag geändert."
 
-msgid "Done! Layout saved!"
-msgstr "Erledigt! Layout gespeichert!"
+msgid "Done! Layout saved."
+msgstr "Erledigt! Layout gespeichert."
 
 msgid "Done! Module configuration updated."
 msgstr "Erledigt! Modulkonfiguration aktualisiert."
@@ -507,6 +507,9 @@ msgstr "Erledigt! Seite erstellt."
 msgid "Done! Page deleted."
 msgstr "Erledigt! Seite gelöscht."
 
+msgid "Done! Page duplicated."
+msgstr "Erledigt! Seite dupliziert."
+
 msgid "Done! Page updated."
 msgstr "Erledigt! Seite geändert."
 
@@ -515,6 +518,12 @@ msgstr "Done! Seite auf Version %version% zurückgesetzt."
 
 msgid "Done! Undeleted page."
 msgstr "Erledigt! Seite wiederhergestellt."
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Duplicate this page"
+msgstr "Diese Seite duplizieren"
 
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -608,6 +617,9 @@ msgstr "Anzuzeigender Eintrag"
 
 msgid "Error! An error occured during content deletion."
 msgstr "Fehler! Beim Löschen des Inhalts ist ein Fehler aufgetreten."
+
+msgid "Error! An error occured during duplicating the page."
+msgstr "Fehler! Beim Duplizieren der Seite ist ein Fehler aufgetreten."
 
 msgid "Error! An error occured during layout persistence."
 msgstr "Fehler! Beim Speichern des Layouts ist ein Fehler aufgetreten."
@@ -1818,6 +1830,9 @@ msgstr "inaktiv"
 
 msgid "latest"
 msgstr "neueste"
+
+msgid "new copy"
+msgstr "neue Kopie"
 
 msgid "no title defined"
 msgstr "kein Titel definiert"

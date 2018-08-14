@@ -34,10 +34,39 @@ class MenuBuilder extends AbstractMenuBuilder
             return $menu;
         }
 
-        if ($this->permissionHelper->mayManagePageContent($entity)) {
-            $routePrefix = 'zikulacontentmodule_page_';
-            $routeArea = $options['area'];
-            $context = $options['context'];
+        $hasEditPermissions = $this->permissionHelper->mayEdit($entity);
+        $hasContentPermissions = $this->permissionHelper->mayManagePageContent($entity);
+        if (!$hasEditPermissions && !$hasContentPermissions) {
+            return $menu;
+        }
+
+        $searchTitle = $this->__('Details', 'zikulacontentmodule');
+        $reuseTitle = $this->__('Reuse', 'zikulacontentmodule');
+        if ($hasEditPermissions) {
+            $searchTitle = $reuseTitle;
+        }
+        $searchFound = false;
+        $reappendChildren = [];
+        foreach ($menu->getChildren() as $item) {
+            if (!$searchFound) {
+                if ($searchTitle == $item->getName()) {
+                    $searchFound = true;
+                    if ($searchTitle == $reuseTitle) {
+                        $menu->removeChild($item);
+                    }
+                }
+                continue;
+            } else {
+                $reappendChildren[] = $item;
+                $menu->removeChild($item);
+            }
+        }
+
+        $routePrefix = 'zikulacontentmodule_page_';
+        $routeArea = $options['area'];
+        $context = $options['context'];
+
+        if ($hasContentPermissions) {
             $title = $this->__('Manage content', 'zikulacontentmodule');
             $menu->addChild($title, [
                 'route' => $routePrefix . $routeArea . 'managecontent',
@@ -48,6 +77,22 @@ class MenuBuilder extends AbstractMenuBuilder
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
             }
             $menu[$title]->setAttribute('icon', 'fa fa-cubes');
+        }
+        if ($hasEditPermissions) {
+            $title = $this->__('Duplicate', 'zikulacontentmodule');
+            $menu->addChild($title, [
+                'route' => $routePrefix . $routeArea . 'duplicate',
+                'routeParameters' => $entity->createUrlArgs()
+            ]);
+            $menu[$title]->setLinkAttribute('title', $this->__('Duplicate this page', 'zikulacontentmodule'));
+            if ($context == 'display') {
+                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+            }
+            $menu[$title]->setAttribute('icon', 'fa fa-files-o');
+        }
+
+        foreach ($reappendChildren as $item) {
+            $menu->addChild($item);
         }
 
         return $menu;

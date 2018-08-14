@@ -15,10 +15,13 @@ use Zikula\ContentModule\Controller\Base\AbstractPageController;
 
 use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 use Zikula\ContentModule\Entity\PageEntity;
 
@@ -303,13 +306,15 @@ class PageController extends AbstractPageController
         $layoutData = $request->request->get('layoutData', []);
         $page->setLayout($layoutData);
 
+        // no hook calls on purpose here, because layout data should not be of interest for other modules
+
         $workflowHelper = $this->get('zikula_content_module.workflow_helper');
         $success = $workflowHelper->executeAction($page, 'update');
         if (!$success) {
             return $this->json(['message' => $this->__('Error! An error occured during layout persistence.')], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json(['message' => $this->__('Done! Layout saved!')]);
+        return $this->json(['message' => $this->__('Done! Layout saved.')]);
     }
 
     /**
@@ -340,6 +345,170 @@ class PageController extends AbstractPageController
         return $this->render('@ZikulaContentModule/Page/sitemap.' . $request->getRequestFormat() . '.twig', [
             'pages' => $rootPages
         ]);
+    }
+    
+    /**
+     * Handles duplication of a given page.
+     *
+     * @Route("/admin/page/duplicate/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param Request $request Current request instance
+     * @param string $slug Slug of treated page instance
+     *
+     * @return RedirectResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be duplicated isn't found
+     */
+    public function adminDuplicateAction(Request $request, $slug)
+    {
+        return $this->duplicateInternal($request, $slug, true);
+    }
+
+    /**
+     * Handles duplication of a given page.
+     *
+     * @Route("/page/duplicate/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     *
+     * @param Request $request Current request instance
+     * @param string $slug Slug of treated page instance
+     *
+     * @return RedirectResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be duplicated isn't found
+     */
+    public function duplicateAction(Request $request, $slug)
+    {
+        return $this->duplicateInternal($request, $slug, false);
+    }
+
+    /**
+     * This method includes the common implementation code for adminDuplicateAction() and duplicateAction().
+     *
+     * @param Request $request Current request instance
+     * @param string $slug Slug of treated page instance
+     *
+     * @return RedirectResponse
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be duplicated isn't found
+     */
+    protected function duplicateInternal(Request $request, $slug, $isAdmin = false)
+    {
+        $oldPage = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+        if (null === $oldPage) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->mayEdit($oldPage)) {
+            throw new AccessDeniedException();
+        }
+
+        $routeArea = $isAdmin ? 'admin' : '';
+
+        // detect return url
+        $routePrefix = 'zikulacontentmodule_page_' . $routeArea;
+        $returnUrl = $this->get('router')->generate($routePrefix . 'view');
+        if ($request->headers->has('referer')) {
+            $currentReferer = $request->headers->get('referer');
+            if ($currentReferer != $request->getUri()) {
+                $returnUrl = $currentReferer;
+            }
+        }
+
+        $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
+        $titleSuffix = ' - ' . $this->__('new copy');
+        $newPage = clone $oldPage;
+        $newPage->setTitle($newPage->getTitle() . $titleSuffix);
+        $slugParts = explode('/', $newPage->getSlug());
+        $newPage->setSlug(end($slugParts) . str_replace(' ', '-', $titleSuffix));
+
+        $hookHelper = $this->get('zikula_content_module.hook_helper');
+        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+
+        if ($newPage->supportsHookSubscribers()) {
+            // Let any ui hooks perform additional validation actions
+            $validationErrors = $hookHelper->callValidationHooks($newPage, UiHooksCategory::TYPE_VALIDATE_EDIT);
+            if (count($validationErrors) > 0) {
+                $this->addFlash('error', implode(' ', $validationErrors));
+
+                return $this->redirect($returnUrl);
+            }
+        }
+
+        $success = $workflowHelper->executeAction($newPage, 'submit');
+        if (!$success) {
+            $this->addFlash('error', $this->__('Error! An error occured during duplicating the page.'));
+
+            return $this->redirect($returnUrl);
+        }
+
+        $layoutData = $newPage->getLayout();
+        foreach ($oldPage->getContentItems() as $item) {
+            $newItem = clone $item;
+            $newPage->addContentItems($newItem);
+
+            if ($newItem->supportsHookSubscribers()) {
+                // Let any ui hooks perform additional validation actions
+                $validationErrors = $hookHelper->callValidationHooks($newItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
+                if (count($validationErrors) > 0) {
+                    $this->addFlash('error', implode(' ', $validationErrors));
+
+                    continue;
+                }
+            }
+            $success = $workflowHelper->executeAction($newItem, 'submit');
+            if (!$success) {
+                $this->addFlash('error', $this->__('Error! An error occured during duplicating the page.'));
+
+                continue;
+            }
+
+            if ($newItem->supportsHookSubscribers()) {
+                // Let any ui hooks know that we have updated the content item
+                $hookHelper->callProcessHooks($newItem, UiHooksCategory::TYPE_PROCESS_EDIT);
+            }
+
+            $oldItemId = $item->getId();
+            $newItemId = $newItem->getId();
+            foreach ($layoutData as $sectionKey => $section) {
+                if (!isset($section['widgets']) || !is_array($section['widgets']) || !count($section['widgets'])) {
+                    continue;
+                }
+                foreach ($section['widgets'] as $widgetKey => $widget) {
+                    if ($widget['id'] != $oldItemId) {
+                        continue;
+                    }
+                    $layoutData[$sectionKey][$widgetKey]['id'] = $newItemId;
+                    break 2;
+                }
+            }
+        }
+        $newPage->setLayout($layoutData);
+
+        $success = $workflowHelper->executeAction($newPage, 'update');
+        if (!$success) {
+            $this->addFlash('error', $this->__('Error! An error occured during duplicating the page.'));
+
+            return $this->redirect($returnUrl);
+        }
+
+        $this->addFlash('success', $this->__('Done! Page duplicated.'));
+
+        if ($newPage->supportsHookSubscribers()) {
+            // Let any ui hooks know that we have updated the page
+            $hookHelper->callProcessHooks($newPage, UiHooksCategory::TYPE_PROCESS_EDIT);
+        }
+
+        return $this->redirect($returnUrl);
     }
     
     /**
