@@ -1080,18 +1080,45 @@ jQuery(document).ready(function () {
     contentPageLoad();
     suspendAutoSave = false;
     contentPageInitGridHiglighter();
+    contentPageFixWysiwygBehaviour();
 });
 
-// repair CKEditor popup focus inside Bootstrap modal
-// https://gist.github.com/james2doyle/65d06029bfd128dd5ecc
-jQuery.fn.modal.Constructor.prototype.enforceFocus = function() {
-    var modal_this = this
-    jQuery(document).on('focusin.modal', function (e) {
-        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
-            && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_select')
-            && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_text')
-        ) {
-            modal_this.$element.focus()
-        }
-    })
-};
+// repair popup focus editors inside Bootstrap modal
+function contentPageFixWysiwygBehaviour() {
+    var editor;
+
+    editor = jQuery('#wysiwygEditor').data('default');
+
+    if ('CKEditor' == editor) {
+        // https://gist.github.com/james2doyle/65d06029bfd128dd5ecc
+        jQuery.fn.modal.Constructor.prototype.enforceFocus = function() {
+            var modal_this = this
+            jQuery(document).on('focusin.modal', function (e) {
+                if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+                    && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_select')
+                    && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_text')
+                ) {
+                    modal_this.$element.focus()
+                }
+            })
+        };
+    } else if ('Summernote' == editor) {
+        // https://stackoverflow.com/questions/21786258/summernote-modals-locked-within-pure-bootstrap-modals
+        jQuery(document).on('show.bs.modal', '.modal', function (event) {
+            var zIndex = 100000 + (10 * jQuery('.modal:visible').length);
+            jQuery(this).css('z-index', zIndex);
+            setTimeout(function () {
+                jQuery('.modal-backdrop').not('.modal-stack').first().css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        }).on('hidden.bs.modal', '.modal', function (event) {
+            jQuery('.modal:visible').length && jQuery('body').addClass('modal-open');
+        });
+    } else if ('TinyMce' == editor) {
+        // https://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
+        jQuery(document).on('focusin', function(e) {
+            if (jQuery(e.target).closest('.mce-window').length || jQuery(e.target).closest('.moxman-window').length) {
+                e.stopImmediatePropagation();
+            }
+        });
+    }
+}

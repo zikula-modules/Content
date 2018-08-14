@@ -153,3 +153,12 @@ padding: 0;
 .ui-autocomplete {
     z-index: 1500;
 }
+
+/* https://stackoverflow.com/questions/27405138/tinymce-cannot-be-full-screen-when-placed-in-bootstrap-modal-dialog */
+/* required for both TinyMCE and Summernote */
+.modal.in .modal-dialog {
+    -webkit-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+}
