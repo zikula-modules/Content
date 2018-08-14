@@ -146,13 +146,6 @@ abstract class AbstractListEntriesHelper
                         break;
                 }
                 break;
-            case 'searchable':
-                switch ($fieldName) {
-                    case 'workflowState':
-                        $result = false;
-                        break;
-                }
-                break;
             case 'appSettings':
                 switch ($fieldName) {
                     case 'stateOfNewPages':
@@ -199,13 +192,6 @@ abstract class AbstractListEntriesHelper
                         break;
                     case 'scope':
                         $entries = $this->getScopeEntriesForContentItem();
-                        break;
-                }
-                break;
-            case 'searchable':
-                switch ($fieldName) {
-                    case 'workflowState':
-                        $entries = $this->getWorkflowStateEntriesForSearchable();
                         break;
                 }
                 break;
@@ -345,46 +331,6 @@ abstract class AbstractListEntriesHelper
             'value'   => '-2',
             'text'    => $this->__('Only not logged in people'),
             'title'   => '',
-            'image'   => '',
-            'default' => false
-        ];
-    
-        return $states;
-    }
-    
-    /**
-     * Get 'workflow state' list entries.
-     *
-     * @return array Array with desired list entries
-     */
-    public function getWorkflowStateEntriesForSearchable()
-    {
-        $states = [];
-        $states[] = [
-            'value'   => 'approved',
-            'text'    => $this->__('Approved'),
-            'title'   => $this->__('Content has been approved and is available online.'),
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => 'trashed',
-            'text'    => $this->__('Trashed'),
-            'title'   => $this->__('Content has been marked as deleted, but is still persisted in the database.'),
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => '!approved',
-            'text'    => $this->__('All except approved'),
-            'title'   => $this->__('Shows all items except these which are approved'),
-            'image'   => '',
-            'default' => false
-        ];
-        $states[] = [
-            'value'   => '!trashed',
-            'text'    => $this->__('All except trashed'),
-            'title'   => $this->__('Shows all items except these which are trashed'),
             'image'   => '',
             'default' => false
         ];

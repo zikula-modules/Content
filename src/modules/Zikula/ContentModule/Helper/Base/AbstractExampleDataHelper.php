@@ -18,7 +18,6 @@ use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageCategoryEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Entity\SearchableEntity;
 use Zikula\ContentModule\Helper\WorkflowHelper;
 
 /**
@@ -95,8 +94,6 @@ abstract class AbstractExampleDataHelper
         
         $contentItem1 = new ContentItemEntity();
         
-        $searchable1 = new SearchableEntity();
-        
         $categoryRegistry = null;
         foreach ($categoryRegistries as $registry) {
             if ($registry->getEntityname() == 'PageEntity') {
@@ -134,23 +131,18 @@ abstract class AbstractExampleDataHelper
         $contentItem1->setActiveTo($dtNow);
         $contentItem1->setScope('0');
         $contentItem1->setStylingClasses([]);
+        $contentItem1->setSearchText('Content item search text 1');
+        $contentItem1->setAdditionalSearchText('Content item additional search text 1');
         
         $contentItem1->setPage($page1);
-        
-        $searchable1->setWorkflowState('initial');
-        $searchable1->setSearchText('Searchable search text 1');
-        $searchable1->setSearchLanguage($this->requestStack->getCurrentRequest()->getLocale());
-        
-        $searchable1->setContentItem($contentItem1);
         
         // execute the workflow action for each entity
         $action = 'submit';
         try {
             $success = $this->workflowHelper->executeAction($page1, $action);
             $success = $this->workflowHelper->executeAction($contentItem1, $action);
-            $success = $this->workflowHelper->executeAction($searchable1, $action);
         } catch (\Exception $exception) {
-            $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->translator->__('Exception during example data creation') . ': ' . $exception->getMessage());
+            $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->translator__('Exception during example data creation') . ': ' . $exception->getMessage());
             $this->logger->error('{app}: Could not completely create example data after installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
         
             return false;

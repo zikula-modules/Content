@@ -11,10 +11,8 @@
 
 namespace Zikula\ContentModule\Entity\Factory\Base;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Entity\SearchableEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 
@@ -23,11 +21,6 @@ use Zikula\ContentModule\Helper\PermissionHelper;
  */
 abstract class AbstractEntityInitialiser
 {
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
     /**
      * @var PermissionHelper
      */
@@ -41,16 +34,13 @@ abstract class AbstractEntityInitialiser
     /**
      * EntityInitialiser constructor.
      *
-     * @param RequestStack $requestStack RequestStack service instance
      * @param PermissionHelper $permissionHelper PermissionHelper service instance
      * @param ListEntriesHelper $listEntriesHelper Helper service for managing list entries
      */
     public function __construct(
-        RequestStack $requestStack,
         PermissionHelper $permissionHelper,
         ListEntriesHelper $listEntriesHelper
     ) {
-        $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->listEntriesHelper = $listEntriesHelper;
     }
@@ -83,20 +73,6 @@ abstract class AbstractEntityInitialiser
                 break;
             }
         }
-
-        return $entity;
-    }
-
-    /**
-     * Initialises a given searchable instance.
-     *
-     * @param SearchableEntity $entity The newly created entity instance
-     *
-     * @return SearchableEntity The updated entity instance
-     */
-    public function initSearchable(SearchableEntity $entity)
-    {
-        $entity->setSearchLanguage($this->requestStack->getCurrentRequest()->getLocale());
 
         return $entity;
     }

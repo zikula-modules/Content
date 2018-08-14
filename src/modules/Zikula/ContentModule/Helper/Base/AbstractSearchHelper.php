@@ -192,11 +192,8 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     $whereArray[] = 'tbl.workflowState';
                     $whereArray[] = 'tbl.owningType';
                     $whereArray[] = 'tbl.scope';
-                    break;
-                case 'searchable':
-                    $whereArray[] = 'tbl.workflowState';
                     $whereArray[] = 'tbl.searchText';
-                    $whereArray[] = 'tbl.searchLanguage';
+                    $whereArray[] = 'tbl.additionalSearchText';
                     break;
             }
     
@@ -278,10 +275,6 @@ abstract class AbstractSearchHelper implements SearchableInterface
             'zikulaContentModuleContentItems' => [
                 'value' => 'contentItem',
                 'label' => $this->__('Content items')
-            ],
-            'zikulaContentModuleSearchables' => [
-                'value' => 'searchable',
-                'label' => $this->__('Searchables')
             ]
         ];
     

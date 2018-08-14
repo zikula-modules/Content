@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Entity\SearchableEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 
 /**
@@ -72,9 +71,6 @@ abstract class AbstractEntityDisplayHelper
         if ($entity instanceof ContentItemEntity) {
             return $this->formatContentItem($entity);
         }
-        if ($entity instanceof SearchableEntity) {
-            return $this->formatSearchable($entity);
-        }
     
         return '';
     }
@@ -108,20 +104,6 @@ abstract class AbstractEntityDisplayHelper
     }
     
     /**
-     * Returns the formatted title for a given entity.
-     *
-     * @param SearchableEntity $entity The given entity instance
-     *
-     * @return string The formatted title
-     */
-    protected function formatSearchable(SearchableEntity $entity)
-    {
-        return $this->translator->__f('%searchLanguage%', [
-            '%searchLanguage%' => $entity->getSearchLanguage()
-        ]);
-    }
-    
-    /**
      * Returns name of the field used as title / name for entities of this repository.
      *
      * @param string $objectType Name of treated entity type
@@ -135,9 +117,6 @@ abstract class AbstractEntityDisplayHelper
         }
         if ($objectType == 'contentItem') {
             return 'owningType';
-        }
-        if ($objectType == 'searchable') {
-            return '';
         }
     
         return '';
@@ -156,9 +135,6 @@ abstract class AbstractEntityDisplayHelper
             return 'optionalText';
         }
         if ($objectType == 'contentItem') {
-            return 'owningType';
-        }
-        if ($objectType == 'searchable') {
             return 'searchText';
         }
     
@@ -180,9 +156,6 @@ abstract class AbstractEntityDisplayHelper
         }
         if ($objectType == 'contentItem') {
             return 'activeFrom';
-        }
-        if ($objectType == 'searchable') {
-            return 'createdDate';
         }
     
         return '';

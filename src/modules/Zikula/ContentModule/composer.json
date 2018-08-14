@@ -60,8 +60,6 @@
                 "ZikulaContentModule:PageContent:": "Page ID::",
                 "ZikulaContentModule:ContentItem:": "ContentItem ID::",
                 "ZikulaContentModule:Page:ContentItem": "Page ID:ContentItem ID:",
-                "ZikulaContentModule:Searchable:": "Searchable ID::",
-                "ZikulaContentModule:ContentItem:Searchable": "ContentItem ID:Searchable ID:",
                 "ZikulaContentModule::Ajax": "::",
                 "ZikulaContentModule:Plugin:Content": "Content type name::"
             }

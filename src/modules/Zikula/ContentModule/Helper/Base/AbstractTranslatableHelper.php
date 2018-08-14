@@ -89,7 +89,7 @@ abstract class AbstractTranslatableHelper
                 $fields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'];
                 break;
             case 'contentItem':
-                $fields = ['contentData'];
+                $fields = ['contentData', 'searchText', 'additionalSearchText'];
                 break;
         }
     

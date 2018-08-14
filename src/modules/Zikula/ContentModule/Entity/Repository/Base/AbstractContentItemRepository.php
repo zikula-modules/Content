@@ -64,6 +64,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
             'activeFrom',
             'activeTo',
             'scope',
+            'additionalSearchText',
             'createdBy',
             'createdDate',
             'updatedBy',
@@ -691,7 +692,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
      */
     protected function addJoinsToSelection()
     {
-        $selection = ', tblPage, tblSearchables';
+        $selection = ', tblPage';
     
         return $selection;
     }
@@ -706,7 +707,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
     protected function addJoinsToFrom(QueryBuilder $qb)
     {
         $qb->leftJoin('tbl.page', 'tblPage');
-        $qb->leftJoin('tbl.searchables', 'tblSearchables');
     
         return $qb;
     }

@@ -917,6 +917,43 @@
                     </ul>
                 </td>
             </tr>
+            <tr>
+                <th id="hEntityContentItemFieldSearchText" scope="row" headers="hEntityContentItemFieldName">Search text</th>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldType">Text</td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldMandatory">false</td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldDefault"></td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldDisplayType">NONE</td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldConstraints">
+                    <ul>
+                        <li>Hat eine Länge von 100000 Zeichen.</li>
+                    </ul>
+                </td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldRemarks">
+                    <ul>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
+                        <li>Ist in Bearbeitungsformularen nicht sichtbar.</li>
+                        <li>Dieses Feld ist übersetzbar.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hEntityContentItemFieldAdditionalSearchText" scope="row" headers="hEntityContentItemFieldName">Additional search text</th>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldType">Zeichenkette</td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldMandatory">false</td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldDefault"></td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldDisplayType">ALL</td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldConstraints">
+                    <ul>
+                        <li>Hat eine Länge von 255 Zeichen.</li>
+                    </ul>
+                </td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldRemarks">
+                    <ul>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
+                        <li>Dieses Feld ist übersetzbar.</li>
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -940,29 +977,11 @@
         <tbody>
             <span class="hidden">1</span>
             <tr>
-                <th id="hContentItemRelation1" scope="row" headers="hContentItemRelationName">1 content item hat n searchables</th>
+                <th id="hContentItemRelation1" scope="row" headers="hContentItemRelationName">1 page hat n content items</th>
                 <td headers="hContentItemRelation1 hContentItemRelationType">1:n</td>
-                <td headers="hContentItemRelation1 hContentItemRelationIncoming" class="text-center"><i class="fa fa-times"></i>
+                <td headers="hContentItemRelation1 hContentItemRelationIncoming" class="text-center"><i class="fa fa-check"></i>
                 </td>
                 <td headers="hContentItemRelation1 hContentItemRelationRemarks">
-                    <ul>
-                        <li>Diese Relation ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                        <li>Sie verwendet den Abruftyp "Lazy".</li>
-                        <li>Aus Sicht der Quelle wird eine Kaskade auf Remove-Operationen angewendet.</li>
-                        <li>Aus Sicht des Ziels wird keine Kaskade angewendet.</li>
-                        <li>Diese Relation wird durch eine bidirektionale Assoziation realisiert.</li>
-                        <li>Das Bearbeiten der Quellseite beinhaltet keine Funktionalität bezüglich der Zielelemente.</li>
-                        <li>Das Bearbeiten der Zielseite beinhaltet das Auswählen von Quellelementen, die durch eine mehrwertige Dropdownliste repräsentiert werden.</li>
-                    </ul>
-                </td>
-            </tr>
-            <span class="hidden">2</span>
-            <tr>
-                <th id="hContentItemRelation2" scope="row" headers="hContentItemRelationName">1 page hat n content items</th>
-                <td headers="hContentItemRelation2 hContentItemRelationType">1:n</td>
-                <td headers="hContentItemRelation2 hContentItemRelationIncoming" class="text-center"><i class="fa fa-check"></i>
-                </td>
-                <td headers="hContentItemRelation2 hContentItemRelationRemarks">
                     <ul>
                         <li>Diese Relation ist nicht eindeutig und erlaubt Null-Werte.</li>
                         <li>Sie verwendet den Abruftyp "Lazy".</li>
@@ -1136,354 +1155,6 @@
                 <td headers="hContentItemBehaviourFormAwareHookProvider hContentItemBehaviourValue1" class="text-center">DISABLED &ndash; kein Hook-Anbieter verfügbar</td>
                 <th id="hContentItemBehaviourUiHooksProvider" scope="row" headers="hContentItemBehaviourName2">Anbieter für UI-Hooks</th>
                 <td headers="hContentItemBehaviourUiHooksProvider hContentItemBehaviourValue2" class="text-center">DISABLED &ndash; kein Hook-Anbieter verfügbar</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h3><i class="fa fa-vcard-o"></i> Searchable / Searchables</h3>
-<h4><i class="fa fa-cog"></i> Grundlegende Einstellungen</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableSettingsName" />
-            <col id="cSearchableSettingsValue" />
-            <col id="cSearchableSettingsDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableSettingsName" scope="col">Name</th>
-                <th id="hSearchableSettingsValue" scope="col">Wert</th>
-                <th id="hSearchableSettingsDescription" scope="col">Beschreibung</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableSettingsLeading" scope="row" headers="hSearchableSettingsName">Führend</th>
-                <td headers="hSearchableSettingsLeading hSearchableSettingsValue" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <td headers="hSearchableSettingsLeading hSearchableSettingsDescription">Ob dies die primäre Entität der Anwendung darstellt</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsDisplayPattern" scope="row" headers="hSearchableSettingsName">Anzeigemuster</th>
-                <td headers="hSearchableSettingsDisplayPattern hSearchableSettingsValue">#searchLanguage#</td>
-                <td headers="hSearchableSettingsDisplayPattern hSearchableSettingsDescription">Muster zur Anzeige von Instanzen dieser Entität</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsIdentifierStrategy" scope="row" headers="hSearchableSettingsName">ID-Strategie</th>
-                <td headers="hSearchableSettingsIdentifierStrategy hSearchableSettingsValue">AUTO &ndash; Automatische Auswahl.</td>
-                <td headers="hSearchableSettingsIdentifierStrategy hSearchableSettingsDescription">Ob und welche Strategie zur Generierung von IDs angewendet wird</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsChangeTrackingPolicy" scope="row" headers="hSearchableSettingsName">Methode zur Erkennung von Änderungen</th>
-                <td headers="hSearchableSettingsChangeTrackingPolicy hSearchableSettingsValue">DEFERRED_IMPLICIT &ndash; Änderungen werden durch Vergleich der Eigenschaften während des Commits ermittelt.</td>
-                <td headers="hSearchableSettingsChangeTrackingPolicy hSearchableSettingsDescription">Wie die Erkennung von Änderungen durchgeführt wird</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsLockType" scope="row" headers="hSearchableSettingsName">Sperrstrategie</th>
-                <td headers="hSearchableSettingsLockType hSearchableSettingsValue">PAGELOCK &ndash; Verwendet das PageLock-Modul.</td>
-                <td headers="hSearchableSettingsLockType hSearchableSettingsDescription">Ob und welche Strategie zum Sperren angewendet wird</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsReadOnly" scope="row" headers="hSearchableSettingsName">Nur Lesen</th>
-                <td headers="hSearchableSettingsReadOnly hSearchableSettingsValue" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <td headers="hSearchableSettingsReadOnly hSearchableSettingsDescription">Ob diese Entität nur gelesen werden darf oder nicht. Falls ja, ist das Bearbeiten nicht möglich.</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-bars"></i> Felder</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cEntitySearchableFieldName" />
-            <col id="cEntitySearchableFieldType" />
-            <col id="cEntitySearchableFieldMandatory" />
-            <col id="cEntitySearchableFieldDefault" />
-            <col id="cEntitySearchableFieldDisplayType" />
-            <col id="cEntitySearchableFieldConstraints" />
-            <col id="cEntitySearchableFieldRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hEntitySearchableFieldName" scope="col">Name</th>
-                <th id="hEntitySearchableFieldType" scope="col">Typ</th>
-                <th id="hEntitySearchableFieldMandatory" scope="col">Pflicht</th>
-                <th id="hEntitySearchableFieldDefault" scope="col">Standardwert</th>
-                <th id="hEntitySearchableFieldDisplayType" scope="col">Anzeige</th>
-                <th id="hEntitySearchableFieldConstraints" scope="col">Beschränkungen</th>
-                <th id="hEntitySearchableFieldRemarks" scope="col">Anmerkungen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hEntitySearchableFieldId" scope="row" headers="hEntitySearchableFieldName">Id</th>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldType">Ganzzahl</td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Hat eine Länge von 9.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>Dieses Feld ist eindeutig und erlaubt keine Null-Werte.</li>
-                        <li>Fungiert als Primärschlüssel.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntitySearchableFieldWorkflowState" scope="row" headers="hEntitySearchableFieldName">Workflow state</th>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldType">Liste</td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Hat eine Länge von 20 Zeichen.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>the current workflow state </li>
-                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                        <li>Die Liste wird durch eine einwertige Dropdownliste repräsentiert.</li>
-                        <li>Verfügbare Einträge: <ul><li>Initial (initial)</li><li>Approved (approved)</li><li>Trashed (trashed)</li><li>Deleted (deleted)</li></ul></li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntitySearchableFieldSearchText" scope="row" headers="hEntitySearchableFieldName">Search text</th>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldType">Text</td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Hat eine Länge von 50000 Zeichen.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntitySearchableFieldSearchLanguage" scope="row" headers="hEntitySearchableFieldName">Search language</th>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldType">Zeichenkette</td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Hat eine Länge von 10 Zeichen.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                        <li>Repräsentiert eine Locale.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-arrows-h"></i> Relationen</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableRelationName" />
-            <col id="cSearchableRelationType" />
-            <col id="cSearchableRelationIncoming" />
-            <col id="cSearchableRelationRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableRelationName" scope="col">Name</th>
-                <th id="hSearchableRelationType" scope="col">Typ</th>
-                <th id="hSearchableRelationIncoming" scope="col">Eingehend</th>
-                <th id="hSearchableRelationRemarks" scope="col">Anmerkungen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <span class="hidden">1</span>
-            <tr>
-                <th id="hSearchableRelation1" scope="row" headers="hSearchableRelationName">1 content item hat n searchables</th>
-                <td headers="hSearchableRelation1 hSearchableRelationType">1:n</td>
-                <td headers="hSearchableRelation1 hSearchableRelationIncoming" class="text-center"><i class="fa fa-check"></i>
-                </td>
-                <td headers="hSearchableRelation1 hSearchableRelationRemarks">
-                    <ul>
-                        <li>Diese Relation ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                        <li>Sie verwendet den Abruftyp "Lazy".</li>
-                        <li>Aus Sicht der Quelle wird eine Kaskade auf Remove-Operationen angewendet.</li>
-                        <li>Aus Sicht des Ziels wird keine Kaskade angewendet.</li>
-                        <li>Diese Relation wird durch eine bidirektionale Assoziation realisiert.</li>
-                        <li>Das Bearbeiten der Quellseite beinhaltet keine Funktionalität bezüglich der Zielelemente.</li>
-                        <li>Das Bearbeiten der Zielseite beinhaltet das Auswählen von Quellelementen, die durch eine mehrwertige Dropdownliste repräsentiert werden.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-key"></i> Indexe</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableIndexName" />
-            <col id="cSearchableIndexType" />
-            <col id="cSearchableIndexSize" />
-            <col id="cSearchableIndexDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableIndexName" scope="col">Name</th>
-                <th id="hSearchableIndexType" scope="col">Typ</th>
-                <th id="hSearchableIndexSize" scope="col">Größe</th>
-                <th id="hSearchableIndexDescription" scope="col">Beschreibung</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableIndexWorkflowStateIndex" scope="row" headers="hSearchableIndexName">Workflow state index</th>
-                <td headers="hSearchableIndexWorkflowStateIndex hSearchableIndexType">NORMAL &ndash; normaler Index</td>
-                <td headers="hSearchableIndexWorkflowStateIndex hSearchableIndexSize">1 Feld</td>
-                <td headers="hSearchableIndexWorkflowStateIndex hSearchableIndexDescription"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-paw"></i> Aktionen</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableActionName" />
-            <col id="cSearchableActionDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableActionName" scope="col">Name</th>
-                <th id="hSearchableActionDescription" scope="col">Beschreibung</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableActionIndex" scope="row" headers="hSearchableActionName">Index</th>
-                <td headers="hSearchableActionIndex hSearchableActionDescription">Index-Aktion im Searchable-Controller</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-map-signs"></i> Workflow</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableWorkflowName" />
-            <col id="cSearchableWorkflowDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableWorkflowName" scope="col">Name</th>
-                <th id="hSearchableWorkflowDescription" scope="col">Beschreibung</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableWorkflowType" scope="row" headers="hSearchableWorkflowName">Workflow-Typ</th>
-                <td headers="hSearchableWorkflowType hSearchableWorkflowDescription">NONE &ndash; keine Freigabe.</td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowStates" scope="row" headers="hSearchableWorkflowName">Zustände</th>
-                <td headers="hSearchableWorkflowStates hSearchableWorkflowDescription">
-                    <ul>
-                        <li><strong>Initial:</strong> Inhalt wurde soeben erstellt und noch nicht persistiert.</li>
-                        <li><strong>Freigegeben:</strong> Inhalt wurde freigegeben und ist online verfügbar.</li>
-                        <li><strong>Gelöscht:</strong> Inhalt wurde aus der Datenbank gelöscht.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowOwnerPermission" scope="row" headers="hSearchableWorkflowName">Benutzer können ihre eigenen Daten verwalten und bearbeiten</th>
-                <td headers="hSearchableWorkflowOwnerPermission hSearchableWorkflowDescription" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowAccountDeletionCreator" scope="row" headers="hSearchableWorkflowName">Wenn Ersteller gelöscht wird</th>
-                <td headers="hSearchableWorkflowAccountDeletionCreator hSearchableWorkflowDescription">wird als Nutzer "Admin" zugewiesen.</td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowAccountDeletionLastEditor" scope="row" headers="hSearchableWorkflowName">Wenn letzter Bearbeiter gelöscht wird</th>
-                <td headers="hSearchableWorkflowAccountDeletionLastEditor hSearchableWorkflowDescription">wird als Nutzer "Admin" zugewiesen.</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-magic"></i> Verhalten</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableBehaviourName1" />
-            <col id="cSearchableBehaviourValue1" />
-            <col id="cSearchableBehaviourName2" />
-            <col id="cSearchableBehaviourValue2" />
-        </colgroup>
-        <thead>
-            <tr class="sr-only">
-                <th id="hSearchableBehaviourName1" scope="col">Name</th>
-                <th id="hSearchableBehaviourValue1" scope="col">Wert</th>
-                <th id="hSearchableBehaviourName2" scope="col">Name</th>
-                <th id="hSearchableBehaviourValue2" scope="col">Wert</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableBehaviourAttributable" scope="row" headers="hSearchableBehaviourName1">Attributierbar</th>
-                <td headers="hSearchableBehaviourAttributable hSearchableBehaviourValue1" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <th id="hSearchableBehaviourLoggable" scope="row" headers="hSearchableBehaviourName2">Versionierbar</th>
-                <td headers="hSearchableBehaviourLoggable hSearchableBehaviourValue2" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourCategorisable" scope="row" headers="hSearchableBehaviourName1">Kategorisierbar</th>
-                <td headers="hSearchableBehaviourCategorisable hSearchableBehaviourValue1" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <th id="hSearchableBehaviourCategorisableMulti" scope="row" headers="hSearchableBehaviourName2">Kategorien Mehrfachauswahl</th>
-                <td headers="hSearchableBehaviourCategorisableMulti hSearchableBehaviourValue2" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourSluggable" scope="row" headers="hSearchableBehaviourName1">Permalinks</th>
-                <td headers="hSearchableBehaviourSluggable hSearchableBehaviourValue1" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <td headers="hSearchableBehaviourSluggable hSearchableBehaviourValue2" class="text-center"></td>
-                <td headers="hSearchableBehaviourSluggable hSearchableBehaviourValue2" class="text-center"></td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourTree" scope="row" headers="hSearchableBehaviourName1">Baum</th>
-                <td headers="hSearchableBehaviourAttributable hSearchableBehaviourValue1" class="text-center">NONE</td>
-                <th id="hSearchableBehaviourGeographical" scope="row" headers="hSearchableBehaviourName2">Geografisch</th>
-                <td headers="hSearchableBehaviourGeographical hSearchableBehaviourValue2" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourStandardFields" scope="row" headers="hSearchableBehaviourName1">Standardfelder</th>
-                <td headers="hSearchableBehaviourStandardFields hSearchableBehaviourValue1" class="text-center"><i class="fa fa-check"></i>
-                </td>
-                <th id="hSearchableBehaviourHookSubscribers" scope="row" headers="hSearchableBehaviourName2">Hook-Abonnenten</th>
-                <td headers="hSearchableBehaviourHookSubscribers hSearchableBehaviourValue2" class="text-center"><i class="fa fa-check"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourFormAwareHookProvider" scope="row" headers="hSearchableBehaviourName1">Anbieter für Formular-Hooks</th>
-                <td headers="hSearchableBehaviourFormAwareHookProvider hSearchableBehaviourValue1" class="text-center">DISABLED &ndash; kein Hook-Anbieter verfügbar</td>
-                <th id="hSearchableBehaviourUiHooksProvider" scope="row" headers="hSearchableBehaviourName2">Anbieter für UI-Hooks</th>
-                <td headers="hSearchableBehaviourUiHooksProvider hSearchableBehaviourValue2" class="text-center">DISABLED &ndash; kein Hook-Anbieter verfügbar</td>
             </tr>
         </tbody>
     </table>
@@ -1754,23 +1425,6 @@
                 <td headers="hVariablesListViewsFieldShowOnlyOwnEntries hVariablesListViewsFieldRemarks">
                     <ul>
                         <li>Whether only own entries should be shown on view pages by default or not </li>
-                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hVariablesListViewsFieldFilterDataByLocale" scope="row" headers="hVariablesListViewsFieldName">Filter data by locale</th>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldType">Boolesches</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldMandatory">false</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldDefault">false</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldDisplayType">ALL</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldConstraints">
-                    <ul>
-                    </ul>
-                </td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldRemarks">
-                    <ul>
-                        <li>Whether automatically filter data in the frontend based on the current locale or not </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
                     </ul>
                 </td>

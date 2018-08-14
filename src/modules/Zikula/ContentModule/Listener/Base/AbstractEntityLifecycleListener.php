@@ -26,7 +26,6 @@ use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Event\FilterPageEvent;
 use Zikula\ContentModule\Event\FilterContentItemEvent;
-use Zikula\ContentModule\Event\FilterSearchableEvent;
 
 /**
  * Event subscriber base class for entity lifecycle events.

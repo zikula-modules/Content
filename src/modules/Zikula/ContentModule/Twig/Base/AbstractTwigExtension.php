@@ -368,10 +368,6 @@ abstract class AbstractTwigExtension extends Twig_Extension
             'text' => $this->__('Content items'),
             'value' => 'contentItem'
         ];
-        $result[] = [
-            'text' => $this->__('Searchables'),
-            'value' => 'searchable'
-        ];
     
         return $result;
     }

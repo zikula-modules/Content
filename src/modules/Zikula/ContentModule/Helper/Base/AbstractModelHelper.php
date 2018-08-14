@@ -92,7 +92,7 @@ abstract class AbstractModelHelper
             return 'RAND()';
         }
     
-        $hasStandardFields = in_array($objectType, ['page', 'contentItem', 'searchable']);
+        $hasStandardFields = in_array($objectType, ['page', 'contentItem']);
     
         $sortParam = '';
         if ($sorting == 'newest') {

@@ -27,10 +27,3 @@ services:
         tags:
             - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.filter_hooks.contentitems' }
 
-    zikula_content_module.hook_subscriber.filter_hooks.searchables:
-        class: Zikula\ContentModule\HookSubscriber\SearchableFilterHooksSubscriber
-        arguments:
-            - "@translator.default"
-        tags:
-            - { name: zikula.hook_subscriber, areaName: 'subscriber.zikulacontentmodule.filter_hooks.searchables' }
-

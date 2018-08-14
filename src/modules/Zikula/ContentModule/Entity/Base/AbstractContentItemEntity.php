@@ -12,7 +12,6 @@
 namespace Zikula\ContentModule\Entity\Base;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -114,6 +113,24 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      */
     protected $stylingClasses = [];
     
+    /**
+     * @Gedmo\Translatable
+     * @ORM\Column(type="text", length=100000)
+     * @Assert\NotNull()
+     * @Assert\Length(min="0", max="100000")
+     * @var text $searchText
+     */
+    protected $searchText = '';
+    
+    /**
+     * @Gedmo\Translatable
+     * @ORM\Column(length=255)
+     * @Assert\NotNull()
+     * @Assert\Length(min="0", max="255")
+     * @var string $additionalSearchText
+     */
+    protected $additionalSearchText = '';
+    
     
     /**
      * Used locale to override Translation listener's locale.
@@ -135,19 +152,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      */
     protected $page;
     
-    /**
-     * Bidirectional - One contentItem [content item] has many searchables [searchables] (INVERSE SIDE).
-     *
-     * @ORM\OneToMany(targetEntity="Zikula\ContentModule\Entity\SearchableEntity", mappedBy="contentItem", cascade={"remove"})
-     * @ORM\JoinTable(name="zikula_content_contentitemsearchables",
-     *      joinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" , nullable=false)},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="id", referencedColumnName="id" , nullable=false)}
-     * )
-     * @Assert\NotNull(message="Choosing at least one of the searchables is required.")
-     * @var \Zikula\ContentModule\Entity\SearchableEntity[] $searchables
-     */
-    protected $searchables = null;
-    
     
     /**
      * ContentItemEntity constructor.
@@ -158,7 +162,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      */
     public function __construct()
     {
-        $this->searchables = new ArrayCollection();
     }
     
     /**
@@ -415,6 +418,54 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     }
     
     /**
+     * Returns the search text.
+     *
+     * @return text
+     */
+    public function getSearchText()
+    {
+        return $this->searchText;
+    }
+    
+    /**
+     * Sets the search text.
+     *
+     * @param text $searchText
+     *
+     * @return void
+     */
+    public function setSearchText($searchText)
+    {
+        if ($this->searchText !== $searchText) {
+            $this->searchText = isset($searchText) ? $searchText : '';
+        }
+    }
+    
+    /**
+     * Returns the additional search text.
+     *
+     * @return string
+     */
+    public function getAdditionalSearchText()
+    {
+        return $this->additionalSearchText;
+    }
+    
+    /**
+     * Sets the additional search text.
+     *
+     * @param string $additionalSearchText
+     *
+     * @return void
+     */
+    public function setAdditionalSearchText($additionalSearchText)
+    {
+        if ($this->additionalSearchText !== $additionalSearchText) {
+            $this->additionalSearchText = isset($additionalSearchText) ? $additionalSearchText : '';
+        }
+    }
+    
+    /**
      * Returns the locale.
      *
      * @return string
@@ -459,59 +510,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     public function setPage($page = null)
     {
         $this->page = $page;
-    }
-    
-    /**
-     * Returns the searchables.
-     *
-     * @return \Zikula\ContentModule\Entity\SearchableEntity[]
-     */
-    public function getSearchables()
-    {
-        return $this->searchables;
-    }
-    
-    /**
-     * Sets the searchables.
-     *
-     * @param \Zikula\ContentModule\Entity\SearchableEntity[] $searchables
-     *
-     * @return void
-     */
-    public function setSearchables($searchables)
-    {
-        foreach ($this->searchables as $searchableSingle) {
-            $this->removeSearchables($searchableSingle);
-        }
-        foreach ($searchables as $searchableSingle) {
-            $this->addSearchables($searchableSingle);
-        }
-    }
-    
-    /**
-     * Adds an instance of \Zikula\ContentModule\Entity\SearchableEntity to the list of searchables.
-     *
-     * @param \Zikula\ContentModule\Entity\SearchableEntity $searchable The instance to be added to the collection
-     *
-     * @return void
-     */
-    public function addSearchables(\Zikula\ContentModule\Entity\SearchableEntity $searchable)
-    {
-        $this->searchables->add($searchable);
-        $searchable->setContentItem($this);
-    }
-    
-    /**
-     * Removes an instance of \Zikula\ContentModule\Entity\SearchableEntity from the list of searchables.
-     *
-     * @param \Zikula\ContentModule\Entity\SearchableEntity $searchable The instance to be removed from the collection
-     *
-     * @return void
-     */
-    public function removeSearchables(\Zikula\ContentModule\Entity\SearchableEntity $searchable)
-    {
-        $this->searchables->removeElement($searchable);
-        $searchable->setContentItem(null);
     }
     
     

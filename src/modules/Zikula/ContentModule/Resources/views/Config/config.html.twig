@@ -59,7 +59,6 @@
                         {{ form_row(form.pageEntriesPerPage) }}
                         {{ form_row(form.linkOwnPagesOnAccountPage) }}
                         {{ form_row(form.showOnlyOwnEntries) }}
-                        {{ form_row(form.filterDataByLocale) }}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="vars3Tab">
@@ -83,8 +82,6 @@
                         <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for pages') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit pages workflow') }}</a>
                         <h4>{{ __('Content items') }}</h4>
                         <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for content items') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit content items workflow') }}</a>
-                        <h4>{{ __('Searchables') }}</h4>
-                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for searchables') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit searchables workflow') }}</a>
                     </fieldset>
                 </div>
             </div>

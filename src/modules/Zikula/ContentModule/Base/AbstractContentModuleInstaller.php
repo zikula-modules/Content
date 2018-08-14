@@ -56,7 +56,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);
         $this->setVar('showOnlyOwnEntries', false);
-        $this->setVar('filterDataByLocale', false);
         $this->setVar('enabledFinderTypes', 'page');
     
         // add default entry for category registry (property named Main)
@@ -179,7 +178,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $classNames[] = 'Zikula\ContentModule\Entity\PageCategoryEntity';
         $classNames[] = 'Zikula\ContentModule\Entity\ContentItemEntity';
         $classNames[] = 'Zikula\ContentModule\Entity\ContentItemTranslationEntity';
-        $classNames[] = 'Zikula\ContentModule\Entity\SearchableEntity';
     
         return $classNames;
     }

@@ -275,20 +275,6 @@ abstract class AbstractConfigType extends AbstractType
             ],
             'required' => false,
         ]);
-        
-        $builder->add('filterDataByLocale', CheckboxType::class, [
-            'label' => $this->__('Filter data by locale') . ':',
-            'label_attr' => [
-                'class' => 'tooltips',
-                'title' => $this->__('Whether automatically filter data in the frontend based on the current locale or not')
-            ],
-            'help' => $this->__('Whether automatically filter data in the frontend based on the current locale or not'),
-            'attr' => [
-                'class' => '',
-                'title' => $this->__('The filter data by locale option')
-            ],
-            'required' => false,
-        ]);
     }
 
     /**

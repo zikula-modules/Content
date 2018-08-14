@@ -117,22 +117,6 @@ abstract class AbstractEntityFactory
     }
 
     /**
-     * Creates a new searchable instance.
-     *
-     * @return Zikula\ContentModule\Entity\searchableEntity The newly created entity instance
-     */
-    public function createSearchable()
-    {
-        $entityClass = 'Zikula\\ContentModule\\Entity\\SearchableEntity';
-
-        $entity = new $entityClass();
-
-        $this->entityInitialiser->initSearchable($entity);
-
-        return $entity;
-    }
-
-    /**
      * Returns the identifier field's name for a given object type.
      *
      * @param string $objectType The object type to be treated

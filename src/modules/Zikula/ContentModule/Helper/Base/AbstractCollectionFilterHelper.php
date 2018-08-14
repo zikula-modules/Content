@@ -17,7 +17,6 @@ use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Entity\SearchableEntity;
 use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 
@@ -52,11 +51,6 @@ abstract class AbstractCollectionFilterHelper
     protected $showOnlyOwnEntries = false;
 
     /**
-     * @var bool Whether to apply a locale-based filter or not
-     */
-    protected $filterDataByLocale = false;
-
-    /**
      * CollectionFilterHelper constructor.
      *
      * @param RequestStack $requestStack RequestStack service instance
@@ -64,22 +58,19 @@ abstract class AbstractCollectionFilterHelper
      * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
      * @param CategoryHelper $categoryHelper CategoryHelper service instance
      * @param boolean $showOnlyOwnEntries Fallback value to determine whether only own entries should be selected or not
-     * @param boolean $filterDataByLocale Whether to apply a locale-based filter or not
      */
     public function __construct(
         RequestStack $requestStack,
         PermissionHelper $permissionHelper,
         CurrentUserApiInterface $currentUserApi,
         CategoryHelper $categoryHelper,
-        $showOnlyOwnEntries,
-        $filterDataByLocale
+        $showOnlyOwnEntries
     ) {
         $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->currentUserApi = $currentUserApi;
         $this->categoryHelper = $categoryHelper;
         $this->showOnlyOwnEntries = $showOnlyOwnEntries;
-        $this->filterDataByLocale = $filterDataByLocale;
     }
 
     /**
@@ -103,9 +94,6 @@ abstract class AbstractCollectionFilterHelper
         if ($objectType == 'contentItem') {
             return $this->getViewQuickNavParametersForContentItem($context, $args);
         }
-        if ($objectType == 'searchable') {
-            return $this->getViewQuickNavParametersForSearchable($context, $args);
-        }
     
         return [];
     }
@@ -125,9 +113,6 @@ abstract class AbstractCollectionFilterHelper
         }
         if ($objectType == 'contentItem') {
             return $this->addCommonViewFiltersForContentItem($qb);
-        }
-        if ($objectType == 'searchable') {
-            return $this->addCommonViewFiltersForSearchable($qb);
         }
     
         return $qb;
@@ -149,9 +134,6 @@ abstract class AbstractCollectionFilterHelper
         }
         if ($objectType == 'contentItem') {
             return $this->applyDefaultFiltersForContentItem($qb, $parameters);
-        }
-        if ($objectType == 'searchable') {
-            return $this->applyDefaultFiltersForSearchable($qb, $parameters);
         }
     
         return $qb;
@@ -206,30 +188,6 @@ abstract class AbstractCollectionFilterHelper
         $parameters['scope'] = $request->query->get('scope', '');
         $parameters['q'] = $request->query->get('q', '');
         $parameters['active'] = $request->query->get('active', '');
-    
-        return $parameters;
-    }
-    
-    /**
-     * Returns an array of additional template variables for view quick navigation forms.
-     *
-     * @param string $context Usage context (allowed values: controllerAction, api, actionHandler, block, contentType)
-     * @param array  $args    Additional arguments
-     *
-     * @return array List of template variables to be assigned
-     */
-    protected function getViewQuickNavParametersForSearchable($context = '', array $args = [])
-    {
-        $parameters = [];
-        $request = $this->requestStack->getCurrentRequest();
-        if (null === $request) {
-            return $parameters;
-        }
-    
-        $parameters['contentItem'] = $request->query->get('contentItem', 0);
-        $parameters['workflowState'] = $request->query->get('workflowState', '');
-        $parameters['searchLanguage'] = $request->query->get('searchLanguage', '');
-        $parameters['q'] = $request->query->get('q', '');
     
         return $parameters;
     }
@@ -368,58 +326,6 @@ abstract class AbstractCollectionFilterHelper
     }
     
     /**
-     * Adds quick navigation related filter options as where clauses.
-     *
-     * @param QueryBuilder $qb Query builder to be enhanced
-     *
-     * @return QueryBuilder Enriched query builder instance
-     */
-    protected function addCommonViewFiltersForSearchable(QueryBuilder $qb)
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        if (null === $request) {
-            return $qb;
-        }
-        $routeName = $request->get('_route');
-        if (false !== strpos($routeName, 'edit')) {
-            return $qb;
-        }
-    
-        $parameters = $this->getViewQuickNavParametersForSearchable();
-        foreach ($parameters as $k => $v) {
-            if (in_array($k, ['q', 'searchterm'])) {
-                // quick search
-                if (!empty($v)) {
-                    $qb = $this->addSearchFilter('searchable', $qb, $v);
-                }
-                continue;
-            }
-    
-            if (is_array($v)) {
-                continue;
-            }
-    
-            // field filter
-            if ((!is_numeric($v) && $v != '') || (is_numeric($v) && $v > 0)) {
-                if ($k == 'workflowState' && substr($v, 0, 1) == '!') {
-                    $qb->andWhere('tbl.' . $k . ' != :' . $k)
-                       ->setParameter($k, substr($v, 1, strlen($v)-1));
-                } elseif (substr($v, 0, 1) == '%') {
-                    $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
-                       ->setParameter($k, '%' . substr($v, 1) . '%');
-                } else {
-                    $qb->andWhere('tbl.' . $k . ' = :' . $k)
-                       ->setParameter($k, $v);
-                }
-            }
-        }
-    
-        $qb = $this->applyDefaultFiltersForSearchable($qb, $parameters);
-    
-        return $qb;
-    }
-    
-    /**
      * Adds default filters as where clauses.
      *
      * @param QueryBuilder $qb         Query builder to be enhanced
@@ -501,53 +407,6 @@ abstract class AbstractCollectionFilterHelper
         $qb = $this->applyDateRangeFilterForContentItem($qb);
         if (in_array('tblPage', $qb->getAllAliases())) {
             $qb = $this->applyDateRangeFilterForPage($qb, 'tblPage');
-        }
-    
-        return $qb;
-    }
-    
-    /**
-     * Adds default filters as where clauses.
-     *
-     * @param QueryBuilder $qb         Query builder to be enhanced
-     * @param array        $parameters List of determined filter options
-     *
-     * @return QueryBuilder Enriched query builder instance
-     */
-    protected function applyDefaultFiltersForSearchable(QueryBuilder $qb, array $parameters = [])
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        if (null === $request) {
-            return $qb;
-        }
-        $routeName = $request->get('_route');
-        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_searchable_admin');
-        if ($isAdminArea) {
-            return $qb;
-        }
-    
-        $showOnlyOwnEntries = (bool)$request->query->getInt('own', $this->showOnlyOwnEntries);
-    
-        if (!in_array('workflowState', array_keys($parameters)) || empty($parameters['workflowState'])) {
-            // per default we show approved searchables only
-            $onlineStates = ['approved'];
-            $qb->andWhere('tbl.workflowState IN (:onlineStates)')
-               ->setParameter('onlineStates', $onlineStates);
-        }
-    
-        if ($showOnlyOwnEntries) {
-            $qb = $this->addCreatorFilter($qb);
-        }
-    
-        if (true === (bool)$this->filterDataByLocale) {
-            $allowedLocales = ['', $request->getLocale()];
-            if (!in_array('searchLanguage', array_keys($parameters)) || empty($parameters['searchLanguage'])) {
-                $qb->andWhere('tbl.searchLanguage IN (:currentSearchLanguage)')
-                   ->setParameter('currentSearchLanguage', $allowedLocales);
-            }
-        }
-        if (in_array('tblContentItem', $qb->getAllAliases())) {
-            $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItem');
         }
     
         return $qb;
@@ -646,12 +505,10 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchActiveTo'] = $fragment;
             $filters[] = 'tbl.scope = :searchScope';
             $parameters['searchScope'] = $fragment;
-        }
-        if ($objectType == 'searchable') {
             $filters[] = 'tbl.searchText LIKE :searchSearchText';
             $parameters['searchSearchText'] = '%' . $fragment . '%';
-            $filters[] = 'tbl.searchLanguage LIKE :searchSearchLanguage';
-            $parameters['searchSearchLanguage'] = '%' . $fragment . '%';
+            $filters[] = 'tbl.additionalSearchText LIKE :searchAdditionalSearchText';
+            $parameters['searchAdditionalSearchText'] = '%' . $fragment . '%';
         }
     
         $qb->andWhere('(' . implode(' OR ', $filters) . ')');

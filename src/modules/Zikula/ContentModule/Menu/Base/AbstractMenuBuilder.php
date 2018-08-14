@@ -20,7 +20,6 @@ use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Entity\SearchableEntity;
 use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
@@ -225,11 +224,6 @@ class AbstractMenuBuilder
         }
         if ($entity instanceof ContentItemEntity) {
             $routePrefix = 'zikulacontentmodule_contentitem_';
-            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
-        
-        }
-        if ($entity instanceof SearchableEntity) {
-            $routePrefix = 'zikulacontentmodule_searchable_';
             $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
         
         }

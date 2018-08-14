@@ -124,7 +124,6 @@ abstract class AbstractControllerHelper
         $allowedObjectTypes = [];
         $allowedObjectTypes[] = 'page';
         $allowedObjectTypes[] = 'contentItem';
-        $allowedObjectTypes[] = 'searchable';
     
         return $allowedObjectTypes;
     }

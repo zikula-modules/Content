@@ -36,8 +36,6 @@ application "Content" {
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
         Resources/views/Block/itemlist_contentItem_display.html.twig,
         Resources/views/Block/itemlist_page_display_description.html.twig,
-        Resources/views/Block/itemlist_searchable_display_description.html.twig,
-        Resources/views/Block/itemlist_searchable_display.html.twig,
         ZikulaContentModule.php
     "
     markFiles "
@@ -170,6 +168,17 @@ application "Content" {
                     mandatory false
                     displayType NONE
                     arrayType SIMPLE_ARRAY
+                },
+                text "searchText" translatable {
+                    defaultValue ""
+                    mandatory false
+                    displayType NONE
+                    visible false
+                    length 100000
+                },
+                string "additionalSearchText" translatable {
+                    defaultValue ""
+                    mandatory false
                 }
             }
             indexes {
@@ -177,24 +186,6 @@ application "Content" {
                     items {
                         indexItem "active"
                     }
-                }
-            }
-            actions {
-                mainAction "Index"
-            }
-        },
-        entity "searchable" {
-            nameMultiple "searchables"
-            displayPattern "#searchLanguage#"
-            fields {
-                text "searchText" {
-                    defaultValue ""
-                    length 50000
-                },
-                string "searchLanguage" {
-                    defaultValue ""
-                    length 10
-                    role LOCALE
                 }
             }
             actions {
@@ -212,14 +203,6 @@ application "Content" {
             cascade REMOVE_DETACH
             cascadeReverse PERSIST
             orderBy ""
-        },
-        one2many bidirectional {
-            source "contentItem"
-            sourceAlias "contentItem"
-            target "searchable"
-            targetAlias "searchables"
-            nullable false
-            cascade REMOVE
         }
     }
     variables {

@@ -917,6 +917,43 @@
                     </ul>
                 </td>
             </tr>
+            <tr>
+                <th id="hEntityContentItemFieldSearchText" scope="row" headers="hEntityContentItemFieldName">Search text</th>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldType">Text</td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldMandatory">false</td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldDefault"></td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldDisplayType">NONE</td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldConstraints">
+                    <ul>
+                        <li>Has a length of 100000 chars.</li>
+                    </ul>
+                </td>
+                <td headers="hEntityContentItemFieldSearchText hEntityContentItemFieldRemarks">
+                    <ul>
+                        <li>This field is not unique and allows no null values.</li>
+                        <li>Is not visible in edit forms.</li>
+                        <li>This field is translatable.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hEntityContentItemFieldAdditionalSearchText" scope="row" headers="hEntityContentItemFieldName">Additional search text</th>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldType">String</td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldMandatory">false</td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldDefault"></td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldDisplayType">ALL</td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldConstraints">
+                    <ul>
+                        <li>Has a length of 255 chars.</li>
+                    </ul>
+                </td>
+                <td headers="hEntityContentItemFieldAdditionalSearchText hEntityContentItemFieldRemarks">
+                    <ul>
+                        <li>This field is not unique and allows no null values.</li>
+                        <li>This field is translatable.</li>
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -940,29 +977,11 @@
         <tbody>
             <span class="hidden">1</span>
             <tr>
-                <th id="hContentItemRelation1" scope="row" headers="hContentItemRelationName">1 content item has n searchables</th>
+                <th id="hContentItemRelation1" scope="row" headers="hContentItemRelationName">1 page has n content items</th>
                 <td headers="hContentItemRelation1 hContentItemRelationType">1:n</td>
-                <td headers="hContentItemRelation1 hContentItemRelationIncoming" class="text-center"><i class="fa fa-times"></i>
+                <td headers="hContentItemRelation1 hContentItemRelationIncoming" class="text-center"><i class="fa fa-check"></i>
                 </td>
                 <td headers="hContentItemRelation1 hContentItemRelationRemarks">
-                    <ul>
-                        <li>This relation is not unique and allows no null values.</li>
-                        <li>It uses the "lazy" fetch type.</li>
-                        <li>From source view cascading is applied for remove operations.</li>
-                        <li>From target view no cascading is applied.</li>
-                        <li>This relation is realised by a bidirectional association.</li>
-                        <li>Editing the source side includes no behaviour regarding target elements.</li>
-                        <li>Editing the target side includes choosing source elements that are represented as a multi-valued dropdown list.</li>
-                    </ul>
-                </td>
-            </tr>
-            <span class="hidden">2</span>
-            <tr>
-                <th id="hContentItemRelation2" scope="row" headers="hContentItemRelationName">1 page has n content items</th>
-                <td headers="hContentItemRelation2 hContentItemRelationType">1:n</td>
-                <td headers="hContentItemRelation2 hContentItemRelationIncoming" class="text-center"><i class="fa fa-check"></i>
-                </td>
-                <td headers="hContentItemRelation2 hContentItemRelationRemarks">
                     <ul>
                         <li>This relation is not unique and allows null values.</li>
                         <li>It uses the "lazy" fetch type.</li>
@@ -1136,354 +1155,6 @@
                 <td headers="hContentItemBehaviourFormAwareHookProvider hContentItemBehaviourValue1" class="text-center">DISABLED &ndash; no hook provider available</td>
                 <th id="hContentItemBehaviourUiHooksProvider" scope="row" headers="hContentItemBehaviourName2">UI hooks provider</th>
                 <td headers="hContentItemBehaviourUiHooksProvider hContentItemBehaviourValue2" class="text-center">DISABLED &ndash; no hook provider available</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h3><i class="fa fa-vcard-o"></i> Searchable / Searchables</h3>
-<h4><i class="fa fa-cog"></i> Basic settings</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableSettingsName" />
-            <col id="cSearchableSettingsValue" />
-            <col id="cSearchableSettingsDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableSettingsName" scope="col">Name</th>
-                <th id="hSearchableSettingsValue" scope="col">Value</th>
-                <th id="hSearchableSettingsDescription" scope="col">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableSettingsLeading" scope="row" headers="hSearchableSettingsName">Leading</th>
-                <td headers="hSearchableSettingsLeading hSearchableSettingsValue" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <td headers="hSearchableSettingsLeading hSearchableSettingsDescription">Whether this represents the primary entity of the application</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsDisplayPattern" scope="row" headers="hSearchableSettingsName">Display pattern</th>
-                <td headers="hSearchableSettingsDisplayPattern hSearchableSettingsValue">#searchLanguage#</td>
-                <td headers="hSearchableSettingsDisplayPattern hSearchableSettingsDescription">Pattern for displaying instances of this entity</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsIdentifierStrategy" scope="row" headers="hSearchableSettingsName">ID strategy</th>
-                <td headers="hSearchableSettingsIdentifierStrategy hSearchableSettingsValue">AUTO &ndash; Choose automatically.</td>
-                <td headers="hSearchableSettingsIdentifierStrategy hSearchableSettingsDescription">Whether and which identifier generation strategy is applied</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsChangeTrackingPolicy" scope="row" headers="hSearchableSettingsName">Change tracking policy</th>
-                <td headers="hSearchableSettingsChangeTrackingPolicy hSearchableSettingsValue">DEFERRED_IMPLICIT &ndash; Changes are determined by comparing properties during commit.</td>
-                <td headers="hSearchableSettingsChangeTrackingPolicy hSearchableSettingsDescription">How change detection is being done</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsLockType" scope="row" headers="hSearchableSettingsName">Locking strategy</th>
-                <td headers="hSearchableSettingsLockType hSearchableSettingsValue">PAGELOCK &ndash; Uses the PageLock module.</td>
-                <td headers="hSearchableSettingsLockType hSearchableSettingsDescription">Whether and which locking strategy is applied</td>
-            </tr>
-            <tr>
-                <th id="hSearchableSettingsReadOnly" scope="row" headers="hSearchableSettingsName">Read only</th>
-                <td headers="hSearchableSettingsReadOnly hSearchableSettingsValue" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <td headers="hSearchableSettingsReadOnly hSearchableSettingsDescription">Whether this entity is read only or not. If yes, editing is not possible.</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-bars"></i> Fields</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cEntitySearchableFieldName" />
-            <col id="cEntitySearchableFieldType" />
-            <col id="cEntitySearchableFieldMandatory" />
-            <col id="cEntitySearchableFieldDefault" />
-            <col id="cEntitySearchableFieldDisplayType" />
-            <col id="cEntitySearchableFieldConstraints" />
-            <col id="cEntitySearchableFieldRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hEntitySearchableFieldName" scope="col">Name</th>
-                <th id="hEntitySearchableFieldType" scope="col">Type</th>
-                <th id="hEntitySearchableFieldMandatory" scope="col">Mandatory</th>
-                <th id="hEntitySearchableFieldDefault" scope="col">Default value</th>
-                <th id="hEntitySearchableFieldDisplayType" scope="col">Display</th>
-                <th id="hEntitySearchableFieldConstraints" scope="col">Constraints</th>
-                <th id="hEntitySearchableFieldRemarks" scope="col">Remarks</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hEntitySearchableFieldId" scope="row" headers="hEntitySearchableFieldName">Id</th>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldType">Integer</td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Has a length of 9.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldId hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>This field is unique and allows no null values.</li>
-                        <li>Acts as primary key.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntitySearchableFieldWorkflowState" scope="row" headers="hEntitySearchableFieldName">Workflow state</th>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldType">List</td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Has a length of 20 chars.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldWorkflowState hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>the current workflow state </li>
-                        <li>This field is not unique and allows no null values.</li>
-                        <li>The list is represented by a single-valued dropdown list.</li>
-                        <li>Available entries: <ul><li>Initial (initial)</li><li>Approved (approved)</li><li>Trashed (trashed)</li><li>Deleted (deleted)</li></ul></li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntitySearchableFieldSearchText" scope="row" headers="hEntitySearchableFieldName">Search text</th>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldType">Text</td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Has a length of 50000 chars.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldSearchText hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hEntitySearchableFieldSearchLanguage" scope="row" headers="hEntitySearchableFieldName">Search language</th>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldType">String</td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldMandatory">true</td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldDefault"></td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldDisplayType">ALL</td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldConstraints">
-                    <ul>
-                        <li>Has a length of 10 chars.</li>
-                    </ul>
-                </td>
-                <td headers="hEntitySearchableFieldSearchLanguage hEntitySearchableFieldRemarks">
-                    <ul>
-                        <li>This field is not unique and allows no null values.</li>
-                        <li>Represents a locale.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-arrows-h"></i> Relations</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableRelationName" />
-            <col id="cSearchableRelationType" />
-            <col id="cSearchableRelationIncoming" />
-            <col id="cSearchableRelationRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableRelationName" scope="col">Name</th>
-                <th id="hSearchableRelationType" scope="col">Type</th>
-                <th id="hSearchableRelationIncoming" scope="col">Incoming</th>
-                <th id="hSearchableRelationRemarks" scope="col">Remarks</th>
-            </tr>
-        </thead>
-        <tbody>
-            <span class="hidden">1</span>
-            <tr>
-                <th id="hSearchableRelation1" scope="row" headers="hSearchableRelationName">1 content item has n searchables</th>
-                <td headers="hSearchableRelation1 hSearchableRelationType">1:n</td>
-                <td headers="hSearchableRelation1 hSearchableRelationIncoming" class="text-center"><i class="fa fa-check"></i>
-                </td>
-                <td headers="hSearchableRelation1 hSearchableRelationRemarks">
-                    <ul>
-                        <li>This relation is not unique and allows no null values.</li>
-                        <li>It uses the "lazy" fetch type.</li>
-                        <li>From source view cascading is applied for remove operations.</li>
-                        <li>From target view no cascading is applied.</li>
-                        <li>This relation is realised by a bidirectional association.</li>
-                        <li>Editing the source side includes no behaviour regarding target elements.</li>
-                        <li>Editing the target side includes choosing source elements that are represented as a multi-valued dropdown list.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-key"></i> Indexes</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableIndexName" />
-            <col id="cSearchableIndexType" />
-            <col id="cSearchableIndexSize" />
-            <col id="cSearchableIndexDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableIndexName" scope="col">Name</th>
-                <th id="hSearchableIndexType" scope="col">Type</th>
-                <th id="hSearchableIndexSize" scope="col">Size</th>
-                <th id="hSearchableIndexDescription" scope="col">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableIndexWorkflowStateIndex" scope="row" headers="hSearchableIndexName">Workflow state index</th>
-                <td headers="hSearchableIndexWorkflowStateIndex hSearchableIndexType">NORMAL &ndash; normal index</td>
-                <td headers="hSearchableIndexWorkflowStateIndex hSearchableIndexSize">1 field</td>
-                <td headers="hSearchableIndexWorkflowStateIndex hSearchableIndexDescription"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-paw"></i> Actions</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableActionName" />
-            <col id="cSearchableActionDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableActionName" scope="col">Name</th>
-                <th id="hSearchableActionDescription" scope="col">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableActionIndex" scope="row" headers="hSearchableActionName">Index</th>
-                <td headers="hSearchableActionIndex hSearchableActionDescription">Index action in Searchable controller</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-map-signs"></i> Workflow</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableWorkflowName" />
-            <col id="cSearchableWorkflowDescription" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hSearchableWorkflowName" scope="col">Name</th>
-                <th id="hSearchableWorkflowDescription" scope="col">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableWorkflowType" scope="row" headers="hSearchableWorkflowName">Workflow type</th>
-                <td headers="hSearchableWorkflowType hSearchableWorkflowDescription">NONE &ndash; no approval.</td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowStates" scope="row" headers="hSearchableWorkflowName">States</th>
-                <td headers="hSearchableWorkflowStates hSearchableWorkflowDescription">
-                    <ul>
-                        <li><strong>Initial:</strong> content is just created and not persisted yet.</li>
-                        <li><strong>Approved:</strong> content has been approved and is available online.</li>
-                        <li><strong>Deleted:</strong> content has been deleted from the database.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowOwnerPermission" scope="row" headers="hSearchableWorkflowName">Users are able to manage and edit their own data</th>
-                <td headers="hSearchableWorkflowOwnerPermission hSearchableWorkflowDescription" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowAccountDeletionCreator" scope="row" headers="hSearchableWorkflowName">If creator is deleted</th>
-                <td headers="hSearchableWorkflowAccountDeletionCreator hSearchableWorkflowDescription">the "admin" user will be assigned.</td>
-            </tr>
-            <tr>
-                <th id="hSearchableWorkflowAccountDeletionLastEditor" scope="row" headers="hSearchableWorkflowName">If last editor is deleted</th>
-                <td headers="hSearchableWorkflowAccountDeletionLastEditor hSearchableWorkflowDescription">the "admin" user will be assigned.</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fa fa-magic"></i> Behaviour</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
-        <colgroup>
-            <col id="cSearchableBehaviourName1" />
-            <col id="cSearchableBehaviourValue1" />
-            <col id="cSearchableBehaviourName2" />
-            <col id="cSearchableBehaviourValue2" />
-        </colgroup>
-        <thead>
-            <tr class="sr-only">
-                <th id="hSearchableBehaviourName1" scope="col">Name</th>
-                <th id="hSearchableBehaviourValue1" scope="col">Value</th>
-                <th id="hSearchableBehaviourName2" scope="col">Name</th>
-                <th id="hSearchableBehaviourValue2" scope="col">Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th id="hSearchableBehaviourAttributable" scope="row" headers="hSearchableBehaviourName1">Attributable</th>
-                <td headers="hSearchableBehaviourAttributable hSearchableBehaviourValue1" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <th id="hSearchableBehaviourLoggable" scope="row" headers="hSearchableBehaviourName2">Versionable</th>
-                <td headers="hSearchableBehaviourLoggable hSearchableBehaviourValue2" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourCategorisable" scope="row" headers="hSearchableBehaviourName1">Categorisable</th>
-                <td headers="hSearchableBehaviourCategorisable hSearchableBehaviourValue1" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <th id="hSearchableBehaviourCategorisableMulti" scope="row" headers="hSearchableBehaviourName2">Categories multi selection</th>
-                <td headers="hSearchableBehaviourCategorisableMulti hSearchableBehaviourValue2" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourSluggable" scope="row" headers="hSearchableBehaviourName1">Slugs</th>
-                <td headers="hSearchableBehaviourSluggable hSearchableBehaviourValue1" class="text-center"><i class="fa fa-times"></i>
-                </td>
-                <td headers="hSearchableBehaviourSluggable hSearchableBehaviourValue2" class="text-center"></td>
-                <td headers="hSearchableBehaviourSluggable hSearchableBehaviourValue2" class="text-center"></td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourTree" scope="row" headers="hSearchableBehaviourName1">Tree</th>
-                <td headers="hSearchableBehaviourAttributable hSearchableBehaviourValue1" class="text-center">NONE</td>
-                <th id="hSearchableBehaviourGeographical" scope="row" headers="hSearchableBehaviourName2">Geographical</th>
-                <td headers="hSearchableBehaviourGeographical hSearchableBehaviourValue2" class="text-center"><i class="fa fa-times"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourStandardFields" scope="row" headers="hSearchableBehaviourName1">Standard fields</th>
-                <td headers="hSearchableBehaviourStandardFields hSearchableBehaviourValue1" class="text-center"><i class="fa fa-check"></i>
-                </td>
-                <th id="hSearchableBehaviourHookSubscribers" scope="row" headers="hSearchableBehaviourName2">Hook subscribers</th>
-                <td headers="hSearchableBehaviourHookSubscribers hSearchableBehaviourValue2" class="text-center"><i class="fa fa-check"></i>
-                </td>
-            </tr>
-            <tr>
-                <th id="hSearchableBehaviourFormAwareHookProvider" scope="row" headers="hSearchableBehaviourName1">Form aware hooks provider</th>
-                <td headers="hSearchableBehaviourFormAwareHookProvider hSearchableBehaviourValue1" class="text-center">DISABLED &ndash; no hook provider available</td>
-                <th id="hSearchableBehaviourUiHooksProvider" scope="row" headers="hSearchableBehaviourName2">UI hooks provider</th>
-                <td headers="hSearchableBehaviourUiHooksProvider hSearchableBehaviourValue2" class="text-center">DISABLED &ndash; no hook provider available</td>
             </tr>
         </tbody>
     </table>
@@ -1754,23 +1425,6 @@
                 <td headers="hVariablesListViewsFieldShowOnlyOwnEntries hVariablesListViewsFieldRemarks">
                     <ul>
                         <li>Whether only own entries should be shown on view pages by default or not </li>
-                        <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th id="hVariablesListViewsFieldFilterDataByLocale" scope="row" headers="hVariablesListViewsFieldName">Filter data by locale</th>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldType">Boolean</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldMandatory">false</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldDefault">false</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldDisplayType">ALL</td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldConstraints">
-                    <ul>
-                    </ul>
-                </td>
-                <td headers="hVariablesListViewsFieldFilterDataByLocale hVariablesListViewsFieldRemarks">
-                    <ul>
-                        <li>Whether automatically filter data in the frontend based on the current locale or not </li>
                         <li>This field is not unique and allows no null values.</li>
                     </ul>
                 </td>

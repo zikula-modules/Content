@@ -9,7 +9,6 @@ framework:
             supports:
                 - Zikula\ContentModule\Entity\PageEntity
                 - Zikula\ContentModule\Entity\ContentItemEntity
-                - Zikula\ContentModule\Entity\SearchableEntity
             places:
                 - initial
                 - deferred

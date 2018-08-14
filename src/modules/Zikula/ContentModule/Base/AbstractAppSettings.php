@@ -134,15 +134,6 @@ abstract class AbstractAppSettings
     protected $showOnlyOwnEntries = false;
     
     /**
-     * Whether automatically filter data in the frontend based on the current locale or not
-     *
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     * @var boolean $filterDataByLocale
-     */
-    protected $filterDataByLocale = false;
-    
-    /**
      * Which sections are supported in the Finder component (used by Scribite plug-ins).
      *
      * @Assert\NotNull()
@@ -454,30 +445,6 @@ abstract class AbstractAppSettings
     }
     
     /**
-     * Returns the filter data by locale.
-     *
-     * @return boolean
-     */
-    public function getFilterDataByLocale()
-    {
-        return $this->filterDataByLocale;
-    }
-    
-    /**
-     * Sets the filter data by locale.
-     *
-     * @param boolean $filterDataByLocale
-     *
-     * @return void
-     */
-    public function setFilterDataByLocale($filterDataByLocale)
-    {
-        if (boolval($this->filterDataByLocale) !== boolval($filterDataByLocale)) {
-            $this->filterDataByLocale = boolval($filterDataByLocale);
-        }
-    }
-    
-    /**
      * Returns the enabled finder types.
      *
      * @return string
@@ -545,9 +512,6 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['showOnlyOwnEntries'])) {
             $this->setShowOnlyOwnEntries($moduleVars['showOnlyOwnEntries']);
         }
-        if (isset($moduleVars['filterDataByLocale'])) {
-            $this->setFilterDataByLocale($moduleVars['filterDataByLocale']);
-        }
         if (isset($moduleVars['enabledFinderTypes'])) {
             $this->setEnabledFinderTypes($moduleVars['enabledFinderTypes']);
         }
@@ -570,7 +534,6 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
         $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());
-        $this->variableApi->set('ZikulaContentModule', 'filterDataByLocale', $this->getFilterDataByLocale());
         $this->variableApi->set('ZikulaContentModule', 'enabledFinderTypes', $this->getEnabledFinderTypes());
     }
 }

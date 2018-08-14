@@ -90,8 +90,7 @@ abstract class AbstractItemListBlockType extends AbstractType
             'help' => $this->__('If you change this please save the block once to reload the parameters below.', 'zikulacontentmodule'),
             'choices' => [
                 $this->__('Pages', 'zikulacontentmodule') => 'page',
-                $this->__('Content items', 'zikulacontentmodule') => 'contentItem',
-                $this->__('Searchables', 'zikulacontentmodule') => 'searchable'
+                $this->__('Content items', 'zikulacontentmodule') => 'contentItem'
             ],
             'multiple' => false,
             'expanded' => false
