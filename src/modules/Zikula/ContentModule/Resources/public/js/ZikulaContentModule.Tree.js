@@ -212,25 +212,25 @@ function zikulaContentTreeContextMenuActions(theNode) {
             },
             icon: 'fa fa-fw fa-plus'
         };
+        actions.deleteNode = {
+            label: Translator.__('Delete'),
+            title: Translator.__('Delete this node'),
+            action: function (node) {
+                var confirmQuestion;
+                var amountOfChildren;
+        
+                confirmQuestion = Translator.__('Do you really want to remove this node?');
+                amountOfChildren = currentNode.children.length;
+                if (amountOfChildren > 0) {
+                    confirmQuestion = Translator.__('Do you really want to remove this node including all child nodes?');
+                }
+                if (false !== window.confirm(confirmQuestion)) {
+                    zikulaContentPerformTreeOperation(objectType, rootId, 'deleteNode');
+                }
+            },
+            icon: 'fa fa-fw fa-trash-o'
+        };
     }
-    actions.deleteNode = {
-        label: Translator.__('Delete'),
-        title: Translator.__('Delete this node'),
-        action: function (node) {
-            var confirmQuestion;
-            var amountOfChildren;
-    
-            confirmQuestion = Translator.__('Do you really want to remove this node?');
-            amountOfChildren = currentNode.children.length;
-            if (amountOfChildren > 0) {
-                confirmQuestion = Translator.__('Do you really want to remove this node including all child nodes?');
-            }
-            if (false !== window.confirm(confirmQuestion)) {
-                zikulaContentPerformTreeOperation(objectType, rootId, 'deleteNode');
-            }
-        },
-        icon: 'fa fa-fw fa-trash-o'
-    };
     
     if (isRoot) {
         return actions;
