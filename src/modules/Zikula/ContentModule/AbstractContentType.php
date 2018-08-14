@@ -317,7 +317,7 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function getData()
     {
-        return $this->data;
+        return array_merge($this->getDefaultData(), $this->data);
     }
 
     /**

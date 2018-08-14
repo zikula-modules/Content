@@ -14,6 +14,8 @@ services:
     
     zikula_content_module.installer_listener:
         class: Zikula\ContentModule\Listener\InstallerListener
+        arguments:
+            - "@zikula_content_module.example_data_helper"
         tags: ['kernel.event_subscriber']
     
     zikula_content_module.moduledispatch_listener:

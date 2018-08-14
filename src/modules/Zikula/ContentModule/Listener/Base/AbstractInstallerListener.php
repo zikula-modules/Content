@@ -14,12 +14,29 @@ namespace Zikula\ContentModule\Listener\Base;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zikula\Core\CoreEvents;
 use Zikula\Core\Event\ModuleStateEvent;
+use Zikula\ContentModule\Helper\ExampleDataHelper;
 
 /**
  * Event handler base class for module installer events.
  */
 abstract class AbstractInstallerListener implements EventSubscriberInterface
 {
+    /**
+     * @var ExampleDataHelper
+     */
+    protected $exampleDataHelper;
+    
+    /**
+     * InstallerListener constructor.
+     *
+     * @param ExampleDataHelper $exampleDataHelper Example data helper service instance
+     */
+    public function __construct(
+        ExampleDataHelper $exampleDataHelper
+    ) {
+        $this->exampleDataHelper = $exampleDataHelper;
+    }
+    
     /**
      * Makes our handlers known to the event system.
      */
@@ -69,6 +86,14 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      */
     public function modulePostInstalled(ModuleStateEvent $event)
     {
+        $module = $event->getModule();
+        if (null === $module) {
+            return;
+        }
+    
+        if ($module->getName() === 'ZikulaContentModule') {
+            $this->exampleDataHelper->createDefaultData();
+        }
     }
     
     /**

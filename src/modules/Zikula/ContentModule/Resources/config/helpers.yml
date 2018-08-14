@@ -39,6 +39,17 @@ services:
             - "@request_stack"
             - "@zikula_content_module.listentries_helper"
     
+    zikula_content_module.example_data_helper:
+        class: Zikula\ContentModule\Helper\ExampleDataHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@logger"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.workflow_helper"
+        calls:
+            - [setRouter, ["@router"]]
+    
     zikula_content_module.feature_activation_helper:
         class: Zikula\ContentModule\Helper\FeatureActivationHelper
     
