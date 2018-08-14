@@ -487,7 +487,7 @@ class PageController extends AbstractPageController
                     if ($widget['id'] != $oldItemId) {
                         continue;
                     }
-                    $layoutData[$sectionKey][$widgetKey]['id'] = $newItemId;
+                    $layoutData[$sectionKey]['widgets'][$widgetKey]['id'] = $newItemId;
                     break 2;
                 }
             }
