@@ -175,11 +175,11 @@ abstract class AbstractEditHandler extends EditHandler
         $routePrefix = 'zikulacontentmodule_' . $this->objectTypeLower . '_' . $routeArea;
     
         // redirect to the list of pages
-        $url = $this->router->generate($routePrefix . 'view', ['tpl' => 'tree']);
+        $url = $this->router->generate($routePrefix . 'view');
     
         if ($objectIsPersisted) {
             // redirect to the detail page of treated page
-            $url = $this->router->generate($routePrefix . 'display', [$this->originalSlug]);
+            $url = $this->router->generate($routePrefix . 'display', ['slug' => $this->originalSlug]);
         }
     
         return $url;
