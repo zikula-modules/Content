@@ -11,12 +11,120 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Helper\Base\AbstractSearchHelper;
+use Zikula\Core\RouteUrl;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\SearchModule\Entity\SearchResultEntity;
 
 /**
  * Search helper implementation class.
  */
 class SearchHelper extends AbstractSearchHelper
 {
-    // feel free to extend the search helper here
+    /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+
+    /**
+     * @inheritDoc
+     */
+    public function amendForm(FormBuilderInterface $builder)
+    {
+        /*$builder->add('active', CheckboxType::class, [
+            'data' => true,
+            'label' => $this->__('Content pages')
+        ]);*/
+
+        return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getResults(array $words, $searchType = 'AND', $modVars = null)
+    {
+        if (!$this->permissionHelper->hasPermission(ACCESS_READ)) {
+            return [];
+        }
+
+        // initialise array for results
+        $results = [];
+
+        $objectType = 'page';
+        $whereArray = [
+            'tbl.title',
+            'tbl.metaDescription'
+        ];
+        if ($this->variableApi->get('ZikulaContentModule', 'enableOptionalString1', false)) {
+            $whereArray[] = 'tbl.optionalString1';
+        }
+        if ($this->variableApi->get('ZikulaContentModule', 'enableOptionalString2', false)) {
+            $whereArray[] = 'tbl.optionalString2';
+        }
+        if ($this->variableApi->get('ZikulaContentModule', 'enableOptionalText', false)) {
+            $whereArray[] = 'tbl.optionalText';
+        }
+        $whereArray[] = 'tblContentItems.searchText';
+        $whereArray[] = 'tblContentItems.additionalSearchText';
+
+        $repository = $this->entityFactory->getRepository($objectType);
+
+        // build the search query without any joins
+        $qb = $repository->getListQueryBuilder();
+
+        // build where expression for given search type
+        $whereExpr = $this->formatWhere($qb, $words, $whereArray, $searchType);
+        $qb->andWhere($whereExpr);
+
+        $query = $repository->getQueryFromBuilder($qb);
+
+        // set a sensitive limit
+        $query->setFirstResult(0)
+              ->setMaxResults(250);
+
+        // fetch the results
+        $entities = $query->getResult();
+        if (count($entities) == 0) {
+            return $results;
+        }
+
+        $request = $this->requestStack->getCurrentRequest();
+        foreach ($entities as $entity) {
+            if (!$this->permissionHelper->mayRead($entity)) {
+                continue;
+            }
+
+            if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
+                if (!$this->categoryHelper->hasPermission($entity)) {
+                    continue;
+                }
+            }
+
+            $formattedTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
+            $urlArgs = $entity->createUrlArgs();
+            $urlArgs['_locale'] = $request->getLocale();
+            $displayUrl = new RouteUrl('zikulacontentmodule_' . strtolower($objectType) . '_display', $urlArgs);
+
+            $result = new SearchResultEntity();
+            $result->setTitle($formattedTitle)
+                ->setText($entity['metaDescription'])
+                ->setModule('ZikulaContentModule')
+                ->setCreated($entity['createdDate'])
+                ->setSesid($this->session->getId())
+                ->setUrl($displayUrl);
+            $results[] = $result;
+        }
+
+        return $results;
+    }
+
+    /**
+     * @param VariableApiInterface $variableApi
+     */
+    public function setVariableApi(VariableApiInterface $variableApi)
+    {
+        $this->variableApi = $variableApi;
+    }
 }

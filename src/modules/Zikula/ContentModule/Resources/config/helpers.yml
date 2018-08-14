@@ -91,6 +91,8 @@ services:
             - "@zikula_content_module.permission_helper"
             - "@zikula_content_module.feature_activation_helper"
             - "@zikula_content_module.category_helper"
+        calls:
+            - [setVariableApi, ["@zikula_extensions_module.api.variable"]]
         tags:
             - { name: zikula.searchable_module, bundleName: ZikulaContentModule }
     
