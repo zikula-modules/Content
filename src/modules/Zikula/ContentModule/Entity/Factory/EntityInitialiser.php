@@ -11,7 +11,6 @@
 
 namespace Zikula\ContentModule\Entity\Factory;
 
-use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\Factory\Base\AbstractEntityInitialiser;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
@@ -33,12 +32,11 @@ class EntityInitialiser extends AbstractEntityInitialiser
      * @param string $stateOfNewPages
      */
     public function __construct(
-        RequestStack $requestStack,
         PermissionHelper $permissionHelper,
         ListEntriesHelper $listEntriesHelper,
         $stateOfNewPages
     ) {
-        parent::__construct($requestStack, $permissionHelper, $listEntriesHelper);
+        parent::__construct($permissionHelper, $listEntriesHelper);
         $this->stateOfNewPages = (int)$stateOfNewPages;
     }
 

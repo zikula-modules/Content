@@ -48,6 +48,7 @@ services:
             - "@zikula_content_module.workflow_helper"
         calls:
             - [setRouter, ["@router"]]
+            - [setContentDisplayHelper, ["@zikula_content_module.content_display_helper"]]
     
     zikula_content_module.feature_activation_helper:
         class: Zikula\ContentModule\Helper\FeatureActivationHelper

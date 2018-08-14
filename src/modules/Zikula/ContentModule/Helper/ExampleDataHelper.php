@@ -28,6 +28,11 @@ class ExampleDataHelper extends AbstractExampleDataHelper
     protected $router;
 
     /**
+     * @var ContentDisplayHelper
+     */
+    protected $displayHelper;
+
+    /**
      * @inheritDoc
      */
     public function createDefaultData()
@@ -63,15 +68,21 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item = new ContentItemEntity();
         $item->setOwningType($contentTypeNamespace . 'HeadingType');
         $item->setContentData([
-            'text' => $this->translator->__('A content page consists of various content items in a chosen layout', 'zikulacontentmodule')
+            'text' => $this->translator->__('A content page consists of various content items in a chosen Bootstrap grid', 'zikulacontentmodule')
         ]);
+        $contentType = $this->displayHelper->initContentType($item);
+        $item->setSearchText($contentType->getSearchableText());
+        $item->setAdditionalSearchText($this->translator->__('Content pages may arrange content items using Bootstrap layout.', 'zikulacontentmodule'));
         $contentInfo[] = [$item, 'header', ['x' => 0, 'y' => (0 * $itemHeightEditing), 'width' => 12, 'minWidth' => 2]];
 
         $item = new ContentItemEntity();
         $item->setOwningType($contentTypeNamespace . 'HtmlType');
         $item->setContentData([
-            'text' => $this->translator->__('<p>Each created page can arrange their content elements using arbitrary grids layouts. Each page may contains various layout sections. In each section you can place one or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Quotes;</li> <li>Atom or RSS feeds;</li> <li>Computer code;</li> <li>Zikula blocks;</li> <li>the output of another Zikula module or Symfony bundle.</li> </ul> <p>Within these layout sections you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>', 'zikulacontentmodule')
+            'text' => $this->translator->__('<p>Each created page can arrange their content elements using arbitrary grid layouts. Each page may contains various layout sections. In each section you can place one or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Quotes;</li> <li>Atom or RSS feeds;</li> <li>Computer code;</li> <li>Zikula blocks;</li> <li>the output of another Zikula module or Symfony bundle.</li> </ul> <p>Within these layout sections you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>', 'zikulacontentmodule')
         ]);
+        $contentType = $this->displayHelper->initContentType($item);
+        $item->setSearchText($contentType->getSearchableText());
+        $item->setAdditionalSearchText($this->translator->__('Content pages may contain many different types of content items.', 'zikulacontentmodule'));
         $contentInfo[] = [$item, 'mid', ['x' => 0, 'y' => (0 * $itemHeightEditing), 'width' => 8, 'minWidth' => 2]];
 
         $item = new ContentItemEntity();
@@ -81,6 +92,9 @@ class ExampleDataHelper extends AbstractExampleDataHelper
             'source' => $this->translator->__('https://ziku.la/en/', 'zikulacontentmodule'),
             'description' => $this->translator->__('Zikula homepage', 'zikulacontentmodule')
         ]);
+        $contentType = $this->displayHelper->initContentType($item);
+        $item->setSearchText($contentType->getSearchableText());
+        $item->setAdditionalSearchText($this->translator->__('Zikula and Content provide powerful tools for creating websites and web applications.', 'zikulacontentmodule'));
         $contentInfo[] = [$item, 'mid', ['x' => 8, 'y' => (0 * $itemHeightEditing), 'width' => 4, 'minWidth' => 2]];
 
         $item = new ContentItemEntity();
@@ -88,6 +102,9 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item->setContentData([
             'text' => $this->translator->__('<p><strong>This is a second HTML text content item in the left column.</strong><br />Content is an extendable module. You can create your own content plugins and other Zikula modules can also offer additional content items. For example a calendar module may provide a Content plugin for a list of the latest events.</p>', 'zikulacontentmodule')
         ]);
+        $contentType = $this->displayHelper->initContentType($item);
+        $item->setSearchText($contentType->getSearchableText());
+        $item->setAdditionalSearchText($this->translator->__('Content can be extended by other modules which can contribute additional content types.', 'zikulacontentmodule'));
         $contentInfo[] = [$item, 'mid', ['x' => 0, 'y' => (1 * $itemHeightEditing), 'width' => 8, 'minWidth' => 2]];
 
         $item = new ContentItemEntity();
@@ -96,6 +113,8 @@ class ExampleDataHelper extends AbstractExampleDataHelper
             'text' => $this->translator->__('$this->doAction($var); // just some code', 'zikulacontentmodule'),
             'codeFilter' => 'native'
         ]);
+        $contentType = $this->displayHelper->initContentType($item);
+        $item->setSearchText($contentType->getSearchableText());
         $contentInfo[] = [$item, 'mid', ['x' => 8, 'y' => (1 * $itemHeightEditing), 'width' => 4, 'minWidth' => 2]];
 
         $item = new ContentItemEntity();
@@ -103,6 +122,9 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item->setContentData([
             'text' => $this->translator->__('<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p><p>It also features additional functionality, like translating content and tracking changes between different versions.</p>', 'zikulacontentmodule')
         ]);
+        $contentType = $this->displayHelper->initContentType($item);
+        $item->setSearchText($contentType->getSearchableText());
+        $item->setAdditionalSearchText($this->translator->__('Content also offers functionality for versioning and managing translations.', 'zikulacontentmodule'));
         $contentInfo[] = [$item, 'mid', ['x' => 8, 'y' => (2 * $itemHeightEditing), 'width' => 4, 'minWidth' => 2]];
 
         $item = new ContentItemEntity();
@@ -112,6 +134,8 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item->setContentData([
             'text' => $this->translator->__f('This <strong>footer</strong> finishes this introduction page. And now, please enjoy using Content. The <a href="%adminPageListUrl">Page list</a> interface lets you edit or delete this introduction page. In the <a href="%adminSettingsUrl">administration settings</a> you can further control the Content module.', ['%adminPageListUrl' => $adminPageListUrl, '%adminSettingsUrl' => $adminSettingsUrl], 'zikulacontentmodule')
         ]);
+        $contentType = $this->displayHelper->initContentType($item);
+        $item->setSearchText($contentType->getSearchableText());
         $contentInfo[] = [$item, 'footer', ['x' => 0, 'y' => (0 * $itemHeightEditing), 'width' => 12, 'minWidth' => 2]];
 
         // execute the workflow action for each entity
@@ -155,5 +179,13 @@ class ExampleDataHelper extends AbstractExampleDataHelper
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
+    }
+
+    /**
+     * @param ContentDisplayHelper $displayHelper
+     */
+    public function setContentDisplayHelper(ContentDisplayHelper $displayHelper)
+    {
+        $this->displayHelper = $displayHelper;
     }
 }

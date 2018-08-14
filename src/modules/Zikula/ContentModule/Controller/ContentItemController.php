@@ -260,6 +260,9 @@ class ContentItemController extends AbstractContentItemController
                 if (!isset($formData['stylingClasses'])) {
                     $contentItem->setStylingClasses([]);
                 }
+                $contentType->setEntity($contentItem);
+                $contentItem->setSearchText($contentType->getSearchableText());
+
                 $workflowAction = $isCreation ? 'submit' : 'update';
 
                 if ($contentItem->supportsHookSubscribers()) {

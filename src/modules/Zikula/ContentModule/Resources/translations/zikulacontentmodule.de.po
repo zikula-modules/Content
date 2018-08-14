@@ -25,9 +25,6 @@ msgstr "%field% gesetzt zu:"
 msgid "%owningType%"
 msgstr "%owningType%"
 
-msgid "%searchLanguage%"
-msgstr "%searchLanguage%"
-
 msgid "%title%"
 msgstr "%title%"
 
@@ -66,21 +63,21 @@ msgstr ""
 "Content-Plugin für eine Liste der neuesten Events bereitstellen.</p>"
 
 msgid ""
-"<p>Each created page can arrange their content elements using arbitrary "
-"grids layouts. Each page may contains various layout sections. In each "
-"section you can place one or more content items of various kinds like:</p> "
-"<ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> "
-"<li>Quotes;</li> <li>Atom or RSS feeds;</li> <li>Computer code;</li> "
-"<li>Zikula blocks;</li> <li>the output of another Zikula module or Symfony "
-"bundle.</li> </ul> <p>Within these layout sections you can sort the content "
-"items by means of drag & drop.<br /> You can make an unlimited number of "
-"pages and structure them hierarchical. Your page structure can be displayed "
-"in a multi level menu in your website.</p>"
+"<p>Each created page can arrange their content elements using arbitrary grid "
+"layouts. Each page may contains various layout sections. In each section you "
+"can place one or more content items of various kinds like:</p> <ul> <li>HTML "
+"text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Quotes;</li> "
+"<li>Atom or RSS feeds;</li> <li>Computer code;</li> <li>Zikula blocks;</li> "
+"<li>the output of another Zikula module or Symfony bundle.</li> </ul> "
+"<p>Within these layout sections you can sort the content items by means of "
+"drag & drop.<br /> You can make an unlimited number of pages and structure "
+"them hierarchical. Your page structure can be displayed in a multi level "
+"menu in your website.</p>"
 msgstr ""
 "<p>Jede erstellte Seite kann ihre Inhaltselemente frei unter Verwendung "
 "beliebiger Gridlayouts arrangieren. Jede Seite kann verschiedene "
 "Layoutbereiche beinhalten. In jedem Bereich lassen sich ein oder mehrere "
-"Inhaltselemente mit verschiedener Typen platzieren, unter anderem:</p> <ul> "
+"Inhaltselemente verschiedener Typen platzieren, wie zum Beispiel:</p> <ul> "
 "<li>HTML-Text;</li> <li>YouTube-Videos;</li> <li>Google Maps;</li> "
 "<li>Zitate;</li> <li>Atom- und RSS-Feeds;</li> <li>Computer-Code;</li> "
 "<li>Zikula-Blöcke;</li> <li>die Ausgabe eines anderen Zikula-Moduls oder "
@@ -105,10 +102,11 @@ msgstr ""
 msgid "A CSS class name that will be used on the tab navigation."
 msgstr "Eine CSS-Klasse, die für die Reiter-Navigation verwendet wird."
 
-msgid "A content page consists of various content items in a chosen layout"
+msgid ""
+"A content page consists of various content items in a chosen Bootstrap grid"
 msgstr ""
 "Eine Inhaltsseite besteht aus verschiedenen Inhaltselementen in einem "
-"ausgewählten Layout"
+"ausgewählten Bootstrap-Grid"
 
 msgid "A highlighted quote with source."
 msgstr "Ein hervorgehobenes Zitat mit Quellenangabe."
@@ -353,6 +351,19 @@ msgstr "Quelltextzeilen"
 msgid "Content Backend"
 msgstr "Content Backend"
 
+msgid ""
+"Content also offers functionality for versioning and managing translations."
+msgstr ""
+"Content bietet auch Funktionalität zur Versionierung und Verwaltung von "
+"Übersetzungen"
+
+msgid ""
+"Content can be extended by other modules which can contribute additional "
+"content types."
+msgstr ""
+"Content kann durch andere Module erweitert werden, die zusätzliche "
+"Inhaltstypen beisteuern können."
+
 msgid "Content has been approved and is available online."
 msgstr "Der Inhalt wurde freigegeben und ist online verfügbar."
 
@@ -391,6 +402,15 @@ msgstr "Inhaltselemente"
 
 msgid "Content menu block"
 msgstr "Content Menüblock"
+
+msgid "Content pages may arrange content items using Bootstrap layout."
+msgstr ""
+"Inhaltsseiten können Inhaltselemente mit Bootstrap-Layouts arrangieren."
+
+msgid "Content pages may contain many different types of content items."
+msgstr ""
+"Inhaltsseiten können viele verschiedene Arten von Inhaltselementen "
+"beinhalten."
 
 msgid "Controller"
 msgstr "Controller"
@@ -604,9 +624,6 @@ msgstr "Seite bearbeiten"
 msgid "Edit pages workflow"
 msgstr "Workflow für Seiten bearbeiten"
 
-msgid "Edit searchables workflow"
-msgstr "Workflow für Suchsubjekte bearbeiten"
-
 msgid "Edit this block"
 msgstr "Diesen Block bearbeiten"
 
@@ -618,9 +635,6 @@ msgstr "Workflow für Inhaltselemente bearbeiten"
 
 msgid "Edit workflow for pages"
 msgstr "Workflow für Seiten bearbeiten"
-
-msgid "Edit workflow for searchables"
-msgstr "Workflow für Suchsubjekte bearbeiten"
 
 msgid "Enable optional string 1"
 msgstr "Optionale Zeichenkette 1 aktivieren"
@@ -787,9 +801,6 @@ msgstr "Filter"
 
 msgid "Filter (expert option)"
 msgstr "Filter (Expertenoption)"
-
-msgid "Filter data by locale"
-msgstr "Daten nach Sprachumgebung filtern"
 
 msgid "From 0 for the entire world to 21 for individual buildings."
 msgstr "Von 0 für die ganze Welt bis 21 für einzelne Gebäude."
@@ -1326,12 +1337,6 @@ msgstr "Eine Seite suchen und auswählen"
 msgid "Search for"
 msgstr "Suche nach"
 
-msgid "Searchable filter hooks subscriber"
-msgstr "Suchsubjekt Filter-Hooks Abonnent"
-
-msgid "Searchables"
-msgstr "Suchsubjekte"
-
 msgid "Section heading (or page title) for structuring large amounts of text."
 msgstr ""
 "Bereichsüberschrift (oder Seitentitel) zur Strukturierung längerer Texte."
@@ -1574,9 +1579,6 @@ msgstr "Die Option zum Aktivieren des optionalen Textes"
 msgid "The enable raw plugin option"
 msgstr "Die Option zum Aktivieren des Plugins für ungefilterten Rohtext"
 
-msgid "The filter data by locale option"
-msgstr "Die Option zum Filtern von Daten durch die Sprachumgebung"
-
 msgid "The inherit permissions option"
 msgstr "Die Option zum Vererben von Zugriffsrechten"
 
@@ -1759,16 +1761,6 @@ msgstr "Willkommen zum Bereich der Inhaltselemente der Content-Anwendung."
 msgid "Welcome to the page section of the Content application."
 msgstr "Willkommen zum Seitenbereich der Content-Anwendung."
 
-msgid "Welcome to the searchable section of the Content application."
-msgstr "Willkommen zum Bereich der Suchsubjekte der Content-Anwendung."
-
-msgid ""
-"Whether automatically filter data in the frontend based on the current "
-"locale or not"
-msgstr ""
-"Ob die Daten im Frontend automatisch basierend auf der aktuellen "
-"Sprachumgebung gefiltert werden sollen oder nicht"
-
 msgid ""
 "Whether only own entries should be shown on view pages by default or not"
 msgstr ""
@@ -1853,6 +1845,13 @@ msgid ""
 msgstr ""
 "Zikula erlaubt die Erstellung sowohl einfacher Internetseiten als auch "
 "individueller Webanwendungen."
+
+msgid ""
+"Zikula and Content provide powerful tools for creating websites and web "
+"applications."
+msgstr ""
+"Zikula und Content bieten mächtige Werkzeuge zur Erstellung von Websites und "
+"Webapplikationen."
 
 msgid "Zikula homepage"
 msgstr "Zikula-Homepage"
@@ -1968,6 +1967,3 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
-
-#~ msgid "All pages."
-#~ msgstr "Alle Seiten."

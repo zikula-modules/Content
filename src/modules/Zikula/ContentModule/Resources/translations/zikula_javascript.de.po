@@ -159,6 +159,3 @@ msgstr "Übersetzen"
 
 msgid "Translate this element"
 msgstr "Dieses Element übersetzen"
-
-#~ msgid "Move"
-#~ msgstr "Verschieben"

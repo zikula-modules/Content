@@ -24,12 +24,14 @@ Content is a hierarchical page editing module for Zikula. With it you can insert
 
 Each page can arrange arbitrary content elements using Bootstrap grids.
 
+It also features additional functionality, like translating content and tracking changes between different versions.
+
 
 <a name="requirements" />
 
 ## Requirements
 
-This module is intended for being used with Zikula 2.0.7+.
+This module is intended for being used with Zikula 2.0.9+.
 
 
 <a name="installation" />
@@ -48,7 +50,7 @@ The Content module is installed like this:
 
 ## Upgrading
 
-The upgrade process from earlier versions to 1.5.0 has not been implemented yet.
+The upgrade process from earlier versions to 5.0.0 has not been implemented yet.
 Please see issue #198 for reference.
 
 

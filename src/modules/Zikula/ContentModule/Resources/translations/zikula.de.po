@@ -384,9 +384,3 @@ msgstr "nur ab %date"
 
 msgid "only until %date"
 msgstr "nur bis %date"
-
-#~ msgid "Active from"
-#~ msgstr "Aktiv von"
-
-#~ msgid "Active to"
-#~ msgstr "Aktiv bis"
