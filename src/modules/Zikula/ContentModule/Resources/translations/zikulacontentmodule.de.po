@@ -194,6 +194,9 @@ msgstr "Text hier hinzufügen..."
 msgid "Add unfiltered text here ..."
 msgstr "Ungefilterten Text hier hinzufügen ..."
 
+msgid "Additional search text"
+msgstr "Zusätzlicher Suchtext"
+
 msgid "All"
 msgstr "Alle"
 
@@ -1821,6 +1824,13 @@ msgid ""
 msgstr ""
 "Es kann entweder ein individueller Permalink für die Seite eingegeben oder "
 "dieses Feld freigelassen werden, um automatisch einen zu erstellen."
+
+msgid ""
+"You may enter any text which will be used during the site search to find "
+"this element."
+msgstr ""
+"Hier kann ein beliebiger Text hinterlegt werden, der während der Suche "
+"benutzt wird, um dieses Element zu finden."
 
 msgid ""
 "You need to explicitly enable a checkbox in the configuration form to "

@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zikula\ContentModule\Entity\ContentItemEntity;
@@ -145,6 +146,17 @@ class ContentItemType extends AbstractType
             'required' => false,
             'choices' => $choices,
             'multiple' => true
+        ]);
+
+        $builder->add('additionalSearchText', TextType::class, [
+            'label' => $this->__('Additional search text') . ':',
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 255,
+                'title' => $this->__('You may enter any text which will be used during the site search to find this element.')
+            ],
+            'required' => false,
+            'help' => $this->__('You may enter any text which will be used during the site search to find this element.')
         ]);
     }
 

@@ -14,6 +14,7 @@
     <fieldset>
         <legend>{{ __('Content') }}</legend>
         {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
+        {{ form_row(form.additionalSearchText) }}
     </fieldset>
 {% endif %}
 <fieldset>
