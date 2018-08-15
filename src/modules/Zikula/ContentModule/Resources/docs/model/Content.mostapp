@@ -115,6 +115,11 @@ application "Content" {
                     mandatory false
                     displayType DISPLAY
                 },
+                array "stylingClasses" nullable {
+                    mandatory false
+                    displayType NONE
+                    arrayType SIMPLE_ARRAY
+                },
                 integer "currentVersion" version {
                     defaultValue "1"
                 },
@@ -203,7 +208,6 @@ application "Content" {
             targetEditing NONE
             cascade REMOVE_DETACH
             cascadeReverse PERSIST
-            orderBy ""
         }
     }
     variables {
@@ -233,16 +237,38 @@ application "Content" {
                     defaultValue "false"
                     mandatory false
                 },
-                text "stylingClasses" {
-                    documentation "A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance \"note\" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. \"note | Memo\"."
-                    defaultValue "greybox|Grey box"
-                    length 5000
-                },
                 boolean "inheritPermissions" {
                     documentation "Whether to inherit permissions from parent to child pages or not."
                     defaultValue "false"
                     mandatory false
+                }
+            }
+        },
+        varContainer "CustomStyles" {
+            documentation "With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. \"my-class | My class\"."
+            sortOrder 2
+            fields {
+                text "pageStyles" {
+                    documentation "A list of CSS class names available for styling pages - for example \"product\" or \"legal\"."
+                    defaultValue "dummy|Dummy"
+                    length 5000
                 },
+                text "sectionStyles" {
+                    documentation "A list of CSS class names available for styling page sections - for example \"header\" or \"reference-row\"."
+                    defaultValue "dummy|Dummy"
+                    length 5000
+                },
+                text "contentStyles" {
+                    documentation "A list of CSS class names available for styling single content elements - for instance \"note\" or \"shadow\"."
+                    defaultValue "dummy|Dummy"
+                    length 5000
+                }
+            }
+        },
+        varContainer "AdditionalFields" {
+            documentation "Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable."
+            sortOrder 3
+            fields {
                 boolean "enableOptionalString1" {
                     documentation "If you need an additional string for each page you can enable an optional field."
                     defaultValue "false"

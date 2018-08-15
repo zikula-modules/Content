@@ -28,7 +28,7 @@
 {% block admin_page_icon 'eye' %}
 {% block content %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}
-    <div id="page{{ page.id }}" class="zikulacontentmodule-page zikulacontentmodule-display">
+    <div id="page{{ page.id }}" class="zikulacontentmodule-page zikulacontentmodule-display{% if page.stylingClasses is not empty %} {{ page.stylingClasses|join(' ') }}{% endif %}">
 
     <div class="row">
         <div class="col-xs-12">

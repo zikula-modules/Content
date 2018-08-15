@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Form\Type\Base\AbstractPageType;
 
@@ -25,6 +26,29 @@ class PageType extends AbstractPageType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
+
+        $stylingClasses = $this->variableApi->get('ZikulaContentModule', 'pageStyles', '');
+        $choices = [];
+        $userClasses = explode("\n", $stylingClasses);
+        foreach ($userClasses as $class) {
+            list($value, $text) = explode('|', $class);
+            $value = trim($value);
+            $text = trim($text);
+            if (!empty($text) && !empty($value)) {
+                $choices[$text] = $value;
+            }
+        }
+
+        $builder->add('stylingClasses', ChoiceType::class, [
+            'label' => $this->__('Styling classes') . ':',
+            'empty_data' => [],
+            'attr' => [
+                'title' => $this->__('Choose any additional styling classes.')
+            ],
+            'required' => false,
+            'choices' => $choices,
+            'multiple' => true
+        ]);
 
         $builder->remove('layout');
         $builder->remove('views');

@@ -186,6 +186,14 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
+     * @ORM\Column(type="simple_array", nullable=true)
+     * @Assert\Type(type="array")
+     * @var array $stylingClasses
+     */
+    protected $stylingClasses = [];
+    
+    /**
+     * @Gedmo\Versioned
      * @ORM\Column(type="integer")
      * @ORM\Version
      * @Assert\Type(type="integer")
@@ -711,6 +719,30 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     {
         if ($this->optionalText !== $optionalText) {
             $this->optionalText = isset($optionalText) ? $optionalText : '';
+        }
+    }
+    
+    /**
+     * Returns the styling classes.
+     *
+     * @return array
+     */
+    public function getStylingClasses()
+    {
+        return $this->stylingClasses;
+    }
+    
+    /**
+     * Sets the styling classes.
+     *
+     * @param array $stylingClasses
+     *
+     * @return void
+     */
+    public function setStylingClasses($stylingClasses)
+    {
+        if ($this->stylingClasses !== $stylingClasses) {
+            $this->stylingClasses = $stylingClasses;
         }
     }
     

@@ -257,9 +257,6 @@ class ContentItemController extends AbstractContentItemController
                 }
 
                 $formData = $dataSource->get('zikulacontentmodule_contentitem');
-                if (!isset($formData['stylingClasses'])) {
-                    $contentItem->setStylingClasses([]);
-                }
                 $contentType->setEntity($contentItem);
                 $contentItem->setSearchText($contentType->getSearchableText());
 

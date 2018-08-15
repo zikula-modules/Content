@@ -25,6 +25,14 @@
     <optionalString1><![CDATA[{{ page.optionalString1 }}]]></optionalString1>
     <optionalString2><![CDATA[{{ page.optionalString2 }}]]></optionalString2>
     <optionalText><![CDATA[{{ page.optionalText|safeHtml }}]]></optionalText>
+    <stylingClasses>{% if page.stylingClasses is iterable and page.stylingClasses|length > 0 %}
+        <ul>
+        {% for entry in page.stylingClasses if entry is not iterable %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </stylingClasses>
     <currentVersion>{{ page.currentVersion }}</currentVersion>
     <versionData>{% if page.versionData is iterable and page.versionData|length > 0 %}
         <ul>

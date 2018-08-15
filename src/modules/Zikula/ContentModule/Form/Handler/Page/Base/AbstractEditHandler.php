@@ -156,19 +156,9 @@ abstract class AbstractEditHandler extends EditHandler
     protected function getDefaultReturnUrl(array $args = [])
     {
         $objectIsPersisted = $args['commandName'] != 'delete' && !($this->templateParameters['mode'] == 'create' && $args['commandName'] == 'cancel');
-    
-        if (null !== $this->returnTo) {
-            $refererParts = explode('/', $this->returnTo);
-            $isDisplayOrEditPage = $refererParts[count($refererParts)-2] == 'page';
-            if ($isDisplayOrEditPage) {
-                // update slug for proper redirect to display/edit page
-                $refererParts[count($refererParts)-1] = $this->entityRef->getSlug();
-                $this->returnTo = implode('/', $refererParts);
-            }
-            if (!$isDisplayOrEditPage || $objectIsPersisted) {
-                // return to referer
-                return $this->returnTo;
-            }
+        if (null !== $this->returnTo && $objectIsPersisted) {
+            // return to referer
+            return $this->returnTo;
         }
     
         $routeArea = array_key_exists('routeArea', $this->templateParameters) ? $this->templateParameters['routeArea'] : '';
@@ -179,7 +169,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         if ($objectIsPersisted) {
             // redirect to the detail page of treated page
-            $url = $this->router->generate($routePrefix . 'display', ['slug' => $this->originalSlug]);
+            $url = $this->router->generate($routePrefix . 'display', $this->entityRef->createUrlArgs());
         }
     
         return $url;
@@ -298,6 +288,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         $session = $this->requestStack->getCurrentRequest()->getSession();
         if ($session->has('zikulacontentmodule' . $this->objectTypeCapital . 'Referer')) {
+            $this->returnTo = $session->get('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
             $session->remove('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
         }
     
@@ -309,6 +300,12 @@ abstract class AbstractEditHandler extends EditHandler
     
         $routeArea = substr($this->returnTo, 0, 5) == 'admin' ? 'admin' : '';
         $routePrefix = 'zikulacontentmodule_' . $this->objectTypeLower . '_' . $routeArea;
+    
+        if (in_array($this->objectType, ['page'])) {
+            // force refresh because slugs may have changed (e.g. by translatable)
+            $this->entityFactory->getObjectManager()->clear();
+            $this->entityRef = $this->initEntityForEditing();
+        }
     
         // parse given redirect code and return corresponding url
         switch ($this->returnTo) {

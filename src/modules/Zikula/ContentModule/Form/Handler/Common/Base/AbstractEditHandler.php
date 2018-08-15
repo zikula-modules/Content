@@ -17,6 +17,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
@@ -234,13 +235,6 @@ abstract class AbstractEditHandler
     protected $templateParameters = [];
 
     /**
-     * Original slug.
-     *
-     * @var string
-     */
-    protected $originalSlug = '';
-
-    /**
      * EditHandler constructor.
      *
      * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
@@ -370,6 +364,18 @@ abstract class AbstractEditHandler
                 if (!$this->permissionHelper->mayEdit($entity)) {
                     throw new AccessDeniedException();
                 }
+                if (in_array($this->objectType, ['page'])) {
+                    // map display return urls to redirect codes because slugs may change
+                    $routePrefix = 'zikulacontentmodule_' . $this->objectTypeLower . '_';
+                    $userDisplayUrl = $this->router->generate($routePrefix . 'display', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
+                    $adminDisplayUrl = $this->router->generate($routePrefix . 'admindisplay', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
+                    if ($this->returnTo == $userDisplayUrl) {
+                        $this->returnTo = 'userDisplay';
+                    } elseif ($this->returnTo == $adminDisplayUrl) {
+                        $this->returnTo = 'adminDisplay';
+                    }
+                    $request->getSession()->set($refererSessionVar, $this->returnTo);
+                }
             }
         } else {
             $permissionLevel = ACCESS_EDIT;
@@ -399,11 +405,6 @@ abstract class AbstractEditHandler
             return new RedirectResponse($this->getRedirectUrl(['commandName' => 'cancel']), 302);
         }
     
-        if (in_array($this->objectType, ['page'])) {
-            $this->originalSlug = $entity->getSlug();
-            $slugParts = explode('/', $entity->getSlug());
-            $entity->setSlug(end($slugParts));
-        }
         // save entity reference for later reuse
         $this->entityRef = $entity;
     

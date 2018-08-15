@@ -48,8 +48,10 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('countPageViews', false);
         $this->setVar('googleMapsApiKey', '');
         $this->setVar('enableRawPlugin', false);
-        $this->setVar('stylingClasses', 'greybox|Grey box');
         $this->setVar('inheritPermissions', false);
+        $this->setVar('pageStyles', 'dummy|Dummy');
+        $this->setVar('sectionStyles', 'dummy|Dummy');
+        $this->setVar('contentStyles', 'dummy|Dummy');
         $this->setVar('enableOptionalString1', false);
         $this->setVar('enableOptionalString2', false);
         $this->setVar('enableOptionalText', false);

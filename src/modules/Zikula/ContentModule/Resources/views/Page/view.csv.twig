@@ -1,5 +1,5 @@
 {# purpose of this template: pages view csv view #}
-{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip hook subscribers') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Current version') }}";"{{ __('Version data') }}";"{{ __('Workflow state') }}";"{{ __('Content items') }}"
+{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip hook subscribers') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Styling classes') }}";"{{ __('Current version') }}";"{{ __('Version data') }}";"{{ __('Workflow state') }}";"{{ __('Content items') }}"
 {% endspaceless %}
 {% for page in items %}
 
@@ -15,7 +15,14 @@
         {{ page.activeFrom|localizeddate('medium', 'short') }}
     {% endif %}";"{% if page.activeTo is not empty %}
         {{ page.activeTo|localizeddate('medium', 'short') }}
-    {% endif %}";"{% if not page.inMenu %}0{% else %}1{% endif %}";"{{ page.optionalString1 }}";"{{ page.optionalString2 }}";"{{ page.optionalText|safeHtml }}";"{{ page.currentVersion }}";"{% if page.versionData is iterable and page.versionData|length > 0 %}
+    {% endif %}";"{% if not page.inMenu %}0{% else %}1{% endif %}";"{{ page.optionalString1 }}";"{{ page.optionalString2 }}";"{{ page.optionalText|safeHtml }}";"{% if page.stylingClasses is iterable and page.stylingClasses|length > 0 %}
+        <ul>
+        {% for entry in page.stylingClasses if entry is not iterable %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    ";"{{ page.currentVersion }}";"{% if page.versionData is iterable and page.versionData|length > 0 %}
         <ul>
         {% for entry in page.versionData if entry is not iterable %}
             <li>{{ entry }}</li>

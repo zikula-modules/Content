@@ -434,6 +434,23 @@
                 </td>
             </tr>
             <tr>
+                <th id="hEntityPageFieldStylingClasses" scope="row" headers="hEntityPageFieldName">Styling classes</th>
+                <td headers="hEntityPageFieldStylingClasses hEntityPageFieldType">Array</td>
+                <td headers="hEntityPageFieldStylingClasses hEntityPageFieldMandatory">false</td>
+                <td headers="hEntityPageFieldStylingClasses hEntityPageFieldDefault"></td>
+                <td headers="hEntityPageFieldStylingClasses hEntityPageFieldDisplayType">NONE</td>
+                <td headers="hEntityPageFieldStylingClasses hEntityPageFieldConstraints">
+                    <ul>
+                    </ul>
+                </td>
+                <td headers="hEntityPageFieldStylingClasses hEntityPageFieldRemarks">
+                    <ul>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt Null-Werte.</li>
+                        <li>Verwendet ein einfaches Array, repräsentiert durch ein komma-getrenntes Textfeld.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
                 <th id="hEntityPageFieldCurrentVersion" scope="row" headers="hEntityPageFieldName">Current version</th>
                 <td headers="hEntityPageFieldCurrentVersion hEntityPageFieldType">Ganzzahl</td>
                 <td headers="hEntityPageFieldCurrentVersion hEntityPageFieldMandatory">true</td>
@@ -1260,24 +1277,6 @@
                 </td>
             </tr>
             <tr>
-                <th id="hVariablesGeneralSettingsFieldStylingClasses" scope="row" headers="hVariablesGeneralSettingsFieldName">Styling classes</th>
-                <td headers="hVariablesGeneralSettingsFieldStylingClasses hVariablesGeneralSettingsFieldType">Text</td>
-                <td headers="hVariablesGeneralSettingsFieldStylingClasses hVariablesGeneralSettingsFieldMandatory">true</td>
-                <td headers="hVariablesGeneralSettingsFieldStylingClasses hVariablesGeneralSettingsFieldDefault">greybox|Grey box</td>
-                <td headers="hVariablesGeneralSettingsFieldStylingClasses hVariablesGeneralSettingsFieldDisplayType">ALL</td>
-                <td headers="hVariablesGeneralSettingsFieldStylingClasses hVariablesGeneralSettingsFieldConstraints">
-                    <ul>
-                        <li>Hat eine Länge von 5000 Zeichen.</li>
-                    </ul>
-                </td>
-                <td headers="hVariablesGeneralSettingsFieldStylingClasses hVariablesGeneralSettingsFieldRemarks">
-                    <ul>
-                        <li>A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo". </li>
-                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
                 <th id="hVariablesGeneralSettingsFieldInheritPermissions" scope="row" headers="hVariablesGeneralSettingsFieldName">Inherit permissions</th>
                 <td headers="hVariablesGeneralSettingsFieldInheritPermissions hVariablesGeneralSettingsFieldType">Boolesches</td>
                 <td headers="hVariablesGeneralSettingsFieldInheritPermissions hVariablesGeneralSettingsFieldMandatory">false</td>
@@ -1294,17 +1293,135 @@
                     </ul>
                 </td>
             </tr>
+        </tbody>
+    </table>
+</div>
+<h3><i class="fa fa-server"></i> Custom styles</h3>
+<p>With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".</p>
+<p>Sortierwert: 2</p>
+<p>Kombination: <i class="fa fa-times"></i>
+</p>
+<h4><i class="fa fa-bars"></i> Felder</h4>
+<div class="table-responsive">
+    <table class="table-striped table-bordered table-hover table-condensed">
+        <colgroup>
+            <col id="cVariablesCustomStylesFieldName" />
+            <col id="cVariablesCustomStylesFieldType" />
+            <col id="cVariablesCustomStylesFieldMandatory" />
+            <col id="cVariablesCustomStylesFieldDefault" />
+            <col id="cVariablesCustomStylesFieldDisplayType" />
+            <col id="cVariablesCustomStylesFieldConstraints" />
+            <col id="cVariablesCustomStylesFieldRemarks" />
+        </colgroup>
+        <thead>
             <tr>
-                <th id="hVariablesGeneralSettingsFieldEnableOptionalString1" scope="row" headers="hVariablesGeneralSettingsFieldName">Enable optional string 1</th>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString1 hVariablesGeneralSettingsFieldType">Boolesches</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString1 hVariablesGeneralSettingsFieldMandatory">false</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString1 hVariablesGeneralSettingsFieldDefault">false</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString1 hVariablesGeneralSettingsFieldDisplayType">ALL</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString1 hVariablesGeneralSettingsFieldConstraints">
+                <th id="hVariablesCustomStylesFieldName" scope="col">Name</th>
+                <th id="hVariablesCustomStylesFieldType" scope="col">Typ</th>
+                <th id="hVariablesCustomStylesFieldMandatory" scope="col">Pflicht</th>
+                <th id="hVariablesCustomStylesFieldDefault" scope="col">Standardwert</th>
+                <th id="hVariablesCustomStylesFieldDisplayType" scope="col">Anzeige</th>
+                <th id="hVariablesCustomStylesFieldConstraints" scope="col">Beschränkungen</th>
+                <th id="hVariablesCustomStylesFieldRemarks" scope="col">Anmerkungen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th id="hVariablesCustomStylesFieldPageStyles" scope="row" headers="hVariablesCustomStylesFieldName">Page styles</th>
+                <td headers="hVariablesCustomStylesFieldPageStyles hVariablesCustomStylesFieldType">Text</td>
+                <td headers="hVariablesCustomStylesFieldPageStyles hVariablesCustomStylesFieldMandatory">true</td>
+                <td headers="hVariablesCustomStylesFieldPageStyles hVariablesCustomStylesFieldDefault">dummy|Dummy</td>
+                <td headers="hVariablesCustomStylesFieldPageStyles hVariablesCustomStylesFieldDisplayType">ALL</td>
+                <td headers="hVariablesCustomStylesFieldPageStyles hVariablesCustomStylesFieldConstraints">
+                    <ul>
+                        <li>Hat eine Länge von 5000 Zeichen.</li>
+                    </ul>
+                </td>
+                <td headers="hVariablesCustomStylesFieldPageStyles hVariablesCustomStylesFieldRemarks">
+                    <ul>
+                        <li>A list of CSS class names available for styling pages - for example "product" or "legal". </li>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesCustomStylesFieldSectionStyles" scope="row" headers="hVariablesCustomStylesFieldName">Section styles</th>
+                <td headers="hVariablesCustomStylesFieldSectionStyles hVariablesCustomStylesFieldType">Text</td>
+                <td headers="hVariablesCustomStylesFieldSectionStyles hVariablesCustomStylesFieldMandatory">true</td>
+                <td headers="hVariablesCustomStylesFieldSectionStyles hVariablesCustomStylesFieldDefault">dummy|Dummy</td>
+                <td headers="hVariablesCustomStylesFieldSectionStyles hVariablesCustomStylesFieldDisplayType">ALL</td>
+                <td headers="hVariablesCustomStylesFieldSectionStyles hVariablesCustomStylesFieldConstraints">
+                    <ul>
+                        <li>Hat eine Länge von 5000 Zeichen.</li>
+                    </ul>
+                </td>
+                <td headers="hVariablesCustomStylesFieldSectionStyles hVariablesCustomStylesFieldRemarks">
+                    <ul>
+                        <li>A list of CSS class names available for styling page sections - for example "header" or "reference-row". </li>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesCustomStylesFieldContentStyles" scope="row" headers="hVariablesCustomStylesFieldName">Content styles</th>
+                <td headers="hVariablesCustomStylesFieldContentStyles hVariablesCustomStylesFieldType">Text</td>
+                <td headers="hVariablesCustomStylesFieldContentStyles hVariablesCustomStylesFieldMandatory">true</td>
+                <td headers="hVariablesCustomStylesFieldContentStyles hVariablesCustomStylesFieldDefault">dummy|Dummy</td>
+                <td headers="hVariablesCustomStylesFieldContentStyles hVariablesCustomStylesFieldDisplayType">ALL</td>
+                <td headers="hVariablesCustomStylesFieldContentStyles hVariablesCustomStylesFieldConstraints">
+                    <ul>
+                        <li>Hat eine Länge von 5000 Zeichen.</li>
+                    </ul>
+                </td>
+                <td headers="hVariablesCustomStylesFieldContentStyles hVariablesCustomStylesFieldRemarks">
+                    <ul>
+                        <li>A list of CSS class names available for styling single content elements - for instance "note" or "shadow". </li>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h3><i class="fa fa-server"></i> Additional fields</h3>
+<p>Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.</p>
+<p>Sortierwert: 3</p>
+<p>Kombination: <i class="fa fa-times"></i>
+</p>
+<h4><i class="fa fa-bars"></i> Felder</h4>
+<div class="table-responsive">
+    <table class="table-striped table-bordered table-hover table-condensed">
+        <colgroup>
+            <col id="cVariablesAdditionalFieldsFieldName" />
+            <col id="cVariablesAdditionalFieldsFieldType" />
+            <col id="cVariablesAdditionalFieldsFieldMandatory" />
+            <col id="cVariablesAdditionalFieldsFieldDefault" />
+            <col id="cVariablesAdditionalFieldsFieldDisplayType" />
+            <col id="cVariablesAdditionalFieldsFieldConstraints" />
+            <col id="cVariablesAdditionalFieldsFieldRemarks" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th id="hVariablesAdditionalFieldsFieldName" scope="col">Name</th>
+                <th id="hVariablesAdditionalFieldsFieldType" scope="col">Typ</th>
+                <th id="hVariablesAdditionalFieldsFieldMandatory" scope="col">Pflicht</th>
+                <th id="hVariablesAdditionalFieldsFieldDefault" scope="col">Standardwert</th>
+                <th id="hVariablesAdditionalFieldsFieldDisplayType" scope="col">Anzeige</th>
+                <th id="hVariablesAdditionalFieldsFieldConstraints" scope="col">Beschränkungen</th>
+                <th id="hVariablesAdditionalFieldsFieldRemarks" scope="col">Anmerkungen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th id="hVariablesAdditionalFieldsFieldEnableOptionalString1" scope="row" headers="hVariablesAdditionalFieldsFieldName">Enable optional string 1</th>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString1 hVariablesAdditionalFieldsFieldType">Boolesches</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString1 hVariablesAdditionalFieldsFieldMandatory">false</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString1 hVariablesAdditionalFieldsFieldDefault">false</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString1 hVariablesAdditionalFieldsFieldDisplayType">ALL</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString1 hVariablesAdditionalFieldsFieldConstraints">
                     <ul>
                     </ul>
                 </td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString1 hVariablesGeneralSettingsFieldRemarks">
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString1 hVariablesAdditionalFieldsFieldRemarks">
                     <ul>
                         <li>If you need an additional string for each page you can enable an optional field. </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
@@ -1312,16 +1429,16 @@
                 </td>
             </tr>
             <tr>
-                <th id="hVariablesGeneralSettingsFieldEnableOptionalString2" scope="row" headers="hVariablesGeneralSettingsFieldName">Enable optional string 2</th>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString2 hVariablesGeneralSettingsFieldType">Boolesches</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString2 hVariablesGeneralSettingsFieldMandatory">false</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString2 hVariablesGeneralSettingsFieldDefault">false</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString2 hVariablesGeneralSettingsFieldDisplayType">ALL</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString2 hVariablesGeneralSettingsFieldConstraints">
+                <th id="hVariablesAdditionalFieldsFieldEnableOptionalString2" scope="row" headers="hVariablesAdditionalFieldsFieldName">Enable optional string 2</th>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString2 hVariablesAdditionalFieldsFieldType">Boolesches</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString2 hVariablesAdditionalFieldsFieldMandatory">false</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString2 hVariablesAdditionalFieldsFieldDefault">false</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString2 hVariablesAdditionalFieldsFieldDisplayType">ALL</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString2 hVariablesAdditionalFieldsFieldConstraints">
                     <ul>
                     </ul>
                 </td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalString2 hVariablesGeneralSettingsFieldRemarks">
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalString2 hVariablesAdditionalFieldsFieldRemarks">
                     <ul>
                         <li>If you need an additional string for each page you can enable an optional field. </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
@@ -1329,16 +1446,16 @@
                 </td>
             </tr>
             <tr>
-                <th id="hVariablesGeneralSettingsFieldEnableOptionalText" scope="row" headers="hVariablesGeneralSettingsFieldName">Enable optional text</th>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalText hVariablesGeneralSettingsFieldType">Boolesches</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalText hVariablesGeneralSettingsFieldMandatory">false</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalText hVariablesGeneralSettingsFieldDefault">false</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalText hVariablesGeneralSettingsFieldDisplayType">ALL</td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalText hVariablesGeneralSettingsFieldConstraints">
+                <th id="hVariablesAdditionalFieldsFieldEnableOptionalText" scope="row" headers="hVariablesAdditionalFieldsFieldName">Enable optional text</th>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalText hVariablesAdditionalFieldsFieldType">Boolesches</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalText hVariablesAdditionalFieldsFieldMandatory">false</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalText hVariablesAdditionalFieldsFieldDefault">false</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalText hVariablesAdditionalFieldsFieldDisplayType">ALL</td>
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalText hVariablesAdditionalFieldsFieldConstraints">
                     <ul>
                     </ul>
                 </td>
-                <td headers="hVariablesGeneralSettingsFieldEnableOptionalText hVariablesGeneralSettingsFieldRemarks">
+                <td headers="hVariablesAdditionalFieldsFieldEnableOptionalText hVariablesAdditionalFieldsFieldRemarks">
                     <ul>
                         <li>If you need an additional text for each page you can enable an optional field. </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
@@ -1350,7 +1467,7 @@
 </div>
 <h3><i class="fa fa-server"></i> List views</h3>
 <p>Here you can configure parameters for list views.</p>
-<p>Sortierwert: 2</p>
+<p>Sortierwert: 4</p>
 <p>Kombination: <i class="fa fa-times"></i>
 </p>
 <h4><i class="fa fa-bars"></i> Felder</h4>
@@ -1434,7 +1551,7 @@
 </div>
 <h3><i class="fa fa-server"></i> Integration</h3>
 <p>These options allow you to configure integration aspects.</p>
-<p>Sortierwert: 3</p>
+<p>Sortierwert: 5</p>
 <p>Kombination: <i class="fa fa-times"></i>
 </p>
 <h4><i class="fa fa-bars"></i> Felder</h4>
