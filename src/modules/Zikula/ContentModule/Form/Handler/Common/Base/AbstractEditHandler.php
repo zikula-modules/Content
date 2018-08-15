@@ -370,11 +370,11 @@ abstract class AbstractEditHandler
                     $userDisplayUrl = $this->router->generate($routePrefix . 'display', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
                     $adminDisplayUrl = $this->router->generate($routePrefix . 'admindisplay', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
                     if ($this->returnTo == $userDisplayUrl) {
-                        $this->returnTo = 'userDisplay';                                                                                                                       
-                    } elseif ($this->returnTo == $adminDisplayUrl) {                                                                                                           
-                        $this->returnTo = 'adminDisplay';                                                                                                                      
-                    }                                                                                                                                                          
-                    $request->getSession()->set($refererSessionVar, $this->returnTo);                                                                                          
+                        $this->returnTo = 'userDisplay';
+                    } elseif ($this->returnTo == $adminDisplayUrl) {
+                        $this->returnTo = 'adminDisplay';
+                    }
+                    $request->getSession()->set($refererSessionVar, $this->returnTo);
                 }
             }
         } else {
