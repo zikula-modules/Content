@@ -183,7 +183,7 @@ function contentPagePreparePaletteEntryForAddition(widget, widgetId) {
 
     widget.attr('id', 'widget' + widgetId);
     var widgetContentDiv = widget.find('.grid-stack-item-content').first();
-    widgetContentDiv.addClass('panel panel-primary');
+    widgetContentDiv.addClass('panel panel-default');
     var widgetTitle = widgetContentDiv.html();
 
     var panelMarkup = contentPageGetWidgetPanelMarkup(widgetId, widgetTitle);
@@ -743,7 +743,7 @@ function contentPageCreateNewWidget(nodeId) {
     var widget;
 
     widgetTitle = Translator.__('Content item');
-    widgetPanelClass = 'primary';
+    widgetPanelClass = 'default';
     widgetMarkup = contentPageGetWidgetMarkup(nodeId, widgetTitle, widgetPanelClass);
     widget = jQuery(widgetMarkup);
 

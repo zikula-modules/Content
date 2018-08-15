@@ -13,10 +13,18 @@
 /*.grid-stack-one-column-mode {
     background-color: blue;
 }*/
+#z-maincontent #widgets .panel,
+#z-maincontent #widgets .panel > .panel-heading {
+    border-color: #aaa;
+}
 #z-maincontent #widgets h3.panel-title {
     border-bottom: none;
     color: #fff;
     cursor: move;
+}
+#z-maincontent #widgets .panel-default h3.panel-title,
+#z-maincontent #widgets .panel-default h3.panel-title > .dropdown > a {
+    color: #000;
 }
 h3.panel-title a.pull-right {
     color: #fff;
@@ -30,8 +38,10 @@ h3.panel-title a.pull-right {
 }
 .grid-stack-item.hovered .grid-stack-item-content .panel-body {
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa;
     border-top-width: 0;
+    margin-left: -1px;
+    margin-right: -1px;
 }
 .grid-stack-item-content {
     background-color: #fff;

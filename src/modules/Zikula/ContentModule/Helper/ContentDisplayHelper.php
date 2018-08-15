@@ -195,13 +195,15 @@ class ContentDisplayHelper implements ContainerAwareInterface
      */
     public function getWidgetPanelClass(ContentItemEntity $item)
     {
-        $result = 'primary';
+        $result = 'default';
 
         if (!$item->isCurrentlyActive()) {
             $result = 'danger';
         } elseif ('0' != $item->getScope()) {
             $scope = $item->getScope();
-            if ('-1' == $scope || '-2' == $scope) {
+            if ('-1' == $scope) {
+                $result = 'primary';
+            } elseif ('-2' == $scope) {
                 $result = 'success';
             } elseif ('1' == $scope || '2' == $scope) {
                 $result = 'warning';

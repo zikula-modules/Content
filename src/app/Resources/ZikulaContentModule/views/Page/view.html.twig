@@ -1,6 +1,6 @@
 {# purpose of this template: pages list view #}
 {% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
-{% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ __('My pages') }}{% elseif routeArea == 'admin' %}{{ __('Pages list') }}{% elseif list == 'complete' %}{{ __('Complete pages list') }}{% elseif list == 'extended' %}{{ __('Extended pages list') }}{% elseif list == 'categories' %}{{ __('Categories list') }}{% else %}{{ __('Pages list') }}{% endif %}{% endblock %}
+{% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ __('My pages') }}{% elseif routeArea == 'admin' %}{{ __('Pages list') }}{% elseif list == 'complete' %}{{ __('Complete pages list', 'zikula') }}{% elseif list == 'extended' %}{{ __('Extended pages list', 'zikula') }}{% elseif list == 'categories' %}{{ __('Categories list') }}{% else %}{{ __('Pages list') }}{% endif %}{% endblock %}
 {% block admin_page_icon 'list-alt' %}
 {% block content %}
 {% if routeArea == 'admin' %}
@@ -222,12 +222,12 @@
                     {% for page in items %}
                         <h2><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a></h2>
                         {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
-                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page') }}</a></p>
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page', 'zikula') }}</a></p>
                     {% endfor %}
                 {% elseif list == 'complete' %}
                     {% for page in items %}
                         {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
-                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page') }}</a></p>
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page', 'zikula') }}</a></p>
                         {% if not loop.last %}
                             <hr />
                         {% endif %}
@@ -240,7 +240,7 @@
                 <p>{{ __('No pages found.') }}</p>
             {% endif %}
         {% elseif list == 'categories' %}
-            <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}) }}</h3>
+            <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}, 'zikula') }}</h3>
             {% set categoryInfoPerRegistry = zikulacontentmodule_categoryInfo() %}
             {% if categoryInfoPerRegistry|length > 0 %}
                 {% for registryLabel, categoryInfo in categoryInfoPerRegistry %}

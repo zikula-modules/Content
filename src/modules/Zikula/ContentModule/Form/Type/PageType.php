@@ -27,29 +27,6 @@ class PageType extends AbstractPageType
     {
         parent::buildForm($builder, $options);
 
-        $stylingClasses = $this->variableApi->get('ZikulaContentModule', 'pageStyles', '');
-        $choices = [];
-        $userClasses = explode("\n", $stylingClasses);
-        foreach ($userClasses as $class) {
-            list($value, $text) = explode('|', $class);
-            $value = trim($value);
-            $text = trim($text);
-            if (!empty($text) && !empty($value)) {
-                $choices[$text] = $value;
-            }
-        }
-
-        $builder->add('stylingClasses', ChoiceType::class, [
-            'label' => $this->__('Styling classes') . ':',
-            'empty_data' => [],
-            'attr' => [
-                'title' => $this->__('Choose any additional styling classes.')
-            ],
-            'required' => false,
-            'choices' => $choices,
-            'multiple' => true
-        ]);
-
         $builder->remove('layout');
         $builder->remove('views');
 
@@ -67,6 +44,30 @@ class PageType extends AbstractPageType
             foreach ($removeFields as $fieldName) {
                 $builder->remove($fieldName);
             }
+
+            $stylingClasses = $this->variableApi->get('ZikulaContentModule', 'pageStyles', '');
+            $choices = [];
+            $userClasses = explode("\n", $stylingClasses);
+            foreach ($userClasses as $class) {
+                list($value, $text) = explode('|', $class);
+                $value = trim($value);
+                $text = trim($text);
+                if (!empty($text) && !empty($value)) {
+                    $choices[$text] = $value;
+                }
+            }
+
+            $builder->add('stylingClasses', ChoiceType::class, [
+                'label' => $this->__('Styling classes') . ':',
+                'empty_data' => [],
+                'attr' => [
+                    'title' => $this->__('Choose any additional styling classes.')
+                ],
+                'required' => false,
+                'choices' => $choices,
+                'multiple' => true
+            ]);
+
             return;
         }
 
@@ -84,6 +85,7 @@ class PageType extends AbstractPageType
             'activeFrom',
             'activeTo',
             'inMenu',
+            'stylingClasses',
             'versionData',
             'categories'
         ];
