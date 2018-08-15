@@ -54,10 +54,9 @@ class DynamicRouteLoader extends Loader
         $ignoreFirstTreeLevel = (bool) $this->variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
 
         $routeVariants = [
-            'user' => ['pathPrefix' => '', 'controller' => 'display'],
-            'admin' => ['pathPrefix' => '/admin', 'controller' => 'adminDisplay']
+            'admin' => ['pathPrefix' => '/admin', 'controller' => 'adminDisplay'],
+            'user' => ['pathPrefix' => '', 'controller' => 'display']
         ];
-        // TODO $ignoreEntityName seems not working yet
         $entityPathSegment = true === $ignoreEntityName ? '' : '/page';
         // TODO $ignoreFirstTreeLevel needs to be considered
 
@@ -75,6 +74,7 @@ class DynamicRouteLoader extends Loader
                 '_format' => 'html|xml|json|ics|pdf'
             ];
             $options = [
+                'i18n' => true, // needs to be enabled for locale prefix, BUT we need to remove zikulacontentmodule_page_admindisplay and zikulacontentmodule_page_display from routes.en.po to allow dynamic changes of the corresponding pathes
                 'expose' => true,
                 'zkPosition' => 'bottom'
             ];
