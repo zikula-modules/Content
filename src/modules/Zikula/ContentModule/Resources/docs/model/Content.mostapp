@@ -287,7 +287,7 @@ application "Content" {
             }
         },
         varContainer "Permalinks" {
-            documentation "Here you can customise the behaviour of creating permalinks for content pages."
+            documentation "Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed."
             sortOrder 4
             fields {
                 boolean "ignoreBundleNameInRoutes" {
