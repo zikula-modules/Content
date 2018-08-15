@@ -285,6 +285,27 @@ application "Content" {
                     mandatory false
                 }
             }
+        },
+        varContainer "Permalinks" {
+            documentation "Here you can customise the behaviour of creating permalinks for content pages."
+            sortOrder 4
+            fields {
+                boolean "ignoreBundleNameInRoutes" {
+                    documentation "This removes the module name (defaults to \"content\") from permalinks."
+                    defaultValue "true"
+                    mandatory false
+                },
+                boolean "ignoreEntityNameInRoutes" {
+                    documentation "This removes the primary entity name (\"page\" or \"pages\") from permalinks."
+                    defaultValue "true"
+                    mandatory false
+                },
+                boolean "ignoreFirstTreeLevelInRoutes" {
+                    documentation "This removes the first tree level of pages from permalinks of pages in greater levels."
+                    defaultValue "true"
+                    mandatory false
+                }
+            }
         }
     }
 }

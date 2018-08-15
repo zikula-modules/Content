@@ -52,18 +52,35 @@ class ExampleDataHelper extends AbstractExampleDataHelper
             }
         }
 
+        $contentTypeNamespace = 'Zikula\\ContentModule\\ContentType\\';
+        $itemHeightEditing = 3;
+
+        $mainPage = new PageEntity();
+        $mainPage->setTitle($this->translator->__('Pages', 'zikulacontentmodule'));
+        $mainPage->setLayout([]);
+        $mainPage->setActive(true);
+        $mainPage->setInMenu(true);
+        $mainPage->setParent(null);
+        $mainPage->setRoot(1);
+
+        $mainContentInfo = [];
+        $item = new ContentItemEntity();
+        $item->setOwningType($contentTypeNamespace . 'HeadingType');
+        $item->setContentData([
+            'text' => $this->translator->__('This is the main page', 'zikulacontentmodule')
+        ]);
+        $mainContentInfo[] = [$item, 'header', ['x' => 0, 'y' => (0 * $itemHeightEditing), 'width' => 12, 'minWidth' => 2]];
+
         $page = new PageEntity();
         $page->setTitle($this->translator->__('Content introduction page', 'zikulacontentmodule'));
         $page->setLayout([]);
         $page->setActive(true);
         $page->setInMenu(true);
-        $page->setParent(null);
+        $page->setParent($mainPage);
         $page->setRoot(1);
         $page->getCategories()->add(new PageCategoryEntity($categoryRegistry->getId(), $category, $page));
 
-        $contentTypeNamespace = 'Zikula\\ContentModule\\ContentType\\';
         $contentInfo = [];
-        $itemHeightEditing = 3;
 
         $item = new ContentItemEntity();
         $item->setOwningType($contentTypeNamespace . 'HeadingType');
@@ -142,6 +159,26 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
         $action = 'submit';
         try {
+            $success = true;
+
+            $layoutData = [
+                'header' => ['id' => 'section1', 'stylingClasses' => '', 'widgets' => []]
+            ];
+            foreach ($mainContentInfo as $itemInfo) {
+                $item = $itemInfo[0];
+                $destinationRow = $itemInfo[1];
+                $layoutInfo = $itemInfo[2];
+
+                $success &= $this->workflowHelper->executeAction($item, $action);
+
+                $mainPage->addContentItems($item);
+                $layoutInfo['id'] = $item->getId();
+                $layoutData[$destinationRow]['widgets'][] = $layoutInfo;
+            }
+            $layoutData = [$layoutData['header']];
+            $mainPage->setLayout($layoutData);
+            $success &= $this->workflowHelper->executeAction($mainPage, $action);
+
             $layoutData = [
                 'header' => ['id' => 'section1', 'stylingClasses' => '', 'widgets' => []],
                 'mid' => ['id' => 'section2', 'stylingClasses' => '', 'widgets' => []],
@@ -152,17 +189,16 @@ class ExampleDataHelper extends AbstractExampleDataHelper
                 $destinationRow = $itemInfo[1];
                 $layoutInfo = $itemInfo[2];
 
-                $success = $this->workflowHelper->executeAction($item, $action);
+                $success &= $this->workflowHelper->executeAction($item, $action);
 
                 $page->addContentItems($item);
                 $layoutInfo['id'] = $item->getId();
                 $layoutData[$destinationRow]['widgets'][] = $layoutInfo;
             }
-
             $layoutData = [$layoutData['header'], $layoutData['mid'], $layoutData['footer']];
             $page->setLayout($layoutData);
 
-            $success = $this->workflowHelper->executeAction($page, $action);
+            $success &= $this->workflowHelper->executeAction($page, $action);
             $flashBag->add('success', $this->translator->__('An example page for introduction with several content items has been created.', 'zikulacontentmodule'));
         } catch (\Exception $exception) {
             $flashBag->add('warning', $this->translator->__('Warning! Could not create the example page for introduction.', 'zikulacontentmodule'));

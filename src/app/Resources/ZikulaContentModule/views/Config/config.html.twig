@@ -23,13 +23,17 @@
                 <li role="presentation">
                     <a id="vars3Tab" href="#tab3" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('List views') %}
+                {% set tabTitle = __('Permalinks') %}
                 <li role="presentation">
                     <a id="vars4Tab" href="#tab4" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
-                {#{% set tabTitle = __('Integration') %}
+                {% set tabTitle = __('List views') %}
                 <li role="presentation">
                     <a id="vars5Tab" href="#tab5" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
+                {#{% set tabTitle = __('Integration') %}
+                <li role="presentation">
+                    <a id="vars6Tab" href="#tab6" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Workflows') %}
                 <li role="presentation">
@@ -86,6 +90,18 @@
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab4" aria-labelledby="vars4Tab">
+                    {% set tabTitle = __('Permalinks') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                    
+                        <p class="alert alert-info">{{ __('Here you can customise the behaviour of creating permalinks for content pages.')|nl2br }}</p>
+                    
+                        {{ form_row(form.ignoreBundleNameInRoutes) }}
+                        {{ form_row(form.ignoreEntityNameInRoutes) }}
+                        {{ form_row(form.ignoreFirstTreeLevelInRoutes) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab5" aria-labelledby="vars5Tab">
                     {% set tabTitle = __('List views') %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
@@ -97,7 +113,7 @@
                         {{ form_row(form.showOnlyOwnEntries) }}
                     </fieldset>
                 </div>
-                <div role="tabpanel" class="tab-pane fade hidden" id="tab5" aria-labelledby="vars5Tab">
+                <div role="tabpanel" class="tab-pane fade hidden" id="tab6" aria-labelledby="vars6Tab">
                     {% set tabTitle = __('Integration') %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>

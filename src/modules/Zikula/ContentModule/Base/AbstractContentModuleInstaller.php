@@ -55,6 +55,9 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('enableOptionalString1', false);
         $this->setVar('enableOptionalString2', false);
         $this->setVar('enableOptionalText', false);
+        $this->setVar('ignoreBundleNameInRoutes', true);
+        $this->setVar('ignoreEntityNameInRoutes', true);
+        $this->setVar('ignoreFirstTreeLevelInRoutes', true);
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);
         $this->setVar('showOnlyOwnEntries', false);

@@ -899,6 +899,13 @@ msgstr ""
 msgid "Here you can configure parameters for list views."
 msgstr "Hier können Parameter für Listenansichten eingestellt werden."
 
+msgid ""
+"Here you can customise the behaviour of creating permalinks for content "
+"pages."
+msgstr ""
+"Hier kann das Verhalten zur Erstellung von Permalinks für Inhaltsseiten "
+"angepasst werden."
+
 msgid "Here you can inspect and amend the existing workflows."
 msgstr "Hier können die bestehenden Workflows angeschaut und verändert werden."
 
@@ -977,6 +984,15 @@ msgstr ""
 "Zur Verwendung von Google Maps wird ein API-Schlüssel benötigt. Es sollten "
 "sowohl die \"Maps JavaScript API\" als auch \"Maps Static API\" aktiviert "
 "werden."
+
+msgid "Ignore bundle name in routes"
+msgstr "Bundlename in Routen ignorieren"
+
+msgid "Ignore entity name in routes"
+msgstr "Entitätsname in Routen ignorieren"
+
+msgid "Ignore first tree level in routes"
+msgstr "Erste Baumebene in Routen ignorieren"
 
 msgid "In menu"
 msgstr "Im Menü"
@@ -1278,6 +1294,9 @@ msgstr "Einfügen als"
 
 msgid "Permalink"
 msgstr "Permalink"
+
+msgid "Permalinks"
+msgstr "Permalinks"
 
 msgid "Pills"
 msgstr "Pills"
@@ -1623,6 +1642,15 @@ msgstr "Die Option zum Aktivieren des optionalen Textes"
 msgid "The enable raw plugin option"
 msgstr "Die Option zum Aktivieren des Plugins für ungefilterten Rohtext"
 
+msgid "The ignore bundle name in routes option"
+msgstr "Die Option zum Ignorieren des Bundlenamens in Routen"
+
+msgid "The ignore entity name in routes option"
+msgstr "Die Option zum Ignorieren des Entitätsnamens in Routen"
+
+msgid "The ignore first tree level in routes option"
+msgstr "Die Option zum Ignorieren der ersten Baumebene in Routen"
+
 msgid "The inherit permissions option"
 msgstr "Die Option zum Vererben von Zugriffsrechten"
 
@@ -1672,6 +1700,25 @@ msgstr "Dies ist ein neuer Wurzelknoten"
 
 msgid "This is an optional filter."
 msgstr "Dies ist ein optionaler Filter."
+
+msgid "This is the main page"
+msgstr "Dies ist die Hauptseite"
+
+msgid ""
+"This removes the first tree level of pages from permalinks of pages in "
+"greater levels."
+msgstr ""
+"Dies entfernt die erste Baumebene von Seiten aus Permalinks von Seiten in "
+"tieferen Ebenen."
+
+msgid "This removes the module name (defaults to \"content\") from permalinks."
+msgstr "Dies entfernt den Modulnamen (Standard \"content\") aus Permalinks."
+
+msgid ""
+"This removes the primary entity name (\"page\" or \"pages\") from permalinks."
+msgstr ""
+"Dies entfernt den primären Entitätsnamen (\"page\" oder \"pages\") aus "
+"Permalinks."
 
 msgid "This setting is disabled. Click here to enable it."
 msgstr "Diese Einstellung ist deaktiviert. Klicke hier um sie zu aktivieren."

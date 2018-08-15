@@ -165,6 +165,13 @@ msgstr ""
 msgid "Here you can configure parameters for list views."
 msgstr "Hier können Parameter für Listenansichten eingestellt werden."
 
+msgid ""
+"Here you can customise the behaviour of creating permalinks for content "
+"pages."
+msgstr ""
+"Hier kann das Verhalten zur Erstellung von Permalinks für Inhaltsseiten "
+"angepasst werden."
+
 msgid "Here you can manage all basic settings for this application."
 msgstr ""
 "Hier können alle Grundeinstellungen für diese Anwendung verwaltet werden."
@@ -221,6 +228,9 @@ msgstr "Keine Seiten gefunden."
 msgid "No subpages found."
 msgstr "Keine Unterseiten gefunden."
 
+msgid "OK"
+msgstr "OK"
+
 msgid "Optional text"
 msgstr "Optionaler Text"
 
@@ -238,6 +248,9 @@ msgstr "Seite"
 
 msgid "Pages list"
 msgstr "Seitenliste"
+
+msgid "Permalinks"
+msgstr "Permalinks"
 
 msgid "Play video"
 msgstr "Video abspielen"
@@ -290,6 +303,9 @@ msgstr "Zustand"
 
 msgid "Street (optional), Location, Country (optional)"
 msgstr "Straße (optional), Ort, Land (optional)"
+
+msgid "Styling classes"
+msgstr "CSS-Klassen"
 
 msgid "Submit"
 msgstr "Absenden"

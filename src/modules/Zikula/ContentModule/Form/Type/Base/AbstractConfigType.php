@@ -71,6 +71,7 @@ abstract class AbstractConfigType extends AbstractType
         $this->addGeneralSettingsFields($builder, $options);
         $this->addCustomStylesFields($builder, $options);
         $this->addAdditionalFieldsFields($builder, $options);
+        $this->addPermalinksFields($builder, $options);
         $this->addListViewsFields($builder, $options);
         $this->addIntegrationFields($builder, $options);
 
@@ -271,6 +272,58 @@ abstract class AbstractConfigType extends AbstractType
             'attr' => [
                 'class' => '',
                 'title' => $this->__('The enable optional text option')
+            ],
+            'required' => false,
+        ]);
+    }
+
+    /**
+     * Adds fields for permalinks fields.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addPermalinksFields(FormBuilderInterface $builder, array $options = [])
+    {
+        
+        $builder->add('ignoreBundleNameInRoutes', CheckboxType::class, [
+            'label' => $this->__('Ignore bundle name in routes') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('This removes the module name (defaults to "content") from permalinks.')
+            ],
+            'help' => $this->__('This removes the module name (defaults to "content") from permalinks.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The ignore bundle name in routes option')
+            ],
+            'required' => false,
+        ]);
+        
+        $builder->add('ignoreEntityNameInRoutes', CheckboxType::class, [
+            'label' => $this->__('Ignore entity name in routes') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('This removes the primary entity name ("page" or "pages") from permalinks.')
+            ],
+            'help' => $this->__('This removes the primary entity name ("page" or "pages") from permalinks.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The ignore entity name in routes option')
+            ],
+            'required' => false,
+        ]);
+        
+        $builder->add('ignoreFirstTreeLevelInRoutes', CheckboxType::class, [
+            'label' => $this->__('Ignore first tree level in routes') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels.')
+            ],
+            'help' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The ignore first tree level in routes option')
             ],
             'required' => false,
         ]);
