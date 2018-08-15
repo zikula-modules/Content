@@ -3,3 +3,4 @@ services:
         class: Zikula\ContentModule\AppSettings
         arguments:
             - "@zikula_extensions_module.api.variable"
+            - "@zikula.cache_clearer"

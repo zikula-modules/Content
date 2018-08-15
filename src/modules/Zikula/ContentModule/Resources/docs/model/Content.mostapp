@@ -16,6 +16,7 @@ application "Content" {
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
+        AppSettings.php,
         Block/Form/Type/ItemBlockType.php,
         Block/Form/Type/ItemListBlockType.php,
         Block/ItemListBlock.php,
@@ -41,6 +42,7 @@ application "Content" {
     "
     markFiles "
         composer.json,
+        Resources/config/appSettings.yml,
         Resources/config/entityFactory.yml,
         Resources/config/forms.yml,
         Resources/config/helpers.yml,

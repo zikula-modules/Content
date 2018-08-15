@@ -11,12 +11,41 @@
 
 namespace Zikula\ContentModule;
 
+use Zikula\Bundle\CoreBundle\CacheClearer;
 use Zikula\ContentModule\Base\AbstractAppSettings;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Application settings class for handling module variables.
  */
 class AppSettings extends AbstractAppSettings
 {
-    // feel free to add your own methods here
+    /**
+     * @var CacheClearer
+     */
+    protected $cacheClearer;
+
+    /**
+     * AppSettings constructor.
+     *
+     * @param VariableApiInterface $variableApi VariableApi service instance
+     * @param CacheClearer $cacheClearer
+     */
+    public function __construct(
+        VariableApiInterface $variableApi,
+        CacheClearer $cacheClearer
+    ) {
+        parent::__construct($variableApi);
+        $this->cacheClearer = $cacheClearer;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function save()
+    {
+        parent::save();
+
+        $this->cacheClearer->clear('symfony');
+    }
 }
