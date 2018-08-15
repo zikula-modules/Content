@@ -328,6 +328,17 @@ abstract class AbstractPageType extends AbstractType
             'required' => false,
         ]);
         
+        $builder->add('stylingClasses', ArrayType::class, [
+            'label' => $this->__('Styling classes') . ':',
+            'help' => $this->__('Enter one entry per line.'),
+            'empty_data' => '',
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('Enter the styling classes of the page.')
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('versionData', ArrayType::class, [
             'label' => $this->__('Version data') . ':',
             'help' => $this->__('Enter one entry per line.'),

@@ -117,7 +117,7 @@ class ComputerCodeType extends AbstractContentType
             /* @todo update as soon as the BBCode module has been migrated to Zikula 2
             $code = '[code]' . $unformattedText . '[/code]';
             PageUtil::addVar('stylesheet', 'modules/BBCode/style/style.css');
-            $this->data['formattedText'] = ModUtil::apiFunc('BBCode', 'User', 'transform', array('message' => $code));
+            $this->data['formattedText'] = ModUtil::apiFunc('BBCode', 'user', 'transform', array('message' => $code));
             */
         } elseif ('lumicula' == $this->data['codeFilter'] && $this->kernel->isBundle('PhaidonLuMicuLaModule')) {
             $this->data['formattedText'] = $this->transformCode($unformattedText);

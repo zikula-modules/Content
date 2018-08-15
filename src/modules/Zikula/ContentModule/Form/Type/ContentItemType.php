@@ -139,7 +139,7 @@ class ContentItemType extends AbstractType
 
         $builder->add('stylingClasses', ChoiceType::class, [
             'label' => $this->__('Styling classes') . ':',
-            'empty_data' => '',
+            'empty_data' => [],
             'attr' => [
                 'title' => $this->__('Choose any additional styling classes.')
             ],

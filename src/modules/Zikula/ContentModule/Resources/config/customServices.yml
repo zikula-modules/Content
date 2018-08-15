@@ -33,7 +33,7 @@ services:
         arguments:
             - '@translator.default'
             - '@zikula_content_module.listentries_helper'
-            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'stylingClasses', '')"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'contentStyles', '')"
         tags: ['form.type']
     zikula_content_module.form.type.move_copy_content_item:
         class: Zikula\ContentModule\Form\Type\MoveCopyContentItemType

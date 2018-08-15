@@ -60,15 +60,6 @@ abstract class AbstractAppSettings
     protected $enableRawPlugin = false;
     
     /**
-     * A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo".
-     *
-     * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="5000")
-     * @var text $stylingClasses
-     */
-    protected $stylingClasses = 'greybox|Grey box';
-    
-    /**
      * Whether to inherit permissions from parent to child pages or not.
      *
      * @Assert\NotNull()
@@ -76,6 +67,33 @@ abstract class AbstractAppSettings
      * @var boolean $inheritPermissions
      */
     protected $inheritPermissions = false;
+    
+    /**
+     * A list of CSS class names available for styling pages - for example "product" or "legal".
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="0", max="5000")
+     * @var text $pageStyles
+     */
+    protected $pageStyles = 'dummy|Dummy';
+    
+    /**
+     * A list of CSS class names available for styling page sections - for example "header" or "reference-row".
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="0", max="5000")
+     * @var text $sectionStyles
+     */
+    protected $sectionStyles = 'dummy|Dummy';
+    
+    /**
+     * A list of CSS class names available for styling single content elements - for instance "note" or "shadow".
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="0", max="5000")
+     * @var text $contentStyles
+     */
+    protected $contentStyles = 'dummy|Dummy';
     
     /**
      * If you need an additional string for each page you can enable an optional field.
@@ -253,30 +271,6 @@ abstract class AbstractAppSettings
     }
     
     /**
-     * Returns the styling classes.
-     *
-     * @return text
-     */
-    public function getStylingClasses()
-    {
-        return $this->stylingClasses;
-    }
-    
-    /**
-     * Sets the styling classes.
-     *
-     * @param text $stylingClasses
-     *
-     * @return void
-     */
-    public function setStylingClasses($stylingClasses)
-    {
-        if ($this->stylingClasses !== $stylingClasses) {
-            $this->stylingClasses = isset($stylingClasses) ? $stylingClasses : '';
-        }
-    }
-    
-    /**
      * Returns the inherit permissions.
      *
      * @return boolean
@@ -297,6 +291,78 @@ abstract class AbstractAppSettings
     {
         if (boolval($this->inheritPermissions) !== boolval($inheritPermissions)) {
             $this->inheritPermissions = boolval($inheritPermissions);
+        }
+    }
+    
+    /**
+     * Returns the page styles.
+     *
+     * @return text
+     */
+    public function getPageStyles()
+    {
+        return $this->pageStyles;
+    }
+    
+    /**
+     * Sets the page styles.
+     *
+     * @param text $pageStyles
+     *
+     * @return void
+     */
+    public function setPageStyles($pageStyles)
+    {
+        if ($this->pageStyles !== $pageStyles) {
+            $this->pageStyles = isset($pageStyles) ? $pageStyles : '';
+        }
+    }
+    
+    /**
+     * Returns the section styles.
+     *
+     * @return text
+     */
+    public function getSectionStyles()
+    {
+        return $this->sectionStyles;
+    }
+    
+    /**
+     * Sets the section styles.
+     *
+     * @param text $sectionStyles
+     *
+     * @return void
+     */
+    public function setSectionStyles($sectionStyles)
+    {
+        if ($this->sectionStyles !== $sectionStyles) {
+            $this->sectionStyles = isset($sectionStyles) ? $sectionStyles : '';
+        }
+    }
+    
+    /**
+     * Returns the content styles.
+     *
+     * @return text
+     */
+    public function getContentStyles()
+    {
+        return $this->contentStyles;
+    }
+    
+    /**
+     * Sets the content styles.
+     *
+     * @param text $contentStyles
+     *
+     * @return void
+     */
+    public function setContentStyles($contentStyles)
+    {
+        if ($this->contentStyles !== $contentStyles) {
+            $this->contentStyles = isset($contentStyles) ? $contentStyles : '';
         }
     }
     
@@ -488,11 +554,17 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['enableRawPlugin'])) {
             $this->setEnableRawPlugin($moduleVars['enableRawPlugin']);
         }
-        if (isset($moduleVars['stylingClasses'])) {
-            $this->setStylingClasses($moduleVars['stylingClasses']);
-        }
         if (isset($moduleVars['inheritPermissions'])) {
             $this->setInheritPermissions($moduleVars['inheritPermissions']);
+        }
+        if (isset($moduleVars['pageStyles'])) {
+            $this->setPageStyles($moduleVars['pageStyles']);
+        }
+        if (isset($moduleVars['sectionStyles'])) {
+            $this->setSectionStyles($moduleVars['sectionStyles']);
+        }
+        if (isset($moduleVars['contentStyles'])) {
+            $this->setContentStyles($moduleVars['contentStyles']);
         }
         if (isset($moduleVars['enableOptionalString1'])) {
             $this->setEnableOptionalString1($moduleVars['enableOptionalString1']);
@@ -526,8 +598,10 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'countPageViews', $this->getCountPageViews());
         $this->variableApi->set('ZikulaContentModule', 'googleMapsApiKey', $this->getGoogleMapsApiKey());
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());
-        $this->variableApi->set('ZikulaContentModule', 'stylingClasses', $this->getStylingClasses());
         $this->variableApi->set('ZikulaContentModule', 'inheritPermissions', $this->getInheritPermissions());
+        $this->variableApi->set('ZikulaContentModule', 'pageStyles', $this->getPageStyles());
+        $this->variableApi->set('ZikulaContentModule', 'sectionStyles', $this->getSectionStyles());
+        $this->variableApi->set('ZikulaContentModule', 'contentStyles', $this->getContentStyles());
         $this->variableApi->set('ZikulaContentModule', 'enableOptionalString1', $this->getEnableOptionalString1());
         $this->variableApi->set('ZikulaContentModule', 'enableOptionalString2', $this->getEnableOptionalString2());
         $this->variableApi->set('ZikulaContentModule', 'enableOptionalText', $this->getEnableOptionalText());

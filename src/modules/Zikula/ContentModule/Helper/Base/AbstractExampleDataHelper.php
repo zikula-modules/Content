@@ -115,6 +115,7 @@ abstract class AbstractExampleDataHelper
         $page1->setOptionalString1('Page optional string 1 1');
         $page1->setOptionalString2('Page optional string 2 1');
         $page1->setOptionalText('Page optional text 1');
+        $page1->setStylingClasses([]);
         $page1->setCurrentVersion(1);
         $page1->setVersionData([]);
         

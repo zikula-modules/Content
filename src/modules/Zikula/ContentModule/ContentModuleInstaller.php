@@ -28,7 +28,9 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             return $result;
         }
 
-        $this->setVar('stylingClasses', "greybox|Grey box\nredbox|Red box\nyellowbox|Yellow box\ngreenbox|Green box\norangeannouncementbox|Orange announcement box\ngreenimportantbox|Green important box");
+        $this->setVar('pageStyles', "product|Product page\nlegal|Legal page");
+        $this->setVar('sectionStyles', "header|Header\nreferences|References\nfooter|Footer");
+        $this->setVar('contentStyles', "grey-box|Grey box\nred-box|Red box\nyellow-box|Yellow box\ngreen-box|Green box\norange-announcement-box|Orange announcement box\ngreen-important-box|Green important box");
 
         return $result;
     }

@@ -69,6 +69,8 @@ abstract class AbstractConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addGeneralSettingsFields($builder, $options);
+        $this->addCustomStylesFields($builder, $options);
+        $this->addAdditionalFieldsFields($builder, $options);
         $this->addListViewsFields($builder, $options);
         $this->addIntegrationFields($builder, $options);
 
@@ -149,22 +151,6 @@ abstract class AbstractConfigType extends AbstractType
             'required' => false,
         ]);
         
-        $builder->add('stylingClasses', TextareaType::class, [
-            'label' => $this->__('Styling classes') . ':',
-            'label_attr' => [
-                'class' => 'tooltips',
-                'title' => $this->__('A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo".')
-            ],
-            'help' => [$this->__('A list of CSS class names available for styling of content elements. The end user can select these classes for each element on a page - for instance "note" for an element styled as a note. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "note | Memo".'), $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
-            'empty_data' => 'greybox|Grey box',
-            'attr' => [
-                'maxlength' => 5000,
-                'class' => '',
-                'title' => $this->__('Enter the styling classes.')
-            ],
-            'required' => true,
-        ]);
-        
         $builder->add('inheritPermissions', CheckboxType::class, [
             'label' => $this->__('Inherit permissions') . ':',
             'label_attr' => [
@@ -178,6 +164,74 @@ abstract class AbstractConfigType extends AbstractType
             ],
             'required' => false,
         ]);
+    }
+
+    /**
+     * Adds fields for custom styles fields.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addCustomStylesFields(FormBuilderInterface $builder, array $options = [])
+    {
+        
+        $builder->add('pageStyles', TextareaType::class, [
+            'label' => $this->__('Page styles') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('A list of CSS class names available for styling pages - for example "product" or "legal".')
+            ],
+            'help' => [$this->__('A list of CSS class names available for styling pages - for example "product" or "legal".'), $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
+            'empty_data' => 'dummy|Dummy',
+            'attr' => [
+                'maxlength' => 5000,
+                'class' => '',
+                'title' => $this->__('Enter the page styles.')
+            ],
+            'required' => true,
+        ]);
+        
+        $builder->add('sectionStyles', TextareaType::class, [
+            'label' => $this->__('Section styles') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('A list of CSS class names available for styling page sections - for example "header" or "reference-row".')
+            ],
+            'help' => [$this->__('A list of CSS class names available for styling page sections - for example "header" or "reference-row".'), $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
+            'empty_data' => 'dummy|Dummy',
+            'attr' => [
+                'maxlength' => 5000,
+                'class' => '',
+                'title' => $this->__('Enter the section styles.')
+            ],
+            'required' => true,
+        ]);
+        
+        $builder->add('contentStyles', TextareaType::class, [
+            'label' => $this->__('Content styles') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('A list of CSS class names available for styling single content elements - for instance "note" or "shadow".')
+            ],
+            'help' => [$this->__('A list of CSS class names available for styling single content elements - for instance "note" or "shadow".'), $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
+            'empty_data' => 'dummy|Dummy',
+            'attr' => [
+                'maxlength' => 5000,
+                'class' => '',
+                'title' => $this->__('Enter the content styles.')
+            ],
+            'required' => true,
+        ]);
+    }
+
+    /**
+     * Adds fields for additional fields fields.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addAdditionalFieldsFields(FormBuilderInterface $builder, array $options = [])
+    {
         
         $builder->add('enableOptionalString1', CheckboxType::class, [
             'label' => $this->__('Enable optional string 1') . ':',

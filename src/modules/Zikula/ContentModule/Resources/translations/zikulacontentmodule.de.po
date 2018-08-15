@@ -112,17 +112,25 @@ msgid "A highlighted quote with source."
 msgstr "Ein hervorgehobenes Zitat mit Quellenangabe."
 
 msgid ""
-"A list of CSS class names available for styling of content elements. The end "
-"user can select these classes for each element on a page - for instance "
-"\"note\" for an element styled as a note. Write one class name on each line. "
-"Please separate the CSS classes and displaynames with | - eg. \"note | Memo"
-"\"."
+"A list of CSS class names available for styling page sections - for example "
+"\"header\" or \"reference-row\"."
 msgstr ""
-"Eine Liste mit CSS-Klassen zum Layouten der Inhalte. Diese Klassen können "
-"für jedes Element auf einer Seite ausgewählt werden - zum Beispiel \"note\" "
-"für ein Element, das wie eine Notiz gestaltet werden soll. Bitte nur eine "
-"Klasse je Zeile angeben. Die CSS-Klassen und Anzeigenamen müssen mit | "
-"getrennt werden. Beispiel: \"note | Memo\"."
+"Eine Liste mit CSS-Klassen zum Layouten von Seitenbereichen - zum Beispiel "
+"\"header\" oder \"reference-row\"."
+
+msgid ""
+"A list of CSS class names available for styling pages - for example \"product"
+"\" or \"legal\"."
+msgstr ""
+"Eine Liste mit CSS-Klassen zum Layouten von Seiten - zum Beispiel \"product"
+"\" oder \"legal\"."
+
+msgid ""
+"A list of CSS class names available for styling single content elements - "
+"for instance \"note\" or \"shadow\"."
+msgstr ""
+"Eine Liste mit CSS-Klassen zum Layouten von einzelnen Inhaltselementen - zum "
+"Beispiel \"note\" oder \"shadow\"."
 
 msgid ""
 "A list of Content item IDs semicolon separated, e.g. \"3;12\". Make sure "
@@ -193,6 +201,9 @@ msgstr "Text hier hinzufügen..."
 
 msgid "Add unfiltered text here ..."
 msgstr "Ungefilterten Text hier hinzufügen ..."
+
+msgid "Additional fields"
+msgstr "Zusätzliche Felder"
 
 msgid "Additional search text"
 msgstr "Zusätzlicher Suchtext"
@@ -415,6 +426,9 @@ msgstr ""
 "Inhaltsseiten können viele verschiedene Arten von Inhaltselementen "
 "beinhalten."
 
+msgid "Content styles"
+msgstr "Inhaltsstile"
+
 msgid "Controller"
 msgstr "Controller"
 
@@ -456,6 +470,9 @@ msgstr "Aktuelle Version"
 
 msgid "Custom style class"
 msgstr "Eigene Style-Klasse"
+
+msgid "Custom styles"
+msgstr "Eigene Stile"
 
 msgid "Custom template"
 msgstr "Eigene Vorlage"
@@ -663,6 +680,9 @@ msgstr "Das aktiv-von-Datum der Seite eingeben."
 msgid "Enter the active to of the page."
 msgstr "Das aktiv-bis-Datum der Seite eingeben."
 
+msgid "Enter the content styles."
+msgstr "Die CSS-Klassen für Inhaltselemente eingeben."
+
 msgid "Enter the google maps api key."
 msgstr "Den Google Maps API-Schlüssel eingeben."
 
@@ -684,8 +704,14 @@ msgstr "Den optionalen Text der Seite eingeben."
 msgid "Enter the page entries per page."
 msgstr "Die Anzahl der Seiten je Seite eingeben."
 
-msgid "Enter the styling classes."
-msgstr "Die CSS-Klassen eingeben."
+msgid "Enter the page styles."
+msgstr "Die CSS-Klassen für Seiten eingeben."
+
+msgid "Enter the section styles."
+msgstr "Die CSS-Klassen für Bereiche eingeben."
+
+msgid "Enter the styling classes of the page."
+msgstr "Die CSS-Klassen der Seite eingeben."
 
 msgid "Enter the title of the page."
 msgstr "Den Seitentitel eingeben."
@@ -849,6 +875,15 @@ msgstr "Art der Überschrift"
 
 msgid "Height of the displayed map"
 msgstr "Höhe der angezeigten Karte"
+
+msgid ""
+"Here you can activate additional fields which allow you to add structural "
+"properties to your pages which can be used for custom functionality. All of "
+"these fields are translatable."
+msgstr ""
+"Hier können zusätzliche Felder aktiviert werden, welche strukturelle "
+"Eigenschaften zu den Seiten hinzufügen, die für eigene Funktionalität "
+"verwendet werden können. Alle diese Felder sind übersetzbar."
 
 msgid "Here you can choose a custom creation date."
 msgstr "Hier kann ein abweichendes Erstellungsdatum ausgewählt werden."
@@ -1215,6 +1250,9 @@ msgstr "Seite nicht gefunden."
 msgid "Page size"
 msgstr "Seitengröße"
 
+msgid "Page styles"
+msgstr "Seitenstile"
+
 msgid "Page ui hooks subscriber"
 msgstr "Seite UI-Hooks Abonnent"
 
@@ -1343,6 +1381,9 @@ msgstr "Suche nach"
 msgid "Section heading (or page title) for structuring large amounts of text."
 msgstr ""
 "Bereichsüberschrift (oder Seitentitel) zur Strukturierung längerer Texte."
+
+msgid "Section styles"
+msgstr "Bereichsstile"
 
 msgid ""
 "See https://leaflet-extras.github.io/leaflet-providers/preview/ for examples."
@@ -1797,6 +1838,17 @@ msgstr ""
 "Weche Sektionen in der Finder-Komponente genutzt werden sollen (genutzt "
 "durch Scribite Plugins)."
 
+msgid ""
+"With custom styles you can add and reuse your own design to pages, page "
+"sections and content elements. Write one class name on each line. Please "
+"separate the CSS classes and displaynames with | - eg. \"my-class | My class"
+"\"."
+msgstr ""
+"Mit individuellen Stilen kann eigenes Design zu Seiten, Seitenbereichen und "
+"Inhaltselementen hinzugefügt und wiederverwendet werden. Bitte nur eine "
+"Klasse je Zeile angeben. Die CSS-Klassen und Anzeigenamen müssen mit | "
+"getrennt werden - z.B. \"my-class | My class\"."
+
 msgid "With description"
 msgstr "Mit Beschreibung"
 
@@ -1829,8 +1881,8 @@ msgid ""
 "You may enter any text which will be used during the site search to find "
 "this element."
 msgstr ""
-"Hier kann ein beliebiger Text hinterlegt werden, der während der Suche "
-"benutzt wird, um dieses Element zu finden."
+"Hier kann ein beliebiger Text hinterlegt werden, der während der internen "
+"Suchfunktion benutzt wird, um dieses Element zu finden."
 
 msgid ""
 "You need to explicitly enable a checkbox in the configuration form to "

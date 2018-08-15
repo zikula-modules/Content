@@ -28,6 +28,9 @@ msgstr "Anderen Bereich hinzufügen"
 msgid "Add section"
 msgstr "Neuer Bereich"
 
+msgid "Additional fields"
+msgstr "Zusätzliche Felder"
+
 msgid "Advanced elements for special and complex purposes"
 msgstr "Erweiterte Elemente für spezielle und komplexe Zwecke"
 
@@ -96,6 +99,9 @@ msgstr "Seite erstellen"
 msgid "Current version"
 msgstr "Aktuelle Version"
 
+msgid "Custom styles"
+msgstr "Eigene Stile"
+
 msgid "Delete"
 msgstr "Löschen"
 
@@ -146,6 +152,15 @@ msgstr "Wegbeschreibung von Startadresse"
 
 msgid "Get directions to this location"
 msgstr "Wegbeschreibung zu diesem Ort"
+
+msgid ""
+"Here you can activate additional fields which allow you to add structural "
+"properties to your pages which can be used for custom functionality. All of "
+"these fields are translatable."
+msgstr ""
+"Hier können zusätzliche Felder aktiviert werden, welche strukturelle "
+"Eigenschaften zu den Seiten hinzufügen, die für eigene Funktionalität "
+"verwendet werden können. Alle diese Felder sind übersetzbar."
 
 msgid "Here you can configure parameters for list views."
 msgstr "Hier können Parameter für Listenansichten eingestellt werden."
@@ -337,6 +352,17 @@ msgstr "Aufrufe"
 
 msgid "Welcome to the contents for %sitename%"
 msgstr "Willkommen zu den Inhalten von %sitename%"
+
+msgid ""
+"With custom styles you can add and reuse your own design to pages, page "
+"sections and content elements. Write one class name on each line. Please "
+"separate the CSS classes and displaynames with | - eg. \"my-class | My class"
+"\"."
+msgstr ""
+"Mit individuellen Stilen kann eigenes Design zu Seiten, Seitenbereichen und "
+"Inhaltselementen hinzugefügt und wiederverwendet werden. Bitte nur eine "
+"Klasse je Zeile angeben. Die CSS-Klassen und Anzeigenamen müssen mit | "
+"getrennt werden - z.B. \"my-class | My class\"."
 
 msgid "With selected pages"
 msgstr "Die ausgewählten Seiten"
