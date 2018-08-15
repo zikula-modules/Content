@@ -35,7 +35,7 @@
                 <li role="presentation">
                     <a id="workflowsTab" href="#tabWorkflows" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>#}
-                {% set tabTitle = __('Available plugins') %}
+                {% set tabTitle = __('Available plugins', 'zikula') %}
                 <li role="presentation">
                     <a id="pluginsTab" href="#tabPlugins" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
@@ -150,7 +150,7 @@
                                 {% for contentType in allContentTypes %}
                                     <tr>
                                         <td headers="h{{ contentType.name }} hBundle">{{ contentType.bundleName }}</td>
-                                        <th id="h{{ contentType.name }}" scope="row" headers="hPlugin">
+                                        <th id="h{{ contentType.name }}" scope="row" headers="hPlugin" class="nowrap">
                                             <i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}
                                         </th>
                                         <td headers="h{{ contentType.name }} hActive" class="text-center text-{% if contentType.active %}success{% else %}danger{% endif %}">
