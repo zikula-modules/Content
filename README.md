@@ -91,25 +91,26 @@ Structural changes:
 - Entirely rewritten for Zikula 2.0.x using ModuleStudio.
 
 New features:
-- A tree slug handler is utilised for creating hierarchical permalinks/URLs.
-- A content item may have multiple style classes.
-- Hooks can not only be attached to complete pages, but also to single content items.
-- Beside UI hooks and filter hooks also form aware hooks are supported.
-- Provides plugins for Scribite editors (CKEditor, Quill, Sommernote, TinyMCE).
+- New UI for managing and arranging content elements more quickly and easily.
 - Replaced old page layout types by a new concept for dynamic page layouts.
+- A tree slug handler is utilised for creating hierarchical permalinks/URLs.
 - Publication of content types can be restricted using start and/or end dates.
 - Publication of content types can be restricted to specific user groups.
 - Content types are now collected based on Symfony container using service tags.
 - Content types are grouped into different categories.
+- Content elements can be moved and copied to other pages.
+- Provides plugins for Scribite editors (CKEditor, Quill, Sommernote, TinyMCE).
+- Hooks can not only be attached to complete pages, but also to single content items.
+- Beside UI hooks and filter hooks also form aware hooks are supported.
 - The ModuleFunc content type has been renamed to Controller since it now supports not only modules, but all types of Symfony bundles.
 - Google map and route content types support different map types instead of roadmaps only.
 - OpenStreetMap content type has been replaced by a much more powerful Leaflet content type.
 - Slideshare and vimeo content types fetch additional data from the corresponding APIs.
 - Menu block has new options for different navigation types and sub pages handling.
 - All blocks showing lists of pages have included detection of currently active page.
-- Content elements can be moved and copied to other pages.
 - Added owner permission support to allow non-admin users to manage their own pages.
 - Custom (and multiple) CSS classes can now be used for pages, page sections and single content elements.
+- Permalink settings for removing unwanted URL parts.
 
 Deprecations:
 - The short URL suffix can not be configured anymore.
