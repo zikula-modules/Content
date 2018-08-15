@@ -292,6 +292,10 @@ abstract class AbstractEditHandler extends EditHandler
             $session->remove('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
         }
     
+        // force refresh because slugs may have changed (e.g. by translatable)
+        $this->entityFactory->getObjectManager()->clear();
+        $this->entityRef = $this->initEntityForEditing();
+    
         // normal usage, compute return url from given redirect code
         if (!in_array($this->returnTo, $this->getRedirectCodes())) {
             // invalid return code, so return the default url
@@ -300,10 +304,6 @@ abstract class AbstractEditHandler extends EditHandler
     
         $routeArea = substr($this->returnTo, 0, 5) == 'admin' ? 'admin' : '';
         $routePrefix = 'zikulacontentmodule_' . $this->objectTypeLower . '_' . $routeArea;
-    
-        // force refresh because slugs may have changed (e.g. by translatable)
-        $this->entityFactory->getObjectManager()->clear();
-        $this->entityRef = $this->initEntityForEditing();
     
         // parse given redirect code and return corresponding url
         switch ($this->returnTo) {
