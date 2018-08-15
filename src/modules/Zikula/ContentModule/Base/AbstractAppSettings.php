@@ -132,7 +132,7 @@ abstract class AbstractAppSettings
     protected $ignoreBundleNameInRoutes = true;
     
     /**
-     * This removes the primary entity name ("page" or "pages") from permalinks.
+     * This removes the primary entity name ("page") from permalinks.
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")

@@ -304,9 +304,9 @@ abstract class AbstractConfigType extends AbstractType
             'label' => $this->__('Ignore entity name in routes') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->__('This removes the primary entity name ("page" or "pages") from permalinks.')
+                'title' => $this->__('This removes the primary entity name ("page") from permalinks.')
             ],
-            'help' => $this->__('This removes the primary entity name ("page" or "pages") from permalinks.'),
+            'help' => $this->__('This removes the primary entity name ("page") from permalinks.'),
             'attr' => [
                 'class' => '',
                 'title' => $this->__('The ignore entity name in routes option')

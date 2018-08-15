@@ -28,6 +28,11 @@ services:
             - '@zikula_content_module.collection_filter_helper'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'countPageViews', false)"
         tags: ['twig.extension']
+    zikula_content_module.dynamic_route_loader:
+        class: Zikula\ContentModule\Routing\DynamicRouteLoader
+        arguments:
+            - "@zikula_extensions_module.api.variable"
+        tags: ['routing.loader']
     zikula_content_module.form.type.content_item:
         class: Zikula\ContentModule\Form\Type\ContentItemType
         arguments:

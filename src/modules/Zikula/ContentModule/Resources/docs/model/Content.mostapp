@@ -35,6 +35,7 @@ application "Content" {
         Helper/PermissionHelper.php,
         Helper/SearchHelper.php,
         Menu/MenuBuilder.php,
+        Resources/config/routing.yml,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
         Resources/views/Block/itemlist_contentItem_display.html.twig,
         Resources/views/Block/itemlist_page_display_description.html.twig,
@@ -298,7 +299,7 @@ application "Content" {
                     mandatory false
                 },
                 boolean "ignoreEntityNameInRoutes" {
-                    documentation "This removes the primary entity name (\"page\" or \"pages\") from permalinks."
+                    documentation "This removes the primary entity name (\"page\") from permalinks."
                     defaultValue "true"
                     mandatory false
                 },

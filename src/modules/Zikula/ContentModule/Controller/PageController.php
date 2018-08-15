@@ -563,12 +563,6 @@ class PageController extends AbstractPageController
     /**
      * @inheritDoc
      *
-     * @Route("/admin/page/{slug}.{_format}",
-     *        requirements = {"slug" = "[^.]+", "_format" = "html|xml|json|ics|pdf"},
-     *        defaults = {"_format" = "html"},
-     *        methods = {"GET"},
-     *        options={"expose"=true}
-     * )
      * @Theme("admin")
      */
     public function adminDisplayAction(Request $request, $slug)
@@ -578,13 +572,6 @@ class PageController extends AbstractPageController
     
     /**
      * @inheritDoc
-     *
-     * @Route("/page/{slug}.{_format}",
-     *        requirements = {"slug" = "[^.]+", "_format" = "html|xml|json|ics|pdf"},
-     *        defaults = {"_format" = "html"},
-     *        methods = {"GET"},
-     *        options={"expose"=true}
-     * )
      */
     public function displayAction(Request $request, $slug)
     {

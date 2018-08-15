@@ -1718,10 +1718,9 @@ msgid "This removes the module name (defaults to \"content\") from permalinks."
 msgstr "Dies entfernt den Modulnamen (Standard \"content\") aus Permalinks."
 
 msgid ""
-"This removes the primary entity name (\"page\" or \"pages\") from permalinks."
+"This removes the primary entity name (\"page\") from permalinks."
 msgstr ""
-"Dies entfernt den primären Entitätsnamen (\"page\" oder \"pages\") aus "
-"Permalinks."
+"Dies entfernt den primären Entitätsnamen (\"page\") aus Permalinks."
 
 msgid "This setting is disabled. Click here to enable it."
 msgstr "Diese Einstellung ist deaktiviert. Klicke hier um sie zu aktivieren."
