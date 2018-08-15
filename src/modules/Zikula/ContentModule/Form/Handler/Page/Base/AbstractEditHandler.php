@@ -301,11 +301,9 @@ abstract class AbstractEditHandler extends EditHandler
         $routeArea = substr($this->returnTo, 0, 5) == 'admin' ? 'admin' : '';
         $routePrefix = 'zikulacontentmodule_' . $this->objectTypeLower . '_' . $routeArea;
     
-        if (in_array($this->objectType, ['page'])) {
-            // force refresh because slugs may have changed (e.g. by translatable)
-            $this->entityFactory->getObjectManager()->clear();
-            $this->entityRef = $this->initEntityForEditing();
-        }
+        // force refresh because slugs may have changed (e.g. by translatable)
+        $this->entityFactory->getObjectManager()->clear();
+        $this->entityRef = $this->initEntityForEditing();
     
         // parse given redirect code and return corresponding url
         switch ($this->returnTo) {
