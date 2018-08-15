@@ -33,7 +33,7 @@ class HeadingType extends AbstractContentType
      */
     public function getIcon()
     {
-        return 'underline';
+        return 'header';
     }
 
     /**
