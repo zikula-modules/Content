@@ -194,7 +194,13 @@ function contentPagePreparePaletteEntryForAddition(widget, widgetId) {
  * Returns the actions for a section.
  */
 function contentPageGetSectionActions(isFirstSection) {
-    var actions = '<div class="btn-group btn-group-sm pull-right" role="group"><button type="button" class="btn btn-default delete-section" title="' + Translator.__('Delete section') + '"' + (isFirstSection ? ' disabled="disabled"' : '') + '><i class="fa fa-trash-o"></i> ' + Translator.__('Delete section') + '</button></div>';
+    var deleteState = isFirstSection ? ' disabled="disabled"' : '';
+    var actions = `
+        <div class="btn-group btn-group-sm pull-right" role="group">
+            <button type="button" class="btn btn-default change-styles" title="${Translator.__('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.__('Styling classes')}</button>
+            <button type="button" class="btn btn-default delete-section" title="${Translator.__('Delete section')}"${deleteState}><i class="fa fa-trash-o"></i> ${Translator.__('Delete section')}</button>
+        </div>
+    `;
 
     return actions;
 }
@@ -207,6 +213,17 @@ function contentPageTempGetRandomInt(min, max) {
  * Initialises section actions.
  */
 function contentPageInitSectionActions() {
+    jQuery('#widgets h4 .change-styles').unbind('click').click(function (event) {
+        var gridSection;
+
+        event.preventDefault();
+        gridSection = jQuery(this).parents('.grid-section').first();
+        gridSection.find('.style-selector-container').removeClass('hidden');
+        gridSection.find('.style-selector-container button').unbind('click').click(function (btnEvent) {
+            jQuery(this).parents('.style-selector-container').addClass('hidden');
+            contentPageSave();
+        });
+    });
     jQuery('#widgets h4 .delete-section').unbind('click').click(function (event) {
         var gridSection;
         var hasWidgets;
@@ -239,9 +256,12 @@ function contentPageInitSectionActions() {
 /**
  * Adds another grid section to the current page.
  */
-function contentPageAddSection(sectionId, sectionNumber, scrollToSection) {
+function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
-    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="well"><div class="grid-stack"></div></div></div>');
+    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container hidden">' + jQuery('#sectionStylesContainer').html() + '</div><div class="well"><div class="grid-stack"></div></div></div>');
+    if ('' != stylingClasses) {
+        jQuery('#' + sectionId + ' .style-selector-container select').first().val(stylingClasses.split(' '));
+    }
     if (true === scrollToSection) {
         var newTop = jQuery('#' + sectionId).offset().top - 150;
         jQuery('html, body').animate({ scrollTop: newTop }, 500);
@@ -892,13 +912,13 @@ function contentPageLoad() {
     sectionNumber = 0;
     _.each(widgetData, function (section) {
         sectionNumber++;
-        contentPageAddSection(section.id, sectionNumber, false);
+        contentPageAddSection(section.id, sectionNumber, section.stylingClasses, false);
         contentPageInitSectionActions();
         contentPageUnserialiseWidgets(section.id, section.widgets);
     });
     if (orphanData.length > 0) {
         sectionNumber++;
-        contentPageAddSection('section' + sectionNumber, sectionNumber, false);
+        contentPageAddSection('section' + sectionNumber, sectionNumber, '', false);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
         _.each(orphanData, function (contentItemId) {
@@ -972,6 +992,7 @@ function contentPageSave() {
         section = jQuery(section);
         return {
             id: 'section' + ++sectionCounter,
+            stylingClasses: (section.find('.style-selector-container select').first().val() || []).join(' '),
             widgets: contentPageSerialiseWidgets(section.find('.well > .grid-stack > .grid-stack-item:visible').not('.grid-stack-placeholder'))
         }
     });
@@ -1065,7 +1086,7 @@ function contentPageUnhighlightGrids() {
 jQuery(document).ready(function () {
     jQuery('#addSection').click(function () {
         var sectionNumber = jQuery('#widgets .grid-section').length + 1;
-        contentPageAddSection('section' + sectionNumber, sectionNumber, true);
+        contentPageAddSection('section' + sectionNumber, sectionNumber, '', true);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
         contentPageSave();

@@ -262,10 +262,23 @@ class PageController extends AbstractPageController
             $lockingApi->addLock($lockName, $returnUrl);
         }
 
+        $sectionStyles = $this->getVar('sectionStyles', '');
+        $sectionStyleChoices = [];
+        $userClasses = explode("\n", $sectionStyles);
+        foreach ($userClasses as $class) {
+            list($value, $text) = explode('|', $class);
+            $value = trim($value);
+            $text = trim($text);
+            if (!empty($text) && !empty($value)) {
+                $sectionStyleChoices[$text] = $value;
+            }
+        }
+
         return [
             'routeArea' => $routeArea,
             'page' => $page,
-            'returnUrl' => $returnUrl
+            'returnUrl' => $returnUrl,
+            'sectionStyles' => $sectionStyleChoices
         ];
     }
 

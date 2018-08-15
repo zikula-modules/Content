@@ -143,9 +143,9 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $action = 'submit';
         try {
             $layoutData = [
-                'header' => ['id' => 'section1', 'widgets' => []],
-                'mid' => ['id' => 'section2', 'widgets' => []],
-                'footer' => ['id' => 'section3', 'widgets' => []]
+                'header' => ['id' => 'section1', 'stylingClasses' => '', 'widgets' => []],
+                'mid' => ['id' => 'section2', 'stylingClasses' => '', 'widgets' => []],
+                'footer' => ['id' => 'section3', 'stylingClasses' => '', 'widgets' => []]
             ];
             foreach ($contentInfo as $itemInfo) {
                 $item = $itemInfo[0];

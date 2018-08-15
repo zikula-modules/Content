@@ -148,6 +148,9 @@ msgstr "Detailseite anzeigen"
 msgid "Show edit form"
 msgstr "Bearbeitungsformular anzeigen"
 
+msgid "Styling classes"
+msgstr "CSS-Klassen"
+
 msgid "Success"
 msgstr "Erfolg"
 

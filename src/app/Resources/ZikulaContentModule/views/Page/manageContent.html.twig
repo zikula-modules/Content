@@ -24,8 +24,27 @@
                 <div id="widgetDimensions" data-width="{{ widgetDimensions.width }}" data-minwidth="{{ widgetDimensions.minWidth }}" data-height="{{ widgetDimensions.height }}" class="hidden"></div>
             </div>
         </div>
-        <div id="translationState" data-enabled="1"></div>{# TODO enabled in Settings module and page language != current language #}
-        <div id="wysiwygEditor" data-default="{{ getModVar('ZikulaScribiteModule', 'DefaultEditor', '') }}"></div>
+        <div id="translationState" data-enabled="1" class="hidden"></div>{# TODO enabled in Settings module and page language != current language #}
+        <div id="wysiwygEditor" data-default="{{ getModVar('ZikulaScribiteModule', 'DefaultEditor', '') }}" class="hidden"></div>
+        <div id="sectionStylesContainer" class="hidden">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{ __('Styling classes') }}</label>
+                    <div class="col-sm-9">
+                        <select multiple="multiple" class="form-control">
+                            {% for label, className in sectionStyles %}
+                                <option value="{{ className|e('html_attr') }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button class="btn btn-default">{{ __('OK') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="contentItemEditingModal" class="modal fade" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg">
@@ -78,7 +97,7 @@
             {% else %}
                 var widgetData = [
                     {
-                        id: 'section1', widgets: []
+                        id: 'section1', stylingClasses: '', widgets: []
                     }
                 ];
                 var orphanData = [];
