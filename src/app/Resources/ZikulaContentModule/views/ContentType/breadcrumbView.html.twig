@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
     {% if includeHome %}
-        <li><a href="{{ pagevars.homepath }}" title="{{ __('Home') }}">{{ __('Home') }}</a></li>
+        <li><a href="{{ pagevars.homepath }}" title="{{ __('Home', 'zikula') }}">{{ __('Home', 'zikula') }}</a></li>
     {% endif %}
     {% for page in pages if zikulacontentmodule_hasReadAccess(page) %}
         <li{% if page.id == currentPageId %} class="active"{% endif %}>
