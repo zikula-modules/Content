@@ -29,4 +29,33 @@ class ModelHelper extends AbstractModelHelper
 
         return parent::resolveSortParameter($objectType, $sorting);
     }
+
+    /**
+     * Duplicates all translations of a given content item.
+     *
+     * @param integer $oldItemId
+     * @param integer $newItemId
+     */
+    public function cloneContentTranslations($oldItemId, $newItemId)
+    {
+        $entityManager = $this->entityFactory->getObjectManager();
+        $translationRepository = $entityManager->getRepository('Zikula\ContentModule\Entity\ContentItemTranslationEntity');
+
+        // first remove translations which were cloned above
+        $translations = $translationRepository->findBy(['foreignKey' => $newItemId]);
+        foreach ($translations as $translation) {
+            $entityManager->remove($translation);
+        }
+        $entityManager->flush();
+
+        // second clone all translations
+        $translations = $translationRepository->findBy(['foreignKey' => $oldItemId]);
+        $newTranslations = [];
+        foreach ($translations as $translation) {
+            $newTranslation = clone $translation;
+            $newTranslation->setForeignKey($newItemId);
+            $entityManager->persist($newTranslation);
+        }
+        $entityManager->flush();
+    }
 }

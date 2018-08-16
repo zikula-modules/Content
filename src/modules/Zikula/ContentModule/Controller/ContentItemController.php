@@ -142,24 +142,8 @@ class ContentItemController extends AbstractContentItemController
             return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
         }
 
-        $entityManager = $factory->getObjectManager();
-        $translationRepository = $entityManager->getRepository('Zikula\ContentModule\Entity\ContentItemTranslationEntity');
-        // first remove translations which were cloned above
-        $translations = $translationRepository->findBy(['foreignKey' => $newItem->getId()]);
-        foreach ($translations as $translation) {
-            $entityManager->remove($translation);
-        }
-        $entityManager->flush();
-
-        // second clone all translations
-        $translations = $translationRepository->findBy(['foreignKey' => $contentItem->getId()]);
-        $newTranslations = [];
-        foreach ($translations as $translation) {
-            $newTranslation = clone $translation;
-            $newTranslation->setForeignKey($newItem->getId());
-            $entityManager->persist($newTranslation);
-        }
-        $entityManager->flush();
+        $modelHelper = $this->get('zikula_content_module.model_helper');
+        $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
 
         return $this->json(['id' => $newItem->getId(), 'message' => $this->__('Done! Content saved.')]);
     }
