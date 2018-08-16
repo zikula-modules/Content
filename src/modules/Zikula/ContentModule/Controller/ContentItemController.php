@@ -447,6 +447,9 @@ class ContentItemController extends AbstractContentItemController
                 if (!$success) {
                     return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
                 }
+
+                $modelHelper = $this->get('zikula_content_module.model_helper');
+                $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
             }
 
             return $this->json([
