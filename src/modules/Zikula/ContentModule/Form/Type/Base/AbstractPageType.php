@@ -212,16 +212,20 @@ abstract class AbstractPageType extends AbstractType
             ],
             'required' => false,
         ]);
+        $helpText = $this->__('You can input a custom permalink for the page or let this field free to create one automatically.');
+        if ('create' != $options['mode']) {
+            $helpText = '';
+        }
         $builder->add('slug', TextType::class, [
             'label' => $this->__('Permalink') . ':',
-            'required' => false,
+            'required' => 'create' != $options['mode'],
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => 'validate-unique',
-                'title' => $this->__('You can input a custom permalink for the page or let this field free to create one automatically.')
+                'title' => $helpText
             ],
-            'help' => $this->__('You can input a custom permalink for the page or let this field free to create one automatically.')
+            'help' => $helpText
         ]);
         
         if ($this->variableApi->getSystemVar('multilingual') && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::TRANSLATIONS, 'page')) {
