@@ -11,8 +11,8 @@
 
 namespace Zikula\ContentModule\Entity\Base;
 
-use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Entity extension domain class storing page translations.
