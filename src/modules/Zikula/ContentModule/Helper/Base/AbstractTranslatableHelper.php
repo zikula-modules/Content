@@ -182,6 +182,10 @@ abstract class AbstractTranslatableHelper
             foreach ($fields as $fieldName) {
                 $translationData[$fieldName] = isset($entityTranslations[$language][$fieldName]) ? $entityTranslations[$language][$fieldName] : '';
             }
+            if (in_array($objectType, ['page']) && isset($translationData['slug'])) {
+                $slugParts = explode('/', $translationData['slug']);
+                $translationData['slug'] = end($slugParts);
+            }
             // add data to collected translations
             $translations[$language] = $translationData;
         }
