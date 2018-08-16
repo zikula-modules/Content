@@ -22,13 +22,13 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
     /**
      * @var boolean
      */
-    protected $ignoreFirstTreeLevelInRoutes;
+    protected $ignoreFirstTreeLevel;
 
     /**
      * @param boolean
      */
-    public function setIgnoreFirstTreeLevelInRoutes($ignoreFirstTreeLevelInRoutes = true) {
-        $this->ignoreFirstTreeLevelInRoutes = $ignoreFirstTreeLevelInRoutes;
+    public function setIgnoreFirstTreeLevel($ignoreFirstTreeLevel = true) {
+        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
     }
 
     /**
@@ -42,7 +42,7 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
 
         $qb->andWhere('tbl.active = 1');
-        if (true === $this->ignoreFirstTreeLevelInRoutes) {
+        if (true === $this->ignoreFirstTreeLevel) {
             $qb->andWhere('tbl.lvl > 0');
         }
         if (in_array('tblContentItems', $qb->getAllAliases())) {
