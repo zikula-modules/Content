@@ -20,5 +20,35 @@ use Zikula\ContentModule\Entity\Repository\Base\AbstractPageRepository;
  */
 class PageRepository extends AbstractPageRepository
 {
-    // feel free to add your own methods here, like for example reusable DQL queries
+    /**
+     * @inheritDoc
+     */
+    public function selectBySlug($slugTitle = '', $useJoins = true, $slimMode = false, $excludeId = 0)
+    {
+        $result = parent::selectBySlug($slugTitle, $useJoins, $slimMode, $excludeId);
+        if (null !== $result) {
+            return $result;
+        }
+
+        // if $slugTitle is foo, try to find `/main/foo` but not `/main/123foo` and `/main/foo123`
+
+        $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
+
+        $qb->andWhere('tbl.slug LIKE :slug')
+           ->setParameter('slug', '%/' . $slugTitle);
+
+        if ($excludeId > 0) {
+            $qb = $this->addExclusion($qb, [$excludeId]);
+        }
+
+        if (!$slimMode && null !== $this->collectionFilterHelper) {
+            $qb = $this->collectionFilterHelper->applyDefaultFilters('page', $qb);
+        }
+
+        $query = $this->getQueryFromBuilder($qb);
+
+        $results = $query->getResult();
+
+        return null !== $results && count($results) > 0 ? $results[0] : null;
+    }
 }

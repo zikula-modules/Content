@@ -27,6 +27,7 @@ application "Content" {
         Entity/ContentItemEntity.php,
         Entity/Factory/EntityInitialiser.php,
         Entity/PageEntity.php,
+        Entity/Repository/PageRepository.php,
         Form/Type/PageType.php,
         Helper/CollectionFilterHelper.php,
         Helper/ExampleDataHelper.php,

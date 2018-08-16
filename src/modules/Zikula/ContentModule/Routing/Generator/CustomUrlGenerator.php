@@ -34,6 +34,12 @@ class CustomUrlGenerator extends BaseUrlGenerator
                 $permalinkSuffix = $defaults['permalinkSuffix'];
                 unset($defaults['permalinkSuffix']);
             }
+
+            if (true === $ignoreFirstTreeLevelInRoutes && isset($parameters['slug']) && false !== strpos($parameters['slug'], '/')) {
+                $slugParts = explode('/', $parameters['slug']);
+                array_shift($slugParts);
+                $parameters['slug'] = implode('/', $slugParts);
+            }
             if (!isset($parameters['_format'])) {
                 $parameters['_format'] = 'none' != $permalinkSuffix ? $permalinkSuffix : 'html';
             }
