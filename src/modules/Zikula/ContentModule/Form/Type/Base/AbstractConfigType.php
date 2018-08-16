@@ -96,7 +96,7 @@ abstract class AbstractConfigType extends AbstractType
         }
         $builder->add('stateOfNewPages', ChoiceType::class, [
             'label' => $this->__('State of new pages') . ':',
-            'empty_data' => '',
+            'empty_data' => '1',
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Choose the state of new pages.')
@@ -366,7 +366,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => $this->__('The amount of pages shown per page')
             ],
             'help' => $this->__('The amount of pages shown per page'),
-            'empty_data' => '10',
+            'empty_data' => 10,
             'attr' => [
                 'maxlength' => 11,
                 'class' => '',
@@ -428,7 +428,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => $this->__('Which sections are supported in the Finder component (used by Scribite plug-ins).')
             ],
             'help' => $this->__('Which sections are supported in the Finder component (used by Scribite plug-ins).'),
-            'empty_data' => '',
+            'empty_data' => 'page',
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Choose the enabled finder types.')

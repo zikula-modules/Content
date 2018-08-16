@@ -264,7 +264,7 @@ abstract class AbstractPageType extends AbstractType
         $builder->add('layout', ArrayType::class, [
             'label' => $this->__('Layout') . ':',
             'help' => $this->__('Enter one entry per line.'),
-            'empty_data' => '',
+            'empty_data' => [],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Enter the layout of the page.')
@@ -274,7 +274,7 @@ abstract class AbstractPageType extends AbstractType
         
         $builder->add('views', IntegerType::class, [
             'label' => $this->__('Views') . ':',
-            'empty_data' => '0',
+            'empty_data' => 0,
             'attr' => [
                 'maxlength' => 11,
                 'class' => '',
@@ -331,7 +331,7 @@ abstract class AbstractPageType extends AbstractType
         $builder->add('stylingClasses', ArrayType::class, [
             'label' => $this->__('Styling classes') . ':',
             'help' => $this->__('Enter one entry per line.'),
-            'empty_data' => '',
+            'empty_data' => [],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Enter the styling classes of the page.')
@@ -342,7 +342,7 @@ abstract class AbstractPageType extends AbstractType
         $builder->add('versionData', ArrayType::class, [
             'label' => $this->__('Version data') . ':',
             'help' => $this->__('Enter one entry per line.'),
-            'empty_data' => '',
+            'empty_data' => [],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Enter the version data of the page.')
