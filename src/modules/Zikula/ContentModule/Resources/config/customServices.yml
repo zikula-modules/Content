@@ -1,3 +1,6 @@
+parameters:
+    router.options.generator_base_class: Zikula\ContentModule\Routing\Generator\CustomUrlGenerator
+
 services:
     zikula_content_module.cache_helper:
         class: Zikula\ContentModule\Helper\CacheHelper
@@ -28,11 +31,6 @@ services:
             - '@zikula_content_module.collection_filter_helper'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'countPageViews', false)"
         tags: ['twig.extension']
-    zikula_content_module.dynamic_route_loader:
-        class: Zikula\ContentModule\Routing\DynamicRouteLoader
-        arguments:
-            - "@zikula_extensions_module.api.variable"
-        tags: ['routing.loader']
     zikula_content_module.form.type.content_item:
         class: Zikula\ContentModule\Form\Type\ContentItemType
         arguments:
@@ -77,3 +75,10 @@ services:
             - '@zikula_content_module.permission_helper'
             - '@zikula_content_module.entity_display_helper'
         tags: ['kernel.event_subscriber']
+    zikula_content_module.routing.custom_url_generator:
+        class: Zikula\ContentModule\Routing\Generator\CustomUrlGenerator
+    zikula_content_module.routing.dynamic_route_loader:
+        class: Zikula\ContentModule\Routing\DynamicRouteLoader
+        arguments:
+            - "@zikula_extensions_module.api.variable"
+        tags: ['routing.loader']

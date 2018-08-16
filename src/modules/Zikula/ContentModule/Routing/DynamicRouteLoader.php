@@ -16,12 +16,30 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
+/**
+ * Dynamic route loader.
+ */
 class DynamicRouteLoader extends Loader
 {
     /**
-     * @var VariableApiInterface
+     * @var boolean
      */
-    protected $variableApi;
+    protected $ignoreBundleNameInRoutes;
+
+    /**
+     * @var boolean
+     */
+    protected $ignoreEntityNameInRoutes;
+
+    /**
+     * @var boolean
+     */
+    protected $ignoreFirstTreeLevelInRoutes;
+
+    /**
+     * @var string
+     */
+    protected $permalinkSuffix;
 
     /**
      * @var boolean
@@ -36,7 +54,10 @@ class DynamicRouteLoader extends Loader
     public function __construct(
         VariableApiInterface $variableApi
     ) {
-        $this->variableApi = $variableApi;
+        $this->ignoreBundleNameInRoutes = (bool) $variableApi->get('ZikulaContentModule', 'ignoreBundleNameInRoutes', true);
+        $this->ignoreEntityNameInRoutes = (bool) $variableApi->get('ZikulaContentModule', 'ignoreEntityNameInRoutes', true);
+        $this->ignoreFirstTreeLevelInRoutes = (bool) $variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
+        $this->permalinkSuffix = $variableApi->get('ZikulaContentModule', 'permalinkSuffix', 'none');
         $this->isLoaded = false;
     }
 
@@ -49,36 +70,36 @@ class DynamicRouteLoader extends Loader
             throw new \RuntimeException('Do not add the "content_dynamic" loader twice');
         }
 
-        $ignoreBundleName = (bool) $this->variableApi->get('ZikulaContentModule', 'ignoreBundleNameInRoutes', true);
-        $ignoreEntityName = (bool) $this->variableApi->get('ZikulaContentModule', 'ignoreEntityNameInRoutes', true);
-        $ignoreFirstTreeLevel = (bool) $this->variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
-
+        $routes = new RouteCollection();
         $routeVariants = [
             'admin' => ['pathPrefix' => '/admin', 'controller' => 'adminDisplay'],
             'user' => ['pathPrefix' => '', 'controller' => 'display']
         ];
-        $entityPathSegment = true === $ignoreEntityName ? '' : '/page';
-        // TODO $ignoreFirstTreeLevel needs to be considered
-
-        $routes = new RouteCollection();
+        $entityPathSegment = true === $this->ignoreEntityNameInRoutes ? '' : '/page';
 
         foreach ($routeVariants as $variantName => $variantData) {
             $path = $variantData['pathPrefix'] . $entityPathSegment . '/{slug}.{_format}';
 
             $defaults = [
                 '_controller' => 'ZikulaContentModule:Page:' . $variantData['controller'],
-                '_format' => 'html'
+                'ignoreFirstTreeLevelInRoutes' => $this->ignoreFirstTreeLevelInRoutes,
+                'permalinkSuffix' => $this->permalinkSuffix
             ];
+            $requiredFormat = $this->permalinkSuffix;
+            if ('none' == $this->permalinkSuffix) {
+                $defaults['_format'] = 'html';
+                $requiredFormat = 'html';
+            }
             $requirements = [
                 'slug' => '[^.]+',
-                '_format' => 'html|xml|json|ics|pdf'
+                '_format' => $requiredFormat . '|xml|json|ics|pdf'
             ];
             $options = [
                 'i18n' => true, // needs to be enabled for locale prefix, BUT we need to remove zikulacontentmodule_page_admindisplay and zikulacontentmodule_page_display from routes.en.po to allow dynamic changes of the corresponding pathes
                 'expose' => true,
                 'zkPosition' => 'bottom'
             ];
-            if (true === $ignoreBundleName) {
+            if (true === $this->ignoreBundleNameInRoutes) {
                 $options['zkNoBundlePrefix'] = true;
             }
             $host = '';

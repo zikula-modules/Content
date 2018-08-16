@@ -327,6 +327,27 @@ abstract class AbstractConfigType extends AbstractType
             ],
             'required' => false,
         ]);
+        
+        $listEntries = $this->listHelper->getEntries('appSettings', 'permalinkSuffix');
+        $choices = [];
+        $choiceAttributes = [];
+        foreach ($listEntries as $entry) {
+            $choices[$entry['text']] = $entry['value'];
+            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
+        }
+        $builder->add('permalinkSuffix', ChoiceType::class, [
+            'label' => $this->__('Permalink suffix') . ':',
+            'empty_data' => 'none',
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('Choose the permalink suffix.')
+            ],
+            'required' => true,
+            'choices' => $choices,
+            'choice_attr' => $choiceAttributes,
+            'multiple' => false,
+            'expanded' => false
+        ]);
     }
 
     /**

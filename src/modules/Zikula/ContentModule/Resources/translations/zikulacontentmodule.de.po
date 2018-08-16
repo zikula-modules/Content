@@ -329,6 +329,9 @@ msgstr "Die aktivierten Finder-Typen auswählen."
 msgid "Choose the parent page."
 msgstr "Die übergeordnete Seite auswählen."
 
+msgid "Choose the permalink suffix."
+msgstr "Das Suffix für Permalinks auswählen."
+
 msgid "Choose the scope."
 msgstr "Die Sichtbarkeit auswählen."
 
@@ -925,6 +928,12 @@ msgstr "Hierarchieansicht"
 msgid "History"
 msgstr "Historie"
 
+msgid "Htm"
+msgstr "htm"
+
+msgid "Html"
+msgstr "html"
+
 msgid "Hybrid"
 msgstr "Hybrid"
 
@@ -1188,6 +1197,9 @@ msgstr "Keinen solchen Eintrag gefunden."
 msgid "No such page found."
 msgstr "Keine solche Seite gefunden."
 
+msgid "No suffix"
+msgstr "Kein Suffix"
+
 msgid "None"
 msgstr "Keine"
 
@@ -1298,8 +1310,14 @@ msgstr "Einfügen als"
 msgid "Permalink"
 msgstr "Permalink"
 
+msgid "Permalink suffix"
+msgstr "Permalink-Suffix"
+
 msgid "Permalinks"
 msgstr "Permalinks"
+
+msgid "Phtml"
+msgstr "phtml"
 
 msgid "Pills"
 msgstr "Pills"
@@ -1475,6 +1493,9 @@ msgstr "Zeigt die Seitentabelle"
 
 msgid "Shows the pages tree"
 msgstr "Zeigt den Seitenbaum"
+
+msgid "Shtml"
+msgstr "shtml"
 
 msgid "Siblings"
 msgstr "Geschwister"
@@ -1717,10 +1738,8 @@ msgstr ""
 msgid "This removes the module name (defaults to \"content\") from permalinks."
 msgstr "Dies entfernt den Modulnamen (Standard \"content\") aus Permalinks."
 
-msgid ""
-"This removes the primary entity name (\"page\") from permalinks."
-msgstr ""
-"Dies entfernt den primären Entitätsnamen (\"page\") aus Permalinks."
+msgid "This removes the primary entity name (\"page\") from permalinks."
+msgstr "Dies entfernt den primären Entitätsnamen (\"page\") aus Permalinks."
 
 msgid "This setting is disabled. Click here to enable it."
 msgstr "Diese Einstellung ist deaktiviert. Klicke hier um sie zu aktivieren."

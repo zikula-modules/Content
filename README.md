@@ -113,7 +113,6 @@ New features:
 - Permalink settings for removing unwanted URL parts.
 
 Deprecations:
-- The short URL suffix can not be configured anymore.
 - Removed the ability to register a page var for breadcrumbs in favour of a dedicated module for this purpose. There is still a Twig function for retrieving or displaying a page hierarchy though.
 - Removed the possibility to order sub pages of a specific page by title.
 - The JoinPosition content type has been removed because it is not needed anymore.

@@ -150,6 +150,13 @@ abstract class AbstractAppSettings
     protected $ignoreFirstTreeLevelInRoutes = true;
     
     /**
+     * @Assert\NotBlank()
+     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="permalinkSuffix", multiple=false)
+     * @var string $permalinkSuffix
+     */
+    protected $permalinkSuffix = 'none';
+    
+    /**
      * The amount of pages shown per page
      *
      * @Assert\Type(type="integer")
@@ -538,6 +545,30 @@ abstract class AbstractAppSettings
     }
     
     /**
+     * Returns the permalink suffix.
+     *
+     * @return string
+     */
+    public function getPermalinkSuffix()
+    {
+        return $this->permalinkSuffix;
+    }
+    
+    /**
+     * Sets the permalink suffix.
+     *
+     * @param string $permalinkSuffix
+     *
+     * @return void
+     */
+    public function setPermalinkSuffix($permalinkSuffix)
+    {
+        if ($this->permalinkSuffix !== $permalinkSuffix) {
+            $this->permalinkSuffix = isset($permalinkSuffix) ? $permalinkSuffix : '';
+        }
+    }
+    
+    /**
      * Returns the page entries per page.
      *
      * @return integer
@@ -683,6 +714,9 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['ignoreFirstTreeLevelInRoutes'])) {
             $this->setIgnoreFirstTreeLevelInRoutes($moduleVars['ignoreFirstTreeLevelInRoutes']);
         }
+        if (isset($moduleVars['permalinkSuffix'])) {
+            $this->setPermalinkSuffix($moduleVars['permalinkSuffix']);
+        }
         if (isset($moduleVars['pageEntriesPerPage'])) {
             $this->setPageEntriesPerPage($moduleVars['pageEntriesPerPage']);
         }
@@ -716,6 +750,7 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'ignoreBundleNameInRoutes', $this->getIgnoreBundleNameInRoutes());
         $this->variableApi->set('ZikulaContentModule', 'ignoreEntityNameInRoutes', $this->getIgnoreEntityNameInRoutes());
         $this->variableApi->set('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', $this->getIgnoreFirstTreeLevelInRoutes());
+        $this->variableApi->set('ZikulaContentModule', 'permalinkSuffix', $this->getPermalinkSuffix());
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
         $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());

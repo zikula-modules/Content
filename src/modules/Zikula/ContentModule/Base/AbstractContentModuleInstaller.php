@@ -58,6 +58,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('ignoreBundleNameInRoutes', true);
         $this->setVar('ignoreEntityNameInRoutes', true);
         $this->setVar('ignoreFirstTreeLevelInRoutes', true);
+        $this->setVar('permalinkSuffix', 'none');
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);
         $this->setVar('showOnlyOwnEntries', false);

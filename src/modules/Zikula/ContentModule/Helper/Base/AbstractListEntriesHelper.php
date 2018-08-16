@@ -151,6 +151,9 @@ abstract class AbstractListEntriesHelper
                     case 'stateOfNewPages':
                         $result = false;
                         break;
+                    case 'permalinkSuffix':
+                        $result = false;
+                        break;
                     case 'enabledFinderTypes':
                         $result = true;
                         break;
@@ -199,6 +202,9 @@ abstract class AbstractListEntriesHelper
                 switch ($fieldName) {
                     case 'stateOfNewPages':
                         $entries = $this->getStateOfNewPagesEntriesForAppSettings();
+                        break;
+                    case 'permalinkSuffix':
+                        $entries = $this->getPermalinkSuffixEntriesForAppSettings();
                         break;
                     case 'enabledFinderTypes':
                         $entries = $this->getEnabledFinderTypesEntriesForAppSettings();
@@ -370,6 +376,53 @@ abstract class AbstractListEntriesHelper
         $states[] = [
             'value'   => '4',
             'text'    => $this->__('New pages will be inactive and not available in the menu'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+    
+        return $states;
+    }
+    
+    /**
+     * Get 'permalink suffix' list entries.
+     *
+     * @return array Array with desired list entries
+     */
+    public function getPermalinkSuffixEntriesForAppSettings()
+    {
+        $states = [];
+        $states[] = [
+            'value'   => 'none',
+            'text'    => $this->__('No suffix'),
+            'title'   => '',
+            'image'   => '',
+            'default' => true
+        ];
+        $states[] = [
+            'value'   => 'html',
+            'text'    => $this->__('Html'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => 'htm',
+            'text'    => $this->__('Htm'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => 'phtml',
+            'text'    => $this->__('Phtml'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => 'shtml',
+            'text'    => $this->__('Shtml'),
             'title'   => '',
             'image'   => '',
             'default' => false

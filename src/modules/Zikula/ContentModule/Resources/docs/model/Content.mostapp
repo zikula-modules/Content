@@ -34,6 +34,7 @@ application "Content" {
         Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
         Helper/SearchHelper.php,
+        Helper/ViewHelper.php,
         Menu/MenuBuilder.php,
         Resources/config/routing.yml,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
@@ -307,6 +308,18 @@ application "Content" {
                     documentation "This removes the first tree level of pages from permalinks of pages in greater levels."
                     defaultValue "true"
                     mandatory false
+                },
+                list "permalinkSuffix" {
+                    defaultValue "none"
+                    mandatory true
+                    length 10
+                    items {
+                        default listItem "no suffix" ( "none" ),
+                        listItem "html",
+                        listItem "htm",
+                        listItem "phtml",
+                        listItem "shtml"
+                    }
                 }
             }
         }
