@@ -7,13 +7,13 @@
     {% set nextPage = successors is iterable and successors|length > 0 ? successors|first : null %}
     <div class="btn-group btn-group-justified" role="group">
         {% if previousPage|default and zikulacontentmodule_hasReadAccess(previousPage) %}
-            <a href="{{ path(displayRoute, {slug: previousPage.slug}) }}" title="{{ previousPage|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button"><i class="fa fa-fw fa-arrow-left"></i> {{ __('Back') }}</a>
+            <a href="{{ path(displayRoute, {slug: previousPage.slug}) }}" title="{{ previousPage|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button"><i class="fa fa-fw fa-arrow-left"></i> {{ __('Back', 'zikula') }}</a>
         {% endif %}
         {% if directParent|default and zikulacontentmodule_hasReadAccess(directParent) %}
-            <a href="{{ path(displayRoute, {slug: directParent.slug}) }}" title="{{ directParent|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button"><i class="fa fa-fw fa-arrow-up"></i> {{ __('Overview') }}</a>
+            <a href="{{ path(displayRoute, {slug: directParent.slug}) }}" title="{{ directParent|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button"><i class="fa fa-fw fa-arrow-up"></i> {{ __('Overview', 'zikula') }}</a>
         {% endif %}
         {% if nextPage|default and zikulacontentmodule_hasReadAccess(nextPage) %}
-            <a href="{{ path(displayRoute, {slug: nextPage.slug}) }}" title="{{ nextPage|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button">{{ __('Forward') }} <i class="fa fa-fw fa-arrow-right"></i></a>
+            <a href="{{ path(displayRoute, {slug: nextPage.slug}) }}" title="{{ nextPage|zikulacontentmodule_formattedTitle|e('html_attr') }}" class="btn btn-default" role="button">{{ __('Forward', 'zikula') }} <i class="fa fa-fw fa-arrow-right"></i></a>
         {% endif %}
     </div>
 {% endif %}
