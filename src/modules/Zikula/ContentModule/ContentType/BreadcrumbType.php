@@ -21,6 +21,11 @@ use Zikula\ContentModule\ContentType\Form\Type\BreadcrumbType as FormType;
 class BreadcrumbType extends AbstractContentType
 {
     /**
+     * @var boolean
+     */
+    protected $ignoreFirstTreeLevel;
+
+    /**
      * @inheritDoc
      */
     public function getCategory()
@@ -75,9 +80,9 @@ class BreadcrumbType extends AbstractContentType
 
         while (null !== $currentPage['parent']) {
             $currentPage = $currentPage['parent'];
-            //if ($currentPage->getLvl() > 0) {
+            if (true !== $this->ignoreFirstTreeLevel || $currentPage->getLvl() > 0) {
                 array_unshift($pages, $currentPage);
-            //}
+            }
         }
 
         $this->data['pages'] = $pages;
@@ -91,5 +96,13 @@ class BreadcrumbType extends AbstractContentType
     public function getEditFormClass()
     {
         return FormType::class;
+    }
+
+    /**
+     * @param boolean $ignoreFirstTreeLevel
+     */
+    public function setIgnoreFirstTreeLevel($ignoreFirstTreeLevel = true)
+    {
+        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
     }
 }

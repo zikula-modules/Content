@@ -41,6 +41,8 @@ services:
 
     Zikula\ContentModule\ContentType\BreadcrumbType:
         parent: zikula_content_module.content_type.common
+        calls:
+            - [setIgnoreFirstTreeLevel, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\BreadcrumbType:
         parent: zikula_content_module.content_type.form.common
@@ -48,8 +50,8 @@ services:
 
     Zikula\ContentModule\ContentType\ComputerCodeType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - '@kernel'
+        calls:
+            - [setKernel, ['@kernel']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType:
         parent: zikula_content_module.content_type.form.common
@@ -69,9 +71,9 @@ services:
 
     Zikula\ContentModule\ContentType\ControllerType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - '@kernel'
-            - '@request_stack'
+        calls:
+            - [setKernel, ['@kernel']]
+            - [setRequestStack, ['@request_stack']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ControllerType:
         parent: zikula_content_module.content_type.form.common
@@ -88,9 +90,9 @@ services:
 
     Zikula\ContentModule\ContentType\GoogleMapType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - '@request_stack'
-            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"
+        calls:
+            - [setRequestStack, ['@request_stack']]
+            - [setGoogleMapsApiKey, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleMapType:
         parent: zikula_content_module.content_type.form.common
@@ -98,9 +100,9 @@ services:
 
     Zikula\ContentModule\ContentType\GoogleRouteType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - '@request_stack'
-            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"
+        calls:
+            - [setRequestStack, ['@request_stack']]
+            - [setGoogleMapsApiKey, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType:
         parent: zikula_content_module.content_type.form.common
@@ -140,8 +142,8 @@ services:
 
     Zikula\ContentModule\ContentType\SlideshareType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - '@zikula_content_module.cache_helper'
+        calls:
+            - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\SlideshareType:
         parent: zikula_content_module.content_type.form.common
@@ -153,6 +155,7 @@ services:
             - '@router'
             - '@zikula_content_module.entity_factory'
             - '@zikula_content_module.content_display_helper'
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType:
         parent: zikula_content_module.content_type.form.common
@@ -173,8 +176,8 @@ services:
 
     Zikula\ContentModule\ContentType\UnfilteredType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'enableRawPlugin', false)"
+        calls:
+            - [setEnableRawPlugin, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'enableRawPlugin', false)"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\UnfilteredType:
         parent: zikula_content_module.content_type.form.common
@@ -182,8 +185,8 @@ services:
 
     Zikula\ContentModule\ContentType\VimeoType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - '@zikula_content_module.cache_helper'
+        calls:
+            - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\VimeoType:
         parent: zikula_content_module.content_type.form.common
@@ -191,8 +194,8 @@ services:
 
     Zikula\ContentModule\ContentType\YouTubeType:
         parent: zikula_content_module.content_type.common
-        arguments:
-            - '@zikula_content_module.cache_helper'
+        calls:
+            - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\YouTubeType:
         parent: zikula_content_module.content_type.form.common

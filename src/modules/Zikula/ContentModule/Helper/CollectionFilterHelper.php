@@ -25,13 +25,6 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
     protected $ignoreFirstTreeLevel;
 
     /**
-     * @param boolean
-     */
-    public function setIgnoreFirstTreeLevel($ignoreFirstTreeLevel = true) {
-        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
-    }
-
-    /**
      * @inheritDoc
      */
     protected function applyDefaultFiltersForPage(QueryBuilder $qb, array $parameters = [])
@@ -140,5 +133,13 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
 
         return $scopes;
+    }
+
+    /**
+     * @param boolean $ignoreFirstTreeLevel
+     */
+    public function setIgnoreFirstTreeLevel($ignoreFirstTreeLevel = true)
+    {
+        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
     }
 }

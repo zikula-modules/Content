@@ -11,14 +11,9 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-use \Twig_Environment;
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
-use Zikula\ContentModule\Helper\PermissionHelper;
-use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Unfiltered raw content type.
@@ -29,28 +24,6 @@ class UnfilteredType extends AbstractContentType
      * @var boolean
      */
     protected $enableRawPlugin;
-
-    /**
-     * UnfilteredType constructor.
-     *
-     * @param TranslatorInterface $translator       Translator service instance
-     * @param Twig_Environment    $twig             Twig service instance
-     * @param FilesystemLoader    $twigLoader       Twig loader service instance
-     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
-     * @param Asset               $assetHelper      Asset service instance
-     * @param boolean             $enableRawPlugin  Whether to enable the unfiltered raw plugin or not
-     */
-    public function __construct(
-        TranslatorInterface $translator,
-        Twig_Environment $twig,
-        FilesystemLoader $twigLoader,
-        PermissionHelper $permissionHelper,
-        Asset $assetHelper,
-        $enableRawPlugin
-    ) {
-        $this->enableRawPlugin = $enableRawPlugin;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
-    }
 
     /**
      * @inheritDoc
@@ -162,5 +135,13 @@ class UnfilteredType extends AbstractContentType
         }
 
         return 'contentInitUnfilteredEdit';
+    }
+
+    /**
+     * @param boolean $enableRawPlugin
+     */
+    public function setEnableRawPlugin($enableRawPlugin)
+    {
+        $this->enableRawPlugin = $enableRawPlugin;
     }
 }

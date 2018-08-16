@@ -46,16 +46,22 @@ class TableOfContentsType extends AbstractContentType
     protected $displayHelper;
 
     /**
+     * @var boolean
+     */
+    protected $ignoreFirstTreeLevel;
+
+    /**
      * TableOfContentsType constructor.
      *
-     * @param TranslatorInterface  $translator       Translator service instance
-     * @param Twig_Environment     $twig             Twig service instance
-     * @param FilesystemLoader     $twigLoader       Twig loader service instance
-     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
-     * @param Asset                $assetHelper      Asset service instance
-     * @param Routerinterface      $router           Router service instance
-     * @param EntityFactory        $entityFactory    EntityFactory service instance
-     * @param ContentDisplayHelper $displayHelper    ContentDisplayHelper service instance
+     * @param TranslatorInterface  $translator           Translator service instance
+     * @param Twig_Environment     $twig                 Twig service instance
+     * @param FilesystemLoader     $twigLoader           Twig loader service instance
+     * @param PermissionHelper     $permissionHelper     PermissionHelper service instance
+     * @param Asset                $assetHelper          Asset service instance
+     * @param Routerinterface      $router               Router service instance
+     * @param EntityFactory        $entityFactory        EntityFactory service instance
+     * @param ContentDisplayHelper $displayHelper        ContentDisplayHelper service instance
+     * @param boolean              $ignoreFirstTreeLevel
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -65,11 +71,13 @@ class TableOfContentsType extends AbstractContentType
         Asset $assetHelper,
         RouterInterface $router,
         EntityFactory $entityFactory,
-        ContentDisplayHelper $displayHelper
+        ContentDisplayHelper $displayHelper,
+        $ignoreFirstTreeLevel = true
     ) {
         $this->router = $router;
         $this->entityFactory = $entityFactory;
         $this->displayHelper = $displayHelper;
+        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
         parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
     }
 
@@ -145,7 +153,11 @@ class TableOfContentsType extends AbstractContentType
         $filters = [];
 
         if ($pageId == 0) {
-            $filters[] = 'tbl.lvl = 0';
+            if (true === $this->ignoreFirstTreeLevel) {
+                $filters[] = 'tbl.lvl = 1';
+            } else {
+                $filters[] = 'tbl.lvl = 0';
+            }
         } else {
             $page = null;
             if ($pageId > 0) {

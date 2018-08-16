@@ -12,7 +12,6 @@ function contentInitTocEdit() {
     contentTocChangedSelection = function() {
         jQuery('#' + fieldPrefix + 'includeHeadingLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeHeading').val()) < 2);
         jQuery('#' + fieldPrefix + 'includeSubpageLevel').parents('.form-group').toggleClass('hidden', parseInt(jQuery('#' + fieldPrefix + 'includeSubpage').val()) < 2);
-        jQuery('#' + fieldPrefix + 'includeSelf').parents('.form-group').toggleClass('hidden', '' == jQuery('#' + fieldPrefix + 'page').val());
     };
     jQuery('#' + fieldPrefix + 'includeHeading, #' + fieldPrefix + 'includeSubpage, #' + fieldPrefix + 'page').change(contentTocChangedSelection);
     contentTocChangedSelection();

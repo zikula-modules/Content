@@ -11,17 +11,12 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-use \Twig_Environment;
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ControllerType as FormType;
-use Zikula\ContentModule\Helper\PermissionHelper;
-use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Controller content type.
@@ -37,31 +32,6 @@ class ControllerType extends AbstractContentType
      * @var RequestStack
      */
     protected $requestStack;
-
-    /**
-     * ControllerType constructor.
-     *
-     * @param TranslatorInterface       $translator       Translator service instance
-     * @param Twig_Environment          $twig             Twig service instance
-     * @param FilesystemLoader          $twigLoader       Twig loader service instance
-     * @param PermissionHelper          $permissionHelper PermissionHelper service instance
-     * @param Asset                     $assetHelper      Asset service instance
-     * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
-     * @param RequestStack              $requestStack     RequestStack service instance
-     */
-    public function __construct(
-        TranslatorInterface $translator,
-        Twig_Environment $twig,
-        FilesystemLoader $twigLoader,
-        PermissionHelper $permissionHelper,
-        Asset $assetHelper,
-        ZikulaHttpKernelInterface $kernel,
-        RequestStack $requestStack
-    ) {
-        $this->kernel = $kernel;
-        $this->requestStack = $requestStack;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
-    }
 
     /**
      * @inheritDoc
@@ -202,5 +172,21 @@ class ControllerType extends AbstractContentType
     public function getEditFormClass()
     {
         return Formtype::class;
+    }
+
+    /**
+     * @param ZikulaHttpKernelInterface $kernel
+     */
+    public function setKernel(ZikulaHttpKernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
+    /**
+     * @param RequestStack $requestStack
+     */
+    public function setRequestStack(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
     }
 }

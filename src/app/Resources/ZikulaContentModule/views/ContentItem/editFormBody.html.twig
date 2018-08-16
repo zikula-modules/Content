@@ -10,13 +10,13 @@
     </div>
 </fieldset>
 #}
-{% if form.contentData is defined and contentFormTemplate|default %}
-    <fieldset>
-        <legend>{{ __('Content') }}</legend>
+<fieldset>
+    <legend>{{ __('Content') }}</legend>
+    {% if form.contentData is defined and contentFormTemplate|default %}
         {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
-        {{ form_row(form.additionalSearchText) }}
-    </fieldset>
-{% endif %}
+    {% endif %}
+    {{ form_row(form.additionalSearchText) }}
+</fieldset>
 <fieldset>
     <legend>{{ __('Options') }}</legend>
     {{ form_row(form.active, {help: __('You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.', 'zikula')}) }}

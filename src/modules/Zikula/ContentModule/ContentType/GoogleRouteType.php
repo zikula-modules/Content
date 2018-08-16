@@ -11,15 +11,10 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-use \Twig_Environment;
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
-use Zikula\ContentModule\Helper\PermissionHelper;
-use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Google route content type.
@@ -35,31 +30,6 @@ class GoogleRouteType extends AbstractContentType
      * @var string
      */
     protected $googleMapsApiKey;
-
-    /**
-     * AuthorType constructor.
-     *
-     * @param TranslatorInterface $translator       Translator service instance
-     * @param Twig_Environment    $twig             Twig service instance
-     * @param FilesystemLoader    $twigLoader       Twig loader service instance
-     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
-     * @param Asset               $assetHelper      Asset service instance
-     * @param RequestStack        $requestStack     RequestStack service instance
-     * @param string              $googleMapsApiKey Google maps API key
-     */
-    public function __construct(
-        TranslatorInterface $translator,
-        Twig_Environment $twig,
-        FilesystemLoader $twigLoader,
-        PermissionHelper $permissionHelper,
-        Asset $assetHelper,
-        RequestStack $requestStack,
-        $googleMapsApiKey
-    ) {
-        $this->requestStack = $requestStack;
-        $this->googleMapsApiKey = $googleMapsApiKey;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
-    }
 
     /**
      * @inheritDoc
@@ -192,5 +162,21 @@ class GoogleRouteType extends AbstractContentType
         }
 
         return null;
+    }
+
+    /**
+     * @param RequestStack $requestStack
+     */
+    public function setRequestStack(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
+    /**
+     * @param string $googleMapsApiKey
+     */
+    public function setGoogleMapsApiKey($googleMapsApiKey)
+    {
+        $this->googleMapsApiKey = $googleMapsApiKey;
     }
 }

@@ -218,7 +218,7 @@ function contentPageInitSectionActions() {
 
         event.preventDefault();
         gridSection = jQuery(this).parents('.grid-section').first();
-        gridSection.find('.style-selector-container').removeClass('hidden');
+        gridSection.find('.style-selector-container').toggleClass('hidden');
         gridSection.find('.style-selector-container button').unbind('click').click(function (btnEvent) {
             jQuery(this).parents('.style-selector-container').addClass('hidden');
             contentPageSave();

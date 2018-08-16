@@ -11,15 +11,10 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-use \Twig_Environment;
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\AbstractContentType;
 use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\SlideshareType as FormType;
 use Zikula\ContentModule\Helper\CacheHelper;
-use Zikula\ContentModule\Helper\PermissionHelper;
-use Zikula\ThemeModule\Engine\Asset;
 
 /**
  * Slideshare content type.
@@ -30,28 +25,6 @@ class SlideshareType extends AbstractContentType
      * @var CacheHelper
      */
     protected $cacheHelper;
-
-    /**
-     * SlideshareType constructor.
-     *
-     * @param TranslatorInterface $translator       Translator service instance
-     * @param Twig_Environment    $twig             Twig service instance
-     * @param FilesystemLoader    $twigLoader       Twig loader service instance
-     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
-     * @param Asset               $assetHelper      Asset service instance
-     * @param CacheHelper         $cacheHelper      CacheHelper service instance
-     */
-    public function __construct(
-        TranslatorInterface $translator,
-        Twig_Environment $twig,
-        FilesystemLoader $twigLoader,
-        PermissionHelper $permissionHelper,
-        Asset $assetHelper,
-        CacheHelper $cacheHelper
-    ) {
-        $this->cacheHelper = $cacheHelper;
-        parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
-    }
 
     /**
      * @inheritDoc
@@ -140,5 +113,13 @@ class SlideshareType extends AbstractContentType
     public function getEditFormClass()
     {
         return FormType::class;
+    }
+
+    /**
+     * @param CacheHelper $cacheHelper
+     */
+    public function setCacheHelper(CacheHelper $cacheHelper)
+    {
+        $this->cacheHelper = $cacheHelper;
     }
 }
