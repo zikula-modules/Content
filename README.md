@@ -50,8 +50,7 @@ The Content module is installed like this:
 
 ## Upgrading
 
-The upgrade process from earlier versions to 5.0.0 has not been implemented yet.
-Please see issue #198 for reference.
+An upgrade possibility from earlier versions to 5.0.0 has not been implemented yet.
 
 
 <a name="menumodule" />
