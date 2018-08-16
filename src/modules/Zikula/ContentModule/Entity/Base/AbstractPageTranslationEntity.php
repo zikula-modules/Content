@@ -31,7 +31,6 @@ abstract class AbstractPageTranslationEntity extends AbstractTranslation
      */
     protected $foreignKey;
     
-    
     /**
      * Clone interceptor implementation.
      * Performs a quite simple shallow copy.
