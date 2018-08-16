@@ -67,7 +67,8 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item = new ContentItemEntity();
         $item->setOwningType($contentTypeNamespace . 'HeadingType');
         $item->setContentData([
-            'text' => $this->translator->__('This is the main page', 'zikulacontentmodule')
+            'text' => $this->translator->__('This is the main page', 'zikulacontentmodule'),
+            'headingType' => 'h3'
         ]);
         $mainContentInfo[] = [$item, 'header', ['x' => 0, 'y' => (0 * $itemHeightEditing), 'width' => 12, 'minWidth' => 2]];
 
@@ -85,7 +86,8 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item = new ContentItemEntity();
         $item->setOwningType($contentTypeNamespace . 'HeadingType');
         $item->setContentData([
-            'text' => $this->translator->__('A content page consists of various content items in a chosen Bootstrap grid', 'zikulacontentmodule')
+            'text' => $this->translator->__('A content page consists of various content items in a chosen Bootstrap grid', 'zikulacontentmodule'),
+            'headingType' => 'h3'
         ]);
         $contentType = $this->displayHelper->initContentType($item);
         $item->setSearchText($contentType->getSearchableText());
