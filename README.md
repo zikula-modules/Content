@@ -33,6 +33,8 @@ It also features additional functionality, like translating content and tracking
 
 This module is intended for being used with Zikula 2.0.9+.
 
+Currently you need to patch Zikula 2.0.x by adding [this change](https://github.com/zikula/core/compare/f6b1638292862976de392a391cda94fcc2068992...e467e23ddff317abe47661df2c9bb88357a70a9c).
+
 
 <a name="installation" />
 
@@ -58,8 +60,6 @@ An upgrade possibility from earlier versions to 5.0.0 has not been implemented y
 ## Integration with menu module
 
 Content offers a dedicated menu block. But it can also be combined with menus from the menu module which is provided by Zikula core. You can add nodes with a placeholder title like `ContentPages_123` whereby `123` is the ID of a certain page. When displaying the menu this placeholder will be replaced by the corresponding pages sub tree. Note that only those pages are shown which are currently active, have the "in menu" flag enabled and visible to the current user.
-
-To make this integration work you need to patch Zikula 2.0.x by adding [this change](https://github.com/zikula/core/compare/f6b1638292862976de392a391cda94fcc2068992...e467e23ddff317abe47661df2c9bb88357a70a9c).
 
 
 <a name="contenttypes" />
