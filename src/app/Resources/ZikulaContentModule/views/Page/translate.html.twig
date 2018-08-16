@@ -1,133 +1,15 @@
 {# purpose of this template: gridstack playground #}
 {% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
-{% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Manage content') }}{% endblock %}
-{% block admin_page_icon 'cubes' %}
+{% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Translate') }}{% endblock %}
+{% block admin_page_icon 'language' %}
 {% block content %}
     {{ zikulacontentmodule_getPagePath(page, false) }}
-    {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
-    {% set widgetDimensions = {width: 4, minWidth: 2, height: 3} %}
-    <div id="notificationContainer">
-        <div id="notificationBox"></div>
+    <div class="zikulacontentmodule-page zikulacontentmodule-translate">
+        <p>Test test</p>
     </div>
-    <div class="zikulacontentmodule-page zikulacontentmodule-managecontent">
-        <div id="editFrame" class="row">
-            <div class="col-sm-5 col-md-4 col-lg-3">
-                {{ include('@ZikulaContentModule/Page/palette.html.twig') }}
-            </div>
-            <div class="col-sm-7 col-md-8 col-lg-9">
-                <p class="alert alert-info">{{ __('Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.') }}</p>
-                <div id="widgets" class="container-fluid"></div>
-                {#
-                    <hr />
-                    <pre id="debugSavedData" cols="100" rows="10" readonly="readonly"></pre>
-                #}
-                <div id="widgetDimensions" data-width="{{ widgetDimensions.width }}" data-minwidth="{{ widgetDimensions.minWidth }}" data-height="{{ widgetDimensions.height }}" class="hidden"></div>
-            </div>
-        </div>
-        <div id="wysiwygEditor" data-default="{{ getModVar('ZikulaScribiteModule', 'DefaultEditor', '') }}" class="hidden"></div>
-        <div id="sectionStylesContainer" class="hidden">
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">{{ __('Styling classes') }}</label>
-                    <div class="col-sm-9">
-                        <select multiple="multiple" class="form-control">
-                            {% for label, className in sectionStyles %}
-                                <option value="{{ className|e('html_attr') }}">{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <button class="btn btn-default">{{ __('OK') }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="contentItemEditingModal" class="modal fade" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btnSaveContent" class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ __('Save') }}</button>
-                    <button type="button" id="btnDeleteContent" class="btn btn-danger"><i class="fa fa-trash-o"></i> {{ __('Delete') }}</button>
-                    <button type="button" id="btnCancelContent" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> {{ __('Cancel') }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {# required for dynamic activation of Scribite for modal content #}
-    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=null, outputAsArray=true) %}
-    {% if hooks is iterable and hooks|length > 0 %}
-    <div class="hidden">
-        {% for area, hook in hooks %}
-            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    {% set customScript %}
-        <script>
-        /* <![CDATA[ */
-            var pageId = {{ page.id }};
-            {% set processedItemIds = [] %}
-            {% if page.layout is iterable and page.layout|length > 0 %}
-                var widgetData = {{ page.layout|json_encode|raw }};
-                {% for section in page.layout if section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
-                        {% for widget in section.widgets %}
-                            {% for item in page.contentItems if item.id == widget.id %}
-                                {% set processedItemIds = processedItemIds|merge([item.id]) %}
-                            {% endfor %}
-                        {% endfor %}
-                {% endfor %}
-            {% else %}
-                var widgetData = [
-                    {
-                        id: 'section1', stylingClasses: '', widgets: []
-                    }
-                ];
-            {% endif %}
-            var orphanData = [];
-            {% if processedItemIds|length < page.contentItems|length %}
-                {# there are elements which are not included in page layout information yet, so we append them at the end #}
-                {% for contentItem in page.contentItems if contentItem.id not in processedItemIds %}
-                    orphanData.push({{ contentItem.id }});
-                {% endfor %}
-            {% endif %}
-
-            var gridOptions = {
-                acceptWidgets: true,
-                alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-                animate: true,
-                placeholderText: '<img src="{{ asset('bundles/core/images/admin.png') }}" alt="Zikula" width="48" height="48" />',
-                resizable: {
-                    handles: 'e, w'
-                },
-                draggable: {
-                    cursor: 'move',
-                    scroll: true
-                }
-            };
-        /* ]]> */
-        </script>
-    {% endset %}
-    {{ pageAddAsset('footer', customScript) }}
 {% endblock %}
 {% block footer %}
     {{ parent() }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
-    {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.min.css'), 111) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/lodash/lodash.min.js'), 10) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js'), 100) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.min.js'), 111) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/vendor/gridstack.js/gridstack.jQueryUI.min.js'), 112) }}
-    {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:css/pageedit.css'), 130) }}
-    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.PageEditing.js'), 130) }}
+    {# TODO { pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }#}
 {% endblock %}
