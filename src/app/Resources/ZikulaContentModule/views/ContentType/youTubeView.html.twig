@@ -10,16 +10,16 @@
     {% else %}
         <div class="text-center">
             <p>
-                <a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} data-toggle="modal" data-target="#content{{ contentId }}Modal"><img src="https://img.youtube.com/vi/{{ videoId|e('html_attr') }}/hqdefault.jpg" alt="{% if text|default %}{{ text|striptags|e('html_attr') }}{% else %}{{ __('Video', 'zikula') }}{% endif %}" class="img-responsive" style="margin: 0 auto" /></a>
+                <a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} data-toggle="modal" data-target="#content{{ contentId }}Modal"><img src="https://img.youtube.com/vi/{{ videoId|e('html_attr') }}/hqdefault.jpg" alt="{% if text|default %}{{ text|striptags|e('html_attr') }}{% else %}{{ __('Video') }}{% endif %}" class="img-responsive" style="margin: 0 auto" /></a>
             </p>
             {% if text|default %}<p><small>{{ text|nl2br|safeHtml }}</small></p>{% endif %}
-            <p><a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} class="btn btn-default" data-toggle="modal" data-target="#content{{ contentId }}Modal"><i class="fa fa-play-circle-o fa-3x"></i><br />{{ __('Play video', 'zikula') }}</a></p>
+            <p><a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} class="btn btn-default" data-toggle="modal" data-target="#content{{ contentId }}Modal"><i class="fa fa-play-circle-o fa-3x"></i><br />{{ __('Play video') }}</a></p>
         </div>
         <div class="modal fade" id="content{{ contentId }}Modal" tabindex="-1" role="dialog"{% if text|default %} aria-labelledby="content{{ contentId }}ModalLabel"{% endif %} data-backdrop="false">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close', 'zikula') }}"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}"><span aria-hidden="true">&times;</span></button>
                         {% if text|default %}
                             <h4 class="modal-title" id="content{{ contentId }}ModalLabel">{{ text|striptags }}</h4>
                         {% endif %}
@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close', 'zikula') }}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
                     </div>
                 </div>
             </div>

@@ -16,6 +16,9 @@ msgstr ""
 msgid "$this->doAction($var); // just some code"
 msgstr "$this->doAction($var); // einfach etwas Code"
 
+msgid "%amount% page|%amount% pages"
+msgstr "%amount% Seite|%amount% Seiten"
+
 msgid "%field% set to <em>%value%</em>"
 msgstr "%field% auf <em>%value%</em> gesetzt"
 
@@ -187,11 +190,17 @@ msgstr "Neue Seite hinzufügen"
 msgid "Add a sub page to this page"
 msgstr "Unterseite zu dieser Seite hinzufügen"
 
+msgid "Add another section"
+msgstr "Anderen Bereich hinzufügen"
+
 msgid "Add quote text here..."
 msgstr "Zitat hier hinzufügen ..."
 
 msgid "Add root node"
 msgstr "Wurzelknoten hinzufügen"
+
+msgid "Add section"
+msgstr "Neuer Bereich"
 
 msgid "Add sub page"
 msgstr "Unterseite hinzufügen"
@@ -207,6 +216,9 @@ msgstr "Zusätzliche Felder"
 
 msgid "Additional search text"
 msgstr "Zusätzlicher Suchtext"
+
+msgid "Advanced elements for special and complex purposes"
+msgstr "Erweiterte Elemente für spezielle und komplexe Zwecke"
 
 msgid "All"
 msgstr "Alle"
@@ -262,11 +274,20 @@ msgstr "Autor Informationen"
 msgid "Autoplay the video when displayed"
 msgstr "Das Video bei der Anzeige automatisch abspielen"
 
+msgid "Available plugins"
+msgstr "Verfügbare Plugins"
+
+msgid "Back"
+msgstr "Zurück"
+
 msgid "Back to detail view"
 msgstr "Zurück zur Detailansicht"
 
 msgid "Back to history"
 msgstr "Zurück zur Historie"
+
+msgid "Back to last page"
+msgstr "Zurück zur letzten Seite"
 
 msgid "Back to overview"
 msgstr "Zurück zur Übersicht"
@@ -276,6 +297,9 @@ msgstr "Zurück zur Seitenansicht"
 
 msgid "Backend"
 msgstr "Backend"
+
+msgid "Basic"
+msgstr "Basis"
 
 msgid "Block"
 msgstr "Block"
@@ -288,6 +312,15 @@ msgstr "Anzuzeigender Block"
 
 msgid "Breadcrumb"
 msgstr "Breadcrumb"
+
+msgid "Bundle"
+msgstr "Bundle"
+
+msgid "By %user"
+msgstr "Von %user"
+
+msgid "Calculate route!"
+msgstr "Route berechnen!"
 
 msgid ""
 "Can contain HTML markup. Leave this field empty for disabling the popup "
@@ -341,6 +374,12 @@ msgstr "Die Startseite auswählen."
 msgid "Choose the state of new pages."
 msgstr "Den Zustand von neuen Seiten auswählen."
 
+msgid "Clear directions"
+msgstr "Wegbeschreibung löschen"
+
+msgid "Close"
+msgstr "Schließen"
+
 msgid "Code filter"
 msgstr "Code-Filter"
 
@@ -359,14 +398,31 @@ msgstr "Vergleiche Versionen von %entityTitle%"
 msgid "Complete list"
 msgstr "Komplette Liste"
 
+msgid "Complete pages list"
+msgstr "Komplette Seitenliste"
+
 msgid "Computer code"
 msgstr "Quelltext"
 
 msgid "Computer code lines"
 msgstr "Quelltextzeilen"
 
+msgid "Content"
+msgstr "Inhalt"
+
 msgid "Content Backend"
 msgstr "Content Backend"
+
+msgid ""
+"Content allows other bundles/modules to provide additional content elements. "
+"Moreover some modules introduce extra functions to plugins delivered with "
+"Content. The following list shows which plugins are available at your "
+"installation."
+msgstr ""
+"Content erlaubt es anderen Bundles/Modulen, zusätzliche Inhaltselemente "
+"bereitzustellen. Außerdem fügen einige Module zusätzliche Funktionen zu "
+"Plugins hinzu, die mit Content ausgeliefert werden. Die folgende Liste "
+"zeigt, welche Plugins in dieser Installation verfügbar sind."
 
 msgid ""
 "Content also offers functionality for versioning and managing translations."
@@ -513,6 +569,9 @@ msgstr "Beschreibung"
 msgid "Description to be shown below the map"
 msgstr "Beschreibung, die unter der Karte angezeigt wird"
 
+msgid "Destination address"
+msgstr "Zieladresse"
+
 msgid "Destination page"
 msgstr "Zielseite"
 
@@ -580,6 +639,9 @@ msgstr "Den Titel der Seite anzeigen"
 
 msgid "Display the streetview control"
 msgstr "Die Streetview-Steuerung anzeigen"
+
+msgid "Do not process hooks on this page"
+msgstr "Keine Hooks auf dieser Seite verarbeiten"
 
 msgid "Doctrine Exception"
 msgstr "Doctrine Fehler"
@@ -819,8 +881,20 @@ msgstr "Alle aufklappen"
 msgid "Expand all nodes"
 msgstr "Alle Knoten aufklappen"
 
+msgid "Expert"
+msgstr "Experte"
+
 msgid "Extended list"
 msgstr "Erweiterte Liste"
+
+msgid "Extended pages list"
+msgstr "Erweiterte Seitenliste"
+
+msgid "External"
+msgstr "Extern"
+
+msgid "External content, like Vimeo or YouTube videos, Slideshare, etc."
+msgstr "Externer Inhalt, wie Vimeo- oder YouTube-Videos, Slideshare, etc."
 
 msgid "Feed"
 msgstr "Feed"
@@ -834,6 +908,9 @@ msgstr "Filter"
 msgid "Filter (expert option)"
 msgstr "Filter (Expertenoption)"
 
+msgid "Forward"
+msgstr "Weiter"
+
 msgid "From 0 for the entire world to 21 for individual buildings."
 msgstr "Von 0 für die ganze Welt bis 21 für einzelne Gebäude."
 
@@ -843,11 +920,20 @@ msgstr "Frontend"
 msgid "Function arguments"
 msgstr "Funktionsargumente"
 
+msgid "Fundamental elements like text, image, heading, quote"
+msgstr "Grundlegende Elements wie Text, Bild, Überschrift, Zitat"
+
 msgid "Further properties"
 msgstr "Weitere Eigenschaften"
 
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
+
+msgid "Get directions from start address"
+msgstr "Wegbeschreibung von Startadresse"
+
+msgid "Get directions to this location"
+msgstr "Wegbeschreibung zu diesem Ort"
 
 msgid "Google map"
 msgstr "Google-Karte"
@@ -919,6 +1005,16 @@ msgid "Here you can manage all basic settings for this application."
 msgstr ""
 "Hier können alle Grundeinstellungen für diese Anwendung verwaltet werden."
 
+msgid ""
+"Here you manage the content of this page. You can add/edit/delete content as "
+"well as drag the content boxes around to get the layout right. Click on the "
+"arrow next to the title for the actions on that content item."
+msgstr ""
+"Hier kann der Inhalt dieser Seite verwaltet werden. Man kann Inhalt "
+"hinzufügen/bearbeiten/löschen und die Boxen verschieben, um das Layout "
+"anzupassen. Ein Klick auf den Pfeil neben dem Titel eines Inhaltselementes "
+"zeigt die dafür verfügbaren Aktionen."
+
 msgid "Hide them"
 msgstr "Verstecke sie"
 
@@ -927,6 +1023,9 @@ msgstr "Hierarchieansicht"
 
 msgid "History"
 msgstr "Historie"
+
+msgid "Home"
+msgstr "Start"
 
 msgid "Htm"
 msgstr "htm"
@@ -1006,8 +1105,14 @@ msgstr "Entitätsname in Routen ignorieren"
 msgid "Ignore first tree level in routes"
 msgstr "Erste Baumebene in Routen ignorieren"
 
+msgid "In"
+msgstr "Drin"
+
 msgid "In menu"
 msgstr "Im Menü"
+
+msgid "Inactive"
+msgstr "Inaktiv"
 
 msgid "Include feed text in addition to the title"
 msgstr "Feed-Text zusätzlich zum Titel einbinden"
@@ -1020,6 +1125,9 @@ msgstr "Überschriften aufnehmen bis zu Seitenebene"
 
 msgid "Include home as first breadcrumb"
 msgstr "Startseite als ersten Breadcrumb aufnehmen"
+
+msgid "Include page in menu"
+msgstr "Seite im Menü anzeigen"
 
 msgid "Include self as last breadcrumb"
 msgstr "Aktuelle Seite als letzten Breadcrumb aufnehmen"
@@ -1182,8 +1290,14 @@ msgstr "Neueste"
 msgid "No"
 msgstr "Nein"
 
+msgid "No categories found."
+msgstr "Keine Kategorien gefunden."
+
 msgid "No pages found."
 msgstr "Keine Seiten gefunden."
+
+msgid "No subpages found."
+msgstr "Keine Unterseiten gefunden."
 
 msgid "No such content found."
 msgstr "Keinen solchen Inhalt gefunden."
@@ -1250,6 +1364,15 @@ msgstr "Optionale Zeichenkette 2"
 
 msgid "Optional text"
 msgstr "Optionaler Text"
+
+msgid "Options"
+msgstr "Optionen"
+
+msgid "Out"
+msgstr "Draußen"
+
+msgid "Overview"
+msgstr "Übersicht"
 
 msgid "Page"
 msgstr "Seite"
@@ -1321,6 +1444,12 @@ msgstr "phtml"
 
 msgid "Pills"
 msgstr "Pills"
+
+msgid "Play video"
+msgstr "Video abspielen"
+
+msgid "Plugin"
+msgstr "Plugin"
 
 msgid "Predecessors"
 msgstr "Vorgänger"
@@ -1406,6 +1535,9 @@ msgstr "Fahrplan"
 msgid "Satellite"
 msgstr "Satellit"
 
+msgid "Save"
+msgstr "Speichern"
+
 msgid "Scope"
 msgstr "Sichtbarkeit"
 
@@ -1434,6 +1566,16 @@ msgstr ""
 msgid "Select"
 msgstr "Auswählen"
 
+msgid ""
+"Select a geographical position either by clicking on the map or writing the "
+"position (latitude and longitude) directly. You can drag the map with your "
+"mouse, and double-click to zoom and select position."
+msgstr ""
+"Wähle eine graphische Position durch Klicken auf der Karte oder direktes "
+"Eingeben der Position (Längen- und Breitengrad). Die Karte kann mit der Maus "
+"verschoben werden, mit einem Klick wird eine Position ausgewählt und mit "
+"einem Doppelklick wird der Zoom erhöht."
+
 msgid "Send private message to %userName%"
 msgstr "Schicke eine private Nachricht an %userName%"
 
@@ -1452,6 +1594,9 @@ msgstr "Auch Einträge von anderen Benutzern anzeigen"
 msgid "Show breadcrumbs for hierarchical pages."
 msgstr "Breadcrumbs für hierarchische Seiten anzeigen."
 
+msgid "Show directions"
+msgstr "Wegbeschreibung anzeigen"
+
 msgid "Show only own entries"
 msgstr "Nur eigene Einträge anzeigen"
 
@@ -1460,6 +1605,9 @@ msgstr "Verbundene Videos anzeigen"
 
 msgid "Show title"
 msgstr "Titel anzeigen"
+
+msgid "Show title on page"
+msgstr "Den Titel auf der Seite anzeigen"
 
 msgid "Show video in modal window"
 msgstr "Video in einem modalen Fenster anzeigen"
@@ -1585,6 +1733,9 @@ msgstr "Zustand"
 msgid "State of new pages"
 msgstr "Zustand von neuen Seiten"
 
+msgid "Street (optional), Location, Country (optional)"
+msgstr "Straße (optional), Ort, Land (optional)"
+
 msgid "Styling classes"
 msgstr "CSS-Klassen"
 
@@ -1599,6 +1750,9 @@ msgstr "Absenden"
 
 msgid "Submit and repeat"
 msgstr "Absenden und wiederholen"
+
+msgid "Subpages of %page%"
+msgstr "Unterseiten von %page%"
 
 msgid "Successors"
 msgstr "Nachfolger"
@@ -1650,6 +1804,9 @@ msgstr "Text, der im Popup-Fenster des Markers angezeigt wird"
 
 msgid "The amount of pages shown per page"
 msgstr "Die Anzahl von je Seite angezeigten Seiten"
+
+msgid "The available categories:"
+msgstr "Die verfügbaren Kategorien:"
 
 msgid "The count page views option"
 msgstr "Die Option zum Zählen von Seitenaufrufen"
@@ -1715,6 +1872,13 @@ msgstr ""
 "\">Seitenliste</a> erlaubt das Bearbeiten und Löschen dieser "
 "Einführungsseite. In den <a href=\"%adminSettingsUrl\">Einstellungen</a> "
 "kann das Contentmodul weiter angepasst werden."
+
+msgid ""
+"This block will only show the subpages of a Content page when that Content "
+"page is being displayed."
+msgstr ""
+"Dieser Block zeigt nur die Unterseiten einer Inhaltsseite, wenn diese Seite "
+"aktuell dargestellt wird."
 
 msgid "This is a new child node"
 msgstr "Dies ist ein neuer Kindknoten"
@@ -1807,6 +1971,9 @@ msgstr "Geändert von %user"
 msgid "Updated by %user on %date"
 msgstr "Geändert von %user am %date"
 
+msgid "Updated date"
+msgstr "Änderungsdatum"
+
 msgid "Updated on %date"
 msgstr "Geändert am %date"
 
@@ -1831,6 +1998,16 @@ msgstr "Nativen Filter verwenden"
 msgid "Use only pages activated for the menu"
 msgstr "Nur für das Menü aktivierte Seiten verwenden"
 
+msgid ""
+"Use this feature carefully! Some extensions do not work when displayed "
+"together with other ones. DO NOT create circular references, e.g., adding a "
+"Content page that displays itself ..."
+msgstr ""
+"Dieses Feature bitte vorsichtig einsetzen! Einige Erweiterungen "
+"funktionieren nicht, wenn sie zusammen mit anderen dargestellt werden. KEINE "
+"Zirkelbezüge erstellen, wie beispielsweise eine Inhaltsseite hinzufügen, die "
+"sich selbst aufruft ..."
+
 msgid "User"
 msgstr "Benutzer"
 
@@ -1846,6 +2023,9 @@ msgstr "Version %version%"
 msgid "Version data"
 msgstr "Versionsdaten"
 
+msgid "Video"
+msgstr "Video"
+
 msgid "Video description"
 msgstr "Videobeschreibung"
 
@@ -1854,6 +2034,9 @@ msgstr "Gelöschte Seiten anschauen"
 
 msgid "View detail page"
 msgstr "Detailseite anschauen"
+
+msgid "View full page"
+msgstr "Seite vollständig anzeigen"
 
 msgid "Views"
 msgstr "Aufrufe"
@@ -1869,6 +2052,9 @@ msgstr "Versionshistorie anschauen"
 
 msgid "Welcome to the content item section of the Content application."
 msgstr "Willkommen zum Bereich der Inhaltselemente der Content-Anwendung."
+
+msgid "Welcome to the contents for %sitename%"
+msgstr "Willkommen zu den Inhalten von %sitename%"
 
 msgid "Welcome to the page section of the Content application."
 msgstr "Willkommen zum Seitenbereich der Content-Anwendung."
@@ -1939,11 +2125,36 @@ msgid "Yes, unlimited"
 msgstr "Ja, unlimitiert"
 
 msgid ""
+"You can include/exclude the page in the menu. The page is only shown when it "
+"is also active."
+msgstr ""
+"Die Seite kann im Menü eingebunden/entfernt werden. Die Seite wird nur "
+"angezeigt, wenn diese auch aktiv ist."
+
+msgid ""
 "You can input a custom permalink for the page or let this field free to "
 "create one automatically."
 msgstr ""
 "Es kann entweder ein individueller Permalink für die Seite eingegeben oder "
 "dieses Feld freigelassen werden, um automatisch einen zu erstellen."
+
+msgid ""
+"You can set the content active/inactive as well as supply a publication date "
+"interval. A content element is only online if it is active and within the "
+"publication interval."
+msgstr ""
+"Der Inhalt kann als aktiv/inaktiv markiert werden. Außerdem kann ein "
+"Zeitraum zur Publikation angegeben werden. Ein Inhaltselement ist nur "
+"online, wenn es aktiv und innerhalb des Zeitraums ist."
+
+msgid ""
+"You can set the page active/inactive as well as supply a publication date "
+"interval. A page is only online if it is active and within the publication "
+"interval."
+msgstr ""
+"Die Seite kann als aktiv/inaktiv markiert werden. Außerdem kann ein Zeitraum "
+"für die Publikation angegeben werden. Eine Seite ist nur online, wenn sie "
+"aktiv und innerhalb des Zeitraums ist."
 
 msgid ""
 "You may enter any text which will be used during the site search to find "
@@ -1983,6 +2194,10 @@ msgstr ""
 "Zikula und Content bieten mächtige Werkzeuge zur Erstellung von Websites und "
 "Webapplikationen."
 
+msgid ""
+"Zikula blocks and content from third party modules like appointments, etc."
+msgstr "Zikula Blöcke und Inhalt von Drittmodulen wie Termine etc."
+
 msgid "Zikula homepage"
 msgstr "Zikula-Homepage"
 
@@ -2019,9 +2234,6 @@ msgid ""
 msgstr ""
 "wenn Überschriften eingebunden und nicht limitiert sind; 0 auswählen, um die "
 "Überschriften nur für die ausgewählte Seite einzubinden"
-
-msgid "if page isn't 'All pages'"
-msgstr "wenn Seite nicht 'Alle Seiten'"
 
 msgid "if subpages are included and not unlimited"
 msgstr "wenn Unterseiten eingebunden und nicht limitiert sind"
@@ -2065,14 +2277,26 @@ msgstr "neue Kopie"
 msgid "no title defined"
 msgstr "kein Titel definiert"
 
+msgid "on %date"
+msgstr "am %date"
+
+msgid "on %date by %user"
+msgstr "am %date von %user"
+
 msgid "only %group"
 msgstr "nur %group"
+
+msgid "only from %date"
+msgstr "nur ab %date"
 
 msgid "only logged in members"
 msgstr "nur angemeldete Mitglieder"
 
 msgid "only not logged in people"
 msgstr "nur unangemeldete Besucher"
+
+msgid "only until %date"
+msgstr "nur bis %date"
 
 msgid "pixels"
 msgstr "Pixel"
@@ -2097,6 +2321,9 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
+
+#~ msgid "if page isn't 'All pages'"
+#~ msgstr "wenn Seite nicht 'Alle Seiten'"
 
 #~ msgid ""
 #~ "Here you can customise the behaviour of creating permalinks for content "

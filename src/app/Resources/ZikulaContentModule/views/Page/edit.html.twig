@@ -87,10 +87,10 @@
             {% if not isCreate %}
                 {{ form_row(form.showTitle, {label: __('Show title on page')}) }}
                 {{ form_row(form.skipHookSubscribers, {label: __('Do not process hooks on this page')}) }}
-                {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.', 'zikula')}) }}
+                {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.')}) }}
                 {{ form_row(form.activeFrom) }}
                 {{ form_row(form.activeTo) }}
-                {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.', 'zikula')}) }}
+                {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.')}) }}
                 {{ form_row(form.stylingClasses) }}
                 <div class="hidden">
                     {{ form_row(form.versionData) }}

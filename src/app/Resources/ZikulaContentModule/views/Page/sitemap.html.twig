@@ -4,7 +4,7 @@
 {% block admin_page_icon 'sitemap' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-sitemap">
-        <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}, 'zikula') }}</h3>
+        <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}) }}</h3>
         {% if pages|length > 0 %}
             {{ include('@ZikulaContentModule/Page/sitemapInclude.html.twig') }}
         {% else %}

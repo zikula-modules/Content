@@ -1,6 +1,6 @@
 {# purpose of this template: pages list view #}
 {% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
-{% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ __('My pages') }}{% elseif routeArea == 'admin' %}{{ __('Pages list') }}{% elseif list == 'complete' %}{{ __('Complete pages list', 'zikula') }}{% elseif list == 'extended' %}{{ __('Extended pages list', 'zikula') }}{% elseif list == 'categories' %}{{ __('Categories list') }}{% else %}{{ __('Pages list') }}{% endif %}{% endblock %}
+{% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ __('My pages') }}{% elseif routeArea == 'admin' %}{{ __('Pages list') }}{% elseif list == 'complete' %}{{ __('Complete pages list') }}{% elseif list == 'extended' %}{{ __('Extended pages list') }}{% elseif list == 'categories' %}{{ __('Categories list') }}{% else %}{{ __('Pages list') }}{% endif %}{% endblock %}
 {% block admin_page_icon 'list-alt' %}
 {% block content %}
 {% if routeArea == 'admin' %}
@@ -73,7 +73,7 @@
                     <a href="{{ sort.inMenu.url }}" title="{{ __f('Sort by %s', {'%s': 'in menu'}) }}" class="{{ sort.inMenu.class }}">{{ __('In menu') }}</a>
                 </th>
                 <th id="hUpdatedDate" scope="col" class="text-left">
-                    <a href="{{ sort.updatedDate.url }}" title="{{ __f('Sort by %s', {'%s': 'updated date'}) }}" class="{{ sort.updatedDate.class }}">{{ __('Updated date', 'zikula') }}</a>
+                    <a href="{{ sort.updatedDate.url }}" title="{{ __f('Sort by %s', {'%s': 'updated date'}) }}" class="{{ sort.updatedDate.class }}">{{ __('Updated date') }}</a>
                 </th>
                 <th id="hCurrentVersion" scope="col" class="text-right">
                     <a href="{{ sort.currentVersion.url }}" title="{{ __f('Sort by %s', {'%s': 'current version'}) }}" class="{{ sort.currentVersion.class }}">{{ __('Current version') }}</a>
@@ -113,21 +113,21 @@
                 <td headers="hActive" class="text-center">
                     {% set itemId = page.getKey() %}
                     <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
-                        <i class="fa fa-check text-success{% if not page.active %} hidden{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('Active', 'zikula') }}</i>
-                        <i class="fa fa-times text-danger{% if page.active %} hidden{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Inactive', 'zikula') }}</i>
+                        <i class="fa fa-check text-success{% if not page.active %} hidden{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('Active') }}</i>
+                        <i class="fa fa-times text-danger{% if page.active %} hidden{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Inactive') }}</i>
                     </a>
                     <noscript><div id="noscriptActive{{ itemId }}">
                         {% if page.active %}
-                            <i class="fa fa-check text-success" title="{{ __('Yes') }}">{{ __('Active', 'zikula') }}</i>
+                            <i class="fa fa-check text-success" title="{{ __('Yes') }}">{{ __('Active') }}</i>
                         {% else %}
-                            <i class="fa fa-times text-danger" title="{{ __('No') }}"{{ __('Inactive', 'zikula') }}></i>
+                            <i class="fa fa-times text-danger" title="{{ __('No') }}"{{ __('Inactive') }}></i>
                         {% endif %}
                     </div></noscript>
                     {% if page.activeFrom is not empty %}
-                        <br />{{ __f('only from %date', {'%date': page.activeFrom|localizeddate('short', 'short')}, 'zikula') }}
+                        <br />{{ __f('only from %date', {'%date': page.activeFrom|localizeddate('short', 'short')}) }}
                     {% endif %}
                     {% if page.activeTo is not empty %}
-                        <br />{{ __f('only until %date', {'%date': page.activeTo|localizeddate('short', 'short')}, 'zikula') }}
+                        <br />{{ __f('only until %date', {'%date': page.activeTo|localizeddate('short', 'short')}) }}
                     {% endif %}
                 </td>
                 {#
@@ -145,23 +145,23 @@
                 <td headers="hInMenu" class="text-center">
                     {% set itemId = page.getKey() %}
                     <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
-                        <i class="fa fa-check text-success{% if not page.inMenu %} hidden{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('In', 'zikula') }}</i>
-                        <i class="fa fa-times text-danger{% if page.inMenu %} hidden{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Out', 'zikula') }}</i>
+                        <i class="fa fa-check text-success{% if not page.inMenu %} hidden{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('In') }}</i>
+                        <i class="fa fa-times text-danger{% if page.inMenu %} hidden{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Out') }}</i>
                     </a>
                     <noscript><div id="noscriptInMenu{{ itemId }}">
                         {% if page.inMenu %}
-                            <i class="fa fa-check text-success" title="{{ __('Yes') }}">{{ __('In', 'zikula') }}</i>
+                            <i class="fa fa-check text-success" title="{{ __('Yes') }}">{{ __('In') }}</i>
                         {% else %}
-                            <i class="fa fa-times text-danger" title="{{ __('No') }}">{{ __('Out', 'zikula') }}</i>
+                            <i class="fa fa-times text-danger" title="{{ __('No') }}">{{ __('Out') }}</i>
                         {% endif %}
                     </div></noscript>
                 </td>
                 <td headers="hCurrentVersion" class="text-left">
                     {% if page.updatedBy|default and page.updatedBy.uid > 0 %}
                         {% set profileLink = page.updatedBy.uid|profileLinkByUserId %}
-                        {{ __f('on %date by %user', {'%date': page.updatedDate|localizeddate('short', 'none'), '%user': profileLink}, 'zikula')|raw }}
+                        {{ __f('on %date by %user', {'%date': page.updatedDate|localizeddate('short', 'none'), '%user': profileLink})|raw }}
                     {% else %}
-                        {{ __f('on %date', {'%date': page.updatedDate|localizeddate('short', 'none')}, 'zikula')|raw }}
+                        {{ __f('on %date', {'%date': page.updatedDate|localizeddate('short', 'none')})|raw }}
                     {% endif %}
                 </td>
                 <td headers="hCurrentVersion" class="text-right">
@@ -222,12 +222,12 @@
                     {% for page in items %}
                         <h2><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a></h2>
                         {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
-                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page', 'zikula') }}</a></p>
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page') }}</a></p>
                     {% endfor %}
                 {% elseif list == 'complete' %}
                     {% for page in items %}
                         {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
-                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page', 'zikula') }}</a></p>
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page') }}</a></p>
                         {% if not loop.last %}
                             <hr />
                         {% endif %}
@@ -240,7 +240,7 @@
                 <p>{{ __('No pages found.') }}</p>
             {% endif %}
         {% elseif list == 'categories' %}
-            <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}, 'zikula') }}</h3>
+            <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}) }}</h3>
             {% set categoryInfoPerRegistry = zikulacontentmodule_categoryInfo() %}
             {% if categoryInfoPerRegistry|length > 0 %}
                 {% for registryLabel, categoryInfo in categoryInfoPerRegistry %}
