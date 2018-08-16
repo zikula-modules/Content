@@ -18,5 +18,16 @@ use Zikula\ContentModule\Helper\Base\AbstractViewHelper;
  */
 class ViewHelper extends AbstractViewHelper
 {
-    // feel free to add your own convenience methods here
+    /**
+     * @inheritDoc
+     */
+    protected function determineExtension($type, $func)
+    {
+        $format = $this->requestStack->getCurrentRequest()->getRequestFormat();
+        if (in_array($format, ['htm', 'phtml', 'shtml'])) {
+            $this->requestStack->getCurrentRequest()->setRequestFormat('html');
+        }
+
+        return parent::determineExtension($type, $func);
+    }
 }

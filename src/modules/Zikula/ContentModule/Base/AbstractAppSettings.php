@@ -123,6 +123,40 @@ abstract class AbstractAppSettings
     protected $enableOptionalText = false;
     
     /**
+     * This removes the module name (defaults to "content") from permalinks.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $ignoreBundleNameInRoutes
+     */
+    protected $ignoreBundleNameInRoutes = true;
+    
+    /**
+     * This removes the primary entity name ("page") from permalinks.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $ignoreEntityNameInRoutes
+     */
+    protected $ignoreEntityNameInRoutes = true;
+    
+    /**
+     * This removes the first tree level of pages from permalinks of pages in greater levels.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $ignoreFirstTreeLevelInRoutes
+     */
+    protected $ignoreFirstTreeLevelInRoutes = true;
+    
+    /**
+     * @Assert\NotBlank()
+     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="permalinkSuffix", multiple=false)
+     * @var string $permalinkSuffix
+     */
+    protected $permalinkSuffix = 'none';
+    
+    /**
      * The amount of pages shown per page
      *
      * @Assert\Type(type="integer")
@@ -439,6 +473,102 @@ abstract class AbstractAppSettings
     }
     
     /**
+     * Returns the ignore bundle name in routes.
+     *
+     * @return boolean
+     */
+    public function getIgnoreBundleNameInRoutes()
+    {
+        return $this->ignoreBundleNameInRoutes;
+    }
+    
+    /**
+     * Sets the ignore bundle name in routes.
+     *
+     * @param boolean $ignoreBundleNameInRoutes
+     *
+     * @return void
+     */
+    public function setIgnoreBundleNameInRoutes($ignoreBundleNameInRoutes)
+    {
+        if (boolval($this->ignoreBundleNameInRoutes) !== boolval($ignoreBundleNameInRoutes)) {
+            $this->ignoreBundleNameInRoutes = boolval($ignoreBundleNameInRoutes);
+        }
+    }
+    
+    /**
+     * Returns the ignore entity name in routes.
+     *
+     * @return boolean
+     */
+    public function getIgnoreEntityNameInRoutes()
+    {
+        return $this->ignoreEntityNameInRoutes;
+    }
+    
+    /**
+     * Sets the ignore entity name in routes.
+     *
+     * @param boolean $ignoreEntityNameInRoutes
+     *
+     * @return void
+     */
+    public function setIgnoreEntityNameInRoutes($ignoreEntityNameInRoutes)
+    {
+        if (boolval($this->ignoreEntityNameInRoutes) !== boolval($ignoreEntityNameInRoutes)) {
+            $this->ignoreEntityNameInRoutes = boolval($ignoreEntityNameInRoutes);
+        }
+    }
+    
+    /**
+     * Returns the ignore first tree level in routes.
+     *
+     * @return boolean
+     */
+    public function getIgnoreFirstTreeLevelInRoutes()
+    {
+        return $this->ignoreFirstTreeLevelInRoutes;
+    }
+    
+    /**
+     * Sets the ignore first tree level in routes.
+     *
+     * @param boolean $ignoreFirstTreeLevelInRoutes
+     *
+     * @return void
+     */
+    public function setIgnoreFirstTreeLevelInRoutes($ignoreFirstTreeLevelInRoutes)
+    {
+        if (boolval($this->ignoreFirstTreeLevelInRoutes) !== boolval($ignoreFirstTreeLevelInRoutes)) {
+            $this->ignoreFirstTreeLevelInRoutes = boolval($ignoreFirstTreeLevelInRoutes);
+        }
+    }
+    
+    /**
+     * Returns the permalink suffix.
+     *
+     * @return string
+     */
+    public function getPermalinkSuffix()
+    {
+        return $this->permalinkSuffix;
+    }
+    
+    /**
+     * Sets the permalink suffix.
+     *
+     * @param string $permalinkSuffix
+     *
+     * @return void
+     */
+    public function setPermalinkSuffix($permalinkSuffix)
+    {
+        if ($this->permalinkSuffix !== $permalinkSuffix) {
+            $this->permalinkSuffix = isset($permalinkSuffix) ? $permalinkSuffix : '';
+        }
+    }
+    
+    /**
      * Returns the page entries per page.
      *
      * @return integer
@@ -575,6 +705,18 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['enableOptionalText'])) {
             $this->setEnableOptionalText($moduleVars['enableOptionalText']);
         }
+        if (isset($moduleVars['ignoreBundleNameInRoutes'])) {
+            $this->setIgnoreBundleNameInRoutes($moduleVars['ignoreBundleNameInRoutes']);
+        }
+        if (isset($moduleVars['ignoreEntityNameInRoutes'])) {
+            $this->setIgnoreEntityNameInRoutes($moduleVars['ignoreEntityNameInRoutes']);
+        }
+        if (isset($moduleVars['ignoreFirstTreeLevelInRoutes'])) {
+            $this->setIgnoreFirstTreeLevelInRoutes($moduleVars['ignoreFirstTreeLevelInRoutes']);
+        }
+        if (isset($moduleVars['permalinkSuffix'])) {
+            $this->setPermalinkSuffix($moduleVars['permalinkSuffix']);
+        }
         if (isset($moduleVars['pageEntriesPerPage'])) {
             $this->setPageEntriesPerPage($moduleVars['pageEntriesPerPage']);
         }
@@ -605,6 +747,10 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'enableOptionalString1', $this->getEnableOptionalString1());
         $this->variableApi->set('ZikulaContentModule', 'enableOptionalString2', $this->getEnableOptionalString2());
         $this->variableApi->set('ZikulaContentModule', 'enableOptionalText', $this->getEnableOptionalText());
+        $this->variableApi->set('ZikulaContentModule', 'ignoreBundleNameInRoutes', $this->getIgnoreBundleNameInRoutes());
+        $this->variableApi->set('ZikulaContentModule', 'ignoreEntityNameInRoutes', $this->getIgnoreEntityNameInRoutes());
+        $this->variableApi->set('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', $this->getIgnoreFirstTreeLevelInRoutes());
+        $this->variableApi->set('ZikulaContentModule', 'permalinkSuffix', $this->getPermalinkSuffix());
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
         $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());

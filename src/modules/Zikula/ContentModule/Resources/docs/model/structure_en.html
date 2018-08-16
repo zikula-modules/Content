@@ -1465,9 +1465,111 @@
         </tbody>
     </table>
 </div>
+<h3><i class="fa fa-server"></i> Permalinks</h3>
+<p>Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.</p>
+<p>Sort value: 4</p>
+<p>Composite: <i class="fa fa-times"></i>
+</p>
+<h4><i class="fa fa-bars"></i> Fields</h4>
+<div class="table-responsive">
+    <table class="table-striped table-bordered table-hover table-condensed">
+        <colgroup>
+            <col id="cVariablesPermalinksFieldName" />
+            <col id="cVariablesPermalinksFieldType" />
+            <col id="cVariablesPermalinksFieldMandatory" />
+            <col id="cVariablesPermalinksFieldDefault" />
+            <col id="cVariablesPermalinksFieldDisplayType" />
+            <col id="cVariablesPermalinksFieldConstraints" />
+            <col id="cVariablesPermalinksFieldRemarks" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th id="hVariablesPermalinksFieldName" scope="col">Name</th>
+                <th id="hVariablesPermalinksFieldType" scope="col">Type</th>
+                <th id="hVariablesPermalinksFieldMandatory" scope="col">Mandatory</th>
+                <th id="hVariablesPermalinksFieldDefault" scope="col">Default value</th>
+                <th id="hVariablesPermalinksFieldDisplayType" scope="col">Display</th>
+                <th id="hVariablesPermalinksFieldConstraints" scope="col">Constraints</th>
+                <th id="hVariablesPermalinksFieldRemarks" scope="col">Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th id="hVariablesPermalinksFieldIgnoreBundleNameInRoutes" scope="row" headers="hVariablesPermalinksFieldName">Ignore bundle name in routes</th>
+                <td headers="hVariablesPermalinksFieldIgnoreBundleNameInRoutes hVariablesPermalinksFieldType">Boolean</td>
+                <td headers="hVariablesPermalinksFieldIgnoreBundleNameInRoutes hVariablesPermalinksFieldMandatory">false</td>
+                <td headers="hVariablesPermalinksFieldIgnoreBundleNameInRoutes hVariablesPermalinksFieldDefault">true</td>
+                <td headers="hVariablesPermalinksFieldIgnoreBundleNameInRoutes hVariablesPermalinksFieldDisplayType">ALL</td>
+                <td headers="hVariablesPermalinksFieldIgnoreBundleNameInRoutes hVariablesPermalinksFieldConstraints">
+                    <ul>
+                    </ul>
+                </td>
+                <td headers="hVariablesPermalinksFieldIgnoreBundleNameInRoutes hVariablesPermalinksFieldRemarks">
+                    <ul>
+                        <li>This removes the module name (defaults to "content") from permalinks. </li>
+                        <li>This field is not unique and allows no null values.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesPermalinksFieldIgnoreEntityNameInRoutes" scope="row" headers="hVariablesPermalinksFieldName">Ignore entity name in routes</th>
+                <td headers="hVariablesPermalinksFieldIgnoreEntityNameInRoutes hVariablesPermalinksFieldType">Boolean</td>
+                <td headers="hVariablesPermalinksFieldIgnoreEntityNameInRoutes hVariablesPermalinksFieldMandatory">false</td>
+                <td headers="hVariablesPermalinksFieldIgnoreEntityNameInRoutes hVariablesPermalinksFieldDefault">true</td>
+                <td headers="hVariablesPermalinksFieldIgnoreEntityNameInRoutes hVariablesPermalinksFieldDisplayType">ALL</td>
+                <td headers="hVariablesPermalinksFieldIgnoreEntityNameInRoutes hVariablesPermalinksFieldConstraints">
+                    <ul>
+                    </ul>
+                </td>
+                <td headers="hVariablesPermalinksFieldIgnoreEntityNameInRoutes hVariablesPermalinksFieldRemarks">
+                    <ul>
+                        <li>This removes the primary entity name ("page") from permalinks. </li>
+                        <li>This field is not unique and allows no null values.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesPermalinksFieldIgnoreFirstTreeLevelInRoutes" scope="row" headers="hVariablesPermalinksFieldName">Ignore first tree level in routes</th>
+                <td headers="hVariablesPermalinksFieldIgnoreFirstTreeLevelInRoutes hVariablesPermalinksFieldType">Boolean</td>
+                <td headers="hVariablesPermalinksFieldIgnoreFirstTreeLevelInRoutes hVariablesPermalinksFieldMandatory">false</td>
+                <td headers="hVariablesPermalinksFieldIgnoreFirstTreeLevelInRoutes hVariablesPermalinksFieldDefault">true</td>
+                <td headers="hVariablesPermalinksFieldIgnoreFirstTreeLevelInRoutes hVariablesPermalinksFieldDisplayType">ALL</td>
+                <td headers="hVariablesPermalinksFieldIgnoreFirstTreeLevelInRoutes hVariablesPermalinksFieldConstraints">
+                    <ul>
+                    </ul>
+                </td>
+                <td headers="hVariablesPermalinksFieldIgnoreFirstTreeLevelInRoutes hVariablesPermalinksFieldRemarks">
+                    <ul>
+                        <li>This removes the first tree level of pages from permalinks of pages in greater levels. </li>
+                        <li>This field is not unique and allows no null values.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesPermalinksFieldPermalinkSuffix" scope="row" headers="hVariablesPermalinksFieldName">Permalink suffix</th>
+                <td headers="hVariablesPermalinksFieldPermalinkSuffix hVariablesPermalinksFieldType">List</td>
+                <td headers="hVariablesPermalinksFieldPermalinkSuffix hVariablesPermalinksFieldMandatory">true</td>
+                <td headers="hVariablesPermalinksFieldPermalinkSuffix hVariablesPermalinksFieldDefault">none</td>
+                <td headers="hVariablesPermalinksFieldPermalinkSuffix hVariablesPermalinksFieldDisplayType">ALL</td>
+                <td headers="hVariablesPermalinksFieldPermalinkSuffix hVariablesPermalinksFieldConstraints">
+                    <ul>
+                        <li>Has a length of 10 chars.</li>
+                    </ul>
+                </td>
+                <td headers="hVariablesPermalinksFieldPermalinkSuffix hVariablesPermalinksFieldRemarks">
+                    <ul>
+                        <li>This field is not unique and allows no null values.</li>
+                        <li>The list is represented by a single-valued dropdown list.</li>
+                        <li>Available entries: <ul><li>Nosuffix (none)</li><li>Html (null)</li><li>Htm (null)</li><li>Phtml (null)</li><li>Shtml (null)</li></ul></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <h3><i class="fa fa-server"></i> List views</h3>
 <p>Here you can configure parameters for list views.</p>
-<p>Sort value: 4</p>
+<p>Sort value: 5</p>
 <p>Composite: <i class="fa fa-times"></i>
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
@@ -1551,7 +1653,7 @@
 </div>
 <h3><i class="fa fa-server"></i> Integration</h3>
 <p>These options allow you to configure integration aspects.</p>
-<p>Sort value: 5</p>
+<p>Sort value: 6</p>
 <p>Composite: <i class="fa fa-times"></i>
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>

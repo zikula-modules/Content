@@ -16,6 +16,7 @@ application "Content" {
     generatePdfSupport true
     displayActionsStyle BUTTON_GROUP
     skipFiles "
+        AppSettings.php,
         Block/Form/Type/ItemBlockType.php,
         Block/Form/Type/ItemListBlockType.php,
         Block/ItemListBlock.php,
@@ -33,7 +34,9 @@ application "Content" {
         Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
         Helper/SearchHelper.php,
+        Helper/ViewHelper.php,
         Menu/MenuBuilder.php,
+        Resources/config/routing.yml,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
         Resources/views/Block/itemlist_contentItem_display.html.twig,
         Resources/views/Block/itemlist_page_display_description.html.twig,
@@ -41,6 +44,7 @@ application "Content" {
     "
     markFiles "
         composer.json,
+        Resources/config/appSettings.yml,
         Resources/config/entityFactory.yml,
         Resources/config/forms.yml,
         Resources/config/helpers.yml,
@@ -283,6 +287,39 @@ application "Content" {
                     documentation "If you need an additional text for each page you can enable an optional field."
                     defaultValue "false"
                     mandatory false
+                }
+            }
+        },
+        varContainer "Permalinks" {
+            documentation "Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed."
+            sortOrder 4
+            fields {
+                boolean "ignoreBundleNameInRoutes" {
+                    documentation "This removes the module name (defaults to \"content\") from permalinks."
+                    defaultValue "true"
+                    mandatory false
+                },
+                boolean "ignoreEntityNameInRoutes" {
+                    documentation "This removes the primary entity name (\"page\") from permalinks."
+                    defaultValue "true"
+                    mandatory false
+                },
+                boolean "ignoreFirstTreeLevelInRoutes" {
+                    documentation "This removes the first tree level of pages from permalinks of pages in greater levels."
+                    defaultValue "true"
+                    mandatory false
+                },
+                list "permalinkSuffix" {
+                    defaultValue "none"
+                    mandatory true
+                    length 10
+                    items {
+                        default listItem "no suffix" ( "none" ),
+                        listItem "html",
+                        listItem "htm",
+                        listItem "phtml",
+                        listItem "shtml"
+                    }
                 }
             }
         }
