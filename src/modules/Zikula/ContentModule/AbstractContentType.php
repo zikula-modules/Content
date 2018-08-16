@@ -18,6 +18,9 @@ use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ThemeModule\Engine\Asset;
 
+/**
+ * Content type base class for convenient implementation.
+ */
 abstract class AbstractContentType implements ContentTypeInterface
 {
     /**

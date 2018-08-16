@@ -23,6 +23,9 @@ use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
+/**
+ * Content item editing form type implementation class.
+ */
 class ContentItemType extends AbstractType
 {
     use TranslatorTrait;

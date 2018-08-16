@@ -22,6 +22,9 @@ use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
+/**
+ * Content item moving and copying form type implementation class.
+ */
 class MoveCopyContentItemType extends AbstractType
 {
     use TranslatorTrait;
