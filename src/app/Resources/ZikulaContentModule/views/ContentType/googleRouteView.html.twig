@@ -1,4 +1,4 @@
-<div class="content-googleroute row hidden" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ latitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ __('Destination address') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
+<div class="content-googleroute row hidden" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ latitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ __('Destination address', 'zikula') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
     <div class="col-sm-7">
         <h3>{{ topText }}</h3>
         <div class="form-group">
@@ -6,10 +6,10 @@
             <div class="input-group">
                 <input type="text" id="fromAddress{{ contentId }}" name="from" value="" maxlength="255" class="form-control" />
                 <span class="input-group-btn">
-                    <button type="button" id="startCalc{{ contentId }}" class="btn btn-default"><i class="fa fa-map-signs"></i> {{ __('Calculate route!') }}</button>
+                    <button type="button" id="startCalc{{ contentId }}" class="btn btn-default"><i class="fa fa-map-signs"></i> {{ __('Calculate route!', 'zikula') }}</button>
                 </span>
             </div>
-            <small class="help-block">{{ __('Street (optional), Location, Country (optional)') }}</small>
+            <small class="help-block">{{ __('Street (optional), Location, Country (optional)', 'zikula') }}</small>
         </div>
         <br /><br />
         <div id="map{{ contentId }}" class="map" style="width: 100%; height: {{ height }}px"></div>
