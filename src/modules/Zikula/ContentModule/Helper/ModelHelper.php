@@ -31,6 +31,41 @@ class ModelHelper extends AbstractModelHelper
     }
 
     /**
+     * Duplicates all translations of a given page.
+     *
+     * @param integer $oldPageId
+     * @param integer $newPageId
+     * @param string  $titleSuffix
+     */
+    public function clonePageTranslations($oldPageId, $newPageId, $titleSuffix)
+    {
+        $entityManager = $this->entityFactory->getObjectManager();
+        $translationRepository = $entityManager->getRepository('Zikula\ContentModule\Entity\PageTranslationEntity');
+
+        // first remove translations which were cloned above
+        $translations = $translationRepository->findBy(['foreignKey' => $newPageId]);
+        foreach ($translations as $translation) {
+            $entityManager->remove($translation);
+        }
+        $entityManager->flush();
+
+        // second clone all translations
+        $translations = $translationRepository->findBy(['foreignKey' => $oldPageId]);
+        $newTranslations = [];
+        foreach ($translations as $translation) {
+            $newTranslation = clone $translation;
+            $newTranslation->setForeignKey($newPageId);
+            if ('title' == $newTranslation->getField()) {
+                $newTranslation->setContent($newTranslation->getContent() . $titleSuffix);
+            } elseif ('slug' == $newTranslation->getField()) {
+                $newTranslation->setContent($newTranslation->getContent() . str_replace(' ', '-', $titleSuffix));
+            }
+            $entityManager->persist($newTranslation);
+        }
+        $entityManager->flush();
+    }
+
+    /**
      * Duplicates all translations of a given content item.
      *
      * @param integer $oldItemId

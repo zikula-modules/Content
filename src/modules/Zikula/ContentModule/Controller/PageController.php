@@ -464,6 +464,9 @@ class PageController extends AbstractPageController
             return $this->redirect($returnUrl);
         }
 
+        $modelHelper = $this->get('zikula_content_module.model_helper');
+        $modelHelper->clonePageTranslations($oldPage->getId(), $newPage->getId(), $titleSuffix);
+
         $layoutData = $newPage->getLayout();
         foreach ($oldPage->getContentItems() as $item) {
             $newItem = clone $item;
@@ -484,6 +487,8 @@ class PageController extends AbstractPageController
 
                 continue;
             }
+
+            $modelHelper->cloneContentTranslations($item->getId(), $newItem->getId());
 
             if ($newItem->supportsHookSubscribers()) {
                 // Let any ui hooks know that we have updated the content item

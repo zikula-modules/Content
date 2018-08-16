@@ -134,6 +134,16 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $newItem = clone $contentItem;
+
+        if ($newItem->supportsHookSubscribers()) {
+            $hookHelper = $this->get('zikula_content_module.hook_helper');
+            // Let any ui hooks perform additional validation actions
+            $validationErrors = $hookHelper->callValidationHooks($newItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
+            if (count($validationErrors) > 0) {
+                return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
+            }
+        }
+
         $page->addContentItems($newItem);
 
         $workflowHelper = $this->get('zikula_content_module.workflow_helper');
@@ -144,6 +154,11 @@ class ContentItemController extends AbstractContentItemController
 
         $modelHelper = $this->get('zikula_content_module.model_helper');
         $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
+
+        if ($newItem->supportsHookSubscribers()) {
+            // Let any ui hooks know that we have updated the content item
+            $hookHelper->callProcessHooks($newItem, UiHooksCategory::TYPE_PROCESS_EDIT);
+        }
 
         return $this->json(['id' => $newItem->getId(), 'message' => $this->__('Done! Content saved.')]);
     }
@@ -441,6 +456,16 @@ class ContentItemController extends AbstractContentItemController
                 }
             } elseif ('copy' == $operationType) {
                 $newItem = clone $contentItem;
+
+                if ($newItem->supportsHookSubscribers()) {
+                    $hookHelper = $this->get('zikula_content_module.hook_helper');
+                    // Let any ui hooks perform additional validation actions
+                    $validationErrors = $hookHelper->callValidationHooks($newItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
+                    if (count($validationErrors) > 0) {
+                        return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
+                    }
+                }
+
                 $destinationPage->addContentItems($newItem);
 
                 $success = $workflowHelper->executeAction($newItem, 'submit');
@@ -450,6 +475,11 @@ class ContentItemController extends AbstractContentItemController
 
                 $modelHelper = $this->get('zikula_content_module.model_helper');
                 $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
+
+                if ($newItem->supportsHookSubscribers()) {
+                    // Let any ui hooks know that we have updated the content item
+                    $hookHelper->callProcessHooks($newItem, UiHooksCategory::TYPE_PROCESS_EDIT);
+                }
             }
 
             return $this->json([
