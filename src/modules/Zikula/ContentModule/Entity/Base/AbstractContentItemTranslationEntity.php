@@ -12,6 +12,7 @@
 namespace Zikula\ContentModule\Entity\Base;
 
 use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Entity extension domain class storing content item translations.
@@ -20,4 +21,13 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
  */
 abstract class AbstractContentItemTranslationEntity extends AbstractTranslation
 {
+    /**
+     * Use integer instead of string for increased performance.
+     * @see https://github.com/Atlantic18/DoctrineExtensions/issues/1512
+     *
+     * @var integer $foreignKey
+     *
+     * @ORM\Column(name="foreign_key", type="integer")
+     */
+    protected $foreignKey;
 }

@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Entity\Base;
 
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
 
 /**
@@ -20,4 +21,13 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
  */
 abstract class AbstractPageTranslationEntity extends AbstractTranslation
 {
+    /**
+     * Use integer instead of string for increased performance.
+     * @see https://github.com/Atlantic18/DoctrineExtensions/issues/1512
+     *
+     * @var integer $foreignKey
+     *
+     * @ORM\Column(name="foreign_key", type="integer")
+     */
+    protected $foreignKey;
 }
