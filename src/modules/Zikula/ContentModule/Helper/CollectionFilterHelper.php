@@ -20,6 +20,18 @@ use Zikula\ContentModule\Helper\Base\AbstractCollectionFilterHelper;
 class CollectionFilterHelper extends AbstractCollectionFilterHelper
 {
     /**
+     * @var boolean
+     */
+    protected $ignoreFirstTreeLevelInRoutes;
+
+    /**
+     * @param boolean
+     */
+    public function setIgnoreFirstTreeLevelInRoutes($ignoreFirstTreeLevelInRoutes = true) {
+        $this->ignoreFirstTreeLevelInRoutes = $ignoreFirstTreeLevelInRoutes;
+    }
+
+    /**
      * @inheritDoc
      */
     protected function applyDefaultFiltersForPage(QueryBuilder $qb, array $parameters = [])
@@ -30,6 +42,9 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
 
         $qb->andWhere('tbl.active = 1');
+        if (true === $this->ignoreFirstTreeLevelInRoutes) {
+            $qb->andWhere('tbl.lvl > 0');
+        }
         if (in_array('tblContentItems', $qb->getAllAliases())) {
             $routeName = $this->requestStack->getCurrentRequest()->get('_route');
             if ('zikulacontentmodule_page_display' != $routeName) {
