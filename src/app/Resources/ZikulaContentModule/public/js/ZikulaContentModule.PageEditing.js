@@ -592,11 +592,6 @@ function contentPageInitWidgetMovingCopying(widget) {
  * Returns the actions for a widget.
  */
 function contentPageGetWidgetActions(widgetId) {
-    var translationState = jQuery('#translationState').data('enabled') == '1' ? '' : ' class="disabled"';
-
-    // TODO
-    translationState = ' class="disabled"';
-
     var actions = `
         <div class="dropdown">
             <a class="dropdown-toggle pull-right" title="${Translator.__('Actions')}" id="dropdownMenu${widgetId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -615,7 +610,6 @@ function contentPageGetWidgetActions(widgetId) {
                 <li class="dropdown-header">${Translator.__('Advanced')}</li>
                 <li><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
                 <li><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move/Copy')}</a></li>
-                <li${translationState}><a class="translate-item" title="${Translator.__('Translate this element')}"><i class="fa fa-fw fa-language"></i> ${Translator.__('Translate')}</a></li>
             </ul>
         </div>
     `;

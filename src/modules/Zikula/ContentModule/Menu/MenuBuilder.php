@@ -20,6 +20,11 @@ use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
 class MenuBuilder extends AbstractMenuBuilder
 {
     /**
+     * @var boolean
+     */
+    protected $multilingual;
+
+    /**
      * @inheritDoc
      */
     public function createItemActionsMenu(array $options = [])
@@ -90,11 +95,31 @@ class MenuBuilder extends AbstractMenuBuilder
             }
             $menu[$title]->setAttribute('icon', 'fa fa-files-o');
         }
+        if ($this->multilingual && $hasEditPermissions && $hasContentPermissions) {
+            $title = $this->__('Translate', 'zikulacontentmodule');
+            $menu->addChild($title, [
+                'route' => $routePrefix . $routeArea . 'translate',
+                'routeParameters' => $entity->createUrlArgs()
+            ]);
+            $menu[$title]->setLinkAttribute('title', $this->__('Translate this page', 'zikulacontentmodule'));
+            if ($context == 'display') {
+                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+            }
+            $menu[$title]->setAttribute('icon', 'fa fa-language');
+        }
 
         foreach ($reappendChildren as $item) {
             $menu->addChild($item);
         }
 
         return $menu;
+    }
+
+    /**
+     * @param boolean $multilingual
+     */
+    public function setMultilingual($multilingual = true)
+    {
+        $this->multilingual = $multilingual;
     }
 }

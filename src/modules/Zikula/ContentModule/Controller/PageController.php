@@ -528,7 +528,104 @@ class PageController extends AbstractPageController
 
         return $this->redirect($returnUrl);
     }
-    
+
+    /**
+     * Handles page translation.
+     *
+     * @Route("/admin/page/translate/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     * @Template("ZikulaContentModule:Page:translate.html.twig")
+     *
+     * @param Request $request Current request instance
+     * @param string $slug Slug of treated page instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be managed isn't found
+     */
+    public function adminTranslateAction(Request $request, $slug)
+    {
+        return $this->translateInternal($request, $slug, true);
+    }
+
+    /**
+     * Handles page translation.
+     *
+     * @Route("/page/translate/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     * @Template("ZikulaContentModule:Page:translate.html.twig")
+     *
+     * @param Request $request Current request instance
+     * @param string $slug Slug of treated page instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be managed isn't found
+     */
+    public function translateAction(Request $request, $slug)
+    {
+        return $this->translateInternal($request, $slug, false);
+    }
+
+    /**
+     * This method includes the common implementation code for adminTranslateAction() and translateAction().
+     *
+     * @param Request $request Current request instance
+     * @param string $slug Slug of treated page instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws NotFoundHttpException Thrown if page to be managed isn't found
+     */
+    protected function translateInternal(Request $request, $slug, $isAdmin = false)
+    {
+        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
+
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
+        if (!$permissionHelper->mayEdit($page)) {
+            throw new AccessDeniedException();
+        }
+        if (!$permissionHelper->mayManagePageContent($page)) {
+            throw new AccessDeniedException();
+        }
+
+        $routeArea = $isAdmin ? 'admin' : '';
+
+        // detect return url
+        $routePrefix = 'zikulacontentmodule_page_' . $routeArea;
+        $returnUrl = $this->get('router')->generate($routePrefix . 'view');
+        if ($request->headers->has('referer')) {
+            $currentReferer = $request->headers->get('referer');
+            if ($currentReferer != $request->getUri()) {
+                $returnUrl = $currentReferer;
+            }
+        }
+
+        // try to guarantee that only one person at a time can be editing this entity
+        $hasPageLockModule = $this->get('kernel')->isBundle('ZikulaPageLockModule');
+        if (true === $hasPageLockModule) {
+            $lockingApi = $this->get('zikula_pagelock_module.api.locking');
+            $lockName = 'ZikulaContentModulePageContent' . $page->getKey();
+
+            $lockingApi->addLock($lockName, $returnUrl);
+        }
+
+        return [
+            'routeArea' => $routeArea,
+            'page' => $page
+        ];
+    }
+
     /**
      * Displays sub pages of a given page.
      *

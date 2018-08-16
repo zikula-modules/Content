@@ -30,6 +30,7 @@ services:
             - '@zikula_content_module.entity_factory'
             - '@zikula_content_module.collection_filter_helper'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'countPageViews', false)"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"
         tags: ['twig.extension']
     zikula_content_module.form.type.content_item:
         class: Zikula\ContentModule\Form\Type\ContentItemType

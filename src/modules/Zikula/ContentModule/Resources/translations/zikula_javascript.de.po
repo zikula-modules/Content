@@ -104,7 +104,7 @@ msgid "Failed loading the data."
 msgstr "Fehler beim Laden der Daten."
 
 msgid "Invalid node id"
-msgstr "Ungültige Knoten-Id."
+msgstr "Ungültige Knoten-Id"
 
 msgid "Loading..."
 msgstr "Lade..."
@@ -156,9 +156,3 @@ msgstr "Erfolg"
 
 msgid "The start must be before the end."
 msgstr "Der Beginn muss vor dem Ende liegen."
-
-msgid "Translate"
-msgstr "Übersetzen"
-
-msgid "Translate this element"
-msgstr "Dieses Element übersetzen"

@@ -1920,6 +1920,12 @@ msgstr ""
 "Titel für die Reiter, getrennt durch Semikoli, z. B. \"Letzte Neuigkeiten;"
 "Kalender\"."
 
+msgid "Translate"
+msgstr "Übersetzen"
+
+msgid "Translate this page"
+msgstr "Diese Seite übersetzen"
+
 msgid "Trash"
 msgstr "Wegwerfen"
 

@@ -86,6 +86,11 @@ class CustomTwigExtension extends Twig_Extension
     protected $countPageViews;
 
     /**
+     * @var boolean
+     */
+    protected $ignoreFirstTreeLevel;
+
+    /**
      * CustomTwigExtension constructor.
      *
      * @param Connection                  $connection
@@ -99,6 +104,7 @@ class CustomTwigExtension extends Twig_Extension
      * @param EntityFactory               $entityFactory
      * @param CollectionFilterHelper      $collectionFilterHelper
      * @param boolean                     $countPageViews
+     * @param boolean                     $ignoreFirstTreeLevel
      */
     public function __construct(
         Connection $connection,
@@ -111,7 +117,8 @@ class CustomTwigExtension extends Twig_Extension
         CategoryRepositoryInterface $categoryRepository,
         EntityFactory $entityFactory,
         CollectionFilterHelper $collectionFilterHelper,
-        $countPageViews
+        $countPageViews = false,
+        $ignoreFirstTreeLevel = true
     ) {
         $this->databaseConnection = $connection;
         $this->requestStack = $requestStack;
@@ -124,6 +131,7 @@ class CustomTwigExtension extends Twig_Extension
         $this->entityFactory = $entityFactory;
         $this->collectionFilterHelper = $collectionFilterHelper;
         $this->countPageViews = $countPageViews;
+        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
     }
 
     /**
@@ -164,9 +172,9 @@ class CustomTwigExtension extends Twig_Extension
         $pages[] = $currentPage;
         while (null !== $currentPage['parent']) {
             $currentPage = $currentPage['parent'];
-            //if ($currentPage->getLvl() > 0) {
+            if (true !== $this->ignoreFirstTreeLevel || $currentPage->getLvl() > 0) {
                 array_unshift($pages, $currentPage);
-            //}
+            }
         }
 
         $output = '<ol class="breadcrumb">';
