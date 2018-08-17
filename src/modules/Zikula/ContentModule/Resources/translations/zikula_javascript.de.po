@@ -34,6 +34,9 @@ msgstr "Basis"
 msgid "Content item"
 msgstr "Inhaltselement"
 
+msgid "Copy source code into clipboard"
+msgstr "Quelltext in die Zwischenablage kopieren"
+
 msgid "Could not persist your change."
 msgstr "Die Änderung konnte nicht gespeichert werden."
 
@@ -81,6 +84,9 @@ msgstr "Soll dieser Knoten mitsamt aller Kindknoten wirklich gelöscht werden?"
 
 msgid "Do you really want to remove this node?"
 msgstr "Soll dieser Knoten wirklich gelöscht werden?"
+
+msgid "Done!"
+msgstr "Erledigt!"
 
 msgid "Done! Content saved!"
 msgstr "Erledigt! Inhalt gespeichert!"

@@ -674,15 +674,16 @@ class PageController extends AbstractPageController
         $form = $this->createForm(TranslateType::class, $formObject, $formOptions);
 
         if ($form->handleRequest($request)->isValid()) {
-            die('TEST');
             $selfRoute = $routePrefix . 'translate';
             // handle form data
             if ($isPageStep) {
-                if ($form->get('next')->isClicked() || $form->get('saveandquit')->isClicked()) {
+                if (in_array($form->getClickedButton()->getName(), ['next', 'saveandquit'])) {
+                    die('TEST');
                     // TODO update page translations
                 }
             } else {
                 if (in_array($form->getClickedButton()->getName(), ['prev', 'next', 'saveandquit'])) {
+                    die('TEST');
                     // TODO update content item translations
                 }
                 if ($form->get('prev')->isClicked()) {
