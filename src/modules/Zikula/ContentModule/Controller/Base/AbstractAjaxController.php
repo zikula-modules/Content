@@ -389,7 +389,9 @@ abstract class AbstractAjaxController extends AbstractController
                             $returnValue['result'] = 'failure';
                         } else {
                             if (in_array($objectType, ['page'])) {
-                                $returnValue['returnUrl'] = $this->get('router')->generate('zikulacontentmodule_' . strtolower($objectType) . '_edit', $childEntity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
+                                $needsArg = in_array($objectType, ['page']);
+                                $urlArgs = $needsArg ? $childEntity->createUrlArgs(true) : $childEntity->createUrlArgs();
+                                $returnValue['returnUrl'] = $this->get('router')->generate('zikulacontentmodule_' . strtolower($objectType) . '_edit', $urlArgs, UrlGeneratorInterface::ABSOLUTE_URL);
                             }
                         }
                     } catch (\Exception $exception) {

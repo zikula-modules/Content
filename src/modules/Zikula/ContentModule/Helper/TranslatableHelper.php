@@ -45,6 +45,37 @@ class TranslatableHelper extends AbstractTranslatableHelper
             return $result;
         }
 
+        // reorder content items by page layout data
+        $layoutData = $page->getLayout();
+        $processedItemIds = [];
+        if (is_array($layoutData) && count($layoutData) > 0) {
+            $pageContentItemsOrdered = [];
+            foreach ($layoutData as $sectionKey => $section) {
+                if (!isset($section['widgets']) || !is_array($section['widgets']) || !count($section['widgets'])) {
+                    continue;
+                }
+                foreach ($section['widgets'] as $widgetKey => $widget) {
+                    foreach ($pageContentItems as $item) {
+                        if ($widget['id'] != $item->getId()) {
+                            continue;
+                        }
+                        $pageContentItemsOrdered[] = $item;
+                        $processedItemIds[] = $widget['id'];
+                        break;
+                    }
+                }
+            }
+            if (count($processedItemIds) < count($pageContentItemsOrdered)) {
+                foreach ($pageContentItems as $item) {
+                    if (in_array($item->getId(), $processedItemIds)) {
+                        continue;
+                    }
+                    $pageContentItemsOrdered[] = $item;
+                }
+            }
+            $pageContentItems = $pageContentItemsOrdered;
+        }
+
         $contentItems = [];
         foreach ($pageContentItems as $item) {
             $contentItems[] = $this->displayHelper->initContentType($item);

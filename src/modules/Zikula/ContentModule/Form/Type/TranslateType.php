@@ -82,7 +82,11 @@ class TranslateType extends AbstractType
         $supportedLanguages = $this->translatableHelper->getSupportedLanguages('page');
         if (is_array($supportedLanguages) && count($supportedLanguages) > 1) {
             $currentLanguage = $this->translatableHelper->getCurrentLanguage();
-            $translatableFields = $this->translatableHelper->getTranslatableFields('page');
+            if ('page' == $options['mode']) {
+                $translatableFields = $this->translatableHelper->getTranslatableFields('page');
+            } elseif ('item' == $options['mode']) {
+                $translatableFields = ['additionalSearchText'];
+            }
             $mandatoryFields = $this->translatableHelper->getMandatoryFields('page');
             foreach ($supportedLanguages as $language) {
                 if ($language == $currentLanguage) {
@@ -183,10 +187,6 @@ class TranslateType extends AbstractType
      */
     public function addItemFields(FormBuilderInterface $builder, array $options = [])
     {
-        // TODO TEST
-        $builder->add('text', TextType::class, ['required' => false, 'mapped'=>false]);
-        $builder->add('anchorName', TextType::class, ['required' => false, 'mapped'=>false]);
-
         $builder->add('additionalSearchText', TextType::class, [
             'label' => $this->__('Additional search text') . ':',
             'empty_data' => '',

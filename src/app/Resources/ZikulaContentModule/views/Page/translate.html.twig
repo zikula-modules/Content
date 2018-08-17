@@ -135,14 +135,13 @@
                                         {{ form_row(attribute(form, 'translations' ~ language)) }}
                                     {% endif %}
                                 {% else %}
-                                    <p>TODO content type fields</p>
                                     {% if language == app.request.locale %}
-                                        {#% if form.contentData is defined %#}
-                                            {#{ include(contentType.translationEditTemplatePath, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }#}
-                                            {{ include(contentType.translationEditTemplatePath, {form: form}, with_context = false, ignore_missing = true) }}
-                                        {#% endif %#}
+                                        {% if form.contentData is defined %}
+                                            {{ include(contentType.editTemplatePath, {form: form.contentData|default(), context: constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION')}, with_context = false, ignore_missing = true) }}
+                                        {% endif %}
                                         {{ form_row(form.additionalSearchText) }}
                                     {% else %}
+                                    <p>TODO content type translation fields</p>
                                         {{ form_row(attribute(form, 'translations' ~ language)) }}
                                     {% endif %}
                                 {% endif %}

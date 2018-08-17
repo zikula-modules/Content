@@ -30,7 +30,7 @@ abstract class AbstractContentItemTranslationEntity extends AbstractTranslation
      * @ORM\Column(name="foreign_key", type="integer")
      */
     protected $foreignKey;
-
+    
     /**
      * Clone interceptor implementation.
      * Performs a quite simple shallow copy.
@@ -46,7 +46,7 @@ abstract class AbstractContentItemTranslationEntity extends AbstractTranslation
         if (!$this->id) {
             return;
         }
-
+    
         // unset identifier
         $this->id = 0;
     }

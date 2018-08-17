@@ -497,18 +497,20 @@ class PageController extends AbstractPageController
                 $hookHelper->callProcessHooks($newItem, UiHooksCategory::TYPE_PROCESS_EDIT);
             }
 
-            $oldItemId = $item->getId();
-            $newItemId = $newItem->getId();
-            foreach ($layoutData as $sectionKey => $section) {
-                if (!isset($section['widgets']) || !is_array($section['widgets']) || !count($section['widgets'])) {
-                    continue;
-                }
-                foreach ($section['widgets'] as $widgetKey => $widget) {
-                    if ($widget['id'] != $oldItemId) {
+            if (is_array($layoutData) && count($layoutData) > 0) {
+                $oldItemId = $item->getId();
+                $newItemId = $newItem->getId();
+                foreach ($layoutData as $sectionKey => $section) {
+                    if (!isset($section['widgets']) || !is_array($section['widgets']) || !count($section['widgets'])) {
                         continue;
                     }
-                    $layoutData[$sectionKey]['widgets'][$widgetKey]['id'] = $newItemId;
-                    break 2;
+                    foreach ($section['widgets'] as $widgetKey => $widget) {
+                        if ($widget['id'] != $oldItemId) {
+                            continue;
+                        }
+                        $layoutData[$sectionKey]['widgets'][$widgetKey]['id'] = $newItemId;
+                        break 2;
+                    }
                 }
             }
         }
@@ -638,7 +640,6 @@ class PageController extends AbstractPageController
 
         $isPageStep = null === $contentItem;
         $currentStep = 1;
-        // TODO consider reordering by page layout data
         $translationInfo = $translatableHelper->getTranslationInfo($page, $contentItem);
 
         $formObject = $isPageStep ? $page : $contentItem;
@@ -670,12 +671,12 @@ class PageController extends AbstractPageController
                 $currentStep++;
                 break;
             }
-/** TODO content
+
             $editFormClass = $contentType->getEditFormClass();
             if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                $form->add('contentData', $editFormClass, $contentType->getEditFormOptions());
+                $form->add('contentData', $editFormClass, $contentType->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION));
             }
-*/
+
             $displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_TRANSLATION);
         }
 
