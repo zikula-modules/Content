@@ -35,6 +35,7 @@ application "Content" {
         Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
         Helper/SearchHelper.php,
+        Helper/TranslatableHelper.php,
         Helper/ViewHelper.php,
         Menu/MenuBuilder.php,
         Resources/config/routing.yml,

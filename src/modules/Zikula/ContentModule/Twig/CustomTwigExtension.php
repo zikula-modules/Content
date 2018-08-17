@@ -17,6 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
+use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
@@ -222,7 +223,7 @@ class CustomTwigExtension extends Twig_Extension
     {
         $contentElements = [];
         foreach ($page->getContentItems() as $contentItem) {
-            $contentElements[$contentItem->getId()] = $this->displayHelper->getDetailsForDisplayView($contentItem);
+            $contentElements[$contentItem->getId()] = $this->displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_VIEW);
         }
 
         return $contentElements;

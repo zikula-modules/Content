@@ -112,6 +112,7 @@ New features:
 - Added owner permission support to allow non-admin users to manage their own pages.
 - Custom (and multiple) CSS classes can now be used for pages, page sections and single content elements.
 - Permalink settings for removing unwanted URL parts.
+- Added no cookie option for YouTube videos.
 
 Deprecations:
 - Removed the ability to register a page var for breadcrumbs in favour of a dedicated module for this purpose. There is still a Twig function for retrieving or displaying a page hierarchy though.

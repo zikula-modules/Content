@@ -72,6 +72,10 @@ class YouTubeType extends AbstractType
                 ],
                 'expanded' => true
             ])
+            ->add('noCookie', CheckboxType::class, [
+                'label' => $this->__('Extended privacy mode') . ':',
+                'required' => false
+            ])
             ->add('showRelated', CheckboxType::class, [
                 'label' => $this->__('Show related videos') . ':',
                 'required' => false
