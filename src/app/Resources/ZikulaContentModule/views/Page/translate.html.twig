@@ -32,52 +32,49 @@
                     <label for="sourceLanguage" class="col-sm-6 control-label">{{ __('Switch source language:') }}</label>
                     <div class="col-sm-6">
                         <select id="sourceLanguage" class="form-control">
-                            {% for language in supportedLanguages %}
+                            {% for language in localesWithExistingData %}
                                 <option value="{{ language }}"{{ language == app.request.locale ? ' selected="selected"' : '' }}>{{ language|languageName|safeHtml }}</option>
                             {% endfor %}
                         </select>
-                        <small>TODO: show only languages with existing content</small>
                     </div>
                 </div>
             </div>
         </div>
         <br />
-        <fieldset id="contentTranslateSource">
-            <legend>{{ __('Source content') }}</legend>
-            {% for language in supportedLanguages %}
-                <div id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
-                    {% if currentStep == 1 %}
-                        {% for fieldName in pageFields if form[fieldName] is defined %}
-                            <div class="form-group field-{{ fieldName|e('html_attr') }}">
-                                <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
-                                <div class="col-sm-9">
-                                    <div class="form-control-static">{{ (language == app.request.locale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        {% if form.contentData is defined %}
-                            {% for field in form.contentData %}
-                                {% set fieldName = field.vars.name %}
-                                <div class="form-group field-{{ fieldName|e('html_attr') }}">
-                                    <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-control-static">{{ (language == app.request.locale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        {% set fieldName = 'additionalSearchText' %}
+        {% for language in localesWithExistingData %}
+            <fieldset id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
+                <legend>{{ __('Source content') }} ({{ language|languageName|safeHtml }})</legend>
+                {% if currentStep == 1 %}
+                    {% for fieldName in pageFields if form[fieldName] is defined %}
                         <div class="form-group field-{{ fieldName|e('html_attr') }}">
                             <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
                             <div class="col-sm-9">
-                                <div class="form-control-static">{{ (language == app.request.locale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                                <div class="form-control-static">{{ (language == app.request.locale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
                             </div>
                         </div>
+                    {% endfor %}
+                {% else %}
+                    {% if form.contentData is defined %}
+                        {% for field in form.contentData %}
+                            {% set fieldName = field.vars.name %}
+                            <div class="form-group field-{{ fieldName|e('html_attr') }}">
+                                <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
+                                <div class="col-sm-9">
+                                    <div class="form-control-static">{{ (language == app.request.locale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     {% endif %}
-                </div>
-            {% endfor %}
-        </fieldset>
+                    {% set fieldName = 'additionalSearchText' %}
+                    <div class="form-group field-{{ fieldName|e('html_attr') }}">
+                        <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
+                        <div class="col-sm-9">
+                            <div class="form-control-static">{{ (language == app.request.locale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+            </fieldset>
+        {% endfor %}
         <fieldset id="contentTranslateTarget">
             <legend>{{ __('Target content') }}</legend>
             <div class="zikula-bootstrap-tab-container">
