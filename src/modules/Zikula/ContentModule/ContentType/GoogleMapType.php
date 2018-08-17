@@ -102,9 +102,7 @@ class GoogleMapType extends AbstractContentType
     }
 
     /**
-     * Returns a list of translatable field names if any.
-     *
-     * @return array
+     * @inheritDoc
      */
     public function getTranslatableDataFields()
     {

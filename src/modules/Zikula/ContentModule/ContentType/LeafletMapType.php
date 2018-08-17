@@ -69,9 +69,7 @@ class LeafletMapType extends AbstractContentType
     }
 
     /**
-     * Returns a list of translatable field names if any.
-     *
-     * @return array
+     * @inheritDoc
      */
     public function getTranslatableDataFields()
     {
