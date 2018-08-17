@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormInterface;
 /**
  * Translation listener base class.
  *
- * Based on https://github.com/a2lix/TranslationFormBundle/blob/master/Form/EventListener/TranslationsListener.php
+ * Based on https://github.com/a2lix/TranslationFormBundle/blob/master/src/Form/EventListener/TranslationsListener.php
  */
 abstract class AbstractTranslationListener implements EventSubscriberInterface
 {

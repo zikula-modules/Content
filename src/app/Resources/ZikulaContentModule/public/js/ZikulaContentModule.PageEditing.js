@@ -720,10 +720,6 @@ function contentPageInitWidgetActions() {
         widget = jQuery(this).parents('.grid-stack-item').first();
         contentPageInitWidgetMovingCopying(widget);
     });
-    jQuery('.grid-stack .grid-stack-item a.translate-item').unbind('click').click(function (event) {
-        event.preventDefault();
-        alert('TODO');
-    });
     jQuery('.grid-stack-item').hover(
         function() {
             jQuery(this).addClass('hovered');
