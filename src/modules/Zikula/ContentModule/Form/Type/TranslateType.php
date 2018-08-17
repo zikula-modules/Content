@@ -78,7 +78,7 @@ class TranslateType extends AbstractType
             $this->addPageFields($builder, $options);
         } elseif ('item' == $options['mode']) {
             $this->addItemFields($builder, $options);
-            $hasContentData = null !== $options['content_type'] && count($options['content_type']->getTranslatableDataFields() > 0);
+            $hasContentData = null !== $options['content_type'] && count($options['content_type']->getTranslatableDataFields()) > 0;
             if ($hasContentData) {
                 $editFormClass = $options['content_type']->getEditFormClass();
                 if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {

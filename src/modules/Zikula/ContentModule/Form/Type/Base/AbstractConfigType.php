@@ -138,6 +138,22 @@ abstract class AbstractConfigType extends AbstractType
             'required' => false,
         ]);
         
+        $builder->add('yandexTranslateApiKey', TextType::class, [
+            'label' => $this->__('Yandex translate api key') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('If you want to get translation support by Yandex which can provide suggestions you need an API key for it.')
+            ],
+            'help' => $this->__('If you want to get translation support by Yandex which can provide suggestions you need an API key for it.'),
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 255,
+                'class' => '',
+                'title' => $this->__('Enter the yandex translate api key.')
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('enableRawPlugin', CheckboxType::class, [
             'label' => $this->__('Enable raw plugin') . ':',
             'label_attr' => [

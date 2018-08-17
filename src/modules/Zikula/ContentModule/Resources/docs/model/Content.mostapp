@@ -239,6 +239,10 @@ application "Content" {
                     documentation "If you want to use Google maps you need an API key for it. You should enable both \"Maps JavaScript API\" and \"Maps Static API\"."
                     mandatory false
                 },
+                string "yandexTranslateApiKey" {
+                    documentation "If you want to get translation support by Yandex which can provide suggestions you need an API key for it."
+                    mandatory false
+                },
                 boolean "enableRawPlugin" {
                     documentation "Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc."
                     defaultValue "false"

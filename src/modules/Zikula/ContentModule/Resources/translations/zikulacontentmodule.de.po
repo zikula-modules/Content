@@ -787,6 +787,9 @@ msgstr "Die Versionsdaten der Seite eingeben."
 msgid "Enter the views of the page."
 msgstr "Die Aufrufe der Seite eingeben."
 
+msgid "Enter the yandex translate api key."
+msgstr "Den Yandex Translate API-Schlüssel eingeben."
+
 msgid "Entry to display"
 msgstr "Anzuzeigender Eintrag"
 
@@ -934,6 +937,9 @@ msgstr "Allgemeine Seitendaten"
 
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
+
+msgid "Get API key"
+msgstr "API-Schlüssel erhalten"
 
 msgid "Get directions from start address"
 msgstr "Wegbeschreibung von Startadresse"
@@ -1093,6 +1099,13 @@ msgid ""
 msgstr ""
 "Falls ein zusätzlicher Text für jede Seite benötigt wird, kann ein "
 "optionales Feld aktiviert werden."
+
+msgid ""
+"If you want to get translation support by Yandex which can provide "
+"suggestions you need an API key for it."
+msgstr ""
+"Um Unterstützung bei Übersetzungen durch Yandex in Form von Vorschlägen zu "
+"bekommen, wird ein API-Schlüssel benötigt."
 
 msgid ""
 "If you want to use Google maps you need an API key for it. You should enable "
@@ -2153,6 +2166,9 @@ msgstr "Workflow-Zustand"
 
 msgid "Workflows"
 msgstr "Arbeitsabläufe"
+
+msgid "Yandex translate api key"
+msgstr "Yandex Translate API-Schlüssel"
 
 msgid "Yes"
 msgstr "Ja"

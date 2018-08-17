@@ -58,7 +58,12 @@
                         {{ form_row(form.countPageViews) }}
                         {{ form_row(form.googleMapsApiKey, {
                             'input_group': {
-                                'right': '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key" target="_blank"><i class="fa fa-key"></i></a>'
+                                'right': '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key" title="' ~ __('Get API key') ~ '" target="_blank"><i class="fa fa-key"></i></a>'
+                            }
+                        }) }}
+                        {{ form_row(form.yandexTranslateApiKey, {
+                            'input_group': {
+                                'right': '<a href="https://tech.yandex.com/translate/" title="' ~ __('Get API key') ~ '" target="_blank"><i class="fa fa-key"></i></a>'
                             }
                         }) }}
                         {{ form_row(form.enableRawPlugin) }}
