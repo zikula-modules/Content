@@ -111,6 +111,8 @@ New features:
 - Custom (and multiple) CSS classes can now be used for pages, page sections and single content elements.
 - Permalink settings for removing unwanted URL parts.
 - Added no cookie option for YouTube videos.
+- Overhauled translation workflow.
+- Optional translation support powered by [Yandex.Translate](https://translate.yandex.com/).
 
 Deprecations:
 - Removed the ability to register a page var for breadcrumbs in favour of a dedicated module for this purpose. There is still a Twig function for retrieving or displaying a page hierarchy though.

@@ -109,6 +109,9 @@ msgstr "Fehler"
 msgid "Failed loading the data."
 msgstr "Fehler beim Laden der Daten."
 
+msgid "Insert suggestion for translation"
+msgstr "Vorschlag für Übersetzung einfügen"
+
 msgid "Invalid node id"
 msgstr "Ungültige Knoten-Id"
 

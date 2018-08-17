@@ -349,7 +349,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
     body = modal.find('.modal-body').first();
 
     heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
-    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
 
     jQuery('#btnDeleteContent').toggleClass('hidden', isCreation);
     jQuery('#btnCancelContent').removeClass('hidden');
@@ -421,7 +421,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             }
 
             jQuery('#btnCancelContent').addClass('hidden');
-            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
                 type: form.attr('method'),
@@ -507,7 +507,7 @@ function contentPageInitWidgetMovingCopying(widget) {
     body = modal.find('.modal-body').first();
 
     heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
-    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
 
     jQuery('#btnDeleteContent').addClass('hidden');
     jQuery('#btnCancelContent').removeClass('hidden');
@@ -549,7 +549,7 @@ function contentPageInitWidgetMovingCopying(widget) {
             var operationType = jQuery('input[type=radio]:checked').first().val();
 
             jQuery('#btnCancelContent').addClass('hidden');
-            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
                 type: form.attr('method'),
@@ -804,7 +804,7 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
     widget = jQuery('#widget' + nodeId);
 
     widget.find('.panel-title .title').html(Translator.__('Loading...'));
-    widget.find('.panel-body').html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></i>');
+    widget.find('.panel-body').html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
     jQuery.getJSON(Routing.generate('zikulacontentmodule_contentitem_displayediting', {contentItem: nodeId}), function (data) {
         var isActive;
         widget.find('.panel-title .title').html(data.title);

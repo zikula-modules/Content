@@ -3,6 +3,7 @@
 {% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Translate') }}{% endblock %}
 {% block admin_page_icon 'language' %}
 {% block content %}
+    {% set yandexApiKey = getModVar('ZikulaContentModule', 'yandexTranslateApiKey', '') %}
     {{ zikulacontentmodule_getPagePath(page, false) }}
     <div class="zikulacontentmodule-page zikulacontentmodule-translate">
         {% form_theme form with [
@@ -93,7 +94,7 @@
                 </ul>
                 <div class="{{ form.vars.id|lower }}-translation-fields tab-content">
                     {% for language in supportedLanguages %}
-                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}">
+                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}" data-language="{{ language }}">
                             <fieldset>
                                 <legend>{{ language|languageName|safeHtml }}</legend>
                                 {% if currentStep == 1 %}
@@ -124,6 +125,9 @@
                             </fieldset>
                         </div>
                     {% endfor %}
+                    {% if yandexApiKey != '' %}
+                        <p style="padding-left: 15px">Powered by <a href="https://translate.yandex.com/" target="_blank">Yandex.Translate</a></p>
+                    {% endif %}
                 </div>
             </div>
         </fieldset>
@@ -152,25 +156,9 @@
         </div>
         {% endif %}
     {% endif %}
+    <div id="jsParameters" class="hidden" data-selfroute="zikulacontentmodule_page_{{ routeArea }}translate" data-pageslug="{{ page.slug|e('html_attr') }}" data-yandex="{{ yandexApiKey|e('html_attr') }}"></div>
 {% endblock %}
 {% block footer %}
     {{ parent() }}
-    {% set customScript %}
-        <script>
-        /* <![CDATA[ */
-            ( function($) {
-                $(document).ready(function() {
-                    $('#translationStep').change(function (event) {
-                        document.location = Routing.generate('zikulacontentmodule_page_{{ routeArea }}translate', {slug: '{{ page.slug|e('js') }}', cid: $(this).val()});
-                    });
-                    $('#sourceLanguage').change(function (event) {
-                        $('.source-section').addClass('hidden');
-                        $('#sourceContent' + $(this).val()).removeClass('hidden');
-                    });
-                });
-            })(jQuery);
-        /* ]]> */
-        </script>
-    {% endset %}
-    {{ pageAddAsset('footer', customScript) }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.PageTranslation.js'), 110) }}
 {% endblock %}

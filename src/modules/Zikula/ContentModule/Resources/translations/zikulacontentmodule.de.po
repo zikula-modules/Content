@@ -2376,13 +2376,3 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
-
-#~ msgid "if page isn't 'All pages'"
-#~ msgstr "wenn Seite nicht 'Alle Seiten'"
-
-#~ msgid ""
-#~ "Here you can customise the behaviour of creating permalinks for content "
-#~ "pages."
-#~ msgstr ""
-#~ "Hier kann das Verhalten zur Erstellung von Permalinks für Inhaltsseiten "
-#~ "angepasst werden."
