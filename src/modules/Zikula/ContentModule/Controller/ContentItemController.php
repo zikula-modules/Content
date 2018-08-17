@@ -291,6 +291,32 @@ class ContentItemController extends AbstractContentItemController
                     return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
                 }
 
+                // sync non-translatable fields (which may have changed) with other translations
+                $translatableFields = $contentType->getTranslatableDataFields();
+                $contentData = $contentItem->getContentData();
+                $nonTranslatableContentData = [];
+                foreach ($contentData as $fieldName => $fieldValue) {
+                    if (in_array($fieldName, $translatableFields)) {
+                        continue;
+                    }
+                    $nonTranslatableContentData[$fieldName] = $fieldValue;
+                }
+                if (count($nonTranslatableContentData) > 0) {
+                    $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
+                    $translatableHelper = $this->get('zikula_content_module.translatable_helper');
+                    $translations = $translatableHelper->prepareEntityForEditing($contentItem);
+                    foreach ($translations as $language => $translationData) {
+                        foreach ($nonTranslatableContentData as $fieldName => $fieldValue) {
+                            $translations[$language]['contentData'][$fieldName] = $fieldValue;
+                        }
+                        foreach ($translations[$language] as $fieldName => $fieldValue) {
+                            $contentItem[$fieldName] = $fieldValue;
+                        }
+                        $contentItem['locale'] = $language;
+                        $entityManager->flush();
+                    }
+                }
+
                 if ($contentItem->supportsHookSubscribers()) {
                     // Call form aware processing hooks
                     $hookHelper->callFormProcessHooks($form, $contentItem, FormAwareCategory::TYPE_PROCESS_EDIT);
