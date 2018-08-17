@@ -491,7 +491,9 @@ abstract class AbstractContentType implements ContentTypeInterface
      */
     public function getEditFormOptions($context)
     {
-        return [];
+        return [
+            'context' => $context
+        ];
     }
 
     /**

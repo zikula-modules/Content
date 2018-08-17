@@ -11,7 +11,6 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -20,15 +19,13 @@ use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Google route form type class.
  */
 class GoogleRouteType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * GoogleRouteType constructor.
      *
@@ -40,63 +37,58 @@ class GoogleRouteType extends AbstractType
     }
 
     /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator Translator service instance
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
      * @inheritDoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $context = isset($options['context']) ? $options['context'] : ContentTypeInterface::CONTEXT_EDIT;
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            $builder
+                ->add('latitude', NumberType::class, [
+                    'label' => $this->__('Latitude') . ':',
+                    'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'attr' => [
+                        'maxlength' => 30
+                    ]
+                ])
+                ->add('longitude', NumberType::class, [
+                    'label' => $this->__('Longitude') . ':',
+                    'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'attr' => [
+                        'maxlength' => 30
+                    ]
+                ])
+                ->add('zoom', RangeType::class, [
+                    'label' => $this->__('Zoom level') . ':',
+                    'help' => $this->__('From 0 for the entire world to 21 for individual buildings.'),
+                    'attr' => [
+                        'min' => 0,
+                        'max' => 21
+                    ]
+                ])
+                ->add('mapType', ChoiceType::class, [
+                    'label' => $this->__('Map type') . ':',
+                    'label_attr' => [
+                        'class' => 'radio-inline'
+                    ],
+                    'choices' => [
+                        $this->__('Roadmap') => 'roadmap',
+                        $this->__('Satellite') => 'satellite',
+                        $this->__('Hybrid') => 'hybrid',
+                        $this->__('Terrain') => 'terrain'
+                    ],
+                    'expanded' => true
+                ])
+                ->add('height', IntegerType::class, [
+                    'label' => $this->__('Height of the displayed map') . ':',
+                    'attr' => [
+                        'maxlength' => 4
+                    ],
+                    'input_group' => ['right' => $this->__('pixels')]
+                ])
+            ;
+        }
         $builder
-            ->add('latitude', NumberType::class, [
-                'label' => $this->__('Latitude') . ':',
-                'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
-                'attr' => [
-                    'maxlength' => 30
-                ]
-            ])
-            ->add('longitude', NumberType::class, [
-                'label' => $this->__('Longitude') . ':',
-                'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
-                'attr' => [
-                    'maxlength' => 30
-                ]
-            ])
-            ->add('zoom', RangeType::class, [
-                'label' => $this->__('Zoom level') . ':',
-                'help' => $this->__('From 0 for the entire world to 21 for individual buildings.'),
-                'attr' => [
-                    'min' => 0,
-                    'max' => 21
-                ]
-            ])
-            ->add('mapType', ChoiceType::class, [
-                'label' => $this->__('Map type') . ':',
-                'label_attr' => [
-                    'class' => 'radio-inline'
-                ],
-                'choices' => [
-                    $this->__('Roadmap') => 'roadmap',
-                    $this->__('Satellite') => 'satellite',
-                    $this->__('Hybrid') => 'hybrid',
-                    $this->__('Terrain') => 'terrain'
-                ],
-                'expanded' => true
-            ])
-            ->add('height', IntegerType::class, [
-                'label' => $this->__('Height of the displayed map') . ':',
-                'attr' => [
-                    'maxlength' => 4
-                ],
-                'input_group' => ['right' => $this->__('pixels')]
-            ])
             ->add('addressText', TextType::class, [
                 'label' => $this->__('The target address') . ':',
                 'attr' => [

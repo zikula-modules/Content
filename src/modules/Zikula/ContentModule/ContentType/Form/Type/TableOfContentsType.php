@@ -11,13 +11,11 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
@@ -28,8 +26,6 @@ use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
  */
 class TableOfContentsType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * @var EntityFactory
      */
@@ -45,16 +41,6 @@ class TableOfContentsType extends AbstractType
     {
         $this->setTranslator($translator);
         $this->entityFactory = $entityFactory;
-    }
-
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator Translator service instance
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
     }
 
     /**

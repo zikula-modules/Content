@@ -11,10 +11,8 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\ContentType\Form\DataTransformer\AuthorTransformer;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\UsersModule\Form\Type\UserLiveSearchType;
@@ -24,8 +22,6 @@ use Zikula\UsersModule\Form\Type\UserLiveSearchType;
  */
 class AuthorType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * @var UserRepositoryInterface
      */
@@ -41,16 +37,6 @@ class AuthorType extends AbstractType
     {
         $this->setTranslator($translator);
         $this->userRepository = $userRepository;
-    }
-
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator Translator service instance
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
     }
 
     /**

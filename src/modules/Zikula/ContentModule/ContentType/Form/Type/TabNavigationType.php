@@ -11,20 +11,16 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
 
 /**
  * Tab navigation form type class.
  */
 class TabNavigationType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * TabNavigationType constructor.
      *
@@ -33,16 +29,6 @@ class TabNavigationType extends AbstractType
     public function __construct(TranslatorInterface $translator)
     {
         $this->setTranslator($translator);
-    }
-
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator Translator service instance
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
     }
 
     /**
