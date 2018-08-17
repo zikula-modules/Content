@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    {# required for dynamic activation of Scribite for modal content #}
+    {# required for dynamic activation of Scribite #}
     {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=null, outputAsArray=true) %}
     {% if hooks is iterable and hooks|length > 0 %}
     <div class="hidden">

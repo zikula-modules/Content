@@ -237,12 +237,9 @@ class ContentItemController extends AbstractContentItemController
         $route = $this->get('router')->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
 
         $form = $this->createForm(ContentItemType::class, $contentItem, [
-            'action' => $route
+            'action' => $route,
+            'content_type' => $contentType
         ]);
-        $editFormClass = $contentType->getEditFormClass();
-        if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-            $form->add('contentData', $editFormClass, $contentType->getEditFormOptions(ContentTypeInterface::CONTEXT_EDIT));
-        }
 
         $templateParameters = [
             'mode' => (true === $isCreation ? 'create' : 'edit'),

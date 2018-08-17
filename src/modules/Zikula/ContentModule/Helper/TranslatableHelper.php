@@ -26,6 +26,35 @@ class TranslatableHelper extends AbstractTranslatableHelper
     protected $displayHelper;
 
     /**
+     * @inheritDoc
+     */
+    public function prepareEntityForEditing($entity)
+    {
+        $translations = [];
+        if ($this->variableApi->getSystemVar('multilingual') != 1) {
+            return $translations;
+        }
+
+        $translations = parent::prepareEntityForEditing($entity);
+        $objectType = $entity->get_objectType();
+        if ('contentItem' != $objectType) {
+            return $translations;
+        }
+
+        foreach ($translations as $language => $translationData) {
+            if (isset($translationData['contentData']) && !is_array($translationData['contentData'])) {
+                if (empty($translationData['contentData'])) {
+                    $translations[$language]['contentData'] = [];
+                } else {
+                    $translations[$language]['contentData'] = unserialize($translationData['contentData']);
+                }
+            }
+        }
+
+        return $translations;
+    }
+
+    /**
      * Returns information about which page elements are translatable.
      *
      * @param PageEntity $page

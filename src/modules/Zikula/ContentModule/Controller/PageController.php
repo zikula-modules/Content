@@ -653,15 +653,11 @@ class PageController extends AbstractPageController
             $formOptions['translations'][$language] = $translationData;
         }
 
+        $contentType = null;
         if ($isPageStep) {
             $slugParts = explode('/', $page->getSlug());
             $page->setSlug(end($slugParts));
-        }
-
-        $form = $this->createForm(TranslateType::class, $formObject, $formOptions);
-
-        $contentType = null;
-        if (!$isPageStep) {
+        } else {
             $displayHelper = $this->get('zikula_content_module.content_display_helper');
             $contentType = $displayHelper->initContentType($contentItem);
             foreach ($translationInfo['items'] as $item) {
@@ -672,14 +668,10 @@ class PageController extends AbstractPageController
                 break;
             }
 
-            if ($contentType->isTranslatable()) {
-                $editFormClass = $contentType->getEditFormClass();
-                if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                    $form->add('contentData', $editFormClass, $contentType->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION));
-                }
-            }
+            $formOptions['content_type'] = $contentType;
             $displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_TRANSLATION);
         }
+        $form = $this->createForm(TranslateType::class, $formObject, $formOptions);
 
         if ($form->handleRequest($request)->isValid()) {
             die('TEST');
