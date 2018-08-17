@@ -55,6 +55,12 @@ function contentPageInitYandexSupport(yandexApiKey) {
                 contentInitScribiteForHtml();
             }
         })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            var result;
+
+            result = JSON.parse(jqXHR.responseText);
+            alert(result.message);
+        })
         .always(function () {
             thisIcon.removeClass('fa-refresh fa-spin').addClass('fa-book');
         });
