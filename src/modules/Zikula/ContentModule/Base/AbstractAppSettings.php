@@ -150,7 +150,7 @@ abstract class AbstractAppSettings
     protected $ignoreEntityNameInRoutes = true;
     
     /**
-     * This removes the first tree level of pages from permalinks of pages in greater levels.
+     * This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")

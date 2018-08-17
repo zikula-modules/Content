@@ -67,7 +67,7 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item = new ContentItemEntity();
         $item->setOwningType($contentTypeNamespace . 'HeadingType');
         $item->setContentData([
-            'text' => $this->translator->__('This is the main page', 'zikulacontentmodule'),
+            'text' => $this->translator->__('This is only a dummy page containing the real pages', 'zikulacontentmodule'),
             'headingType' => 'h3'
         ]);
         $mainContentInfo[] = [$item, 'header', ['x' => 0, 'y' => (0 * $itemHeightEditing), 'width' => 12, 'minWidth' => 2]];

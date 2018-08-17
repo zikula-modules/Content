@@ -312,7 +312,7 @@ application "Content" {
                     mandatory false
                 },
                 boolean "ignoreFirstTreeLevelInRoutes" {
-                    documentation "This removes the first tree level of pages from permalinks of pages in greater levels."
+                    documentation "This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages."
                     defaultValue "true"
                     mandatory false
                 },
