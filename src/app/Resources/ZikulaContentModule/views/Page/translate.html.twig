@@ -36,7 +36,7 @@
                                 <option value="{{ language }}"{{ language == app.request.locale ? ' selected="selected"' : '' }}>{{ language|languageName|safeHtml }}</option>
                             {% endfor %}
                         </select>
-                        <small>TODO: show only languages with existing content; switch without reload</small>
+                        <small>TODO: show only languages with existing content</small>
                     </div>
                 </div>
             </div>
@@ -48,38 +48,30 @@
                 <div id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
                     {% if currentStep == 1 %}
                         {% for fieldName in pageFields if form[fieldName] is defined %}
-                            <div class="form-group">
+                            <div class="form-group field-{{ fieldName|e('html_attr') }}">
                                 <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">{{ language == app.request.locale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value }}</p>
+                                    <div class="form-control-static">{{ (language == app.request.locale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
                                 </div>
                             </div>
                         {% endfor %}
                     {% else %}
-                        <p>TODO content type fields</p>
                         {% if form.contentData is defined %}
                             {% for field in form.contentData %}
                                 {% set fieldName = field.vars.name %}
-                                <div class="form-group">
+                                <div class="form-group field-{{ fieldName|e('html_attr') }}">
                                     <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
                                     <div class="col-sm-9">
-                                        <p class="form-control-static">{{ fieldName }}{#{ language == app.request.locale ? contentItem.contentData[fieldName] : form['translations' ~ language][fieldName].vars.value }#}</p>
+                                        <div class="form-control-static">{{ (language == app.request.locale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
                                     </div>
                                 </div>
-                                {#
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
-                                    <div class="col-sm-9">
-                                    </div>
-                                </div>
-                                #}
                             {% endfor %}
                         {% endif %}
                         {% set fieldName = 'additionalSearchText' %}
-                        <div class="form-group">
+                        <div class="form-group field-{{ fieldName|e('html_attr') }}">
                             <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
                             <div class="col-sm-9">
-                                <p class="form-control-static">{{ language == app.request.locale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value }}</p>
+                                <div class="form-control-static">{{ (language == app.request.locale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
                             </div>
                         </div>
                     {% endif %}
@@ -113,18 +105,23 @@
                                             {{ form_row(form[fieldName]) }}
                                         {% endfor %}
                                     {% else %}
-                                        {{ form_row(attribute(form, 'translations' ~ language)) }}
+                                        {{ form_row(form['translations' ~ language]) }}
                                     {% endif %}
                                 {% else %}
                                     {% if language == app.request.locale %}
                                         {% if form.contentData is defined %}
-                                            TODO
-                                            {#{ include(contentType.editTemplatePath, {form: form.contentData|default(), context: constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION')}, with_context = false, ignore_missing = true) }#}
+                                            {% for field in form.contentData %}
+                                                {{ form_row(form.contentData[field.vars.name]) }}
+                                            {% endfor %}
                                         {% endif %}
                                         {{ form_row(form.additionalSearchText) }}
                                     {% else %}
-                                    <p>TODO content type translation fields</p>
-                                        {{ form_row(attribute(form, 'translations' ~ language)) }}
+                                        {% if form.contentData is defined %}
+                                            {% for field in form.contentData %}
+                                                {{ form_row(form['translations' ~ language].contentData[field.vars.name]) }}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {{ form_row(form['translations' ~ language].additionalSearchText) }}
                                     {% endif %}
                                 {% endif %}
                             </fieldset>
@@ -146,6 +143,18 @@
         </div>
         {{ form_end(form) }}
     </div>
+    {% if currentStep > 1 and contentType.name|lower == 'html' %}
+        {# required for dynamic activation of Scribite #}
+        {% set hookId = currentStep > 1 ? contentItem.id : null %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=hookId, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+        <div class="hidden">
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endif %}
 {% endblock %}
 {% block footer %}
     {{ parent() }}

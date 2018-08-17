@@ -109,6 +109,9 @@ msgstr "Ungültige Knoten-Id"
 msgid "Loading..."
 msgstr "Lade..."
 
+msgid "Markup source"
+msgstr "HTML-Quelltext"
+
 msgid "Move down"
 msgstr "Nach unten"
 
@@ -156,3 +159,6 @@ msgstr "Erfolg"
 
 msgid "The start must be before the end."
 msgstr "Der Beginn muss vor dem Ende liegen."
+
+msgid "Toggle source code view"
+msgstr "Quelltextansicht umschalten"
