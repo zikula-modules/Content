@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use RuntimeException;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractTranslatableHelper;
@@ -107,7 +108,11 @@ class TranslatableHelper extends AbstractTranslatableHelper
 
         $contentItems = [];
         foreach ($pageContentItems as $item) {
-            $contentItems[] = $this->displayHelper->initContentType($item);
+            try {
+                $contentItems[] = $this->displayHelper->initContentType($item);
+            } catch (RuntimeException $exception) {
+                // ignore
+            }
         }
 
         $currentIndex = -1;

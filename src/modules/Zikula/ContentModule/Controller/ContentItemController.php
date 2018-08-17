@@ -217,55 +217,68 @@ class ContentItemController extends AbstractContentItemController
             }
         }
 
-        $displayHelper = $this->get('zikula_content_module.content_display_helper');
-        $contentType = $displayHelper->initContentType($contentItem);
-
-        if (true === $isCreation) {
-            $contentItem->setContentData($contentType->getDefaultData());
-        }
-
-        $routeArgs = [];
-        if ($isCreation) {
-            $routeArgs = [
-                'type' => $contentTypeClass
-            ];
-        } else {
-            $routeArgs = [
-                'contentItem' => $contentItem->getId()
-            ];
-        }
-        $route = $this->get('router')->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
-
-        $form = $this->createForm(ContentItemType::class, $contentItem, [
-            'action' => $route,
-            'content_type' => $contentType
-        ]);
-
-        $templateParameters = [
-            'mode' => (true === $isCreation ? 'create' : 'edit'),
-            'contentItem' => $contentItem,
-            'form' => $form->createView(),
-            'contentType' => $contentType,
-            'contentFormTemplate' => $contentType->getEditTemplatePath(),
-            'supportsHookSubscribers' => $contentItem->supportsHookSubscribers()
-        ];
-
         if ($contentItem->supportsHookSubscribers()) {
-            // Call form aware display hooks
             $hookHelper = $this->get('zikula_content_module.hook_helper');
-            $formHook = $hookHelper->callFormDisplayHooks($form, $contentItem, FormAwareCategory::TYPE_EDIT);
-            $templateParameters['formHookTemplates'] = $formHook->getTemplates();
+        }
+
+        $action = $dataSource->get('action', '');
+        $displayHelper = $this->get('zikula_content_module.content_display_helper');
+        $form = null;
+        try {
+            $contentType = $displayHelper->initContentType($contentItem);
+
+            if (true === $isCreation) {
+                $contentItem->setContentData($contentType->getDefaultData());
+            }
+
+            $routeArgs = [];
+            if ($isCreation) {
+                $routeArgs = [
+                    'type' => $contentTypeClass
+                ];
+            } else {
+                $routeArgs = [
+                    'contentItem' => $contentItem->getId()
+                ];
+            }
+            $route = $this->get('router')->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
+
+            $form = $this->createForm(ContentItemType::class, $contentItem, [
+                'action' => $route,
+                'content_type' => $contentType
+            ]);
+
+            $templateParameters = [
+                'mode' => (true === $isCreation ? 'create' : 'edit'),
+                'contentItem' => $contentItem,
+                'form' => $form->createView(),
+                'contentType' => $contentType,
+                'contentFormTemplate' => $contentType->getEditTemplatePath(),
+                'supportsHookSubscribers' => $contentItem->supportsHookSubscribers()
+            ];
+
+            if ($contentItem->supportsHookSubscribers()) {
+                // Call form aware display hooks
+                $formHook = $hookHelper->callFormDisplayHooks($form, $contentItem, FormAwareCategory::TYPE_EDIT);
+                $templateParameters['formHookTemplates'] = $formHook->getTemplates();
+            }
+        } catch (RuntimeException $exception) {
+            // content type is not available anymore
+            if ('delete' != $action) {
+                throw $exception;
+            }
         }
 
         if ($isPost) {
             $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-            $action = $dataSource->get('action', '');
             if (!in_array($action, ['save', 'delete'])) {
                 throw new RuntimeException($this->__('Invalid action received.'));
             }
 
-            $form->handleRequest($request);
-            //if ($form->isValid()) // TODO investigate
+            if (null !== $form) {
+                $form->handleRequest($request);
+                //if ($form->isValid()) // TODO investigate
+            }
             if ('save' == $action) {
                 if (true === $isCreation) {
                     $page->addContentItems($contentItem);
@@ -363,7 +376,7 @@ class ContentItemController extends AbstractContentItemController
                     return $this->json(['message' => $this->__('Error! An error occured during content deletion.')], Response::HTTP_BAD_REQUEST);
                 }
 
-                if ($contentItem->supportsHookSubscribers()) {
+                if ($contentItem->supportsHookSubscribers() && null !== $form) {
                     // Call form aware processing hooks
                     $hookHelper->callFormProcessHooks($form, $contentItem, FormAwareCategory::TYPE_PROCESS_DELETE);
 
