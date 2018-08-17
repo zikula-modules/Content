@@ -78,13 +78,13 @@
     {% endif %}
 {% endblock %}
 {% block content_elements %}
+    {% set processedItemIds = [] %}
+    {% set contentElements = zikulacontentmodule_contentDetails(page) %}
+    {% set showElement = true %}
+    {% if inList is defined %}
+        {% set showElement = list in ['extended', 'complete'] %}
+    {% endif %}
     {% if page.layout|default and page.layout is iterable and page.layout|length > 0 %}
-        {% set processedItemIds = [] %}
-        {% set contentElements = zikulacontentmodule_contentDetails(page) %}
-        {% set showElement = true %}
-        {% if inList is defined %}
-            {% set showElement = list in ['extended', 'complete'] %}
-        {% endif %}
         {% for section in page.layout if showElement == true and section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
             <div class="row section{% if section.stylingClasses is not empty %} {{ section.stylingClasses }}{% endif %}">
                 {% set lastWidget = null %}
@@ -105,20 +105,20 @@
                 {% endfor %}
             </div>
         {% endfor %}
-        {% if showElement == true and processedItemIds|length < contentElements|length %}
-            {# there are elements which are not included in page layout information yet, so we append them at the end #}
-            <div class="row section">
-                {% for contentItem in page.contentItems if showElement == true and contentItem.id not in processedItemIds %}
-                    {% if zikulacontentmodule_maySeeElement(contentItem) %}
-                        {{ macros.showWidget(contentItem, null, null, contentElements[contentItem.id]) }}
-                        {% if inList is defined and list == 'extended' %}
-                            {# extended list shows only the first content element #}
-                            {% set showElement = false %}
-                        {% endif %}
+    {% endif %}
+    {% if showElement == true and processedItemIds|length < contentElements|length %}
+        {# there are elements which are not included in page layout information yet, so we append them at the end #}
+        <div class="row section">
+            {% for contentItem in page.contentItems if showElement == true and contentItem.id not in processedItemIds %}
+                {% if zikulacontentmodule_maySeeElement(contentItem) %}
+                    {{ macros.showWidget(contentItem, null, null, contentElements[contentItem.id]) }}
+                    {% if inList is defined and list == 'extended' %}
+                        {# extended list shows only the first content element #}
+                        {% set showElement = false %}
                     {% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
 {% macro showWidget(contentItem, widget, lastWidget, contentDetails) %}

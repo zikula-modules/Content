@@ -106,6 +106,8 @@ services:
             - "@zikula_extensions_module.api.variable"
             - "@zikula_settings_module.locale_api"
             - "@zikula_content_module.entity_factory"
+        calls:
+            - [setContentDisplayHelper, ["@zikula_content_module.content_display_helper"]]
     
     zikula_content_module.view_helper:
         class: Zikula\ContentModule\Helper\ViewHelper

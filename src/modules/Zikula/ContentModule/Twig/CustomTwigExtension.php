@@ -17,6 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
+use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
@@ -86,6 +87,11 @@ class CustomTwigExtension extends Twig_Extension
     protected $countPageViews;
 
     /**
+     * @var boolean
+     */
+    protected $ignoreFirstTreeLevel;
+
+    /**
      * CustomTwigExtension constructor.
      *
      * @param Connection                  $connection
@@ -99,6 +105,7 @@ class CustomTwigExtension extends Twig_Extension
      * @param EntityFactory               $entityFactory
      * @param CollectionFilterHelper      $collectionFilterHelper
      * @param boolean                     $countPageViews
+     * @param boolean                     $ignoreFirstTreeLevel
      */
     public function __construct(
         Connection $connection,
@@ -111,7 +118,8 @@ class CustomTwigExtension extends Twig_Extension
         CategoryRepositoryInterface $categoryRepository,
         EntityFactory $entityFactory,
         CollectionFilterHelper $collectionFilterHelper,
-        $countPageViews
+        $countPageViews = false,
+        $ignoreFirstTreeLevel = true
     ) {
         $this->databaseConnection = $connection;
         $this->requestStack = $requestStack;
@@ -124,6 +132,7 @@ class CustomTwigExtension extends Twig_Extension
         $this->entityFactory = $entityFactory;
         $this->collectionFilterHelper = $collectionFilterHelper;
         $this->countPageViews = $countPageViews;
+        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
     }
 
     /**
@@ -164,9 +173,9 @@ class CustomTwigExtension extends Twig_Extension
         $pages[] = $currentPage;
         while (null !== $currentPage['parent']) {
             $currentPage = $currentPage['parent'];
-            //if ($currentPage->getLvl() > 0) {
+            if (true !== $this->ignoreFirstTreeLevel || $currentPage->getLvl() > 0) {
                 array_unshift($pages, $currentPage);
-            //}
+            }
         }
 
         $output = '<ol class="breadcrumb">';
@@ -214,7 +223,7 @@ class CustomTwigExtension extends Twig_Extension
     {
         $contentElements = [];
         foreach ($page->getContentItems() as $contentItem) {
-            $contentElements[$contentItem->getId()] = $this->displayHelper->getDetailsForDisplayView($contentItem);
+            $contentElements[$contentItem->getId()] = $this->displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_VIEW);
         }
 
         return $contentElements;

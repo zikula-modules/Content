@@ -30,7 +30,19 @@ services:
             - '@zikula_content_module.entity_factory'
             - '@zikula_content_module.collection_filter_helper'
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'countPageViews', false)"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"
         tags: ['twig.extension']
+    zikula_content_module.form.type.block.menu:
+        class: Zikula\ContentModule\Block\Form\Type\MenuBlockType
+        arguments:
+            - '@translator.default'
+            - '@zikula_content_module.entity_factory'
+        tags: ['form.type']
+    zikula_content_module.form.type.block.subpages:
+        class: Zikula\ContentModule\Block\Form\Type\SubPagesBlockType
+        arguments:
+            - '@translator.default'
+        tags: ['form.type']
     zikula_content_module.form.type.content_item:
         class: Zikula\ContentModule\Form\Type\ContentItemType
         arguments:
@@ -44,16 +56,12 @@ services:
             - '@translator.default'
             - '@zikula_content_module.entity_factory'
         tags: ['form.type']
-    zikula_content_module.form.type.block.menu:
-        class: Zikula\ContentModule\Block\Form\Type\MenuBlockType
+    zikula_content_module.form.type.translate:
+        class: Zikula\ContentModule\Form\Type\TranslateType
         arguments:
             - '@translator.default'
-            - '@zikula_content_module.entity_factory'
-        tags: ['form.type']
-    zikula_content_module.form.type.block.subpages:
-        class: Zikula\ContentModule\Block\Form\Type\SubPagesBlockType
-        arguments:
-            - '@translator.default'
+            - '@zikula_extensions_module.api.variable'
+            - '@zikula_content_module.translatable_helper'
         tags: ['form.type']
     zikula_content_module.hook_subscriber.form_aware_hook.contentitems:
         class: Zikula\ContentModule\HookSubscriber\ContentItemFormAwareHookSubscriber

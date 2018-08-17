@@ -13,7 +13,7 @@
 <fieldset>
     <legend>{{ __('Content') }}</legend>
     {% if form.contentData is defined and contentFormTemplate|default %}
-        {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
+        {{ include(contentFormTemplate, {form: form.contentData|default(), context: constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT')}, with_context = false, ignore_missing = true) }}
     {% endif %}
     {{ form_row(form.additionalSearchText) }}
 </fieldset>

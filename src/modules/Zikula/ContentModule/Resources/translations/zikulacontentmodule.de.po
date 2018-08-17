@@ -890,6 +890,9 @@ msgstr "Erweiterte Liste"
 msgid "Extended pages list"
 msgstr "Erweiterte Seitenliste"
 
+msgid "Extended privacy mode"
+msgstr "Erweiterter Datenschutzmodus"
+
 msgid "External"
 msgstr "Extern"
 
@@ -925,6 +928,9 @@ msgstr "Grundlegende Elements wie Text, Bild, Überschrift, Zitat"
 
 msgid "Further properties"
 msgstr "Weitere Eigenschaften"
+
+msgid "General page data"
+msgstr "Allgemeine Seitendaten"
 
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
@@ -1184,6 +1190,9 @@ msgstr "Ungültigen Objekttyp erhalten."
 msgid "Invalid user identifier received."
 msgstr "Ungültigen Benutzer Identifier erhalten."
 
+msgid "Jump to element:"
+msgstr "Zu Element springen:"
+
 msgid "Last update"
 msgstr "Letzte Änderung"
 
@@ -1286,6 +1295,9 @@ msgstr "Neuer Wurzelknoten"
 
 msgid "Newest"
 msgstr "Neueste"
+
+msgid "Next"
+msgstr "Weiter"
 
 msgid "No"
 msgstr "Nein"
@@ -1469,6 +1481,9 @@ msgstr "Vorschau für Seite %id%"
 msgid "Preview version %version%"
 msgstr "Vorschau für Version %version%"
 
+msgid "Previous"
+msgstr "Zurück"
+
 msgid "Public (all)"
 msgstr "Öffentlich (alle)"
 
@@ -1537,6 +1552,9 @@ msgstr "Satellit"
 
 msgid "Save"
 msgstr "Speichern"
+
+msgid "Save and quit"
+msgstr "Speichern und Ende"
 
 msgid "Scope"
 msgstr "Sichtbarkeit"
@@ -1657,6 +1675,9 @@ msgstr "Einzelne Inhaltsseite"
 msgid "Sitemap"
 msgstr "Sitemap"
 
+msgid "Skip"
+msgstr "Überspringen"
+
 msgid "Skip hook subscribers"
 msgstr "Hook-Abonnenten überspringen"
 
@@ -1721,6 +1742,9 @@ msgstr "Sortierung"
 msgid "Source"
 msgstr "Quelle"
 
+msgid "Source content"
+msgstr "Quellinhalt"
+
 msgid "Source page not found."
 msgstr "Quellseite nicht gefunden."
 
@@ -1732,6 +1756,9 @@ msgstr "Zustand"
 
 msgid "State of new pages"
 msgstr "Zustand von neuen Seiten"
+
+msgid "Step %step of %amount"
+msgstr "Schritt %step von %amount"
 
 msgid "Street (optional), Location, Country (optional)"
 msgstr "Straße (optional), Ort, Land (optional)"
@@ -1756,6 +1783,9 @@ msgstr "Unterseiten von %page%"
 
 msgid "Successors"
 msgstr "Nachfolger"
+
+msgid "Switch source language:"
+msgstr "Quellsprache wechseln:"
 
 msgid "Switch to administration area."
 msgstr "Zum Verwaltungsbereich wechseln."
@@ -1786,6 +1816,9 @@ msgstr "Tabs"
 
 msgid "Tabular view"
 msgstr "Tabellarische Ansicht"
+
+msgid "Target content"
+msgstr "Zielinhalt"
 
 msgid "Template"
 msgstr "Vorlage"
@@ -1919,6 +1952,12 @@ msgid ""
 msgstr ""
 "Titel für die Reiter, getrennt durch Semikoli, z. B. \"Letzte Neuigkeiten;"
 "Kalender\"."
+
+msgid "Translate"
+msgstr "Übersetzen"
+
+msgid "Translate this page"
+msgstr "Diese Seite übersetzen"
 
 msgid "Trash"
 msgstr "Wegwerfen"

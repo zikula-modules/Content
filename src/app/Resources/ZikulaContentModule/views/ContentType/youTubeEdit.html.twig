@@ -1,5 +1,11 @@
-{{ form_row(form.url) }}
-{{ form_row(form.text) }}
-{{ form_row(form.displayMode) }}
-{{ form_row(form.showRelated) }}
-{{ form_row(form.autoplay) }}
+{% if context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT') %}
+    {{ form_row(form.url) }}
+    {{ form_row(form.text) }}
+    {{ form_row(form.displayMode) }}
+    {{ form_row(form.noCookie) }}
+    {{ form_row(form.showRelated) }}
+    {{ form_row(form.autoplay) }}
+{% elseif context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION') %}
+    {{ form_row(form.url) }}
+    {{ form_row(form.text) }}
+{% endif %}

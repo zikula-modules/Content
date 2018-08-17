@@ -18,5 +18,7 @@ services:
             - "@zikula_content_module.permission_helper"
             - "@zikula_content_module.entity_display_helper"
             - "@zikula_users_module.current_user"
+        calls:
+            - [setMultilingual, ["@=service('zikula_extensions_module.api.variable').getSystemVar('multilingual', true)"]]
         tags:
             - { name: knp_menu.menu_builder, method: createItemActionsMenu, alias: zikulaContentMenuItemActions }

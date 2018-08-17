@@ -76,6 +76,7 @@ class YouTubeType extends AbstractContentType
             'text' => '',
             'videoId' => '',
             'displayMode' => 'inline',
+            'noCookie' => true,
             'showRelated' => false,
             'autoplay' => false
         ];

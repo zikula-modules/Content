@@ -11,21 +11,18 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Vimeo form type class.
  */
 class VimeoType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * VimeoType constructor.
      *
@@ -37,20 +34,11 @@ class VimeoType extends AbstractType
     }
 
     /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator Translator service instance
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
      * @inheritDoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $context = isset($options['context']) ? $options['context'] : ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('url', UrlType::class, [
                 'label' => $this->__('URL to the video clip') . ':',
@@ -60,6 +48,11 @@ class VimeoType extends AbstractType
                 'label' => $this->__('Video description') . ':',
                 'required' => false
             ])
+        ;
+        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
+            return;
+        }
+        $builder
             ->add('displayMode', ChoiceType::class, [
                 'label' => $this->__('Display mode') . ':',
                 'label_attr' => [

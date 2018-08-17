@@ -126,13 +126,6 @@ interface ContentTypeInterface
     public function getTranslationViewTemplatePath();
 
     /**
-     * Returns the full name of the translation form's template in 'namespaced' name-style.
-     *     e.g. `return '@AcmeMyBundle/ContentType/headingTranslationEdit.html.twig';`
-     * @return string
-     */
-    public function getTranslationEditTemplatePath();
-
-    /**
      * Returns the FqCN of the form class (e.g. return HeadingType::class;)
      * @return string
      */
@@ -140,9 +133,10 @@ interface ContentTypeInterface
 
     /**
      * Returns an array of form options.
+     * @param string $context The target page context (one of CONTEXT* constants)
      * @return array
      */
-    public function getEditFormOptions();
+    public function getEditFormOptions($context);
 
     /**
      * Returns an array of required assets.

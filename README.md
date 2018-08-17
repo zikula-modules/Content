@@ -33,6 +33,8 @@ It also features additional functionality, like translating content and tracking
 
 This module is intended for being used with Zikula 2.0.9+.
 
+Currently you need to patch Zikula 2.0.x by adding [this change](https://github.com/zikula/core/compare/f6b1638292862976de392a391cda94fcc2068992...e467e23ddff317abe47661df2c9bb88357a70a9c).
+
 
 <a name="installation" />
 
@@ -59,8 +61,6 @@ An upgrade possibility from earlier versions to 5.0.0 has not been implemented y
 
 Content offers a dedicated menu block. But it can also be combined with menus from the menu module which is provided by Zikula core. You can add nodes with a placeholder title like `ContentPages_123` whereby `123` is the ID of a certain page. When displaying the menu this placeholder will be replaced by the corresponding pages sub tree. Note that only those pages are shown which are currently active, have the "in menu" flag enabled and visible to the current user.
 
-To make this integration work you need to patch Zikula 2.0.x by adding [this change](https://github.com/zikula/core/compare/f6b1638292862976de392a391cda94fcc2068992...e467e23ddff317abe47661df2c9bb88357a70a9c).
-
 
 <a name="contenttypes" />
 
@@ -76,10 +76,9 @@ In content each page consists of several content items. Each content item uses a
    Otherwise the `getEditFormClass` method must return `null`.
 - The convention for template files of a content type with name `foo` is as follows:
   - Display: `@AcmeFooModule/ContentType/FooView.html.twig`
-  - Edit subform: `@AcmeFooModule/ContentType/FooEdit.html.twig`
   - Translation original: `@AcmeFooModule/ContentType/FooTranslationView.html.twig`
-  - Translation subform: `@AcmeFooModule/ContentType/FooTranslationEdit.html.twig`
-  - In the sub form templates, **do not** render the `form_start(form)` or `form_end(form)` tags.
+  - Edit (and translation) subform: `@AcmeFooModule/ContentType/FooEdit.html.twig`
+  - In the sub form template, **do not** render the `form_start(form)` or `form_end(form)` tags.
 
 
 <a name="changelog" />
@@ -112,6 +111,7 @@ New features:
 - Added owner permission support to allow non-admin users to manage their own pages.
 - Custom (and multiple) CSS classes can now be used for pages, page sections and single content elements.
 - Permalink settings for removing unwanted URL parts.
+- Added no cookie option for YouTube videos.
 
 Deprecations:
 - Removed the ability to register a page var for breadcrumbs in favour of a dedicated module for this purpose. There is still a Twig function for retrieving or displaying a page hierarchy though.

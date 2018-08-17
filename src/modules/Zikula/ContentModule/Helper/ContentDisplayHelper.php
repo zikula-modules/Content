@@ -74,14 +74,15 @@ class ContentDisplayHelper implements ContainerAwareInterface
      * Returns all required details for display view of a content item.
      *
      * @param ContentItemEntity $item
+     * @param string            $context The target page context (one of CONTEXT* constants)
      *
      * @return array
      */
-    public function getDetailsForDisplayView(ContentItemEntity $item)
+    public function prepareForDisplay(ContentItemEntity $item, $context = ContentTypeInterface::CONTEXT_VIEW)
     {
         $contentType = $this->initContentType($item);
 
-        $assets = $contentType->getAssets(ContentTypeInterface::CONTEXT_VIEW);
+        $assets = $contentType->getAssets($context);
         if (isset($assets['css']) && is_array($assets['css'])) {
             foreach ($assets['css'] as $path) {
                 $this->pageAssetApi->add('stylesheet', $path);
@@ -92,7 +93,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
                 $this->pageAssetApi->add('javascript', $path);
             }
         }
-        $jsEntryPoint = $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_VIEW);
+        $jsEntryPoint = $contentType->getJsEntrypoint($context);
         if (null !== $jsEntryPoint) {
             $initScript = "
                 <script>
@@ -108,7 +109,11 @@ class ContentDisplayHelper implements ContainerAwareInterface
             $this->pageAssetApi->add('footer', $initScript);
         }
 
-        return $contentType->display(false);
+        if (ContentTypeInterface::CONTEXT_VIEW == $context) {
+            return $contentType->display(false);
+        }
+
+        return '';
     }
 
     /**

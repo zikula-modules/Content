@@ -11,21 +11,18 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Heading form type class.
  */
 class HeadingType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * HeadingType constructor.
      *
@@ -37,25 +34,18 @@ class HeadingType extends AbstractType
     }
 
     /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator Translator service instance
-     */
-    public function setTranslator(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
      * @inheritDoc
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $context = isset($options['context']) ? $options['context'] : ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('text', TextType::class, [
                 'label' => $this->__('Heading') . ':'
             ])
-            ->add('headingType', ChoiceType::class, [
+        ;
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            $builder->add('headingType', ChoiceType::class, [
                 'label' => $this->__('Heading type') . ':',
                 'label_attr' => [
                     'class' => 'radio-inline'
@@ -66,21 +56,23 @@ class HeadingType extends AbstractType
                     'h4' => 'h4'
                 ],
                 'expanded' => true
-            ])
-            ->add('anchorName', TextType::class, [
-                'label' => $this->__('Internal anchor link name') . ':',
-                'help' => $this->__('Leave empty for no internal anchor link.'),
-                'required' => false,
-                'attr' => [
-                    'title' => $this->__('Leave empty for no internal anchor link.')
-                ]
-            ])
-            ->add('displayPageTitle', CheckboxType::class, [
+            ]);
+        }
+        $builder->add('anchorName', TextType::class, [
+            'label' => $this->__('Internal anchor link name') . ':',
+            'help' => $this->__('Leave empty for no internal anchor link.'),
+            'required' => false,
+            'attr' => [
+                'title' => $this->__('Leave empty for no internal anchor link.')
+            ]
+        ]);
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            $builder->add('displayPageTitle', CheckboxType::class, [
                 'label' => $this->__('Display the page title') . ':',
                 'help' => $this->__('If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'),
                 'required' => false
-            ])
-        ;
+            ]);
+        }
     }
 
     /**

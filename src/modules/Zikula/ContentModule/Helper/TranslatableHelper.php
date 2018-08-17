@@ -11,6 +11,8 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractTranslatableHelper;
 
 /**
@@ -18,5 +20,106 @@ use Zikula\ContentModule\Helper\Base\AbstractTranslatableHelper;
  */
 class TranslatableHelper extends AbstractTranslatableHelper
 {
-    // feel free to add your own convenience methods here
+    /**
+     * @var ContentDisplayHelper
+     */
+    protected $displayHelper;
+
+    /**
+     * Returns information about which page elements are translatable.
+     *
+     * @param PageEntity $page
+     * @param ContentItemEntity $contentItem
+     * @return array
+     */
+    public function getTranslationInfo(PageEntity $page = null, ContentItemEntity $contentItem = null)
+    {
+        $result = [
+            'items' => [],
+            'currentContentId' => null,
+            'previousContentId' => null,
+            'nextContentId' => null
+        ];
+        $pageContentItems = $page->getContentItems();
+        if (!count($pageContentItems)) {
+            return $result;
+        }
+
+        // reorder content items by page layout data
+        $layoutData = $page->getLayout();
+        $processedItemIds = [];
+        if (is_array($layoutData) && count($layoutData) > 0) {
+            $pageContentItemsOrdered = [];
+            foreach ($layoutData as $sectionKey => $section) {
+                if (!isset($section['widgets']) || !is_array($section['widgets']) || !count($section['widgets'])) {
+                    continue;
+                }
+                foreach ($section['widgets'] as $widgetKey => $widget) {
+                    foreach ($pageContentItems as $item) {
+                        if ($widget['id'] != $item->getId()) {
+                            continue;
+                        }
+                        $pageContentItemsOrdered[] = $item;
+                        $processedItemIds[] = $widget['id'];
+                        break;
+                    }
+                }
+            }
+            if (count($processedItemIds) < count($pageContentItemsOrdered)) {
+                foreach ($pageContentItems as $item) {
+                    if (in_array($item->getId(), $processedItemIds)) {
+                        continue;
+                    }
+                    $pageContentItemsOrdered[] = $item;
+                }
+            }
+            $pageContentItems = $pageContentItemsOrdered;
+        }
+
+        $contentItems = [];
+        foreach ($pageContentItems as $item) {
+            $contentItems[] = $this->displayHelper->initContentType($item);
+        }
+
+        $currentIndex = -1;
+        if (null !== $contentItem) {
+            $i = 1;
+            foreach ($contentItems as $contentType) {
+                if ($contentItem->getId() == $contentType->getEntity()->getId()) {
+                    $currentIndex = $i - 1;
+                    break;
+                }
+            }
+            $i++;
+        }
+
+        $result['items'] = $contentItems;
+
+        $amountOfItems = count($contentItems);
+        if (null !== $contentItem) {
+            if ($currentIndex < $amountOfItems - 1) {
+                $result['nextContentId'] = $contentItems[$currentIndex + 1]->getEntity()->getId();
+            }
+            if ($currentIndex > 0) {
+                $result['previousContentId'] = $contentItems[$currentIndex - 1]->getEntity()->getId();
+            }
+        } else {
+            if ($amountOfItems > 0) {
+                $result['nextContentId'] = $contentItems[0]->getEntity()->getId();
+            }
+        }
+        if ($currentIndex > -1) {
+            $result['currentContentId'] = $contentItems[$currentIndex]->getEntity()->getId();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param ContentDisplayHelper $displayHelper
+     */
+    public function setContentDisplayHelper(ContentDisplayHelper $displayHelper)
+    {
+        $this->displayHelper = $displayHelper;
+    }
 }

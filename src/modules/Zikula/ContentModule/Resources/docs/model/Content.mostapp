@@ -35,6 +35,7 @@ application "Content" {
         Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
         Helper/SearchHelper.php,
+        Helper/TranslatableHelper.php,
         Helper/ViewHelper.php,
         Menu/MenuBuilder.php,
         Resources/config/routing.yml,
@@ -49,6 +50,7 @@ application "Content" {
         Resources/config/entityFactory.yml,
         Resources/config/forms.yml,
         Resources/config/helpers.yml,
+        Resources/config/menu.yml,
         Resources/config/services.yml
     "
     entities {
