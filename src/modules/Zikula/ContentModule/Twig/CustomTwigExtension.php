@@ -12,6 +12,7 @@
 namespace Zikula\ContentModule\Twig;
 
 use Doctrine\DBAL\Driver\Connection;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
@@ -223,7 +224,11 @@ class CustomTwigExtension extends Twig_Extension
     {
         $contentElements = [];
         foreach ($page->getContentItems() as $contentItem) {
-            $contentElements[$contentItem->getId()] = $this->displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_VIEW);
+            try {
+                $contentElements[$contentItem->getId()] = $this->displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_VIEW);
+            } catch (RuntimeException $exception) {
+                $contentElements[$contentItem->getId()] = '';
+            }
         }
 
         return $contentElements;

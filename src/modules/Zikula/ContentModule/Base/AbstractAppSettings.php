@@ -51,6 +51,15 @@ abstract class AbstractAppSettings
     protected $googleMapsApiKey = '';
     
     /**
+     * If you want to get translation support by Yandex which can provide suggestions you need an API key for it.
+     *
+     * @Assert\NotNull()
+     * @Assert\Length(min="0", max="255")
+     * @var string $yandexTranslateApiKey
+     */
+    protected $yandexTranslateApiKey = '';
+    
+    /**
      * Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.
      *
      * @Assert\NotNull()
@@ -141,7 +150,7 @@ abstract class AbstractAppSettings
     protected $ignoreEntityNameInRoutes = true;
     
     /**
-     * This removes the first tree level of pages from permalinks of pages in greater levels.
+     * This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
@@ -277,6 +286,30 @@ abstract class AbstractAppSettings
     {
         if ($this->googleMapsApiKey !== $googleMapsApiKey) {
             $this->googleMapsApiKey = isset($googleMapsApiKey) ? $googleMapsApiKey : '';
+        }
+    }
+    
+    /**
+     * Returns the yandex translate api key.
+     *
+     * @return string
+     */
+    public function getYandexTranslateApiKey()
+    {
+        return $this->yandexTranslateApiKey;
+    }
+    
+    /**
+     * Sets the yandex translate api key.
+     *
+     * @param string $yandexTranslateApiKey
+     *
+     * @return void
+     */
+    public function setYandexTranslateApiKey($yandexTranslateApiKey)
+    {
+        if ($this->yandexTranslateApiKey !== $yandexTranslateApiKey) {
+            $this->yandexTranslateApiKey = isset($yandexTranslateApiKey) ? $yandexTranslateApiKey : '';
         }
     }
     
@@ -681,6 +714,9 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['googleMapsApiKey'])) {
             $this->setGoogleMapsApiKey($moduleVars['googleMapsApiKey']);
         }
+        if (isset($moduleVars['yandexTranslateApiKey'])) {
+            $this->setYandexTranslateApiKey($moduleVars['yandexTranslateApiKey']);
+        }
         if (isset($moduleVars['enableRawPlugin'])) {
             $this->setEnableRawPlugin($moduleVars['enableRawPlugin']);
         }
@@ -739,6 +775,7 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'stateOfNewPages', $this->getStateOfNewPages());
         $this->variableApi->set('ZikulaContentModule', 'countPageViews', $this->getCountPageViews());
         $this->variableApi->set('ZikulaContentModule', 'googleMapsApiKey', $this->getGoogleMapsApiKey());
+        $this->variableApi->set('ZikulaContentModule', 'yandexTranslateApiKey', $this->getYandexTranslateApiKey());
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());
         $this->variableApi->set('ZikulaContentModule', 'inheritPermissions', $this->getInheritPermissions());
         $this->variableApi->set('ZikulaContentModule', 'pageStyles', $this->getPageStyles());

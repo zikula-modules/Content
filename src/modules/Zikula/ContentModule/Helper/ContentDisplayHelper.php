@@ -125,15 +125,25 @@ class ContentDisplayHelper implements ContainerAwareInterface
      */
     public function getDetailsForDisplayEditing(ContentItemEntity $item)
     {
-        $contentType = $this->initContentType($item);
+        try {
+            $contentType = $this->initContentType($item);
 
-        return [
-            'title' => $this->getWidgetTitle($item, $contentType),
-            'content' => $contentType->display(true),
-            'panelClass' => $this->getWidgetPanelClass($item),
-            'assets' => $contentType->getAssets(ContentTypeInterface::CONTEXT_VIEW),
-            'jsEntryPoint' => $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_VIEW)
-        ];
+            return [
+                'title' => $this->getWidgetTitle($item, $contentType),
+                'content' => $contentType->display(true),
+                'panelClass' => $this->getWidgetPanelClass($item),
+                'assets' => $contentType->getAssets(ContentTypeInterface::CONTEXT_VIEW),
+                'jsEntryPoint' => $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_VIEW)
+            ];
+        } catch (RuntimeException $exception) {
+            return [
+                'title' => '<i class="fa fa-exclamation-triangle"></i> ' . $this->__('Error'),
+                'content' => $exception->getMessage(),
+                'panelClass' => 'danger',
+                'assets' => [],
+                'jsEntryPoint' => null
+            ];
+        }
     }
 
     /**
@@ -147,7 +157,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
     {
         $contentTypeClass = $item->getOwningType();
         if (!class_exists($contentTypeClass) || !$this->container->has($contentTypeClass)) {
-            throw new RuntimeException($this->__('Invalid content type received.'));
+            throw new RuntimeException($this->__('Invalid content type received.') . ' ' . $contentTypeClass);
         }
 
         $contentType = $this->container->get($contentTypeClass);

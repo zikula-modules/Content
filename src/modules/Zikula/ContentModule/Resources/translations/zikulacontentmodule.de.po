@@ -787,6 +787,9 @@ msgstr "Die Versionsdaten der Seite eingeben."
 msgid "Enter the views of the page."
 msgstr "Die Aufrufe der Seite eingeben."
 
+msgid "Enter the yandex translate api key."
+msgstr "Den Yandex Translate API-Schlüssel eingeben."
+
 msgid "Entry to display"
 msgstr "Anzuzeigender Eintrag"
 
@@ -934,6 +937,9 @@ msgstr "Allgemeine Seitendaten"
 
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
+
+msgid "Get API key"
+msgstr "API-Schlüssel erhalten"
 
 msgid "Get directions from start address"
 msgstr "Wegbeschreibung von Startadresse"
@@ -1093,6 +1099,13 @@ msgid ""
 msgstr ""
 "Falls ein zusätzlicher Text für jede Seite benötigt wird, kann ein "
 "optionales Feld aktiviert werden."
+
+msgid ""
+"If you want to get translation support by Yandex which can provide "
+"suggestions you need an API key for it."
+msgstr ""
+"Um Unterstützung bei Übersetzungen durch Yandex in Form von Vorschlägen zu "
+"bekommen, wird ein API-Schlüssel benötigt."
 
 msgid ""
 "If you want to use Google maps you need an API key for it. You should enable "
@@ -1922,15 +1935,20 @@ msgstr "Dies ist ein neuer Wurzelknoten"
 msgid "This is an optional filter."
 msgstr "Dies ist ein optionaler Filter."
 
-msgid "This is the main page"
-msgstr "Dies ist die Hauptseite"
+msgid "This is only a dummy page containing the real pages"
+msgstr "Dies ist nur eine Dummy-Seite, welche die wirklichen Seiten enthält"
 
 msgid ""
 "This removes the first tree level of pages from permalinks of pages in "
-"greater levels."
+"greater levels. If enabled first level pages act only as dummys while second "
+"level pages are the actual main pages. Recommended because it allows working "
+"with only one single tree of pages."
 msgstr ""
 "Dies entfernt die erste Baumebene von Seiten aus Permalinks von Seiten in "
-"tieferen Ebenen."
+"tieferen Ebenen. Wenn aktiviert, agieren die Seiten auf der ersten Ebene nur "
+"als Dummies, während die Seiten auf der zweiten Ebene die eigentlichen "
+"Hauptseiten sind. Empfohlen, da man so mit einem einzigen Seitenbaum "
+"arbeiten kann."
 
 msgid "This removes the module name (defaults to \"content\") from permalinks."
 msgstr "Dies entfernt den Modulnamen (Standard \"content\") aus Permalinks."
@@ -2154,6 +2172,9 @@ msgstr "Workflow-Zustand"
 msgid "Workflows"
 msgstr "Arbeitsabläufe"
 
+msgid "Yandex translate api key"
+msgstr "Yandex Translate API-Schlüssel"
+
 msgid "Yes"
 msgstr "Ja"
 
@@ -2360,13 +2381,3 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
-
-#~ msgid "if page isn't 'All pages'"
-#~ msgstr "wenn Seite nicht 'Alle Seiten'"
-
-#~ msgid ""
-#~ "Here you can customise the behaviour of creating permalinks for content "
-#~ "pages."
-#~ msgstr ""
-#~ "Hier kann das Verhalten zur Erstellung von Permalinks für Inhaltsseiten "
-#~ "angepasst werden."

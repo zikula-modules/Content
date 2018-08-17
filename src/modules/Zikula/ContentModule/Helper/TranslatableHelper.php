@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use RuntimeException;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractTranslatableHelper;
@@ -24,6 +25,35 @@ class TranslatableHelper extends AbstractTranslatableHelper
      * @var ContentDisplayHelper
      */
     protected $displayHelper;
+
+    /**
+     * @inheritDoc
+     */
+    public function prepareEntityForEditing($entity)
+    {
+        $translations = [];
+        if ($this->variableApi->getSystemVar('multilingual') != 1) {
+            return $translations;
+        }
+
+        $translations = parent::prepareEntityForEditing($entity);
+        $objectType = $entity->get_objectType();
+        if ('contentItem' != $objectType) {
+            return $translations;
+        }
+
+        foreach ($translations as $language => $translationData) {
+            if (isset($translationData['contentData']) && !is_array($translationData['contentData'])) {
+                if (empty($translationData['contentData'])) {
+                    $translations[$language]['contentData'] = [];
+                } else {
+                    $translations[$language]['contentData'] = unserialize($translationData['contentData']);
+                }
+            }
+        }
+
+        return $translations;
+    }
 
     /**
      * Returns information about which page elements are translatable.
@@ -78,7 +108,11 @@ class TranslatableHelper extends AbstractTranslatableHelper
 
         $contentItems = [];
         foreach ($pageContentItems as $item) {
-            $contentItems[] = $this->displayHelper->initContentType($item);
+            try {
+                $contentItems[] = $this->displayHelper->initContentType($item);
+            } catch (RuntimeException $exception) {
+                // ignore
+            }
         }
 
         $currentIndex = -1;

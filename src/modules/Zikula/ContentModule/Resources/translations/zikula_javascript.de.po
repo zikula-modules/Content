@@ -34,6 +34,9 @@ msgstr "Basis"
 msgid "Content item"
 msgstr "Inhaltselement"
 
+msgid "Copy source code into clipboard"
+msgstr "Quelltext in die Zwischenablage kopieren"
+
 msgid "Could not persist your change."
 msgstr "Die Änderung konnte nicht gespeichert werden."
 
@@ -82,6 +85,9 @@ msgstr "Soll dieser Knoten mitsamt aller Kindknoten wirklich gelöscht werden?"
 msgid "Do you really want to remove this node?"
 msgstr "Soll dieser Knoten wirklich gelöscht werden?"
 
+msgid "Done!"
+msgstr "Erledigt!"
+
 msgid "Done! Content saved!"
 msgstr "Erledigt! Inhalt gespeichert!"
 
@@ -103,11 +109,17 @@ msgstr "Fehler"
 msgid "Failed loading the data."
 msgstr "Fehler beim Laden der Daten."
 
+msgid "Insert suggestion for translation"
+msgstr "Vorschlag für Übersetzung einfügen"
+
 msgid "Invalid node id"
 msgstr "Ungültige Knoten-Id"
 
 msgid "Loading..."
 msgstr "Lade..."
+
+msgid "Markup source"
+msgstr "HTML-Quelltext"
 
 msgid "Move down"
 msgstr "Nach unten"
@@ -156,3 +168,6 @@ msgstr "Erfolg"
 
 msgid "The start must be before the end."
 msgstr "Der Beginn muss vor dem Ende liegen."
+
+msgid "Toggle source code view"
+msgstr "Quelltextansicht umschalten"

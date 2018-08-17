@@ -20,6 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\TranslatableHelper;
@@ -77,6 +78,13 @@ class TranslateType extends AbstractType
             $this->addPageFields($builder, $options);
         } elseif ('item' == $options['mode']) {
             $this->addItemFields($builder, $options);
+            $hasContentData = null !== $options['content_type'] && count($options['content_type']->getTranslatableDataFields()) > 0;
+            if ($hasContentData) {
+                $editFormClass = $options['content_type']->getEditFormClass();
+                if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
+                    $builder->add('contentData', $editFormClass, $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION));
+                }
+            }
         }
 
         $supportedLanguages = $this->translatableHelper->getSupportedLanguages('page');
@@ -85,7 +93,11 @@ class TranslateType extends AbstractType
             if ('page' == $options['mode']) {
                 $translatableFields = $this->translatableHelper->getTranslatableFields('page');
             } elseif ('item' == $options['mode']) {
-                $translatableFields = ['additionalSearchText'];
+                if ($hasContentData) {
+                    $translatableFields = ['contentData', 'additionalSearchText'];
+                } else {
+                    $translatableFields = ['additionalSearchText'];
+                }
             }
             $mandatoryFields = $this->translatableHelper->getMandatoryFields('page');
             foreach ($supportedLanguages as $language) {
@@ -263,6 +275,7 @@ class TranslateType extends AbstractType
         $resolver
             ->setDefaults([
                 'mode' => 'page',
+                'content_type' => null,
                 'translations' => []
             ])
             ->setRequired(['mode'])

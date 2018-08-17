@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -77,6 +78,12 @@ class ContentItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (null !== $options['content_type']) {
+            $editFormClass = $options['content_type']->getEditFormClass();
+            if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
+                $builder->add('contentData', $editFormClass, $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_EDIT));
+            }
+        }
         $builder->add('active', CheckboxType::class, [
             'label' => $this->__('Active') . ':',
             'attr' => [
@@ -177,7 +184,8 @@ class ContentItemType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ContentItemEntity::class
+            'data_class' => ContentItemEntity::class,
+            'content_type' => null
         ]);
     }
 }

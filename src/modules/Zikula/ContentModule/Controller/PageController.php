@@ -653,15 +653,12 @@ class PageController extends AbstractPageController
             $formOptions['translations'][$language] = $translationData;
         }
 
-        if ($isPageStep) {
-            $slugParts = explode('/', $page->getSlug());
-            $page->setSlug(end($slugParts));
-        }
-
-        $form = $this->createForm(TranslateType::class, $formObject, $formOptions);
-
+        $pageSlug = $page->getSlug();
         $contentType = null;
-        if (!$isPageStep) {
+        if ($isPageStep) {
+            $slugParts = explode('/', $pageSlug);
+            $page->setSlug(end($slugParts));
+        } else {
             $displayHelper = $this->get('zikula_content_module.content_display_helper');
             $contentType = $displayHelper->initContentType($contentItem);
             foreach ($translationInfo['items'] as $item) {
@@ -672,37 +669,33 @@ class PageController extends AbstractPageController
                 break;
             }
 
-            if ($contentType->isTranslatable()) {
-                $editFormClass = $contentType->getEditFormClass();
-                if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                    $form->add('contentData', $editFormClass, $contentType->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION));
-                }
-            }
+            $formOptions['content_type'] = $contentType;
             $displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_TRANSLATION);
         }
+        $form = $this->createForm(TranslateType::class, $formObject, $formOptions);
 
         if ($form->handleRequest($request)->isValid()) {
-            die('TEST');
             $selfRoute = $routePrefix . 'translate';
-            // handle form data
             if ($isPageStep) {
-                if ($form->get('next')->isClicked() || $form->get('saveandquit')->isClicked()) {
-                    // TODO update page translations
-                }
-            } else {
-                if (in_array($form->getClickedButton()->getName(), ['prev', 'next', 'saveandquit'])) {
-                    // TODO update content item translations
-                }
-                if ($form->get('prev')->isClicked()) {
-                    if (null !== $translationInfo['previousContentId']) {
-                        $returnUrl = $this->generateUrl($selfRoute, ['slug' => $page->getSlug(), 'cid' => $translationInfo['previousContentId']]);
-                    } else {
-                        $returnUrl = $this->generateUrl($selfRoute, ['slug' => $page->getSlug()]);
-                    }
+                $pageSlug = $page->getSlug();
+            }
+            // handle form data
+            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
+            $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+            if (in_array($form->getClickedButton()->getName(), ['prev', 'next', 'saveandquit'])) {
+                // update translations
+                $success = $workflowHelper->executeAction($formObject, 'update');
+                $translatableHelper->processEntityAfterEditing($formObject, $form, $entityManager);
+            }
+            if (!$isPageStep && $form->get('prev')->isClicked()) {
+                if (null !== $translationInfo['previousContentId']) {
+                    $returnUrl = $this->generateUrl($selfRoute, ['slug' => $pageSlug, 'cid' => $translationInfo['previousContentId']]);
+                } else {
+                    $returnUrl = $this->generateUrl($selfRoute, ['slug' => $pageSlug]);
                 }
             }
             if (null !== $translationInfo['nextContentId'] && in_array($form->getClickedButton()->getName(), ['next', 'skip'])) {
-                $returnUrl = $this->generateUrl($selfRoute, ['slug' => $page->getSlug(), 'cid' => $translationInfo['nextContentId']]);
+                $returnUrl = $this->generateUrl($selfRoute, ['slug' => $pageSlug, 'cid' => $translationInfo['nextContentId']]);
             }
 
             if (true === $hasPageLockModule) {
@@ -723,12 +716,24 @@ class PageController extends AbstractPageController
             $localesWithMandatoryFields[] = $translatableHelper->getCurrentLanguage();
         }
 
+        $localesWithExistingData = [$request->getLocale()];
+        foreach ($translations as $language => $translationData) {
+            foreach ($translationData as $fieldName => $fieldContent) {
+                if (empty($fieldContent)) {
+                    continue;
+                }
+                $localesWithExistingData[] = $language;
+                break;
+            }
+        }
+
         return [
             'routeArea' => $routeArea,
             'currentStep' => $currentStep,
             'amountOfSteps' => (count($page->getContentItems()) + 1),
             'translationInfo' => $translationInfo,
             'supportedLanguages' => $supportedLanguages,
+            'localesWithExistingData' => $localesWithExistingData,
             'localesWithMandatoryFields' => $localesWithMandatoryFields,
             'form' => $form->createView(),
             'page' => $page,

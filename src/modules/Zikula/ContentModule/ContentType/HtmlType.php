@@ -55,19 +55,19 @@ class HtmlType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
             'text' => $this->__('Add text here...')
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['text'];
     }
 
     /**
@@ -92,11 +92,9 @@ class HtmlType extends AbstractContentType
     public function getAssets($context)
     {
         $assets = parent::getAssets($context);
-        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
-            return $assets;
+        if (in_array($context, [ContentTypeInterface::CONTEXT_EDIT, ContentTypeInterface::CONTEXT_TRANSLATION])) {
+            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Html.js');
         }
-
-        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Html.js');
 
         return $assets;
     }
@@ -106,10 +104,13 @@ class HtmlType extends AbstractContentType
      */
     public function getJsEntrypoint($context)
     {
-        if (ContentTypeInterface::CONTEXT_EDIT != $context) {
-            return null;
+        if (ContentTypeInterface::CONTEXT_EDIT == $context) {
+            return 'contentInitHtmlEdit';
+        }
+        if (ContentTypeInterface::CONTEXT_TRANSLATION == $context) {
+            return 'contentInitHtmlTranslation';
         }
 
-        return 'contentInitHtmlEdit';
+        return null;
     }
 }

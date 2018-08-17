@@ -55,14 +55,6 @@ class HeadingType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -71,6 +63,14 @@ class HeadingType extends AbstractContentType
             'anchorName' => '', 
             'displayPageTitle' => false
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['text', 'anchorName'];
     }
 
     /**

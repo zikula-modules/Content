@@ -47,6 +47,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('stateOfNewPages', '1');
         $this->setVar('countPageViews', false);
         $this->setVar('googleMapsApiKey', '');
+        $this->setVar('yandexTranslateApiKey', '');
         $this->setVar('enableRawPlugin', false);
         $this->setVar('inheritPermissions', false);
         $this->setVar('pageStyles', 'dummy|Dummy');

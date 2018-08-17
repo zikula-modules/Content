@@ -138,6 +138,22 @@ abstract class AbstractConfigType extends AbstractType
             'required' => false,
         ]);
         
+        $builder->add('yandexTranslateApiKey', TextType::class, [
+            'label' => $this->__('Yandex translate api key') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('If you want to get translation support by Yandex which can provide suggestions you need an API key for it.')
+            ],
+            'help' => $this->__('If you want to get translation support by Yandex which can provide suggestions you need an API key for it.'),
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 255,
+                'class' => '',
+                'title' => $this->__('Enter the yandex translate api key.')
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('enableRawPlugin', CheckboxType::class, [
             'label' => $this->__('Enable raw plugin') . ':',
             'label_attr' => [
@@ -318,9 +334,9 @@ abstract class AbstractConfigType extends AbstractType
             'label' => $this->__('Ignore first tree level in routes') . ':',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels.')
+                'title' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.')
             ],
-            'help' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels.'),
+            'help' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.'),
             'attr' => [
                 'class' => '',
                 'title' => $this->__('The ignore first tree level in routes option')
