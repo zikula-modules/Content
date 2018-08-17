@@ -715,12 +715,24 @@ class PageController extends AbstractPageController
             $localesWithMandatoryFields[] = $translatableHelper->getCurrentLanguage();
         }
 
+        $localesWithExistingData = [$request->getLocale()];
+        foreach ($translations as $language => $translationData) {
+            foreach ($translationData as $fieldName => $fieldContent) {
+                if (empty($fieldContent)) {
+                    continue;
+                }
+                $localesWithExistingData[] = $language;
+                break;
+            }
+        }
+
         return [
             'routeArea' => $routeArea,
             'currentStep' => $currentStep,
             'amountOfSteps' => (count($page->getContentItems()) + 1),
             'translationInfo' => $translationInfo,
             'supportedLanguages' => $supportedLanguages,
+            'localesWithExistingData' => $localesWithExistingData,
             'localesWithMandatoryFields' => $localesWithMandatoryFields,
             'form' => $form->createView(),
             'page' => $page,
