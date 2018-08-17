@@ -14,6 +14,7 @@ services:
 
     Zikula\ContentModule\ContentType\AuthorType:
         parent: zikula_content_module.content_type.common
+        shared: false
         arguments:
             - '@zikula_users_module.current_user'
             - '@zikula_users_module.user_repository'
@@ -26,6 +27,7 @@ services:
 
     Zikula\ContentModule\ContentType\BlockType:
         parent: zikula_content_module.content_type.common
+        shared: false
         arguments:
             - '@kernel'
             - '@router'
@@ -41,6 +43,7 @@ services:
 
     Zikula\ContentModule\ContentType\BreadcrumbType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setIgnoreFirstTreeLevel, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"]]
         tags: ['zikula.content_type']
@@ -50,6 +53,7 @@ services:
 
     Zikula\ContentModule\ContentType\ComputerCodeType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setKernel, ['@kernel']]
         tags: ['zikula.content_type']
@@ -61,6 +65,7 @@ services:
 
     Zikula\ContentModule\ContentType\ContentItemType:
         parent: zikula_content_module.content_type.common
+        shared: false
         arguments:
             - '@zikula_content_module.entity_factory'
             - '@zikula_content_module.content_display_helper'
@@ -71,6 +76,7 @@ services:
 
     Zikula\ContentModule\ContentType\ControllerType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setKernel, ['@kernel']]
             - [setRequestStack, ['@request_stack']]
@@ -81,6 +87,7 @@ services:
 
     Zikula\ContentModule\ContentType\FeedType:
         parent: zikula_content_module.content_type.common
+        shared: false
         arguments:
             - '@zikula_content_module.cache_helper'
         tags: ['zikula.content_type']
@@ -90,6 +97,7 @@ services:
 
     Zikula\ContentModule\ContentType\GoogleMapType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setRequestStack, ['@request_stack']]
             - [setGoogleMapsApiKey, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"]]
@@ -100,6 +108,7 @@ services:
 
     Zikula\ContentModule\ContentType\GoogleRouteType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setRequestStack, ['@request_stack']]
             - [setGoogleMapsApiKey, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"]]
@@ -110,6 +119,7 @@ services:
 
     Zikula\ContentModule\ContentType\HeadingType:
         parent: zikula_content_module.content_type.common
+        shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\HeadingType:
         parent: zikula_content_module.content_type.form.common
@@ -117,6 +127,7 @@ services:
 
     Zikula\ContentModule\ContentType\HtmlType:
         parent: zikula_content_module.content_type.common
+        shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\HtmlType:
         parent: zikula_content_module.content_type.form.common
@@ -124,6 +135,7 @@ services:
 
     Zikula\ContentModule\ContentType\LeafletMapType:
         parent: zikula_content_module.content_type.common
+        shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\LeafletMapType:
         parent: zikula_content_module.content_type.form.common
@@ -131,10 +143,12 @@ services:
 
     Zikula\ContentModule\ContentType\PageNavigationType:
         parent: zikula_content_module.content_type.common
+        shared: false
         tags: ['zikula.content_type']
 
     Zikula\ContentModule\ContentType\QuoteType:
         parent: zikula_content_module.content_type.common
+        shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\QuoteType:
         parent: zikula_content_module.content_type.form.common
@@ -142,6 +156,7 @@ services:
 
     Zikula\ContentModule\ContentType\SlideshareType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
@@ -151,6 +166,7 @@ services:
 
     Zikula\ContentModule\ContentType\TableOfContentsType:
         parent: zikula_content_module.content_type.common
+        shared: false
         arguments:
             - '@router'
             - '@zikula_content_module.entity_factory'
@@ -165,6 +181,7 @@ services:
 
     Zikula\ContentModule\ContentType\TabNavigationType:
         parent: zikula_content_module.content_type.common
+        shared: false
         arguments:
             - '@request_stack'
             - '@zikula_content_module.entity_factory'
@@ -176,6 +193,7 @@ services:
 
     Zikula\ContentModule\ContentType\UnfilteredType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setEnableRawPlugin, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'enableRawPlugin', false)"]]
         tags: ['zikula.content_type']
@@ -185,6 +203,7 @@ services:
 
     Zikula\ContentModule\ContentType\VimeoType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
@@ -194,6 +213,7 @@ services:
 
     Zikula\ContentModule\ContentType\YouTubeType:
         parent: zikula_content_module.content_type.common
+        shared: false
         calls:
             - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']

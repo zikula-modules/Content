@@ -672,11 +672,12 @@ class PageController extends AbstractPageController
                 break;
             }
 
-            $editFormClass = $contentType->getEditFormClass();
-            if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                $form->add('contentData', $editFormClass, $contentType->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION));
+            if ($contentType->isTranslatable()) {
+                $editFormClass = $contentType->getEditFormClass();
+                if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
+                    $form->add('contentData', $editFormClass, $contentType->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION));
+                }
             }
-
             $displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_TRANSLATION);
         }
 

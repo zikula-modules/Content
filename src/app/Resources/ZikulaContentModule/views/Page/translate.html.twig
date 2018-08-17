@@ -11,6 +11,7 @@
         ] %}
         {{ form_start(form, {attr: {id: 'pageTranslateForm', class: 'zikulacontent-translate-form'}}) }}
         {{ form_errors(form) }}
+        {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
         <div class="row">
             <div class="col-sm-6">
                 <h4>{{ __f('Step %step of %amount', {'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{{ __('General page data') }}{% else %}{% for item in translationInfo.items if item.entity.id == translationInfo.currentContentId %}{{ item.title }}{% endfor %}{% endif %}</h4>
@@ -46,52 +47,41 @@
             {% for language in supportedLanguages %}
                 <div id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
                     {% if currentStep == 1 %}
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">{{ __('Title') }}</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ language == app.request.locale ? page.title : form['translations' ~ language].title.vars.value }}</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">{{ __('Meta description') }}</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ language == app.request.locale ? page.metaDescription : form['translations' ~ language].metaDescription.vars.value }}</p>
-                            </div>
-                        </div>
-                        {% if form.optionalString1 is defined %}
+                        {% for fieldName in pageFields if form[fieldName] is defined %}
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">{{ __('Optional string 1') }}</label>
+                                <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">{{ language == app.request.locale ? page.optionalString1 : form['translations' ~ language].optionalString1.vars.value }}</p>
+                                    <p class="form-control-static">{{ language == app.request.locale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value }}</p>
                                 </div>
                             </div>
-                        {% endif %}
-                        {% if form.optionalString2 is defined %}
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">{{ __('Optional string 2') }}</label>
-                                <div class="col-sm-9">
-                                    <p class="form-control-static">{{ language == app.request.locale ? page.optionalString2 : form['translations' ~ language].optionalString2.vars.value }}</p>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if form.optionalText is defined %}
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">{{ __('Optional text') }}</label>
-                                <div class="col-sm-9">
-                                    <p class="form-control-static">{{ language == app.request.locale ? page.optionalText : form['translations' ~ language].optionalText.vars.value }}</p>
-                                </div>
-                            </div>
-                        {% endif %}
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">{{ __('Permalink') }}</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ language == app.request.locale ? page.slug : form['translations' ~ language].slug.vars.value }}</p>
-                            </div>
-                        </div>
+                        {% endfor %}
                     {% else %}
                         <p>TODO content type fields</p>
-                        {{ include(contentType.translationViewTemplatePath) }} in {{ language|upper }}
-                        <p>additionalSearchText</p>
+                        {% if form.contentData is defined %}
+                            {% for field in form.contentData %}
+                                {% set fieldName = field.vars.name %}
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
+                                    <div class="col-sm-9">
+                                        <p class="form-control-static">{{ fieldName }}{#{ language == app.request.locale ? contentItem.contentData[fieldName] : form['translations' ~ language][fieldName].vars.value }#}</p>
+                                    </div>
+                                </div>
+                                {#
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
+                                    <div class="col-sm-9">
+                                    </div>
+                                </div>
+                                #}
+                            {% endfor %}
+                        {% endif %}
+                        {% set fieldName = 'additionalSearchText' %}
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ language == app.request.locale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value }}</p>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -119,25 +109,17 @@
                                 <legend>{{ language|languageName|safeHtml }}</legend>
                                 {% if currentStep == 1 %}
                                     {% if language == app.request.locale %}
-                                        {{ form_row(form.title) }}
-                                        {{ form_row(form.metaDescription) }}
-                                        {% if form.optionalString1 is defined %}
-                                            {{ form_row(form.optionalString1) }}
-                                        {% endif %}
-                                        {% if form.optionalString2 is defined %}
-                                            {{ form_row(form.optionalString2) }}
-                                        {% endif %}
-                                        {% if form.optionalText is defined %}
-                                            {{ form_row(form.optionalText) }}
-                                        {% endif %}
-                                        {{ form_row(form.slug) }}
+                                        {% for fieldName in pageFields if form[fieldName] is defined %}
+                                            {{ form_row(form[fieldName]) }}
+                                        {% endfor %}
                                     {% else %}
                                         {{ form_row(attribute(form, 'translations' ~ language)) }}
                                     {% endif %}
                                 {% else %}
                                     {% if language == app.request.locale %}
                                         {% if form.contentData is defined %}
-                                            {{ include(contentType.editTemplatePath, {form: form.contentData|default(), context: constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION')}, with_context = false, ignore_missing = true) }}
+                                            TODO
+                                            {#{ include(contentType.editTemplatePath, {form: form.contentData|default(), context: constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION')}, with_context = false, ignore_missing = true) }#}
                                         {% endif %}
                                         {{ form_row(form.additionalSearchText) }}
                                     {% else %}
