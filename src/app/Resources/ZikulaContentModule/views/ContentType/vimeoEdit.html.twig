@@ -1,3 +1,8 @@
-{{ form_row(form.url) }}
-{{ form_row(form.text) }}
-{{ form_row(form.displayMode) }}
+{% if context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT') %}
+    {{ form_row(form.url) }}
+    {{ form_row(form.text) }}
+    {{ form_row(form.displayMode) }}
+{% elseif context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION') %}
+    {{ form_row(form.url) }}
+    {{ form_row(form.text) }}
+{% endif %}

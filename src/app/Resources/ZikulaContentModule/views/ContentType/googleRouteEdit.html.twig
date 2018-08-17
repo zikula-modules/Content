@@ -1,14 +1,20 @@
-<p class="alert alert-info">{{ __('Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.') }}</p>
+{% if context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT') %}
+    <p class="alert alert-info">{{ __('Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.') }}</p>
 
-<div class="content-googlemap">
-    <div id="googlemap" class="map"></div>
-</div>
+    <div class="content-googlemap">
+        <div id="googlemap" class="map"></div>
+    </div>
 
-{{ form_row(form.latitude) }}
-{{ form_row(form.longitude) }}
-{{ form_row(form.zoom) }}
-{{ form_row(form.mapType) }}
-{{ form_row(form.height) }}
-{{ form_row(form.addressText) }}
-{{ form_row(form.topText) }}
-{{ form_row(form.bottomText) }}
+    {{ form_row(form.latitude) }}
+    {{ form_row(form.longitude) }}
+    {{ form_row(form.zoom) }}
+    {{ form_row(form.mapType) }}
+    {{ form_row(form.height) }}
+    {{ form_row(form.addressText) }}
+    {{ form_row(form.topText) }}
+    {{ form_row(form.bottomText) }}
+{% elseif context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION') %}
+    {{ form_row(form.addressText) }}
+    {{ form_row(form.topText) }}
+    {{ form_row(form.bottomText) }}
+{% endif %}

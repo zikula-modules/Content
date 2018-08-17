@@ -241,7 +241,7 @@ class ContentItemController extends AbstractContentItemController
         ]);
         $editFormClass = $contentType->getEditFormClass();
         if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-            $form->add('contentData', $editFormClass, $contentType->getEditFormOptions());
+            $form->add('contentData', $editFormClass, $contentType->getEditFormOptions(ContentTypeInterface::CONTEXT_EDIT));
         }
 
         $templateParameters = [

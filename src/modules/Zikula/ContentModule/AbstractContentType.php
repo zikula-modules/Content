@@ -455,16 +455,6 @@ abstract class AbstractContentType implements ContentTypeInterface
     }
 
     /**
-     * Returns the full name of the translation form's template in 'namespaced' name-style.
-     *     e.g. `return '@AcmeMyBundle/ContentType/headingTranslationEdit.html.twig';`
-     * @return string
-     */
-    public function getTranslationEditTemplatePath()
-    {
-        return $this->isTranslatable() ? $this->getTemplatePath('TranslationEdit') : '';
-    }
-
-    /**
      * Tries to resolve a certain template using a given suffix in 'namespaced' name-style
      * and returns the resulting path.
      *
@@ -495,9 +485,11 @@ abstract class AbstractContentType implements ContentTypeInterface
     /**
      * Returns an array of form options.
      *
+     * @param string $context The target page context (one of CONTEXT* constants)
+     *
      * @return array
      */
-    public function getEditFormOptions()
+    public function getEditFormOptions($context)
     {
         return [];
     }
