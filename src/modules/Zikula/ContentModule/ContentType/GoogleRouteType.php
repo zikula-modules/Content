@@ -83,14 +83,6 @@ class GoogleRouteType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -103,6 +95,16 @@ class GoogleRouteType extends AbstractContentType
             'topText' => '',
             'bottomText' => ''
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['addressText', 'topText', 'bottomText'];
     }
 
     /**

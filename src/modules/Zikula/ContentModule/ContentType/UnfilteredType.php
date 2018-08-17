@@ -77,14 +77,6 @@ class UnfilteredType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -100,6 +92,16 @@ class UnfilteredType extends AbstractContentType
             'iframeScrolling' => 'no',
             'iframeAllowTransparancy' => true
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['text', 'iframeName', 'iframeTitle'];
     }
 
     /**

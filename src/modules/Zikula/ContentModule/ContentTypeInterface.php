@@ -65,12 +65,6 @@ interface ContentTypeInterface
     public function isActive();
 
     /**
-     * Returns whether translations are supported or not.
-     * @return boolean
-     */
-    public function isTranslatable();
-
-    /**
      * Returns the minimum amount of (Bootstrap) grid columns required by this content type.
      * This layout constraint is used during page editing to avoid unwanted shrinking.
      * @return integer
@@ -82,6 +76,12 @@ interface ContentTypeInterface
      * @return array
      */
     public function getDefaultData();
+
+    /**
+     * Returns a list of translatable field names if any.
+     * @return array
+     */
+    public function getTranslatableDataFields();
 
     /**
      * Returns searchable text, that is all the text that is searchable through Zikula's standard

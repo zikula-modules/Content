@@ -55,14 +55,6 @@ class QuoteType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -70,6 +62,16 @@ class QuoteType extends AbstractContentType
             'source' => 'https://',
             'description' => $this->__('Name of the source')
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['text', 'source', 'description'];
     }
 
     /**

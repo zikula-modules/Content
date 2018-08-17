@@ -61,14 +61,6 @@ class YouTubeType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -80,6 +72,16 @@ class YouTubeType extends AbstractContentType
             'showRelated' => false,
             'autoplay' => false
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['url', 'text'];
     }
 
     /**

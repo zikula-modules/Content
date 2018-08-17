@@ -55,19 +55,21 @@ class HtmlType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
             'text' => $this->__('Add text here...')
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['text'];
     }
 
     /**

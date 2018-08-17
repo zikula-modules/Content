@@ -55,14 +55,6 @@ class LeafletMapType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -74,6 +66,16 @@ class LeafletMapType extends AbstractContentType
             'tileLayerUrl' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             'tileLayerAttribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['text'];
     }
 
     /**

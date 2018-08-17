@@ -285,16 +285,6 @@ abstract class AbstractContentType implements ContentTypeInterface
     }
 
     /**
-     * Returns whether translations are supported or not.
-     *
-     * @return boolean
-     */
-    public function isTranslatable()
-    {
-        return false;
-    }
-
-    /**
      * Returns the minimum amount of (Bootstrap) grid columns required by this content type.
      * This layout constraint is used during page editing to avoid unwanted shrinking.
      *
@@ -310,6 +300,16 @@ abstract class AbstractContentType implements ContentTypeInterface
      * @return array
      */
     public function getDefaultData()
+    {
+        return [];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
     {
         return [];
     }

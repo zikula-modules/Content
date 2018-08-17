@@ -61,14 +61,6 @@ class VimeoType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -77,6 +69,16 @@ class VimeoType extends AbstractContentType
             'videoId' => '',
             'displayMode' => 'inline'
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['url', 'text'];
     }
 
     /**

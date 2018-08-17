@@ -83,14 +83,6 @@ class GoogleMapType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function isTranslatable()
-    {
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getDefaultData()
     {
         return [
@@ -107,6 +99,16 @@ class GoogleMapType extends AbstractContentType
             'directionsLink' => false,
             'directionsInline' => false
         ];
+    }
+
+    /**
+     * Returns a list of translatable field names if any.
+     *
+     * @return array
+     */
+    public function getTranslatableDataFields()
+    {
+        return ['text', 'infoText'];
     }
 
     /**
