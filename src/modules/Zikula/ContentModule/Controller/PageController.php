@@ -673,13 +673,19 @@ class PageController extends AbstractPageController
         }
         $form = $this->createForm(TranslateType::class, $formObject, $formOptions);
 
+        $pageSlug = $page->getSlug();
         if ($form->handleRequest($request)->isValid()) {
             $selfRoute = $routePrefix . 'translate';
             // handle form data
             if ($isPageStep) {
                 if (in_array($form->getClickedButton()->getName(), ['next', 'saveandquit'])) {
-                    die('TEST');
-                    // TODO update page translations
+                    // update page translations
+                    $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+                    $success = $workflowHelper->executeAction($page, 'update');
+                    $pageSlug = $page->getSlug();
+
+                    $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
+                    $translatableHelper->processEntityAfterEditing($page, $form, $entityManager);
                 }
             } else {
                 if (in_array($form->getClickedButton()->getName(), ['prev', 'next', 'saveandquit'])) {
@@ -688,14 +694,14 @@ class PageController extends AbstractPageController
                 }
                 if ($form->get('prev')->isClicked()) {
                     if (null !== $translationInfo['previousContentId']) {
-                        $returnUrl = $this->generateUrl($selfRoute, ['slug' => $page->getSlug(), 'cid' => $translationInfo['previousContentId']]);
+                        $returnUrl = $this->generateUrl($selfRoute, ['slug' => $pageSlug, 'cid' => $translationInfo['previousContentId']]);
                     } else {
-                        $returnUrl = $this->generateUrl($selfRoute, ['slug' => $page->getSlug()]);
+                        $returnUrl = $this->generateUrl($selfRoute, ['slug' => $pageSlug]);
                     }
                 }
             }
             if (null !== $translationInfo['nextContentId'] && in_array($form->getClickedButton()->getName(), ['next', 'skip'])) {
-                $returnUrl = $this->generateUrl($selfRoute, ['slug' => $page->getSlug(), 'cid' => $translationInfo['nextContentId']]);
+                $returnUrl = $this->generateUrl($selfRoute, ['slug' => $pageSlug, 'cid' => $translationInfo['nextContentId']]);
             }
 
             if (true === $hasPageLockModule) {
