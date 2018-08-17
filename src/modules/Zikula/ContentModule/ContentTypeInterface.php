@@ -119,13 +119,6 @@ interface ContentTypeInterface
     public function getEditTemplatePath();
 
     /**
-     * Returns the full path to the template for original value display during translation in 'namespaced' name-style.
-     *     e.g. `return '@AcmeMyBundle/ContentType/headingTranslationView.html.twig';`
-     * @return string
-     */
-    public function getTranslationViewTemplatePath();
-
-    /**
      * Returns the FqCN of the form class (e.g. return HeadingType::class;)
      * @return string
      */

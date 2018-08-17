@@ -445,16 +445,6 @@ abstract class AbstractContentType implements ContentTypeInterface
     }
 
     /**
-     * Returns the full path to the template for original value display during translation in 'namespaced' name-style.
-     *     e.g. `return '@AcmeMyBundle/ContentType/headingTranslationView.html.twig';`
-     * @return string
-     */
-    public function getTranslationViewTemplatePath()
-    {
-        return $this->isTranslatable() ? $this->getTemplatePath('TranslationView') : '';
-    }
-
-    /**
      * Tries to resolve a certain template using a given suffix in 'namespaced' name-style
      * and returns the resulting path.
      *

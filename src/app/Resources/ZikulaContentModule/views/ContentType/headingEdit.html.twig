@@ -1,9 +1,4 @@
-{% if context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT') %}
-    {{ form_row(form.text) }}
-    {{ form_row(form.headingType) }}
-    {{ form_row(form.anchorName) }}
-    {{ form_row(form.displayPageTitle) }}
-{% elseif context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION') %}
-    {{ form_row(form.text) }}
-    {{ form_row(form.anchorName) }}
-{% endif %}
+{{ form_row(form.text) }}
+{{ form_row(form.headingType) }}
+{{ form_row(form.anchorName) }}
+{{ form_row(form.displayPageTitle) }}

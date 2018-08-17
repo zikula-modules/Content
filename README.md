@@ -76,9 +76,8 @@ In content each page consists of several content items. Each content item uses a
    Otherwise the `getEditFormClass` method must return `null`.
 - The convention for template files of a content type with name `foo` is as follows:
   - Display: `@AcmeFooModule/ContentType/FooView.html.twig`
-  - Translation original: `@AcmeFooModule/ContentType/FooTranslationView.html.twig`
-  - Edit (and translation) subform: `@AcmeFooModule/ContentType/FooEdit.html.twig`
-  - In the sub form template, **do not** render the `form_start(form)` or `form_end(form)` tags.
+  - Edit subform: `@AcmeFooModule/ContentType/FooEdit.html.twig`
+  - In the edit sub form template, **do not** render the `form_start(form)` or `form_end(form)` tags.
 
 
 <a name="changelog" />

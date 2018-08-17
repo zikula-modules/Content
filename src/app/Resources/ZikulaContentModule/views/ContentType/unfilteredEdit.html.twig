@@ -1,21 +1,15 @@
-{% if context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT') %}
-    <div id="contentUnfilteredTextDetails">
-        {{ form_row(form.text) }}
-    </div>
-    {{ form_row(form.useiframe) }}
-    <div id="contentUnfilteredIframeDetails">
-        {{ form_row(form.iframeSrc) }}
-        {{ form_row(form.iframeName) }}
-        {{ form_row(form.iframeTitle) }}
-        {{ form_row(form.iframeStyle) }}
-        {{ form_row(form.iframeWidth) }}
-        {{ form_row(form.iframeHeight) }}
-        {{ form_row(form.iframeBorder) }}
-        {{ form_row(form.iframeScrolling) }}
-        {{ form_row(form.iframeAllowTransparancy) }}
-    </div>
-{% elseif context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION') %}
+<div id="contentUnfilteredTextDetails">
     {{ form_row(form.text) }}
+</div>
+{{ form_row(form.useiframe) }}
+<div id="contentUnfilteredIframeDetails">
+    {{ form_row(form.iframeSrc) }}
     {{ form_row(form.iframeName) }}
     {{ form_row(form.iframeTitle) }}
-{% endif %}
+    {{ form_row(form.iframeStyle) }}
+    {{ form_row(form.iframeWidth) }}
+    {{ form_row(form.iframeHeight) }}
+    {{ form_row(form.iframeBorder) }}
+    {{ form_row(form.iframeScrolling) }}
+    {{ form_row(form.iframeAllowTransparancy) }}
+</div>

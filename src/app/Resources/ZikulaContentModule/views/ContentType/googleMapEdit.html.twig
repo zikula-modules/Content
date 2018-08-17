@@ -1,23 +1,18 @@
-{% if context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT') %}
-    <p class="alert alert-info">{{ __('Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.') }}</p>
+<p class="alert alert-info">{{ __('Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.') }}</p>
 
-    <div class="content-googlemap">
-        <div id="googlemap" class="map"></div>
-    </div>
+<div class="content-googlemap">
+    <div id="googlemap" class="map"></div>
+</div>
 
-    {{ form_row(form.latitude) }}
-    {{ form_row(form.longitude) }}
-    {{ form_row(form.zoom) }}
-    {{ form_row(form.mapType) }}
-    {{ form_row(form.height) }}
-    {{ form_row(form.text) }}
-    {{ form_row(form.infoText) }}
-    {{ form_row(form.trafficOverlay) }}
-    {{ form_row(form.bicycleOverlay) }}
-    {{ form_row(form.streetViewControl) }}
-    {{ form_row(form.directionsLink) }}
-    {{ form_row(form.directionsInline) }}
-{% elseif context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION') %}
-    {{ form_row(form.text) }}
-    {{ form_row(form.infoText) }}
-{% endif %}
+{{ form_row(form.latitude) }}
+{{ form_row(form.longitude) }}
+{{ form_row(form.zoom) }}
+{{ form_row(form.mapType) }}
+{{ form_row(form.height) }}
+{{ form_row(form.text) }}
+{{ form_row(form.infoText) }}
+{{ form_row(form.trafficOverlay) }}
+{{ form_row(form.bicycleOverlay) }}
+{{ form_row(form.streetViewControl) }}
+{{ form_row(form.directionsLink) }}
+{{ form_row(form.directionsInline) }}

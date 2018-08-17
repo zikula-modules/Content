@@ -1,5 +1,1 @@
-{% if context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_EDIT') %}
-    {{ form_row(form.text) }}
-{% elseif context == constant('Zikula\\ContentModule\\ContentTypeInterface::CONTEXT_TRANSLATION') %}
-    {{ form_row(form.text) }}
-{% endif %}
+{{ form_row(form.text) }}

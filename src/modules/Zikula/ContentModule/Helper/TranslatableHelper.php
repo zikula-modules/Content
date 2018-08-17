@@ -85,12 +85,13 @@ class TranslatableHelper extends AbstractTranslatableHelper
         if (null !== $contentItem) {
             $i = 1;
             foreach ($contentItems as $contentType) {
-                if ($contentItem->getId() == $contentType->getEntity()->getId()) {
-                    $currentIndex = $i - 1;
-                    break;
+                if ($contentItem->getId() != $contentType->getEntity()->getId()) {
+                    $i++;
+                    continue;
                 }
+                $currentIndex = $i - 1;
+                break;
             }
-            $i++;
         }
 
         $result['items'] = $contentItems;
