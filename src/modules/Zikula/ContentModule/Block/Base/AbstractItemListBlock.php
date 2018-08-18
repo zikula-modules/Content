@@ -110,7 +110,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
         // set a block title
         if (empty($properties['title'])) {
-            $properties['title'] = $this->__('Content items', 'zikulacontentmodule');
+            $properties['title'] = $this->__('ZikulaContentModule items', 'zikulacontentmodule');
         }
     
         $template = $this->getDisplayTemplate($properties);
