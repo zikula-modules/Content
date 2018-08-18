@@ -83,7 +83,6 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         $orderBy = $this->get('zikula_content_module.model_helper')->resolveSortParameter($objectType, $properties['sorting']);
         $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy);
     
-        // fetch category registries
         if (in_array($objectType, $this->categorisableObjectTypes)) {
             if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType'])) {
                 $categoryHelper = $this->get('zikula_content_module.category_helper');

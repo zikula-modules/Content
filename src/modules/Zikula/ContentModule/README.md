@@ -2,7 +2,7 @@
 
 Flexible hierachical page management.
 
-This module is intended for being used with Zikula 2.0.9 and later.
+This module is intended for being used with Zikula 2.0.10 and later.
 
 For questions and other remarks visit our homepage https://ziku.la.
 
