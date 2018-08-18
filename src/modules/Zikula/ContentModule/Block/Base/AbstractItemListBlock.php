@@ -47,7 +47,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
      */
     public function getType()
     {
-        return $this->__('List of content items', 'zikulacontentmodule');
+        return $this->__('Content list', 'zikulacontentmodule');
     }
     
     /**
@@ -110,7 +110,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
         // set a block title
         if (empty($properties['title'])) {
-            $properties['title'] = $this->__('ZikulaContentModule items', 'zikulacontentmodule');
+            $properties['title'] = $this->__('Content list', 'zikulacontentmodule');
         }
     
         $template = $this->getDisplayTemplate($properties);
