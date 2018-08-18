@@ -290,9 +290,10 @@ class CustomTwigExtension extends Twig_Extension
             $categories = $baseCategory->getChildren();
             $pageCounts = [];
             foreach ($categories as $category) {
-                $qb = $pageRepository->getCountQuery('', true);
+                $qb = $pageRepository->getCountQuery('', false);
                 $qb = $this->collectionFilterHelper->applyDefaultFilters('page', $qb);
-                $qb->andWhere('tblCategories.category = :category')
+                $qb->leftJoin('tbl.categories', 'tblCategories')
+                   ->andWhere('tblCategories.category = :category')
                     ->setParameter('category', $category->getId());
                 $pageCount = $qb->getQuery()->getSingleScalarResult();
                 $pageCounts[$category->getId()] = $pageCount;
