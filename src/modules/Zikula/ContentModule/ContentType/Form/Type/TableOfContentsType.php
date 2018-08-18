@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
@@ -24,7 +25,7 @@ use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 /**
  * Table of contents form type class.
  */
-class TableOfContentsType extends AbstractType
+class TableOfContentsType extends AbstractContentFormType
 {
     /**
      * @var EntityFactory

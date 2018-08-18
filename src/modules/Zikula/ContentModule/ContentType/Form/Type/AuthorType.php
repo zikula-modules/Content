@@ -12,6 +12,7 @@
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\ContentType\Form\DataTransformer\AuthorTransformer;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
@@ -20,7 +21,7 @@ use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 /**
  * Author form type class.
  */
-class AuthorType extends AbstractType
+class AuthorType extends AbstractContentFormType
 {
     /**
      * @var UserRepositoryInterface

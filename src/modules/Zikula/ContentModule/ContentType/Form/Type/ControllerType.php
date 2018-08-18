@@ -14,12 +14,13 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
+use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
 
 /**
  * Controller form type class.
  */
-class ControllerType extends AbstractType
+class ControllerType extends AbstractContentFormType
 {
     /**
      * ControllerType constructor.

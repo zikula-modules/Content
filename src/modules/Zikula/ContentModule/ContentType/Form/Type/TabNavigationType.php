@@ -14,12 +14,13 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
 
 /**
  * Tab navigation form type class.
  */
-class TabNavigationType extends AbstractType
+class TabNavigationType extends AbstractContentFormType
 {
     /**
      * TabNavigationType constructor.

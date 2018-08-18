@@ -15,13 +15,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Heading form type class.
  */
-class HeadingType extends AbstractType
+class HeadingType extends AbstractContentFormType
 {
     /**
      * HeadingType constructor.

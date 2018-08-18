@@ -17,13 +17,14 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Leaflet map form type class.
  */
-class LeafletMapType extends AbstractType
+class LeafletMapType extends AbstractContentFormType
 {
     /**
      * OpenStreetMapType constructor.

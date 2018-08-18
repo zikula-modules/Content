@@ -15,13 +15,14 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Vimeo form type class.
  */
-class VimeoType extends AbstractType
+class VimeoType extends AbstractContentFormType
 {
     /**
      * VimeoType constructor.

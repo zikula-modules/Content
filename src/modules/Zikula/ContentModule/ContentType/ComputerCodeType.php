@@ -12,8 +12,8 @@
 namespace Zikula\ContentModule\ContentType;
 
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\ContentModule\AbstractContentType;
-use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\Common\Content\AbstractContentType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType as FormType;
 
 /**

@@ -13,12 +13,13 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
 
 /**
  * Content item form type class.
  */
-class ContentItemType extends AbstractType
+class ContentItemType extends AbstractContentFormType
 {
     /**
      * ContentItemType constructor.

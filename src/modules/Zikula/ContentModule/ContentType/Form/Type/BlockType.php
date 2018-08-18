@@ -15,12 +15,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\BlocksModule\Entity\BlockEntity;
 use Zikula\BlocksModule\Entity\RepositoryInterface\BlockRepositoryInterface;
+use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
 
 /**
  * Block form type class.
  */
-class BlockType extends AbstractType
+class BlockType extends AbstractContentFormType
 {
     /**
      * @var BlockRepositoryInterface

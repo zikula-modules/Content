@@ -19,13 +19,14 @@ use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Common\Content\AbstractContentFormType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\ContentModule\ContentTypeInterface;
 
 /**
  * Google map form type class.
  */
-class GoogleMapType extends AbstractType
+class GoogleMapType extends AbstractContentFormType
 {
     /**
      * GoogleMapType constructor.

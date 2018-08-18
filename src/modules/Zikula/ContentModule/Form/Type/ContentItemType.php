@@ -18,11 +18,11 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zikula\ContentModule\ContentTypeInterface;
-use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Helper\ListEntriesHelper;
 
 /**
  * Content item editing form type implementation class.

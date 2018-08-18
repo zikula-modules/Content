@@ -22,8 +22,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
-use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\Type\TranslateType;
 

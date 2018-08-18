@@ -1,32 +1,19 @@
 services:
-    zikula_content_module.content_type.common:
-        abstract: true
-        arguments:
-            - '@translator.default'
-            - '@twig'
-            - '@twig.loader'
-            - '@zikula_content_module.permission_helper'
-            - '@zikula_core.common.theme.asset_helper'
-    zikula_content_module.content_type.form.common:
-        abstract: true
-        arguments:
-            - '@translator.default'
-
     Zikula\ContentModule\ContentType\AuthorType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         arguments:
             - '@zikula_users_module.current_user'
             - '@zikula_users_module.user_repository'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\AuthorType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         arguments:
             - '@zikula_users_module.user_repository'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\BlockType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         arguments:
             - '@kernel'
@@ -36,136 +23,136 @@ services:
             - '@zikula_core.common.theme_engine'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\BlockType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         arguments:
             - '@zikula_blocks_module.block_repository'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\BreadcrumbType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setIgnoreFirstTreeLevel, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\BreadcrumbType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\ComputerCodeType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setKernel, ['@kernel']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         arguments:
             - '@kernel'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\ContentItemType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         arguments:
             - '@zikula_content_module.entity_factory'
             - '@zikula_content_module.content_display_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ContentItemType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\ControllerType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setKernel, ['@kernel']]
             - [setRequestStack, ['@request_stack']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\ControllerType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\FeedType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         arguments:
             - '@zikula_content_module.cache_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\FeedType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\GoogleMapType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setRequestStack, ['@request_stack']]
             - [setGoogleMapsApiKey, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleMapType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\GoogleRouteType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setRequestStack, ['@request_stack']]
             - [setGoogleMapsApiKey, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'googleMapsApiKey', '')"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\HeadingType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\HeadingType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\HtmlType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\HtmlType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\LeafletMapType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\LeafletMapType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\PageNavigationType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         tags: ['zikula.content_type']
 
     Zikula\ContentModule\ContentType\QuoteType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\QuoteType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\SlideshareType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\SlideshareType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\TableOfContentsType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         arguments:
             - '@router'
@@ -174,13 +161,13 @@ services:
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         arguments:
             - '@zikula_content_module.entity_factory'
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\TabNavigationType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         arguments:
             - '@request_stack'
@@ -188,35 +175,35 @@ services:
             - '@zikula_content_module.content_display_helper'
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\TabNavigationType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\UnfilteredType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setEnableRawPlugin, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'enableRawPlugin', false)"]]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\UnfilteredType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\VimeoType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\VimeoType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']
 
     Zikula\ContentModule\ContentType\YouTubeType:
-        parent: zikula_content_module.content_type.common
+        parent: zikula.content_type.base
         shared: false
         calls:
             - [setCacheHelper, ['@zikula_content_module.cache_helper']]
         tags: ['zikula.content_type']
     Zikula\ContentModule\ContentType\Form\Type\YouTubeType:
-        parent: zikula_content_module.content_type.form.common
+        parent: zikula.content_type.form.base
         tags: ['form.type']

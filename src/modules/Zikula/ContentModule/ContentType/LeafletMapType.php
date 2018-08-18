@@ -11,8 +11,8 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\ContentModule\AbstractContentType;
-use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\Common\Content\AbstractContentType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\LeafletMapType as FormType;
 
 /**

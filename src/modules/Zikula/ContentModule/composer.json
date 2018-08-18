@@ -37,7 +37,7 @@
     },
     "extra": {
         "zikula": {
-            "core-compatibility": ">=2.0.9 <3.0",
+            "core-compatibility": ">=2.0.10 <3.0",
             "class": "Zikula\\ContentModule\\ZikulaContentModule",
             "displayname": "Content",
             "url": "content",

@@ -31,9 +31,7 @@ It also features additional functionality, like translating content and tracking
 
 ## Requirements
 
-This module is intended for being used with Zikula 2.0.9+.
-
-Currently you need to patch Zikula 2.0.x by adding [this change](https://github.com/zikula/core/compare/f6b1638292862976de392a391cda94fcc2068992...e467e23ddff317abe47661df2c9bb88357a70a9c).
+This module is intended for being used with Zikula 2.0.10+.
 
 
 <a name="installation" />
@@ -70,9 +68,9 @@ In content each page consists of several content items. Each content item uses a
 
 - A content type class names should be suffixed by `Type` and located in the `ModuleRoot/ContentType/` directory. This is not mandatory but a recommended convention.
 - Content type classes must be registered as a service using the `zikula.content_type` tag.
-- Content type classes must implement `Zikula\ContentModule\ContentTypeInterface`.
-- Content type classes may extend `Zikula\ContentModule\AbstractContentType` for convenience.
-- Content type classes must define a Symfony form type class to allow editing of their data fields if this is needed.
+- Content type classes must implement `Zikula\Common\Content\ContentTypeInterface`.
+- Content type classes may extend `Zikula\Common\Content\AbstractContentType` for convenience.
+- Content type classes must define a Symfony form type class to allow editing of their data fields if this is needed. This form type class should extend `Zikula\Common\Content\AbstractContentFormType` for convenience.
    Otherwise the `getEditFormClass` method must return `null`.
 - The convention for template files of a content type with name `foo` is as follows:
   - Display: `@AcmeFooModule/ContentType/FooView.html.twig`

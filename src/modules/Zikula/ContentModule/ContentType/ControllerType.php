@@ -14,8 +14,8 @@ namespace Zikula\ContentModule\ContentType;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\ContentModule\AbstractContentType;
-use Zikula\ContentModule\ContentTypeInterface;
+use Zikula\Common\Content\AbstractContentType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ControllerType as FormType;
 
 /**

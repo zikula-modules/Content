@@ -13,9 +13,9 @@ namespace Zikula\ContentModule\ContentType;
 
 use \Twig_Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Zikula\Common\Content\AbstractContentType;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
-use Zikula\ContentModule\AbstractContentType;
-use Zikula\ContentModule\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\FeedType as FormType;
 use Zikula\ContentModule\Helper\CacheHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
