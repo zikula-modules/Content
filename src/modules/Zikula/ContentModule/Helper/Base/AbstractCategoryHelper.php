@@ -95,7 +95,7 @@ abstract class AbstractCategoryHelper
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
-    	}
+        }
         if (empty($args['registry'])) {
             // default to the primary registry
             $registry = $this->getPrimaryProperty($objectType);
@@ -126,7 +126,7 @@ abstract class AbstractCategoryHelper
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
-    	}
+        }
     
         $request = $this->requestStack->getCurrentRequest();
         $dataSource = $source == 'GET' ? $request->query : $request->request;
@@ -239,7 +239,7 @@ abstract class AbstractCategoryHelper
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
-    	}
+        }
     
         $moduleRegistries = $this->categoryRegistryRepository->findBy([
             'modname' => 'ZikulaContentModule',
@@ -266,7 +266,7 @@ abstract class AbstractCategoryHelper
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
-    	}
+        }
     
         $moduleRegistries = $this->categoryRegistryRepository->findBy([
             'modname' => 'ZikulaContentModule',
@@ -294,7 +294,7 @@ abstract class AbstractCategoryHelper
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
-    	}
+        }
     
         $registries = $this->getAllPropertiesWithMainCat($objectType, 'property');
         if ($registries && isset($registries[$property]) && $registries[$property]) {
