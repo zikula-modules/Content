@@ -235,7 +235,7 @@ abstract class AbstractCategoryHelper
      *
      * @return array list of the registries (property name as key, id as value)
      */
-    protected function getAllProperties($objectType = '')
+    public function getAllProperties($objectType = '')
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
@@ -262,7 +262,7 @@ abstract class AbstractCategoryHelper
      *
      * @return array list of the registries (registry id as key, main category id as value)
      */
-    protected function getAllPropertiesWithMainCat($objectType = '', $arrayKey = 'property')
+    public function getAllPropertiesWithMainCat($objectType = '', $arrayKey = 'property')
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
