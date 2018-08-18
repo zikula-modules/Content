@@ -220,7 +220,7 @@
                     </ul>
                 {% elseif list == 'extended' %}
                     {% for page in items %}
-                        <h2><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a></h2>
+                        <h3><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a></h3>
                         {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
                         <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-right"></i> {{ __('View full page') }}</a></p>
                     {% endfor %}

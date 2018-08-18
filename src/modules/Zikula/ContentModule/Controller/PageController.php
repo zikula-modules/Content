@@ -355,7 +355,9 @@ class PageController extends AbstractPageController
             throw new AccessDeniedException();
         }
 
-        $rootPages = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectWhere('tbl.lvl = 0');
+        $ignoreFirstTreeLevel = $this->getVar('ignoreFirstTreeLevelInRoutes', true);
+        $where = 'tbl.lvl = ' . ($ignoreFirstTreeLevel ? '1' : '0');
+        $rootPages = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectWhere($where);
 
         return $this->render('@ZikulaContentModule/Page/sitemap.' . $request->getRequestFormat() . '.twig', [
             'pages' => $rootPages
