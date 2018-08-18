@@ -25,7 +25,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
      */
     public function getType()
     {
-        return $this->__('Single content item');
+        return $this->__('Single content item', 'zikulacontentmodule');
     }
     
     /**

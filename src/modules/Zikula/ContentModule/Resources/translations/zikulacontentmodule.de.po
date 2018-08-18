@@ -473,6 +473,9 @@ msgstr "Inhaltselement UI-Hooks Abonnent"
 msgid "Content items"
 msgstr "Inhaltselemente"
 
+msgid "Content menu"
+msgstr "Content Menü"
+
 msgid "Content menu block"
 msgstr "Content Menüblock"
 
@@ -487,6 +490,9 @@ msgstr ""
 
 msgid "Content styles"
 msgstr "Inhaltsstile"
+
+msgid "Content subpages"
+msgstr "Content Unterseiten der aktuellen Seite"
 
 msgid "Controller"
 msgstr "Controller"
@@ -793,6 +799,9 @@ msgstr "Den Yandex Translate API-Schlüssel eingeben."
 msgid "Entry to display"
 msgstr "Anzuzeigender Eintrag"
 
+msgid "Error"
+msgstr "Fehler"
+
 msgid "Error! An error occured during content deletion."
 msgstr "Fehler! Beim Löschen des Inhalts ist ein Fehler aufgetreten."
 
@@ -816,9 +825,6 @@ msgstr ""
 
 msgid "Error! Could not determine workflow actions."
 msgstr "Fehler! Die Workflow-Aktionen konnten nicht ermittelt werden."
-
-msgid "Error! Could not resolve %template% template."
-msgstr "Fehler! Die Vorlage %template% konnte nicht aufgelöst werden."
 
 msgid "Error! Creation attempt failed."
 msgstr "Fehler! Erstellung fehlgeschlagen."
@@ -2261,15 +2267,6 @@ msgstr "Zikula Blöcke und Inhalt von Drittmodulen wie Termine etc."
 msgid "Zikula homepage"
 msgstr "Zikula-Homepage"
 
-msgid "ZikulaContentModule items"
-msgstr "ZikulaContentModule Einträge"
-
-msgid "ZikulaContentModule menu"
-msgstr "ZikulaContentModule Menü"
-
-msgid "ZikulaContentModule subpages"
-msgstr "ZikulaContentModule Unterseiten"
-
 msgid "Zoom level"
 msgstr "Zoomstufe"
 
@@ -2334,9 +2331,6 @@ msgstr "neueste"
 msgid "new copy"
 msgstr "neue Kopie"
 
-msgid "no title defined"
-msgstr "kein Titel definiert"
-
 msgid "on %date"
 msgstr "am %date"
 
@@ -2381,3 +2375,18 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
+
+#~ msgid "Error! Could not resolve %template% template."
+#~ msgstr "Fehler! Die Vorlage %template% konnte nicht aufgelöst werden."
+
+#~ msgid "ZikulaContentModule items"
+#~ msgstr "ZikulaContentModule Einträge"
+
+#~ msgid "ZikulaContentModule menu"
+#~ msgstr "ZikulaContentModule Menü"
+
+#~ msgid "ZikulaContentModule subpages"
+#~ msgstr "ZikulaContentModule Unterseiten"
+
+#~ msgid "no title defined"
+#~ msgstr "kein Titel definiert"

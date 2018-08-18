@@ -24,7 +24,7 @@ class MenuBlock extends AbstractBlockHandler
      */
     public function getType()
     {
-        return $this->__('Content menu block');
+        return $this->__('Content menu block', 'zikulacontentmodule');
     }
     
     /**
@@ -77,7 +77,7 @@ class MenuBlock extends AbstractBlockHandler
 
         // set a block title
         if (empty($properties['title'])) {
-            $properties['title'] = $this->__('ZikulaContentModule menu');
+            $properties['title'] = $this->__('Content menu', 'zikulacontentmodule');
         }
 
         $template = $this->getDisplayTemplate($properties);

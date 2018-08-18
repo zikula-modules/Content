@@ -24,7 +24,7 @@ class SubPagesBlock extends AbstractBlockHandler
      */
     public function getType()
     {
-        return $this->__('Sub pages of current page');
+        return $this->__('Sub pages of current page', 'zikulacontentmodule');
     }
     
     /**
@@ -86,7 +86,7 @@ class SubPagesBlock extends AbstractBlockHandler
 
         // set a block title
         if (empty($properties['title'])) {
-            $properties['title'] = $this->__('ZikulaContentModule subpages');
+            $properties['title'] = $this->__('Content subpages', 'zikulacontentmodule');
         }
 
         $template = $this->getDisplayTemplate($properties);
