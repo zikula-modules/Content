@@ -437,6 +437,9 @@ msgstr ""
 "Content kann durch andere Module erweitert werden, die zusätzliche "
 "Inhaltstypen beisteuern können."
 
+msgid "Content detail"
+msgstr "Content-Detail"
+
 msgid "Content has been approved and is available online."
 msgstr "Der Inhalt wurde freigegeben und ist online verfügbar."
 
@@ -472,6 +475,9 @@ msgstr "Inhaltselement UI-Hooks Abonnent"
 
 msgid "Content items"
 msgstr "Inhaltselemente"
+
+msgid "Content list"
+msgstr "Content-Liste"
 
 msgid "Content menu"
 msgstr "Content Menü"
@@ -1233,9 +1239,6 @@ msgstr "Link-Namen"
 msgid "Link own pages on account page"
 msgstr "Eigene Seiten im Benutzerkonto verlinken"
 
-msgid "List of content items"
-msgstr "Liste der Inhaltselemente"
-
 msgid "List views"
 msgstr "Listenansichten"
 
@@ -1687,9 +1690,6 @@ msgstr "Geschwister"
 
 msgid "Simple list"
 msgstr "Einfache Liste"
-
-msgid "Single content item"
-msgstr "Einzelne Inhaltsseite"
 
 msgid "Sitemap"
 msgstr "Sitemap"
@@ -2375,3 +2375,9 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
+
+#~ msgid "List of content items"
+#~ msgstr "Liste der Inhaltselemente"
+
+#~ msgid "Single content item"
+#~ msgstr "Einzelne Inhaltsseite"
