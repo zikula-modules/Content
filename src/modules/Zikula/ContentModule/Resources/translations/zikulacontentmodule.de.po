@@ -2375,18 +2375,3 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
-
-#~ msgid "Error! Could not resolve %template% template."
-#~ msgstr "Fehler! Die Vorlage %template% konnte nicht aufgelöst werden."
-
-#~ msgid "ZikulaContentModule items"
-#~ msgstr "ZikulaContentModule Einträge"
-
-#~ msgid "ZikulaContentModule menu"
-#~ msgstr "ZikulaContentModule Menü"
-
-#~ msgid "ZikulaContentModule subpages"
-#~ msgstr "ZikulaContentModule Unterseiten"
-
-#~ msgid "no title defined"
-#~ msgstr "kein Titel definiert"
