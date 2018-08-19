@@ -72,3 +72,14 @@ function contentInitScribiteForHtml() {
         }
     }
 }
+
+/**
+ * Updates Scribite editors after programmatical change of textarea content.
+ */
+function contentUpdateScribiteForHtml(targetInput, newContent) {
+    if ('undefined' != typeof tinymce) {
+        tinymce.get(targetInput.attr('id')).setContent(newContent);
+    } else if ('undefined' != typeof jQuery.fn.summernote) {
+        targetInput.summernote('code', newContent);
+    }
+}

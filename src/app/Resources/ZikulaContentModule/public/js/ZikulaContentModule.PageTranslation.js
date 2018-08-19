@@ -50,16 +50,22 @@ function contentPageInitYandexSupport(yandexApiKey) {
         url += '&format=' + (targetInput.is('textarea') ? 'html' : 'plain');
 
         jQuery.getJSON(url, function (data) {
-            targetInput.val(data.text[0]);
-            if (targetInput.is('textarea') && 'function' == typeof contentInitScribiteForHtml) {
-                contentInitScribiteForHtml();
+            var newContent;
+
+            newContent = data.text[0];
+            targetInput.val(newContent);
+            if (targetInput.is('textarea') && 'function' == typeof contentUpdateScribiteForHtml) {
+                contentUpdateScribiteForHtml(targetInput, newContent);
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             var result;
 
-            result = JSON.parse(jqXHR.responseText);
-            alert(result.message);
+            try {
+                result = JSON.parse(jqXHR.responseText);
+                alert(result.message);
+            } catch(e) {
+            }
         })
         .always(function () {
             thisIcon.removeClass('fa-refresh fa-spin').addClass('fa-book');
