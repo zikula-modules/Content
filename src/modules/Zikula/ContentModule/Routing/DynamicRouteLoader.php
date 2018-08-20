@@ -66,11 +66,13 @@ class DynamicRouteLoader extends Loader
      */
     public function load($resource, $type = null)
     {
+        $routes = new RouteCollection();
+
         if (true === $this->isLoaded) {
-            throw new \RuntimeException('Do not add the "content_dynamic" loader twice');
+            //throw new \RuntimeException('Do not add the "content_dynamic" loader twice');
+            return $routes;
         }
 
-        $routes = new RouteCollection();
         $routeVariants = [
             'admin' => ['pathPrefix' => '/admin', 'controller' => 'adminDisplay'],
             'user' => ['pathPrefix' => '', 'controller' => 'display']
