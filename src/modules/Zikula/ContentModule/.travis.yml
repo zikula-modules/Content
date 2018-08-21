@@ -39,8 +39,8 @@ install:
     - tar -xpzf 2.0.tar.gz
     - rm 2.0.tar.gz
     - cd 2.0
-    - php app/console zikula:install:start -n --database_user=root --database_name=zk_test --password=12345678 --email=admin@example.com --router:request_context:host=localhost
-    - php app/console zikula:install:finish
+    - php bin/console zikula:install:start -n --database_user=root --database_name=zk_test --password=12345678 --email=admin@example.com --router:request_context:host=localhost
+    - php bin/console zikula:install:finish
     - cd modules
     - mkdir zikula
     - cd zikula
@@ -48,13 +48,13 @@ install:
     - cd content-module
     - unzip -q ../../../../ZikulaContentModule
     - cd  ../../..
-    - php app/console bootstrap:bundles
+    - php bin/console bootstrap:bundles
     - mysql -e "INSERT INTO zk_test.modules (id, name, type, displayname, url, description, directory, version, capabilities, state, securityschema, core_min, core_max) VALUES (NULL, 'ZikulaContentModule', '3', 'Content', 'content', 'Flexible hierachical page management.', 'zikula/content-module', '5.0.0', 'N;', '3', 'N;', '2.0.5', '3.0.0');"
-    - php app/console cache:warmup
+    - php bin/console cache:warmup
 
 script:
-    - php app/console lint:yaml modules/zikula/content-module/Resources
-    - php app/console lint:twig @ZikulaContentModule
+    - php bin/console lint:yaml modules/zikula/content-module/Resources
+    - php bin/console lint:twig @ZikulaContentModule
     - phpunit --configuration modules/zikula/content-module/phpunit.xml.dist --coverage-text --coverage-clover=coverage.clover -v
 
 after_script:
