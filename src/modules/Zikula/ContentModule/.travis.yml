@@ -12,6 +12,7 @@ php:
 matrix:
   fast_finish: true
   allow_failures:
+    - php: 7.2
     - php: nightly
 
 services:
@@ -33,9 +34,9 @@ before_install:
 install:
     - composer install
     - zip -qr ZikulaContentModule.zip .
-    - wget https://github.com/zikula/core/releases/download/2.0.5/Zikula_Core-2.0.5.tar.gz
-    - tar -xpzf Zikula_Core-2.0.5.tar.gz
-    - rm Zikula_Core-2.0.5.tar.gz
+    - wget https://github.com/zikula/core/releases/download/2.0.10/2.0.tar.gz
+    - tar -xpzf 2.0.tar.gz
+    - rm 2.0.tar.gz
     - cd 2.0
     - php app/console zikula:install:start -n --database_user=root --database_name=zk_test --password=12345678 --email=admin@example.com --router:request_context:host=localhost
     - php app/console zikula:install:finish
