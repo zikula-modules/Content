@@ -532,8 +532,8 @@ abstract class AbstractPageController extends AbstractController
         }
         
         try {
-            $em = $this->get('doctrine.entitymanager');
-            $metadata = $em->getClassMetaData(get_class($page));
+            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
+            $metadata = $entityManager->getClassMetaData(get_class($page));
             $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
             $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
         
@@ -541,8 +541,8 @@ abstract class AbstractPageController extends AbstractController
             $metadata->setVersioned(false);
             $metadata->setVersionField(null);
         
-            $em->persist($page);
-            $em->flush($page);
+            $entityManager->persist($page);
+            $entityManager->flush($page);
         
             $this->addFlash('status', $this->__('Done! Undeleted page.'));
         

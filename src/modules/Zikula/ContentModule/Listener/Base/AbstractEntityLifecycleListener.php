@@ -156,7 +156,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
                 return;
             }
 
-            $repository = $this->container->get('doctrine.entitymanager')->getRepository($entity->getObjectClass());
+            $repository = $this->container->get('zikula_content_module.entity_factory')->getObjectManager()->getRepository($entity->getObjectClass());
             $object = $repository->find($entity->getObjectId());
             if (null === $object || !method_exists($object, 'get_objectType')) {
                 return;
