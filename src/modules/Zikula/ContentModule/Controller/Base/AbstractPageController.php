@@ -590,10 +590,13 @@ abstract class AbstractPageController extends AbstractController
         $logEntriesRepository->revert($page, $lastVersionBeforeDeletion);
         $page->setCurrentVersion($lastVersionBeforeDeletion + 2);
     
-        // look for a root node to use as parent
+        // check if parent is still valid
         $repository = $entityFactory->getRepository('page');
-        $parentNode = $repository->findOneBy(['lvl' => 0]);
-        if (null !== $parentNode) {
+        $parentId = $page->getParent()->getId();
+        $parent = $parentId ? $repository->find($parentId) : null;
+        if (in_array('Doctrine\Common\Proxy\Proxy', class_implements($parent), true)) {
+            // look for a root node to use as parent
+            $parentNode = $repository->findOneBy(['lvl' => 0]);
             $page->setParent($parentNode);
         }
     

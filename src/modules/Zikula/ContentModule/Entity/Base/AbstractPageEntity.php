@@ -278,6 +278,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Bidirectional - Many children [page] are linked by one parent [page] (OWNING SIDE).
      *
+     * @Gedmo\Versioned
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="\Zikula\ContentModule\Entity\PageEntity", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
