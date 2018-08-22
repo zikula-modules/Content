@@ -590,6 +590,9 @@ abstract class AbstractPageController extends AbstractController
         $logEntriesRepository->revert($page, $lastVersionBeforeDeletion);
         $page->setCurrentVersion($lastVersionBeforeDeletion + 2);
     
+        $eventArgs = new \Doctrine\Common\Persistence\Event\LifecycleEventArgs($page, $entityManager);
+        $this->get('zikula_content_module.entity_lifecycle_listener')->postLoad($eventArgs);
+    
         return $page;
     }
     
