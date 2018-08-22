@@ -590,6 +590,13 @@ abstract class AbstractPageController extends AbstractController
         $logEntriesRepository->revert($page, $lastVersionBeforeDeletion);
         $page->setCurrentVersion($lastVersionBeforeDeletion + 2);
     
+        // look for a root node to use as parent
+        $repository = $entityFactory->getRepository('page');
+        $parentNode = $repository->findOneBy(['lvl' => 0]);
+        if (null !== $parentNode) {
+            $page->setParent($parentNode);
+        }
+    
         $eventArgs = new \Doctrine\Common\Persistence\Event\LifecycleEventArgs($page, $entityManager);
         $this->get('zikula_content_module.entity_lifecycle_listener')->postLoad($eventArgs);
     
