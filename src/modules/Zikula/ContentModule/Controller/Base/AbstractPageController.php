@@ -484,7 +484,7 @@ abstract class AbstractPageController extends AbstractController
     }
     
     /**
-     * Displays a deleted page.
+     * Displays or undeletes a deleted page.
      *
      * @param Request $request Current request instance
      * @param integer $id      Identifier of entity
@@ -494,13 +494,13 @@ abstract class AbstractPageController extends AbstractController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
-    public function adminDisplayDeletedAction(Request $request, $id = 0)
+    public function adminUndeleteAction(Request $request, $id = 0)
     {
-        return $this->displayDeletedActionInternal($request, $id, true);
+        return $this->undeleteActionInternal($request, $id, true);
     }
     
     /**
-     * Displays a deleted page.
+     * Displays or undeletes a deleted page.
      *
      * @param Request $request Current request instance
      * @param integer $id      Identifier of entity
@@ -510,51 +510,51 @@ abstract class AbstractPageController extends AbstractController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
-    public function displayDeletedAction(Request $request, $id = 0)
+    public function undeleteAction(Request $request, $id = 0)
     {
-        return $this->displayDeletedActionInternal($request, $id, false);
+        return $this->undeleteActionInternal($request, $id, false);
     }
     
     /**
-     * This method includes the common implementation code for adminDisplayDeletedAction() and displayDeletedAction().
+     * This method includes the common implementation code for adminUndeleteAction() and undeleteAction().
      *
      * @param Request $request Current request instance
      * @param integer $id      Identifier of page
      * @param boolean $isAdmin Whether the admin area is used or not
      */
-    protected function displayDeletedActionInternal(Request $request, $id = 0, $isAdmin = false)
+    protected function undeleteActionInternal(Request $request, $id = 0, $isAdmin = false)
     {
         $page = $this->restoreDeletedEntity($id);
         
-        $undelete = $request->query->getInt('undelete', 0);
-        if ($undelete == 1) {
-            try {
-                $em = $this->get('doctrine.entitymanager');
-                $metadata = $em->getClassMetaData(get_class($page));
-                $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-                $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-        
-                $versionField = $metadata->versionField;
-                $metadata->setVersioned(false);
-                $metadata->setVersionField(null);
-        
-                $em->persist($page);
-                $em->flush($page);
-        
-                $this->addFlash('status', $this->__('Done! Undeleted page.'));
-        
-                $metadata->setVersioned(true);
-                $metadata->setVersionField($versionField);
-            } catch (\Exception $exception) {
-                $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
-            }
-        
-            $routeArea = $isAdmin ? 'admin' : '';
-        
-            return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $page->createUrlArgs());
+        $preview = $request->query->getInt('preview', 0);
+        if ($preview == 1) {
+            return $this->displayInternal($request, $page, $isAdmin);
         }
         
-        return $this->displayInternal($request, $page, $isAdmin);
+        try {
+            $em = $this->get('doctrine.entitymanager');
+            $metadata = $em->getClassMetaData(get_class($page));
+            $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
+            $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
+        
+            $versionField = $metadata->versionField;
+            $metadata->setVersioned(false);
+            $metadata->setVersionField(null);
+        
+            $em->persist($page);
+            $em->flush($page);
+        
+            $this->addFlash('status', $this->__('Done! Undeleted page.'));
+        
+            $metadata->setVersioned(true);
+            $metadata->setVersionField($versionField);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
+        }
+        
+        $routeArea = $isAdmin ? 'admin' : '';
+        
+        return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $page->createUrlArgs());
     }
     
     /**
@@ -578,7 +578,7 @@ abstract class AbstractPageController extends AbstractController
         $logEntries = $logEntriesRepository->getLogEntries($page);
         $lastVersionBeforeDeletion = null;
         foreach ($logEntries as $logEntry) {
-            if ($logEntry->getAction() != 'remove') {
+            if ('remove' != $logEntry->getAction()) {
                 $lastVersionBeforeDeletion = $logEntry->getVersion();
                 break;
             }
