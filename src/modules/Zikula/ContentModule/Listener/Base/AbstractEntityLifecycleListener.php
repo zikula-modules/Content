@@ -281,10 +281,6 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      */
     protected function isEntityManagedByThisBundle($entity)
     {
-        if (!($entity instanceof EntityAccess || $entity instanceof AbstractLogEntry)) {
-            return false;
-        }
-
         $entityClassParts = explode('\\', get_class($entity));
 
         return ($entityClassParts[0] == 'Zikula' && $entityClassParts[1] == 'ContentModule');
