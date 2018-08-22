@@ -133,9 +133,9 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminDisplayDeletedAction(Request $request, $id = 0)
+    public function adminUndeleteAction(Request $request, $id = 0)
     {
-        return parent::adminLisplayDeletedAction($request, $id);
+        return parent::adminUndeleteAction($request, $id);
     }
     
     /**
@@ -146,9 +146,9 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function displayDeletedAction(Request $request, $id = 0)
+    public function undeleteAction(Request $request, $id = 0)
     {
-        return parent::displayDeletedAction($request, $id);
+        return parent::undeleteAction($request, $id);
     }
     
     /**
