@@ -6,7 +6,7 @@
     <div class="zikulacontentmodule-page zikulacontentmodule-viewhierarchy">
 
         <p>
-            {% if hasPermission('ZikulaContentModule:Page:', '::', 'ACCESS_EDIT') %}
+            {% if permissionHelper.hasComponentPermission('page:', 'ACCESS_EDIT') %}
                 {% set addRootTitle = __('Add root node') %}
                 <a id="treeAddRoot" href="javascript:void(0)" title="{{ addRootTitle|e('html_attr') }}" class="hidden" data-object-type="page"><i class="fa fa-plus"></i> {{ addRootTitle }}</a>
             {% endif %}
