@@ -1792,6 +1792,107 @@
 <p>Sort value: 8</p>
 <p>Composite: <i class="fa fa-times"></i>
 </p>
+<h4><i class="fa fa-bars"></i> Fields</h4>
+<div class="table-responsive">
+    <table class="table-striped table-bordered table-hover table-condensed">
+        <colgroup>
+            <col id="cVariablesVersioningFieldName" />
+            <col id="cVariablesVersioningFieldType" />
+            <col id="cVariablesVersioningFieldMandatory" />
+            <col id="cVariablesVersioningFieldDefault" />
+            <col id="cVariablesVersioningFieldDisplayType" />
+            <col id="cVariablesVersioningFieldConstraints" />
+            <col id="cVariablesVersioningFieldRemarks" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th id="hVariablesVersioningFieldName" scope="col">Name</th>
+                <th id="hVariablesVersioningFieldType" scope="col">Type</th>
+                <th id="hVariablesVersioningFieldMandatory" scope="col">Mandatory</th>
+                <th id="hVariablesVersioningFieldDefault" scope="col">Default value</th>
+                <th id="hVariablesVersioningFieldDisplayType" scope="col">Display</th>
+                <th id="hVariablesVersioningFieldConstraints" scope="col">Constraints</th>
+                <th id="hVariablesVersioningFieldRemarks" scope="col">Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th id="hVariablesVersioningFieldRevisionHandlingForPage" scope="row" headers="hVariablesVersioningFieldName">Revision handling for page</th>
+                <td headers="hVariablesVersioningFieldRevisionHandlingForPage hVariablesVersioningFieldType">List</td>
+                <td headers="hVariablesVersioningFieldRevisionHandlingForPage hVariablesVersioningFieldMandatory">true</td>
+                <td headers="hVariablesVersioningFieldRevisionHandlingForPage hVariablesVersioningFieldDefault"></td>
+                <td headers="hVariablesVersioningFieldRevisionHandlingForPage hVariablesVersioningFieldDisplayType">ALL</td>
+                <td headers="hVariablesVersioningFieldRevisionHandlingForPage hVariablesVersioningFieldConstraints">
+                    <ul>
+                        <li>Has a length of 20 chars.</li>
+                    </ul>
+                </td>
+                <td headers="hVariablesVersioningFieldRevisionHandlingForPage hVariablesVersioningFieldRemarks">
+                    <ul>
+                        <li>Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though. </li>
+                        <li>This field is not unique and allows no null values.</li>
+                        <li>The list is represented by a single-valued dropdown list.</li>
+                        <li>Available entries: <ul><li>Unlimitedrevisions (unlimited)</li><li>Limitedrevisionsbyamountofrevisions (limitedByAmount)</li><li>Limitedrevisionsbydateinterval (limitedByDate)</li></ul></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesVersioningFieldMaximumAmountOfPageRevisions" scope="row" headers="hVariablesVersioningFieldName">Maximum amount of page revisions</th>
+                <td headers="hVariablesVersioningFieldMaximumAmountOfPageRevisions hVariablesVersioningFieldType">List</td>
+                <td headers="hVariablesVersioningFieldMaximumAmountOfPageRevisions hVariablesVersioningFieldMandatory">false</td>
+                <td headers="hVariablesVersioningFieldMaximumAmountOfPageRevisions hVariablesVersioningFieldDefault"></td>
+                <td headers="hVariablesVersioningFieldMaximumAmountOfPageRevisions hVariablesVersioningFieldDisplayType">ALL</td>
+                <td headers="hVariablesVersioningFieldMaximumAmountOfPageRevisions hVariablesVersioningFieldConstraints">
+                    <ul>
+                        <li>Has a length of 5 chars.</li>
+                    </ul>
+                </td>
+                <td headers="hVariablesVersioningFieldMaximumAmountOfPageRevisions hVariablesVersioningFieldRemarks">
+                    <ul>
+                        <li>This field is not unique and allows no null values.</li>
+                        <li>The list is represented by a single-valued dropdown list.</li>
+                        <li>Available entries: <ul><li>1 (1)</li><li>5 (5)</li><li>1 0 (10)</li><li>2 5 (25)</li><li>5 0 (50)</li><li>1 0 0 (100)</li><li>2 5 0 (250)</li><li>5 0 0 (500)</li></ul></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesVersioningFieldPeriodForPageRevisions" scope="row" headers="hVariablesVersioningFieldName">Period for page revisions</th>
+                <td headers="hVariablesVersioningFieldPeriodForPageRevisions hVariablesVersioningFieldType">String</td>
+                <td headers="hVariablesVersioningFieldPeriodForPageRevisions hVariablesVersioningFieldMandatory">false</td>
+                <td headers="hVariablesVersioningFieldPeriodForPageRevisions hVariablesVersioningFieldDefault">P1Y</td>
+                <td headers="hVariablesVersioningFieldPeriodForPageRevisions hVariablesVersioningFieldDisplayType">ALL</td>
+                <td headers="hVariablesVersioningFieldPeriodForPageRevisions hVariablesVersioningFieldConstraints">
+                    <ul>
+                        <li>Has a length of 255 chars.</li>
+                    </ul>
+                </td>
+                <td headers="hVariablesVersioningFieldPeriodForPageRevisions hVariablesVersioningFieldRemarks">
+                    <ul>
+                        <li>This field is not unique and allows no null values.</li>
+                        <li>Represents an interval of time.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hVariablesVersioningFieldShowPageHistory" scope="row" headers="hVariablesVersioningFieldName">Show page history</th>
+                <td headers="hVariablesVersioningFieldShowPageHistory hVariablesVersioningFieldType">Boolean</td>
+                <td headers="hVariablesVersioningFieldShowPageHistory hVariablesVersioningFieldMandatory">false</td>
+                <td headers="hVariablesVersioningFieldShowPageHistory hVariablesVersioningFieldDefault">true</td>
+                <td headers="hVariablesVersioningFieldShowPageHistory hVariablesVersioningFieldDisplayType">ALL</td>
+                <td headers="hVariablesVersioningFieldShowPageHistory hVariablesVersioningFieldConstraints">
+                    <ul>
+                    </ul>
+                </td>
+                <td headers="hVariablesVersioningFieldShowPageHistory hVariablesVersioningFieldRemarks">
+                    <ul>
+                        <li>Whether to show the version history to editors or not. </li>
+                        <li>This field is not unique and allows no null values.</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <h2><i class="fa fa-puzzle-piece"></i> Integration settings</h2>
 <div class="table-responsive">
     <table class="table-striped table-bordered table-hover table-condensed">

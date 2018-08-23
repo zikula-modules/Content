@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\Form\Type\Base;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -506,6 +507,97 @@ abstract class AbstractConfigType extends AbstractType
      */
     public function addVersioningFields(FormBuilderInterface $builder, array $options = [])
     {
+        
+        $listEntries = $this->listHelper->getEntries('appSettings', 'revisionHandlingForPage');
+        $choices = [];
+        $choiceAttributes = [];
+        foreach ($listEntries as $entry) {
+            $choices[$entry['text']] = $entry['value'];
+            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
+        }
+        $builder->add('revisionHandlingForPage', ChoiceType::class, [
+            'label' => $this->__('Revision handling for page') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.')
+            ],
+            'help' => $this->__('Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.'),
+            'empty_data' => 'unlimited',
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('Choose the revision handling for page.')
+            ],
+            'required' => true,
+            'choices' => $choices,
+            'choice_attr' => $choiceAttributes,
+            'multiple' => false,
+            'expanded' => false
+        ]);
+        
+        $listEntries = $this->listHelper->getEntries('appSettings', 'maximumAmountOfPageRevisions');
+        $choices = [];
+        $choiceAttributes = [];
+        foreach ($listEntries as $entry) {
+            $choices[$entry['text']] = $entry['value'];
+            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
+        }
+        $builder->add('maximumAmountOfPageRevisions', ChoiceType::class, [
+            'label' => $this->__('Maximum amount of page revisions') . ':',
+            'empty_data' => '25',
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('Choose the maximum amount of page revisions.')
+            ],
+            'required' => false,
+            'placeholder' => $this->__('Choose an option'),
+            'choices' => $choices,
+            'choice_attr' => $choiceAttributes,
+            'multiple' => false,
+            'expanded' => false
+        ]);
+        
+        $builder->add('periodForPageRevisions', DateIntervalType::class, [
+            'label' => $this->__('Period for page revisions') . ':',
+            'empty_data' => 'P1Y',
+            'attr' => [
+                'maxlength' => 255,
+                'class' => '',
+                'title' => $this->__('Choose the period for page revisions.')
+            ],
+            'required' => false,
+            'placeholder' => [
+                'years' => $this->__('Years'),
+                'months' => $this->__('Months'),
+                'days' => $this->__('Days'),
+                'hours' => $this->__('Hours'),
+                'minutes' => $this->__('Minutes'),
+                'seconds' => $this->__('Seconds')
+            ],
+            'input' => 'string',
+            'widget' => 'choice',
+            'with_years' => true,
+            'with_months' => true,
+            'with_weeks' => false,
+            'with_days' => true,
+            'with_hours' => true,
+            'with_minutes' => true,
+            'with_seconds' => true,
+            'with_invert' => true
+        ]);
+        
+        $builder->add('showPageHistory', CheckboxType::class, [
+            'label' => $this->__('Show page history') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('Whether to show the version history to editors or not.')
+            ],
+            'help' => $this->__('Whether to show the version history to editors or not.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The show page history option')
+            ],
+            'required' => false,
+        ]);
     }
 
     /**

@@ -143,6 +143,10 @@
                     
                         <p class="alert alert-info">{{ __('Here you can define settings related to version control.')|nl2br }}</p>
                     
+                        {{ form_row(form.revisionHandlingForPage) }}
+                        {{ form_row(form.maximumAmountOfPageRevisions) }}
+                        {{ form_row(form.periodForPageRevisions) }}
+                        {{ form_row(form.showPageHistory) }}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tabWorkflows" aria-labelledby="workflowsTab">

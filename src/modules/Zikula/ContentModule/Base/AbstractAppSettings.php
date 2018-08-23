@@ -26,11 +26,11 @@ abstract class AbstractAppSettings
      */
     protected $variableApi;
     
-    
     /**
      * @var EntityFactory
      */
     protected $entityFactory;
+    
     /**
      * @Assert\NotBlank()
      * @ContentAssert\ListEntry(entityName="appSettings", propertyName="stateOfNewPages", multiple=false)
@@ -226,6 +226,38 @@ abstract class AbstractAppSettings
      * @var string $enabledFinderTypes
      */
     protected $enabledFinderTypes = 'page';
+    
+    /**
+     * Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.
+     *
+     * @Assert\NotBlank()
+     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="revisionHandlingForPage", multiple=false)
+     * @var string $revisionHandlingForPage
+     */
+    protected $revisionHandlingForPage = 'unlimited';
+    
+    /**
+     * @Assert\NotNull()
+     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="maximumAmountOfPageRevisions", multiple=false)
+     * @var string $maximumAmountOfPageRevisions
+     */
+    protected $maximumAmountOfPageRevisions = '25';
+    
+    /**
+     * @Assert\NotNull()
+     * @Assert\Length(min="0", max="255")
+     * @var string $periodForPageRevisions
+     */
+    protected $periodForPageRevisions = 'P1Y';
+    
+    /**
+     * Whether to show the version history to editors or not.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $showPageHistory
+     */
+    protected $showPageHistory = true;
     
     
     /**
@@ -772,6 +804,102 @@ abstract class AbstractAppSettings
         }
     }
     
+    /**
+     * Returns the revision handling for page.
+     *
+     * @return string
+     */
+    public function getRevisionHandlingForPage()
+    {
+        return $this->revisionHandlingForPage;
+    }
+    
+    /**
+     * Sets the revision handling for page.
+     *
+     * @param string $revisionHandlingForPage
+     *
+     * @return void
+     */
+    public function setRevisionHandlingForPage($revisionHandlingForPage)
+    {
+        if ($this->revisionHandlingForPage !== $revisionHandlingForPage) {
+            $this->revisionHandlingForPage = isset($revisionHandlingForPage) ? $revisionHandlingForPage : '';
+        }
+    }
+    
+    /**
+     * Returns the maximum amount of page revisions.
+     *
+     * @return string
+     */
+    public function getMaximumAmountOfPageRevisions()
+    {
+        return $this->maximumAmountOfPageRevisions;
+    }
+    
+    /**
+     * Sets the maximum amount of page revisions.
+     *
+     * @param string $maximumAmountOfPageRevisions
+     *
+     * @return void
+     */
+    public function setMaximumAmountOfPageRevisions($maximumAmountOfPageRevisions)
+    {
+        if ($this->maximumAmountOfPageRevisions !== $maximumAmountOfPageRevisions) {
+            $this->maximumAmountOfPageRevisions = isset($maximumAmountOfPageRevisions) ? $maximumAmountOfPageRevisions : '';
+        }
+    }
+    
+    /**
+     * Returns the period for page revisions.
+     *
+     * @return string
+     */
+    public function getPeriodForPageRevisions()
+    {
+        return $this->periodForPageRevisions;
+    }
+    
+    /**
+     * Sets the period for page revisions.
+     *
+     * @param string $periodForPageRevisions
+     *
+     * @return void
+     */
+    public function setPeriodForPageRevisions($periodForPageRevisions)
+    {
+        if ($this->periodForPageRevisions !== $periodForPageRevisions) {
+            $this->periodForPageRevisions = isset($periodForPageRevisions) ? $periodForPageRevisions : '';
+        }
+    }
+    
+    /**
+     * Returns the show page history.
+     *
+     * @return boolean
+     */
+    public function getShowPageHistory()
+    {
+        return $this->showPageHistory;
+    }
+    
+    /**
+     * Sets the show page history.
+     *
+     * @param boolean $showPageHistory
+     *
+     * @return void
+     */
+    public function setShowPageHistory($showPageHistory)
+    {
+        if (boolval($this->showPageHistory) !== boolval($showPageHistory)) {
+            $this->showPageHistory = boolval($showPageHistory);
+        }
+    }
+    
     
     /**
      * Loads module variables from the database.
@@ -846,6 +974,18 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['enabledFinderTypes'])) {
             $this->setEnabledFinderTypes($moduleVars['enabledFinderTypes']);
         }
+        if (isset($moduleVars['revisionHandlingForPage'])) {
+            $this->setRevisionHandlingForPage($moduleVars['revisionHandlingForPage']);
+        }
+        if (isset($moduleVars['maximumAmountOfPageRevisions'])) {
+            $this->setMaximumAmountOfPageRevisions($moduleVars['maximumAmountOfPageRevisions']);
+        }
+        if (isset($moduleVars['periodForPageRevisions'])) {
+            $this->setPeriodForPageRevisions($moduleVars['periodForPageRevisions']);
+        }
+        if (isset($moduleVars['showPageHistory'])) {
+            $this->setShowPageHistory($moduleVars['showPageHistory']);
+        }
     }
     
     /**
@@ -875,6 +1015,10 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreatorForPage', $this->getAllowModerationSpecificCreatorForPage());
         $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreationDateForPage', $this->getAllowModerationSpecificCreationDateForPage());
         $this->variableApi->set('ZikulaContentModule', 'enabledFinderTypes', $this->getEnabledFinderTypes());
+        $this->variableApi->set('ZikulaContentModule', 'revisionHandlingForPage', $this->getRevisionHandlingForPage());
+        $this->variableApi->set('ZikulaContentModule', 'maximumAmountOfPageRevisions', $this->getMaximumAmountOfPageRevisions());
+        $this->variableApi->set('ZikulaContentModule', 'periodForPageRevisions', $this->getPeriodForPageRevisions());
+        $this->variableApi->set('ZikulaContentModule', 'showPageHistory', $this->getShowPageHistory());
     
         $entityManager = $this->entityFactory->getObjectManager();
         $revisionHandling = $this->getRevisionHandlingForPage();

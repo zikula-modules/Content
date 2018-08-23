@@ -157,6 +157,12 @@ abstract class AbstractListEntriesHelper
                     case 'enabledFinderTypes':
                         $result = true;
                         break;
+                    case 'revisionHandlingForPage':
+                        $result = false;
+                        break;
+                    case 'maximumAmountOfPageRevisions':
+                        $result = false;
+                        break;
                 }
                 break;
         }
@@ -208,6 +214,12 @@ abstract class AbstractListEntriesHelper
                         break;
                     case 'enabledFinderTypes':
                         $entries = $this->getEnabledFinderTypesEntriesForAppSettings();
+                        break;
+                    case 'revisionHandlingForPage':
+                        $entries = $this->getRevisionHandlingForPageEntriesForAppSettings();
+                        break;
+                    case 'maximumAmountOfPageRevisions':
+                        $entries = $this->getMaximumAmountOfPageRevisionsEntriesForAppSettings();
                         break;
                 }
                 break;
@@ -445,6 +457,107 @@ abstract class AbstractListEntriesHelper
             'title'   => '',
             'image'   => '',
             'default' => true
+        ];
+    
+        return $states;
+    }
+    
+    /**
+     * Get 'revision handling for page' list entries.
+     *
+     * @return array Array with desired list entries
+     */
+    public function getRevisionHandlingForPageEntriesForAppSettings()
+    {
+        $states = [];
+        $states[] = [
+            'value'   => 'unlimited',
+            'text'    => $this->__('Unlimited revisions'),
+            'title'   => '',
+            'image'   => '',
+            'default' => true
+        ];
+        $states[] = [
+            'value'   => 'limitedByAmount',
+            'text'    => $this->__('Limited revisions by amount of revisions'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => 'limitedByDate',
+            'text'    => $this->__('Limited revisions by date interval'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+    
+        return $states;
+    }
+    
+    /**
+     * Get 'maximum amount of page revisions' list entries.
+     *
+     * @return array Array with desired list entries
+     */
+    public function getMaximumAmountOfPageRevisionsEntriesForAppSettings()
+    {
+        $states = [];
+        $states[] = [
+            'value'   => '1',
+            'text'    => $this->__('1'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => '5',
+            'text'    => $this->__('5'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => '10',
+            'text'    => $this->__('10'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => '25',
+            'text'    => $this->__('25'),
+            'title'   => '',
+            'image'   => '',
+            'default' => true
+        ];
+        $states[] = [
+            'value'   => '50',
+            'text'    => $this->__('50'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => '100',
+            'text'    => $this->__('100'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => '250',
+            'text'    => $this->__('250'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => '500',
+            'text'    => $this->__('500'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
         ];
     
         return $states;
