@@ -11,13 +11,8 @@
 
 namespace Zikula\ContentModule\Helper;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractPermissionHelper;
-use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
-use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
-use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 
 /**
  * Permission helper implementation class.
@@ -28,21 +23,6 @@ class PermissionHelper extends AbstractPermissionHelper
      * @var boolean
      */
     protected $inheritPermissions;
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct(
-        ContainerInterface $container,
-        RequestStack $requestStack,
-        PermissionApiInterface $permissionApi,
-        CurrentUserApiInterface $currentUserApi,
-        UserRepositoryInterface $userRepository,
-        $inheritPermissions
-    ) {
-        parent::__construct($container, $requestStack, $permissionApi, $currentUserApi, $userRepository);
-        $this->inheritPermissions = $inheritPermissions;
-    }
 
     /**
      * @inheritDoc
@@ -107,5 +87,13 @@ class PermissionHelper extends AbstractPermissionHelper
         $instance = $name . '::';
 
         return $this->permissionApi->hasPermission($component, $instance, ACCESS_READ, $userId);
+    }
+
+    /**
+     * @param boolean $inheritPermissions
+     */
+    public function setInheritPermissions($inheritPermissions = false)
+    {
+        $this->inheritPermissions = $inheritPermissions;
     }
 }

@@ -13,6 +13,7 @@ namespace Zikula\ContentModule;
 
 use Zikula\Bundle\CoreBundle\CacheClearer;
 use Zikula\ContentModule\Base\AbstractAppSettings;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
@@ -29,13 +30,15 @@ class AppSettings extends AbstractAppSettings
      * AppSettings constructor.
      *
      * @param VariableApiInterface $variableApi VariableApi service instance
+     * @param EntityFactory $entityFactory EntityFactory service instance
      * @param CacheClearer $cacheClearer
      */
     public function __construct(
         VariableApiInterface $variableApi,
+        EntityFactory $entityFactory,
         CacheClearer $cacheClearer
     ) {
-        parent::__construct($variableApi);
+        parent::__construct($variableApi, $entityFactory);
         $this->cacheClearer = $cacheClearer;
     }
 

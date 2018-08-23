@@ -30,6 +30,7 @@ services:
             - "@zikula_extensions_module.api.variable"
             - "@zikula_content_module.entity_factory"
             - "@zikula_content_module.collection_filter_helper"
+            - "@zikula_content_module.permission_helper"
             - "@zikula_content_module.model_helper"
             - "@zikula_content_module.feature_activation_helper"
     
@@ -77,9 +78,11 @@ services:
             - "@service_container"
             - "@request_stack"
             - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
             - "@zikula_users_module.current_user"
             - "@zikula_users_module.user_repository"
-            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'inheritPermissions', false)"
+        calls:
+            - [setInheritPermissions, ["@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'inheritPermissions', false)"]]
     
     zikula_content_module.search_helper:
         class: Zikula\ContentModule\Helper\SearchHelper
