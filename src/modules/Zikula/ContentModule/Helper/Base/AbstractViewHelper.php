@@ -30,37 +30,37 @@ abstract class AbstractViewHelper
      * @var Twig_Environment
      */
     protected $twig;
-
+    
     /**
      * @var FilesystemLoader
      */
     protected $twigLoader;
-
+    
     /**
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var VariableApiInterface
      */
     protected $variableApi;
-
+    
     /**
      * @var ParameterBag
      */
     protected $pageVars;
-
+    
     /**
      * @var ControllerHelper
      */
     protected $controllerHelper;
-
+    
     /**
      * @var PermissionHelper
      */
     protected $permissionHelper;
-
+    
     /**
      * ViewHelper constructor.
      *
@@ -91,7 +91,7 @@ abstract class AbstractViewHelper
         $this->controllerHelper = $controllerHelper;
         $this->permissionHelper = $permissionHelper;
     }
-
+    
     /**
      * Determines the view template for a certain method with given parameters.
      *
@@ -122,7 +122,7 @@ abstract class AbstractViewHelper
     
         return $template;
     }
-
+    
     /**
      * Helper method for managing view templates.
      *
@@ -185,7 +185,7 @@ abstract class AbstractViewHelper
     
         return $response;
     }
-
+    
     /**
      * Get extension of the currently treated template.
      *
@@ -209,7 +209,7 @@ abstract class AbstractViewHelper
     
         return $templateExtension;
     }
-
+    
     /**
      * Get list of available template extensions.
      *
@@ -238,7 +238,7 @@ abstract class AbstractViewHelper
     
         return $extensions;
     }
-
+    
     /**
      * Processes a template file using dompdf (LGPL).
      *

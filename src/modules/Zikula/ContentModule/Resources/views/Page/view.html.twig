@@ -172,7 +172,7 @@
 {% block page_nav_links %}
     <p>
         {% if canBeCreated %}
-            {% if hasPermission('ZikulaContentModule:Page:', '::', 'ACCESS_EDIT') %}
+            {% if permissionHelper.hasComponentPermission('page', 'ACCESS_EDIT') %}
                 {% set createTitle = __('Create page') %}
                 <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'edit') }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
             {% endif %}

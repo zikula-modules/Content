@@ -63,7 +63,13 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);
         $this->setVar('showOnlyOwnEntries', false);
+        $this->setVar('allowModerationSpecificCreatorForPage', false);
+        $this->setVar('allowModerationSpecificCreationDateForPage', false);
         $this->setVar('enabledFinderTypes', 'page');
+        $this->setVar('revisionHandlingForPage', 'unlimited');
+        $this->setVar('maximumAmountOfPageRevisions', '25');
+        $this->setVar('periodForPageRevisions', 'P1Y');
+        $this->setVar('showPageHistory', true);
     
         // add default entry for category registry (property named Main)
         $categoryHelper = new \Zikula\ContentModule\Helper\CategoryHelper(

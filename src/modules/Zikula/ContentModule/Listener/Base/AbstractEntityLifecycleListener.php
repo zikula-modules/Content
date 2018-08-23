@@ -119,6 +119,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         
         $objectType = $entity->get_objectType();
         
+        $this->purgeHistory($objectType);
+        
         $currentUserApi = $this->container->get('zikula_users_module.current_user');
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $objectType, 'id' => $entity->getKey()];
         $this->logger->debug('{app}: User {user} removed the {entity} with id {id}.', $logArgs);
@@ -144,32 +146,32 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         if (!$this->isEntityManagedByThisBundle($entity) || (!method_exists($entity, 'get_objectType') && !$entity instanceof AbstractLogEntry)) {
             return;
         }
-
+        
         if ($entity instanceof AbstractLogEntry) {
             // check if a supported object has been undeleted
             if ('create' != $entity->getAction()) {
                 return;
             }
-
+        
             // select main entity
             if (null === $entity->getObjectId()) {
                 return;
             }
-
+        
             $repository = $this->container->get('zikula_content_module.entity_factory')->getObjectManager()->getRepository($entity->getObjectClass());
             $object = $repository->find($entity->getObjectId());
             if (null === $object || !method_exists($object, 'get_objectType')) {
                 return;
             }
-
+        
             // set correct version after undeletion
             $logVersion = $entity->getVersion();
-            if ($object->get_objectType() == 'page' && method_exists($object, 'getCurrentVersion')) {
+            if ('page' == $object->get_objectType() && method_exists($object, 'getCurrentVersion')) {
                 if ($logVersion < $object->getCurrentVersion()) {
                     $entity->setVersion($object->getCurrentVersion());
                 }
             }
-
+        
             return;
         }
         
@@ -198,6 +200,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $currentUserApi = $this->container->get('zikula_users_module.current_user');
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $entity->get_objectType(), 'id' => $entity->getKey()];
         $this->logger->debug('{app}: User {user} created the {entity} with id {id}.', $logArgs);
+        
+        $this->purgeHistory($entity->get_objectType());
         
         // create the filter event and dispatch it
         $event = $this->createFilterEvent($entity);
@@ -243,6 +247,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $currentUserApi = $this->container->get('zikula_users_module.current_user');
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $entity->get_objectType(), 'id' => $entity->getKey()];
         $this->logger->debug('{app}: User {user} updated the {entity} with id {id}.', $logArgs);
+        
+        $this->purgeHistory($entity->get_objectType());
         
         // create the filter event and dispatch it
         $event = $this->createFilterEvent($entity);
@@ -299,5 +305,32 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $event = new $filterEventClass($entity);
 
         return $event;
+    }
+
+    /**
+     * Purges the version history as configured.
+     *
+     * @param string $objectType The object type
+     */
+    protected function purgeHistory($objectType = '')
+    {
+        if (!in_array($objectType, ['page'])) {
+            return;
+        }
+
+        $entityManager = $this->container->get('zikula_content_module.entity_factory')->getObjectManager();
+        $variableApi = $this->container->get('zikula_extensions_module.api.variable');
+        $objectTypeCapitalised = ucfirst($objectType);
+
+        $revisionHandling = $variableApi->get('ZikulaContentModule', 'revisionHandlingFor' . $objectTypeCapitalised, 'unlimited');
+        $limitParameter = '';
+        if ('limitedByAmount' == $revisionHandling) {
+            $limitParameter = $variableApi->get('ZikulaContentModule', 'maximumAmountOf' . $objectTypeCapitalised . 'Revisions', 25);
+        } elseif ('limitedByDate' == $revisionHandling) {
+            $limitParameter = $variableApi->get('ZikulaContentModule', 'periodFor' . $objectTypeCapitalised . 'Revisions', 'P1Y');
+        }
+
+        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . $objectTypeCapitalised . 'LogEntryEntity');
+        $logEntriesRepository->purgeHistory($revisionHandling, $limitParameter);
     }
 }

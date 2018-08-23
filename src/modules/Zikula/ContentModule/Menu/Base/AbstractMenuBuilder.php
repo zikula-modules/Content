@@ -197,6 +197,8 @@ class AbstractMenuBuilder
                         $menu[$title]->setAttribute('icon', 'fa fa-child');
                     }
                 }
+            }
+            if ($this->permissionHelper->mayAccessHistory($entity)) {
                 if (in_array($context, ['view', 'display']) && $entity->getCurrentVersion() > 1) {
                     $title = $this->__('History', 'zikulacontentmodule');
                     $menu->addChild($title, [

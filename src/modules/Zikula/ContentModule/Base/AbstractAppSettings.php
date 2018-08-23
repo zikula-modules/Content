@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Base;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Validator\Constraints as ContentAssert;
 
 /**
@@ -24,6 +25,11 @@ abstract class AbstractAppSettings
      * @var VariableApiInterface
      */
     protected $variableApi;
+    
+    /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
     
     /**
      * @Assert\NotBlank()
@@ -195,6 +201,24 @@ abstract class AbstractAppSettings
     protected $showOnlyOwnEntries = false;
     
     /**
+     * Whether to allow moderators choosing a user which will be set as creator.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $allowModerationSpecificCreatorForPage
+     */
+    protected $allowModerationSpecificCreatorForPage = false;
+    
+    /**
+     * Whether to allow moderators choosing a custom creation date.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $allowModerationSpecificCreationDateForPage
+     */
+    protected $allowModerationSpecificCreationDateForPage = false;
+    
+    /**
      * Which sections are supported in the Finder component (used by Scribite plug-ins).
      *
      * @Assert\NotNull()
@@ -203,16 +227,51 @@ abstract class AbstractAppSettings
      */
     protected $enabledFinderTypes = 'page';
     
+    /**
+     * Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.
+     *
+     * @Assert\NotBlank()
+     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="revisionHandlingForPage", multiple=false)
+     * @var string $revisionHandlingForPage
+     */
+    protected $revisionHandlingForPage = 'unlimited';
+    
+    /**
+     * @Assert\NotNull()
+     * @ContentAssert\ListEntry(entityName="appSettings", propertyName="maximumAmountOfPageRevisions", multiple=false)
+     * @var string $maximumAmountOfPageRevisions
+     */
+    protected $maximumAmountOfPageRevisions = '25';
+    
+    /**
+     * @Assert\NotNull()
+     * @Assert\Length(min="0", max="255")
+     * @var string $periodForPageRevisions
+     */
+    protected $periodForPageRevisions = 'P1Y';
+    
+    /**
+     * Whether to show the version history to editors or not.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $showPageHistory
+     */
+    protected $showPageHistory = true;
+    
     
     /**
      * AppSettings constructor.
      *
      * @param VariableApiInterface $variableApi VariableApi service instance
+     * @param EntityFactory $entityFactory EntityFactory service instance
      */
     public function __construct(
-        VariableApiInterface $variableApi
+        VariableApiInterface $variableApi,
+        EntityFactory $entityFactory
     ) {
         $this->variableApi = $variableApi;
+        $this->entityFactory = $entityFactory;
     
         $this->load();
     }
@@ -674,6 +733,54 @@ abstract class AbstractAppSettings
     }
     
     /**
+     * Returns the allow moderation specific creator for page.
+     *
+     * @return boolean
+     */
+    public function getAllowModerationSpecificCreatorForPage()
+    {
+        return $this->allowModerationSpecificCreatorForPage;
+    }
+    
+    /**
+     * Sets the allow moderation specific creator for page.
+     *
+     * @param boolean $allowModerationSpecificCreatorForPage
+     *
+     * @return void
+     */
+    public function setAllowModerationSpecificCreatorForPage($allowModerationSpecificCreatorForPage)
+    {
+        if (boolval($this->allowModerationSpecificCreatorForPage) !== boolval($allowModerationSpecificCreatorForPage)) {
+            $this->allowModerationSpecificCreatorForPage = boolval($allowModerationSpecificCreatorForPage);
+        }
+    }
+    
+    /**
+     * Returns the allow moderation specific creation date for page.
+     *
+     * @return boolean
+     */
+    public function getAllowModerationSpecificCreationDateForPage()
+    {
+        return $this->allowModerationSpecificCreationDateForPage;
+    }
+    
+    /**
+     * Sets the allow moderation specific creation date for page.
+     *
+     * @param boolean $allowModerationSpecificCreationDateForPage
+     *
+     * @return void
+     */
+    public function setAllowModerationSpecificCreationDateForPage($allowModerationSpecificCreationDateForPage)
+    {
+        if (boolval($this->allowModerationSpecificCreationDateForPage) !== boolval($allowModerationSpecificCreationDateForPage)) {
+            $this->allowModerationSpecificCreationDateForPage = boolval($allowModerationSpecificCreationDateForPage);
+        }
+    }
+    
+    /**
      * Returns the enabled finder types.
      *
      * @return string
@@ -694,6 +801,102 @@ abstract class AbstractAppSettings
     {
         if ($this->enabledFinderTypes !== $enabledFinderTypes) {
             $this->enabledFinderTypes = isset($enabledFinderTypes) ? $enabledFinderTypes : '';
+        }
+    }
+    
+    /**
+     * Returns the revision handling for page.
+     *
+     * @return string
+     */
+    public function getRevisionHandlingForPage()
+    {
+        return $this->revisionHandlingForPage;
+    }
+    
+    /**
+     * Sets the revision handling for page.
+     *
+     * @param string $revisionHandlingForPage
+     *
+     * @return void
+     */
+    public function setRevisionHandlingForPage($revisionHandlingForPage)
+    {
+        if ($this->revisionHandlingForPage !== $revisionHandlingForPage) {
+            $this->revisionHandlingForPage = isset($revisionHandlingForPage) ? $revisionHandlingForPage : '';
+        }
+    }
+    
+    /**
+     * Returns the maximum amount of page revisions.
+     *
+     * @return string
+     */
+    public function getMaximumAmountOfPageRevisions()
+    {
+        return $this->maximumAmountOfPageRevisions;
+    }
+    
+    /**
+     * Sets the maximum amount of page revisions.
+     *
+     * @param string $maximumAmountOfPageRevisions
+     *
+     * @return void
+     */
+    public function setMaximumAmountOfPageRevisions($maximumAmountOfPageRevisions)
+    {
+        if ($this->maximumAmountOfPageRevisions !== $maximumAmountOfPageRevisions) {
+            $this->maximumAmountOfPageRevisions = isset($maximumAmountOfPageRevisions) ? $maximumAmountOfPageRevisions : '';
+        }
+    }
+    
+    /**
+     * Returns the period for page revisions.
+     *
+     * @return string
+     */
+    public function getPeriodForPageRevisions()
+    {
+        return $this->periodForPageRevisions;
+    }
+    
+    /**
+     * Sets the period for page revisions.
+     *
+     * @param string $periodForPageRevisions
+     *
+     * @return void
+     */
+    public function setPeriodForPageRevisions($periodForPageRevisions)
+    {
+        if ($this->periodForPageRevisions !== $periodForPageRevisions) {
+            $this->periodForPageRevisions = isset($periodForPageRevisions) ? $periodForPageRevisions : '';
+        }
+    }
+    
+    /**
+     * Returns the show page history.
+     *
+     * @return boolean
+     */
+    public function getShowPageHistory()
+    {
+        return $this->showPageHistory;
+    }
+    
+    /**
+     * Sets the show page history.
+     *
+     * @param boolean $showPageHistory
+     *
+     * @return void
+     */
+    public function setShowPageHistory($showPageHistory)
+    {
+        if (boolval($this->showPageHistory) !== boolval($showPageHistory)) {
+            $this->showPageHistory = boolval($showPageHistory);
         }
     }
     
@@ -762,8 +965,26 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['showOnlyOwnEntries'])) {
             $this->setShowOnlyOwnEntries($moduleVars['showOnlyOwnEntries']);
         }
+        if (isset($moduleVars['allowModerationSpecificCreatorForPage'])) {
+            $this->setAllowModerationSpecificCreatorForPage($moduleVars['allowModerationSpecificCreatorForPage']);
+        }
+        if (isset($moduleVars['allowModerationSpecificCreationDateForPage'])) {
+            $this->setAllowModerationSpecificCreationDateForPage($moduleVars['allowModerationSpecificCreationDateForPage']);
+        }
         if (isset($moduleVars['enabledFinderTypes'])) {
             $this->setEnabledFinderTypes($moduleVars['enabledFinderTypes']);
+        }
+        if (isset($moduleVars['revisionHandlingForPage'])) {
+            $this->setRevisionHandlingForPage($moduleVars['revisionHandlingForPage']);
+        }
+        if (isset($moduleVars['maximumAmountOfPageRevisions'])) {
+            $this->setMaximumAmountOfPageRevisions($moduleVars['maximumAmountOfPageRevisions']);
+        }
+        if (isset($moduleVars['periodForPageRevisions'])) {
+            $this->setPeriodForPageRevisions($moduleVars['periodForPageRevisions']);
+        }
+        if (isset($moduleVars['showPageHistory'])) {
+            $this->setShowPageHistory($moduleVars['showPageHistory']);
         }
     }
     
@@ -791,6 +1012,24 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
         $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());
+        $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreatorForPage', $this->getAllowModerationSpecificCreatorForPage());
+        $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreationDateForPage', $this->getAllowModerationSpecificCreationDateForPage());
         $this->variableApi->set('ZikulaContentModule', 'enabledFinderTypes', $this->getEnabledFinderTypes());
+        $this->variableApi->set('ZikulaContentModule', 'revisionHandlingForPage', $this->getRevisionHandlingForPage());
+        $this->variableApi->set('ZikulaContentModule', 'maximumAmountOfPageRevisions', $this->getMaximumAmountOfPageRevisions());
+        $this->variableApi->set('ZikulaContentModule', 'periodForPageRevisions', $this->getPeriodForPageRevisions());
+        $this->variableApi->set('ZikulaContentModule', 'showPageHistory', $this->getShowPageHistory());
+    
+        $entityManager = $this->entityFactory->getObjectManager();
+        $revisionHandling = $this->getRevisionHandlingForPage();
+        $limitParameter = '';
+        if ('limitedByAmount' == $revisionHandling) {
+            $limitParameter = $this->getMaximumAmountOfPageRevisions();
+        } elseif ('limitedByDate' == $revisionHandling) {
+            $limitParameter = $this->getPeriodForPageRevisions();
+        }
+    
+        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
+        $logEntriesRepository->purgeHistory($revisionHandling, $limitParameter);
     }
 }

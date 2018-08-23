@@ -22,7 +22,7 @@ abstract class AbstractModelHelper
      * @var EntityFactory
      */
     protected $entityFactory;
-
+    
     /**
      * ModelHelper constructor.
      *
@@ -32,7 +32,7 @@ abstract class AbstractModelHelper
     {
         $this->entityFactory = $entityFactory;
     }
-
+    
     /**
      * Determines whether creating an instance of a certain object type is possible.
      * This is when
@@ -60,7 +60,7 @@ abstract class AbstractModelHelper
     
         return $result;
     }
-
+    
     /**
      * Determines whether there exists at least one instance of a certain object type in the database.
      *
@@ -77,7 +77,7 @@ abstract class AbstractModelHelper
     
         return $repository->selectCount() > 0;
     }
-
+    
     /**
      * Returns a desired sorting criteria for passing it to a repository method.
      *

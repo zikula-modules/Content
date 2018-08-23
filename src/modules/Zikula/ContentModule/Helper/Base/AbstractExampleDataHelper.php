@@ -29,27 +29,27 @@ abstract class AbstractExampleDataHelper
      * @var TranslatorInterface
      */
     protected $translator;
-
+    
     /**
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var LoggerInterface
      */
     protected $logger;
-
+    
     /**
      * @var EntityFactory
      */
     protected $entityFactory;
-
+    
     /**
      * @var WorkflowHelper
      */
     protected $workflowHelper;
-
+    
     /**
      * ExampleDataHelper constructor.
      *
@@ -72,7 +72,7 @@ abstract class AbstractExampleDataHelper
         $this->entityFactory = $entityFactory;
         $this->workflowHelper = $workflowHelper;
     }
-
+    
     /**
      * Create the default data for ZikulaContentModule.
      *

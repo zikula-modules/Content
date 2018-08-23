@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
@@ -26,33 +27,39 @@ use Zikula\UsersModule\Entity\UserEntity;
 abstract class AbstractPermissionHelper implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
-
+    
     /**
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var PermissionApiInterface
      */
     protected $permissionApi;
-
+    
+    /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+    
     /**
      * @var CurrentUserApiInterface
      */
     protected $currentUserApi;
-
+    
     /**
      * @var UserRepositoryInterface
      */
     protected $userRepository;
-
+    
     /**
      * PermissionHelper constructor.
      *
      * @param ContainerInterface      $container
      * @param RequestStack            $requestStack   RequestStack service instance
      * @param PermissionApiInterface  $permissionApi  PermissionApi service instance
+     * @param VariableApiInterface    $variableApi    VariableApi service instance
      * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
      * @param UserRepositoryInterface $userRepository UserRepository service instance
      */
@@ -60,16 +67,18 @@ abstract class AbstractPermissionHelper implements ContainerAwareInterface
         ContainerInterface $container,
         RequestStack $requestStack,
         PermissionApiInterface $permissionApi,
+        VariableApiInterface $variableApi,
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository
     ) {
         $this->setContainer($container);
         $this->requestStack = $requestStack;
         $this->permissionApi = $permissionApi;
+        $this->variableApi = $variableApi;
         $this->currentUserApi = $currentUserApi;
         $this->userRepository = $userRepository;
     }
-
+    
     /**
      * Checks if the given entity instance may be read.
      *
@@ -94,6 +103,21 @@ abstract class AbstractPermissionHelper implements ContainerAwareInterface
     public function mayEdit($entity, $userId = null)
     {
         return $this->hasEntityPermission($entity, ACCESS_EDIT, $userId);
+    }
+    
+    /**
+     * Checks if the given entity instance may be deleted.
+     *
+     * @param object  $entity
+     * @param integer $userId
+     *
+     * @return boolean
+     */
+    public function mayAccessHistory($entity, $userId = null)
+    {
+        $objectType = $entity->get_objectType();
+    
+        return $this->mayEdit($entity, $userId) && $this->variableApi->get('ZikulaContentModule', 'show' . ucfirst($objectType) . 'History', true);
     }
     
     /**

@@ -28,27 +28,27 @@ abstract class AbstractTranslatableHelper
      * @var TranslatorInterface
      */
     protected $translator;
-
+    
     /**
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var VariableApiInterface
      */
     protected $variableApi;
-
+    
     /**
      * @var LocaleApiInterface
      */
     protected $localeApi;
-
+    
     /**
      * @var EntityFactory
      */
     protected $entityFactory;
-
+    
     /**
      * TranslatableHelper constructor.
      *
@@ -71,7 +71,7 @@ abstract class AbstractTranslatableHelper
         $this->localeApi = $localeApi;
         $this->entityFactory = $entityFactory;
     }
-
+    
     /**
      * Return list of translatable fields per entity.
      * These are required to be determined to recognise
@@ -95,7 +95,7 @@ abstract class AbstractTranslatableHelper
     
         return $fields;
     }
-
+    
     /**
      * Return the current language code.
      *
@@ -105,7 +105,7 @@ abstract class AbstractTranslatableHelper
     {
         return $this->requestStack->getCurrentRequest()->getLocale();
     }
-
+    
     /**
      * Return list of supported languages on the current system.
      *
@@ -122,7 +122,7 @@ abstract class AbstractTranslatableHelper
         // if multi language is disabled use only the current language
         return [$this->getCurrentLanguage()];
     }
-
+    
     /**
      * Returns a list of mandatory fields for each supported language.
      *
@@ -139,7 +139,7 @@ abstract class AbstractTranslatableHelper
     
         return $mandatoryFields;
     }
-
+    
     /**
      * Collects translated fields for editing.
      *
@@ -192,7 +192,7 @@ abstract class AbstractTranslatableHelper
     
         return $translations;
     }
-
+    
     /**
      * Post-editing method persisting translated fields.
      *
