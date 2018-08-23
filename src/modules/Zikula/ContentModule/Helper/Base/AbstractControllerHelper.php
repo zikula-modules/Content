@@ -22,6 +22,7 @@ use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ModelHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Helper base class for controller layer methods.
@@ -56,6 +57,11 @@ abstract class AbstractControllerHelper
     protected $collectionFilterHelper;
 
     /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
+
+    /**
      * @var ModelHelper
      */
     protected $modelHelper;
@@ -68,13 +74,14 @@ abstract class AbstractControllerHelper
     /**
      * ControllerHelper constructor.
      *
-     * @param TranslatorInterface $translator      Translator service instance
-     * @param RequestStack        $requestStack    RequestStack service instance
-     * @param FormFactoryInterface $formFactory    FormFactory service instance
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param RequestStack        $requestStack     RequestStack service instance
+     * @param FormFactoryInterface $formFactory     FormFactory service instance
      * @param VariableApiInterface $variableApi     VariableApi service instance
-     * @param EntityFactory       $entityFactory   EntityFactory service instance
+     * @param EntityFactory       $entityFactory    EntityFactory service instance
      * @param CollectionFilterHelper $collectionFilterHelper CollectionFilterHelper service instance
-     * @param ModelHelper         $modelHelper     ModelHelper service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param ModelHelper         $modelHelper      ModelHelper service instance
      * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
      */
     public function __construct(
@@ -84,6 +91,7 @@ abstract class AbstractControllerHelper
         VariableApiInterface $variableApi,
         EntityFactory $entityFactory,
         CollectionFilterHelper $collectionFilterHelper,
+        PermissionHelper $permissionHelper,
         ModelHelper $modelHelper,
         FeatureActivationHelper $featureActivationHelper
     ) {
@@ -93,6 +101,7 @@ abstract class AbstractControllerHelper
         $this->variableApi = $variableApi;
         $this->entityFactory = $entityFactory;
         $this->collectionFilterHelper = $collectionFilterHelper;
+        $this->permissionHelper = $permissionHelper;
         $this->modelHelper = $modelHelper;
         $this->featureActivationHelper = $featureActivationHelper;
     }
@@ -373,6 +382,7 @@ abstract class AbstractControllerHelper
                 $parameters = array_merge($parameters, $this->collectionFilterHelper->getViewQuickNavParameters($objectType, $context, $args));
             }
         }
+        $parameters['permissionHelper'] = $this->permissionHelper;
     
         $parameters['featureActivationHelper'] = $this->featureActivationHelper;
     
