@@ -31,6 +31,9 @@ msgstr "%owningType%"
 msgid "%title%"
 msgstr "%title%"
 
+msgid "1"
+msgstr "1"
+
 msgid "10"
 msgstr "10"
 
@@ -43,6 +46,12 @@ msgstr "15"
 msgid "20"
 msgstr "20"
 
+msgid "25"
+msgstr "25"
+
+msgid "250"
+msgstr "250"
+
 msgid "30"
 msgstr "30"
 
@@ -51,6 +60,9 @@ msgstr "5"
 
 msgid "50"
 msgstr "50"
+
+msgid "500"
+msgstr "500"
 
 msgid ""
 "<p><strong>This is a second HTML text content item in the left column.</"
@@ -211,6 +223,16 @@ msgstr "Text hier hinzufügen..."
 msgid "Add unfiltered text here ..."
 msgstr "Ungefilterten Text hier hinzufügen ..."
 
+msgid ""
+"Adding a limitation to the revisioning will still keep the possibility to "
+"revert pages to an older version. You will loose the possibility to inspect "
+"changes done earlier than the oldest stored revision though."
+msgstr ""
+"Das Hinzufügen einer Begrenzung zur Versionierung behält immer noch die "
+"Möglichkeit, Seiten zu einer alten Version zurückzustellen. Man verliert "
+"aber die Möglichkeit Änderungen anzuschauen, die früher als die älteste "
+"gespeicherte Revision vorgenommen worden sind."
+
 msgid "Additional fields"
 msgstr "Zusätzliche Felder"
 
@@ -240,6 +262,12 @@ msgstr "Alle Seiten"
 
 msgid "All parents"
 msgstr "Alle Eltern"
+
+msgid "Allow moderation specific creation date for page"
+msgstr "Moderationsspezifisches Erstellungsdatum für Seiten erlauben"
+
+msgid "Allow moderation specific creator for page"
+msgstr "Moderationsspezifischen Ersteller für Seiten erlauben"
 
 msgid "Allow transparancy on the iframe"
 msgstr "Transparenz beim Iframe erlauben"
@@ -359,11 +387,20 @@ msgstr "Wähle jegliche zusätzlichen CSS-Klassen."
 msgid "Choose the enabled finder types."
 msgstr "Die aktivierten Finder-Typen auswählen."
 
+msgid "Choose the maximum amount of page revisions."
+msgstr "Die maximale Anzahl von Seitenrevisionen auswählen."
+
 msgid "Choose the parent page."
 msgstr "Die übergeordnete Seite auswählen."
 
+msgid "Choose the period for page revisions."
+msgstr "Den Zeitraum Seitenrevisionen auswählen."
+
 msgid "Choose the permalink suffix."
 msgstr "Das Suffix für Permalinks auswählen."
+
+msgid "Choose the revision handling for page."
+msgstr "Die Behandlung der Änderungen für Seiten auswählen."
 
 msgid "Choose the scope."
 msgstr "Die Sichtbarkeit auswählen."
@@ -428,7 +465,7 @@ msgid ""
 "Content also offers functionality for versioning and managing translations."
 msgstr ""
 "Content bietet auch Funktionalität zur Versionierung und Verwaltung von "
-"Übersetzungen"
+"Übersetzungen."
 
 msgid ""
 "Content can be extended by other modules which can contribute additional "
@@ -550,6 +587,9 @@ msgstr "Eigene Vorlage"
 
 msgid "Date"
 msgstr "Datum"
+
+msgid "Days"
+msgstr "Tage"
 
 msgid "Default"
 msgstr "Standard"
@@ -1022,6 +1062,13 @@ msgstr ""
 "Inhaltsseiten betrifft. Andere URLs des Content-Moduls werden nicht "
 "verändert."
 
+msgid "Here you can define moderation-related settings."
+msgstr "Hier können moderationsbezogene Einstellungen vorgenommen werden."
+
+msgid "Here you can define settings related to version control."
+msgstr ""
+"Hier können Einstellungen in Bezug auf die Versionierung definiert werden."
+
 msgid "Here you can inspect and amend the existing workflows."
 msgstr "Hier können die bestehenden Workflows angeschaut und verändert werden."
 
@@ -1050,6 +1097,9 @@ msgstr "Historie"
 
 msgid "Home"
 msgstr "Start"
+
+msgid "Hours"
+msgstr "Stunden"
 
 msgid "Htm"
 msgstr "htm"
@@ -1233,6 +1283,12 @@ msgstr "Leaflet-Karte"
 msgid "Leave empty for no internal anchor link."
 msgstr "Leer lassen für keinen internen Anker-Link."
 
+msgid "Limited revisions by amount of revisions"
+msgstr "Durch Revisionsanzahl begrenzte Revisionen"
+
+msgid "Limited revisions by date interval"
+msgstr "Durch Zeitintervall begrenzte Revisionen"
+
 msgid "Link names"
 msgstr "Link-Namen"
 
@@ -1260,6 +1316,9 @@ msgstr "Kartentyp"
 msgid "Max. no. of items to display"
 msgstr "Max. Anzahl der anzuzeigenden Einträge"
 
+msgid "Maximum amount of page revisions"
+msgstr "Maximale Anzahl von Seitenrevisionen"
+
 msgid ""
 "Maximum number of pages-in-pages reached! You probably included this page in "
 "itself."
@@ -1270,11 +1329,17 @@ msgstr ""
 msgid "Meta description"
 msgstr "Meta-Beschreibung"
 
+msgid "Minutes"
+msgstr "Minuten"
+
 msgid "Moderation"
 msgstr "Moderation"
 
 msgid "Module %module is not available."
 msgstr "Das Modul %module ist nicht verfügbar."
+
+msgid "Months"
+msgstr "Monate"
 
 msgid "Move"
 msgstr "Verschieben"
@@ -1464,6 +1529,9 @@ msgstr "Übergeordnete Seite"
 msgid "Paste as"
 msgstr "Einfügen als"
 
+msgid "Period for page revisions"
+msgstr "Zeitraum für Seitenrevisionen"
+
 msgid "Permalink"
 msgstr "Permalink"
 
@@ -1566,6 +1634,9 @@ msgstr "Für neue Seite wiederverwenden"
 msgid "Revert to version %version%"
 msgstr "Zurücksetzen auf Version %version%"
 
+msgid "Revision handling for page"
+msgstr "Änderungsbehandlung für Seiten"
+
 msgid "Roadmap"
 msgstr "Fahrplan"
 
@@ -1589,6 +1660,9 @@ msgstr "Eine Seite suchen und auswählen"
 
 msgid "Search for"
 msgstr "Suche nach"
+
+msgid "Seconds"
+msgstr "Sekunden"
 
 msgid "Section heading (or page title) for structuring large amounts of text."
 msgstr ""
@@ -1639,6 +1713,9 @@ msgstr "Wegbeschreibung anzeigen"
 
 msgid "Show only own entries"
 msgstr "Nur eigene Einträge anzeigen"
+
+msgid "Show page history"
+msgstr "Seitenhistorie anzeigen"
 
 msgid "Show related videos"
 msgstr "Verbundene Videos anzeigen"
@@ -1854,6 +1931,15 @@ msgstr "Beschreibung, die unter der Karte angezeigt wird"
 msgid "Text to be shown in the popup window of the marker"
 msgstr "Text, der im Popup-Fenster des Markers angezeigt wird"
 
+msgid "The allow moderation specific creation date for page option"
+msgstr ""
+"Die Option zum Erlauben eines moderationsspezifischen Erstellungsdatums für "
+"Seiten"
+
+msgid "The allow moderation specific creator for page option"
+msgstr ""
+"Die Option zum Erlauben eines moderationsspezifischen Erstellers für Seiten"
+
 msgid "The amount of pages shown per page"
 msgstr "Die Anzahl von je Seite angezeigten Seiten"
 
@@ -1900,7 +1986,10 @@ msgid "The setting has been successfully changed."
 msgstr "Die Einstellung wurde erfolgreich geändert."
 
 msgid "The show only own entries option"
-msgstr "Option zum ausschließlichen Anzeigen von eigenen Einträgen"
+msgstr "Option zur ausschließlichen Anzeige eigener Einträge"
+
+msgid "The show page history option"
+msgstr "Die Option zur Anzeige der Seitenhistorie"
 
 msgid "The target address"
 msgstr "Die Zieladresse"
@@ -2016,6 +2105,9 @@ msgstr "Ungefilterter Text"
 msgid "Unknown author"
 msgstr "Unbekannter Autor"
 
+msgid "Unlimited revisions"
+msgstr "Unbegrenzte Revisionen"
+
 msgid "Update"
 msgstr "Aktualisieren"
 
@@ -2086,6 +2178,9 @@ msgstr "Version %version%"
 msgid "Version data"
 msgstr "Versionsdaten"
 
+msgid "Versioning"
+msgstr "Versionierung"
+
 msgid "Video"
 msgstr "Video"
 
@@ -2133,6 +2228,16 @@ msgstr ""
 "Ob ein Link zu den Seiten des aktuellen Nutzers auf seiner Benutzerseite "
 "hinzugefügt werden soll"
 
+msgid "Whether to allow moderators choosing a custom creation date."
+msgstr ""
+"Ob Moderatoren die Auswahl eines abweichenden Erstellungsdatums erlaubt ist."
+
+msgid ""
+"Whether to allow moderators choosing a user which will be set as creator."
+msgstr ""
+"Ob Moderatoren die Auswahl eines abweichenden Benutzers als Ersteller "
+"erlaubt ist."
+
 msgid ""
 "Whether to enable the unfiltered raw text plugin. Use this plugin with "
 "caution and if you can trust your editors, since no filtering is being done "
@@ -2147,6 +2252,9 @@ msgid "Whether to inherit permissions from parent to child pages or not."
 msgstr ""
 "Ob die Zugriffsrechte von Elternseiten zu Unterseiten vererbt werden sollen "
 "oder nicht."
+
+msgid "Whether to show the version history to editors or not."
+msgstr "Ob die Seitenhistorie den Editoren angezeigt wird oder nicht."
 
 msgid ""
 "Which sections are supported in the Finder component (used by Scribite plug-"
@@ -2180,6 +2288,9 @@ msgstr "Arbeitsabläufe"
 
 msgid "Yandex translate api key"
 msgstr "Yandex Translate API-Schlüssel"
+
+msgid "Years"
+msgstr "Jahre"
 
 msgid "Yes"
 msgstr "Ja"
