@@ -27,17 +27,17 @@ abstract class AbstractEntityDisplayHelper
      * @var TranslatorInterface
      */
     protected $translator;
-
+    
     /**
      * @var ListEntriesHelper Helper service for managing list entries
      */
     protected $listEntriesHelper;
-
+    
     /**
      * @var IntlDateFormatter Formatter for dates
      */
     protected $dateFormatter;
-
+    
     /**
      * EntityDisplayHelper constructor.
      *
@@ -55,7 +55,7 @@ abstract class AbstractEntityDisplayHelper
         $locale = null !== $requestStack->getCurrentRequest() ? $requestStack->getCurrentRequest()->getLocale() : null;
         $this->dateFormatter = new IntlDateFormatter($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE);
     }
-
+    
     /**
      * Returns the formatted title for a given entity.
      *

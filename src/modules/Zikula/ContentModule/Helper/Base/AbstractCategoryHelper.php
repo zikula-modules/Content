@@ -29,32 +29,32 @@ abstract class AbstractCategoryHelper
      * @var TranslatorInterface
      */
     protected $translator;
-
+    
     /**
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var LoggerInterface
      */
     protected $logger;
-
+    
     /**
      * @var CurrentUserApiInterface
      */
     protected $currentUserApi;
-
+    
     /**
      * @var CategoryRegistryRepositoryInterface
      */
     protected $categoryRegistryRepository;
-
+    
     /**
      * @var CategoryPermissionApiInterface
      */
     protected $categoryPermissionApi;
-
+    
     /**
      * CategoryHelper constructor.
      *
@@ -80,7 +80,7 @@ abstract class AbstractCategoryHelper
         $this->categoryRegistryRepository = $categoryRegistryRepository;
         $this->categoryPermissionApi = $categoryPermissionApi;
     }
-
+    
     /**
      * Defines whether multiple selection is enabled for a given object type
      * or not. Subclass can override this method to apply a custom behaviour

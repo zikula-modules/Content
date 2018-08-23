@@ -30,47 +30,47 @@ use Zikula\ContentModule\Helper\PermissionHelper;
 abstract class AbstractControllerHelper
 {
     use TranslatorTrait;
-
+    
     /**
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var FormFactoryInterface
      */
     protected $formFactory;
-
+    
     /**
      * @var VariableApiInterface
      */
     protected $variableApi;
-
+    
     /**
      * @var EntityFactory
      */
     protected $entityFactory;
-
+    
     /**
      * @var CollectionFilterHelper
      */
     protected $collectionFilterHelper;
-
+    
     /**
      * @var PermissionHelper
      */
     protected $permissionHelper;
-
+    
     /**
      * @var ModelHelper
      */
     protected $modelHelper;
-
+    
     /**
      * @var FeatureActivationHelper
      */
     protected $featureActivationHelper;
-
+    
     /**
      * ControllerHelper constructor.
      *
@@ -105,7 +105,7 @@ abstract class AbstractControllerHelper
         $this->modelHelper = $modelHelper;
         $this->featureActivationHelper = $featureActivationHelper;
     }
-
+    
     /**
      * Sets the translator.
      *
@@ -115,7 +115,7 @@ abstract class AbstractControllerHelper
     {
         $this->translator = $translator;
     }
-
+    
     /**
      * Returns an array of all allowed object types in ZikulaContentModule.
      *
@@ -136,7 +136,7 @@ abstract class AbstractControllerHelper
     
         return $allowedObjectTypes;
     }
-
+    
     /**
      * Returns the default object type in ZikulaContentModule.
      *
@@ -153,7 +153,7 @@ abstract class AbstractControllerHelper
     
         return 'page';
     }
-
+    
     /**
      * Processes the parameters for a view action.
      * This includes handling pagination, quick navigation forms and other aspects.
@@ -310,7 +310,7 @@ abstract class AbstractControllerHelper
     
         return [$sort, $sortdir];
     }
-
+    
     /**
      * Processes the parameters for a display action.
      *
@@ -337,7 +337,7 @@ abstract class AbstractControllerHelper
     
         return $this->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
     }
-
+    
     /**
      * Processes the parameters for an edit action.
      *
@@ -355,7 +355,7 @@ abstract class AbstractControllerHelper
     
         return $this->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
     }
-
+    
     /**
      * Returns an array of additional template variables which are specific to the object type.
      *

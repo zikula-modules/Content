@@ -39,6 +39,10 @@
                 <li role="presentation">
                     <a id="vars7Tab" href="#tab7" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
+                {% set tabTitle = __('Versioning') %}
+                <li role="presentation">
+                    <a id="vars8Tab" href="#tab8" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
                 {% set tabTitle = __('Workflows') %}
                 <li role="presentation">
                     <a id="workflowsTab" href="#tabWorkflows" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
@@ -130,6 +134,15 @@
                         <p class="alert alert-info">{{ __('These options allow you to configure integration aspects.')|nl2br }}</p>
                     
                         {{ form_row(form.enabledFinderTypes) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab8" aria-labelledby="vars8Tab">
+                    {% set tabTitle = __('Versioning') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                    
+                        <p class="alert alert-info">{{ __('Here you can define settings related to version control.')|nl2br }}</p>
+                    
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tabWorkflows" aria-labelledby="workflowsTab">

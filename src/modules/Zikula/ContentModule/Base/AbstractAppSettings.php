@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Base;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Validator\Constraints as ContentAssert;
 
 /**
@@ -25,6 +26,11 @@ abstract class AbstractAppSettings
      */
     protected $variableApi;
     
+    
+    /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
     /**
      * @Assert\NotBlank()
      * @ContentAssert\ListEntry(entityName="appSettings", propertyName="stateOfNewPages", multiple=false)
@@ -226,11 +232,14 @@ abstract class AbstractAppSettings
      * AppSettings constructor.
      *
      * @param VariableApiInterface $variableApi VariableApi service instance
+     * @param EntityFactory $entityFactory EntityFactory service instance
      */
     public function __construct(
-        VariableApiInterface $variableApi
+        VariableApiInterface $variableApi,
+        EntityFactory $entityFactory
     ) {
         $this->variableApi = $variableApi;
+        $this->entityFactory = $entityFactory;
     
         $this->load();
     }
@@ -866,5 +875,17 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreatorForPage', $this->getAllowModerationSpecificCreatorForPage());
         $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreationDateForPage', $this->getAllowModerationSpecificCreationDateForPage());
         $this->variableApi->set('ZikulaContentModule', 'enabledFinderTypes', $this->getEnabledFinderTypes());
+    
+        $entityManager = $this->entityFactory->getObjectManager();
+        $revisionHandling = $this->getRevisionHandlingForPage();
+        $limitParameter = '';
+        if ('limitedByAmount' == $revisionHandling) {
+            $limitParameter = $this->getMaximumAmountOfPageRevisions();
+        } elseif ('limitedByDate' == $revisionHandling) {
+            $limitParameter = $this->getPeriodForPageRevisions();
+        }
+    
+        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
+        $logEntriesRepository->purgeHistory($revisionHandling, $limitParameter);
     }
 }

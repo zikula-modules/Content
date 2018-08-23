@@ -29,27 +29,27 @@ abstract class AbstractCollectionFilterHelper
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var PermissionHelper
      */
     protected $permissionHelper;
-
+    
     /**
      * @var CurrentUserApiInterface
      */
     protected $currentUserApi;
-
+    
     /**
      * @var CategoryHelper
      */
     protected $categoryHelper;
-
+    
     /**
      * @var bool Fallback value to determine whether only own entries should be selected or not
      */
     protected $showOnlyOwnEntries = false;
-
+    
     /**
      * CollectionFilterHelper constructor.
      *
@@ -72,7 +72,7 @@ abstract class AbstractCollectionFilterHelper
         $this->categoryHelper = $categoryHelper;
         $this->showOnlyOwnEntries = $showOnlyOwnEntries;
     }
-
+    
     /**
      * Returns an array of additional template variables for view quick navigation forms.
      *

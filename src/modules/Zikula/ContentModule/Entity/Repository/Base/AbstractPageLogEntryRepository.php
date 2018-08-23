@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Entity\Repository\Base;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
+use Gedmo\Loggable\LoggableListener;
 
 /**
  * Repository class used to implement own convenience methods for performing certain DQL queries.
@@ -22,7 +23,7 @@ use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 abstract class AbstractPageLogEntryRepository extends LogEntryRepository
 {
     /**
-     * Selects all log entries for deletions to determine deleted page.
+     * Selects all log entries for removals to determine deleted pages.
      *
      * @param integer $limit The maximum amount of items to fetch
      *
@@ -41,12 +42,12 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
         $qb->select('log')
            ->from($this->_entityName, 'log')
            ->andWhere('log.objectClass = :objectClass')
+           ->setParameter('objectClass', $objectClass)
            ->andWhere('log.action = :action')
+           ->setParameter('action', LoggableListener::ACTION_REMOVE)
            ->andWhere($qb->expr()->notIn('log.objectId', $qbExisting->getDQL()))
-           ->orderBy('log.version', 'DESC');
-    
-        $qb->setParameter('objectClass', $objectClass)
-           ->setParameter('action', 'remove');
+           ->orderBy('log.version', 'DESC')
+       ;
     
         $query = $qb->getQuery();
     
@@ -55,5 +56,112 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
         }
     
         return $query->getResult();
+    }
+    
+    /**
+     * Removes (or rather conflates) all obsolete log entries.
+     *
+     * @param string $revisionHandling The currently configured revision handling mode
+     * @param string $limitParameter   Optional parameter for limitation (maximum revision amount or date interval)
+     */
+    public function purgeHistory($revisionHandling = 'unlimited', $limitParameter = '')
+    {
+        if ('unlimited' == $revisionHandling) {
+            // nothing to do
+            return;
+        }
+    
+        $objectClass = str_replace('LogEntry', '', $this->_entityName);
+    
+        // step 1 - determine obsolete revisions
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('log')
+           ->from($this->_entityName, 'log')
+           ->andWhere('log.objectClass = :objectClass')
+           ->setParameter('objectClass', $objectClass)
+           ->addOrderBy('log.objectId', 'ASC')
+           ->addOrderBy('log.version', 'ASC')
+       ;
+    
+        if ('limitedByAmount' == $revisionHandling) {
+            $limitParameter = intval($limitParameter);
+            if (!$limitParameter) {
+                $limitParameter = 25;
+        	}
+        	$limitParameter++; // one more for the initial creation entry
+    
+            $qbMatchingObjects = $this->getEntityManager()->createQueryBuilder();
+            $qbMatchingObjects->select('log.objectId, COUNT(log.objectId) AS HIDDEN amountOfRevisions')
+                ->from($this->_entityName, 'log')
+                ->andWhere('log.objectClass = :objectClass')
+                ->setParameter('objectClass', $objectClass)
+                ->groupBy('log.objectId')
+                ->andWhere('amountOfRevisions > :maxAmount')
+                ->setParameter('maxAmount', $limitParameter)
+            ;
+            $result = $qbMatchingObjects->getQuery()->getScalarResult();
+            $identifiers = array_column($result, 'objectId');
+    
+            $qb->andWhere('log.objectId IN (:identifiers)')
+               ->setParameter('identifiers', $identifiers)
+            ;
+        } elseif ('limitedByDate' == $revisionHandling) {
+            if (!$limitParameter) {
+                $limitParameter = 'P1Y';
+            }
+            $thresholdDate = new \DateTime(date('Ymd'));
+            $thresholdDate->sub(new \DateInterval($limitParameter));
+    
+            $qb->andWhere('log.loggedAt <= :thresholdDate')
+               ->setParameter('thresholdDate', $thresholdDate)
+            ;
+        }
+    
+        // we do not need to filter specific actions, but may remove/conflate log entries with all actions
+        // this does not affect detection of deleted pages
+        // because in those cases the remove log entry is always the newest one (otherwise an undeletion has been done)
+    
+        $query = $qb->getQuery();
+        $result = $query->getResult();
+        if (!count($result)) {
+            return;
+        }
+    
+        // loop through the log entries
+        $dataForObject = [];
+        $lastObjectId = 0;
+        $lastLogEntry = null;
+        foreach ($result as $logEntry) {
+            // step 2 - conflate data arrays
+            $version = $logEntry->getVersion();
+            if ($lastObjectId != $logEntry->getObjectId()) {
+                if ($lastObjectId > 0) {
+                    // write conflated data into last obsolete version (which will be kept)
+                    $lastLogEntry->setData($dataForObject);
+                    // this becomes a creation entry now
+                    $lastLogEntry->setAction(LoggableListener::ACTION_CREATE);
+                    // we keep the old loggedAt value though
+                } else {
+                    // very first loop execution, nothing special to do here
+                }
+            } else {
+                // we have a another log entry for the same object
+                $dataForObject = array_merge($dataForObject, $logEntry->getData());
+                // thus we may remove the last one
+                $entityManager->remove($lastLogEntry);
+            }
+    
+            $lastObjectId = $logEntry->getObjectId();
+            $lastLogEntry = $logEntry;
+        }
+    
+        // do not forget to save values for the last objectId
+        if (null !== $lastLogEntry) {
+            $lastLogEntry->setData($dataForObject);
+            $lastLogEntry->setAction(LoggableListener::ACTION_CREATE);
+        }
+    
+        // step 3 - push changes into database
+        $entityManager->flush();
     }
 }

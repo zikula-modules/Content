@@ -75,6 +75,7 @@ abstract class AbstractConfigType extends AbstractType
         $this->addListViewsFields($builder, $options);
         $this->addModerationFields($builder, $options);
         $this->addIntegrationFields($builder, $options);
+        $this->addVersioningFields($builder, $options);
 
         $this->addSubmitButtons($builder, $options);
     }
@@ -495,6 +496,16 @@ abstract class AbstractConfigType extends AbstractType
             'multiple' => true,
             'expanded' => false
         ]);
+    }
+
+    /**
+     * Adds fields for versioning fields.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addVersioningFields(FormBuilderInterface $builder, array $options = [])
+    {
     }
 
     /**
