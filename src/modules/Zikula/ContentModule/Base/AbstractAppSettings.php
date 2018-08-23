@@ -248,7 +248,7 @@ abstract class AbstractAppSettings
      * @Assert\Length(min="0", max="255")
      * @var string $periodForPageRevisions
      */
-    protected $periodForPageRevisions = 'P1Y';
+    protected $periodForPageRevisions = 'P1Y0M0DT0H0M0S';
     
     /**
      * Whether to show the version history to editors or not.

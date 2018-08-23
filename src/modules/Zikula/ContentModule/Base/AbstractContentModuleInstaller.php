@@ -68,7 +68,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('enabledFinderTypes', 'page');
         $this->setVar('revisionHandlingForPage', 'unlimited');
         $this->setVar('maximumAmountOfPageRevisions', '25');
-        $this->setVar('periodForPageRevisions', 'P1Y');
+        $this->setVar('periodForPageRevisions', 'P1Y0M0DT0H0M0S');
         $this->setVar('showPageHistory', true);
     
         // add default entry for category registry (property named Main)
