@@ -394,7 +394,7 @@ msgid "Choose the parent page."
 msgstr "Die übergeordnete Seite auswählen."
 
 msgid "Choose the period for page revisions."
-msgstr "Den Zeitraum Seitenrevisionen auswählen."
+msgstr "Den Zeitraum für Seitenrevisionen auswählen."
 
 msgid "Choose the permalink suffix."
 msgstr "Das Suffix für Permalinks auswählen."
