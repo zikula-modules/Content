@@ -558,7 +558,7 @@ abstract class AbstractConfigType extends AbstractType
         
         $builder->add('periodForPageRevisions', DateIntervalType::class, [
             'label' => $this->__('Period for page revisions') . ':',
-            'empty_data' => 'P1Y',
+            'empty_data' => 'P1Y0M0DT0H0M0S',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',

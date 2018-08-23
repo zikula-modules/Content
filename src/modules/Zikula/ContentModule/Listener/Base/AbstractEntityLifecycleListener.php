@@ -327,7 +327,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         if ('limitedByAmount' == $revisionHandling) {
             $limitParameter = $variableApi->get('ZikulaContentModule', 'maximumAmountOf' . $objectTypeCapitalised . 'Revisions', 25);
         } elseif ('limitedByDate' == $revisionHandling) {
-            $limitParameter = $variableApi->get('ZikulaContentModule', 'periodFor' . $objectTypeCapitalised . 'Revisions', 'P1Y');
+            $limitParameter = $variableApi->get('ZikulaContentModule', 'periodFor' . $objectTypeCapitalised . 'Revisions', 'P1Y0M0DT0H0M0S');
         }
 
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . $objectTypeCapitalised . 'LogEntryEntity');
