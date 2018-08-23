@@ -31,9 +31,17 @@
                 <li role="presentation">
                     <a id="vars5Tab" href="#tab5" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
-                {#{% set tabTitle = __('Integration') %}
+                {% set tabTitle = __('Moderation') %}
                 <li role="presentation">
                     <a id="vars6Tab" href="#tab6" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
+                {#{% set tabTitle = __('Integration') %}
+                <li role="presentation">
+                    <a id="vars7Tab" href="#tab7" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                </li>
+                {% set tabTitle = __('Versioning') %}
+                <li role="presentation">
+                    <a id="vars8Tab" href="#tab8" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Workflows') %}
                 <li role="presentation">
@@ -119,7 +127,18 @@
                         {{ form_row(form.showOnlyOwnEntries) }}
                     </fieldset>
                 </div>
-                <div role="tabpanel" class="tab-pane fade hidden" id="tab6" aria-labelledby="vars6Tab">
+                <div role="tabpanel" class="tab-pane fade" id="tab6" aria-labelledby="vars6Tab">
+                    {% set tabTitle = __('Moderation') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                    
+                        <p class="alert alert-info">{{ __('Here you can define moderation-related settings.')|nl2br }}</p>
+                    
+                        {{ form_row(form.allowModerationSpecificCreatorForPage) }}
+                        {{ form_row(form.allowModerationSpecificCreationDateForPage) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade hidden" id="tab7" aria-labelledby="vars7Tab">
                     {% set tabTitle = __('Integration') %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
@@ -127,6 +146,19 @@
                         <p class="alert alert-info">{{ __('These options allow you to configure integration aspects.')|nl2br }}</p>
                     
                         {{ form_row(form.enabledFinderTypes) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab8" aria-labelledby="vars8Tab">
+                    {% set tabTitle = __('Versioning') %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                    
+                        <p class="alert alert-info">{{ __('Here you can define settings related to version control.')|nl2br }}</p>
+                    
+                        {{ form_row(form.revisionHandlingForPage) }}
+                        {{ form_row(form.maximumAmountOfPageRevisions) }}
+                        {{ form_row(form.periodForPageRevisions) }}
+                        {{ form_row(form.showPageHistory) }}
                     </fieldset>
                 </div>
                 {#

@@ -114,12 +114,16 @@
             </fieldset>
         {% endif %}
         
-        {% if form.moderationSpecificCreator is defined %}
+        {% if form.moderationSpecificCreator is defined or form.moderationSpecificCreationDate is defined %}
             <fieldset id="moderationFieldsSection">
                 <legend>{{ __('Moderation') }} <i class="fa fa-expand"></i></legend>
                 <div id="moderationFieldsContent">
-                    {{ form_row(form.moderationSpecificCreator) }}
-                    {{ form_row(form.moderationSpecificCreationDate) }}
+                    {% if form.moderationSpecificCreator is defined %}
+                        {{ form_row(form.moderationSpecificCreator) }}
+                    {% endif %}
+                    {% if form.moderationSpecificCreationDate is defined %}
+                        {{ form_row(form.moderationSpecificCreationDate) }}
+                    {% endif %}
                 </div>
             </fieldset>
         {% endif %}
