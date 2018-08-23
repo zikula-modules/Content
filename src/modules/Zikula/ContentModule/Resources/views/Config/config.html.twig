@@ -177,6 +177,7 @@
 {% endblock %}
 {% block footer %}
     {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Config.js')) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
     {% set formInitScript %}

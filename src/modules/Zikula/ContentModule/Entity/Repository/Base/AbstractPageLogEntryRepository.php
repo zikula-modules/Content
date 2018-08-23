@@ -66,7 +66,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
      */
     public function purgeHistory($revisionHandling = 'unlimited', $limitParameter = '')
     {
-        if ('unlimited' == $revisionHandling) {
+        if ('unlimited' == $revisionHandling || !in_array($revisionHandling, ['limitedByAmount', 'limitedByDate'])) {
             // nothing to do
             return;
         }
