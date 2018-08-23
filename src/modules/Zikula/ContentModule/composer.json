@@ -37,7 +37,7 @@
     },
     "extra": {
         "zikula": {
-            "core-compatibility": ">=2.0.10 <3.0",
+            "core-compatibility": ">=2.0.11 <3.0",
             "class": "Zikula\\ContentModule\\ZikulaContentModule",
             "displayname": "Content",
             "url": "content",
@@ -71,6 +71,7 @@
         "optimize-autoloader": true,
         "platform": {
             "php": "5.5.9"
-        }
+        },
+        "sort-packages": true
     }
 }
