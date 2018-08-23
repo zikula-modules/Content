@@ -63,6 +63,8 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);
         $this->setVar('showOnlyOwnEntries', false);
+        $this->setVar('allowModerationSpecificCreatorForPage', false);
+        $this->setVar('allowModerationSpecificCreationDateForPage', false);
         $this->setVar('enabledFinderTypes', 'page');
     
         // add default entry for category registry (property named Main)

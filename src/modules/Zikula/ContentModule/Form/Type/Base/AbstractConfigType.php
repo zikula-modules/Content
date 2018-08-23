@@ -73,6 +73,7 @@ abstract class AbstractConfigType extends AbstractType
         $this->addAdditionalFieldsFields($builder, $options);
         $this->addPermalinksFields($builder, $options);
         $this->addListViewsFields($builder, $options);
+        $this->addModerationFields($builder, $options);
         $this->addIntegrationFields($builder, $options);
 
         $this->addSubmitButtons($builder, $options);
@@ -416,6 +417,44 @@ abstract class AbstractConfigType extends AbstractType
             'attr' => [
                 'class' => '',
                 'title' => $this->__('The show only own entries option')
+            ],
+            'required' => false,
+        ]);
+    }
+
+    /**
+     * Adds fields for moderation fields.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array                $options The options
+     */
+    public function addModerationFields(FormBuilderInterface $builder, array $options = [])
+    {
+        
+        $builder->add('allowModerationSpecificCreatorForPage', CheckboxType::class, [
+            'label' => $this->__('Allow moderation specific creator for page') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('Whether to allow moderators choosing a user which will be set as creator.')
+            ],
+            'help' => $this->__('Whether to allow moderators choosing a user which will be set as creator.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The allow moderation specific creator for page option')
+            ],
+            'required' => false,
+        ]);
+        
+        $builder->add('allowModerationSpecificCreationDateForPage', CheckboxType::class, [
+            'label' => $this->__('Allow moderation specific creation date for page') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('Whether to allow moderators choosing a custom creation date.')
+            ],
+            'help' => $this->__('Whether to allow moderators choosing a custom creation date.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The allow moderation specific creation date for page option')
             ],
             'required' => false,
         ]);

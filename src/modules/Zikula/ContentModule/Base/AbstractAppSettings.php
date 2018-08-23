@@ -195,6 +195,24 @@ abstract class AbstractAppSettings
     protected $showOnlyOwnEntries = false;
     
     /**
+     * Whether to allow moderators choosing a user which will be set as creator.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $allowModerationSpecificCreatorForPage
+     */
+    protected $allowModerationSpecificCreatorForPage = false;
+    
+    /**
+     * Whether to allow moderators choosing a custom creation date.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $allowModerationSpecificCreationDateForPage
+     */
+    protected $allowModerationSpecificCreationDateForPage = false;
+    
+    /**
      * Which sections are supported in the Finder component (used by Scribite plug-ins).
      *
      * @Assert\NotNull()
@@ -674,6 +692,54 @@ abstract class AbstractAppSettings
     }
     
     /**
+     * Returns the allow moderation specific creator for page.
+     *
+     * @return boolean
+     */
+    public function getAllowModerationSpecificCreatorForPage()
+    {
+        return $this->allowModerationSpecificCreatorForPage;
+    }
+    
+    /**
+     * Sets the allow moderation specific creator for page.
+     *
+     * @param boolean $allowModerationSpecificCreatorForPage
+     *
+     * @return void
+     */
+    public function setAllowModerationSpecificCreatorForPage($allowModerationSpecificCreatorForPage)
+    {
+        if (boolval($this->allowModerationSpecificCreatorForPage) !== boolval($allowModerationSpecificCreatorForPage)) {
+            $this->allowModerationSpecificCreatorForPage = boolval($allowModerationSpecificCreatorForPage);
+        }
+    }
+    
+    /**
+     * Returns the allow moderation specific creation date for page.
+     *
+     * @return boolean
+     */
+    public function getAllowModerationSpecificCreationDateForPage()
+    {
+        return $this->allowModerationSpecificCreationDateForPage;
+    }
+    
+    /**
+     * Sets the allow moderation specific creation date for page.
+     *
+     * @param boolean $allowModerationSpecificCreationDateForPage
+     *
+     * @return void
+     */
+    public function setAllowModerationSpecificCreationDateForPage($allowModerationSpecificCreationDateForPage)
+    {
+        if (boolval($this->allowModerationSpecificCreationDateForPage) !== boolval($allowModerationSpecificCreationDateForPage)) {
+            $this->allowModerationSpecificCreationDateForPage = boolval($allowModerationSpecificCreationDateForPage);
+        }
+    }
+    
+    /**
      * Returns the enabled finder types.
      *
      * @return string
@@ -762,6 +828,12 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['showOnlyOwnEntries'])) {
             $this->setShowOnlyOwnEntries($moduleVars['showOnlyOwnEntries']);
         }
+        if (isset($moduleVars['allowModerationSpecificCreatorForPage'])) {
+            $this->setAllowModerationSpecificCreatorForPage($moduleVars['allowModerationSpecificCreatorForPage']);
+        }
+        if (isset($moduleVars['allowModerationSpecificCreationDateForPage'])) {
+            $this->setAllowModerationSpecificCreationDateForPage($moduleVars['allowModerationSpecificCreationDateForPage']);
+        }
         if (isset($moduleVars['enabledFinderTypes'])) {
             $this->setEnabledFinderTypes($moduleVars['enabledFinderTypes']);
         }
@@ -791,6 +863,8 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
         $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());
+        $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreatorForPage', $this->getAllowModerationSpecificCreatorForPage());
+        $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreationDateForPage', $this->getAllowModerationSpecificCreationDateForPage());
         $this->variableApi->set('ZikulaContentModule', 'enabledFinderTypes', $this->getEnabledFinderTypes());
     }
 }
