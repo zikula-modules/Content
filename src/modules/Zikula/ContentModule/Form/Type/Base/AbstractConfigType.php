@@ -565,6 +565,14 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => $this->__('Choose the period for page revisions.')
             ],
             'required' => false,
+            'labels' => [
+                'years' => $this->__('Years'),
+                'months' => $this->__('Months'),
+                'days' => $this->__('Days'),
+                'hours' => $this->__('Hours'),
+                'minutes' => $this->__('Minutes'),
+                'seconds' => $this->__('Seconds')
+            ],
             'placeholder' => [
                 'years' => $this->__('Years'),
                 'months' => $this->__('Months'),
@@ -581,8 +589,7 @@ abstract class AbstractConfigType extends AbstractType
             'with_days' => true,
             'with_hours' => true,
             'with_minutes' => true,
-            'with_seconds' => true,
-            'with_invert' => true
+            'with_seconds' => true
         ]);
         
         $builder->add('showPageHistory', CheckboxType::class, [
