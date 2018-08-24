@@ -30,7 +30,6 @@ use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Type\Field\ArrayType;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
-use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
@@ -38,6 +37,7 @@ use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ContentModule\Helper\TranslatableHelper;
+use Zikula\ContentModule\Traits\ModerationFormFieldsTrait;
 
 /**
  * Page editing form type base class.
@@ -45,6 +45,7 @@ use Zikula\ContentModule\Helper\TranslatableHelper;
 abstract class AbstractPageType extends AbstractType
 {
     use TranslatorTrait;
+    use ModerationFormFieldsTrait;
 
     /**
      * @var EntityFactory
@@ -376,52 +377,6 @@ abstract class AbstractPageType extends AbstractType
             'entityCategoryClass' => 'Zikula\ContentModule\Entity\PageCategoryEntity',
             'showRegistryLabels' => true
         ]);
-    }
-
-    /**
-     * Adds special fields for moderators.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
-     */
-    public function addModerationFields(FormBuilderInterface $builder, array $options = [])
-    {
-        if (!$options['has_moderate_permission']) {
-            return;
-        }
-        if ($options['inline_usage']) {
-            return;
-        }
-    
-        if ($options['allow_moderation_specific_creator']) {
-            $builder->add('moderationSpecificCreator', UserLiveSearchType::class, [
-                'mapped' => false,
-                'label' => $this->__('Creator') . ':',
-                'attr' => [
-                    'maxlength' => 11,
-                    'title' => $this->__('Here you can choose a user which will be set as creator.')
-                ],
-                'empty_data' => 0,
-                'required' => false,
-                'help' => $this->__('Here you can choose a user which will be set as creator.')
-            ]);
-        }
-        if ($options['allow_moderation_specific_creation_date']) {
-            $builder->add('moderationSpecificCreationDate', DateTimeType::class, [
-                'mapped' => false,
-                'label' => $this->__('Creation date') . ':',
-                'attr' => [
-                    'class' => '',
-                    'title' => $this->__('Here you can choose a custom creation date.')
-                ],
-                'empty_data' => '',
-                'required' => false,
-                'with_seconds' => true,
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
-                'help' => $this->__('Here you can choose a custom creation date.')
-            ]);
-        }
     }
 
     /**
