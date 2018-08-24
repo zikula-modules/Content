@@ -111,6 +111,7 @@ New features:
 - Added no cookie option for YouTube videos.
 - Overhauled translation workflow.
 - Optional translation support powered by [Yandex.Translate](https://translate.yandex.com/).
+- Content items can store additional search texts which is not shown anywhere but only used for searching.
 
 Deprecations:
 - Removed the ability to register a page var for breadcrumbs in favour of a dedicated module for this purpose. There is still a Twig function for retrieving or displaying a page hierarchy though.
