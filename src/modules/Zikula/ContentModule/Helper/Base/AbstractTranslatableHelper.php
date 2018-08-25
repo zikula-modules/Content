@@ -241,7 +241,7 @@ abstract class AbstractTranslatableHelper
         if (null === $this->loggableListener) {
             foreach ($eventManager->getListeners() as $event => $listeners) {
                 foreach ($listeners as $hash => $listener) {
-                    if ($listener instanceof LoggableListener) {
+                    if ($listener instanceof loggableListener) {
                         $this->loggableListener = $listener;
                         break 2;
                     }
