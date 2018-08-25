@@ -68,7 +68,7 @@
 {{ zikulacontentmodule_increaseAmountOfPageViews(page) }}
 {% endblock %}
 {% block display_hooks %}
-    {% if page.supportsHookSubscribers %}
+    {% if page.supportsHookSubscribers() %}
         {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', id=page.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
         {% if hooks is iterable and hooks|length > 0 %}
             {% for area, hook in hooks %}
