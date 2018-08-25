@@ -15,7 +15,7 @@ use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
 
 /**
- * This is the menu builder implementation class.
+ * Menu builder implementation class.
  */
 class MenuBuilder extends AbstractMenuBuilder
 {
