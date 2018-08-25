@@ -168,7 +168,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
     
             $lastObjectId = $objectId;
             if ($keepPerObject < 0 || $counterPerObject < $thresholdForObject) {
-            	$lastLogEntry = $logEntry;
+                $lastLogEntry = $logEntry;
             }
             $counterPerObject++;
         }
