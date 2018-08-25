@@ -154,7 +154,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
                     // very first loop execution, nothing special to do here
                 }
                 $counterPerObject = 1;
-                $thresholdForObject = $keepPerObject > 0 && isset($logAmountMap[$objectId]) ? $logAmountMap[$objectId] : 1;
+                $thresholdForObject = $keepPerObject > 0 && isset($logAmountMap[$objectId]) ? ($logAmountMap[$objectId] - $keepPerObject) : 1;
             } else {
                 // we have a another log entry for the same object
                 if ($keepPerObject < 0 || $counterPerObject < $thresholdForObject) {
