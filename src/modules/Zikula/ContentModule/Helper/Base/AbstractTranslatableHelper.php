@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Helper\Base;
 
+use Gedmo\Timestampable\TimestampableListener;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -50,6 +51,11 @@ abstract class AbstractTranslatableHelper
     protected $entityFactory;
     
     /**
+     * @var TimestampableListener
+     */
+    protected $timestampableListener;
+    
+    /**
      * TranslatableHelper constructor.
      *
      * @param TranslatorInterface  $translator    Translator service instance
@@ -70,6 +76,7 @@ abstract class AbstractTranslatableHelper
         $this->variableApi = $variableApi;
         $this->localeApi = $localeApi;
         $this->entityFactory = $entityFactory;
+        $this->timestampableListener = null;
     }
     
     /**
@@ -196,12 +203,12 @@ abstract class AbstractTranslatableHelper
     /**
      * Post-editing method persisting translated fields.
      *
-     * @param EntityAccess  $entity        The entity being edited
-     * @param FormInterface $form          Form containing translations
-     * @param EntityManager $entityManager Entity manager
+     * @param EntityAccess  $entity The entity being edited
+     * @param FormInterface $form   Form containing translations
      */
-    public function processEntityAfterEditing($entity, $form, $entityManager)
+    public function processEntityAfterEditing($entity, $form)
     {
+        $this->toggleTimestampable(true);
         $objectType = $entity->get_objectType();
         $supportedLanguages = $this->getSupportedLanguages($objectType);
         foreach ($supportedLanguages as $language) {
@@ -217,7 +224,41 @@ abstract class AbstractTranslatableHelper
                 $entity[$fieldName] = $fieldData;
             }
             $entity['locale'] = $language;
-            $entityManager->flush();
+            $this->entityFactory->getObjectManager()->flush();
+        }
+        $this->toggleTimestampable(true);
+    }
+    
+    /**
+     * Enables or disables the timestampable listener.
+     *
+     * @param boolean $enable True for enable, false for disable
+     *
+     * @see https://github.com/Atlantic18/DoctrineExtensions/issues/1722
+     */
+    public function toggleTimestampable($enable = true)
+    {
+        $eventManager = $this->entityFactory->getObjectManager()->getEventManager();
+        $timestampableEvents = ['prePersist', 'onFlush', 'loadClassMetadata'];
+    
+        if (null === $this->timestampableListener) {
+            foreach ($eventManager->getListeners() as $event => $listeners) {
+                foreach ($listeners as $hash => $listener) {
+                    if ($listener instanceof TimestampableListener) {
+                        $this->timestampableListener = $listener;
+                        break 2;
+                    }
+                }
+            }
+        }
+        if (null === $this->timestampableListener) {
+            return;
+        }
+    
+        if (true === $enable) {
+            $eventManager->addEventListener($timestampableEvents, $this->timestampableListener);
+        } else {
+            $eventManager->removeEventListener($timestampableEvents, $this->timestampableListener);
         }
     }
 }
