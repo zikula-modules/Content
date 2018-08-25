@@ -231,7 +231,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * Used locale to override Translation listener's locale.
-     * this is not a mapped field of entity metadata, just a simple property.
+     * This is not a mapped field of entity metadata, just a simple property.
      *
      * @Assert\Locale()
      * @Gedmo\Locale
