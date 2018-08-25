@@ -167,12 +167,14 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
             }
     
             $lastObjectId = $objectId;
-            $lastLogEntry = $logEntry;
+            if ($keepPerObject < 0 || $counterPerObject < $thresholdForObject) {
+            	$lastLogEntry = $logEntry;
+            }
             $counterPerObject++;
         }
     
         // do not forget to save values for the last objectId
-        if (null !== $lastLogEntry) {
+        if (null !== $lastLogEntry && count($dataForObject)) {
             $lastLogEntry->setData($dataForObject);
             $lastLogEntry->setAction(LoggableListener::ACTION_CREATE);
         }
