@@ -441,7 +441,6 @@ class PageController extends AbstractPageController
             }
         }
 
-        $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
         $titleSuffix = ' - ' . $this->__('new copy');
         $newPage = clone $oldPage;
         $newPage->setTitle($newPage->getTitle() . $titleSuffix);
@@ -682,12 +681,11 @@ class PageController extends AbstractPageController
                 $pageSlug = $page->getSlug();
             }
             // handle form data
-            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
             $workflowHelper = $this->get('zikula_content_module.workflow_helper');
             if (in_array($form->getClickedButton()->getName(), ['prev', 'next', 'saveandquit'])) {
                 // update translations
                 $success = $workflowHelper->executeAction($formObject, 'update');
-                $translatableHelper->processEntityAfterEditing($formObject, $form, $entityManager);
+                $translatableHelper->processEntityAfterEditing($formObject, $form);
             }
             if (!$isPageStep && $form->get('prev')->isClicked()) {
                 if (null !== $translationInfo['previousContentId']) {
