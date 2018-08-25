@@ -11,7 +11,7 @@
 
 namespace Zikula\ContentModule\Helper\Base;
 
-use Gedmo\Timestampable\TimestampableListener;
+use Gedmo\Loggable\LoggableListener;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -51,9 +51,9 @@ abstract class AbstractTranslatableHelper
     protected $entityFactory;
     
     /**
-     * @var TimestampableListener
+     * @var LoggableListener
      */
-    protected $timestampableListener;
+    protected $loggableListener;
     
     /**
      * TranslatableHelper constructor.
@@ -76,7 +76,7 @@ abstract class AbstractTranslatableHelper
         $this->variableApi = $variableApi;
         $this->localeApi = $localeApi;
         $this->entityFactory = $entityFactory;
-        $this->timestampableListener = null;
+        $this->loggableListener = null;
     }
     
     /**
@@ -208,7 +208,7 @@ abstract class AbstractTranslatableHelper
      */
     public function processEntityAfterEditing($entity, $form)
     {
-        $this->toggleTimestampable(true);
+        $this->toggleLoggable(false);
         $objectType = $entity->get_objectType();
         $supportedLanguages = $this->getSupportedLanguages($objectType);
         foreach ($supportedLanguages as $language) {
@@ -226,39 +226,36 @@ abstract class AbstractTranslatableHelper
             $entity['locale'] = $language;
             $this->entityFactory->getObjectManager()->flush();
         }
-        $this->toggleTimestampable(true);
+        $this->toggleLoggable(true);
     }
     
     /**
-     * Enables or disables the timestampable listener.
+     * Enables or disables the loggable listener to avoid log entries
+     * for translation changes.
      *
      * @param boolean $enable True for enable, false for disable
-     *
-     * @see https://github.com/Atlantic18/DoctrineExtensions/issues/1722
      */
-    public function toggleTimestampable($enable = true)
+    public function toggleLoggable($enable = true)
     {
         $eventManager = $this->entityFactory->getObjectManager()->getEventManager();
-        $timestampableEvents = ['prePersist', 'onFlush', 'loadClassMetadata'];
-    
-        if (null === $this->timestampableListener) {
+        if (null === $this->loggableListener) {
             foreach ($eventManager->getListeners() as $event => $listeners) {
                 foreach ($listeners as $hash => $listener) {
-                    if ($listener instanceof TimestampableListener) {
-                        $this->timestampableListener = $listener;
+                    if ($listener instanceof LoggableListener) {
+                        $this->loggableListener = $listener;
                         break 2;
                     }
                 }
             }
         }
-        if (null === $this->timestampableListener) {
+        if (null === $this->loggableListener) {
             return;
         }
     
         if (true === $enable) {
-            $eventManager->addEventListener($timestampableEvents, $this->timestampableListener);
+            $eventManager->addEventSubscriber($this->loggableListener);
         } else {
-            $eventManager->removeEventListener($timestampableEvents, $this->timestampableListener);
+            $eventManager->removeEventSubscriber($this->loggableListener);
         }
     }
 }
