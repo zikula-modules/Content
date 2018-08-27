@@ -60,10 +60,11 @@ abstract class AbstractLoggableHelper
      * Determines template parameters for diff view.
      *
      * @param array $logEntries List of log entries for currently treated entity instance
+     * @param array $versions   List of desired version numbers
      *
      * @return array
      */
-    public function determineDiffViewParameters($logEntries)
+    public function determineDiffViewParameters($logEntries, $versions)
     {
         $minVersion = $maxVersion = 0;
         if ($versions[0] < $versions[1]) {

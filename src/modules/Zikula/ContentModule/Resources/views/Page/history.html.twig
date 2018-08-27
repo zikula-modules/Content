@@ -24,9 +24,9 @@
         {% else %}
             {% set linkTitle = __('Pages list') %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-reply"></i> {{ linkTitle }}</a>
-            {% set linkTitle = __('Back to detail view') %}
-            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-eye"></i> {{ linkTitle }}</a>
         {% endif %}
+        {% set linkTitle = __('Back to detail view') %}
+        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-eye"></i> {{ linkTitle }}</a>
     </p>
 {% endblock %}
 {% block history_table %}
