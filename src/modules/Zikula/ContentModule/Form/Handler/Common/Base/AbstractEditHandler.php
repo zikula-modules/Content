@@ -644,6 +644,17 @@ abstract class AbstractEditHandler
                 if (in_array($this->objectType, ['page'])) {
                     // collect translated fields for revisioning
                     $translationData = [];
+
+                    // main language
+                    $language = $this->translatableHelper->getCurrentLanguage();
+                    $translationData[$language] = [];
+                    $translatableFields = $this->translatableHelper->getTranslatableFields($this->objectType);
+                    foreach ($translatableFields as $fieldName) {
+                        $fieldData = isset($this->form[$fieldName]) ? $this->form[$fieldName]->getData() : '';
+                        $translationData[$language][$fieldName] = $fieldData;
+                    }
+
+                    // other languages
                     $supportedLanguages = $this->translatableHelper->getSupportedLanguages($this->objectType);
                     foreach ($supportedLanguages as $language) {
                         $translationInput = $this->translatableHelper->readTranslationInput($this->form, $language);
@@ -652,6 +663,7 @@ abstract class AbstractEditHandler
                         }
                         $translationData[$language] = $translationInput;
                     }
+
                     $this->entityRef->setTranslationData($translationData);
                 }
             }
