@@ -23,6 +23,7 @@ use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
+use Zikula\ContentModule\Helper\LoggableHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 
@@ -59,6 +60,11 @@ class AbstractMenuBuilder
     protected $entityDisplayHelper;
 
     /**
+     * @var LoggableHelper
+     */
+    protected $loggableHelper;
+
+    /**
      * @var CurrentUserApiInterface
      */
     protected $currentUserApi;
@@ -72,6 +78,7 @@ class AbstractMenuBuilder
      * @param RequestStack             $requestStack        RequestStack service instance
      * @param PermissionHelper         $permissionHelper    PermissionHelper service instance
      * @param EntityDisplayHelper      $entityDisplayHelper EntityDisplayHelper service instance
+     * @param LoggableHelper           $loggableHelper      LoggableHelper service instance
      * @param CurrentUserApiInterface  $currentUserApi      CurrentUserApi service instance
      */
     public function __construct(
@@ -81,6 +88,7 @@ class AbstractMenuBuilder
         RequestStack $requestStack,
         PermissionHelper $permissionHelper,
         EntityDisplayHelper $entityDisplayHelper,
+        LoggableHelper $loggableHelper,
         CurrentUserApiInterface $currentUserApi)
     {
         $this->setTranslator($translator);
@@ -89,6 +97,7 @@ class AbstractMenuBuilder
         $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->entityDisplayHelper = $entityDisplayHelper;
+        $this->loggableHelper = $loggableHelper;
         $this->currentUserApi = $currentUserApi;
     }
 
@@ -199,7 +208,7 @@ class AbstractMenuBuilder
                 }
             }
             if ($this->permissionHelper->mayAccessHistory($entity)) {
-                if (in_array($context, ['view', 'display']) && $entity->getCurrentVersion() > 1) {
+                if (in_array($context, ['view', 'display']) && $this->loggableHelper->hasHistoryItems($entity)) {
                     $title = $this->__('History', 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'loggablehistory',

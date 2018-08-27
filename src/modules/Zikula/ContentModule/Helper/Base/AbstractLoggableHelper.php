@@ -105,6 +105,45 @@ abstract class AbstractLoggableHelper
     }
     
     /**
+     * Return name of the version field for the given object type.
+     *
+     * @param string $objectType Currently treated entity type
+     *
+     * @return string
+     */
+    public function getVersionFieldName($objectType = '')
+    {
+        $versionFieldMap = [
+            'page' => 'currentVersion',
+        ];
+    
+        return isset($versionFieldMap[$objectType]) ? $versionFieldMap[$objectType] : '';
+    }
+    
+    /**
+     * Checks whether a history may be shown for the given entity instance.
+     *
+     * @param EntityAccess $entity Currently treated entity instance
+     *
+     * @return boolean
+     */
+    public function hasHistoryItems($entity)
+    {
+        $objectType = $entity->get_objectType();
+        $versionField = $this->getVersionFieldName($objectType);
+        $getter = 'get' . ucfirst($versionField);
+    
+        /** alternative (with worse performance)
+         * $entityManager = $this->entityFactory->getObjectManager();
+         * $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
+         * $logEntries = $logEntriesRepository->getLogEntries($entity);
+         * return count($logEntries) > 1;
+         */
+    
+        return $entity->$getter() > 1;
+    }
+    
+    /**
      * Checks whether deleted entities exist for the given object type.
      *
      * @param string $objectType Currently treated entity type
@@ -199,12 +238,11 @@ abstract class AbstractLoggableHelper
             return null;
         }
     
-        $versionFieldMap = [
-            'page' => 'currentVersion',
-        ];
+        $objectType = $entity->get_objectType();
+        $versionField = $this->getVersionFieldName($objectType);
     
         $logEntriesRepository->revert($entity, $lastVersionBeforeDeletion);
-        $versionSetter = 'set' . ucfirst($versionFieldMap[$objectType]);
+        $versionSetter = 'set' . ucfirst($versionField);
         $entity->$versionSetter($lastVersionBeforeDeletion + 2);
     
         $entity = $this->revertPostProcess($entity);
