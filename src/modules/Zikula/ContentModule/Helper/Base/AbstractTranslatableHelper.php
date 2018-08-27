@@ -171,7 +171,7 @@ abstract class AbstractTranslatableHelper
     
         // get translations
         $entityManager = $this->entityFactory->getObjectManager();
-        $repository = $entityManager->getRepository('Zikula\ContentModule\Entity\' . ucfirst($objectType) . 'TranslationEntity');
+        $repository = $entityManager->getRepository('Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'TranslationEntity');
         $entityTranslations = $repository->findTranslations($entity);
     
         $supportedLanguages = $this->getSupportedLanguages($objectType);
@@ -332,7 +332,7 @@ abstract class AbstractTranslatableHelper
     
         // remove all existing translations
         $entityManager = $this->entityFactory->getObjectManager();
-        $repository = $entityManager->getRepository('Zikula\ContentModule\Entity\' . ucfirst($objectType) . 'TranslationEntity');
+        $repository = $entityManager->getRepository('Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'TranslationEntity');
         $translationMeta = $repository->getClassMetadata();
         $qb = $entityManager->createQueryBuilder();
         $qb->delete($translationMeta->rootEntityName, 'trans')
