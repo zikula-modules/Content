@@ -654,7 +654,7 @@ abstract class AbstractPageController extends AbstractController
         ];
         
         if (true === $isDiffView) {
-            list ($minVersion, $maxVersion, $diffValues) = $this->get('zikula_content_module.loggable_helper')->determineDiffViewParameters($logEntries);
+            list ($minVersion, $maxVersion, $diffValues) = $this->get('zikula_content_module.loggable_helper')->determineDiffViewParameters($logEntries, $versions);
             $templateParameters['minVersion'] = $minVersion;
             $templateParameters['maxVersion'] = $maxVersion;
             $templateParameters['diffValues'] = $diffValues;
