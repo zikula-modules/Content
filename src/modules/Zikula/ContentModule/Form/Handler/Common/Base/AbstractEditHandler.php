@@ -639,10 +639,28 @@ abstract class AbstractEditHandler
     
         $this->fetchInputData();
     
+        if ($isRegularAction && true === $this->hasTranslatableFields) {
+            if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::TRANSLATIONS, $this->objectType)) {
+                if (in_array($this->objectType, ['page'])) {
+                    // collect translated fields for revisioning
+                    $translationData = [];
+                    $supportedLanguages = $this->translatableHelper->getSupportedLanguages($this->objectType);
+                    foreach ($supportedLanguages as $language) {
+                        $translationInput = $this->translatableHelper->readTranslationInput($form, $language);
+                        if (!count($translationInput)) {
+                            continue;
+                        }
+                        $translationData[$language] = $translationInput;
+                    }
+                    $this->entityRef->setTranslationData($translationData);
+                }
+            }
+        }
+    
         // get treated entity reference from persisted member var
         $entity = $this->entityRef;
     
-        if ($entity->supportsHookSubscribers() && $action != 'cancel') {
+        if ($entity->supportsHookSubscribers()) {
             // Let any ui hooks perform additional validation actions
             $hookType = $action == 'delete' ? UiHooksCategory::TYPE_VALIDATE_DELETE : UiHooksCategory::TYPE_VALIDATE_EDIT;
             $validationErrors = $this->hookHelper->callValidationHooks($entity, $hookType);
