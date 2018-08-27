@@ -354,6 +354,17 @@ abstract class AbstractPageType extends AbstractType
             ],
             'required' => false,
         ]);
+        
+        $builder->add('translationData', ArrayType::class, [
+            'label' => $this->__('Translation data') . ':',
+            'help' => $this->__('Enter one entry per line.'),
+            'empty_data' => [],
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('Enter the translation data of the page.')
+            ],
+            'required' => false,
+        ]);
     }
 
     /**

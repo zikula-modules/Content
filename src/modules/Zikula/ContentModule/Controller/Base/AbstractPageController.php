@@ -138,9 +138,7 @@ abstract class AbstractPageController extends AbstractController
         // check if deleted entities should be displayed
         $viewDeleted = $request->query->getInt('deleted', 0);
         if ($viewDeleted == 1 && $permissionHelper->hasComponentPermission('page', ACCESS_EDIT)) {
-            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
-            $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
-            $templateParameters['deletedItems'] = $logEntriesRepository->selectDeleted();
+            $templateParameters['deletedEntities'] = $this->get('zikula_content_module.loggable_helper')->getDeletedEntities($objectType);
         
             return $viewHelper->processTemplate($objectType, 'viewDeleted', $templateParameters);
         }
@@ -196,9 +194,7 @@ abstract class AbstractPageController extends AbstractController
         // check if there exist any deleted page
         $templateParameters['hasDeletedEntities'] = false;
         if ($permissionHelper->hasPermission(ACCESS_EDIT)) {
-            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
-            $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
-            $templateParameters['hasDeletedEntities'] = count($logEntriesRepository->selectDeleted(1)) > 0;
+            $templateParameters['hasDeletedEntities'] = $this->get('zikula_content_module.loggable_helper')->hasDeletedEntities($objectType);
         }
         
         // fetch and return the appropriate template
@@ -274,15 +270,8 @@ abstract class AbstractPageController extends AbstractController
         $requestedVersion = $request->query->getInt('version', 0);
         $versionPermLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
         if ($requestedVersion > 0 && $permissionHelper->hasEntityPermission($page, $versionPermLevel)) {
-            // preview of a specific version is desired
-            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
-            $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
-            $logEntries = $logEntriesRepository->getLogEntries($page);
-            if (count($logEntries) > 1) {
-                // revert to requested version but detach to avoid persisting it
-                $logEntriesRepository->revert($page, $requestedVersion);
-                $entityManager->detach($page);
-            }
+            // preview of a specific version is desired, but detach entity
+            $page = $this->get('zikula_content_module.loggable_helper')->revert($page, $requestedVersion, true);
         }
         
         $templateParameters = [
@@ -525,6 +514,9 @@ abstract class AbstractPageController extends AbstractController
     protected function undeleteActionInternal(Request $request, $id = 0, $isAdmin = false)
     {
         $page = $this->restoreDeletedEntity($id);
+        if (null === $page) {
+            throw new NotFoundHttpException($this->__('No such page found.'));
+        }
         
         $preview = $request->query->getInt('preview', 0);
         if ($preview == 1) {
@@ -532,78 +524,17 @@ abstract class AbstractPageController extends AbstractController
         }
         
         try {
-            $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
-            $metadata = $entityManager->getClassMetaData(get_class($page));
-            $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
-            $metadata->setIdGenerator(new \Doctrine\ORM\Id\AssignedGenerator());
-        
-            $versionField = $metadata->versionField;
-            $metadata->setVersioned(false);
-            $metadata->setVersionField(null);
-        
-            $entityManager->persist($page);
-            $entityManager->flush($page);
-        
+            $this->get('zikula_content_module.loggable_helper')->undelete($page);
             $this->addFlash('status', $this->__('Done! Undeleted page.'));
-        
-            $metadata->setVersioned(true);
-            $metadata->setVersionField($versionField);
         } catch (\Exception $exception) {
             $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
         }
         
+        $this->get('zikula_content_module.translatable_helper')->refreshTranslationsFromLogData($page);
+        
         $routeArea = $isAdmin ? 'admin' : '';
         
         return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $page->createUrlArgs());
-    }
-    
-    /**
-     * Resets a deleted page back to the last version before it's deletion.
-     *
-     * @return PageEntity The restored entity
-     *
-     * @throws NotFoundHttpException Thrown if page isn't found
-     */
-    protected function restoreDeletedEntity($id = 0)
-    {
-        if (!$id) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
-        }
-    
-        $entityFactory = $this->get('zikula_content_module.entity_factory');
-        $page = $entityFactory->createPage();
-        $page->setId($id);
-        $entityManager = $entityFactory->getObjectManager();
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
-        $logEntries = $logEntriesRepository->getLogEntries($page);
-        $lastVersionBeforeDeletion = null;
-        foreach ($logEntries as $logEntry) {
-            if ('remove' != $logEntry->getAction()) {
-                $lastVersionBeforeDeletion = $logEntry->getVersion();
-                break;
-            }
-        }
-        if (null === $lastVersionBeforeDeletion) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
-        }
-    
-        $logEntriesRepository->revert($page, $lastVersionBeforeDeletion);
-        $page->setCurrentVersion($lastVersionBeforeDeletion + 2);
-    
-        // check if parent is still valid
-        $repository = $entityFactory->getRepository('page');
-        $parentId = $page->getParent()->getId();
-        $parent = $parentId ? $repository->find($parentId) : null;
-        if (in_array('Doctrine\Common\Proxy\Proxy', class_implements($parent), true)) {
-            // look for a root node to use as parent
-            $parentNode = $repository->findOneBy(['lvl' => 0]);
-            $page->setParent($parentNode);
-        }
-    
-        $eventArgs = new \Doctrine\Common\Persistence\Event\LifecycleEventArgs($page, $entityManager);
-        $this->get('zikula_content_module.entity_lifecycle_listener')->postLoad($eventArgs);
-    
-        return $page;
     }
     
     /**
@@ -671,12 +602,14 @@ abstract class AbstractPageController extends AbstractController
         $revertToVersion = $request->query->getInt('revert', 0);
         if ($revertToVersion > 0 && count($logEntries) > 1) {
             // revert to requested version
-            $logEntriesRepository->revert($page, $revertToVersion);
+            $page = $this->get('zikula_content_module.loggable_helper')->revert($page, $revertToVersion);
         
             try {
                 // execute the workflow action
                 $workflowHelper = $this->get('zikula_content_module.workflow_helper');
                 $success = $workflowHelper->executeAction($page, 'update');
+        
+                $this->get('zikula_content_module.translatable_helper')->refreshTranslationsFromLogData($page);
         
                 if ($success) {
                     $this->addFlash('status', $this->__f('Done! Reverted page to version %version%.', ['%version%' => $revertToVersion]));
@@ -721,41 +654,7 @@ abstract class AbstractPageController extends AbstractController
         ];
         
         if (true === $isDiffView) {
-            $minVersion = $maxVersion = 0;
-            if ($versions[0] < $versions[1]) {
-                $minVersion = $versions[0];
-                $maxVersion = $versions[1];
-            } else {
-                $minVersion = $versions[1];
-                $maxVersion = $versions[0];
-            }
-            $logEntries = array_reverse($logEntries);
-        
-            $diffValues = [];
-            foreach ($logEntries as $logEntry) {
-                if (null === $logEntry->getData()) {
-                    continue;
-                }
-                foreach ($logEntry->getData() as $field => $value) {
-                    if (!isset($diffValues[$field])) {
-                        $diffValues[$field] = [
-                            'old' => '',
-                            'new' => '',
-                            'changed' => false
-                        ];
-                    }
-                    if (is_array($value)) {
-                        $value = is_array(reset($value)) ? 'Array' : implode(', ', $value);
-                    }
-                    if ($logEntry->getVersion() <= $minVersion) {
-                        $diffValues[$field]['old'] = $value;
-                        $diffValues[$field]['new'] = $value;
-                    } elseif ($logEntry->getVersion() <= $maxVersion) {
-                        $diffValues[$field]['new'] = $value;
-                        $diffValues[$field]['changed'] = $diffValues[$field]['new'] != $diffValues[$field]['old'];
-                    }
-                }
-            }
+            list ($minVersion, $maxVersion, $diffValues) = $this->get('zikula_content_module.loggable_helper')->determineDiffViewParameters($logEntries);
             $templateParameters['minVersion'] = $minVersion;
             $templateParameters['maxVersion'] = $maxVersion;
             $templateParameters['diffValues'] = $diffValues;

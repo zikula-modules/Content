@@ -63,7 +63,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $workflowState = 'initial';
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotBlank()
@@ -82,7 +81,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $showTitle = true;
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull()
@@ -155,7 +153,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $inMenu = true;
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull()
@@ -165,7 +162,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $optionalString1 = '';
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull()
@@ -175,7 +171,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $optionalString2 = '';
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @ORM\Column(type="text", length=2000)
      * @Assert\NotNull()
@@ -212,6 +207,15 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @var array $versionData
      */
     protected $versionData = [];
+    
+    /**
+     * @Gedmo\Versioned
+     * @ORM\Column(type="json_array")
+     * @Assert\NotNull()
+     * @Assert\Type(type="array")
+     * @var array $translationData
+     */
+    protected $translationData = [];
     
     
     /**
@@ -791,6 +795,30 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     {
         if ($this->versionData !== $versionData) {
             $this->versionData = isset($versionData) ? $versionData : '';
+        }
+    }
+    
+    /**
+     * Returns the translation data.
+     *
+     * @return array
+     */
+    public function getTranslationData()
+    {
+        return $this->translationData;
+    }
+    
+    /**
+     * Sets the translation data.
+     *
+     * @param array $translationData
+     *
+     * @return void
+     */
+    public function setTranslationData($translationData)
+    {
+        if ($this->translationData !== $translationData) {
+            $this->translationData = isset($translationData) ? $translationData : '';
         }
     }
     

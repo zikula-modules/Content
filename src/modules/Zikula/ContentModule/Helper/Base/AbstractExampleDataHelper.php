@@ -118,6 +118,7 @@ abstract class AbstractExampleDataHelper
         $page1->setStylingClasses([]);
         $page1->setCurrentVersion(1);
         $page1->setVersionData([]);
+        $page1->setTranslationData([]);
         
         $page1->setParent(null);
         $page1->setRoot(1);

@@ -80,6 +80,9 @@
             <div class="hidden">
                 {{ form_row(form.versionData) }}
             </div>
+            <div class="hidden">
+                {{ form_row(form.translationData) }}
+            </div>
         </fieldset>
         
         {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
