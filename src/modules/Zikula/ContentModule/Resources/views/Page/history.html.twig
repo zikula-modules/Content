@@ -63,12 +63,12 @@
                             <td headers="hDate">{{ logEntry.loggedAt|localizeddate('long', 'medium') }}</td>
                             <td headers="hUser">{{ userAvatar(logEntry.username, {size: 20, rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}</td>
                             <td headers="hOperation">
-                                {% if logEntry.action == 'create' %}
-                                    {{ __('Create') }}
-                                {% elseif logEntry.action == 'update' %}
-                                    {{ __('Update') }}
-                                {% elseif logEntry.action == 'remove' %}
-                                    {{ __('Remove') }}
+                                {% if logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_CREATE') %}
+                                    {{ __('Created') }}
+                                {% elseif logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_UPDATE') %}
+                                    {{ __('Updated') }}
+                                {% elseif logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_REMOVE') %}
+                                    {{ __('Removed') }}
                                 {% endif %}
                             </td>
                             <td headers="hChanges">

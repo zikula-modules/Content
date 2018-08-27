@@ -546,11 +546,11 @@ msgstr "Kopieren"
 msgid "Count page views"
 msgstr "Seitenaufrufe zählen"
 
-msgid "Create"
-msgstr "Erstellen"
-
 msgid "Create page"
 msgstr "Seite erstellen"
+
+msgid "Created"
+msgstr "Erstellt"
 
 msgid "Created by %user"
 msgstr "Erstellt von %user"
@@ -1616,8 +1616,8 @@ msgstr "Relativer Link zur Seite"
 msgid "Relatives"
 msgstr "Verwandte"
 
-msgid "Remove"
-msgstr "Entfernen"
+msgid "Removed"
+msgstr "Entfernt"
 
 msgid "Reset"
 msgstr "Zurücksetzen"
@@ -2072,6 +2072,9 @@ msgstr "Übersetzen"
 msgid "Translate this page"
 msgstr "Diese Seite übersetzen"
 
+msgid "Translation data"
+msgstr "Übersetzungsdaten"
+
 msgid "Trash"
 msgstr "Wegwerfen"
 
@@ -2486,9 +2489,3 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
-
-#~ msgid "List of content items"
-#~ msgstr "Liste der Inhaltselemente"
-
-#~ msgid "Single content item"
-#~ msgstr "Einzelne Inhaltsseite"
