@@ -271,7 +271,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $rgt;
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\TreeRoot
      * @ORM\Column(type="integer", nullable=true)
      * @var integer $root
