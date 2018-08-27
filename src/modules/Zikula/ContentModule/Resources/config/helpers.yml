@@ -67,6 +67,13 @@ services:
             - "@translator.default"
             - "@zikula_groups_module.group_repository"
     
+    zikula_content_module.loggable_helper:
+        class: Zikula\ContentModule\Helper\LoggableHelper
+        arguments:
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.entity_lifecycle_listener"
+            - "@zikula_content_module.translatable_helper"
+    
     zikula_content_module.model_helper:
         class: Zikula\ContentModule\Helper\ModelHelper
         arguments:
