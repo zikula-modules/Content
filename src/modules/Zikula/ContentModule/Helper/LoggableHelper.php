@@ -160,9 +160,4 @@ class LoggableHelper extends AbstractLoggableHelper
 
         return $entity;
     }
-
-    private function isJSON($string)
-    {
-        return false !== strpos($string, '{');
-    }
 }
