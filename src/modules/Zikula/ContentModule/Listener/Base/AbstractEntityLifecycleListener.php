@@ -397,13 +397,21 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $eventManager = $entityManager->getEventManager();
         $customLoggableListener = $this->container->get('zikula_content_module.loggable_listener');
 
+        $hasLoggableActivated = false;
         foreach ($eventManager->getListeners() as $event => $listeners) {
             foreach ($listeners as $hash => $listener) {
                 if ($listener instanceof LoggableListener) {
                     $eventManager->removeEventSubscriber($listener);
+                    $hasLoggableActivated = true;
                     break 2;
                 }
             }
+        }
+
+        if (!$hasLoggableActivated) {
+            // translations are persisted, so we temporarily disable loggable listener
+            // to avoid creating unrequired log entries for the main entity
+            return;
         }
 
         $currentUserApi = $this->container->get('zikula_users_module.current_user');
