@@ -513,7 +513,8 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function undeleteActionInternal(Request $request, $id = 0, $isAdmin = false)
     {
-        $page = $this->restoreDeletedEntity($id);
+        $loggableHelper = $this->get('zikula_content_module.loggable_helper');
+        $page = $loggableHelper->restoreDeletedEntity($id);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
@@ -524,7 +525,7 @@ abstract class AbstractPageController extends AbstractController
         }
         
         try {
-            $this->get('zikula_content_module.loggable_helper')->undelete($page);
+            $loggableHelper->undelete($page);
             $this->addFlash('status', $this->__('Done! Undeleted page.'));
         } catch (\Exception $exception) {
             $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());

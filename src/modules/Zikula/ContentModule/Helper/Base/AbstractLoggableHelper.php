@@ -14,8 +14,13 @@ namespace Zikula\ContentModule\Helper\Base;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
+use Gedmo\Loggable\LoggableListener;
+use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\TranslatableHelper;
 use Zikula\ContentModule\Listener\EntityLifecycleListener;
 
@@ -24,10 +29,17 @@ use Zikula\ContentModule\Listener\EntityLifecycleListener;
  */
 abstract class AbstractLoggableHelper
 {
+    use TranslatorTrait;
+    
     /**
      * @var EntityFactory
      */
     protected $entityFactory;
+    
+    /**
+     * @var EntityDisplayHelper
+     */
+    protected $entityDisplayHelper;
     
     /**
      * @var EntityLifecycleListener
@@ -42,18 +54,34 @@ abstract class AbstractLoggableHelper
     /**
      * LoggableHelper constructor.
      *
-     * @param EntityFactory $entityFactory EntityFactory service instance
+     * @param TranslatorInterface     $translator              Translator service instance
+     * @param EntityFactory           $entityFactory           EntityFactory service instance
+     * @param EntityDisplayHelper     $entityDisplayHelper     EntityDisplayHelper service instance
      * @param EntityLifecycleListener $entityLifecycleListener Entity lifecycle subscriber
-     * @param TranslatableHelper $translatableHelper TranslatableHelper service instance
+     * @param TranslatableHelper      $translatableHelper      TranslatableHelper service instance
      */
     public function __construct(
+        TranslatorInterface $translator,
         EntityFactory $entityFactory,
+        EntityDisplayHelper $entityDisplayHelper,
         EntityLifecycleListener $entityLifecycleListener,
         TranslatableHelper $translatableHelper
     ) {
+        $this->setTranslator($translator);
         $this->entityFactory = $entityFactory;
+        $this->entityDisplayHelper = $entityDisplayHelper;
         $this->entityLifecycleListener = $entityLifecycleListener;
         $this->translatableHelper = $translatableHelper;
+    }
+    
+    /**
+     * Sets the translator.
+     *
+     * @param TranslatorInterface $translator Translator service instance
+     */
+    public function setTranslator(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
     }
     
     /**
@@ -107,7 +135,7 @@ abstract class AbstractLoggableHelper
      *
      * @param string $objectType Currently treated entity type
      *
-     * @return string
+     * @return string|null
      */
     public function getVersionFieldName($objectType = '')
     {
@@ -115,7 +143,7 @@ abstract class AbstractLoggableHelper
             'page' => 'currentVersion',
         ];
     
-        return isset($versionFieldMap[$objectType]) ? $versionFieldMap[$objectType] : '';
+        return isset($versionFieldMap[$objectType]) ? $versionFieldMap[$objectType] : null;
     }
     
     /**
@@ -128,17 +156,20 @@ abstract class AbstractLoggableHelper
     public function hasHistoryItems($entity)
     {
         $objectType = $entity->get_objectType();
-        $versionField = $this->getVersionFieldName($objectType);
-        $getter = 'get' . ucfirst($versionField);
+        $versionFieldName = $this->getVersionFieldName($objectType);
     
-        /** alternative (with worse performance)
-         * $entityManager = $this->entityFactory->getObjectManager();
-         * $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
-         * $logEntries = $logEntriesRepository->getLogEntries($entity);
-         * return count($logEntries) > 1;
-         */
+        if (null !== $versionFieldName) {
+            $versionGetter = 'get' . ucfirst($versionFieldName);
     
-        return $entity->$getter() > 1;
+            return $entity->$versionGetter() > 1;
+        }
+    
+        // alternative (with worse performance)
+        $entityManager = $this->entityFactory->getObjectManager();
+        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
+        $logEntries = $logEntriesRepository->getLogEntries($entity);
+    
+        return count($logEntries) > 1;
     }
     
     /**
@@ -228,7 +259,7 @@ abstract class AbstractLoggableHelper
         $logEntries = $logEntriesRepository->getLogEntries($entity);
         $lastVersionBeforeDeletion = null;
         foreach ($logEntries as $logEntry) {
-            if ('remove' != $logEntry->getAction()) {
+            if (LoggableListener::ACTION_REMOVE != $logEntry->getAction()) {
                 $lastVersionBeforeDeletion = $logEntry->getVersion();
                 break;
             }
@@ -238,11 +269,15 @@ abstract class AbstractLoggableHelper
         }
     
         $objectType = $entity->get_objectType();
-        $versionField = $this->getVersionFieldName($objectType);
+        $versionFieldName = $this->getVersionFieldName($objectType);
     
         $logEntriesRepository->revert($entity, $lastVersionBeforeDeletion);
-        $versionSetter = 'set' . ucfirst($versionField);
-        $entity->$versionSetter($lastVersionBeforeDeletion + 2);
+        if (null !== $versionFieldName) {
+            $versionSetter = 'set' . ucfirst($versionFieldName);
+            $entity->$versionSetter($lastVersionBeforeDeletion + 2);
+        }
+    
+        $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_RESTORED|%version=' . $lastVersionBeforeDeletion);
     
         $entity = $this->revertPostProcess($entity);
     
@@ -308,5 +343,79 @@ abstract class AbstractLoggableHelper
     
         $metadata->setVersioned(true);
         $metadata->setVersionField($versionField);
+    }
+    
+    /**
+     * Returns the translated clear text action description for a given log entry.
+     *
+     * @param AbstractLogEntry $logEntry
+     *
+     * @return string
+     */
+    public function translateActionDescription(AbstractLogEntry $logEntry)
+    {
+        $textAndParam = explode('|', $logEntry->getActionDescription());
+        $text = $textAndParam[0];
+        $parametersStr = count($textAndParam) > 1 ? $textAndParam[1] : '';
+    
+        $parameters = [];
+        $parametersStr = explode(',', $parametersStr);
+        foreach ($parametersStr as $parameterStr) {
+            $varAndValue = explode('=', $parameterStr);
+            if (2 == count($varAndValue)) {
+                $parameters[$varAndValue[0]] = $varAndValue[1];
+            }
+        }
+    
+        return $this->translateActionDescriptionInternal($text, $parameters);
+    }
+    
+    /**
+     * Returns the translated clear text action description for a given log entry.
+     *
+     * @param string $text       The constant which is replaced by a corresponding Gettext call
+     * @param array  $parameters Optional additional parameters for the Gettext call
+     *
+     * @return string The resulting description
+     */
+    protected function translateActionDescriptionInternal($text = '', array $parameters = [])
+    {
+        $actionTranslated = '';
+        switch ($text) {
+            case '_HISTORY_PAGE_CREATED':
+                $actionTranslated = $this->__('Page created');
+                break;
+            case '_HISTORY_PAGE_UPDATED':
+                $actionTranslated = $this->__('Page updated');
+                break;
+            case '_HISTORY_PAGE_CLONED':
+                if (isset($parameters['%page']) && is_numeric($parameters['%page'])) {
+                    $originalEntity = $this->entityFactory->getRepository('page')->selectById($parameters['%page']);
+                    if (null !== $originalEntity) {
+                        $parameters['%page'] = $this->entityDisplayHelper->getFormattedTitle($originalEntity);
+                    }
+                }
+                $actionTranslated = $this->__f('Page cloned from page "%page"', $parameters);
+                break;
+            case '_HISTORY_PAGE_RESTORED':
+                $actionTranslated = $this->__f('Page restored from version "%version"', $parameters);
+                break;
+            case '_HISTORY_PAGE_DELETED':
+                $actionTranslated = $this->__('Page deleted');
+                break;
+            case '_HISTORY_PAGE_TRANSLATION_CREATED':
+                $actionTranslated = $this->__('Page translation created');
+                break;
+            case '_HISTORY_PAGE_TRANSLATION_UPDATED':
+                $actionTranslated = $this->__('Page translation updated');
+                break;
+            case '_HISTORY_PAGE_TRANSLATION_DELETED':
+                $actionTranslated = $this->__('Page translation deleted');
+                break;
+            default:
+                $actionTranslated = $text;
+        }
+    
+        return $actionTranslated;
     }
 }

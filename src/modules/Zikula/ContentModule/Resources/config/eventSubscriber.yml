@@ -66,6 +66,12 @@ services:
             - "@request_stack"
         tags: ['kernel.event_subscriber']
     
+    zikula_content_module.loggable_listener:
+        class: Zikula\ContentModule\Listener\LoggableListener
+        arguments:
+            - "@zikula_content_module.entity_display_helper"
+            - "@zikula_content_module.loggable_helper"
+    
     zikula_content_module.workflow_events_listener:
         class: Zikula\ContentModule\Listener\WorkflowEventsListener
         arguments:

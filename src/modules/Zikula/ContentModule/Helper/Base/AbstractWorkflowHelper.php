@@ -254,7 +254,7 @@ abstract class AbstractWorkflowHelper
     
         if ($buttonClass == '' && $actionId == 'update') {
             $buttonClass = 'success';
-    	}
+        }
     
         if (empty($buttonClass)) {
             $buttonClass = 'default';
@@ -283,12 +283,23 @@ abstract class AbstractWorkflowHelper
         $entityManager = $this->entityFactory->getObjectManager();
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname')];
     
+        $objectType = $entity->get_objectType();
+        $isLoggable = in_array($objectType, ['page']);
+        if ($isLoggable && !$entity->get_actionDescriptionForLogEntry()) {
+            if ('delete' == $actionId) {
+                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_DELETED');
+            } elseif ('submit' == $actionId) {
+                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_CREATED');
+            } else {
+                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_UPDATED');
+            }
+        }
         $result = false;
     
         try {
             $workflow->apply($entity, $actionId);
     
-            if ($actionId == 'delete') {
+            if ('delete' == $actionId) {
                 $entityManager->remove($entity);
             } else {
                 $entityManager->persist($entity);
