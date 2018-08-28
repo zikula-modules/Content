@@ -344,13 +344,13 @@ abstract class AbstractPageType extends AbstractType
             'required' => false,
         ]);
         
-        $builder->add('versionData', ArrayType::class, [
-            'label' => $this->__('Version data') . ':',
+        $builder->add('contentData', ArrayType::class, [
+            'label' => $this->__('Content data') . ':',
             'help' => $this->__('Enter one entry per line.'),
             'empty_data' => [],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Enter the version data of the page.')
+                'title' => $this->__('Enter the content data of the page.')
             ],
             'required' => false,
         ]);

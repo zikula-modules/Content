@@ -34,14 +34,14 @@
     {% endif %}
     </stylingClasses>
     <currentVersion>{{ page.currentVersion }}</currentVersion>
-    <versionData>{% if page.versionData is iterable and page.versionData|length > 0 %}
+    <contentData>{% if page.contentData is iterable and page.contentData|length > 0 %}
         <ul>
-        {% for entry in page.versionData if entry is not iterable %}
+        {% for entry in page.contentData if entry is not iterable %}
             <li>{{ entry }}</li>
         {% endfor %}
         </ul>
     {% endif %}
-    </versionData>
+    </contentData>
     <translationData>{% if page.translationData is iterable and page.translationData|length > 0 %}
         <ul>
         {% for entry in page.translationData if entry is not iterable %}

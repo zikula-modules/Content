@@ -131,7 +131,7 @@ application "Content" {
                 integer "currentVersion" version {
                     defaultValue "1"
                 },
-                array "versionData" {
+                array "contentData" {
                     defaultValue ""
                     mandatory false
                     displayType NONE

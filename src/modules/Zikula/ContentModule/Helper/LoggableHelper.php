@@ -12,6 +12,7 @@
 namespace Zikula\ContentModule\Helper;
 
 use Zikula\ContentModule\Helper\Base\AbstractLoggableHelper;
+use Zikula\ContentModule\Entity\PageEntity;
 
 /**
  * Helper implementation class for loggable behaviour.
@@ -43,5 +44,16 @@ class LoggableHelper extends AbstractLoggableHelper
         }
 
         return $actionTranslated;
+    }
+
+    /**
+     * Stores data about a page's content items and their translations into the contentData
+     * field of the owning page in order to add this information into the revisioning.
+     *
+     * @param PageEntity $page
+     */
+    public function updateContentData(PageEntity $page)
+    {
+        $page->setContentData($contentData);
     }
 }

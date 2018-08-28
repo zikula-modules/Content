@@ -117,7 +117,7 @@ abstract class AbstractExampleDataHelper
         $page1->setOptionalText('Page optional text 1');
         $page1->setStylingClasses([]);
         $page1->setCurrentVersion(1);
-        $page1->setVersionData([]);
+        $page1->setContentData([]);
         $page1->setTranslationData([]);
         
         $page1->setParent(null);

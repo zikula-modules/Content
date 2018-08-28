@@ -204,9 +204,9 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="json_array")
      * @Assert\NotNull()
      * @Assert\Type(type="array")
-     * @var array $versionData
+     * @var array $contentData
      */
-    protected $versionData = [];
+    protected $contentData = [];
     
     /**
      * @Gedmo\Versioned
@@ -776,26 +776,26 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     }
     
     /**
-     * Returns the version data.
+     * Returns the content data.
      *
      * @return array
      */
-    public function getVersionData()
+    public function getContentData()
     {
-        return $this->versionData;
+        return $this->contentData;
     }
     
     /**
-     * Sets the version data.
+     * Sets the content data.
      *
-     * @param array $versionData
+     * @param array $contentData
      *
      * @return void
      */
-    public function setVersionData($versionData)
+    public function setContentData($contentData)
     {
-        if ($this->versionData !== $versionData) {
-            $this->versionData = isset($versionData) ? $versionData : '';
+        if ($this->contentData !== $contentData) {
+            $this->contentData = isset($contentData) ? $contentData : '';
         }
     }
     

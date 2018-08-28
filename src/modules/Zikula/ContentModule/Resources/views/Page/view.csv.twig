@@ -1,5 +1,5 @@
 {# purpose of this template: pages view csv view #}
-{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip hook subscribers') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Styling classes') }}";"{{ __('Current version') }}";"{{ __('Version data') }}";"{{ __('Translation data') }}";"{{ __('Workflow state') }}";"{{ __('Content items') }}"
+{% spaceless %}"{{ __('Title') }}";"{{ __('Show title') }}";"{{ __('Meta description') }}";"{{ __('Skip hook subscribers') }}";"{{ __('Layout') }}";"{{ __('Views') }}";"{{ __('Active') }}";"{{ __('Active from') }}";"{{ __('Active to') }}";"{{ __('In menu') }}";"{{ __('Optional string 1') }}";"{{ __('Optional string 2') }}";"{{ __('Optional text') }}";"{{ __('Styling classes') }}";"{{ __('Current version') }}";"{{ __('Content data') }}";"{{ __('Translation data') }}";"{{ __('Workflow state') }}";"{{ __('Content items') }}"
 {% endspaceless %}
 {% for page in items %}
 
@@ -22,9 +22,9 @@
         {% endfor %}
         </ul>
     {% endif %}
-    ";"{{ page.currentVersion }}";"{% if page.versionData is iterable and page.versionData|length > 0 %}
+    ";"{{ page.currentVersion }}";"{% if page.contentData is iterable and page.contentData|length > 0 %}
         <ul>
-        {% for entry in page.versionData if entry is not iterable %}
+        {% for entry in page.contentData if entry is not iterable %}
             <li>{{ entry }}</li>
         {% endfor %}
         </ul>
