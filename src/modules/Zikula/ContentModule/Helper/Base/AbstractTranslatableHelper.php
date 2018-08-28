@@ -219,12 +219,12 @@ abstract class AbstractTranslatableHelper
             if (!count($translationInput)) {
                 continue;
             }
-
+    
             foreach ($translationInput as $fieldName => $fieldData) {
                 $setter = 'set' . ucfirst($fieldName);
                 $entity->$setter($fieldData);
             }
-
+    
             $entity->setLocale($language);
             $entityManager->flush($entity);
         }
