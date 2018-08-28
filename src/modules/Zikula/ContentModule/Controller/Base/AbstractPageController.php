@@ -514,7 +514,7 @@ abstract class AbstractPageController extends AbstractController
     protected function undeleteActionInternal(Request $request, $id = 0, $isAdmin = false)
     {
         $loggableHelper = $this->get('zikula_content_module.loggable_helper');
-        $page = $loggableHelper->restoreDeletedEntity($id);
+        $page = $loggableHelper->restoreDeletedEntity('page', $id);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }

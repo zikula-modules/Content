@@ -54,6 +54,115 @@ class LoggableHelper extends AbstractLoggableHelper
      */
     public function updateContentData(PageEntity $page)
     {
+        $contentData = [];
+        $entityManager = $this->entityFactory->getObjectManager();
+        $translationRepository = $entityManager->getRepository('Zikula\ContentModule\Entity\ContentItemTranslationEntity');
+        $supportedLanguages = $this->translatableHelper->getSupportedLanguages('contentItem');
+        $fields = $this->translatableHelper->getTranslatableFields('contentItem');
+
+        foreach ($page->getContentItems() as $item) {
+            $itemData = [
+                'id' => $item->getId(),
+                'workflowState' => $item->getWorkflowState(),
+                'owningType' => $item->getOwningType(),
+                'contentData' => $item->getContentData(),
+                'active' => $item->getActive(),
+                'activeFrom' => $item->getActiveFrom(),
+                'activeTo' => $item->getActiveTo(),
+                'scope' => $item->getScope(),
+                'stylingClasses' => $item->getStylingClasses(),
+                'searchText' => $item->getSearchText(),
+                'additionalSearchText' => $item->getAdditionalSearchText(),
+                'translations' => []
+            ];
+
+            // collect translations
+            $entityTranslations = $translationRepository->findTranslations($item);
+            foreach ($supportedLanguages as $language) {
+                $translationData = [];
+                foreach ($fields as $fieldName) {
+                    $translationData[$fieldName] = isset($entityTranslations[$language][$fieldName]) ? $entityTranslations[$language][$fieldName] : '';
+                }
+                // add data to collected translations
+                $itemData['translations'][$language] = $translationData;
+            }
+
+            $contentData[] = $itemData;
+        }
+
         $page->setContentData($contentData);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function revert($entity, $requestedVersion = 1, $detach = false)
+    {
+        $entity = parent::revert($entity, $requestedVersion, $detach);
+        if (!($entity instanceof PageEntity)) {
+            return $entity;
+        }
+
+        $entityManager = $this->entityFactory->getObjectManager();
+        $currentLanguage = $this->translatableHelper->getCurrentLanguage();
+
+        // revert content items
+        foreach ($entity->getContentItems() as $item) {
+            $entity->removeContentItems($item);
+            if (true === $detach) {
+                $entityManager->detach($item);
+            } else {
+                $entityManager->remove($item);
+            }
+        }
+
+        $contentData = $entity->getContentData();
+        foreach ($contentData as $itemData) {
+            $translations = $itemData['translations'];
+            unset($itemData['translations']);
+
+            $newItem = $this->entityFactory->createContentItem();
+            $newItem->merge($itemData);
+
+            $entity->addContentItems($newItem);
+            if (true === $detach) {
+                $entityManager->detach($newItem);
+
+                if (isset($translations[$currentLanguage])) {
+                    foreach ($translations[$currentLanguage] as $fieldName => $fieldData) {
+                        if ('contentData' == $fieldName) {
+                            $fieldData = @unserialize($fieldData);
+                        }
+                        $setter = 'set' . ucfirst($fieldName);
+                        $newItem->$setter($fieldData);
+                    }
+                    $newItem->setLocale($currentLanguage);
+                }
+            } else {
+                $entityManager->flush($newItem);
+                foreach ($translations as $language => $translationData) {
+                    foreach ($translationData as $fieldName => $fieldData) {
+                        if ('contentData' == $fieldName) {
+                            $fieldData = @unserialize($fieldData);
+                        }
+                        $setter = 'set' . ucfirst($fieldName);
+                        $newItem->$setter($fieldData);
+                    }
+                    $newItem->setLocale($language);
+                    $entityManager->flush($newItem);
+                }
+            }
+        }
+
+        if (true !== $detach) {
+            $entityManager->flush($entity);
+        }
+
+        return $entity;
+    }
+
+    private function isJSON($string)
+    {
+        return false !== strpos($string, '{');
     }
 }

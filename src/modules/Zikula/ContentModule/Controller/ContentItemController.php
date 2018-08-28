@@ -161,6 +161,7 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CLONED');
+        $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
         $success = $workflowHelper->executeAction($page, 'update');
 
         return $this->json([
@@ -332,8 +333,8 @@ class ContentItemController extends AbstractContentItemController
                         foreach ($translations[$language] as $fieldName => $fieldValue) {
                             $contentItem[$fieldName] = $fieldValue;
                         }
-                        $contentItem['locale'] = $language;
-                        $entityManager->flush();
+                        $contentItem->setLocale($language);
+                        $entityManager->flush($contentItem);
                     }
                 }
 
@@ -350,6 +351,7 @@ class ContentItemController extends AbstractContentItemController
                 } else {
                     $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_UPDATED');
                 }
+                $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
                 $success = $workflowHelper->executeAction($page, 'update');
 
                 return $this->json(['id' => $contentItem->getId(), 'message' => $this->__('Done! Content saved.')]);
@@ -399,6 +401,7 @@ class ContentItemController extends AbstractContentItemController
                 }
 
                 $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_DELETED');
+                $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
                 $success = $workflowHelper->executeAction($page, 'update');
 
                 return $this->json(['message' => $this->__('Done! Content deleted.')]);
@@ -500,6 +503,7 @@ class ContentItemController extends AbstractContentItemController
             }
 
             $workflowHelper = $this->get('zikula_content_module.workflow_helper');
+            $loggableHelper = $this->get('zikula_content_module.loggable_helper');
             if ('move' == $operationType) {
                 $sourcePage->removeContentItems($contentItem);
                 $destinationPage->addContentItems($contentItem);
@@ -509,8 +513,10 @@ class ContentItemController extends AbstractContentItemController
                 }
 
                 $sourcePage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_DELETED');
+                $loggableHelper->updateContentData($sourcePage);
                 $success = $workflowHelper->executeAction($sourcePage, 'update');
                 $destinationPage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CREATED');
+                $loggableHelper->updateContentData($destinationPage);
                 $success = $workflowHelper->executeAction($destinationPage, 'update');
             } elseif ('copy' == $operationType) {
                 $newItem = clone $contentItem;
@@ -540,8 +546,10 @@ class ContentItemController extends AbstractContentItemController
                 }
 
                 $sourcePage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CLONED');
+                $loggableHelper->updateContentData($sourcePage);
                 $success = $workflowHelper->executeAction($sourcePage, 'update');
                 $destinationPage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CREATED');
+                $loggableHelper->updateContentData($destinationPage);
                 $success = $workflowHelper->executeAction($destinationPage, 'update');
             }
 
