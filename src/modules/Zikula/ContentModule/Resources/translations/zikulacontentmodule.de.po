@@ -474,6 +474,15 @@ msgstr ""
 "Content kann durch andere Module erweitert werden, die zusätzliche "
 "Inhaltstypen beisteuern können."
 
+msgid "Content cloned"
+msgstr "Inhalt geklont"
+
+msgid "Content created"
+msgstr "Inhalt erstellt"
+
+msgid "Content deleted"
+msgstr "Inhalt gelöscht"
+
 msgid "Content detail"
 msgstr "Content-Detail"
 
@@ -536,6 +545,9 @@ msgstr "Inhaltsstile"
 
 msgid "Content subpages"
 msgstr "Content Unterseiten der aktuellen Seite"
+
+msgid "Content updated"
+msgstr "Inhalt geändert"
 
 msgid "Controller"
 msgstr "Controller"
@@ -1011,6 +1023,9 @@ msgstr "Google Maps API-Schlüssel"
 msgid "Group %group"
 msgstr "Gruppe %group"
 
+msgid "Guest"
+msgstr "Gast"
+
 msgid "HTML editor for adding markup text to your page."
 msgstr "Ein HTML-Editor zum Hinzufügen von Markup-Text zur Seite."
 
@@ -1277,6 +1292,9 @@ msgstr "Breitengrad"
 msgid "Layout"
 msgstr "Layout"
 
+msgid "Layout changed (e.g. content moved or resized)"
+msgstr "Layout geändert (z. B. Inhalt verschoben oder Größe verändert)"
+
 msgid "Leaflet map"
 msgstr "Leaflet-Karte"
 
@@ -1482,6 +1500,15 @@ msgstr "Seite %id%"
 msgid "Page change history for %entityTitle%"
 msgstr "Seiten-Änderungshistorie für %entityTitle%"
 
+msgid "Page cloned from page \"%page\""
+msgstr "Seite von Seite \"%page\" geklont"
+
+msgid "Page created"
+msgstr "Seite erstellt"
+
+msgid "Page deleted"
+msgstr "Seite gelöscht"
+
 msgid "Page entries per page"
 msgstr "Anzahl der Seiten je Seite"
 
@@ -1500,14 +1527,29 @@ msgstr "Seitennavigation"
 msgid "Page not found."
 msgstr "Seite nicht gefunden."
 
+msgid "Page restored from version \"%version\""
+msgstr "Seite von Version \"%version\" wiederhergestellt"
+
 msgid "Page size"
 msgstr "Seitengröße"
 
 msgid "Page styles"
 msgstr "Seitenstile"
 
+msgid "Page translation created"
+msgstr "Seitenübersetzung erstellt"
+
+msgid "Page translation deleted"
+msgstr "Seitenübersetzung gelöscht"
+
+msgid "Page translation updated"
+msgstr "Seitenübersetzung geändert"
+
 msgid "Page ui hooks subscriber"
 msgstr "Seite UI-Hooks Abonnent"
+
+msgid "Page updated"
+msgstr "Seite geändert"
 
 msgid ""
 "Page views are only counted when the user has no edit access. Enable if you "

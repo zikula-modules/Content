@@ -160,7 +160,13 @@ class ContentItemController extends AbstractContentItemController
             $hookHelper->callProcessHooks($newItem, UiHooksCategory::TYPE_PROCESS_EDIT);
         }
 
-        return $this->json(['id' => $newItem->getId(), 'message' => $this->__('Done! Content saved.')]);
+        $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CLONED');
+        $success = $workflowHelper->executeAction($page, 'update');
+
+        return $this->json([
+            'id' => $newItem->getId(),
+            'message' => $this->__('Done! Content saved.')
+        ]);
     }
 
     /**
@@ -215,6 +221,7 @@ class ContentItemController extends AbstractContentItemController
             if (!$permissionHelper->mayEdit($contentItem)) {
                 throw new AccessDeniedException();
             }
+            $page = $contentItem->getPage();
         }
 
         if ($contentItem->supportsHookSubscribers()) {
@@ -338,6 +345,13 @@ class ContentItemController extends AbstractContentItemController
                     $hookHelper->callProcessHooks($contentItem, UiHooksCategory::TYPE_PROCESS_EDIT);
                 }
 
+                if (true === $isCreation) {
+                    $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CREATED');
+                } else {
+                    $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_UPDATED');
+                }
+                $success = $workflowHelper->executeAction($page, 'update');
+
                 return $this->json(['id' => $contentItem->getId(), 'message' => $this->__('Done! Content saved.')]);
             }
             if ('delete' == $action) {
@@ -383,6 +397,9 @@ class ContentItemController extends AbstractContentItemController
                     // Let any ui hooks know that we have deleted the content item
                     $hookHelper->callProcessHooks($contentItem, UiHooksCategory::TYPE_PROCESS_DELETE);
                 }
+
+                $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_DELETED');
+                $success = $workflowHelper->executeAction($page, 'update');
 
                 return $this->json(['message' => $this->__('Done! Content deleted.')]);
             }
@@ -490,6 +507,11 @@ class ContentItemController extends AbstractContentItemController
                 if (!$success) {
                     return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
                 }
+
+                $sourcePage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_DELETED');
+                $success = $workflowHelper->executeAction($sourcePage, 'update');
+                $destinationPage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CREATED');
+                $success = $workflowHelper->executeAction($destinationPage, 'update');
             } elseif ('copy' == $operationType) {
                 $newItem = clone $contentItem;
 
@@ -516,6 +538,11 @@ class ContentItemController extends AbstractContentItemController
                     // Let any ui hooks know that we have updated the content item
                     $hookHelper->callProcessHooks($newItem, UiHooksCategory::TYPE_PROCESS_EDIT);
                 }
+
+                $sourcePage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CLONED');
+                $success = $workflowHelper->executeAction($sourcePage, 'update');
+                $destinationPage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CREATED');
+                $success = $workflowHelper->executeAction($destinationPage, 'update');
             }
 
             return $this->json([

@@ -18,5 +18,30 @@ use Zikula\ContentModule\Helper\Base\AbstractLoggableHelper;
  */
 class LoggableHelper extends AbstractLoggableHelper
 {
-    // feel free to add your own convenience methods here
+    /**
+     * @inheritDoc
+     */
+    protected function translateActionDescriptionInternal($text = '', array $parameters = [])
+    {
+        $actionTranslated = parent::translateActionDescriptionInternal($text, $parameters);
+        switch ($text) {
+            case '_HISTORY_PAGE_CONTENT_CREATED':
+                $actionTranslated = $this->__('Content created');
+                break;
+            case '_HISTORY_PAGE_CONTENT_UPDATED':
+                $actionTranslated = $this->__('Content updated');
+                break;
+            case '_HISTORY_PAGE_CONTENT_CLONED':
+                $actionTranslated = $this->__('Content cloned');
+                break;
+            case '_HISTORY_PAGE_CONTENT_DELETED':
+                $actionTranslated = $this->__('Content deleted');
+                break;
+            case '_HISTORY_PAGE_LAYOUT_CHANGED':
+                $actionTranslated = $this->__('Layout changed (e.g. content moved or resized)');
+                break;
+        }
+
+        return $actionTranslated;
+    }
 }

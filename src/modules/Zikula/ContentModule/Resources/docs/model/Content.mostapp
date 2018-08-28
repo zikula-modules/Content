@@ -32,6 +32,7 @@ application "Content" {
         Helper/CollectionFilterHelper.php,
         Helper/ExampleDataHelper.php,
         Helper/ListEntriesHelper.php,
+        Helper/LoggableHelper.php,
         Helper/ModelHelper.php,
         Helper/PermissionHelper.php,
         Helper/SearchHelper.php,

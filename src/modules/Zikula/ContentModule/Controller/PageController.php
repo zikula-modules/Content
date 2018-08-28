@@ -321,6 +321,8 @@ class PageController extends AbstractPageController
         $layoutData = $request->request->get('layoutData', []);
         $page->setLayout($layoutData);
 
+        $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_LAYOUT_CHANGED');
+
         // no hook calls on purpose here, because layout data should not be of interest for other modules
 
         $workflowHelper = $this->get('zikula_content_module.workflow_helper');
@@ -459,6 +461,8 @@ class PageController extends AbstractPageController
                 return $this->redirect($returnUrl);
             }
         }
+
+        $newPage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CLONED|%page=' . $oldPage->getKey());
 
         $success = $workflowHelper->executeAction($newPage, 'submit');
         if (!$success) {
@@ -679,6 +683,30 @@ class PageController extends AbstractPageController
             $selfRoute = $routePrefix . 'translate';
             if ($isPageStep) {
                 $pageSlug = $page->getSlug();
+                $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_TRANSLATION_UPDATED');
+
+                // collect translated fields for revisioning
+                $translationData = [];
+
+                // main language
+                $language = $translatableHelper->getCurrentLanguage();
+                $translationData[$language] = [];
+                $translatableFields = $translatableHelper->getTranslatableFields('page');
+                foreach ($translatableFields as $fieldName) {
+                    $fieldData = isset($form[$fieldName]) ? $form[$fieldName]->getData() : '';
+                    $translationData[$language][$fieldName] = $fieldData;
+                }
+
+                // other languages
+                foreach ($supportedLanguages as $language) {
+                    $translationInput = $translatableHelper->readTranslationInput($form, $language);
+                    if (!count($translationInput)) {
+                        continue;
+                    }
+                    $translationData[$language] = $translationInput;
+                }
+
+                $page->setTranslationData($translationData);
             }
             // handle form data
             $workflowHelper = $this->get('zikula_content_module.workflow_helper');
@@ -687,6 +715,11 @@ class PageController extends AbstractPageController
                 $success = $workflowHelper->executeAction($formObject, 'update');
                 $translatableHelper->processEntityAfterEditing($formObject, $form);
             }
+            if (!$isPageStep) {
+                // create new log entry
+                $success = $workflowHelper->executeAction($page, 'update');
+            }
+
             if (!$isPageStep && $form->get('prev')->isClicked()) {
                 if (null !== $translationInfo['previousContentId']) {
                     $returnUrl = $this->generateUrl($selfRoute, ['slug' => $pageSlug, 'cid' => $translationInfo['previousContentId']]);

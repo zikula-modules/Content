@@ -380,6 +380,7 @@ abstract class AbstractLoggableHelper
      */
     protected function translateActionDescriptionInternal($text = '', array $parameters = [])
     {
+        $this->translator->setDomain('zikulacontentmodule');
         $actionTranslated = '';
         switch ($text) {
             case '_HISTORY_PAGE_CREATED':
