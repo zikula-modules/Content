@@ -45,7 +45,7 @@ abstract class AbstractEditHandler extends EditHandler
             return $result;
         }
     
-        if ($this->templateParameters['mode'] == 'create') {
+        if ('create' == $this->templateParameters['mode']) {
             if (!$this->modelHelper->canBeCreated($this->objectType)) {
                 $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!'));
                 $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname'), 'entity' => $this->objectType];
@@ -193,7 +193,7 @@ abstract class AbstractEditHandler extends EditHandler
                 $args['commandName'] = $action['id'];
             }
         }
-        if ($this->templateParameters['mode'] == 'create' && $this->form->has('submitrepeat') && $this->form->get('submitrepeat')->isClicked()) {
+        if ('create' == $this->templateParameters['mode'] && $this->form->has('submitrepeat') && $this->form->get('submitrepeat')->isClicked()) {
             $args['commandName'] = 'submit';
             $this->repeatCreateAction = true;
         }
@@ -214,7 +214,7 @@ abstract class AbstractEditHandler extends EditHandler
         switch ($args['commandName']) {
             case 'defer':
             case 'submit':
-                if ($this->templateParameters['mode'] == 'create') {
+                if ('create' == $this->templateParameters['mode']) {
                     $message = $this->__('Done! Page created.');
                 } else {
                     $message = $this->__('Done! Page updated.');
@@ -241,6 +241,22 @@ abstract class AbstractEditHandler extends EditHandler
         $entity = $this->entityRef;
     
         $action = $args['commandName'];
+        if ('delete' == $action) {
+            $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_DELETED');
+        } else if ('create' == $this->templateParameters['mode']) {
+            $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CREATED');
+        } else {
+            $templateId = $this->requestStack->getCurrentRequest()->query->getInt('astemplate', 0);
+            if ($templateId > 0) {
+                $entityT = $this->entityFactory->getRepository($this->objectType)->selectById($templateId, false, true);
+                if (null !== $entityT) {
+                    $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CLONED|%page=' . $entityT->getKey());
+                }
+            }
+            if (!$entity->get_actionDescriptionForLogEntry()) {
+                $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_UPDATED');
+            }
+        }
         
         $applyLock = $this->templateParameters['mode'] != 'create' && $action != 'delete';
         $expectedVersion = $this->requestStack->getCurrentRequest()->getSession()->get('ZikulaContentModuleEntityVersion', 1);
@@ -267,7 +283,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         $this->addDefaultMessage($args, $success);
     
-        if ($success && $this->templateParameters['mode'] == 'create') {
+        if ($success && 'create' == $this->templateParameters['mode']) {
             // store new identifier
             $this->idValue = $entity->getKey();
         }

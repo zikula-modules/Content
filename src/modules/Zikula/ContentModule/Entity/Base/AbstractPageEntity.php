@@ -219,6 +219,11 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     
     /**
+     * @var string Description of currently executed action to be persisted in next log entry
+     */
+    protected $_actionDescriptionForLogEntry = '';
+    
+    /**
      * @Gedmo\Versioned
      * @Gedmo\Translatable
      * @Gedmo\Slug(fields={"title"}, updatable=true, unique=true, separator="-", style="lower", handlers={
@@ -244,7 +249,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $locale;
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\TreeLeft
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
@@ -253,7 +257,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $lft;
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\TreeLevel
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
@@ -262,7 +265,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $lvl;
     
     /**
-     * @Gedmo\Versioned
      * @Gedmo\TreeRight
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
@@ -818,6 +820,30 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     {
         if ($this->translationData !== $translationData) {
             $this->translationData = isset($translationData) ? $translationData : '';
+        }
+    }
+    
+    /**
+     * Returns the _action description for log entry.
+     *
+     * @return string
+     */
+    public function get_actionDescriptionForLogEntry()
+    {
+        return $this->_actionDescriptionForLogEntry;
+    }
+    
+    /**
+     * Sets the _action description for log entry.
+     *
+     * @param string $_actionDescriptionForLogEntry
+     *
+     * @return void
+     */
+    public function set_actionDescriptionForLogEntry($_actionDescriptionForLogEntry)
+    {
+        if ($this->_actionDescriptionForLogEntry != $_actionDescriptionForLogEntry) {
+            $this->_actionDescriptionForLogEntry = isset($_actionDescriptionForLogEntry) ? $_actionDescriptionForLogEntry : '';
         }
     }
     

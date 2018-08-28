@@ -13,9 +13,12 @@ namespace Zikula\ContentModule\Listener\Base;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
+use Gedmo\Loggable\LoggableListener;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -69,6 +72,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     public function getSubscribedEvents()
     {
         return [
+            Events::preFlush,
+            Events::onFlush,
             Events::preRemove,
             Events::postRemove,
             Events::prePersist,
@@ -77,6 +82,26 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             Events::postUpdate,
             Events::postLoad
         ];
+    }
+
+    /**
+     * The preFlush event is called at EntityManager#flush() before anything else.
+     *
+     * @param PreFlushEventArgs $args Event arguments
+     */
+    public function preFlush(PreFlushEventArgs $args)
+    {
+        $this->activateCustomLoggableListener();
+    }
+
+    /**
+     * The onFlush event is called inside EntityManager#flush() after the changes to all the
+     * managed entities and their associations have been computed.
+     *
+     * @param OnFlushEventArgs $args Event arguments
+     */
+    public function onFlush(OnFlushEventArgs $args)
+    {
     }
 
     /**
@@ -332,5 +357,31 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
 
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . $objectTypeCapitalised . 'LogEntryEntity');
         $logEntriesRepository->purgeHistory($revisionHandling, $limitParameter);
+    }
+
+    /**
+     * Enables the custom loggable listener.
+     */
+    protected function activateCustomLoggableListener()
+    {
+        $entityManager = $this->container->get('zikula_content_module.entity_factory')->getObjectManager();
+        $eventManager = $entityManager->getEventManager();
+        $customLoggableListener = $this->container->get('zikula_content_module.loggable_listener');
+
+        foreach ($eventManager->getListeners() as $event => $listeners) {
+            foreach ($listeners as $hash => $listener) {
+                if ($listener instanceof LoggableListener) {
+                    $eventManager->removeEventSubscriber($listener);
+                    break 2;
+                }
+            }
+        }
+
+        $currentUserApi = $this->container->get('zikula_users_module.current_user');
+        $userName = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uname') : $this->container->get('translator.default')->__('Guest');
+
+        $customLoggableListener->setUsername($userName);
+
+        $eventManager->addEventSubscriber($customLoggableListener);
     }
 }

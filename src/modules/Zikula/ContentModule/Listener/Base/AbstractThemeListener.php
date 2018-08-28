@@ -36,7 +36,6 @@ abstract class AbstractThemeListener implements EventSubscriberInterface
      * Listener for the `theme.pre_render` event.
      *
      * Occurs immediately before twig theme engine renders a template.
-     * The event subject is \Zikula\ThemeModule\Bridge\Event\TwigPreRenderEvent.
      *
      * You can access general data available in the event.
      *
@@ -53,7 +52,6 @@ abstract class AbstractThemeListener implements EventSubscriberInterface
      * Listener for the `theme.post_render` event.
      *
      * Occurs immediately after twig theme engine renders a template.
-     * The event subject is \Zikula\ThemeModule\Bridge\Event\TwigPostRenderEvent.
      *
      * An example for implementing this event is \Zikula\ThemeModule\EventListener\TemplateNameExposeListener.
      *

@@ -10,6 +10,7 @@ services:
             - "@zikula_content_module.entity_display_helper"
             - "@zikula_content_module.workflow_helper"
             - "@zikula_content_module.listentries_helper"
+            - "@zikula_content_module.loggable_helper"
             - "@zikula_content_module.menu_builder"
         public: false
         tags: ['twig.extension']

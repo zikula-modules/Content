@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Entity\Base;
 
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 
 /**
@@ -20,4 +21,36 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  */
 abstract class AbstractPageLogEntryEntity extends AbstractLogEntry
 {
+    /**
+     * Extended description of the executed action which produced this log entry.
+     *
+     * @var string $actionDescription
+     *
+     * @ORM\Column(name="action_description", length=255)
+     */
+    protected $actionDescription = '';
+    
+    /**
+     * Returns the action description.
+     *
+     * @return string
+     */
+    public function getActionDescription()
+    {
+        return $this->actionDescription;
+    }
+    
+    /**
+     * Sets the action description.
+     *
+     * @param string $actionDescription
+     *
+     * @return void
+     */
+    public function setActionDescription($actionDescription)
+    {
+        if ($this->actionDescription !== $actionDescription) {
+            $this->actionDescription = isset($actionDescription) ? $actionDescription : '';
+        }
+    }
 }

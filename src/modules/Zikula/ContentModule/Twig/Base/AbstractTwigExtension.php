@@ -11,6 +11,7 @@
 
 namespace Zikula\ContentModule\Twig\Base;
 
+use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Renderer\ListRenderer;
 use Symfony\Component\Routing\RouterInterface;
@@ -20,6 +21,7 @@ use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\ContentModule\Helper\LoggableHelper;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\WorkflowHelper;
 use Zikula\ContentModule\Menu\MenuBuilder;
@@ -62,6 +64,11 @@ abstract class AbstractTwigExtension extends Twig_Extension
     protected $listHelper;
     
     /**
+     * @var LoggableHelper
+     */
+    protected $loggableHelper;
+    
+    /**
      * @var MenuBuilder
      */
     protected $menuBuilder;
@@ -76,6 +83,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
      * @param EntityDisplayHelper $entityDisplayHelper EntityDisplayHelper service instance
      * @param WorkflowHelper      $workflowHelper WorkflowHelper service instance
      * @param ListEntriesHelper   $listHelper     ListEntriesHelper service instance
+     * @param LoggableHelper      $loggableHelper LoggableHelper service instance
      * @param MenuBuilder         $menuBuilder    MenuBuilder service instance
      */
     public function __construct(
@@ -86,6 +94,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
         EntityDisplayHelper $entityDisplayHelper,
         WorkflowHelper $workflowHelper,
         ListEntriesHelper $listHelper,
+        LoggableHelper $loggableHelper,
         MenuBuilder $menuBuilder)
     {
         $this->setTranslator($translator);
@@ -95,6 +104,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
         $this->entityDisplayHelper = $entityDisplayHelper;
         $this->workflowHelper = $workflowHelper;
         $this->listHelper = $listHelper;
+        $this->loggableHelper = $loggableHelper;
         $this->menuBuilder = $menuBuilder;
     }
     
@@ -132,6 +142,7 @@ abstract class AbstractTwigExtension extends Twig_Extension
     {
         return [
             new \Twig_SimpleFilter('zikulacontentmodule_listEntry', [$this, 'getListEntry']),
+            new \Twig_SimpleFilter('zikulacontentmodule_logDescription', [$this, 'getLogDescription']),
             new \Twig_SimpleFilter('zikulacontentmodule_formattedTitle', [$this, 'getFormattedEntityTitle']),
             new \Twig_SimpleFilter('zikulacontentmodule_objectState', [$this, 'getObjectState'], ['is_safe' => ['html']])
         ];
@@ -265,7 +276,11 @@ abstract class AbstractTwigExtension extends Twig_Extension
     
         $nodeItem = $liTag . $liContent;
     
-        $itemActionsMenu = $this->menuBuilder->createItemActionsMenu(['entity' => $node, 'area' => $routeArea, 'context' => 'view']);
+        $itemActionsMenu = $this->menuBuilder->createItemActionsMenu([
+            'entity' => $node,
+            'area' => $routeArea,
+            'context' => 'view'
+        ]);
         $renderer = new ListRenderer(new Matcher());
     
         $actions = '<li id="itemActions' . $node->getKey() . '">';
@@ -410,5 +425,20 @@ abstract class AbstractTwigExtension extends Twig_Extension
     public function getFormattedEntityTitle($entity)
     {
         return $this->entityDisplayHelper->getFormattedTitle($entity);
+    }
+    
+    /**
+     * The zikulacontentmodule_logDescription filter returns the translated clear text
+     * description for a given log entry.
+     * Example:
+     *     {{ logEntry|zikulacontentmodule_logDescription }}
+     *
+     * @param AbstractLogEntry $logEntry
+     *
+     * @return string
+     */
+    public function getLogDescription(AbstractLogEntry $logEntry)
+    {
+        return $this->loggableHelper->translateActionDescription($logEntry);
     }
 }
