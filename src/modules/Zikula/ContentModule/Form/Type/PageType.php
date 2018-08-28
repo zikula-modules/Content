@@ -29,6 +29,7 @@ class PageType extends AbstractPageType
 
         $builder->remove('layout');
         $builder->remove('views');
+        $builder->remove('contentData');
 
         if ('create' != $options['mode']) {
             $removeFields = [];
@@ -86,7 +87,6 @@ class PageType extends AbstractPageType
             'activeTo',
             'inMenu',
             'stylingClasses',
-            'versionData',
             'categories'
         ];
         foreach ($removeFields as $fieldName) {

@@ -92,9 +92,6 @@
                 {{ form_row(form.activeTo) }}
                 {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.')}) }}
                 {{ form_row(form.stylingClasses) }}
-                <div class="hidden">
-                    {{ form_row(form.contentData) }}
-                </div>
             {% endif %}
         </fieldset>
         {% if not isCreate %}

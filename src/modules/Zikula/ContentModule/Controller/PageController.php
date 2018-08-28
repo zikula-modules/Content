@@ -683,7 +683,6 @@ class PageController extends AbstractPageController
             $selfRoute = $routePrefix . 'translate';
             if ($isPageStep) {
                 $pageSlug = $page->getSlug();
-                $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_TRANSLATION_UPDATED');
 
                 // collect translated fields for revisioning
                 $translationData = [];
@@ -708,6 +707,7 @@ class PageController extends AbstractPageController
 
                 $page->setTranslationData($translationData);
             }
+            $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_TRANSLATION_UPDATED');
             // handle form data
             $workflowHelper = $this->get('zikula_content_module.workflow_helper');
             if (in_array($form->getClickedButton()->getName(), ['prev', 'next', 'saveandquit'])) {
@@ -717,6 +717,7 @@ class PageController extends AbstractPageController
             }
             if (!$isPageStep) {
                 // create new log entry
+                $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
                 $success = $workflowHelper->executeAction($page, 'update');
             }
 
