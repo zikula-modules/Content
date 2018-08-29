@@ -1,0 +1,61 @@
+{# purpose of this template: pages xml inclusion template #}
+<page id="{{ page.getId() }}" createdon="{{ page.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ page.updatedDate|localizeddate('medium', 'short') }}">
+    <id>{{ page.id }}</id>
+    <title><![CDATA[{{ page.title }}]]></title>
+    <showTitle>{% if not page.showTitle %}0{% else %}1{% endif %}</showTitle>
+    <metaDescription><![CDATA[{{ page.metaDescription }}]]></metaDescription>
+    <skipHookSubscribers>{% if not page.skipHookSubscribers %}0{% else %}1{% endif %}</skipHookSubscribers>
+    <layout>{% if page.layout is iterable and page.layout|length > 0 %}
+        <ul>
+        {% for entry in page.layout if entry is not iterable %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </layout>
+    <views>{{ page.views }}</views>
+    <active>{% if not page.active %}0{% else %}1{% endif %}</active>
+    <activeFrom>{% if page.activeFrom is not empty %}
+        {{ page.activeFrom|localizeddate('medium', 'short') }}
+    {% endif %}</activeFrom>
+    <activeTo>{% if page.activeTo is not empty %}
+        {{ page.activeTo|localizeddate('medium', 'short') }}
+    {% endif %}</activeTo>
+    <inMenu>{% if not page.inMenu %}0{% else %}1{% endif %}</inMenu>
+    <optionalString1><![CDATA[{{ page.optionalString1 }}]]></optionalString1>
+    <optionalString2><![CDATA[{{ page.optionalString2 }}]]></optionalString2>
+    <optionalText><![CDATA[{{ page.optionalText|safeHtml }}]]></optionalText>
+    <stylingClasses>{% if page.stylingClasses is iterable and page.stylingClasses|length > 0 %}
+        <ul>
+        {% for entry in page.stylingClasses if entry is not iterable %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </stylingClasses>
+    <currentVersion>{{ page.currentVersion }}</currentVersion>
+    <contentData>{% if page.contentData is iterable and page.contentData|length > 0 %}
+        <ul>
+        {% for entry in page.contentData if entry is not iterable %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </contentData>
+    <translationData>{% if page.translationData is iterable and page.translationData|length > 0 %}
+        <ul>
+        {% for entry in page.translationData if entry is not iterable %}
+            <li>{{ entry }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    </translationData>
+    <workflowState>{{ page.workflowState|zikulacontentmodule_objectState(false)|lower }}</workflowState>
+    <contentItems>
+    {% if page.contentItems|default %}
+        {% for relatedItem in page.contentItems %}
+        <contentItem>{{ relatedItem|zikulacontentmodule_formattedTitle }}</contentItem>
+        {% endfor %}
+    {% endif %}
+    </contentItems>
+</page>

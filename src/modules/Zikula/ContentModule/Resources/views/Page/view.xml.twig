@@ -1,0 +1,9 @@
+{# purpose of this template: pages view xml view #}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<pages>
+{% for page in items %}
+    {{ include('@ZikulaContentModule/Page/include.xml.twig') }}
+{% else %}
+    <noPage />
+{% endfor %}
+</pages>

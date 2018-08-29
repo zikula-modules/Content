@@ -1,0 +1,335 @@
+application "Content" {
+    documentation "Flexible hierachical page management."
+    vendor "Zikula"
+    author "Axel Guckelsberger"
+    email "info@ziku.la"
+    url "https://ziku.la"
+    version "5.0.0"
+    prefix "content"
+    amountOfExampleRows 1
+    generateListContentType false
+    generateDetailContentType false
+    generateRssTemplates false
+    generateAtomTemplates false
+    generateKmlTemplates false
+    generateIcsTemplates false
+    generatePdfSupport true
+    displayActionsStyle BUTTON_GROUP
+    skipFiles "
+        AppSettings.php,
+        Block/Form/Type/ItemBlockType.php,
+        Block/Form/Type/ItemListBlockType.php,
+        Block/ItemListBlock.php,
+        Container/LinkContainer.php,
+        ContentModuleInstaller.php,
+        Controller/ContentItemController.php,
+        Controller/PageController.php,
+        Entity/ContentItemEntity.php,
+        Entity/Factory/EntityInitialiser.php,
+        Entity/PageEntity.php,
+        Entity/Repository/PageRepository.php,
+        Form/Type/PageType.php,
+        Helper/CollectionFilterHelper.php,
+        Helper/ExampleDataHelper.php,
+        Helper/ListEntriesHelper.php,
+        Helper/LoggableHelper.php,
+        Helper/ModelHelper.php,
+        Helper/PermissionHelper.php,
+        Helper/SearchHelper.php,
+        Helper/TranslatableHelper.php,
+        Helper/ViewHelper.php,
+        Menu/MenuBuilder.php,
+        Resources/config/routing.yml,
+        Resources/views/Block/itemlist_contentItem_display_description.html.twig,
+        Resources/views/Block/itemlist_contentItem_display.html.twig,
+        Resources/views/Block/itemlist_page_display_description.html.twig,
+        ZikulaContentModule.php
+    "
+    markFiles "
+        composer.json,
+        Resources/config/appSettings.yml,
+        Resources/config/entityFactory.yml,
+        Resources/config/forms.yml,
+        Resources/config/helpers.yml,
+        Resources/config/menu.yml,
+        Resources/config/services.yml
+    "
+    entities {
+        entity "page" leading loggable categorisable {
+            nameMultiple "pages"
+            displayPattern "#title#"
+            lockType PAGELOCK_OPTIMISTIC
+            tree NESTED
+            ownerPermission true
+            fields {
+                string "title" translatable {
+                    defaultValue ""
+                    sluggablePosition 1
+                },
+                boolean "showTitle" {
+                    defaultValue "true"
+                    mandatory false
+                    displayType DISPLAY
+                },
+                string "metaDescription" translatable {
+                    defaultValue ""
+                    mandatory false
+                    displayType DISPLAY
+                },
+                boolean "skipHookSubscribers" {
+                    defaultValue "false"
+                    mandatory false
+                    displayType DISPLAY
+                },
+                array "layout" {
+                    defaultValue ""
+                    mandatory false
+                    visible false
+                    arrayType JSON_ARRAY
+                },
+                integer "views" {
+                    defaultValue "0"
+                    mandatory false
+                    visible false
+                },
+                boolean "active" ajaxTogglability {
+                    defaultValue "true"
+                    mandatory false
+                },
+                datetime "activeFrom" nullable startDate {
+                    defaultValue ""
+                    mandatory false
+                },
+                datetime "activeTo" nullable endDate {
+                    defaultValue ""
+                    mandatory false
+                },
+                boolean "inMenu" ajaxTogglability {
+                    defaultValue "true"
+                    mandatory false
+                },
+                string "optionalString1" translatable {
+                    defaultValue ""
+                    mandatory false
+                    displayType DISPLAY_SORTING
+                },
+                string "optionalString2" translatable {
+                    defaultValue ""
+                    mandatory false
+                    displayType DISPLAY_SORTING
+                },
+                text "optionalText" translatable {
+                    defaultValue ""
+                    mandatory false
+                    displayType DISPLAY
+                },
+                array "stylingClasses" nullable {
+                    mandatory false
+                    displayType NONE
+                    arrayType SIMPLE_ARRAY
+                },
+                integer "currentVersion" version {
+                    defaultValue "1"
+                },
+                array "contentData" {
+                    defaultValue ""
+                    mandatory false
+                    displayType NONE
+                    visible false
+                    arrayType JSON_ARRAY
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit"
+            }
+        },
+        entity "contentItem" {
+            nameMultiple "contentItems"
+            displayPattern "#owningType#"
+            fields {
+                string "owningType" {
+                    defaultValue ""
+                    length 255
+                },
+                array "contentData" translatable {
+                    mandatory false
+                },
+                boolean "active" ajaxTogglability {
+                    defaultValue "true"
+                    mandatory false
+                },
+                datetime "activeFrom" nullable startDate {
+                    defaultValue ""
+                    mandatory false
+                },
+                datetime "activeTo" nullable endDate {
+                    defaultValue ""
+                    mandatory false
+                },
+                list "scope" {
+                    defaultValue "1"
+                    length 4
+                    items {
+                        default listItem "Public (all)" ( "0" ),
+                        listItem "Only logged in members" ( "-1" ),
+                        listItem "Only not logged in people" ( "-2" )
+                    }
+                },
+                array "stylingClasses" nullable {
+                    mandatory false
+                    displayType NONE
+                    arrayType SIMPLE_ARRAY
+                },
+                text "searchText" translatable {
+                    defaultValue ""
+                    mandatory false
+                    displayType NONE
+                    visible false
+                    length 100000
+                },
+                string "additionalSearchText" translatable {
+                    defaultValue ""
+                    mandatory false
+                }
+            }
+            indexes {
+                index "activeIndex" {
+                    items {
+                        indexItem "active"
+                    }
+                }
+            }
+            actions {
+                mainAction "Index"
+            }
+        }
+    }
+    relations {
+        one2many bidirectional {
+            source "page"
+            sourceAlias "page"
+            target "contentItem"
+            targetAlias "contentItems"
+            targetEditing NONE
+            cascade REMOVE_DETACH
+            cascadeReverse PERSIST
+        }
+    }
+    variables {
+        varContainer "GeneralSettings" {
+            fields {
+                list "stateOfNewPages" {
+                    defaultValue ""
+                    length 5
+                    items {
+                        default listItem "New pages will be active and available in the menu" ( "1" ),
+                        listItem "New pages will be inactive and available in the menu" ( "2" ),
+                        listItem "New pages will be active and not available in the menu" ( "3" ),
+                        listItem "New pages will be inactive and not available in the menu" ( "4" )
+                    }
+                },
+                boolean "countPageViews" {
+                    documentation "Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages."
+                    defaultValue "false"
+                    mandatory false
+                },
+                string "googleMapsApiKey" {
+                    documentation "If you want to use Google maps you need an API key for it. You should enable both \"Maps JavaScript API\" and \"Maps Static API\"."
+                    mandatory false
+                },
+                string "yandexTranslateApiKey" {
+                    documentation "If you want to get translation support by Yandex which can provide suggestions you need an API key for it."
+                    mandatory false
+                },
+                boolean "enableRawPlugin" {
+                    documentation "Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc."
+                    defaultValue "false"
+                    mandatory false
+                },
+                boolean "inheritPermissions" {
+                    documentation "Whether to inherit permissions from parent to child pages or not."
+                    defaultValue "false"
+                    mandatory false
+                }
+            }
+        },
+        varContainer "CustomStyles" {
+            documentation "With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. \"my-class | My class\"."
+            sortOrder 2
+            fields {
+                text "pageStyles" {
+                    documentation "A list of CSS class names available for styling pages - for example \"product\" or \"legal\"."
+                    defaultValue "dummy|Dummy"
+                    length 5000
+                },
+                text "sectionStyles" {
+                    documentation "A list of CSS class names available for styling page sections - for example \"header\" or \"reference-row\"."
+                    defaultValue "dummy|Dummy"
+                    length 5000
+                },
+                text "contentStyles" {
+                    documentation "A list of CSS class names available for styling single content elements - for instance \"note\" or \"shadow\"."
+                    defaultValue "dummy|Dummy"
+                    length 5000
+                }
+            }
+        },
+        varContainer "AdditionalFields" {
+            documentation "Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable."
+            sortOrder 3
+            fields {
+                boolean "enableOptionalString1" {
+                    documentation "If you need an additional string for each page you can enable an optional field."
+                    defaultValue "false"
+                    mandatory false
+                },
+                boolean "enableOptionalString2" {
+                    documentation "If you need an additional string for each page you can enable an optional field."
+                    defaultValue "false"
+                    mandatory false
+                },
+                boolean "enableOptionalText" {
+                    documentation "If you need an additional text for each page you can enable an optional field."
+                    defaultValue "false"
+                    mandatory false
+                }
+            }
+        },
+        varContainer "Permalinks" {
+            documentation "Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed."
+            sortOrder 4
+            fields {
+                boolean "ignoreBundleNameInRoutes" {
+                    documentation "This removes the module name (defaults to \"content\") from permalinks."
+                    defaultValue "true"
+                    mandatory false
+                },
+                boolean "ignoreEntityNameInRoutes" {
+                    documentation "This removes the primary entity name (\"page\") from permalinks."
+                    defaultValue "true"
+                    mandatory false
+                },
+                boolean "ignoreFirstTreeLevelInRoutes" {
+                    documentation "This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages."
+                    defaultValue "true"
+                    mandatory false
+                },
+                list "permalinkSuffix" {
+                    defaultValue "none"
+                    mandatory true
+                    length 10
+                    items {
+                        default listItem "no suffix" ( "none" ),
+                        listItem "html",
+                        listItem "htm",
+                        listItem "phtml",
+                        listItem "shtml"
+                    }
+                }
+            }
+        }
+    }
+}

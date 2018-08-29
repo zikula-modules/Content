@@ -1,0 +1,12 @@
+{% if pages|length > 0 %}
+<ul>
+    {% for page in pages if page.inMenu and zikulacontentmodule_hasReadAccess(page) %}
+        {% set pageTitle = page|zikulacontentmodule_formattedTitle %}
+        {% set isActivePage = zikulacontentmodule_isCurrentPage(page) %}
+        <li{% if isActivePage %} class="active"{% endif %}>
+            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>
+            {{ include('@ZikulaContentModule/Page/sitemapInclude.html.twig', {pages: page.children}) }}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,14 @@
+{# purpose of this template: reusable editing of entity categories #}
+{% if tabs|default(false) == true %}
+    <div role="tabpanel" class="tab-pane fade" id="tabCategories" aria-labelledby="categoriesTab">
+        <h3>{{ __('Categories') }}</h3>
+{% else %}
+    <fieldset class="categories">
+{% endif %}
+    <legend>{{ __('Categories') }}</legend>
+    {{ form_row(form.categories) }}
+{% if tabs|default(false) == true %}
+    </div>
+{% else %}
+    </fieldset>
+{% endif %}

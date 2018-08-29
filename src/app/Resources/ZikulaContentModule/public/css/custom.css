@@ -1,0 +1,120 @@
+/* general editing */
+.row.section {
+    margin: 25px 0;
+}
+
+/* content items */
+div.grey-box,
+div.red-box,
+div.yellow-box,
+div.green-box,
+div.orange-announcement-box,
+div.green-important-box {
+    padding: 15px;
+    margin-bottom: 15px;
+}
+div.grey-box {
+    color: #222;
+    background-color: #efefef;
+    border: 1px solid #dedede;
+}
+div.red-box {
+    color: #800000;
+    background-color: #ffeedd;
+    border: 1px solid #dd0000;
+}
+div.yellow-box {
+    color: #222;
+    background: #ffffcc;
+    border: 1px solid #dedede;
+}
+div.green-box {
+    color: #006000;
+    background-color: #dfc;
+    border: 1px solid #33aa33;
+}
+div.orange-announcement-box {
+    color: #440000;
+    background-color: #ffce80;
+    border: 0px solid #e59d45;
+}
+div.green-important-box {
+    color: #003300;
+    background-color: #ecf291;
+    border: 0px solid #94994c;
+}
+div.orange-announcement-box,
+div.green-important-box {
+    padding-left: 60px;
+}
+.zikulacontentmodule-display div.orange-announcement-box:before,
+.zikulacontentmodule-display div.green-important-box:before {
+    color: #666;
+    font-family: 'FontAwesome';
+    font-size: 32px;
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    left: 25px;
+    top: 10px;
+}
+.zikulacontentmodule-display div.orange-announcement-box:before {
+    content: '\f0a1';
+}
+.zikulacontentmodule-display div.green-important-box:before {
+    content: '\f06a';
+}
+
+/* specific content types */
+.map {
+    min-height: 200px;
+    border: 1px solid #666;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+#contentItemEditFormBody .map {
+    min-height: 400px;
+}
+.map-directions {
+    max-height: 1000px;
+    overflow: auto;
+}
+
+.content-computercode {
+    overflow: auto;
+    border: 1px solid #333;
+    padding: 15px;
+    margin-bottom: 30px;
+}
+.zikulacontentmodule-managecontent .content-computercode {
+    border: none;
+}
+.content-computercode li,
+.content-computercode li pre {
+    font: 100% monospace;
+}
+.content-computercode li pre {
+    margin: 0;
+    padding: 4px;
+    border: none;
+}
+
+.content-quote blockquote {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin: 0 2em;
+}
+.content-quote blockquote p {
+    margin: 0;
+    padding: 0;
+    text-align: left !important;
+}
+.content-quote p.source {
+    text-align: right !important;
+}
+
+.zikula-content-module-tab-navigation-type .tab-pane div {
+    border: none;
+}

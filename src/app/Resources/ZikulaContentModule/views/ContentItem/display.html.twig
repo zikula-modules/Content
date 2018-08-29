@@ -1,0 +1,9 @@
+{{ contentTypeOutput|default('')|raw }}
+{% if contentItem.supportsHookSubscribers %}
+    {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.display_view', id=contentItem.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}
+    {% if hooks is iterable and hooks|length > 0 %}
+        {% for area, hook in hooks %}
+            <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+        {% endfor %}
+    {% endif %}
+{% endif %}

@@ -1,0 +1,53 @@
+{# purpose of this template: list view of deleted pages #}
+{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% block title __('Deleted pages') %}
+{% block admin_page_icon 'trash-o' %}
+{% block content %}
+<div class="zikulacontentmodule-page zikulacontentmodule-viewdeleted">
+    {{ block('page_nav_links') }}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-condensed{% endif %}">
+            <colgroup>
+                <col id="cId" />
+                <col id="cDate" />
+                <col id="cUser" />
+                <col id="cActions" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th id="hId" scope="col" class="unsorted z-w02">{{ __('ID') }}</th>
+                    <th id="hTitle" scope="col" class="unsorted">{{ __('Title') }}</th>
+                    <th id="hDate" scope="col" class="unsorted">{{ __('Date') }}</th>
+                    <th id="hUser" scope="col" class="unsorted">{{ __('User') }}</th>
+                    <th id="hActions" scope="col" class="unsorted">{{ __('Actions') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for logEntry in deletedEntities %}
+                    <tr>
+                        <td headers="hVersion" class="text-center">{{ logEntry.objectId }}</td>
+                        <td headers="hTitle">
+                            {{ logEntry|zikulacontentmodule_logDescription }}
+                        </td>
+                        <td headers="hDate">{{ logEntry.loggedAt|localizeddate('long', 'medium') }}</td>
+                        <td headers="hUser">{{ userAvatar(logEntry.username, {size: 20, rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}</td>
+                        <td headers="hActions" class="actions nowrap">
+                            {% set linkTitle = __f('Preview page %id%', {'%id%': logEntry.objectId}) %}
+                            <a id="pageItemDisplay{{ logEntry.objectId }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId, preview: 1, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window hidden" data-modal-title="{{ __f('Page %id%', {'%id%': logEntry.objectId}) }}"><i class="fa fa-id-card-o"></i></a>
+                            {% set linkTitle = __f('Undelete page %id%', {'%id%': logEntry.objectId}) %}
+                            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {{ block('page_nav_links') }}
+</div>
+{% endblock %}
+{% block page_nav_links %}
+    <p>
+        {% set linkTitle = __('Back to overview') %}
+        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-reply"></i> {{ linkTitle }}</a>
+    </p>
+{% endblock %}

@@ -1,0 +1,34 @@
+{# purpose of this template: pages tree items #}
+{% set hasNodes = items|default and items is iterable and items|length > 0 %}
+{% set idPrefix = 'pageTree' ~ rootId %}
+
+<p>
+    <label for="{{ idPrefix }}SearchTerm">{{ __('Quick search') }}:</label>
+    <input type="search" id="{{ idPrefix }}SearchTerm" value="" />
+</p>
+
+<div class="btn-toolbar" role="toolbar" aria-label="{{ __('Tree button toolbar') }}">
+    <div class="btn-group btn-group-sm" role="group" aria-label="page buttons">
+        <button type="button" id="{{ idPrefix }}Expand" class="btn btn-info" title="{{ __('Expand all nodes') }}"><i class="fa fa-expand"></i> {{ __('Expand all') }}</button>
+        <button type="button" id="{{ idPrefix }}Collapse" class="btn btn-info" title="{{ __('Collapse all nodes') }}"><i class="fa fa-compress"></i> {{ __('Collapse all') }}</button>
+    </div>
+</div>
+<div class="clearfix">
+    <div id="{{ idPrefix }}" class="tree-container" data-root-id="{{ rootId|e('html_attr') }}" data-object-type="page" data-urlargnames="slug" data-has-display="true" data-has-edit="true">
+        {% if hasNodes %}
+            {% set treeData = zikulacontentmodule_treeData(objectType='page', tree=items, routeArea=routeArea, rootId=rootId) %}
+            <ul id="itemTree{{ rootId|e('html_attr') }}">
+                {{ treeData.nodes|raw }}
+            </ul>
+        {% endif %}
+    </div>
+    {% if treeData|default %}
+        <ul id="itemActionsForTree{{ rootId|e('html_attr') }}" class="hidden">
+            {{ treeData.actions|raw }}
+        </ul>
+    {% endif %}
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+</div>

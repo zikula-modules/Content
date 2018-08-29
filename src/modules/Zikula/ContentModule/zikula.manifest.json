@@ -1,0 +1,29 @@
+{
+    "vendor": {
+        "title": "Zikula",
+        "url": "https://ziku.la",
+        "logo": ""
+    },
+    "extension": {
+        "name": "Content",
+        "url": "https://ziku.la",
+        "icon": ""
+    },
+    "version": {
+        "semver": "5.0.0",
+        "compatibility": ">=2.0.11 <3.0.0",
+        "composerpath": "composer.json",
+        "description": "Flexible hierachical page management.",
+        "keywords": [
+        ]
+    },
+    "urls": {
+        "version": "",
+        "docs": "",
+        "demo": "",
+        "download": "",
+        "issues": ""
+    },
+    "dependencies": [
+    ]
+}

@@ -1,0 +1,7 @@
+{% for page in pages if page.inMenu and zikulacontentmodule_hasReadAccess(page) %}
+<url>
+    <loc>{{ url('zikulacontentmodule_page_display', {slug: page.slug}) }}</loc>
+    <changefreq>daily</changefreq>
+</url>
+{{ include('@ZikulaContentModule/Page/sitemapInclude.xml.twig', {pages: page.children}) }}
+{% endfor %}

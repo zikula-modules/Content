@@ -1,0 +1,164 @@
+{# purpose of this template: gridstack playground #}
+{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Translate') }}{% endblock %}
+{% block admin_page_icon 'language' %}
+{% block content %}
+    {% set yandexApiKey = getModVar('ZikulaContentModule', 'yandexTranslateApiKey', '') %}
+    {{ zikulacontentmodule_getPagePath(page, false) }}
+    <div class="zikulacontentmodule-page zikulacontentmodule-translate">
+        {% form_theme form with [
+            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+        ] %}
+        {{ form_start(form, {attr: {id: 'pageTranslateForm', class: 'zikulacontent-translate-form'}}) }}
+        {{ form_errors(form) }}
+        {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>{{ __f('Step %step of %amount', {'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{{ __('General page data') }}{% else %}{% for item in translationInfo.items if item.entity.id == translationInfo.currentContentId %}{{ item.title }}{% endfor %}{% endif %}</h4>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-row">
+                    <label for="translationStep" class="col-sm-6 control-label">{{ __('Jump to element:') }}</label>
+                    <div class="col-sm-6">
+                        <select id="translationStep" class="form-control">
+                            <option value="0">1. {{ __('General page data') }}</option>
+                            {% for item in translationInfo.items %}
+                                <option value="{{ item.entity.id }}" title="{{ item.title|e('html_attr') }}"{{ item.entity.id == translationInfo.currentContentId ? ' selected="selected"' : '' }}>{{ loop.index + 1 }}. {{ item.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="sourceLanguage" class="col-sm-6 control-label">{{ __('Switch source language:') }}</label>
+                    <div class="col-sm-6">
+                        <select id="sourceLanguage" class="form-control">
+                            {% for language in localesWithExistingData %}
+                                <option value="{{ language }}"{{ language == app.request.locale ? ' selected="selected"' : '' }}>{{ language|languageName|safeHtml }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        {% for language in localesWithExistingData %}
+            <fieldset id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
+                <legend>{{ __('Source content') }} ({{ language|languageName|safeHtml }})</legend>
+                {% if currentStep == 1 %}
+                    {% for fieldName in pageFields if form[fieldName] is defined %}
+                        <div class="form-group field-{{ fieldName|e('html_attr') }}">
+                            <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
+                            <div class="col-sm-9">
+                                <div class="form-control-static">{{ (language == app.request.locale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% if form.contentData is defined %}
+                        {% for field in form.contentData %}
+                            {% set fieldName = field.vars.name %}
+                            <div class="form-group field-{{ fieldName|e('html_attr') }}">
+                                <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
+                                <div class="col-sm-9">
+                                    <div class="form-control-static">{{ (language == app.request.locale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% set fieldName = 'additionalSearchText' %}
+                    <div class="form-group field-{{ fieldName|e('html_attr') }}">
+                        <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
+                        <div class="col-sm-9">
+                            <div class="form-control-static">{{ (language == app.request.locale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+            </fieldset>
+        {% endfor %}
+        <fieldset id="contentTranslateTarget">
+            <legend>{{ __('Target content') }}</legend>
+            <div class="zikula-bootstrap-tab-container">
+                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs">
+                    {% for language in supportedLanguages %}
+                        <li{% if language == app.request.locale %} class="active"{% endif %}>
+                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}">
+                                {% if not form.vars.valid %}
+                                    <span class="label label-danger"><i class="fa fa-warning"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
+                                {% endif %}
+                                {% set hasRequiredFields = currentStep == 1 and language in localesWithMandatoryFields %}
+                                {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|languageName|safeHtml }}{% if hasRequiredFields %}</span>{% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="{{ form.vars.id|lower }}-translation-fields tab-content">
+                    {% for language in supportedLanguages %}
+                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}" data-language="{{ language }}">
+                            <fieldset>
+                                <legend>{{ language|languageName|safeHtml }}</legend>
+                                {% if currentStep == 1 %}
+                                    {% if language == app.request.locale %}
+                                        {% for fieldName in pageFields if form[fieldName] is defined %}
+                                            {{ form_row(form[fieldName]) }}
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ form_row(form['translations' ~ language]) }}
+                                    {% endif %}
+                                {% else %}
+                                    {% if language == app.request.locale %}
+                                        {% if form.contentData is defined %}
+                                            {% for field in form.contentData %}
+                                                {{ form_row(form.contentData[field.vars.name]) }}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {{ form_row(form.additionalSearchText) }}
+                                    {% else %}
+                                        {% if form.contentData is defined %}
+                                            {% for field in form.contentData %}
+                                                {{ form_row(form['translations' ~ language].contentData[field.vars.name]) }}
+                                            {% endfor %}
+                                        {% endif %}
+                                        {{ form_row(form['translations' ~ language].additionalSearchText) }}
+                                    {% endif %}
+                                {% endif %}
+                            </fieldset>
+                        </div>
+                    {% endfor %}
+                    {% if yandexApiKey != '' %}
+                        <p style="padding-left: 15px">Powered by <a href="https://translate.yandex.com/" target="_blank">Yandex.Translate</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group form-buttons">
+            <div class="col-sm-offset-3 col-sm-9">
+                {% if currentStep > 1 %}
+                    {{ form_widget(form.prev) }}
+                {% endif %}
+                {{ form_widget(form.next) }} &mdash;
+                {{ form_widget(form.skip) }}
+                {{ form_widget(form.saveandquit) }}
+                {{ form_widget(form.cancel) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    {% if currentStep > 1 and contentType.name|lower == 'html' %}
+        {# required for dynamic activation of Scribite #}
+        {% set hookId = currentStep > 1 ? contentItem.id : null %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.form_edit', id=hookId, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+        <div class="hidden">
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endif %}
+    <div id="jsParameters" class="hidden" data-selfroute="zikulacontentmodule_page_{{ routeArea }}translate" data-pageslug="{{ page.slug|e('html_attr') }}" data-yandex="{{ yandexApiKey|e('html_attr') }}"></div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.PageTranslation.js'), 110) }}
+{% endblock %}

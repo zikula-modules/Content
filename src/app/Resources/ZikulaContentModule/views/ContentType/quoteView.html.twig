@@ -1,0 +1,11 @@
+<div class="content-quote">
+    {% if source|default %}
+        <blockquote cite="{{ source|e('html_attr') }}"><p>&raquo;{{ text|nl2br|safeHtml }}&laquo;</p></blockquote>
+        <p class="source">-- <a href="{{ source|e('html_attr') }}">{{ description|default(source)|safeHtml }}</a></p>
+    {% else %}
+        <blockquote><p>&raquo;{{ text|nl2br|notifyFilters('zikulacontentmodule.filter_hooks.contentitems')|safeHtml }}&laquo;</p></blockquote>
+        {% if description|default %}
+            <p class="source">-- {{ description|safeHtml }}</p>
+        {% endif %}
+    {% endif %}
+</div>

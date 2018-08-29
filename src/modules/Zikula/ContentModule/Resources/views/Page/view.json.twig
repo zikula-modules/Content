@@ -1,0 +1,7 @@
+{# purpose of this template: pages view json view #}
+[
+{% for page in items %}
+    {% if not loop.first %},{% endif %}
+    {{ page.toArray()|json_encode()|raw }}
+{% endfor %}
+]

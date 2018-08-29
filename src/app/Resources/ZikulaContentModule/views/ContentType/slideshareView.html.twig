@@ -1,0 +1,8 @@
+{% if slideUrl|default %}
+<div class="content-slideshare">
+    <div class="embed-responsive embed-responsive-{#16by9#}4by3">
+        <iframe src="{{ slideUrl|e('html_attr') }}" width="{{ width|e('html_attr') }}" height="{{ height|e('html_attr') }}" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" webkitallowfullScreen mozallowfullscreen allowfullscreen seamless></iframe>
+    </div>
+    {% if text|default %}<p><small>{{ text|nl2br|safeHtml }}</small></p>{% endif %}
+</div>
+{% endif %}

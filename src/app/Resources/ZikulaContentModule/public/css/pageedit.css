@@ -1,0 +1,174 @@
+#notificationContainer {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 200px;
+    height: 200px;
+    z-index: 200;
+}
+.grid-stack {
+    min-height: 100px;
+    /* this must not be padding-bottom: 100px */
+}
+/*.grid-stack-one-column-mode {
+    background-color: blue;
+}*/
+#z-maincontent #widgets .panel,
+#z-maincontent #widgets .panel > .panel-heading {
+    border-color: #aaa;
+}
+#z-maincontent #widgets h3.panel-title {
+    border-bottom: none;
+    color: #fff;
+    cursor: move;
+}
+#z-maincontent #widgets .panel-default h3.panel-title,
+#z-maincontent #widgets .panel-default h3.panel-title > .dropdown > a {
+    color: #000;
+}
+h3.panel-title a.pull-right {
+    color: #fff;
+    display: inline-block;
+    margin-left: 10px;
+}
+/* required for dropdown menu */
+.grid-stack-item.hovered .grid-stack-item-content {
+    z-index: 1 !important;
+    overflow: visible !important;
+}
+.grid-stack-item.hovered .grid-stack-item-content .panel-body {
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-top-width: 0;
+    margin-left: -1px;
+    margin-right: -1px;
+}
+.grid-stack-item-content {
+    background-color: #fff;
+    color: #2c3e50;
+    font-family: Arial, cursive;
+    text-align: center;
+    font-size: 16px;
+}
+.grid-stack-item-content.panel {
+    text-align: left;
+}
+
+.grid-stack-placeholder .placeholder-content {
+    background-color: #eee;
+    border: 1px dashed #333;
+}
+
+#palette {
+    background-color: #f5f5f5;
+    padding: 25px 10px;
+    text-align: center;
+}
+#palette .panel-heading {
+    text-align: left;
+    padding: 0;
+}
+#palette .panel-title a {
+    display: block;
+    padding: 10px 15px;
+}
+#palette .panel-body {
+    max-height: 240px;
+    overflow: scroll;
+}
+.touch-device #palette .panel-body {
+    padding: 10px 10px 10px 40px;
+}
+#palette .grid-stack-item {
+    display: block;
+    border: 2px dashed #333;
+    background-color: #fff;
+    margin-bottom: 8px;
+    cursor: move;
+    padding: 5px;
+    z-index: 10;
+    min-width: 200px;
+}
+.touch-device #palette .grid-stack-item {
+    min-width: 180px;
+}
+#palette .grid-stack-item:hover {
+    margin-bottom: 6px;
+    border-color: #1f80c0;
+}
+#palette .grid-stack-item .grid-stack-item-content {
+    background: none;
+    text-align: left;
+    font-size: 14px;
+    white-space: nowrap;
+}
+#palette .grid-stack-item .grid-stack-item-content .fa {
+    font-size: 16px;
+    display: inline-block;
+    margin: 2px 5px;
+}
+#palette .grid-stack-item:hover .grid-stack-item-content {
+/*     font-size: 16px; */
+    color: #1f80c0;
+    font-weight: 700;
+}
+#palette .grid-stack-item:hover .grid-stack-item-content .fa {
+    font-size: 18px;
+}
+
+.affix-top, .affix {
+    position: static;
+}
+@media (min-width: 768px) {
+    #palette.affix-top {
+        position: static;
+    }
+    #palette.affix {
+        position: fixed;
+        top: 56px;
+        width: 283px;
+    }
+}
+@media (min-width: 992px) {
+    #palette.affix {
+        width: 293px;
+    }
+}
+@media (min-width: 1200px) {
+    #palette.affix {
+        width: 262px;
+    }
+}
+
+#widgets {
+padding: 0;
+}
+
+#grid-displayer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: padding-box;
+    -moz-box-sizing: padding-box;
+    box-sizing: padding-box;
+    pointer-events: none;
+}
+#grid-displayer .gd-container, #grid-displayer .gd-row, #grid-displayer .gd-column {
+    height: 100%;
+}
+
+/* https://stackoverflow.com/questions/3217134 */
+.ui-autocomplete {
+    z-index: 1500;
+}
+
+/* https://stackoverflow.com/questions/27405138/tinymce-cannot-be-full-screen-when-placed-in-bootstrap-modal-dialog */
+/* required for both TinyMCE and Summernote */
+.modal.in .modal-dialog {
+    -webkit-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+}

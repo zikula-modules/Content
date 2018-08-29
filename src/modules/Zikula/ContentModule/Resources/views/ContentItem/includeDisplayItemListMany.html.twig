@@ -1,0 +1,15 @@
+{# purpose of this template: inclusion template for display of related content items #}
+{% set hasAdminPermission = permissionHelper.hasComponentPermission('contentItem', constant('ACCESS_EDIT')) %}
+{% if items|default and items|length > 0 %}
+<ul class="list-group zikulacontentmodule-related-item-list contentitem">
+{% for item in items %}
+    {% if hasAdminPermission or (item.workflowState == 'approved' and permissionHelper.mayRead(item)) %}
+    <li class="list-group-item">
+<h4 class="list-group-item-heading">
+    {{ item|zikulacontentmodule_formattedTitle }}
+</h4>
+    </li>
+    {% endif %}
+{% endfor %}
+</ul>
+{% endif %}

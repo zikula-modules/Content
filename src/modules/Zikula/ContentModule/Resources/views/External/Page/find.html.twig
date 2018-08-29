@@ -1,0 +1,76 @@
+{# Purpose of this template: Display a popup selector of pages for scribite integration #}
+{% set useFinder = true %}
+{% extends 'ZikulaContentModule::raw.html.twig' %}
+{% block title __('Search and select page') %}
+{% block content %}
+    <div class="container">
+        <div class="zikula-bootstrap-tab-container">
+            <ul class="nav nav-tabs">
+            {% if 'page' in activatedObjectTypes %}
+                <li{{ objectType == 'page' ? ' class="active"' : '' }}><a href="{{ path('zikulacontentmodule_external_finder', {objectType: 'page', editor: editorName}) }}" title="{{ __('Search and select page') }}">{{ __('Pages') }}</a></li>
+            {% endif %}
+            </ul>
+        </div>
+        {% form_theme finderForm with [
+            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+        ] %}
+        {{ form_start(finderForm, {attr: {id: 'zikulaContentModuleSelectorForm'}}) }}
+        {{ form_errors(finderForm) }}
+        <fieldset>
+            <legend>{{ __('Search and select page') }}</legend>
+            {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+                {{ form_row(finderForm.categories) }}
+            {% endif %}
+            {{ form_row(finderForm.pasteAs) }}
+            <br />
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{ __('Page') }}:</label>
+                <div class="col-sm-9">
+                    <div id="zikulacontentmoduleItemContainer">
+                        <ul>
+                            {% for page in items %}
+                                <li>
+                                    {% set itemId = page.getKey() %}
+                                    <a href="#" data-itemid="{{ itemId }}">
+                                        {{ page|zikulacontentmodule_formattedTitle }}
+                                    </a>
+                                    <input type="hidden" id="path{{ itemId }}" value="{{ path('zikulacontentmodule_page_display', {'slug': page.slug}) }}" />
+                                    <input type="hidden" id="url{{ itemId }}" value="{{ url('zikulacontentmodule_page_display', {'slug': page.slug}) }}" />
+                                    <input type="hidden" id="title{{ itemId }}" value="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') }}" />
+                                    <input type="hidden" id="desc{{ itemId }}" value="{% set description %}{% if page.optionalText is not empty %}{{ page.optionalText }}{% endif %}
+                                    {% endset %}{{ description|striptags|e('html_attr') }}" />
+                                </li>
+                            {% else %}
+                                <li>{{ __('No pages found.') }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {{ form_row(finderForm.sort) }}
+            {{ form_row(finderForm.sortdir) }}
+            {{ form_row(finderForm.num) }}
+            {{ form_row(finderForm.q) }}
+            <div>
+                {{ pager({display: 'page', rowcount: pager.numitems, limit: pager.itemsperpage, posvar: 'pos', maxpages: 10, route: 'zikulacontentmodule_external_finder'}) }}
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {{ form_widget(finderForm.update) }}
+                    {{ form_widget(finderForm.cancel) }}
+                </div>
+            </div>
+        </fieldset>
+        {{ form_end(finderForm) }}
+    </div>
+
+    {#
+    <div class="zikulacontentmodule-finderform">
+        <fieldset>
+            {{ render(controller('ZikulaContentModule:Page:edit')) }}
+        </fieldset>
+    </div>
+    #}
+{% endblock %}

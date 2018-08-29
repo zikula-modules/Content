@@ -1,0 +1,4 @@
+{% if anchorName|default %}<a id="{{ anchorName|e('html_attr') }}" name="{{ anchorName|e('html_attr') }}"></a>{% endif %}
+<{{ headingType }} id="heading_{{ contentId }}" class="content-heading">
+    {{ text }}
+</{{ headingType }}>

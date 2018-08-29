@@ -1,0 +1,9 @@
+{# purpose of this template: pages index view #}
+{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% block title __('Pages') %}
+{% block admin_page_icon 'home' %}
+{% block content %}
+    <div class="zikulacontentmodule-page zikulacontentmodule-index">
+        <p>{{ __('Welcome to the page section of the Content application.') }}</p>
+    </div>
+{% endblock %}

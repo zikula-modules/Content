@@ -1,0 +1,77 @@
+{
+    "name": "zikula/content-module",
+    "version": "5.0.0",
+    "description": "Flexible hierachical page management.",
+    "type": "zikula-module",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Axel Guckelsberger",
+            "email": "info@ziku.la",
+            "homepage": "https://ziku.la",
+            "role": "owner"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Zikula\\ContentModule\\": "" }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "dompdf/dompdf": "*",
+        "drmonty/leaflet": "*",
+        "simplepie/simplepie": "1.*",
+        "guzzlehttp/guzzle": "6.*"
+    },
+    "require-dev": {
+        "jakub-onderka/php-parallel-lint": "*",
+        "phploc/phploc": "*",
+        "pdepend/pdepend": "2.*",
+        "squizlabs/php_codesniffer": "*",
+        "phpunit/phpunit": "4.*",
+        "theseer/phpdox": "*",
+        "phpmd/phpmd": "2.*",
+        "sebastian/phpcpd": "*"
+    },
+    "suggest": {
+        "zikula/scribite-module:>=6.0.0": "WYSIWYG editor support"
+    },
+    "extra": {
+        "zikula": {
+            "core-compatibility": ">=2.0.11 <3.0",
+            "class": "Zikula\\ContentModule\\ZikulaContentModule",
+            "displayname": "Content",
+            "url": "content",
+            "capabilities": {
+                "user": {"route": "zikulacontentmodule_page_index"},
+                "admin": {"route": "zikulacontentmodule_page_adminindex"},
+                "categorizable": {
+                    "entities": [
+                        "Zikula\\ContentModule\\Entity\\PageEntity"
+                    ]
+                }
+            },
+            "securityschema": {
+                "ZikulaContentModule::": "::",
+                "ZikulaContentModule:ItemListBlock:": "Block title::",
+                "ZikulaContentModule:ItemBlock:": "Block title::",
+                "ZikulaContentModule:MenuBlock:": "Block title::",
+                "ZikulaContentModule:SubPagesBlock:": "Block title::",
+                "ZikulaContentModule:Page:": "Page ID::",
+                "ZikulaContentModule:PageContent:": "Page ID::",
+                "ZikulaContentModule:ContentItem:": "ContentItem ID::",
+                "ZikulaContentModule:Page:ContentItem": "Page ID:ContentItem ID:",
+                "ZikulaContentModule::Ajax": "::",
+                "ZikulaContentModule:Plugin:Content": "Content type name::"
+            }
+        }
+    },
+    "config": {
+        "vendor-dir": "vendor",
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "5.5.9"
+        },
+        "sort-packages": true
+    }
+}

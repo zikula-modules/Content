@@ -1,0 +1,53 @@
+{# Purpose of this template: Display one certain page within an external context #}
+<div id="page{{ page.getKey() }}" class="zikulacontentmodule-external-page">
+{% if displayMode == 'link' %}
+    <p class="zikulacontentmodule-external-link">
+    <a href="{{ path('zikulacontentmodule_page_display', {'slug': page.slug}) }}" title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') }}">
+    {{ page|zikulacontentmodule_formattedTitle|notifyFilters('content.filter_hooks.pages.filter')|safeHtml }}
+    </a>
+    </p>
+{% endif %}
+{% if hasPermission('ZikulaContentModule::', '::', 'ACCESS_EDIT') %}
+    {# for normal users without edit permission show only the actual file per default #}
+    {% if displayMode == 'embed' %}
+        <p class="zikulacontentmodule-external-title">
+            <strong>{{ page|zikulacontentmodule_formattedTitle|notifyFilters('content.filter_hooks.pages.filter')|safeHtml }}</strong>
+        </p>
+    {% endif %}
+{% endif %}
+
+{% if displayMode == 'link' %}
+{% elseif displayMode == 'embed' %}
+    <div class="zikulacontentmodule-external-snippet">
+        &nbsp;
+    </div>
+
+    {# you can embed the display template like this: #}
+    {#{ app.request.query.set('raw', 1) }}
+    {{ include('@ZikulaContentModule/Page/display.html.twig', {page: page, routeArea: ''}) }#}
+
+    {# you can distinguish the context like this: #}
+    {# % if source == 'block' %}
+        ... detail block
+    {% elseif source == 'contentType' %}
+        ... detail content type
+    {% elseif source == 'scribite' %}
+        ...
+    {% endif % #}
+
+    {# you can enable more details about the item: #}
+    {#
+        <p class="zikulacontentmodule-external-description">
+            {% if page.optionalText is not empty %}{{ page.optionalText }}<br />{% endif %}
+            {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+                <dl class="category-list">
+                {% for propName, catMapping in page.categories %}
+                    <dt>{{ propName }}</dt>
+                    <dd>{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}</dd>
+                {% endfor %}
+                </dl>
+            {% endif %}
+        </p>
+    #}
+{% endif %}
+</div>

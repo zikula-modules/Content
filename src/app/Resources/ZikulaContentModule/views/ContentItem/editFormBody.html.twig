@@ -1,0 +1,37 @@
+{{ form_errors(form) }}
+{#
+<fieldset>
+    <legend>{{ __('Meta') }}</legend>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{{ __('Content type') }}</label>
+        <div class="col-sm-9">
+            <p class="form-control-static label label-info" style="font-size: 130%">{{ contentType.bundleName }} / {{ contentType.title }}</p>
+        </div>
+    </div>
+</fieldset>
+#}
+<fieldset>
+    <legend>{{ __('Content') }}</legend>
+    {% if form.contentData is defined and contentFormTemplate|default %}
+        {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
+    {% endif %}
+    {{ form_row(form.additionalSearchText) }}
+</fieldset>
+<fieldset id="furtherPropertiesSection">
+    <legend>{{ __('Options') }} <i class="fa fa-expand"></i></legend>
+    <div id="furtherPropertiesContent">
+        {{ form_row(form.active, {help: __('You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.')}) }}
+        {{ form_row(form.activeFrom) }}
+        {{ form_row(form.activeTo) }}
+        {{ form_row(form.scope) }}
+        {{ form_row(form.stylingClasses) }}
+    </div>
+</fieldset>
+
+{% if supportsHookSubscribers and formHookTemplates|length > 0 %}
+    <fieldset>
+        {% for hookTemplate in formHookTemplates %}
+            {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+        {% endfor %}
+    </fieldset>
+{% endif %}

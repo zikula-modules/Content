@@ -1,0 +1,17 @@
+services:
+    # Entity factory
+    zikula_content_module.entity_factory:
+        class: Zikula\ContentModule\Entity\Factory\EntityFactory
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "@zikula_content_module.entity_initialiser"
+            - "@zikula_content_module.collection_filter_helper"
+            - "@zikula_content_module.feature_activation_helper"
+    
+    # Entity initialiser
+    zikula_content_module.entity_initialiser:
+        class: Zikula\ContentModule\Entity\Factory\EntityInitialiser
+        arguments:
+            - "@zikula_content_module.permission_helper"
+            - "@zikula_content_module.listentries_helper"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'stateOfNewPages', '1')"
