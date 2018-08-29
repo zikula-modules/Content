@@ -20,7 +20,7 @@
 
 ## Introduction
 
-Content is a hierarchical page editing module for Zikula. With it you can insert and edit various content items, such as HTML texts, videos, maps and much more. Also content of other modules and blocks can be shown inside a Content page. 
+Content is a hierarchical page editing module for Zikula 2. With it you can insert and edit various content items, such as HTML texts, videos, maps and much more. Also content of other modules and blocks can be shown inside a Content page. 
 
 Each page can arrange arbitrary content elements using Bootstrap grids.
 
@@ -31,7 +31,7 @@ It also features additional functionality, like translating content and tracking
 
 ## Requirements
 
-This module is intended for being used with Zikula 2.0.10+.
+This module is intended for being used with Zikula 2.0.11+.
 
 
 <a name="installation" />
