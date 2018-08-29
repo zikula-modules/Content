@@ -79,19 +79,21 @@
                 {{ form_row(form.slug) }}
             </fieldset>
         {% endif %}
-        <fieldset>
-            <legend>{{ __('Further properties') }}</legend>
+        <fieldset{% if not isCreate %} id="furtherPropertiesSection"{% endif %}>
+            <legend>{{ __('Further properties') }}{% if not isCreate %} <i class="fa fa-expand"></i>{% endif %}</legend>
             {% if mode == 'create' and form.parent is defined %}
                 {{ form_row(form.parent) }}
             {% endif %}
             {% if not isCreate %}
-                {{ form_row(form.showTitle, {label: __('Show title on page')}) }}
-                {{ form_row(form.skipHookSubscribers, {label: __('Do not process hooks on this page')}) }}
-                {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.')}) }}
-                {{ form_row(form.activeFrom) }}
-                {{ form_row(form.activeTo) }}
-                {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.')}) }}
-                {{ form_row(form.stylingClasses) }}
+                <div id="furtherPropertiesContent">
+                    {{ form_row(form.showTitle, {label: __('Show title on page')}) }}
+                    {{ form_row(form.skipHookSubscribers, {label: __('Do not process hooks on this page')}) }}
+                    {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.')}) }}
+                    {{ form_row(form.activeFrom) }}
+                    {{ form_row(form.activeTo) }}
+                    {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.')}) }}
+                    {{ form_row(form.stylingClasses) }}
+                </div>
             {% endif %}
         </fieldset>
         {% if not isCreate %}
@@ -178,6 +180,19 @@
                         initUserLiveSearch('zikulacontentmodule_page_moderationSpecificCreator');
                     {% endif %}
                     {% if mode != 'create' %}
+                        if ($('#furtherPropertiesSection').length > 0) {
+                            $('#furtherPropertiesContent').addClass('hidden');
+                            $('#furtherPropertiesSection legend').addClass('pointer').click(function (event) {
+                                if ($('#furtherPropertiesContent').hasClass('hidden')) {
+                                    $('#furtherPropertiesContent').removeClass('hidden');
+                                    $(this).find('i').removeClass('fa-expand').addClass('fa-compress');
+                                } else {
+                                    $('#furtherPropertiesContent').addClass('hidden');
+                                    $(this).find('i').removeClass('fa-compress').addClass('fa-expand');
+                                }
+                            });
+                        }
+
                         $('#zikulacontentmodule_page_active').change(zikulaContentToggleActiveDates);
                         zikulaContentToggleActiveDates();
                     {% endif %}

@@ -370,6 +370,19 @@ function contentPageInitWidgetEditing(widget, isCreation) {
 
         body.html(data.form);
 
+        if (jQuery('#furtherPropertiesSection').length > 0) {
+            jQuery('#furtherPropertiesContent').addClass('hidden');
+            jQuery('#furtherPropertiesSection legend').addClass('pointer').click(function (event) {
+                if (jQuery('#furtherPropertiesContent').hasClass('hidden')) {
+                    jQuery('#furtherPropertiesContent').removeClass('hidden');
+                    jQuery(this).find('i').removeClass('fa-expand').addClass('fa-compress');
+                } else {
+                    jQuery('#furtherPropertiesContent').addClass('hidden');
+                    jQuery(this).find('i').removeClass('fa-compress').addClass('fa-expand');
+                }
+            });
+        }
+
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeFrom');
         zikulaContentInitDateField('zikulacontentmodule_contentitem_activeTo');
         jQuery('#zikulacontentmodule_contentitem_active').change(contentPageToggleContentActiveDates);
