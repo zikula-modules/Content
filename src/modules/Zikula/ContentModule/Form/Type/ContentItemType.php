@@ -32,11 +32,6 @@ class ContentItemType extends AbstractType
     use TranslatorTrait;
 
     /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * @var ListEntriesHelper
      */
     private $listHelper;
