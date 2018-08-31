@@ -18,9 +18,9 @@
     "require": {
         "dompdf/dompdf": "*",
         "drmonty/leaflet": "*",
-        "guzzlehttp/guzzle": "6.*",
+        "guzzlehttp/guzzle": "^6",
         "php": ">=5.5.9",
-        "simplepie/simplepie": "1.*"
+        "simplepie/simplepie": "^1"
     },
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "^1",
