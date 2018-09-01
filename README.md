@@ -1,6 +1,6 @@
 # Content module for the Zikula Application Framework
 
-![Build Status](http://guite.info:8080/buildStatus/icon?job=Applications_Content/5.0.0)
+![Build Status](http://guite.info:8080/buildStatus/icon?job=Applications_Content/master)
 
 
 ## Documentation
