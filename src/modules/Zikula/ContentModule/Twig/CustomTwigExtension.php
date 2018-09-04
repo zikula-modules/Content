@@ -151,7 +151,8 @@ class CustomTwigExtension extends Twig_Extension
             new \Twig_SimpleFunction('zikulacontentmodule_categoryInfo', [$this, 'getCategoryInfo']),
             new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews']),
             new \Twig_SimpleFunction('zikulacontentmodule_hasReadAccess', [$this, 'hasReadAccess']),
-            new \Twig_SimpleFunction('zikulacontentmodule_isCurrentPage', [$this, 'isCurrentPage'])
+            new \Twig_SimpleFunction('zikulacontentmodule_isCurrentPage', [$this, 'isCurrentPage']),
+            new \Twig_SimpleFunction('zikulacontentmodule_getSlug', [$this, 'getPageSlug'])
         ];
     }
 
@@ -374,6 +375,8 @@ class CustomTwigExtension extends Twig_Extension
      *    {% if zikulacontentmodule_isCurrentPage(page) %}
      *
      * @param PageEntity $page The given page instance
+     *
+     * @return boolean
      */
     public function isCurrentPage(PageEntity $page)
     {
@@ -393,5 +396,22 @@ class CustomTwigExtension extends Twig_Extension
         }
 
         return false;
+    }
+
+    /**
+     * The zikulacontentmodule_getSlug function returns the slug for a
+     * given page and the current locale.
+     * Examples:
+     *    <a href="{{ path('zikulacontentmodule_page_display', {slug: zikulacontentmodule_getSlug(2)}) }}" title="Test page">Test page</a>
+     *
+     * @param integer Page identifier
+     *
+     * @return string Page slug
+     */
+    public function getPageSlug($pageId)
+    {
+        $pageValues = $this->entityFactory->getRepository('page')->selectById($pageId, false, true);
+
+        return isset($pageValues['slug']) ? $pageValues['slug'] : '';
     }
 }

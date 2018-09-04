@@ -9,11 +9,12 @@
   2. [Requirements](#requirements)
   3. [Installation](#installation)
   4. [Upgrading](#upgrading)
-  5. [Integration with menu module](#menumodule)
-  6. [Implementing custom content types](#contenttypes)
-  7. [Changelog](#changelog)
-  8. [TODO](#todo)
-  9. [Questions, bugs and contributing](#contributing)
+  5. [How to link pages](#linking)
+  6. [Integration with menu module](#menumodule)
+  7. [Implementing custom content types](#contenttypes)
+  8. [Changelog](#changelog)
+  9. [TODO](#todo)
+  10. [Questions, bugs and contributing](#contributing)
 
 
 <a name="introduction" />
@@ -51,6 +52,17 @@ The Content module is installed like this:
 ## Upgrading
 
 An upgrade possibility from earlier versions to 5.0.0 has not been implemented yet.
+
+
+<a name="linking" />
+
+## How to link pages
+
+When you statically refer to pages in some templates you will see one problem: linking to the details of a page requires the slug which may be different per language and could be changed later which will break your link. For this a Twig function is provided to get the slug from the page id. For example:
+
+```
+<a href="{{ path('zikulacontentmodule_page_display', {slug: zikulacontentmodule_getSlug(2)}) }}" title="Test page">Test page</a>
+```
 
 
 <a name="menumodule" />
