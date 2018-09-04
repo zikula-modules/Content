@@ -819,6 +819,13 @@ class PageController extends AbstractPageController
      */
     public function adminDisplayAction(Request $request, $slug)
     {
+        if ('id' == $slug && $request->query->has('id')) {
+            $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectById($request->query->get('id'));
+            if (null !== $page) {
+                return $this->redirectToRoute('zikulacontentmodule_page_admindisplay', ['slug' => $page->getSlug()]);
+            }
+        }
+
         return parent::adminDisplayAction($request, $slug);
     }
     
@@ -827,6 +834,13 @@ class PageController extends AbstractPageController
      */
     public function displayAction(Request $request, $slug)
     {
+        if ('id' == $slug && $request->query->has('id')) {
+            $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectById($request->query->get('id'));
+            if (null !== $page) {
+                return $this->redirectToRoute('zikulacontentmodule_page_display', ['slug' => $page->getSlug()]);
+            }
+        }
+
         return parent::displayAction($request, $slug);
     }
     
