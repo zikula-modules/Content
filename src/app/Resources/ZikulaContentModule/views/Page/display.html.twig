@@ -34,9 +34,11 @@
         <div class="col-xs-12">
             {% if not isQuickView and inList is not defined %}
                 {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'display'}) %}
-                <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
-                    {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
-                </div>
+                {% if itemActions|length > 1 %}
+                    <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
+                        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
+                    </div>
+                {% endif %}
             {% endif %}
             {% if getModVar('ZikulaContentModule', 'enableOptionalString1', false) and page.optionalString1 is not empty %}
                 <p class="optional-string1">{{ page.optionalString1 }}</p>
