@@ -152,7 +152,8 @@ class CustomTwigExtension extends Twig_Extension
             new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews']),
             new \Twig_SimpleFunction('zikulacontentmodule_hasReadAccess', [$this, 'hasReadAccess']),
             new \Twig_SimpleFunction('zikulacontentmodule_isCurrentPage', [$this, 'isCurrentPage']),
-            new \Twig_SimpleFunction('zikulacontentmodule_getSlug', [$this, 'getPageSlug'])
+            new \Twig_SimpleFunction('zikulacontentmodule_getSlug', [$this, 'getPageSlug']),
+            new \Twig_SimpleFunction('zikulacontentmodule_getPage', [$this, 'getPage'])
         ];
     }
 
@@ -400,7 +401,7 @@ class CustomTwigExtension extends Twig_Extension
 
     /**
      * The zikulacontentmodule_getSlug function returns the slug for a
-     * given page and the current locale.
+     * given page identifier and the current locale.
      * Examples:
      *    <a href="{{ path('zikulacontentmodule_page_display', {slug: zikulacontentmodule_getSlug(2)}) }}" title="Test page">Test page</a>
      *
@@ -413,5 +414,20 @@ class CustomTwigExtension extends Twig_Extension
         $pageValues = $this->entityFactory->getRepository('page')->selectById($pageId, false, true);
 
         return isset($pageValues['slug']) ? $pageValues['slug'] : '';
+    }
+
+    /**
+     * The zikulacontentmodule_getPage function returns a specific page for a
+     * given page identifier.
+     * Examples:
+     *    {% set page = zikulacontentmodule_getPage(123) %}
+     *
+     * @param integer Page identifier
+     *
+     * @return PageEntity Page instance
+     */
+    public function getPage($pageId)
+    {
+        return $this->entityFactory->getRepository('page')->selectById($pageId);
     }
 }
