@@ -359,7 +359,7 @@ class PageController extends AbstractPageController
 
         $ignoreFirstTreeLevel = $this->getVar('ignoreFirstTreeLevelInRoutes', true);
         $where = 'tbl.lvl = ' . ($ignoreFirstTreeLevel ? '1' : '0');
-        $rootPages = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectWhere($where);
+        $rootPages = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectWhere($where, 'tbl.lft');
 
         return $this->render('@ZikulaContentModule/Page/sitemap.' . $request->getRequestFormat() . '.twig', [
             'pages' => $rootPages
