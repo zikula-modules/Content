@@ -159,7 +159,7 @@ class MenuModuleListener implements EventSubscriberInterface
         if (!count($page->getChildren())) {
             return;
         }
-        if ($currentLevel >= $allowedLevels) {
+        if ($allowedLevels > 0 && $currentLevel >= $allowedLevels) {
             return;
         }
         foreach ($page->getChildren() as $subPage) {
