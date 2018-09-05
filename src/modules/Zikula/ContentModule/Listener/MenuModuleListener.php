@@ -104,7 +104,12 @@ class MenuModuleListener implements EventSubscriberInterface
         $itemName = $item->getName();
         if (false !== stripos($itemName, 'ContentPages_')) {
             $pageId = intval(str_ireplace('ContentPages_', '', $itemName));
-            $this->injectPages($item, $pageId);
+            $extras = $item->getExtras();
+            $levels = isset($extras['levels']) ? intval($extras['levels']) : 0;
+            if ($levels < 0) {
+                $levels = 0;
+            }
+            $this->injectPages($item, $pageId, $levels);
         }
         foreach ($item->getChildren() as $subItem) {
             $this->processItem($subItem);
@@ -116,8 +121,9 @@ class MenuModuleListener implements EventSubscriberInterface
      *
      * @param ItemInterface $item
      * @param integer $pageId
+     * @param integer $allowedLevels
      */
-    protected function injectPages(ItemInterface $item, $pageId)
+    protected function injectPages(ItemInterface $item, $pageId, $allowedLevels)
     {
         if ($pageId < 1) {
             $item->getParent()->removeChild($item);
@@ -137,7 +143,7 @@ class MenuModuleListener implements EventSubscriberInterface
         $item->setUri($this->router->generate('zikulacontentmodule_page_display', $page->createUrlArgs()));
         $item->setLinkAttribute('title', $title);
 
-        $this->addSubPages($item, $page);
+        $this->addSubPages($item, $page, $allowedLevels, 1);
     }
 
     /**
@@ -145,10 +151,15 @@ class MenuModuleListener implements EventSubscriberInterface
      *
      * @param ItemInterface $menu
      * @param PageEntity $page
+     * @param integer $allowedLevels
+     * @param integer $currentLevel
      */
-    protected function addSubPages(ItemInterface $menu, PageEntity $page)
+    protected function addSubPages(ItemInterface $menu, PageEntity $page, $allowedLevels, $currentLevel)
     {
         if (!count($page->getChildren())) {
+            return;
+        }
+        if ($currentLevel >= $allowedLevels) {
             return;
         }
         foreach ($page->getChildren() as $subPage) {
@@ -161,7 +172,7 @@ class MenuModuleListener implements EventSubscriberInterface
                 'routeParameters' => $subPage->createUrlArgs()
             ]);
             $menu[$title]->setLinkAttribute('title', $title);
-            $this->addSubPages($item, $subPage);
+            $this->addSubPages($item, $subPage, $allowedLevels, $currentLevel + 1);
         }
     }
 }

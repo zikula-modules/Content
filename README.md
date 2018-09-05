@@ -71,6 +71,8 @@ When you statically refer to pages in some templates you will see one problem: l
 
 Content offers a dedicated menu block. But it can also be combined with menus from the menu module which is provided by Zikula core. You can add nodes with a placeholder title like `ContentPages_123` whereby `123` is the ID of a certain page. When displaying the menu this placeholder will be replaced by the corresponding pages sub tree. Note that only those pages are shown which are currently active, have the "in menu" flag enabled and visible to the current user.
 
+By default there are unlimited levels added to a menu. You can limit this by adding an `extras` option to the menu entry with value `{"levels":2}` where `2` is the desired amount of levels.
+
 
 <a name="contenttypes" />
 
