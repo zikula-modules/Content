@@ -91,7 +91,10 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
             return true;
         }
         $routeName = $request->get('_route');
-        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin') || false !== strpos($routeName, 'zikulacontentmodule_contentitem_admin');
+        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin')
+            || 'zikulacontentmodule_page_edit' == $routeName
+            || false !== strpos($routeName, 'zikulacontentmodule_contentitem_admin')
+        ;
         if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
             return true;
         }
