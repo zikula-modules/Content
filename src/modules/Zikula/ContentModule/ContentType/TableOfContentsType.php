@@ -195,6 +195,10 @@ class TableOfContentsType extends AbstractContentType
                 if ('Zikula\\ContentModule\\ContentType\\HeadingType' != $contentItem->getOwningType()) {
                     continue;
                 }
+                $contentData = $contentItem->getContentData();
+                if (isset($contentData['displayPageTitle']) && true === $contentData['displayPageTitle']) {
+                    continue;
+                }
                 $contentType = $this->displayHelper->initContentType($contentItem);
                 $output = $contentType->displayView();
                 $headingData = $contentType->getData();
