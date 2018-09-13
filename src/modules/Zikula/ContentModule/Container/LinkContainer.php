@@ -45,12 +45,16 @@ class LinkContainer extends AbstractLinkContainer
             }
             if ($hasAddPermissions) {
                 if ($this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
-                    // add link between the two existing ones
-                    $links = [
-                        $links[0],
-                        $addNewPageLink,
-                        $links[1]
-                    ];
+                    if (true === $this->variableApi->get('ZikulaContentModule', 'linkOwnPagesOnAccountPage', true)) {
+                        // add link between the two existing ones
+                        $links = [
+                            $links[0],
+                            $addNewPageLink,
+                            $links[1]
+                        ];
+                    } else {
+                        $links[] = $addNewPageLink;
+                    }
                 } else {
                     $links[] = $addNewPageLink;
                 }
