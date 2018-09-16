@@ -405,7 +405,7 @@ class CustomTwigExtension extends Twig_Extension
      * Examples:
      *    <a href="{{ path('zikulacontentmodule_page_display', {slug: zikulacontentmodule_getSlug(2)}) }}" title="Test page">Test page</a>
      *
-     * @param integer Page identifier
+     * @param integer $pageId Page identifier
      *
      * @return string Page slug
      */
@@ -418,16 +418,21 @@ class CustomTwigExtension extends Twig_Extension
 
     /**
      * The zikulacontentmodule_getPage function returns a specific page for a
-     * given page identifier.
+     * given page identifier or slug.
      * Examples:
      *    {% set page = zikulacontentmodule_getPage(123) %}
+     *    {% set page = zikulacontentmodule_getPage('my/special/page) %}
      *
-     * @param integer Page identifier
+     * @param integer|string $pageId Page identifier or slug
      *
      * @return PageEntity Page instance
      */
     public function getPage($pageId)
     {
-        return $this->entityFactory->getRepository('page')->selectById($pageId);
+        if (is_numeric($pageId)) {
+            return $this->entityFactory->getRepository('page')->selectById($pageId);
+        }
+
+        return $this->entityFactory->getRepository('page')->selectBySlug($pageId);
     }
 }
