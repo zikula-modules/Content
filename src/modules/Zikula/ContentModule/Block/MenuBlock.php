@@ -62,7 +62,7 @@ class MenuBlock extends AbstractBlockHandler
         // create query
         $orderBy = 'tbl.lft';
         $repository = $this->get('zikula_content_module.entity_factory')->getRepository('page');
-        $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy);
+        $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy, false);
 
         // get objects from database
         $currentPage = 1;
