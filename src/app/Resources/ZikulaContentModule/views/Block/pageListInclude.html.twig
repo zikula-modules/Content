@@ -12,7 +12,7 @@
         {% if vars.subPagesHandling|default == 'hide' or page.children|length < 1 %}
             <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>
         {% elseif isDropdown|default %}
-            <a href="#" title="{{ pageTitle|e('html_attr') }}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-animations="zoomIn zoomIn zoomIn zoomIn" aria-haspopup="true" aria-expanded="false">{{ pageTitle }} <span class="caret"></span></a>
+            <a href="#" title="{{ pageTitle|e('html_attr') }}" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ pageTitle }} <span class="caret"></span></a>
             {{ include('@ZikulaContentModule/Block/pageListInclude.html.twig', {pages: page.children}) }}
         {% endif %}
         </li>
