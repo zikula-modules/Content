@@ -1,0 +1,10 @@
+{% set pageTitle = page|zikulacontentmodule_formattedTitle %}
+{% set isActivePage = zikulacontentmodule_isCurrentPage(page) %}
+<li role="presentation"{% if isDropdown|default or isActivePage %} class="{% if isDropdown|default %}dropdown{% if isActivePage %} {% endif %}{% endif %}{% if isActivePage %} active{% endif %}"{% endif %}>
+{% if vars.subPagesHandling|default == 'hide' or page.children|length < 1 %}
+    <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>
+{% elseif isDropdown|default %}
+    <a href="#" title="{{ pageTitle|e('html_attr') }}" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ pageTitle }} <span class="caret"></span></a>
+    {{ include('@ZikulaContentModule/Block/pageListInclude.html.twig', {pages: page.children, context: context, includeSelf: context == 'menuBlock'}) }}
+{% endif %}
+</li>

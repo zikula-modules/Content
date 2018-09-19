@@ -4,16 +4,7 @@
 {% if items|length > 0 %}
     <ul{% if vars.navType > 0 %} class="nav {% if vars.navType in [1, 3] %}nav-tabs{% elseif vars.navType == 2 %}nav-pills{% endif %}"{% endif %}>
         {% for page in items if zikulacontentmodule_hasReadAccess(page) %}
-            {% set pageTitle = page|zikulacontentmodule_formattedTitle %}
-            {% set isActivePage = zikulacontentmodule_isCurrentPage(page) %}
-            <li role="presentation"{% if isDropdown or isActivePage %} class="{% if isDropdown %}dropdown{% if isActivePage %} {% endif %}{% endif %}{% if isActivePage %} active{% endif %}"{% endif %}>
-            {% if vars.subPagesHandling|default == 'hide' or page.children|length < 1 %}
-                <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>
-            {% elseif isDropdown %}
-                <a href="#" title="{{ pageTitle|e('html_attr') }}" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ pageTitle }} <span class="caret"></span></a>
-                {{ include('@ZikulaContentModule/Block/pageListInclude.html.twig', {pages: page.children, context: 'menuBlock', includeSelf: true}) }}
-            {% endif %}
-            </li>
+            {{ include('@ZikulaContentModule/Block/pageListIncludeEntry.html.twig', {page: page, context: 'menuBlock'}) }}
         {% endfor %}
     </ul>
 {% else %}
