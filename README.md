@@ -41,7 +41,6 @@ This module is intended for being used with Zikula 2.0.11+.
 
 The Content module is installed like this:
 
-
 1. Copy the content of `modules/` into the `modules/` directory of your Zikula installation. Afterwards you should a folder named `modules/Zikula/ContentModule/`.
 2. Copy the content of _app/Resources/_ into the _/app/Resources_ folder of your Zikula site.
 3. Initialize and activate ZikulaContentModule in the extensions administration.
@@ -51,7 +50,45 @@ The Content module is installed like this:
 
 ## Upgrading
 
-An upgrade possibility from earlier versions to 5.0.0 has not been implemented yet.
+To upgrade Content to version 5.0.0 and later follow these steps:
+
+1. Ensure you have Zikula 1.5.x with Content 4.2.1 running.
+2. Upgrade Zikula core to 2.x.
+3. Delete the `modules/Content/` directory entirely.
+4. Copy the content of `modules/` into the `modules/` directory of your Zikula installation. Afterwards you should a folder named `modules/Zikula/ContentModule/`.
+5. Copy the content of _app/Resources/_ into the _/app/Resources_ folder of your Zikula site.
+6. In `/app/config/custom_parameters.yml` set `debug: true`.
+7. **Create a backup of your database!**
+8. Update ZikulaContentModule in the extensions administration.
+9. In `/app/config/custom_parameters.yml` set `debug: false`.
+
+In case something goes wrong:
+
+1. Restore your database dump.
+2. Report your problem in the issue tracker at https://github.com/zikula-modules/Content/issues - in case you got an exception please post the complete stack trace.
+3. Add the patch or follow the advice you got.
+4. Update ZikulaContentModule in the extensions administration again.
+
+The upgrade currently migrates the following data:
+
+- Page data and pages hierarchy tree
+- Primary page category assignments
+- Page translations
+- Page content
+- Page content translations
+
+Not migrated are:
+
+- Additional page category assignments
+- Page histories (older revisions)
+- Content provided by content types from 3rd party modules (instead at least _HTML_ elements are added containing a note about which type of element has been there before)
+- Page layout arrangement data
+
+Work to do after upgrade:
+
+1. Rearrange your content elements re-creating your page layouts.
+2. Review and update manual/static links to your pages.
+3. Upgrade 3rd party modules providing additional content types you need.
 
 
 <a name="linking" />

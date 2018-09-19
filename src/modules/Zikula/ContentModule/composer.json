@@ -41,6 +41,7 @@
             "class": "Zikula\\ContentModule\\ZikulaContentModule",
             "displayname": "Content",
             "url": "content",
+            "oldnames": ["Content"],
             "capabilities": {
                 "user": {"route": "zikulacontentmodule_page_index"},
                 "admin": {"route": "zikulacontentmodule_page_adminindex"},
