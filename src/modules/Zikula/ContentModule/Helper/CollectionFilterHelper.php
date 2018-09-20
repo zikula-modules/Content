@@ -40,7 +40,7 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
         if (in_array('tblContentItems', $qb->getAllAliases())) {
             $routeName = $this->requestStack->getCurrentRequest()->get('_route');
-            if ('zikulacontentmodule_page_display' != $routeName) {
+            if (!in_array($routeName, ['zikulacontentmodule_page_display', 'zikulacontentmodule_external_finder'])) {
                 $qb->andWhere('tblContentItems.active = 1');
                 $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItems');
                 $qb->andWhere('tblContentItems.scope IN (:allowedScopes)')
