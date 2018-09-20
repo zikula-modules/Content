@@ -52,7 +52,7 @@ The Content module is installed like this:
 
 To upgrade Content to version 5.0.0 and later follow these steps:
 
-1. Ensure you have Zikula 1.5.x with Content 4.2.1 running.
+1. Ensure you have Zikula 1.5.x with Content 4.2.2 running (download from the [1.3-legacy branch](https://github.com/zikula-modules/Content/blob/1.3-legacy)).
 2. Upgrade Zikula core to 2.x.
 3. Delete the `modules/Content/` directory entirely.
 4. Copy the content of `modules/` into the `modules/` directory of your Zikula installation. Afterwards you should a folder named `modules/Zikula/ContentModule/`.
