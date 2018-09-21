@@ -68,10 +68,12 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
             $conn = $this->getConnection();
             $dbName = $this->getDbName();
+            $userRepository = $this->container->get('zikula_users_module.user_repository');
 
             $pageMap = [];
             $pageLanguageMap = [];
             $categoryMap = [];
+            $userMap = [];
 
             // migrate pages, primary category assignments, page translations
             $stmt = $conn->executeQuery("
@@ -112,9 +114,17 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 if (isset($row['page_optText'])) {
                     $page->setOptionalText($row['page_optText']);
                 }
-                $page->setCreatedBy($row['page_cr_uid']);
+                $uid = $row['page_cr_uid'];
+                if (!isset($userMap[$uid])) {
+                    $userMap[$uid] = $userRepository->find($uid);
+                }
+                $page->setCreatedBy($userMap[$uid]);
                 $page->setCreatedDate(new \DateTime($row['page_cr_date']));
-                $page->setUpdatedBy($row['page_lu_uid']);
+                $uid = $row['page_lu_uid'];
+                if (!isset($userMap[$uid])) {
+                    $userMap[$uid] = $userRepository->find($uid);
+                }
+                $page->setUpdatedBy($userMap[$uid]);
                 $page->setUpdatedDate(new \DateTime($row['page_lu_date']));
 
                 $page->setLocale($row['page_language']);
@@ -222,9 +232,17 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $contentType = $contentDisplayHelper->initContentType($item);
                 $item->setSearchText($contentType->getSearchableText());
 
-                $item->setCreatedBy($row['con_cr_uid']);
+                $uid = $row['con_cr_uid'];
+                if (!isset($userMap[$uid])) {
+                    $userMap[$uid] = $userRepository->find($uid);
+                }
+                $item->setCreatedBy($userMap[$uid]);
                 $item->setCreatedDate(new \DateTime($row['con_cr_date']));
-                $item->setUpdatedBy($row['con_lu_uid']);
+                $uid = $row['con_lu_uid'];
+                if (!isset($userMap[$uid])) {
+                    $userMap[$uid] = $userRepository->find($uid);
+                }
+                $item->setUpdatedBy($userMap[$uid]);
                 $item->setUpdatedDate(new \DateTime($row['con_lu_date']));
 
                 $item->setLocale($pageLanguageMap[$oldPageId]);
