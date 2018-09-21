@@ -104,21 +104,23 @@ class AuthorType extends AbstractContentType
     /**
      * @inheritDoc
      */
-    public function getSearchableText()
+    public function getData()
     {
-        return html_entity_decode(strip_tags($this->data['authorName']));
+        $data = parent::getData();
+
+        $user = $this->userRepository->find($data['author']);
+        $data['author'] = $user;
+        $data['authorName'] = null !== $user ? $user->getUname() : $this->__('Unknown author');
+
+        return $data;
     }
 
     /**
      * @inheritDoc
      */
-    public function displayView()
+    public function getSearchableText()
     {
-        $user = $this->userRepository->find($this->data['author']);
-        $this->data['author'] = $user;
-        $this->data['authorName'] = null !== $user ? $user->getUname() : $this->__('Unknown author');
-
-        return parent::displayView();
+        return html_entity_decode(strip_tags($this->data['authorName']));
     }
 
     /**
