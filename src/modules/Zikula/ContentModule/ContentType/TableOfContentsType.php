@@ -144,7 +144,7 @@ class TableOfContentsType extends AbstractContentType
         $this->data['currentPage'] = $this->getEntity()->getPage();
 
         $this->data['toc'] = [];
-        $pageId = $this->data['page'];
+        $pageId = isset($this->data['page']) ? $this->data['page'] : 0;
         if (!$pageId) {
             $pageId = 0;
         }
