@@ -214,6 +214,9 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                         } if ('BlockType' == $contentTypeName && isset($contentData['blockid'])) {
                             $contentData['blockId'] = $contentData['blockid'];
                             unset($contentData['blockid']);
+                        } if ('TableOfContentsType' == $contentTypeName && isset($contentData['pid'])) {
+                            $contentData['page'] = $contentData['pid'];
+                            unset($contentData['page']);
                         }
                         $item->setContentData($contentData);
                     }
