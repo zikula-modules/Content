@@ -269,8 +269,6 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                     $item->setLocale($transRow['transc_lang']);
                     $this->entityManager->flush($item);
                 }
-
-                $this->entityManager->persist($submission);
             }
 
             // remove old tables
