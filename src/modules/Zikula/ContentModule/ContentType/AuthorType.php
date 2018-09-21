@@ -122,6 +122,8 @@ class AuthorType extends AbstractContentType
      */
     public function getSearchableText()
     {
+        $data = $this->getData();
+
         return html_entity_decode(strip_tags($this->data['authorName']));
     }
 
