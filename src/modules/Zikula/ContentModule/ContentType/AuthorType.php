@@ -112,6 +112,8 @@ class AuthorType extends AbstractContentType
         $data['author'] = $user;
         $data['authorName'] = null !== $user ? $user->getUname() : $this->__('Unknown author');
 
+        $this->data = $data;
+
         return $data;
     }
 
