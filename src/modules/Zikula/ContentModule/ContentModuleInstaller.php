@@ -191,7 +191,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 if (!$isSupported) {
                     $item->setOwningType($contentTypeNamespace . 'HtmlType');
                     $item->setContentData([
-                        'text' => $this->translator->__f('<p>There has been an element of the <strong>%module%</strong> with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>', ['%module%' => $row['con_module'], '%type%' => $row['con_type']])
+                        'text' => $this->__f('<p>There has been an element of the <strong>%module%</strong> with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>', ['%module%' => $row['con_module'], '%type%' => $row['con_type']])
                     ]);
                 } else {
                     $contentTypeName = $row['con_type'] . 'Type';
@@ -280,7 +280,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             $conn->executeQuery("DROP TABLE $dbName.`content_pagecategory`");
             $conn->executeQuery("DROP TABLE $dbName.`content_page`");
 
-            $this->addFlash('success', $this->translator->__f('Done! Migrated %amount% pages.', ['%amount%' => count($pageMap)]));
+            $this->addFlash('success', $this->__f('Done! Migrated %amount% pages.', ['%amount%' => count($pageMap)]));
 
             $oldVersion = '5.0.0';
         }
