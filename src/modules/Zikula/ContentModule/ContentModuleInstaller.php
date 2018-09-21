@@ -277,4 +277,26 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
         // update successful
         return true;
     }
+
+    /**
+     * Returns connection to the database.
+     *
+     * @return Connection the current connection
+     */
+    private function getConnection()
+    {
+        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
+        $connection = $entityManager->getConnection();
+
+        return $connection;
+    }
+    /**
+     * Returns the name of the default system database.
+     *
+     * @return string the database name
+     */
+    private function getDbName()
+    {
+        return $this->container->getParameter('database_name');
+    }
 }
