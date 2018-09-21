@@ -69,11 +69,32 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             $conn = $this->getConnection();
             $dbName = $this->getDbName();
             $userRepository = $this->container->get('zikula_users_module.user_repository');
+            $contentTypeNamespace = 'Zikula\\ContentModule\\ContentType\\';
 
             $pageMap = [];
             $pageLanguageMap = [];
             $categoryMap = [];
             $userMap = [];
+
+            $mainPage = new PageEntity();
+            $mainPage->setTitle($this->__('Pages'));
+            $mainPage->setLayout([]);
+            $mainPage->setActive(true);
+            $mainPage->setInMenu(true);
+            $mainPage->setParent(null);
+            $mainPage->setRoot(1);
+            $this->entityManager->persist($mainPage);
+            $this->entityManager->flush($mainPage);
+
+            $item = new ContentItemEntity();
+            $item->setOwningType($contentTypeNamespace . 'HeadingType');
+            $item->setContentData([
+                'text' => $this->__('This is only a dummy page containing the real pages'),
+                'headingType' => 'h3'
+            ]);
+            $mainPage->addContentItems($item);
+            $this->entityManager->persist($item);
+            $this->entityManager->flush($item);
 
             // migrate pages, primary category assignments, page translations
             $stmt = $conn->executeQuery("
@@ -89,6 +110,8 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $oldParentPageId = $row['page_ppid'];
                 if ($oldParentPageId > 0 && isset($pageMap[$oldParentPageId])) {
                     $page->setParent($pageMap[$oldParentPageId]);
+                } else {
+                    $page->setParent($mainPage);
                 }
                 $page->setTitle($row['page_title']);
                 $page->setShowTitle(boolval($row['page_showtitle']));
@@ -163,7 +186,6 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             }
 
             // migrate content and content translations
-            $contentTypeNamespace = 'Zikula\\ContentModule\\ContentType\\';
             $contentDisplayHelper = $this->container->get('zikula_content_module.content_display_helper');
             $stmt = $conn->executeQuery("
                 SELECT *
