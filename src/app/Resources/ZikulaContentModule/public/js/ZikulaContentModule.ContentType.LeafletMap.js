@@ -128,6 +128,8 @@ function contentInitLeafletEdit() {
         contentNewCoordinatesEventHandler(contentId);
     });
 
-    // redraw the map to ensure a proper display
-    maps[contentId].invalidateSize();
+    window.setTimeout(function () {
+        // redraw the map to ensure a proper display
+        maps[contentId].invalidateSize();
+    }, 1000);
 }
