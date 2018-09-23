@@ -289,12 +289,13 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                     WHERE `transc_cid` = " . intval($oldContentItemId) . "
                 ");
                 while ($transRow = $transStmt->fetch()) {
-                    $contentData = @unserialize($row['transc_data']);
+                    $contentData = @unserialize($transRow['transc_data']);
                     if ($contentData) {
-                        $contentData = array_merge($item->getContentData(), $contentData);
+                        $contentData = $contentData + $item->getContentData();
                         $item->setContentData($contentData);
+                        $contentType = $contentDisplayHelper->initContentType($item);
+                        $item->setSearchText($contentType->getSearchableText());
                     }
-
                     $item->setLocale($transRow['transc_lang']);
                     $this->entityManager->flush($item);
                 }
