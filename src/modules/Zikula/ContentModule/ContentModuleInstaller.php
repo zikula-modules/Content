@@ -296,6 +296,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                         $contentType = $contentDisplayHelper->initContentType($item);
                         $item->setSearchText($contentType->getSearchableText());
                     }
+
                     $item->setLocale($transRow['transc_lang']);
                     $this->entityManager->flush($item);
                 }
