@@ -167,7 +167,7 @@ abstract class AbstractExternalController extends AbstractController
         
         $qb = $repository->getListQueryBuilder($where, $orderBy);
         
-        if ($searchTerm != '') {
+        if ('' != $searchTerm) {
             $qb = $this->get('zikula_content_module.collection_filter_helper')->addSearchFilter($objectType, $qb, $searchTerm);
         }
         $query = $repository->getQueryFromBuilder($qb);
