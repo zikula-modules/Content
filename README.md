@@ -133,6 +133,11 @@ In content each page consists of several content items. Each content item uses a
 
 ## Changelog
 
+### Version 5.0.1
+
+Bugfixes:
+- Fixed hardcoded specific directory structure for Scribite integration (#300).
+
 ### Version 5.0.0
 
 Structural changes:
