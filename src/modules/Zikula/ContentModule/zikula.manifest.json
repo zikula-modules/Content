@@ -10,7 +10,7 @@
         "icon": ""
     },
     "version": {
-        "semver": "5.0.1",
+        "semver": "5.0.2",
         "compatibility": ">=2.0.11 <3.0.0",
         "composerpath": "composer.json",
         "description": "Flexible hierachical page management.",

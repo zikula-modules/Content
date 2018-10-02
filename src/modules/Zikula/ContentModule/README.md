@@ -1,4 +1,4 @@
-# ZikulaContentModule 5.0.1
+# ZikulaContentModule 5.0.2
 
 Flexible hierachical page management.
 
