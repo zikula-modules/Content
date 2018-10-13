@@ -1,3 +1,5 @@
 <p class="alert alert-warning">{{ __('Use this feature carefully! Some extensions do not work when displayed together with other ones. DO NOT create circular references, e.g., adding a Content page that displays itself ...') }}</p>
 {{ form_row(form.controller) }}
-{{ form_row(form.arguments) }}
+{{ form_row(form.query) }}
+{{ form_row(form.request) }}
+{{ form_row(form.attributes) }}

@@ -45,8 +45,18 @@ class ControllerType extends AbstractContentFormType
                     new Regex('/\w+:\w+:\w+/')
                 ]
             ])
-            ->add('arguments', TextType::class, [
-                'label' => $this->__('Function arguments'),
+            ->add('query', TextType::class, [
+                'label' => $this->__('GET parameters'),
+                'help' => $this->__('Separate with &, for example:') . ' foo=2&bar=5',
+                'required' => false
+            ])
+            ->add('request', TextType::class, [
+                'label' => $this->__('POST parameters'),
+                'help' => $this->__('Separate with &, for example:') . ' foo=2&bar=5',
+                'required' => false
+            ])
+            ->add('attributes', TextType::class, [
+                'label' => $this->__('Request attributes'),
                 'help' => $this->__('Separate with &, for example:') . ' foo=2&bar=5',
                 'required' => false
             ])

@@ -133,6 +133,11 @@ In content each page consists of several content items. Each content item uses a
 
 ## Changelog
 
+### Version 5.0.2
+
+New features:
+- Added missing support for query and request arguments to controller content type (#307).
+
 ### Version 5.0.1
 
 Bugfixes:

@@ -72,7 +72,9 @@ class ControllerType extends AbstractContentType
     {
         return [
             'controller' => '',
-            'arguments' => ''
+            'query' => '',
+            'request' => '',
+            'attributes' => ''
         ];
     }
 
@@ -99,8 +101,14 @@ class ControllerType extends AbstractContentType
 
         $quickAction = '<a href="javascript:void(0);" title="' . $this->translator->__('Preview controller content') . '" onclick="jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); jQuery(this).remove();"><i class="fa fa-2x fa-eye"></i></a>';
         $editOutput = '<h3>' . $this->data['controller'] . '</h3>';
-        if ($this->data['arguments']) {
-            $editOutput .= '<p><em>' . $this->data['arguments'] . '</em></p>';
+        if ($this->data['query']) {
+            $editOutput .= '<p>' . $this->translator->__('GET parameters') . ': <em>' . $this->data['query'] . '</em></p>';
+        }
+        if ($this->data['request']) {
+            $editOutput .= '<p>' . $this->translator->__('POST parameters') . ': <em>' . $this->data['request'] . '</em></p>';
+        }
+        if ($this->data['attributes']) {
+            $editOutput .= '<p>' . $this->translator->__('Request attributes') . ': <em>' . $this->data['attributes'] . '</em></p>';
         }
         $editOutput .= '<p>' . $quickAction . '</p>';
         $editOutput .= '<div class="hidden">' . $output . '</div>';
@@ -152,9 +160,11 @@ class ControllerType extends AbstractContentType
         $controller = $this->data['controller'];
         list($bundleName) = explode(':', $controller);
 
-        parse_str($this->data['arguments'], $attributes);
+        parse_str($this->data['query'], $query);
+        parse_str($this->data['request'], $request);
+        parse_str($this->data['attributes'], $attributes);
         $attributes['_controller'] = $controller;
-        $subRequest = $this->requestStack->getMasterRequest()->duplicate(null, null, $attributes);
+        $subRequest = $this->requestStack->getMasterRequest()->duplicate($query, $request, $attributes);
         $subRequest->attributes->set('_zkModule', $bundleName);
 
         ++$recursionLevel;
