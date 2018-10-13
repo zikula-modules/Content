@@ -233,13 +233,16 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                         if ('AuthorType' == $contentTypeName && isset($contentData['uid'])) {
                             $contentData['author'] = $contentData['uid'];
                             unset($contentData['uid']);
-                        } if ('BlockType' == $contentTypeName && isset($contentData['blockid'])) {
+                        } elseif ('BlockType' == $contentTypeName && isset($contentData['blockid'])) {
                             $contentData['blockId'] = $contentData['blockid'];
                             unset($contentData['blockid']);
-                        } if ('QuoteType' == $contentTypeName && isset($contentData['desc'])) {
+                        } elseif ('ControllerType' == $contentTypeName && isset($contentData['arguments'])) {
+                            $contentData['attributes'] = $contentData['arguments'];
+                            unset($contentData['arguments']);
+                        } elseif ('QuoteType' == $contentTypeName && isset($contentData['desc'])) {
                             $contentData['description'] = $contentData['desc'];
                             unset($contentData['desc']);
-                        } if ('TableOfContentsType' == $contentTypeName && isset($contentData['pid'])) {
+                        } elseif ('TableOfContentsType' == $contentTypeName && isset($contentData['pid'])) {
                             $oldPid = $contentData['pid'];
                             $contentData['page'] = isset($pageMap[$oldPid]) ? $pageMap[$oldPid]->getId() : 0;
                             unset($contentData['pid']);
