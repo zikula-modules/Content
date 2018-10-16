@@ -90,6 +90,9 @@ function zikulaContentGetPasteSnippet(mode, itemId) {
     itemUrl = jQuery('#url' + itemId).val().replace(quoteFinder, '');
     itemTitle = jQuery('#title' + itemId).val().replace(quoteFinder, '').trim();
     itemDescription = jQuery('#desc' + itemId).val().replace(quoteFinder, '').trim();
+    if (!itemDescription) {
+        itemDescription = itemTitle;
+    }
     pasteMode = jQuery("[id$='pasteAs']").first().val();
 
     // item ID
