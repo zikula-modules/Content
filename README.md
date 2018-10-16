@@ -137,6 +137,7 @@ In content each page consists of several content items. Each content item uses a
 
 New features:
 - Added missing support for query and request arguments to controller content type (#307).
+- Use title as fallback for description in finder.
 
 ### Version 5.0.1
 
