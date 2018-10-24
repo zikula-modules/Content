@@ -87,7 +87,7 @@ class SlideshareType extends AbstractContentType
         $this->data['slideUrl'] = '';
         $this->data['details'] = '';
 
-        if ('' != $this->data['url']) {
+        if (isset($this->data['url']) && '' != $this->data['url']) {
             $content = $this->cacheHelper->fetch('https://www.slideshare.net/api/oembed/2?url=' . $this->data['url'] . '&format=json');
             if (false !== $content) {
                 $this->data['details'] = @json_decode($content, true);

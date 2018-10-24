@@ -95,7 +95,7 @@ class VimeoType extends AbstractContentType
         $this->data['videoId'] = '';
         $this->data['details'] = '';
         $r = '/vimeo.com\/([-a-zA-Z0-9_]+)/';
-        if (preg_match($r, $this->data['url'], $matches)) {
+        if (isset($this->data['url']) && '' != $this->data['url'] && preg_match($r, $this->data['url'], $matches)) {
             $this->data['videoId'] = $matches[1];
             $content = $this->cacheHelper->fetch('https://vimeo.com/api/v2/video/' . $this->data['videoId'] . '.php');
             if (false !== $content) {

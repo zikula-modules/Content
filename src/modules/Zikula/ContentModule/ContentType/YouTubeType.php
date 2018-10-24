@@ -97,7 +97,7 @@ class YouTubeType extends AbstractContentType
     {
         $this->data['videoId'] = '';
         $r = '/\?v=([-a-zA-Z0-9_]+)(&|$)/';
-        if (preg_match($r, $this->data['url'], $matches)) {
+        if (isset($this->data['url']) && '' != $this->data['url'] && preg_match($r, $this->data['url'], $matches)) {
             $this->data['videoId'] = $matches[1];
             // @todo fetch additional data if needed - requires an API key though
             // https://developers.google.com/youtube/v3/docs/

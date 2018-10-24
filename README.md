@@ -138,6 +138,9 @@ New features:
 - Added missing support for query and request arguments to controller content type (#307).
 - Use title as fallback for description in finder.
 
+Bugfixes:
+- Addition of (minor) safety check for Slideshare, Vimeo and YouTube content types.
+
 ### Version 5.0.1
 
 Bugfixes:
