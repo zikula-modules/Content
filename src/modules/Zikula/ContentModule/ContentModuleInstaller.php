@@ -322,6 +322,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
         switch ($oldVersion) {
             case '5.0.0':
             case '5.0.1':
+            case '5.0.2':
                 // future upgrades
         }
 
