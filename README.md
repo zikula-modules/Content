@@ -140,6 +140,7 @@ New features:
 
 Bugfixes:
 - Addition of (minor) safety check for Slideshare, Vimeo and YouTube content types.
+- Provide full tree slug during first page translation step for proper step jumps.
 
 ### Version 5.0.1
 

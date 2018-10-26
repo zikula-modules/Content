@@ -158,7 +158,7 @@
         </div>
         {% endif %}
     {% endif %}
-    <div id="jsParameters" class="hidden" data-selfroute="zikulacontentmodule_page_{{ routeArea }}translate" data-pageslug="{{ page.slug|e('html_attr') }}" data-yandex="{{ yandexApiKey|e('html_attr') }}"></div>
+    <div id="jsParameters" class="hidden" data-selfroute="zikulacontentmodule_page_{{ routeArea }}translate" data-pageslug="{{ pageSlug|e('html_attr') }}" data-yandex="{{ yandexApiKey|e('html_attr') }}"></div>
 {% endblock %}
 {% block footer %}
     {{ parent() }}

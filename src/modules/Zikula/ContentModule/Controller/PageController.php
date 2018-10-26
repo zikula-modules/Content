@@ -771,6 +771,7 @@ class PageController extends AbstractPageController
             'localesWithMandatoryFields' => $localesWithMandatoryFields,
             'form' => $form->createView(),
             'page' => $page,
+            'pageSlug' => $pageSlug,
             'contentItem' => $contentItem,
             'contentType' => $contentType
         ];
