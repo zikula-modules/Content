@@ -134,7 +134,8 @@ In content each page consists of several content items. Each content item uses a
 
 ### Version 5.0.3
 
-Nothing yet.
+Bugfixes:
+- Fixed pagination issue related to combination of categories and translatable data.
 
 ### Version 5.0.2
 
