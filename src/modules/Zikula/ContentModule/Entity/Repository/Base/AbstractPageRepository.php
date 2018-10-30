@@ -531,6 +531,9 @@ abstract class AbstractPageRepository extends NestedTreeRepository
             $result = $query->getResult();
         } else {
             $paginator = new Paginator($query, true);
+            if (true === $this->translationsEnabled) {
+                $paginator->setUseOutputWalkers(true);
+            }
     
             $count = count($paginator);
             $result = $paginator;
