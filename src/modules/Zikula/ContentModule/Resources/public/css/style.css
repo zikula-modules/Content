@@ -55,7 +55,7 @@ div.zikulacontentmodule-relation-rightside {
 }
 
 .ui-autocomplete-loading {
-    background: white url("../../../../../../images/ajax/indicator_arrows.gif") right center no-repeat;
+    background: white url("../../../../../../web/bundles/core/images/ajax/indicator_arrows.gif") right center no-repeat;
 }
 
 .ui-autocomplete .suggestion {
@@ -71,7 +71,13 @@ div.zikulacontentmodule-relation-rightside {
 }
 
 div.zikulacontentmodule-autocomplete .ui-autocomplete .suggestion {
-    background-image: url("../../../../../../images/icons/extrasmall/tab_right.png");
+    content: "\f0da";
+    font-family: 'FontAwesome';
+    font-style: normal;
+    color: #000;
+    margin-right: 15px;
+    position: absolute;
+    left: 0;
 }
 .ui-autocomplete .suggestion img {
     max-width: 20px;
