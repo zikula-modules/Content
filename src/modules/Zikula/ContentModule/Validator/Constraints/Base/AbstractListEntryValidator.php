@@ -60,7 +60,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
             return;
         }
 
-        if ($constraint->propertyName == 'workflowState' && in_array($value, ['initial', 'deleted'])) {
+        if ('workflowState' == $constraint->propertyName && in_array($value, ['initial', 'deleted'])) {
             return;
     	}
 
@@ -72,7 +72,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
 
         if (!$constraint->multiple) {
             // single-valued list
-            if (!in_array($value, $allowedValues)) {
+            if ('' != $value && !in_array($value, $allowedValues)) {
                 $this->context->buildViolation(
                     $this->__f('The value "%value%" is not allowed for the "%property%" property.', [
                         '%value%' => $value,
@@ -87,7 +87,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
         // multi-values list
         $selected = explode('###', $value);
         foreach ($selected as $singleValue) {
-            if ($singleValue == '') {
+            if ('' == $singleValue) {
                 continue;
             }
             if (!in_array($singleValue, $allowedValues)) {
