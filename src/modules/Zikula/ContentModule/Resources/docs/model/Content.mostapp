@@ -319,7 +319,6 @@ application "Content" {
                 },
                 list "permalinkSuffix" {
                     defaultValue "none"
-                    mandatory true
                     length 10
                     items {
                         default listItem "no suffix" ( "none" ),
