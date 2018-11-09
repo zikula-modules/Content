@@ -205,6 +205,8 @@ abstract class AbstractTwigExtension extends Twig_Extension
             return $value;
         }
     
+        $this->translator->setDomain('zikulacontentmodule');
+    
         return $this->listHelper->resolve($value, $objectType, $fieldName, $delimiter);
     }
     
