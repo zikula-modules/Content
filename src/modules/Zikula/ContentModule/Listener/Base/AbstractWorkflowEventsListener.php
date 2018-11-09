@@ -337,6 +337,6 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
     
         $entityClassParts = explode('\\', get_class($entity));
     
-        return ($entityClassParts[0] == 'Zikula' && $entityClassParts[1] == 'ContentModule');
+        return ('Zikula' == $entityClassParts[0] && 'ContentModule' == $entityClassParts[1]);
     }
 }

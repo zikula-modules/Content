@@ -310,9 +310,11 @@ abstract class AbstractEditHandler extends EditHandler
             $session->remove('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
         }
     
-        // force refresh because slugs may have changed (e.g. by translatable)
-        $this->entityFactory->getObjectManager()->clear();
-        $this->entityRef = $this->initEntityForEditing();
+        if ('create' != $this->templateParameters['mode']) {
+            // force refresh because slugs may have changed (e.g. by translatable)
+            $this->entityFactory->getObjectManager()->clear();
+            $this->entityRef = $this->initEntityForEditing();
+        }
     
         // normal usage, compute return url from given redirect code
         if (!in_array($this->returnTo, $this->getRedirectCodes())) {
