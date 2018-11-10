@@ -87,7 +87,7 @@ abstract class AbstractEntityFactory
     /**
      * Creates a new page instance.
      *
-     * @return Zikula\ContentModule\Entity\pageEntity The newly created entity instance
+     * @return \Zikula\ContentModule\Entity\PageEntity The newly created entity instance
      */
     public function createPage()
     {
@@ -103,7 +103,7 @@ abstract class AbstractEntityFactory
     /**
      * Creates a new contentItem instance.
      *
-     * @return Zikula\ContentModule\Entity\contentItemEntity The newly created entity instance
+     * @return \Zikula\ContentModule\Entity\ContentItemEntity The newly created entity instance
      */
     public function createContentItem()
     {
