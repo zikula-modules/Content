@@ -307,13 +307,13 @@ abstract class AbstractWorkflowHelper
             $entityManager->flush();
     
             $result = true;
-            if ($actionId == 'delete') {
+            if ('delete' == $actionId) {
                 $this->logger->notice('{app}: User {user} deleted an entity.', $logArgs);
             } else {
                 $this->logger->notice('{app}: User {user} updated an entity.', $logArgs);
             }
         } catch (\Exception $exception) {
-            if ($actionId == 'delete') {
+            if ('delete' == $actionId) {
                 $this->logger->error('{app}: User {user} tried to delete an entity, but failed.', $logArgs);
             } else {
                 $this->logger->error('{app}: User {user} tried to update an entity, but failed.', $logArgs);
