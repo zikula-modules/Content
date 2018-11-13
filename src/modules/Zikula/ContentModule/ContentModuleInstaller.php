@@ -202,7 +202,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $page = $pageMap[$oldPageId];
 
                 $isSupported = true;
-                if ($row['con_module'] != 'Content') {
+                if ('Content' != $row['con_module']) {
                     $isSupported = false;
                 } elseif (in_array($row['con_type'], ['Camtasia', 'FlashMovie', 'Flickr', 'JoinPosition'])) {
                     $isSupported = false;
