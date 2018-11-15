@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ app.request.locale }}" lang="{{ app.request.locale }}">
 <head>
     <title>{{ block('pageTitle')|default(block('title')) }}</title>
+    <link rel="stylesheet" href="{{ asset('bootstrap-font-awesome.css') }}" />
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-theme.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('jquery-ui/themes/base/jquery-ui.min.css') }}" />
@@ -54,5 +55,6 @@
         /* ]]> */
         </script>
     {% endif %}
+    {% block footer %}{% endblock %}
 </body>
 </html>

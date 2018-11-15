@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\Helper\Base;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Exception;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Gedmo\Loggable\LoggableListener;
 use Zikula\Common\Translator\TranslatorInterface;
