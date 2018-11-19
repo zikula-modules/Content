@@ -141,10 +141,13 @@ abstract class AbstractExampleDataHelper
         // execute the workflow action for each entity
         $action = 'submit';
         try {
+            $entityManager = $this->entityFactory->getObjectManager();
+            $entityManager->persist($page1);
+            $entityManager->persist($contentItem1);
             $success = $this->workflowHelper->executeAction($page1, $action);
             $success = $this->workflowHelper->executeAction($contentItem1, $action);
         } catch (\Exception $exception) {
-            $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->translator__('Exception during example data creation') . ': ' . $exception->getMessage());
+            $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->translator->__('Exception during example data creation') . ': ' . $exception->getMessage());
             $this->logger->error('{app}: Could not completely create example data after installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
         
             return false;
