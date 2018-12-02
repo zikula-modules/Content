@@ -12,6 +12,7 @@
 namespace Zikula\ContentModule\Listener\Base;
 
 use Gedmo\Loggable\LoggableListener as BaseListener;
+use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
 
@@ -52,6 +53,10 @@ abstract class AbstractLoggableListener extends BaseListener
     {
         parent::prePersistLogEntry($logEntry, $object);
     
+        if (!$this->isEntityManagedByThisBundle($object) || !method_exists($object, 'get_objectType')) {
+            return;
+        }
+    
         $objectType = $object->get_objectType();
     
         $versionFieldName = $this->loggableHelper->getVersionFieldName($objectType);
@@ -80,5 +85,19 @@ abstract class AbstractLoggableListener extends BaseListener
             // treat all changes without an explicit description as update
             $logEntry->setActionDescription('_HISTORY_' . strtoupper($objectType) . '_UPDATED');
         }
+    }
+    
+    /**
+     * Checks whether this listener is responsible for the given entity or not.
+     *
+     * @param EntityAccess $entity The given entity
+     *
+     * @return boolean True if entity is managed by this listener, false otherwise
+     */
+    protected function isEntityManagedByThisBundle($entity)
+    {
+        $entityClassParts = explode('\\', get_class($entity));
+    
+        return ($entityClassParts[0] == 'Zikula' && $entityClassParts[1] == 'ContentModule');
     }
 }
