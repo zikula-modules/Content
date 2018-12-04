@@ -86,7 +86,7 @@ abstract class AbstractLoggableListener extends BaseListener
             $logEntry->setActionDescription('_HISTORY_' . strtoupper($objectType) . '_UPDATED');
         }
     }
-
+    
     /**
      * Checks whether this listener is responsible for the given entity or not.
      *
@@ -97,7 +97,7 @@ abstract class AbstractLoggableListener extends BaseListener
     protected function isEntityManagedByThisBundle($entity)
     {
         $entityClassParts = explode('\\', get_class($entity));
-
+    
         return ($entityClassParts[0] == 'Zikula' && $entityClassParts[1] == 'ContentModule');
     }
 }
