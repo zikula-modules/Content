@@ -137,6 +137,7 @@ In content each page consists of several content items. Each content item uses a
 Bugfixes:
 - Fixed pagination issue related to combination of categories and translatable data.
 - Restrict custom loggable listener action to entities from same bundle.
+- Fixed possible invalid states for boolean filter in quick navigation.
 
 ### Version 5.0.2
 
