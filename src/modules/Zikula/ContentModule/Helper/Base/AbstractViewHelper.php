@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Twig_Environment;
 use Zikula\Core\Response\PlainResponse;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ThemeModule\Engine\AssetFilter;
 use Zikula\ThemeModule\Engine\ParameterBag;
 use Zikula\ContentModule\Helper\ControllerHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
@@ -47,6 +48,11 @@ abstract class AbstractViewHelper
     protected $variableApi;
     
     /**
+     * @var AssetFilter
+     */
+    protected $assetFilter;
+    
+    /**
      * @var ParameterBag
      */
     protected $pageVars;
@@ -68,6 +74,7 @@ abstract class AbstractViewHelper
      * @param FilesystemLoader     $twigLoader       Twig loader service instance
      * @param RequestStack         $requestStack     RequestStack service instance
      * @param VariableApiInterface $variableApi      VariableApi service instance
+     * @param AssetFilter          $assetFilter      Theme asset filter
      * @param ParameterBag         $pageVars         ParameterBag for theme page variables
      * @param ControllerHelper     $controllerHelper ControllerHelper service instance
      * @param PermissionHelper     $permissionHelper PermissionHelper service instance
@@ -79,6 +86,7 @@ abstract class AbstractViewHelper
         FilesystemLoader $twigLoader,
         RequestStack $requestStack,
         VariableApiInterface $variableApi,
+        AssetFilter $assetFilter,
         ParameterBag $pageVars,
         ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper
@@ -87,6 +95,7 @@ abstract class AbstractViewHelper
         $this->twigLoader = $twigLoader;
         $this->requestStack = $requestStack;
         $this->variableApi = $variableApi;
+        $this->assetFilter = $assetFilter;
         $this->pageVars = $pageVars;
         $this->controllerHelper = $controllerHelper;
         $this->permissionHelper = $permissionHelper;
@@ -161,6 +170,7 @@ abstract class AbstractViewHelper
                 // see http://stackoverflow.com/questions/4348802/how-can-i-output-a-utf-8-csv-in-php-that-excel-will-read-properly
                 $output = chr(255) . chr(254) . mb_convert_encoding($output, 'UTF-16LE', 'UTF-8');
             }
+            $output = $this->injectAssetsIntoRawOutput($output);
     
             $response = new PlainResponse($output);
         } else {
@@ -184,6 +194,18 @@ abstract class AbstractViewHelper
         }
     
         return $response;
+    }
+    
+    /**
+     * Adds assets to a raw page which is not processed by the Theme engine.
+     *
+     * @param string $output The output to be enhanced
+     *
+     * @return string Output including additional assets
+     */
+    protected function injectAssetsIntoRawOutput($output = '')
+    {
+        return $this->assetFilter->filter($output);
     }
     
     /**
