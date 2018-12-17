@@ -128,6 +128,7 @@ services:
             - "@twig.loader"
             - "@request_stack"
             - "@zikula_extensions_module.api.variable"
+            - "@zikula_core.internal.theme_filter"
             - "@zikula_core.common.theme.pagevars"
             - "@zikula_content_module.controller_helper"
             - "@zikula_content_module.permission_helper"
