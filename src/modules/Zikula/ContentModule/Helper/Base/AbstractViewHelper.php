@@ -95,7 +95,7 @@ abstract class AbstractViewHelper
         $this->twigLoader = $twigLoader;
         $this->requestStack = $requestStack;
         $this->variableApi = $variableApi;
-        $this->asssetFilter = $assetFilter;
+        $this->assetFilter = $assetFilter;
         $this->pageVars = $pageVars;
         $this->controllerHelper = $controllerHelper;
         $this->permissionHelper = $permissionHelper;
