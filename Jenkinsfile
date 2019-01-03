@@ -52,7 +52,6 @@ pipeline {
         stage('Checkstyle') {
             steps {
                 sh 'vendor/bin/phpcs --report=checkstyle --report-file=`pwd`/build/logs/checkstyle.xml --standard=PSR2 --extensions=php --ignore=autoload.php --ignore=vendor/ . || exit 0'
-                checkstyle pattern: 'build/logs/checkstyle.xml'
             }
         }
         stage('Lines of Code') {
@@ -63,18 +62,24 @@ pipeline {
         stage('Copy paste detection') {
             steps {
                 sh 'vendor/bin/phpcpd --log-pmd build/logs/pmd-cpd.xml --exclude vendor . || exit 0'
-                dry canRunOnFailed: true, pattern: 'build/logs/pmd-cpd.xml'
             }
         }
         stage('Mess detection') {
             steps {
                 sh 'vendor/bin/phpmd . xml build/phpmd.xml --reportfile build/logs/pmd.xml --exclude vendor/ || exit 0'
-                pmd canRunOnFailed: true, pattern: 'build/logs/pmd.xml'
             }
         }
         stage('Software metrics') {
             steps {
                 sh 'vendor/bin/pdepend --jdepend-xml=build/logs/jdepend.xml --jdepend-chart=build/pdepend/dependencies.svg --overview-pyramid=build/pdepend/overview-pyramid.svg --ignore=vendor .'
+                echo 'Scanning for warnings and open tasks...'
+                recordIssues aggregatingResults: true, enabledForFailure: true, sourceCodeEncoding: 'UTF-8', tools: [
+                    checkStyle(pattern: 'build/logs/checkstyle.xml', reportEncoding: 'UTF-8'),
+                    cpd(pattern: 'build/logs/pmd-cpd.xml', reportEncoding: 'UTF-8'),
+                    taskScanner(highTags: 'FIXME, XXX', includePattern: '**/*.php', normalTags: 'TODO, HACK'),
+                    //php(pattern: 'xxx', reportEncoding: 'UTF-8'),
+                    pmdParser(pattern: 'build/logs/pmd.xml', reportEncoding: 'UTF-8')
+                ]
             }
         }
         stage('Generate documentation') {
