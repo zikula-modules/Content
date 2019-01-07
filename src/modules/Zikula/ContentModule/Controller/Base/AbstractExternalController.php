@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
-use Zikula\Core\Response\PlainResponse;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
 /**
@@ -71,7 +70,10 @@ abstract class AbstractExternalController extends AbstractController
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
         $templateParameters = $this->get('zikula_content_module.controller_helper')->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
         
-        return $this->render('@ZikulaContentModule/External/' . ucfirst($objectType) . '/' . $template, $templateParameters);
+        $viewHelper = $this->get('zikula_content_module.view_helper');
+        $request->query->set('raw', true);
+        
+        return $viewHelper->processTemplate('external', ucfirst($objectType) . '/' . str_replace('.html.twig', '', $template), $templateParameters);
     }
     
     /**
@@ -194,8 +196,9 @@ abstract class AbstractExternalController extends AbstractController
             'itemsperpage' => $resultsPerPage
         ];
         
-        $output = $this->renderView('@ZikulaContentModule/External/' . ucfirst($objectType) . '/find.html.twig', $templateParameters);
+        $viewHelper = $this->get('zikula_content_module.view_helper');
+        $request->query->set('raw', true);
         
-        return new PlainResponse($output);
+        return $viewHelper->processTemplate('external', ucfirst($objectType) . '/find', $templateParameters);
     }
 }
