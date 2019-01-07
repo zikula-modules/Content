@@ -138,6 +138,7 @@ Bugfixes:
 - Fixed pagination issue related to combination of categories and translatable data.
 - Restrict custom loggable listener action to entities from same bundle.
 - Fixed possible invalid states for boolean filter in quick navigation.
+- Overhauled and improved asset handling on raw pages.
 
 ### Version 5.0.2
 
