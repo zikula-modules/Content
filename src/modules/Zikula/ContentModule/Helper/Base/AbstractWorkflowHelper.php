@@ -92,41 +92,41 @@ abstract class AbstractWorkflowHelper
     }
     
     /**
-      * This method returns a list of possible object states.
-      *
-      * @return array List of collected state information
-      */
-     public function getObjectStates()
-     {
-         $states = [];
-         $states[] = [
-             'value' => 'initial',
-             'text' => $this->translator->__('Initial'),
-             'ui' => 'danger'
-         ];
-         $states[] = [
-             'value' => 'deferred',
-             'text' => $this->translator->__('Deferred'),
-             'ui' => 'danger'
-         ];
-         $states[] = [
-             'value' => 'approved',
-             'text' => $this->translator->__('Approved'),
-             'ui' => 'success'
-         ];
-         $states[] = [
-             'value' => 'trashed',
-             'text' => $this->translator->__('Trashed'),
-             'ui' => 'danger'
-         ];
-         $states[] = [
-             'value' => 'deleted',
-             'text' => $this->translator->__('Deleted'),
-             'ui' => 'danger'
-         ];
+     * This method returns a list of possible object states.
+     *
+     * @return array List of collected state information
+     */
+    public function getObjectStates()
+    {
+        $states = [];
+        $states[] = [
+            'value' => 'initial',
+            'text' => $this->translator->__('Initial'),
+            'ui' => 'danger'
+        ];
+        $states[] = [
+            'value' => 'deferred',
+            'text' => $this->translator->__('Deferred'),
+            'ui' => 'danger'
+        ];
+        $states[] = [
+            'value' => 'approved',
+            'text' => $this->translator->__('Approved'),
+            'ui' => 'success'
+        ];
+        $states[] = [
+            'value' => 'trashed',
+            'text' => $this->translator->__('Trashed'),
+            'ui' => 'danger'
+        ];
+        $states[] = [
+            'value' => 'deleted',
+            'text' => $this->translator->__('Deleted'),
+            'ui' => 'danger'
+        ];
     
-         return $states;
-     }
+        return $states;
+    }
     
     /**
      * This method returns information about a certain state.
