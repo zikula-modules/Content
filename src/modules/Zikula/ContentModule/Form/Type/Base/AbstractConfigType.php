@@ -409,6 +409,20 @@ abstract class AbstractConfigType extends AbstractType
             'required' => false,
         ]);
         
+        $builder->add('pagePrivateMode', CheckboxType::class, [
+            'label' => $this->__('Page private mode') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('Whether users may only see own pages')
+            ],
+            'help' => $this->__('Whether users may only see own pages'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The page private mode option')
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('showOnlyOwnEntries', CheckboxType::class, [
             'label' => $this->__('Show only own entries') . ':',
             'label_attr' => [

@@ -187,10 +187,19 @@ abstract class AbstractControllerHelper
         }
     
         $templateParameters['all'] = 'csv' == $request->getRequestFormat() ? 1 : $request->query->getInt('all', 0);
-        $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', false)) ? 1 : 0;
+        if (in_array($objectType, ['page'])) {
+            $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', $objectType . 'PrivateMode', false);
+            if (true == $showOnlyOwnEntries) {
+                $templateParameters['own'] = 1;
+            } else {
+                $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', false)) ? 1 : 0;
+            }
+        } else {
+            $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', false)) ? 1 : 0;
+        }
     
         $resultsPerPage = 0;
-        if ($templateParameters['all'] != 1) {
+        if (1 != $templateParameters['all']) {
             // the number of items displayed on a page for pagination
             $resultsPerPage = $request->query->getInt('num', 0);
             if (in_array($resultsPerPage, [0, 10])) {
@@ -211,9 +220,9 @@ abstract class AbstractControllerHelper
                 }
                 if (in_array($fieldName, ['all', 'own', 'num'])) {
                     $templateParameters[$fieldName] = $fieldValue;
-                } elseif ($fieldName == 'sort' && !empty($fieldValue)) {
+                } elseif ('sort' == $fieldName && !empty($fieldValue)) {
                     $sort = $fieldValue;
-                } elseif ($fieldName == 'sortdir' && !empty($fieldValue)) {
+                } elseif ('sortdir' == $fieldName && !empty($fieldValue)) {
                     $sortdir = $fieldValue;
                 } elseif (false === stripos($fieldName, 'thumbRuntimeOptions') && false === stripos($fieldName, 'featureActivationHelper') && false === stripos($fieldName, 'permissionHelper')) {
                     // set filter as query argument, fetched inside repository

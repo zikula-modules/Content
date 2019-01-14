@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Helper\Base;
 
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
@@ -46,6 +47,11 @@ abstract class AbstractCollectionFilterHelper
     protected $categoryHelper;
     
     /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+    
+    /**
      * @var bool Fallback value to determine whether only own entries should be selected or not
      */
     protected $showOnlyOwnEntries = false;
@@ -57,6 +63,7 @@ abstract class AbstractCollectionFilterHelper
      * @param PermissionHelper $permissionHelper PermissionHelper service instance
      * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
      * @param CategoryHelper $categoryHelper CategoryHelper service instance
+     * @param VariableApiInterface $variableApi VariableApi service instance
      * @param boolean $showOnlyOwnEntries Fallback value to determine whether only own entries should be selected or not
      */
     public function __construct(
@@ -64,12 +71,14 @@ abstract class AbstractCollectionFilterHelper
         PermissionHelper $permissionHelper,
         CurrentUserApiInterface $currentUserApi,
         CategoryHelper $categoryHelper,
+        VariableApiInterface $variableApi,
         $showOnlyOwnEntries
     ) {
         $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->currentUserApi = $currentUserApi;
         $this->categoryHelper = $categoryHelper;
+        $this->variableApi = $variableApi;
         $this->showOnlyOwnEntries = $showOnlyOwnEntries;
     }
     
@@ -347,7 +356,7 @@ abstract class AbstractCollectionFilterHelper
             return $qb;
         }
     
-        $showOnlyOwnEntries = (bool)$request->query->getInt('own', $this->showOnlyOwnEntries);
+        $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
     
         if (!in_array('workflowState', array_keys($parameters)) || empty($parameters['workflowState'])) {
             // per default we show approved pages only

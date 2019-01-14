@@ -105,8 +105,13 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             if (true === $this->variableApi->get('ZikulaContentModule', 'linkOwnPagesOnAccountPage', true)) {
                 $objectType = 'page';
                 if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_READ)) {
+                    $routeArgs = ['own' => 1];
+                    $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
+                    if (true == $showOnlyOwnEntries) {
+                        $routeArgs = [];
+                    }
                     $links[] = [
-                        'url' => $this->router->generate('zikulacontentmodule_' . strtolower($objectType) . '_view', ['own' => 1]),
+                        'url' => $this->router->generate('zikulacontentmodule_' . strtolower($objectType) . '_view', $routeArgs),
                         'text' => $this->__('My pages', 'zikulacontentmodule'),
                         'icon' => 'list-alt'
                     ];
