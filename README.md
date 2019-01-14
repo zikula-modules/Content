@@ -139,6 +139,7 @@ Bugfixes:
 - Restrict custom loggable listener action to entities from same bundle.
 - Fixed possible invalid states for boolean filter in quick navigation.
 - Overhauled and improved asset handling on raw pages.
+- Fixed exception in extended revert of older revisions.
 
 ### Version 5.0.2
 

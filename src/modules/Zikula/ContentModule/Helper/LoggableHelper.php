@@ -139,6 +139,7 @@ class LoggableHelper extends AbstractLoggableHelper
                     $newItem->setLocale($currentLanguage);
                 }
             } else {
+                $entityManager->persist($newItem);
                 $entityManager->flush($newItem);
                 foreach ($translations as $language => $translationData) {
                     foreach ($translationData as $fieldName => $fieldData) {
