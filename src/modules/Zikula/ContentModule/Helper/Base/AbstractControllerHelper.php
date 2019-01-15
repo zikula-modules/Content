@@ -187,7 +187,9 @@ abstract class AbstractControllerHelper
         }
     
         $templateParameters['all'] = 'csv' == $request->getRequestFormat() ? 1 : $request->query->getInt('all', 0);
-        if (in_array($objectType, ['page'])) {
+        $routeName = $request->get('_route');
+        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_' . strtolower($objectType) . '_admin');
+        if (!$isAdminArea && in_array($objectType, ['page'])) {
             $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', $objectType . 'PrivateMode', false);
             if (true == $showOnlyOwnEntries) {
                 $templateParameters['own'] = 1;
