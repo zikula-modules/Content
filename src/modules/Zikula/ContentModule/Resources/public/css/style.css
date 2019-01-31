@@ -140,6 +140,9 @@ div.zikulacontentmodule-history .table-responsive .table > tbody > tr > td.diff-
 div.zikulacontentmodule-history .table-responsive .table > tbody > tr > td.diff-new {
     background-color: #eaffea !important;
 }
+div.zikulacontentmodule-history .img-responsive {
+    max-width: 20px;
+}
 
 .vakata-context, .vakata-context ul {
     z-index: 100;
