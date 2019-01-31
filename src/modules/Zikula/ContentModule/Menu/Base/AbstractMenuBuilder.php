@@ -89,8 +89,8 @@ class AbstractMenuBuilder
         PermissionHelper $permissionHelper,
         EntityDisplayHelper $entityDisplayHelper,
         LoggableHelper $loggableHelper,
-        CurrentUserApiInterface $currentUserApi)
-    {
+        CurrentUserApiInterface $currentUserApi
+    ) {
         $this->setTranslator($translator);
         $this->factory = $factory;
         $this->eventDispatcher = $eventDispatcher;
