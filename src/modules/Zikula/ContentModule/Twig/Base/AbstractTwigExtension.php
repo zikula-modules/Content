@@ -20,9 +20,9 @@ use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
-use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\WorkflowHelper;
 use Zikula\ContentModule\Menu\MenuBuilder;
 
@@ -95,8 +95,8 @@ abstract class AbstractTwigExtension extends Twig_Extension
         WorkflowHelper $workflowHelper,
         ListEntriesHelper $listHelper,
         LoggableHelper $loggableHelper,
-        MenuBuilder $menuBuilder)
-    {
+        MenuBuilder $menuBuilder
+    ) {
         $this->setTranslator($translator);
         $this->router = $router;
         $this->variableApi = $variableApi;

@@ -192,6 +192,15 @@ abstract class AbstractAppSettings
     protected $linkOwnPagesOnAccountPage = true;
     
     /**
+     * Whether users may only see own pages
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $pagePrivateMode
+     */
+    protected $pagePrivateMode = false;
+    
+    /**
      * Whether only own entries should be shown on view pages by default or not
      *
      * @Assert\NotNull()
@@ -709,6 +718,30 @@ abstract class AbstractAppSettings
     }
     
     /**
+     * Returns the page private mode.
+     *
+     * @return boolean
+     */
+    public function getPagePrivateMode()
+    {
+        return $this->pagePrivateMode;
+    }
+    
+    /**
+     * Sets the page private mode.
+     *
+     * @param boolean $pagePrivateMode
+     *
+     * @return void
+     */
+    public function setPagePrivateMode($pagePrivateMode)
+    {
+        if (boolval($this->pagePrivateMode) !== boolval($pagePrivateMode)) {
+            $this->pagePrivateMode = boolval($pagePrivateMode);
+        }
+    }
+    
+    /**
      * Returns the show only own entries.
      *
      * @return boolean
@@ -962,6 +995,9 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['linkOwnPagesOnAccountPage'])) {
             $this->setLinkOwnPagesOnAccountPage($moduleVars['linkOwnPagesOnAccountPage']);
         }
+        if (isset($moduleVars['pagePrivateMode'])) {
+            $this->setPagePrivateMode($moduleVars['pagePrivateMode']);
+        }
         if (isset($moduleVars['showOnlyOwnEntries'])) {
             $this->setShowOnlyOwnEntries($moduleVars['showOnlyOwnEntries']);
         }
@@ -1011,6 +1047,7 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'permalinkSuffix', $this->getPermalinkSuffix());
         $this->variableApi->set('ZikulaContentModule', 'pageEntriesPerPage', $this->getPageEntriesPerPage());
         $this->variableApi->set('ZikulaContentModule', 'linkOwnPagesOnAccountPage', $this->getLinkOwnPagesOnAccountPage());
+        $this->variableApi->set('ZikulaContentModule', 'pagePrivateMode', $this->getPagePrivateMode());
         $this->variableApi->set('ZikulaContentModule', 'showOnlyOwnEntries', $this->getShowOnlyOwnEntries());
         $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreatorForPage', $this->getAllowModerationSpecificCreatorForPage());
         $this->variableApi->set('ZikulaContentModule', 'allowModerationSpecificCreationDateForPage', $this->getAllowModerationSpecificCreationDateForPage());

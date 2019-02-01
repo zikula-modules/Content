@@ -177,18 +177,19 @@
                 <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'edit') }}" title="{{ createTitle|e('html_attr') }}"><i class="fa fa-plus"></i> {{ createTitle }}</a>
             {% endif %}
         {% endif %}
+        {% set showOnlyOwn = routeArea != 'admin' and getModVar('ZikulaContentModule', 'pagePrivateMode', false) %}
         {% if all == 1 %}
             {% set linkTitle = __('Back to paginated view') %}
-            {% set routeArgs = own ? {own: 1} : {} %}
+            {% set routeArgs = own and not showOnlyOwn ? {own: 1} : {} %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ linkTitle }}</a>
         {% else %}
             {% set linkTitle = __('Show all entries') %}
-            {% set routeArgs = own ? {all: 1, own: 1} : {all: 1} %}
+            {% set routeArgs = own and not showOnlyOwn ? {all: 1, own: 1} : {all: 1} %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ linkTitle }}</a>
         {% endif %}
         {% set linkTitle = __('Switch to hierarchy view') %}
         <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', {tpl: 'tree'}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-code-fork"></i> {{ linkTitle }}</a>
-        {% if own == 1 %}
+        {% if not showOnlyOwn %}{% if own == 1 %}
             {% set linkTitle = __('Show also entries from other users') %}
             {% set routeArgs = all ? {all: 1} : {} %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-users"></i> {{ linkTitle }}</a>
@@ -196,7 +197,7 @@
             {% set linkTitle = __('Show only own entries') %}
             {% set routeArgs = all ? {all: 1, own: 1} : {own: 1} %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-user"></i> {{ linkTitle }}</a>
-        {% endif %}
+        {% endif %}{% endif %}
         {% if hasDeletedEntities %}
             {% set linkTitle = __('View deleted pages') %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', {deleted: 1}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-trash-o"></i> {{ linkTitle }}</a>

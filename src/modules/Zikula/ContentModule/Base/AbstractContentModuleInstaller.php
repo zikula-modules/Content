@@ -62,6 +62,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('permalinkSuffix', 'none');
         $this->setVar('pageEntriesPerPage', 10);
         $this->setVar('linkOwnPagesOnAccountPage', true);
+        $this->setVar('pagePrivateMode', false);
         $this->setVar('showOnlyOwnEntries', false);
         $this->setVar('allowModerationSpecificCreatorForPage', false);
         $this->setVar('allowModerationSpecificCreationDateForPage', false);

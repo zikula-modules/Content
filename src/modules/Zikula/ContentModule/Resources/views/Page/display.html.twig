@@ -139,6 +139,7 @@
 </div>
 {% endblock %}
 {% block related_items %}
+    {% set isQuickView = app.request.query.getBoolean('raw', false) %}
     {% if routeArea == 'admin' %}
         <h4>{{ __('Content items') }}</h4>
     {% else %}
