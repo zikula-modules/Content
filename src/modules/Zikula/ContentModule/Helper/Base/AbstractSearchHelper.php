@@ -270,11 +270,11 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $searchTypes = [
             'zikulaContentModulePages' => [
                 'value' => 'page',
-                'label' => $this->__('Pages')
+                'label' => $this->__('Pages', 'zikulacontentmodule')
             ],
             'zikulaContentModuleContentItems' => [
                 'value' => 'contentItem',
-                'label' => $this->__('Content items')
+                'label' => $this->__('Content items', 'zikulacontentmodule')
             ]
         ];
     
