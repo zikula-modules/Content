@@ -1,7 +1,7 @@
 {
-    "name": "zikula-modules/Multisites",
-    "description": "Multisites",
-    "version": "2.0.0",
+    "name": "zikula-modules/Content",
+    "description": "Content",
+    "version": "5.0.3",
     "authors": [
         {
             "name": "Axel Guckelsberger",
