@@ -139,6 +139,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
     
         foreach ($searchTypes as $searchType => $typeInfo) {
             $builder->add('active_' . $searchType, CheckboxType::class, [
+                'data' => true,
                 'value' => $typeInfo['value'],
                 'label' => $typeInfo['label'],
                 'label_attr' => ['class' => 'checkbox-inline'],
@@ -235,7 +236,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     }
                 }
     
-                $description = !empty($descriptionFieldName) ? $entity[$descriptionFieldName] : '';
+                $description = !empty($descriptionFieldName) ? strip_tags($entity[$descriptionFieldName]) : '';
                 $created = isset($entity['createdDate']) ? $entity['createdDate'] : null;
     
                 $formattedTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
@@ -270,11 +271,11 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $searchTypes = [
             'zikulaContentModulePages' => [
                 'value' => 'page',
-                'label' => $this->__('Pages')
+                'label' => $this->__('Pages', 'zikulacontentmodule')
             ],
             'zikulaContentModuleContentItems' => [
                 'value' => 'contentItem',
-                'label' => $this->__('Content items')
+                'label' => $this->__('Content items', 'zikulacontentmodule')
             ]
         ];
     
