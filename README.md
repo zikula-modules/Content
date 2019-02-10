@@ -140,6 +140,7 @@ Bugfixes:
 - Fixed possible invalid states for boolean filter in quick navigation.
 - Overhauled and improved asset handling on raw pages.
 - Fixed exception in extended revert of older revisions.
+- Fixed logical issue in `TableOfContents` plugin.
 
 ### Version 5.0.2
 

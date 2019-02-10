@@ -1,12 +1,26 @@
 {% if toc.toc|default %}
-    <ul class="content-toc">
+    {% set hasDirectChildren = false %}
+    {% for item in toc.toc if not item.pageId|default or zikulacontentmodule_hasReadAccess(item.pageId) %}
+        {% if item.pageId|default and item.pageId == currentPage.id %}
+            {% if includeSelf %}
+                {% set hasDirectChildren = true %}
+            {% endif %}
+        {% else %}
+            {% set hasDirectChildren = true %}
+        {% endif %}
+    {% endfor %}
+    {% if hasDirectChildren %}
+        <ul class="content-toc">
+    {% endif %}
         {% for item in toc.toc if not item.pageId|default or zikulacontentmodule_hasReadAccess(item.pageId) %}
             {% if item.pageId|default and item.pageId == currentPage.id %}
                 {% if includeSelf %}
                     <li class="content-toc-level_{{ item.level }} content-toc-active">{{ item.title }}
-                    {% if item.toc|default %}
-                        {{ include('@ZikulaContentModule/ContentType/tableOfContentsView.html.twig', {toc: item}) }}
-                    {% endif %}
+                {% endif %}
+                {% if item.toc|default %}
+                    {{ include('@ZikulaContentModule/ContentType/tableOfContentsView.html.twig', {toc: item}) }}
+                {% endif %}
+                {% if includeSelf %}
                     </li>
                 {% endif %}
             {% else %}
@@ -17,5 +31,7 @@
                 </li>
             {% endif %}
         {% endfor %}
-    </ul>
+    {% if hasDirectChildren %}
+        </ul>
+    {% endif %}
 {% endif %}
