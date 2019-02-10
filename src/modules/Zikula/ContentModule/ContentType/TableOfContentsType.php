@@ -121,6 +121,7 @@ class TableOfContentsType extends AbstractContentType
         $data = [
             'page' => 0,
             'includeSelf' => false,
+            'includeStart' => false,
             'includeNotInMenu' => false,
             'includeHeading' => 0, 
             'includeHeadingLevel' => 0,

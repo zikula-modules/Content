@@ -71,6 +71,10 @@ class TableOfContentsType extends AbstractContentFormType
                 'label' => $this->__('Include self into the table of contents') . ':',
                 'required' => false
             ])
+            ->add('includeStart', CheckboxType::class, [
+                'label' => $this->__('Include start page into the table of contents') . ':',
+                'required' => false
+            ])
             ->add('includeNotInMenu', CheckboxType::class, [
                 'label' => $this->__('Include subpages that are not in the menus') . ':',
                 'required' => false
