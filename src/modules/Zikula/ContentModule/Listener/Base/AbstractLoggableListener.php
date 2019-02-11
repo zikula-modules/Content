@@ -98,6 +98,11 @@ abstract class AbstractLoggableListener extends BaseListener
     {
         $entityClassParts = explode('\\', get_class($entity));
     
-        return ($entityClassParts[0] == 'Zikula' && $entityClassParts[1] == 'ContentModule');
+        if ('DoctrineProxy' == $entityClassParts[0] && '__CG__' == $entityClassParts[1]) {
+            array_shift($entityClassParts);
+            array_shift($entityClassParts);
+        }
+    
+        return ('Zikula' == $entityClassParts[0] && 'ContentModule' == $entityClassParts[1]);
     }
 }

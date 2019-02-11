@@ -337,6 +337,11 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
     
         $entityClassParts = explode('\\', get_class($entity));
     
+        if ('DoctrineProxy' == $entityClassParts[0] && '__CG__' == $entityClassParts[1]) {
+            array_shift($entityClassParts);
+            array_shift($entityClassParts);
+        }
+    
         return ('Zikula' == $entityClassParts[0] && 'ContentModule' == $entityClassParts[1]);
     }
 }
