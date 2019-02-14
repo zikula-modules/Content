@@ -142,6 +142,7 @@ Bugfixes:
 - Fixed exception in extended revert of older revisions.
 - Fixed logical issue in `TableOfContents` plugin.
 - Added new flag for toggling root page in `TableOfContents` plugin.
+- More solid revertion to old revisions.
 
 ### Version 5.0.2
 
