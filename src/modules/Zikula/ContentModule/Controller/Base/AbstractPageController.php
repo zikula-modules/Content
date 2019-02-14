@@ -604,6 +604,7 @@ abstract class AbstractPageController extends AbstractController
         $revertToVersion = $request->query->getInt('revert', 0);
         if ($revertToVersion > 0 && count($logEntries) > 1) {
             // revert to requested version
+            $pageId = $page->getId();
             $page = $this->get('zikula_content_module.loggable_helper')->revert($page, $revertToVersion);
         
             try {
@@ -621,6 +622,8 @@ abstract class AbstractPageController extends AbstractController
             } catch (\Exception $exception) {
                 $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'update']) . '  ' . $exception->getMessage());
             }
+        
+            $page = $entityFactory->getRepository('page')->selectById($pageId);
         
             return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'loggablehistory', ['slug' => $page['slug']]);
         }

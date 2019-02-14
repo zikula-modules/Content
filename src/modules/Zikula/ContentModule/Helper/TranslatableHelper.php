@@ -157,4 +157,23 @@ class TranslatableHelper extends AbstractTranslatableHelper
     {
         $this->displayHelper = $displayHelper;
     }
+
+    /**
+     * Removes all obsolete content item translations.
+     */
+    public function cleanupTranslationsForContentItems()
+    {
+        $this->toggleLoggable(false);
+    
+        $objectType = 'contentItem';
+        $connection = $this->entityFactory->getObjectManager()->getConnection();
+        $connection->executeQuery('
+            DELETE FROM `zikula_content_' . strtolower($objectType) . '_translation`
+            WHERE `foreign_key` NOT IN (
+                SELECT `id` FROM `zikula_content_' . strtolower($objectType) . '`
+            )
+        ');
+    
+        $this->toggleLoggable(true);
+    }
 }

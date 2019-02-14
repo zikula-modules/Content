@@ -60,7 +60,12 @@ class LoggableHelper extends AbstractLoggableHelper
         $supportedLanguages = $this->translatableHelper->getSupportedLanguages('contentItem');
         $fields = $this->translatableHelper->getTranslatableFields('contentItem');
 
+        $contentIds = [];
         foreach ($page->getContentItems() as $item) {
+            if (in_array($item->getId(), $contentIds)) {
+                continue;
+            }
+            $contentIds[] = $item->getId();
             $itemData = [
                 'id' => $item->getId(),
                 'workflowState' => $item->getWorkflowState(),
@@ -98,15 +103,8 @@ class LoggableHelper extends AbstractLoggableHelper
      */
     public function revert($entity, $requestedVersion = 1, $detach = false)
     {
-        $entity = parent::revert($entity, $requestedVersion, $detach);
-        if (!($entity instanceof PageEntity)) {
-            return $entity;
-        }
-
-        $entityManager = $this->entityFactory->getObjectManager();
-        $currentLanguage = $this->translatableHelper->getCurrentLanguage();
-
         // revert content items
+        $entityManager = $this->entityFactory->getObjectManager();
         foreach ($entity->getContentItems() as $item) {
             $entity->removeContentItems($item);
             if (true === $detach) {
@@ -115,9 +113,25 @@ class LoggableHelper extends AbstractLoggableHelper
                 $entityManager->remove($item);
             }
         }
+        if (true !== $detach) {
+            $entityManager->flush();
+            $this->translatableHelper->cleanupTranslationsForContentItems();
+        }
 
+        $entity = parent::revert($entity, $requestedVersion, $detach);
+        if (!($entity instanceof PageEntity)) {
+            return $entity;
+        }
+
+        $currentLanguage = $this->translatableHelper->getCurrentLanguage();
         $contentData = $entity->getContentData();
+        $contentIds = [];
         foreach ($contentData as $itemData) {
+            if (in_array($itemData['id'], $contentIds)) {
+                continue;
+            }
+            $contentIds[] = $itemData['id'];
+
             $translations = $itemData['translations'];
             unset($itemData['translations']);
 
