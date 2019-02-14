@@ -134,6 +134,9 @@ In content each page consists of several content items. Each content item uses a
 
 ### Version 5.0.3
 
+New features:
+- Added new flag for toggling root page in `TableOfContents` plugin.
+
 Bugfixes:
 - Fixed pagination issue related to combination of categories and translatable data.
 - Restrict custom loggable listener action to entities from same bundle.
@@ -141,8 +144,8 @@ Bugfixes:
 - Overhauled and improved asset handling on raw pages.
 - Fixed exception in extended revert of older revisions.
 - Fixed logical issue in `TableOfContents` plugin.
-- Added new flag for toggling root page in `TableOfContents` plugin.
 - More solid revertion to old revisions.
+- Several minor fixes from generator.
 
 ### Version 5.0.2
 
