@@ -144,6 +144,17 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $activeTo;
     
     /**
+     * As soon as at least one selected entry applies for the current user the page becomes visible.
+     *
+     * @Gedmo\Versioned
+     * @ORM\Column(length=100)
+     * @Assert\NotBlank()
+     * @ContentAssert\ListEntry(entityName="page", propertyName="scope", multiple=false)
+     * @var string $scope
+     */
+    protected $scope = '0';
+    
+    /**
      * @Gedmo\Versioned
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
@@ -628,6 +639,30 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
             if ($this->activeTo != $activeTo) {
                 $this->activeTo = $activeTo;
             }
+        }
+    }
+    
+    /**
+     * Returns the scope.
+     *
+     * @return string
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
+    
+    /**
+     * Sets the scope.
+     *
+     * @param string $scope
+     *
+     * @return void
+     */
+    public function setScope($scope)
+    {
+        if ($this->scope !== $scope) {
+            $this->scope = isset($scope) ? $scope : '';
         }
     }
     

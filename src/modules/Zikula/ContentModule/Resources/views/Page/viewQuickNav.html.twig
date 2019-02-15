@@ -34,6 +34,13 @@
             {% if workflowStateFilter is defined and workflowStateFilter != true %}
                 </div>
             {% endif %}
+            {% if scopeFilter is defined and scopeFilter != true %}
+                <div class="hidden">
+            {% endif %}
+                {{ form_row(quickNavForm.scope) }}
+            {% if scopeFilter is defined and scopeFilter != true %}
+                </div>
+            {% endif %}
             {% if searchFilter is defined and searchFilter != true %}
                 <div class="hidden">
             {% endif %}

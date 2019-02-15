@@ -134,6 +134,9 @@ abstract class AbstractListEntriesHelper
                     case 'workflowState':
                         $result = false;
                         break;
+                    case 'scope':
+                        $result = false;
+                        break;
                 }
                 break;
             case 'contentItem':
@@ -191,6 +194,9 @@ abstract class AbstractListEntriesHelper
                 switch ($fieldName) {
                     case 'workflowState':
                         $entries = $this->getWorkflowStateEntriesForPage();
+                        break;
+                    case 'scope':
+                        $entries = $this->getScopeEntriesForPage();
                         break;
                 }
                 break;
@@ -284,6 +290,39 @@ abstract class AbstractListEntriesHelper
     }
     
     /**
+     * Get 'scope' list entries.
+     *
+     * @return array Array with desired list entries
+     */
+    public function getScopeEntriesForPage()
+    {
+        $states = [];
+        $states[] = [
+            'value'   => '0',
+            'text'    => $this->__('Public (all)'),
+            'title'   => '',
+            'image'   => '',
+            'default' => true
+        ];
+        $states[] = [
+            'value'   => '-1',
+            'text'    => $this->__('All logged in members'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+        $states[] = [
+            'value'   => '-2',
+            'text'    => $this->__('All not logged in people'),
+            'title'   => '',
+            'image'   => '',
+            'default' => false
+        ];
+    
+        return $states;
+    }
+    
+    /**
      * Get 'workflow state' list entries.
      *
      * @return array Array with desired list entries
@@ -340,14 +379,14 @@ abstract class AbstractListEntriesHelper
         ];
         $states[] = [
             'value'   => '-1',
-            'text'    => $this->__('Only logged in members'),
+            'text'    => $this->__('All logged in members'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '-2',
-            'text'    => $this->__('Only not logged in people'),
+            'text'    => $this->__('All not logged in people'),
             'title'   => '',
             'image'   => '',
             'default' => false
