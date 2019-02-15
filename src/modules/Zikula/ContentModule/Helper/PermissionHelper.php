@@ -42,6 +42,10 @@ class PermissionHelper extends AbstractPermissionHelper
 
             $scopes = $this->extractMultiList($entity->getScope());
             $userScopes = $this->getUserScopes();
+            if (in_array(2, $userScopes)) {
+                // always let admin access
+                return true;
+            }
             $hasScope = false;
             foreach ($scopes as $scope) {
                 if (in_array($scope, $userScopes)) {
