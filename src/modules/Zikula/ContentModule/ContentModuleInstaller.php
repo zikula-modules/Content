@@ -337,7 +337,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $stmt->execute();
 
                 $sql = '
-                    UPDATE ' . $dbName . '`zikula_content_page`
+                    UPDATE ' . $dbName . '.`zikula_content_page`
                     SET scope = \'0\'
                 ';
                 $stmt = $connection->prepare($sql);
