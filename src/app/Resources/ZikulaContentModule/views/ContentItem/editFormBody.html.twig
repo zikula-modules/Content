@@ -23,7 +23,7 @@
         {{ form_row(form.active, {help: __('You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.')}) }}
         {{ form_row(form.activeFrom) }}
         {{ form_row(form.activeTo) }}
-        {{ form_row(form.scope) }}
+        {{ form_row(form.scope, {help: __('As soon as at least one selected entry applies for the current user the content becomes visible.')}) }}
         {{ form_row(form.stylingClasses) }}
     </div>
 </fieldset>

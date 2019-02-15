@@ -302,6 +302,13 @@ msgid "Approved"
 msgstr "Freigegeben"
 
 msgid ""
+"As soon as at least one selected entry applies for the current user the "
+"content becomes visible."
+msgstr ""
+"Sobald mindestens ein ausgewählter Eintrag auf den aktuellen Nutzer "
+"zutrifft, wird der Inhalt sichtbar."
+
+msgid ""
 "As soon as at least one selected entry applies for the current user the page "
 "becomes visible."
 msgstr ""
