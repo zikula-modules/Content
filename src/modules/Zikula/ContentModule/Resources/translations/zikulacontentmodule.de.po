@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "$this->doAction($var); // just some code"
@@ -113,6 +113,14 @@ msgstr ""
 "mächtigen Modul.</p><p>Es hat auch einige zusätzliche Funktionen zu bieten, "
 "wie das Übersetzen von Inhalten und das Aufzeichnen von Änderungen zwischen "
 "unterschiedlichen Versionen.</p>"
+
+msgid ""
+"<p>There has been a <strong>%module%</strong> element with type <strong>%type"
+"%</strong> which could not be migrated during the Content module upgrade.</p>"
+msgstr ""
+"<p>Es gab ein <strong>%module%</strong> Element vom Typ <strong>%type%</"
+"strong>, das während der Aktualisierung des Content-Moduls nicht migriert "
+"werden konnte.</p>"
 
 msgid "A CSS class name that will be used on the tab navigation."
 msgstr "Eine CSS-Klasse, die für die Reiter-Navigation verwendet wird."
@@ -257,6 +265,12 @@ msgstr "Alle außer zurückgestellte"
 msgid "All except trashed"
 msgstr "Alle außer weggeworfene"
 
+msgid "All logged in members"
+msgstr "Alle angemeldete Mitglieder"
+
+msgid "All not logged in people"
+msgstr "Alle unangemeldete Besucher"
+
 msgid "All pages"
 msgstr "Alle Seiten"
 
@@ -286,6 +300,13 @@ msgstr ""
 
 msgid "Approved"
 msgstr "Freigegeben"
+
+msgid ""
+"As soon as at least one selected entry applies for the current user the page "
+"becomes visible."
+msgstr ""
+"Sobald mindestens ein ausgewählter Eintrag auf den aktuellen Nutzer "
+"zutrifft, wird die Seite sichtbar."
 
 msgid "Ascending"
 msgstr "Aufsteigend"
@@ -479,6 +500,9 @@ msgstr "Inhalt geklont"
 
 msgid "Content created"
 msgstr "Inhalt erstellt"
+
+msgid "Content data"
+msgstr "Inhaltsdaten"
 
 msgid "Content deleted"
 msgstr "Inhalt gelöscht"
@@ -734,6 +758,9 @@ msgstr "Erledigt! Eintrag geändert."
 msgid "Done! Layout saved."
 msgstr "Erledigt! Layout gespeichert."
 
+msgid "Done! Migrated %amount% pages."
+msgstr "Erledigt! %amount% Seiten migriert."
+
 msgid "Done! Module configuration updated."
 msgstr "Erledigt! Modulkonfiguration aktualisiert."
 
@@ -764,26 +791,14 @@ msgstr "Diese Seite duplizieren"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-msgid "Edit content items workflow"
-msgstr "Workflow für Inhaltselemente bearbeiten"
-
 msgid "Edit page"
 msgstr "Seite bearbeiten"
-
-msgid "Edit pages workflow"
-msgstr "Workflow für Seiten bearbeiten"
 
 msgid "Edit this block"
 msgstr "Diesen Block bearbeiten"
 
 msgid "Edit this page"
 msgstr "Diese Seite bearbeiten"
-
-msgid "Edit workflow for content items"
-msgstr "Workflow für Inhaltselemente bearbeiten"
-
-msgid "Edit workflow for pages"
-msgstr "Workflow für Seiten bearbeiten"
 
 msgid "Enable optional string 1"
 msgstr "Optionale Zeichenkette 1 aktivieren"
@@ -808,6 +823,9 @@ msgstr "Das aktiv-von-Datum der Seite eingeben."
 
 msgid "Enter the active to of the page."
 msgstr "Das aktiv-bis-Datum der Seite eingeben."
+
+msgid "Enter the content data of the page."
+msgstr "Die Inhaltsdaten der Seite eingeben."
 
 msgid "Enter the content styles."
 msgstr "Die CSS-Klassen für Inhaltselemente eingeben."
@@ -844,9 +862,6 @@ msgstr "Die CSS-Klassen der Seite eingeben."
 
 msgid "Enter the title of the page."
 msgstr "Den Seitentitel eingeben."
-
-msgid "Enter the version data of the page."
-msgstr "Die Versionsdaten der Seite eingeben."
 
 msgid "Enter the views of the page."
 msgstr "Die Aufrufe der Seite eingeben."
@@ -987,14 +1002,14 @@ msgstr "Von 0 für die ganze Welt bis 21 für einzelne Gebäude."
 msgid "Frontend"
 msgstr "Frontend"
 
-msgid "Function arguments"
-msgstr "Funktionsargumente"
-
 msgid "Fundamental elements like text, image, heading, quote"
 msgstr "Grundlegende Elements wie Text, Bild, Überschrift, Zitat"
 
 msgid "Further properties"
 msgstr "Weitere Eigenschaften"
+
+msgid "GET parameters"
+msgstr "GET-Parameter"
 
 msgid "General page data"
 msgstr "Allgemeine Seitendaten"
@@ -1083,9 +1098,6 @@ msgstr "Hier können moderationsbezogene Einstellungen vorgenommen werden."
 msgid "Here you can define settings related to version control."
 msgstr ""
 "Hier können Einstellungen in Bezug auf die Versionierung definiert werden."
-
-msgid "Here you can inspect and amend the existing workflows."
-msgstr "Hier können die bestehenden Workflows angeschaut und verändert werden."
 
 msgid "Here you can manage all basic settings for this application."
 msgstr ""
@@ -1230,6 +1242,9 @@ msgstr "Aktuelle Seite als letzten Breadcrumb aufnehmen"
 
 msgid "Include self into the table of contents"
 msgstr "Aktuelle Seite ins Inhaltsverzeichnis aufnehmen"
+
+msgid "Include start page into the table of contents"
+msgstr "Startseite ins Inhaltsverzeichnis aufnehmen"
 
 msgid "Include subpages"
 msgstr "Unterseiten aufnehmen"
@@ -1443,9 +1458,6 @@ msgstr "OK"
 msgid "Object type"
 msgstr "Objekttyp"
 
-msgid "One field updated|%amount% fields updated"
-msgstr "Ein Feld geändert|%amount% Felder geändert"
-
 msgid "Only ajax access is allowed!"
 msgstr "Nur Ajax-Zugriff ist erlaubt!"
 
@@ -1454,12 +1466,6 @@ msgstr "Nur Ziffern sind erlaubt."
 
 msgid "Only item titles"
 msgstr "Nur Titel der Einträge"
-
-msgid "Only logged in members"
-msgstr "Nur angemeldete Mitglieder"
-
-msgid "Only not logged in people"
-msgstr "Nur unangemeldete Besucher"
 
 msgid "Open preview page"
 msgstr "Vorschauseite öffnen"
@@ -1490,6 +1496,9 @@ msgstr "Draußen"
 
 msgid "Overview"
 msgstr "Übersicht"
+
+msgid "POST parameters"
+msgstr "POST-Parameter"
 
 msgid "Page"
 msgstr "Seite"
@@ -1526,6 +1535,9 @@ msgstr "Seitennavigation"
 
 msgid "Page not found."
 msgstr "Seite nicht gefunden."
+
+msgid "Page private mode"
+msgstr "Seite privater Modus"
 
 msgid "Page restored from version \"%version\""
 msgstr "Seite von Version \"%version\" wiederhergestellt"
@@ -1634,9 +1646,6 @@ msgstr "Zitierter Text"
 msgid "Random"
 msgstr "Zufällig"
 
-msgid "Read more"
-msgstr "Weiterlesen"
-
 msgid "Recover"
 msgstr "Wiederherstellen"
 
@@ -1655,11 +1664,11 @@ msgstr "Verbundene Seiten"
 msgid "Relative link to the page"
 msgstr "Relativer Link zur Seite"
 
-msgid "Relatives"
-msgstr "Verwandte"
-
 msgid "Removed"
 msgstr "Entfernt"
+
+msgid "Request attributes"
+msgstr "Request-Attribute"
 
 msgid "Reset"
 msgstr "Zurücksetzen"
@@ -2024,6 +2033,9 @@ msgstr "Die maximale Anzahl von Elementen, die angezeigt werden."
 msgid "The operation was successful."
 msgstr "Der Vorgang war erfolgreich."
 
+msgid "The page private mode option"
+msgstr "Die Option für den privaten Modus für Seiten"
+
 msgid "The setting has been successfully changed."
 msgstr "Die Einstellung wurde erfolgreich geändert."
 
@@ -2220,9 +2232,6 @@ msgstr "Version"
 msgid "Version %version%"
 msgstr "Version %version%"
 
-msgid "Version data"
-msgstr "Versionsdaten"
-
 msgid "Versioning"
 msgstr "Versionierung"
 
@@ -2301,6 +2310,9 @@ msgstr ""
 msgid "Whether to show the version history to editors or not."
 msgstr "Ob die Seitenhistorie den Editoren angezeigt wird oder nicht."
 
+msgid "Whether users may only see own pages"
+msgstr "Ob Benutzer nur eigene Seiten sehen können"
+
 msgid ""
 "Which sections are supported in the Finder component (used by Scribite plug-"
 "ins)."
@@ -2327,9 +2339,6 @@ msgstr "Die ausgewählten Seiten"
 
 msgid "Workflow state"
 msgstr "Workflow-Zustand"
-
-msgid "Workflows"
-msgstr "Arbeitsabläufe"
 
 msgid "Yandex translate api key"
 msgstr "Yandex Translate API-Schlüssel"
@@ -2531,3 +2540,39 @@ msgstr "die Style Parameter des iframes, z.B. \"border:0\""
 
 msgid "version"
 msgstr "Version"
+
+msgid ""
+"{0} No fields updated|{1} One field updated|]1,Inf[ %amount% fields updated"
+msgstr ""
+"{0} Kein Feld geändert|{1} Ein Feld geändert|]1,Inf[%amount% Felder geändert"
+
+#~ msgid "Edit content items workflow"
+#~ msgstr "Workflow für Inhaltselemente bearbeiten"
+
+#~ msgid "Edit pages workflow"
+#~ msgstr "Workflow für Seiten bearbeiten"
+
+#~ msgid "Edit workflow for content items"
+#~ msgstr "Workflow für Inhaltselemente bearbeiten"
+
+#~ msgid "Edit workflow for pages"
+#~ msgstr "Workflow für Seiten bearbeiten"
+
+#~ msgid "Function arguments"
+#~ msgstr "Funktionsargumente"
+
+#~ msgid "Here you can inspect and amend the existing workflows."
+#~ msgstr ""
+#~ "Hier können die bestehenden Workflows angeschaut und verändert werden."
+
+#~ msgid "Read more"
+#~ msgstr "Weiterlesen"
+
+#~ msgid "Relatives"
+#~ msgstr "Verwandte"
+
+#~ msgid "Version data"
+#~ msgstr "Versionsdaten"
+
+#~ msgid "Workflows"
+#~ msgstr "Arbeitsabläufe"

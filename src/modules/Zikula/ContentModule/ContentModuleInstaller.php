@@ -213,7 +213,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 if (!$isSupported) {
                     $item->setOwningType($contentTypeNamespace . 'HtmlType');
                     $item->setContentData([
-                        'text' => $this->__f('<p>There has been an element of the <strong>%module%</strong> with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>', ['%module%' => $row['con_module'], '%type%' => $row['con_type']])
+                        'text' => $this->__f('<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>', ['%module%' => $row['con_module'], '%type%' => $row['con_type']])
                     ]);
                 } else {
                     $contentTypeName = $row['con_type'] . 'Type';
