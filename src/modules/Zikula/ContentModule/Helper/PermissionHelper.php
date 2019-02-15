@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Helper;
 
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractPermissionHelper;
+use Zikula\GroupsModule\Constant as GroupsConstant;
 
 /**
  * Permission helper implementation class.
@@ -42,7 +43,7 @@ class PermissionHelper extends AbstractPermissionHelper
 
             $scopes = $this->extractMultiList($entity->getScope());
             $userScopes = $this->getUserScopes();
-            if (in_array(2, $userScopes)) {
+            if (in_array(GroupsConstant::GROUP_ID_ADMIN, $userScopes)) {
                 // always let admin access
                 return true;
             }
