@@ -104,6 +104,15 @@ application "Content" {
                     defaultValue ""
                     mandatory false
                 },
+                list "scope" {
+                    documentation "As soon as at least one selected entry applies for the current user the page becomes visible."
+                    length 100
+                    items {
+                        default listItem "Public (all)" ( "0" ),
+                        listItem "All logged in members" ( "-1" ),
+                        listItem "All not logged in people" ( "-2" )
+                    }
+                },
                 boolean "inMenu" ajaxTogglability {
                     defaultValue "true"
                     mandatory false
@@ -170,12 +179,12 @@ application "Content" {
                     mandatory false
                 },
                 list "scope" {
-                    defaultValue "1"
-                    length 4
+                    documentation "As soon as at least one selected entry applies for the current user the content becomes visible."
+                    length 100
                     items {
                         default listItem "Public (all)" ( "0" ),
-                        listItem "Only logged in members" ( "-1" ),
-                        listItem "Only not logged in people" ( "-2" )
+                        listItem "All logged in members" ( "-1" ),
+                        listItem "All not logged in people" ( "-2" )
                     }
                 },
                 array "stylingClasses" nullable {

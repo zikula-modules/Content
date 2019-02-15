@@ -185,6 +185,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     $whereArray[] = 'tbl.workflowState';
                     $whereArray[] = 'tbl.title';
                     $whereArray[] = 'tbl.metaDescription';
+                    $whereArray[] = 'tbl.scope';
                     $whereArray[] = 'tbl.optionalString1';
                     $whereArray[] = 'tbl.optionalString2';
                     $whereArray[] = 'tbl.optionalText';

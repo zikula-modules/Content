@@ -324,6 +324,32 @@ abstract class AbstractPageType extends AbstractType
             'time_widget' => 'single_text'
         ]);
         
+        $listEntries = $this->listHelper->getEntries('page', 'scope');
+        $choices = [];
+        $choiceAttributes = [];
+        foreach ($listEntries as $entry) {
+            $choices[$entry['text']] = $entry['value'];
+            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
+        }
+        $builder->add('scope', ChoiceType::class, [
+            'label' => $this->__('Scope') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.')
+            ],
+            'help' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.'),
+            'empty_data' => '0',
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('Choose the scope.')
+            ],
+            'required' => true,
+            'choices' => $choices,
+            'choice_attr' => $choiceAttributes,
+            'multiple' => false,
+            'expanded' => false
+        ]);
+        
         $builder->add('inMenu', CheckboxType::class, [
             'label' => $this->__('In menu') . ':',
             'attr' => [

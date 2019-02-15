@@ -149,6 +149,25 @@ abstract class AbstractPageQuickNavType extends AbstractType
             'multiple' => false,
             'expanded' => false
         ]);
+        $listEntries = $this->listHelper->getEntries('page', 'scope');
+        $choices = [];
+        $choiceAttributes = [];
+        foreach ($listEntries as $entry) {
+            $choices[$entry['text']] = $entry['value'];
+            $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
+        }
+        $builder->add('scope', ChoiceType::class, [
+            'label' => $this->__('Scope'),
+            'attr' => [
+                'class' => 'input-sm'
+            ],
+            'required' => false,
+            'placeholder' => $this->__('All'),
+            'choices' => $choices,
+            'choice_attr' => $choiceAttributes,
+            'multiple' => false,
+            'expanded' => false
+        ]);
     }
 
     /**
@@ -190,6 +209,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
                     $this->__('Active') => 'active',
                     $this->__('Active from') => 'activeFrom',
                     $this->__('Active to') => 'activeTo',
+                    $this->__('Scope') => 'scope',
                     $this->__('In menu') => 'inMenu',
                     $this->__('Optional string 1') => 'optionalString1',
                     $this->__('Optional string 2') => 'optionalString2',

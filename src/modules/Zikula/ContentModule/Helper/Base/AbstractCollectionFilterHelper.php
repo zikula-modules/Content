@@ -167,6 +167,7 @@ abstract class AbstractCollectionFilterHelper
         $parameters['catId'] = $request->query->get('catId', '');
         $parameters['catIdList'] = $this->categoryHelper->retrieveCategoriesFromRequest('page', 'GET');
         $parameters['workflowState'] = $request->query->get('workflowState', '');
+        $parameters['scope'] = $request->query->get('scope', '');
         $parameters['q'] = $request->query->get('q', '');
         $parameters['showTitle'] = $request->query->get('showTitle', '');
         $parameters['skipHookSubscribers'] = $request->query->get('skipHookSubscribers', '');
@@ -498,6 +499,8 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchActiveFrom'] = $fragment;
             $filters[] = 'tbl.activeTo = :searchActiveTo';
             $parameters['searchActiveTo'] = $fragment;
+            $filters[] = 'tbl.scope = :searchScope';
+            $parameters['searchScope'] = $fragment;
             $filters[] = 'tbl.optionalString1 LIKE :searchOptionalString1';
             $parameters['searchOptionalString1'] = '%' . $fragment . '%';
             $filters[] = 'tbl.optionalString2 LIKE :searchOptionalString2';

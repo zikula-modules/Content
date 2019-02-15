@@ -164,6 +164,7 @@ abstract class AbstractPageController extends AbstractController
             new Column('active'),
             new Column('activeFrom'),
             new Column('activeTo'),
+            new Column('scope'),
             new Column('inMenu'),
             new Column('optionalString1'),
             new Column('optionalString2'),

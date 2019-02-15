@@ -99,7 +99,9 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     protected $activeTo;
     
     /**
-     * @ORM\Column(length=4)
+     * As soon as at least one selected entry applies for the current user the content becomes visible.
+     *
+     * @ORM\Column(length=100)
      * @Assert\NotBlank()
      * @ContentAssert\ListEntry(entityName="contentItem", propertyName="scope", multiple=false)
      * @var string $scope

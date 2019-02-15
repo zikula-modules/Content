@@ -54,6 +54,14 @@ abstract class AbstractEntityInitialiser
      */
     public function initPage(PageEntity $entity)
     {
+        $listEntries = $this->listEntriesHelper->getEntries('page', 'scope');
+        foreach ($listEntries as $listEntry) {
+            if (true === $listEntry['default']) {
+                $entity->setScope($listEntry['value']);
+                break;
+            }
+        }
+
         return $entity;
     }
 

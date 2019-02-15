@@ -135,7 +135,8 @@ In content each page consists of several content items. Each content item uses a
 ### Version 5.1.0
 
 New features:
-- None yet.
+- Allow selection of multiple scopes for a content item (#325).
+- Allow restricting pages to (multiple) scopes, too (#325).
 
 Bugfixes:
 - None yet.

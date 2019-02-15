@@ -85,6 +85,10 @@
                 {{ page.activeTo|localizeddate('medium', 'short') }}
             {% endif %}</dd>
         {% endif %}
+        {% if page.scope is not empty %}
+            <dt>{{ __('Scope') }}</dt>
+            <dd>{{ page.scope|zikulacontentmodule_listEntry('page', 'scope') }}</dd>
+        {% endif %}
         <dt>{{ __('In menu') }}</dt>
         <dd>{% set itemId = page.getKey() %}
         <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">

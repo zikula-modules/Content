@@ -50,6 +50,7 @@
                     <option value="active"{if $sort eq 'active'} selected="selected"{/if}>{gt text='Active'}</option>
                     <option value="activeFrom"{if $sort eq 'activeFrom'} selected="selected"{/if}>{gt text='Active from'}</option>
                     <option value="activeTo"{if $sort eq 'activeTo'} selected="selected"{/if}>{gt text='Active to'}</option>
+                    <option value="scope"{if $sort eq 'scope'} selected="selected"{/if}>{gt text='Scope'}</option>
                     <option value="inMenu"{if $sort eq 'inMenu'} selected="selected"{/if}>{gt text='In menu'}</option>
                     <option value="optionalString1"{if $sort eq 'optionalString1'} selected="selected"{/if}>{gt text='Optional string 1'}</option>
                     <option value="optionalString2"{if $sort eq 'optionalString2'} selected="selected"{/if}>{gt text='Optional string 2'}</option>

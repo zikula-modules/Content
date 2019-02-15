@@ -66,7 +66,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 }
             }
 
-            $conn = $this->getConnection();
+            $connection = $this->entityManager->getConnection();
             $dbName = $this->getDbName();
             $userRepository = $this->container->get('zikula_users_module.user_repository');
             $contentTypeNamespace = 'Zikula\\ContentModule\\ContentType\\';
@@ -97,7 +97,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             $this->entityManager->flush($item);
 
             // migrate pages, primary category assignments, page translations
-            $stmt = $conn->executeQuery("
+            $stmt = $connection->executeQuery("
                 SELECT *
                 FROM $dbName.`content_page`
                 ORDER BY `page_ppid`, `page_id`
@@ -171,7 +171,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $pageMap[$oldPageId] = $page;
                 $pageLanguageMap[$oldPageId] = $page->getLocale();
 
-                $transStmt = $conn->executeQuery("
+                $transStmt = $connection->executeQuery("
                     SELECT `transp_lang`, `transp_title`, `transp_metadescription`
                     FROM $dbName.`content_translatedpage`
                     WHERE `transp_pid` = " . intval($oldPageId) . "
@@ -187,7 +187,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
             // migrate content and content translations
             $contentDisplayHelper = $this->container->get('zikula_content_module.content_display_helper');
-            $stmt = $conn->executeQuery("
+            $stmt = $connection->executeQuery("
                 SELECT *
                 FROM $dbName.`content_content`
                 ORDER BY `con_pageid`, `con_areaindex`, `con_position`
@@ -253,9 +253,9 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $item->setActive(boolval($row['con_active']));
                 $scope = intval($row['con_visiblefor']);
                 if ($scope < 1) {
-                    $item->setScope(-1);
+                    $item->setScope('-1');
                 } elseif ($scope == 2) {
-                    $item->setScope(-2);
+                    $item->setScope('-2');
                 }
                 if (!empty($row['con_styleclass'])) {
                     $item->setStylingClasses([$row['con_styleclass']]);
@@ -286,7 +286,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                     continue;
                 }
 
-                $transStmt = $conn->executeQuery("
+                $transStmt = $connection->executeQuery("
                     SELECT `transc_lang`, `transc_data`
                     FROM $dbName.`content_translatedcontent`
                     WHERE `transc_cid` = " . intval($oldContentItemId) . "
@@ -306,13 +306,13 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             }
 
             // remove old tables
-            $conn->executeQuery("DROP TABLE $dbName.`content_history`");
-            $conn->executeQuery("DROP TABLE $dbName.`content_searchable`");
-            $conn->executeQuery("DROP TABLE $dbName.`content_translatedcontent`");
-            $conn->executeQuery("DROP TABLE $dbName.`content_content`");
-            $conn->executeQuery("DROP TABLE $dbName.`content_translatedpage`");
-            $conn->executeQuery("DROP TABLE $dbName.`content_pagecategory`");
-            $conn->executeQuery("DROP TABLE $dbName.`content_page`");
+            $connection->executeQuery("DROP TABLE $dbName.`content_history`");
+            $connection->executeQuery("DROP TABLE $dbName.`content_searchable`");
+            $connection->executeQuery("DROP TABLE $dbName.`content_translatedcontent`");
+            $connection->executeQuery("DROP TABLE $dbName.`content_content`");
+            $connection->executeQuery("DROP TABLE $dbName.`content_translatedpage`");
+            $connection->executeQuery("DROP TABLE $dbName.`content_pagecategory`");
+            $connection->executeQuery("DROP TABLE $dbName.`content_page`");
 
             $this->addFlash('success', $this->__f('Done! Migrated %amount% pages.', ['%amount%' => count($pageMap)]));
 
@@ -324,7 +324,25 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             case '5.0.1':
             case '5.0.2':
             case '5.0.3':
-                // nothing yet
+                $connection = $this->entityManager->getConnection();
+                $dbName = $this->getDbName();
+
+                // add scope field to pages
+                $sql = '
+                    ALTER TABLE ' . $dbName . '.`zikula_content_page`
+                    ADD `scope` VARCHAR(100) NOT NULL
+                    AFTER `activeTo`
+                ';
+                $stmt = $connection->prepare($sql);
+                $stmt->execute();
+
+                // extend length of scope field of content items
+                $sql = '
+                    ALTER TABLE ' . $dbName . '.`zikula_content_contentitem`
+                    MODIFY `scope` VARCHAR(100)
+                ';
+                $stmt = $connection->prepare($sql);
+                $stmt->execute();
             case '5.1.0':
                 // future upgrades
         }
@@ -333,18 +351,6 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
         return true;
     }
 
-    /**
-     * Returns connection to the database.
-     *
-     * @return Connection the current connection
-     */
-    private function getConnection()
-    {
-        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
-        $connection = $entityManager->getConnection();
-
-        return $connection;
-    }
     /**
      * Returns the name of the default system database.
      *

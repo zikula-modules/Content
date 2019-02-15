@@ -21,6 +21,7 @@
     <activeTo>{% if page.activeTo is not empty %}
         {{ page.activeTo|localizeddate('medium', 'short') }}
     {% endif %}</activeTo>
+    <scope>{{ page.scope|zikulacontentmodule_listEntry('page', 'scope') }}</scope>
     <inMenu>{% if not page.inMenu %}0{% else %}1{% endif %}</inMenu>
     <optionalString1><![CDATA[{{ page.optionalString1 }}]]></optionalString1>
     <optionalString2><![CDATA[{{ page.optionalString2 }}]]></optionalString2>

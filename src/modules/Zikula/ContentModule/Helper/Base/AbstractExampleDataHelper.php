@@ -111,6 +111,7 @@ abstract class AbstractExampleDataHelper
         $page1->setActive(true);
         $page1->setActiveFrom($dtNow);
         $page1->setActiveTo($dtNow);
+        $page1->setScope('0');
         $page1->setInMenu(true);
         $page1->setOptionalString1('Page optional string 1 1');
         $page1->setOptionalString2('Page optional string 2 1');
