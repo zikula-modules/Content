@@ -178,25 +178,32 @@ class ContentDisplayHelper implements ContainerAwareInterface
     {
         $icon = '<i class="fa fa-' . $contentType->getIcon() . '"></i>';
         $title = $contentType->getTitle();
+        $titleSuffix = '';
 
         if (!$item->isCurrentlyActive()) {
-            $title .= ' (' . $this->__('inactive') . ')';
-        } elseif ('0' != $item->getScope()) {
-            $scope = $item->getScope();
-            if ('-1' == $scope) {
-                $title .= ' (' . $this->__('only logged in members') . ')';
-            } elseif ('-2' == $scope) {
-                $title .= ' (' . $this->__('only not logged in people') . ')';
-            } else {
-                $groupId = intval($scope);
-                $group = $this->groupRepository->find($groupId);
-                if (null !== $group) {
-                    $title .= ' (' . $this->__f('only %group', ['%group' => $group->getName()]) . ')';
-                } else {
-                    $title .= ' (' . $this->__('specific group') . ')';
+            $titleSuffix = ' (' . $this->__('inactive') . ')';
+        } else {
+            $scopes = $this->extractMultiList($item->getScope());
+            foreach ($scopes as $scope) {
+                if ('0' != $scope) {
+                    if ('-1' == $scope) {
+                        $titleSuffix = ' (' . $this->__('only logged in members') . ')';
+                    } elseif ('-2' == $scope) {
+                        $titleSuffix = ' (' . $this->__('only not logged in people') . ')';
+                    } else {
+                        //$groupId = intval($scope);
+                        //$group = $this->groupRepository->find($groupId);
+                        //if (null !== $group) {
+                        //    $titleSuffix = ' (' . $this->__f('only %group', ['%group' => $group->getName()]) . ')';
+                        //} else {
+                        $titleSuffix = ' (' . $this->__('specific group') . ')';
+                        //}
+                    }
                 }
             }
         }
+
+        $title .= $titleSuffix;
 
         return $icon . ' ' . $title;
     }
@@ -214,19 +221,46 @@ class ContentDisplayHelper implements ContainerAwareInterface
 
         if (!$item->isCurrentlyActive()) {
             $result = 'danger';
-        } elseif ('0' != $item->getScope()) {
-            $scope = $item->getScope();
-            if ('-1' == $scope) {
-                $result = 'primary';
-            } elseif ('-2' == $scope) {
-                $result = 'success';
-            } elseif ('1' == $scope || '2' == $scope) {
-                $result = 'warning';
-            } else {
-                $result = 'info';
+        } else {
+            $scopes = $this->extractMultiList($item->getScope());
+            foreach ($scopes as $scope) {
+                if ('0' != $scope) {
+                    if ('-1' == $scope) {
+                        $result = 'primary';
+                    } elseif ('-2' == $scope) {
+                        $result = 'success';
+                    } elseif ('1' == $scope || '2' == $scope) {
+                        $result = 'warning';
+                    } else {
+                        $result = 'info';
+                    }
+                }
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Extract concatenated multi selection.
+     *
+     * @param string $value The multi list value to process
+     *
+     * @return array List of single values
+     */
+    public function extractMultiList($value)
+    {
+        $listValues = explode('###', $value);
+        $amountOfValues = count($listValues);
+        if ($amountOfValues > 1 && $listValues[$amountOfValues - 1] == '') {
+            unset($listValues[$amountOfValues - 1]);
+        }
+        if ($listValues[0] == '') {
+            // use array_shift instead of unset for proper key reindexing
+            // keys must start with 0, otherwise the dropdownlist form plugin gets confused
+            array_shift($listValues);
+        }
+    
+        return $listValues;
     }
 }

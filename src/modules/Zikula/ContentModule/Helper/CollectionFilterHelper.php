@@ -43,8 +43,6 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
             if (!in_array($routeName, ['zikulacontentmodule_page_display', 'zikulacontentmodule_external_finder'])) {
                 $qb->andWhere('tblContentItems.active = 1');
                 $qb = $this->applyDateRangeFilterForContentItem($qb, 'tblContentItems');
-                $qb->andWhere('tblContentItems.scope IN (:allowedScopes)')
-                   ->setParameter('allowedScopes', $this->getUserScopes());
             }
         }
 
@@ -69,8 +67,6 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         if (in_array('tblPage', $qb->getAllAliases())) {
             $qb->andWhere('tblPage.active = 1');
             $qb = $this->applyDateRangeFilterForPage($qb, 'tblPage');
-            $qb->andWhere('tbl.scope IN (:allowedScopes)')
-               ->setParameter('allowedScopes', $this->getUserScopes());
         }
 
         return $qb;
@@ -110,32 +106,6 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
 
         return false;
-    }
-
-    /**
-     * Returns the allowed content item scopes for the current user.
-     *
-     * @return array
-     */
-    public function getUserScopes()
-    {
-        $scopes = [];
-        $scopes[] = '0'; // public (all)
-
-        $isLoggedIn = $this->currentUserApi->isLoggedIn();
-        if ($isLoggedIn) {
-            $scopes[] = '-1'; // only logged in members
-        } else {
-            $scopes[] = '-2'; // only not logged in people
-        }
-
-        // get user groups
-        $groups = $this->currentUserApi->get('groups');
-        foreach ($groups as $group) {
-            $scopes[] = strval($group->getGid());
-        }
-
-        return $scopes;
     }
 
     /**
