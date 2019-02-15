@@ -323,6 +323,9 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             case '5.0.0':
             case '5.0.1':
             case '5.0.2':
+            case '5.0.3':
+                // nothing yet
+            case '5.1.0':
                 // future upgrades
         }
 
