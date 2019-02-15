@@ -136,6 +136,7 @@ In content each page consists of several content items. Each content item uses a
 
 New features:
 - Added new flag for toggling root page in `TableOfContents` plugin.
+- Added possibility for private mode so each author only sees his own pages.
 
 Bugfixes:
 - Fixed pagination issue related to combination of categories and translatable data.
