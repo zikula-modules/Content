@@ -84,7 +84,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $categoryGlobal = $this->container->get('zikula_categories_module.category_repository')->findOneBy(['name' => 'Global']);
         if ($categoryGlobal) {
             $categoryRegistryIdsPerEntity = [];
-            $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
     
             $registry = new CategoryRegistryEntity();
             $registry->setModname('ZikulaContentModule');
@@ -93,8 +92,8 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
             $registry->setCategory($categoryGlobal);
     
             try {
-                $entityManager->persist($registry);
-                $entityManager->flush();
+                $this->entityManager->persist($registry);
+                $this->entityManager->flush();
             } catch (\Exception $exception) {
                 $this->addFlash('warning', $this->__f('Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.', ['%entity%' => 'page']));
                 $logger->error('{app}: User {user} could not create a category registry for {entities} during installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'entities' => 'pages', 'errorMessage' => $exception->getMessage()]);
@@ -167,12 +166,11 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->delVars();
     
         // remove category registry entries
-        $entityManager = $this->container->get('doctrine.orm.default_entity_manager');
         $registries = $this->container->get('zikula_categories_module.category_registry_repository')->findBy(['modname' => 'ZikulaContentModule']);
         foreach ($registries as $registry) {
-            $entityManager->remove($registry);
+            $this->entityManager->remove($registry);
         }
-        $entityManager->flush();
+        $this->entityManager->flush();
     
         // uninstallation successful
         return true;
