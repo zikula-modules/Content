@@ -336,6 +336,13 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $stmt = $connection->prepare($sql);
                 $stmt->execute();
 
+                $sql = '
+                    UPDATE ' . $dbName . '`zikula_content_page`
+                    SET scope = \'0\'
+                ';
+                $stmt = $connection->prepare($sql);
+                $stmt->execute();
+
                 // extend length of scope field of content items
                 $sql = '
                     ALTER TABLE ' . $dbName . '.`zikula_content_contentitem`

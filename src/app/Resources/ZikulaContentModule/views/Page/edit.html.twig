@@ -159,6 +159,15 @@
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
+    {% set customStyle %}
+        <style>
+            #furtherPropertiesContent .checkbox-inline {
+                display: block;
+                margin-left: 0;
+            }
+        </style>
+    {% endset %}
+    {{ pageAddAsset('header', customStyle) }}
     {% set formInitScript %}
         <script>
         /* <![CDATA[ */

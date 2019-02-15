@@ -22,6 +22,7 @@ use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 
 /**
@@ -118,17 +119,23 @@ class ContentItemType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $builder->add('scope', ChoiceType::class, [
+        $builder->add('scope', MultiListType::class, [
             'label' => $this->__('Scope') . ':',
-            'empty_data' => '1',
+            'label_attr' => [
+                'class' => 'tooltips checkbox-inline',
+                'title' => $this->__('As soon as at least one selected entry applies for the current user the content becomes visible.')
+            ],
+            'help' => $this->__('As soon as at least one selected entry applies for the current user the content becomes visible.'),
+            'empty_data' => '0',
             'attr' => [
+                'class' => '',
                 'title' => $this->__('Choose the scope.')
             ],
             'required' => true,
             'choices' => $choices,
             'choice_attr' => $choiceAttributes,
-            'multiple' => false,
-            'expanded' => false
+            'multiple' => true,
+            'expanded' => true
         ]);
 
         $choices = [];
