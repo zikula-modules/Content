@@ -339,7 +339,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 // extend length of scope field of content items
                 $sql = '
                     ALTER TABLE ' . $dbName . '.`zikula_content_contentitem`
-                    MODIFY `scope` VARCHAR(100)
+                    MODIFY `scope` VARCHAR(100) NOT NULL
                 ';
                 $stmt = $connection->prepare($sql);
                 $stmt->execute();
