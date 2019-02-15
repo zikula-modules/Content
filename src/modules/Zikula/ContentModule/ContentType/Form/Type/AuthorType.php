@@ -11,6 +11,8 @@
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -53,6 +55,23 @@ class AuthorType extends AbstractContentFormType
                     'title' => $this->__('Here you can choose a user which will be used as author.')
                 ],
                 'help' => $this->__('Here you can choose a user which will be used as author.')
+            ])
+            ->add('showAvatar', CheckboxType::class, [
+                'label' => $this->__('Display avatar') . ':',
+                'required' => false
+            ])
+            ->add('avatarWidth', IntegerType::class, [
+                'label' => $this->__('Custom avatar with') . ':',
+                'help' => $this->__('An empty value or 0 will use the default size.'),
+                'attr' => [
+                    'maxlength' => 4
+                ],
+                'input_group' => ['right' => 'px'],
+                'required' => false
+            ])
+            ->add('showMessageLink', CheckboxType::class, [
+                'label' => $this->__('Display link for messaging') . ':',
+                'required' => false
             ])
         ;
         $transformer = new AuthorTransformer($this->userRepository);

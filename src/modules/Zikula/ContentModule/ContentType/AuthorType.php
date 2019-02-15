@@ -92,7 +92,10 @@ class AuthorType extends AbstractContentType
     public function getDefaultData()
     {
         $data = [
-            'author' => $this->currentUserApi->get('uid')
+            'author' => $this->currentUserApi->get('uid'),
+            'showAvatar' => true,
+            'avatarWidth' => 0,
+            'showMessageLink' => true
         ];
 
         $user = $this->userRepository->find($data['author']);

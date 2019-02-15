@@ -137,6 +137,7 @@ In content each page consists of several content items. Each content item uses a
 New features:
 - Allow selection of multiple scopes for a content item (#325).
 - Allow restricting pages to (multiple) scopes, too (#325).
+- Added several options to author information plugin (#298).
 
 Bugfixes:
 - None yet.
