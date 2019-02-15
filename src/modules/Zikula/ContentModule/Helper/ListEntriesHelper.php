@@ -40,10 +40,36 @@ class ListEntriesHelper extends AbstractListEntriesHelper
     /**
      * @inheritDoc
      */
+    public function getScopeEntriesForPage()
+    {
+        $states = parent::getScopeEntriesForPage();
+
+        $states = $this->addUserGroupEntries($states);
+
+        return $states;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getScopeEntriesForContentItem()
     {
         $states = parent::getScopeEntriesForContentItem();
 
+        $states = $this->addUserGroupEntries($states);
+
+        return $states;
+    }
+
+    /**
+     * Adds a list of user groups to the given array.
+     *
+     * @param array $states
+     *
+     * @return array
+     */
+    private function addUserGroupEntries($states)
+    {
         $groups = $this->groupRepository->findAll();
         foreach ($groups as $group) {
             $states[] = [

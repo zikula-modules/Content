@@ -111,7 +111,7 @@ abstract class AbstractExampleDataHelper
         $page1->setActive(true);
         $page1->setActiveFrom($dtNow);
         $page1->setActiveTo($dtNow);
-        $page1->setScope('0');
+        $page1->setScope('###0###');
         $page1->setInMenu(true);
         $page1->setOptionalString1('Page optional string 1 1');
         $page1->setOptionalString2('Page optional string 2 1');
@@ -132,7 +132,7 @@ abstract class AbstractExampleDataHelper
         $contentItem1->setActive(true);
         $contentItem1->setActiveFrom($dtNow);
         $contentItem1->setActiveTo($dtNow);
-        $contentItem1->setScope('0');
+        $contentItem1->setScope('###0###');
         $contentItem1->setStylingClasses([]);
         $contentItem1->setSearchText('Content item search text 1');
         $contentItem1->setAdditionalSearchText('Content item additional search text 1');

@@ -135,7 +135,7 @@ abstract class AbstractListEntriesHelper
                         $result = false;
                         break;
                     case 'scope':
-                        $result = false;
+                        $result = true;
                         break;
                 }
                 break;
@@ -145,7 +145,7 @@ abstract class AbstractListEntriesHelper
                         $result = false;
                         break;
                     case 'scope':
-                        $result = false;
+                        $result = true;
                         break;
                 }
                 break;

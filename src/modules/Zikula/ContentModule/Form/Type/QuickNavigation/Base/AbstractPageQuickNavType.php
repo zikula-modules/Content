@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 
@@ -156,7 +157,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $builder->add('scope', ChoiceType::class, [
+        $builder->add('scope', MultiListType::class, [
             'label' => $this->__('Scope'),
             'attr' => [
                 'class' => 'input-sm'
@@ -165,7 +166,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
             'placeholder' => $this->__('All'),
             'choices' => $choices,
             'choice_attr' => $choiceAttributes,
-            'multiple' => false,
+            'multiple' => true,
             'expanded' => false
         ]);
     }
@@ -209,7 +210,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
                     $this->__('Active') => 'active',
                     $this->__('Active from') => 'activeFrom',
                     $this->__('Active to') => 'activeTo',
-                    $this->__('Scope') => 'scope',
                     $this->__('In menu') => 'inMenu',
                     $this->__('Optional string 1') => 'optionalString1',
                     $this->__('Optional string 2') => 'optionalString2',

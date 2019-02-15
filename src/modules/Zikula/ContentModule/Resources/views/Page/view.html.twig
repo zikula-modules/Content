@@ -28,7 +28,6 @@
                 <col id="cActive" />
                 <col id="cActiveFrom" />
                 <col id="cActiveTo" />
-                <col id="cScope" />
                 <col id="cInMenu" />
                 <col id="cCurrentVersion" />
             </colgroup>
@@ -59,9 +58,6 @@
                 </th>
                 <th id="hActiveTo" scope="col" class="text-left">
                     <a href="{{ sort.activeTo.url }}" title="{{ __f('Sort by %s', {'%s': 'active to'}) }}" class="{{ sort.activeTo.class }}">{{ __('Active to') }}</a>
-                </th>
-                <th id="hScope" scope="col" class="text-left">
-                    <a href="{{ sort.scope.url }}" title="{{ __f('Sort by %s', {'%s': 'scope'}) }}" class="{{ sort.scope.class }}">{{ __('Scope') }}</a>
                 </th>
                 <th id="hInMenu" scope="col" class="text-center">
                     <a href="{{ sort.inMenu.url }}" title="{{ __f('Sort by %s', {'%s': 'in menu'}) }}" class="{{ sort.inMenu.class }}">{{ __('In menu') }}</a>
@@ -120,9 +116,6 @@
                         {{ page.activeTo|localizeddate('medium', 'short') }}
                     {% endif %}
                 </td>
-                <td headers="hScope" class="text-left">
-                    {{ page.scope|zikulacontentmodule_listEntry('page', 'scope') }}
-                </td>
                 <td headers="hInMenu" class="text-center">
                     {% set itemId = page.getKey() %}
                     <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
@@ -143,7 +136,7 @@
             </tr>
         {% else %}
             <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                <td class="text-left" colspan="{% if routeArea == 'admin' %}11{% else %}10{% endif %}">
+                <td class="text-left" colspan="{% if routeArea == 'admin' %}10{% else %}9{% endif %}">
             {{ __('No pages found.') }}
               </td>
             </tr>
