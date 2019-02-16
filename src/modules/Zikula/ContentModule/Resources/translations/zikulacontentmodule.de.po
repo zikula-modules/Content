@@ -623,7 +623,7 @@ msgid "Current version"
 msgstr "Aktuelle Version"
 
 msgid "Custom avatar with"
-msgstr "Angepasset Avatar-Breite"
+msgstr "Angepasste Avatar-Breite"
 
 msgid "Custom style class"
 msgstr "Eigene Style-Klasse"
