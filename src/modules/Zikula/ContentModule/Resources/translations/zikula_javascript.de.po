@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Actions"
@@ -24,6 +24,9 @@ msgstr "Dieses Element aktivieren"
 
 msgid "Add child node"
 msgstr "Kindknoten hinzufügen"
+
+msgid "Add element"
+msgstr "Element hinzufügen"
 
 msgid "Advanced"
 msgstr "Erweitert"
