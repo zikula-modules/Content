@@ -213,6 +213,9 @@ msgstr "Unterseite zu dieser Seite hinzufügen"
 msgid "Add another section"
 msgstr "Anderen Bereich hinzufügen"
 
+msgid "Add element"
+msgstr "Element hinzufügen"
+
 msgid "Add quote text here..."
 msgstr "Zitat hier hinzufügen ..."
 
@@ -623,7 +626,7 @@ msgid "Current version"
 msgstr "Aktuelle Version"
 
 msgid "Custom avatar with"
-msgstr "Angepasste Avatar-Breite"
+msgstr "Angepasset Avatar-Breite"
 
 msgid "Custom style class"
 msgstr "Eigene Style-Klasse"

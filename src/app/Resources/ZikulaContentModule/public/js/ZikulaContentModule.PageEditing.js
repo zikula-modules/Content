@@ -82,91 +82,57 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
 }
 
 /**
- * Checks if a touch device is used or not.
- */
-function contentPageIsTouchDevice() {
-    try {
-        document.createEvent('TouchEvent');
-        return true;
-    } catch(e) {
-        return false;
-    }
-}
-
-/**
  * Initialises the palette for adding new widgets.
  */
 function contentPageInitPalette() {
-    jQuery('#palette').affix({
-        offset: {
-            top: 280
-        }
-    });
-    jQuery('#palette .panel-title a, #palette .grid-stack-item').popover({
+    jQuery('#palette #paletteTabs > li > a, #palette .grid-stack-item').popover({
         container: 'body',
         placement: function (pop, dom_el) {
-            return window.innerWidth < 768 ? 'bottom' : 'right';
+            return 'bottom';//window.innerWidth < 768 ? 'bottom' : 'right';
         },
         trigger: 'hover focus'
     });
-    jQuery('#palette .grid-stack-item').draggable({
-        cursor: 'move',
-        cursorAt: { left: -30 },
-        helper: 'clone',
-        revert: 'invalid',
-        scroll: true,
-        appendTo: 'body',
-        opacity: 0.75,
-        zIndex: 100,
-        start: function (event, ui) {
-            contentPageHighlightGrids();
+    jQuery('#palette .grid-stack-item').click(function (event) {
+        var gridSection, newId, widget;
 
-            // update widget size for placeholder
-            var widget = jQuery(this);
-            jQuery('#widgetDimensions').data('minwidth', widget.data('minwidth'));
-            contentPageApplyDimensionConstraints(widget);
+        jQuery('#paletteModal').modal('hide');
+        gridSection = jQuery('#section' + jQuery('#paletteModal').data('section-number'));
 
-            // transform helper widget to panel for nice preview
-            var helperWidget = jQuery(ui.helper);
-            var newId = contentPageTempGetRandomInt(1000, 9000);
-            contentPagePreparePaletteEntryForAddition(helperWidget, newId);
+        newId = contentPageTempGetRandomInt(1000, 9000);
+        widget = jQuery(this).clone();
 
-            var helperWidth = parseInt(jQuery('#widgetDimensions').data('width'));
-            var helperMinWidth = parseInt(jQuery('#widgetDimensions').data('minwidth'));
-            if (helperMinWidth > helperWidth) {
-                helperWidth = helperMinWidth;
-            }
-            helperWidth *= '60';
-            helperWidget.css('width', helperWidth + 'px');
+        widget.data('typeclass', jQuery(this).data('typeclass'));
 
-            helperWidget.data('typeclass', widget.data('typeclass'));
+        jQuery('#widgetDimensions').data('minwidth', widget.data('minwidth'));
+        contentPageApplyDimensionConstraints(widget);
+        contentPagePreparePaletteEntryForAddition(widget, newId);
 
-            suspendAutoSave = true;
-        },
-        drag: function (event, ui) {
-            //console.log('dragging...');
-        },
-        stop: function (event, ui) {
-            suspendAutoSave = false;
-        }
+        var grid = gridSection.find('.grid-stack').first().data('gridstack');
+        grid.addWidget(widget, 0, 0, widget.attr('data-gs-width'), widget.attr('data-gs-height'), true, widget.attr('data-gs-min-width'));
+
+        contentPageInitWidgetEditing(widget, true);
+
+        suspendAutoSave = true;
     });
-    if (contentPageIsTouchDevice()) {
-        jQuery('body').addClass('touch-device');
-    }
 }
 
 /**
  * Applies dimension constraints to a certain node.
  */
 function contentPageApplyDimensionConstraints(widget) {
-    var node = widget.data(nodeDataAttribute) || {};
-    node.width = jQuery('#widgetDimensions').data('width');
-    node.height = jQuery('#widgetDimensions').data('height');
-    node.minWidth = jQuery('#widgetDimensions').data('minwidth');
-    if (node.minWidth > node.width) {
-        node.width = node.minWidth;
+    var width, height, minWidth;
+
+    width = parseInt(jQuery('#widgetDimensions').data('width'));
+    height = parseInt(jQuery('#widgetDimensions').data('height'));
+    minWidth = parseInt(jQuery('#widgetDimensions').data('minwidth'));
+
+    if (minWidth > width) {
+        width = minWidth;
     }
-    widget.data(nodeDataAttribute, node);
+
+    widget.attr('data-gs-width', width);
+    widget.attr('data-gs-height', height);
+    widget.attr('data-gs-min-width', minWidth);
 }
 
 /**
@@ -197,6 +163,7 @@ function contentPageGetSectionActions(isFirstSection) {
     var deleteState = isFirstSection ? ' disabled="disabled"' : '';
     var actions = `
         <div class="btn-group btn-group-sm pull-right" role="group">
+            <button type="button" class="btn btn-default add-element" title="${Translator.__('Add element')}"><i class="fa fa-plus"></i> ${Translator.__('Add element')}</button>
             <button type="button" class="btn btn-default change-styles" title="${Translator.__('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.__('Styling classes')}</button>
             <button type="button" class="btn btn-default delete-section" title="${Translator.__('Delete section')}"${deleteState}><i class="fa fa-trash-o"></i> ${Translator.__('Delete section')}</button>
         </div>
@@ -213,6 +180,13 @@ function contentPageTempGetRandomInt(min, max) {
  * Initialises section actions.
  */
 function contentPageInitSectionActions() {
+    jQuery('#widgets h4 .add-element').unbind('click').click(function (event) {
+        var gridSectionNumber;
+
+        event.preventDefault();
+        gridSectionNumber = jQuery(this).parents('.grid-section').first().attr('id').replace('section', '');
+        jQuery('#paletteModal').data('section-number', gridSectionNumber).modal('show');
+    });
     jQuery('#widgets h4 .change-styles').unbind('click').click(function (event) {
         var gridSection;
 
@@ -292,25 +266,7 @@ function contentPageInitSectionGrid(selector, gridOptions) {
     jQuery(selector).on('dropped', function (event, previousWidget, newWidget) {
         contentPageUnhighlightGrids();
 
-        //console.log('Removed widget that was dragged out of grid:', previousWidget);
-        //console.log('Added widget in dropped grid:', newWidget);
-        if ('undefined' === typeof previousWidget) {
-            return;
-        }
-        if ('undefined' !== typeof previousWidget.noResize) {
-            // dnd between multiple grids
-            return;
-        }
-
-        // new palette item has been added
-
-        // update widget size
-        var widget = newWidget.el;
-        var newId = contentPageTempGetRandomInt(1000, 9000);
-        contentPageApplyDimensionConstraints(widget);
-        contentPagePreparePaletteEntryForAddition(widget, newId);
-
-        contentPageInitWidgetEditing(widget, true);
+        return;
     });
 }
 
@@ -1089,14 +1045,14 @@ function contentPageUnhighlightGrids() {
  * Initialisation after page has been loaded.
  */
 jQuery(document).ready(function () {
-    jQuery('#addSection').click(function () {
+    jQuery('.add-section').click(function () {
         var sectionNumber = jQuery('#widgets .grid-section').length + 1;
         contentPageAddSection('section' + sectionNumber, sectionNumber, '', true);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
         contentPageSave();
     });
-    jQuery('#exitPage').click(function (event) {
+    jQuery('.exit-page').click(function (event) {
         event.preventDefault();
         window.location = jQuery(this).data('url');
     });

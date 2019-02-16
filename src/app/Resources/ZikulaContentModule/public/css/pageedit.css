@@ -1,3 +1,9 @@
+#editFrame {
+    margin-bottom: 50px;
+}
+.modal-backdrop {
+    position: static;
+}
 #notificationContainer {
     position: fixed;
     top: 80px;
@@ -59,42 +65,21 @@ h3.panel-title a.pull-right {
     border: 1px dashed #333;
 }
 
-#palette {
-    background-color: #f5f5f5;
-    padding: 25px 10px;
-    text-align: center;
-}
-#palette .panel-heading {
-    text-align: left;
-    padding: 0;
-}
-#palette .panel-title a {
-    display: block;
-    padding: 10px 15px;
-}
-#palette .panel-body {
-    max-height: 240px;
-    overflow: scroll;
-}
-.touch-device #palette .panel-body {
-    padding: 10px 10px 10px 40px;
+#palette h3 {
+    margin-left: 12px;
+    margin-bottom: 16px;
 }
 #palette .grid-stack-item {
     display: block;
-    border: 2px dashed #333;
-    background-color: #fff;
+    background-color: #eee;
     margin-bottom: 8px;
-    cursor: move;
+    cursor: pointer;
     padding: 5px;
     z-index: 10;
-    min-width: 200px;
-}
-.touch-device #palette .grid-stack-item {
-    min-width: 180px;
+    padding: 8px 5px 5px;
 }
 #palette .grid-stack-item:hover {
-    margin-bottom: 6px;
-    border-color: #1f80c0;
+    background-color: #f5f5f5;
 }
 #palette .grid-stack-item .grid-stack-item-content {
     background: none;
@@ -108,40 +93,14 @@ h3.panel-title a.pull-right {
     margin: 2px 5px;
 }
 #palette .grid-stack-item:hover .grid-stack-item-content {
-/*     font-size: 16px; */
     color: #1f80c0;
-    font-weight: 700;
 }
-#palette .grid-stack-item:hover .grid-stack-item-content .fa {
+/*#palette .grid-stack-item:hover .grid-stack-item-content .fa {
     font-size: 18px;
-}
-
-.affix-top, .affix {
-    position: static;
-}
-@media (min-width: 768px) {
-    #palette.affix-top {
-        position: static;
-    }
-    #palette.affix {
-        position: fixed;
-        top: 56px;
-        width: 283px;
-    }
-}
-@media (min-width: 992px) {
-    #palette.affix {
-        width: 293px;
-    }
-}
-@media (min-width: 1200px) {
-    #palette.affix {
-        width: 262px;
-    }
-}
+}*/
 
 #widgets {
-padding: 0;
+    padding: 0;
 }
 
 #grid-displayer {
