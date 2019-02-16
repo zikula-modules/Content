@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Helper;
 
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractPermissionHelper;
+use Zikula\GroupsModule\Constant as GroupsConstant;
 
 /**
  * Permission helper implementation class.
@@ -32,14 +33,32 @@ class PermissionHelper extends AbstractPermissionHelper
         $result = parent::hasEntityPermission($entity, $permissionLevel, $userId);
 
         $objectType = $entity->get_objectType();
-        if ('page' != $objectType) {
-            return $result;
+
+        if (ACCESS_READ == $permissionLevel) {
+            if ('page' == $objectType && 'approved' != $entity->getWorkflowState()) {
+                if ($this->currentUserApi->get('uid') != $entity->getCreatedBy()->getUid()) {
+                    return false;
+                }
+            }
+
+            $scopes = $this->extractMultiList($entity->getScope());
+            $userScopes = $this->getUserScopes();
+            if (in_array(GroupsConstant::GROUP_ID_ADMIN, $userScopes)) {
+                // always let admin access
+                return true;
+            }
+            $hasScope = false;
+            foreach ($scopes as $scope) {
+                if (in_array($scope, $userScopes)) {
+                    $hasScope = true;
+                    break;
+                }
+            }
+            $result = $hasScope;
         }
 
-        if ('approved' != $entity->getWorkflowState()) {
-            if (ACCESS_READ == $permissionLevel && $this->currentUserApi->get('uid') != $entity->getCreatedBy()->getUid()) {
-                return false;
-            }
+        if ('page' != $objectType) {
+            return $result;
         }
 
         if (!$this->inheritPermissions) {
@@ -95,5 +114,54 @@ class PermissionHelper extends AbstractPermissionHelper
     public function setInheritPermissions($inheritPermissions = false)
     {
         $this->inheritPermissions = $inheritPermissions;
+    }
+
+    /**
+     * Returns the allowed content item scopes for the current user.
+     *
+     * @return array
+     */
+    public function getUserScopes()
+    {
+        $scopes = [];
+        $scopes[] = '0'; // public (all)
+
+        $isLoggedIn = $this->currentUserApi->isLoggedIn();
+        if ($isLoggedIn) {
+            $scopes[] = '-1'; // logged in members
+        } else {
+            $scopes[] = '-2'; // not logged in people
+        }
+
+        // get user groups
+        $groups = $this->currentUserApi->get('groups');
+        foreach ($groups as $group) {
+            $scopes[] = strval($group->getGid());
+        }
+
+        return $scopes;
+    }
+
+    /**
+     * Extract concatenated multi selection.
+     *
+     * @param string $value The multi list value to process
+     *
+     * @return array List of single values
+     */
+    public function extractMultiList($value)
+    {
+        $listValues = explode('###', $value);
+        $amountOfValues = count($listValues);
+        if ($amountOfValues > 1 && $listValues[$amountOfValues - 1] == '') {
+            unset($listValues[$amountOfValues - 1]);
+        }
+        if ($listValues[0] == '') {
+            // use array_shift instead of unset for proper key reindexing
+            // keys must start with 0, otherwise the dropdownlist form plugin gets confused
+            array_shift($listValues);
+        }
+    
+        return $listValues;
     }
 }

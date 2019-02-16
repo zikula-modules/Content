@@ -149,7 +149,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Versioned
      * @ORM\Column(length=100)
      * @Assert\NotBlank()
-     * @ContentAssert\ListEntry(entityName="page", propertyName="scope", multiple=false)
+     * @ContentAssert\ListEntry(entityName="page", propertyName="scope", multiple=true)
      * @var string $scope
      */
     protected $scope = '0';

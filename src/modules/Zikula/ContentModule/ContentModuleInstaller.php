@@ -213,7 +213,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 if (!$isSupported) {
                     $item->setOwningType($contentTypeNamespace . 'HtmlType');
                     $item->setContentData([
-                        'text' => $this->__f('<p>There has been an element of the <strong>%module%</strong> with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>', ['%module%' => $row['con_module'], '%type%' => $row['con_type']])
+                        'text' => $this->__f('<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>', ['%module%' => $row['con_module'], '%type%' => $row['con_type']])
                     ]);
                 } else {
                     $contentTypeName = $row['con_type'] . 'Type';
@@ -336,10 +336,17 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $stmt = $connection->prepare($sql);
                 $stmt->execute();
 
+                $sql = '
+                    UPDATE ' . $dbName . '.`zikula_content_page`
+                    SET scope = \'0\'
+                ';
+                $stmt = $connection->prepare($sql);
+                $stmt->execute();
+
                 // extend length of scope field of content items
                 $sql = '
                     ALTER TABLE ' . $dbName . '.`zikula_content_contentitem`
-                    MODIFY `scope` VARCHAR(100)
+                    MODIFY `scope` VARCHAR(100) NOT NULL
                 ';
                 $stmt = $connection->prepare($sql);
                 $stmt->execute();

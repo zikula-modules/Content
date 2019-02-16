@@ -103,7 +103,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      *
      * @ORM\Column(length=100)
      * @Assert\NotBlank()
-     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="scope", multiple=false)
+     * @ContentAssert\ListEntry(entityName="contentItem", propertyName="scope", multiple=true)
      * @var string $scope
      */
     protected $scope = '0';

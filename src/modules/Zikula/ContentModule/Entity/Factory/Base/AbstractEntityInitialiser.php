@@ -55,12 +55,13 @@ abstract class AbstractEntityInitialiser
     public function initPage(PageEntity $entity)
     {
         $listEntries = $this->listEntriesHelper->getEntries('page', 'scope');
+        $items = [];
         foreach ($listEntries as $listEntry) {
             if (true === $listEntry['default']) {
-                $entity->setScope($listEntry['value']);
-                break;
+                $items[] = $listEntry['value'];
             }
         }
+        $entity->setScope(implode('###', $items));
 
         return $entity;
     }
@@ -75,12 +76,13 @@ abstract class AbstractEntityInitialiser
     public function initContentItem(ContentItemEntity $entity)
     {
         $listEntries = $this->listEntriesHelper->getEntries('contentItem', 'scope');
+        $items = [];
         foreach ($listEntries as $listEntry) {
             if (true === $listEntry['default']) {
-                $entity->setScope($listEntry['value']);
-                break;
+                $items[] = $listEntry['value'];
             }
         }
+        $entity->setScope(implode('###', $items));
 
         return $entity;
     }

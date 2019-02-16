@@ -256,11 +256,16 @@ class CustomTwigExtension extends Twig_Extension
         if (null !== $contentItem->getActiveTo() && $contentItem->getActiveTo() < $now) {
             return false;
         }
-        if (!in_array($contentItem->getScope(), $this->collectionFilterHelper->getUserScopes())) {
-            return false;
+
+        $scopes = $this->permissionHelper->extractMultiList($contentItem->getScope());
+        $userScopes = $this->permissionHelper->getUserScopes();
+        foreach ($scopes as $scope) {
+            if (in_array($scope, $userScopes)) {
+                return true;
+            }
         }
 
-        return true;
+        return false;
     }
 
     /**

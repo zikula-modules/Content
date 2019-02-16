@@ -1,8 +1,14 @@
 {% set profileLink = author.uid|profileLinkByUserId %}
 <div class="content-author">
     <h3>{{ __f('By %user', {'%user': profileLink})|raw }}</h3>
-    <p class="avatar">{{ userAvatar(author.uid, {rating: 'g'}) }}</p>
-    {% if currentUser.loggedIn %}
+    {% if showAvatar|default %}
+        {% if avatarWidth|default %}
+            <p class="avatar">{{ userAvatar(author.uid, {width: avatarWidth, rating: 'g'}) }}</p>
+        {% else %}
+            <p class="avatar">{{ userAvatar(author.uid, {rating: 'g'}) }}</p>
+        {% endif %}
+    {% endif %}
+    {% if showMessageLink|default and currentUser.loggedIn %}
         {% set sendMessageUrl = author.uid|messageSendLink(urlOnly=true) %}
         {% if sendMessageUrl != '#' %}
             <a href="{{ sendMessageUrl }}" title="{{ __f('Send private message to %userName%', {'%userName%': author.uname}) }}"><i class="fa fa-envelope-o"></i></a>

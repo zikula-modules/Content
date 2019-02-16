@@ -29,6 +29,7 @@ use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Type\Field\ArrayType;
+use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
@@ -331,10 +332,10 @@ abstract class AbstractPageType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $builder->add('scope', ChoiceType::class, [
+        $builder->add('scope', MultiListType::class, [
             'label' => $this->__('Scope') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips checkbox-inline',
                 'title' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.')
             ],
             'help' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.'),
@@ -346,8 +347,8 @@ abstract class AbstractPageType extends AbstractType
             'required' => true,
             'choices' => $choices,
             'choice_attr' => $choiceAttributes,
-            'multiple' => false,
-            'expanded' => false
+            'multiple' => true,
+            'expanded' => true
         ]);
         
         $builder->add('inMenu', CheckboxType::class, [
@@ -471,6 +472,7 @@ abstract class AbstractPageType extends AbstractType
                     return $this->entityFactory->createPage();
                 },
                 'error_mapping' => [
+                    'isScopeValueAllowed' => 'scope',
                     'isActiveFromBeforeActiveTo' => 'activeFrom',
                 ],
                 'mode' => 'create',

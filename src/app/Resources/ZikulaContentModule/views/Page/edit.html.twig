@@ -91,6 +91,7 @@
                     {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.')}) }}
                     {{ form_row(form.activeFrom) }}
                     {{ form_row(form.activeTo) }}
+                    {{ form_row(form.scope) }}
                     {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.')}) }}
                     {{ form_row(form.stylingClasses) }}
                 </div>
@@ -158,6 +159,15 @@
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
+    {% set customStyle %}
+        <style>
+            #furtherPropertiesContent .checkbox-inline {
+                display: block;
+                margin-left: 0;
+            }
+        </style>
+    {% endset %}
+    {{ pageAddAsset('header', customStyle) }}
     {% set formInitScript %}
         <script>
         /* <![CDATA[ */

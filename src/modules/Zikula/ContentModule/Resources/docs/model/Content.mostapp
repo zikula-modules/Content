@@ -104,8 +104,9 @@ application "Content" {
                     defaultValue ""
                     mandatory false
                 },
-                list "scope" {
+                list "scope" multiple expanded {
                     documentation "As soon as at least one selected entry applies for the current user the page becomes visible."
+                    displayType DISPLAY
                     length 100
                     items {
                         default listItem "Public (all)" ( "0" ),
@@ -178,7 +179,7 @@ application "Content" {
                     defaultValue ""
                     mandatory false
                 },
-                list "scope" {
+                list "scope" multiple expanded {
                     documentation "As soon as at least one selected entry applies for the current user the content becomes visible."
                     length 100
                     items {
