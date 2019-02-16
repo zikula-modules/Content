@@ -292,6 +292,9 @@ msgstr "Erlaubt das Navigieren innerhalb von Seiten derselben Ebene."
 msgid "Amount"
 msgstr "Anzahl"
 
+msgid "An empty value or 0 will use the default size."
+msgstr "Ein leerer Wert oder 0 führt zur Nutzung der Standardgröße."
+
 msgid ""
 "An example page for introduction with several content items has been created."
 msgstr ""
@@ -619,6 +622,9 @@ msgstr "Ersteller"
 msgid "Current version"
 msgstr "Aktuelle Version"
 
+msgid "Custom avatar with"
+msgstr "Angepasset Avatar-Breite"
+
 msgid "Custom style class"
 msgstr "Eigene Style-Klasse"
 
@@ -712,6 +718,9 @@ msgstr "Einen Link zur Wegbeschreibung zu diesem Ort in Google Maps anzeigen"
 msgid "Display a traffic overlay"
 msgstr "Ein Overlay für Verkehr anzeigen"
 
+msgid "Display avatar"
+msgstr "Avatar anzeigen"
+
 msgid "Display controller output from any installed module, theme or bundle."
 msgstr ""
 "Die Controller-Ausgabe von irgend einem installierten Modul, Theme oder "
@@ -719,6 +728,9 @@ msgstr ""
 
 msgid "Display directions inline within the map"
 msgstr "Wegbeschreibung inline innerhalb der Karte anzeigen"
+
+msgid "Display link for messaging"
+msgstr "Link für Nachrichten anzeigen"
 
 msgid "Display list of items in an Atom or RSS feed."
 msgstr "Die Liste von Einträgen in einem Atom- oder RSS-Feed anzeigen."
@@ -2509,9 +2521,6 @@ msgstr "am %date"
 msgid "on %date by %user"
 msgstr "am %date von %user"
 
-msgid "only %group"
-msgstr "nur %group"
-
 msgid "only from %date"
 msgstr "nur ab %date"
 
@@ -2552,6 +2561,9 @@ msgid ""
 "{0} No fields updated|{1} One field updated|]1,Inf[ %amount% fields updated"
 msgstr ""
 "{0} Kein Feld geändert|{1} Ein Feld geändert|]1,Inf[%amount% Felder geändert"
+
+#~ msgid "only %group"
+#~ msgstr "nur %group"
 
 #~ msgid "Edit content items workflow"
 #~ msgstr "Workflow für Inhaltselemente bearbeiten"
