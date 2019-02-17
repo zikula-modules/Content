@@ -10,6 +10,9 @@
     right: 20px;
     width: 200px;
     height: 200px;
+    z-index: -1;
+}
+#notificationContainer.active {
     z-index: 200;
 }
 .grid-stack {

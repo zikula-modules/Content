@@ -20,6 +20,17 @@ jQuery.contentGetSyncCachedScript = function (url, options) {
 };
 
 /**
+ * Shows a notification message.
+ */
+function contentPageShowNotification(title, message, elemId, alertClass) {
+    jQuery('#notificationContainer').first().addClass('active');
+    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), title, message, elemId, alertClass);
+    window.setTimeout(function () {
+        jQuery('#notificationContainer').first().removeClass('active');
+    }, 3000);
+}
+
+/**
  * Returns the content item identifier for a given widget.
  */
 function contentPageGetWidgetId(widget) {
@@ -408,7 +419,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 }
                 if ('undefined' !== typeof data.message) {
                     jQuery('#widgetUpdateDoneAlert').remove();
-                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                    contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
                 if ('delete' != action) {
                     suspendAutoSave = false;
@@ -423,7 +434,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                     }
                     formError.html(jqXHR.responseJSON.message);
                 } else {
-                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
+                    contentPageShowNotification(Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
                 }    
             });
         });
@@ -441,7 +452,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             // remove newly created widget
             contentPageRemoveWidget(widget);
         }
-        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -529,7 +540,7 @@ function contentPageInitWidgetMovingCopying(widget) {
                 modal.modal('hide');
                 if ('undefined' !== typeof data.message) {
                     jQuery('#widgetUpdateDoneAlert').remove();
-                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                    contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
                 if ('move' == operationType) {
                     contentPageRemoveWidget(widget);
@@ -543,7 +554,7 @@ function contentPageInitWidgetMovingCopying(widget) {
                     }
                     formError.html(jqXHR.responseJSON.message);
                 } else {
-                    zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
+                    contentPageShowNotification(Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
                 }    
             });
         });
@@ -553,7 +564,7 @@ function contentPageInitWidgetMovingCopying(widget) {
         });
     }).fail(function(jqXHR, textStatus) {
         modal.modal('hide');
-        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -600,7 +611,7 @@ function contentPageDeleteWidget(widget) {
         contentPageRemoveWidget(widget);
         if ('undefined' !== typeof data.message) {
             jQuery('#widgetUpdateDoneAlert').remove();
-            zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+            contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
         }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -612,7 +623,7 @@ function contentPageDeleteWidget(widget) {
             errorMessage = errorThrown;
         }
         jQuery('#widgetUpdateErrorAlert').remove();
-        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.__('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -653,7 +664,7 @@ function contentPageInitWidgetActions() {
             },
             success: function (data) {
                 jQuery('#widgetUpdateDoneAlert').remove();
-                zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), Translator.__('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
+                contentPageShowNotification(Translator.__('Success'), Translator.__('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
                 contentPageLoadWidgetData(contentPageGetWidgetId(widget), false);
             }
         });
@@ -673,7 +684,7 @@ function contentPageInitWidgetActions() {
                 newWidget = contentPageCreateNewWidget(data.id);
 
                 jQuery('#widgetUpdateDoneAlert').remove();
-                zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
 
                 var grid = widget.parents('.grid-stack').first().data('gridstack');
                 grid.addWidget(newWidget, 0, 0, widget.attr('data-gs-width'), widget.attr('data-gs-height'), true, widget.attr('data-gs-min-width'));
@@ -967,11 +978,11 @@ function contentPageSave() {
     })
     .done(function (data) {
         jQuery('#layoutUpdateDoneAlert').remove();
-        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
+        contentPageShowNotification(Translator.__('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
         jQuery('#layoutUpdateErrorAlert').remove();
-        zikulaContentSimpleAlert(jQuery('#notificationBox').first(), Translator.__('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.__('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
     });
 
     if (jQuery('#debugSavedData').length > 0) {
