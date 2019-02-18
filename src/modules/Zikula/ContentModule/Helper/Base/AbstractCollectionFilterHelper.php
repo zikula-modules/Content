@@ -501,8 +501,10 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchTitle'] = '%' . $fragment . '%';
             $filters[] = 'tbl.metaDescription LIKE :searchMetaDescription';
             $parameters['searchMetaDescription'] = '%' . $fragment . '%';
-            $filters[] = 'tbl.views = :searchViews';
-            $parameters['searchViews'] = $fragment;
+            if (is_numeric($fragment)) {
+                $filters[] = 'tbl.views = :searchViews';
+                $parameters['searchViews'] = $fragment;
+            }
             $filters[] = 'tbl.activeFrom = :searchActiveFrom';
             $parameters['searchActiveFrom'] = $fragment;
             $filters[] = 'tbl.activeTo = :searchActiveTo';
@@ -515,8 +517,10 @@ abstract class AbstractCollectionFilterHelper
             $parameters['searchOptionalString2'] = '%' . $fragment . '%';
             $filters[] = 'tbl.optionalText LIKE :searchOptionalText';
             $parameters['searchOptionalText'] = '%' . $fragment . '%';
-            $filters[] = 'tbl.currentVersion = :searchCurrentVersion';
-            $parameters['searchCurrentVersion'] = $fragment;
+            if (is_numeric($fragment)) {
+                $filters[] = 'tbl.currentVersion = :searchCurrentVersion';
+                $parameters['searchCurrentVersion'] = $fragment;
+            }
         }
         if ($objectType == 'contentItem') {
             $filters[] = 'tbl.owningType LIKE :searchOwningType';
