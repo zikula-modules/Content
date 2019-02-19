@@ -405,7 +405,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $hasLoggableActivated = false;
         foreach ($eventManager->getListeners() as $event => $listeners) {
             foreach ($listeners as $hash => $listener) {
-                if ($listener instanceof LoggableListener) {
+            	if ('Gedmo\Loggable\LoggableListener' == $listener) {
                     $eventManager->removeEventSubscriber($listener);
                     $hasLoggableActivated = true;
                     break 2;
