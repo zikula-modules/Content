@@ -24,7 +24,10 @@
 
     {# you can embed the display template like this: #}
     {#{ app.request.query.set('raw', 1) }}
-    {{ include('@ZikulaContentModule/Page/display.html.twig', {page: page, routeArea: '', currentUrlObject: null}) }#}
+    {% set displayPage = include('@ZikulaContentModule/Page/display.html.twig', {page: page, routeArea: '', currentUrlObject: null}) %}
+    {% set displayPage = displayPage|split('<body>') %}
+    {% set displayPage = displayPage[1]|split('</body>') %}
+    {{ displayPage[0]|raw }#}
 
     {# you can distinguish the context like this: #}
     {# % if source == 'block' %}
