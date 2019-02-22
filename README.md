@@ -142,7 +142,7 @@ New features:
 - Added several options to author information plugin (#298).
 
 Bugfixes:
-- None yet.
+- Minor fixes for external display (#332).
 
 ### Version 5.0.3
 

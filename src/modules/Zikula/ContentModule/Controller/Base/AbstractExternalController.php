@@ -52,7 +52,7 @@ abstract class AbstractExternalController extends AbstractController
         }
         
         if (!$this->get('zikula_content_module.permission_helper')->mayRead($entity)) {
-            return '';
+            return new Response('');
         }
         
         $template = $request->query->has('template') ? $request->query->get('template', null) : null;
