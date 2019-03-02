@@ -113,7 +113,7 @@
         {% endif %}
         {% if page.optionalText is not empty %}
             <dt>{{ __('Optional text') }}</dt>
-            <dd>{{ page.optionalText|safeHtml }}</dd>
+            <dd>{{ page.optionalText|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}</dd>
         {% endif %}
         {% if page.currentVersion is not empty %}
             <dt>{{ __('Current version') }}</dt>
