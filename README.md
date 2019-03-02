@@ -140,6 +140,7 @@ New features:
 - Allow selection of multiple scopes for a content item (#325).
 - Allow restricting pages to (multiple) scopes, too (#325).
 - Added several options to author information plugin (#298).
+- Added missing filter hook calls.
 
 Bugfixes:
 - Minor fixes for external display (#332).

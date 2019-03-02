@@ -47,7 +47,7 @@
                 <p class="optional-string2">{{ page.optionalString2 }}</p>
             {% endif %}
             {% if getModVar('ZikulaContentModule', 'enableOptionalText', false) and page.optionalText is not empty %}
-                <div class="optional-text">{{ __('Optional text') }}</div>
+                <div class="optional-text">{{ page.optionalText|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|safeHtml }}</div>
             {% endif %}
             {{ block('content_elements') }}
             {% if routeArea == 'admin' and featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
@@ -133,7 +133,7 @@
         {% endif %}
     {% endif %}
     <div id="contentItem{{ contentItem.id }}" class="content-element {{ contentItem.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width|default(12) }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
-        {{ contentDetails|raw }}
+        {{ contentDetails|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|raw }}
     </div>
 {% endmacro %}
 {% block footer %}
