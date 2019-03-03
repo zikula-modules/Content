@@ -263,6 +263,11 @@ application "Content" {
                     documentation "Whether to inherit permissions from parent to child pages or not."
                     defaultValue "false"
                     mandatory false
+                },
+                boolean "enableAutomaticPageLinks" {
+                    documentation "Whether page titles should automatically be linked using MultiHook."
+                    defaultValue "true"
+                    mandatory false
                 }
             }
         },

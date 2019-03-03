@@ -50,6 +50,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->setVar('yandexTranslateApiKey', '');
         $this->setVar('enableRawPlugin', false);
         $this->setVar('inheritPermissions', false);
+        $this->setVar('enableAutomaticPageLinks', true);
         $this->setVar('pageStyles', 'dummy|Dummy');
         $this->setVar('sectionStyles', 'dummy|Dummy');
         $this->setVar('contentStyles', 'dummy|Dummy');

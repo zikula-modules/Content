@@ -184,6 +184,20 @@ abstract class AbstractConfigType extends AbstractType
             ],
             'required' => false,
         ]);
+        
+        $builder->add('enableAutomaticPageLinks', CheckboxType::class, [
+            'label' => $this->__('Enable automatic page links') . ':',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => $this->__('Whether page titles should automatically be linked using MultiHook.')
+            ],
+            'help' => $this->__('Whether page titles should automatically be linked using MultiHook.'),
+            'attr' => [
+                'class' => '',
+                'title' => $this->__('The enable automatic page links option')
+            ],
+            'required' => false,
+        ]);
     }
 
     /**
