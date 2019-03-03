@@ -46,13 +46,6 @@ class PageEntryProvider
     private $bundleName;
 
     /**
-     * Translation domain
-     *
-     * @var string
-     */
-    private $domain;
-
-    /**
      * The name of this provider
      *
      * @var string
@@ -90,7 +83,6 @@ class PageEntryProvider
         $nameAndType = $nsParts[1];
 
         $this->bundleName = $vendor . $nameAndType;
-        $this->domain = strtolower($this->bundleName);
         $this->name = str_replace('Type', '', array_pop($nsParts));
     }
 
@@ -131,7 +123,7 @@ class PageEntryProvider
      */
     public function getTitle()
     {
-        return $this->translator->__('Pages', $this->domain);
+        return $this->translator->__('Pages', 'zikulacontentmodule');
     }
 
     /**
@@ -141,7 +133,7 @@ class PageEntryProvider
      */
     public function getDescription()
     {
-        return $this->translator->__('Links page titles to corresponding pages.', $this->domain);
+        return $this->translator->__('Links page titles to corresponding pages.', 'zikulacontentmodule');
     }
 
     /**
