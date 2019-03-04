@@ -1356,6 +1356,9 @@ msgstr "Eigene Seiten im Benutzerkonto verlinken"
 msgid "Links page titles to corresponding pages."
 msgstr "Verlinkt Seitentitel zu den entsprechenden Seiten."
 
+msgid "Links to the list of pages and specific pages."
+msgstr "Verlinkt zur Seitenliste und zu spezifischen Seiten."
+
 msgid "List views"
 msgstr "Listenansichten"
 
@@ -1598,6 +1601,9 @@ msgstr ""
 "Seitenaufrufe werden nur gezählt, wenn der Benutzer keine Bearbeitungsrechte "
 "hat. Aktivieren, wenn der Block mit den am meisten angeschauten Seiten "
 "angezeigt werden soll."
+
+msgid "Page with id %id% could not be found"
+msgstr "Seite mit ID %id% konnte nicht gefunden werden"
 
 msgid "Pages"
 msgstr "Seiten"
@@ -2280,6 +2286,9 @@ msgstr "Detailseite anschauen"
 
 msgid "View full page"
 msgstr "Seite vollständig anzeigen"
+
+msgid "View pages"
+msgstr "Seiten anschauen"
 
 msgid "Views"
 msgstr "Aufrufe"
