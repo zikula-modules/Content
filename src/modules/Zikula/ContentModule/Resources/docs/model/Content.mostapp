@@ -4,7 +4,7 @@ application "Content" {
     author "Axel Guckelsberger"
     email "info@ziku.la"
     url "https://ziku.la"
-    version "5.1.0"
+    version "5.2.0"
     prefix "content"
     amountOfExampleRows 1
     generateListContentType false

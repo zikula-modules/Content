@@ -351,6 +351,8 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $stmt = $connection->prepare($sql);
                 $stmt->execute();
             case '5.1.0':
+                // nothing yet
+            case '5.2.0':
                 // future upgrades
         }
 
