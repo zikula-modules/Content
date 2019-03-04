@@ -9,6 +9,7 @@ application "Content" {
     amountOfExampleRows 1
     generateListContentType false
     generateDetailContentType false
+    generateMultiHookNeedles true
     generateRssTemplates false
     generateAtomTemplates false
     generateKmlTemplates false

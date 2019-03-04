@@ -142,6 +142,7 @@ New features:
 - Added several options to author information plugin (#298).
 - Added missing filter hook calls.
 - Added new setting for automatic linking of page titles using MultiHook (#335).
+- Added MultiHook needle.
 
 Bugfixes:
 - Minor fixes for external display (#332).
