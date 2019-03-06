@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Content 5.0.3\n"
+"Project-Id-Version: Content 5.2.0\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: Axel Guckelsberger <info@guite.de>\n"
@@ -822,6 +822,9 @@ msgstr "Diesen Block bearbeiten"
 msgid "Edit this page"
 msgstr "Diese Seite bearbeiten"
 
+msgid "Enable automatic page links"
+msgstr "Automatische Seiten-Links aktivieren"
+
 msgid "Enable optional string 1"
 msgstr "Optionale Zeichenkette 1 aktivieren"
 
@@ -1350,6 +1353,12 @@ msgstr "Link-Namen"
 msgid "Link own pages on account page"
 msgstr "Eigene Seiten im Benutzerkonto verlinken"
 
+msgid "Links page titles to corresponding pages."
+msgstr "Verlinkt Seitentitel zu den entsprechenden Seiten."
+
+msgid "Links to the list of pages and specific pages."
+msgstr "Verlinkt zur Seitenliste und zu spezifischen Seiten."
+
 msgid "List views"
 msgstr "Listenansichten"
 
@@ -1592,6 +1601,9 @@ msgstr ""
 "Seitenaufrufe werden nur gezählt, wenn der Benutzer keine Bearbeitungsrechte "
 "hat. Aktivieren, wenn der Block mit den am meisten angeschauten Seiten "
 "angezeigt werden soll."
+
+msgid "Page with id %id% could not be found"
+msgstr "Seite mit ID %id% konnte nicht gefunden werden"
 
 msgid "Pages"
 msgstr "Seiten"
@@ -2022,6 +2034,9 @@ msgstr "Die verfügbaren Kategorien:"
 msgid "The count page views option"
 msgstr "Die Option zum Zählen von Seitenaufrufen"
 
+msgid "The enable automatic page links option"
+msgstr "Die Option zum Aktivieren automatischer Seiten-Links"
+
 msgid "The enable optional string 1 option"
 msgstr "Die Option zum Aktivieren der optionalen Zeichenkette 1"
 
@@ -2272,6 +2287,9 @@ msgstr "Detailseite anschauen"
 msgid "View full page"
 msgstr "Seite vollständig anzeigen"
 
+msgid "View pages"
+msgstr "Seiten anschauen"
+
 msgid "Views"
 msgstr "Aufrufe"
 
@@ -2298,6 +2316,9 @@ msgid ""
 msgstr ""
 "Ob per Standard nur eigene Einträge auf Listenseiten angezeigt werden sollen "
 "oder nicht"
+
+msgid "Whether page titles should automatically be linked using MultiHook."
+msgstr "Ob Seitentitel automatisch durch MultiHook verlinkt werden sollen."
 
 msgid "Whether to add a link to pages of the current user on his account page"
 msgstr ""
@@ -2415,6 +2436,20 @@ msgid ""
 msgstr ""
 "Hier kann ein beliebiger Text hinterlegt werden, der während der internen "
 "Suchfunktion benutzt wird, um dieses Element zu finden."
+
+msgid ""
+"You must select at least \"%limit%\" choice.|You must select at least "
+"\"%limit%\" choices."
+msgstr ""
+"Es muss mindestens \"%limit%\" Option ausgewählt werden.|Es müssen "
+"mindestens \"%limit%\" Optionen ausgewählt werden."
+
+msgid ""
+"You must select at most \"%limit%\" choice.|You must select at most \"%limit%"
+"\" choices."
+msgstr ""
+"Es dürfen höchstens \"%limit%\" Option ausgewählt werden.|Es dürfen "
+"höchstens \"%limit%\" Optionen ausgewählt werden."
 
 msgid ""
 "You need to explicitly enable a checkbox in the configuration form to "

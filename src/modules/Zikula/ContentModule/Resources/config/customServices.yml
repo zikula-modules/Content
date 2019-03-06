@@ -32,6 +32,14 @@ services:
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'countPageViews', false)"
             - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true)"
         tags: ['twig.extension']
+    zikula_content_module.multihook_entry_provider.page:
+        class: Zikula\ContentModule\EntryProvider\PageEntryProvider
+        arguments:
+            - '@translator.default'
+            - '@router'
+            - '@zikula_content_module.entity_factory'
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'enableAutomaticPageLinks', true)"
+        tags: ['zikula.multihook_entry_provider']
     zikula_content_module.form.type.block.menu:
         class: Zikula\ContentModule\Block\Form\Type\MenuBlockType
         arguments:

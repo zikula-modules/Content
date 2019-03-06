@@ -1,3 +1,3 @@
 # CHANGELOG
 
-Changes in ZikulaContentModule 5.1.0
+Changes in ZikulaContentModule 5.2.0

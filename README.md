@@ -132,6 +132,14 @@ In content each page consists of several content items. Each content item uses a
 
 ## Changelog
 
+### Version 5.2.0
+
+New features:
+- None yet
+
+Bugfixes:
+- None yet
+
 ### Version 5.1.0
 
 New features:
@@ -140,9 +148,12 @@ New features:
 - Allow selection of multiple scopes for a content item (#325).
 - Allow restricting pages to (multiple) scopes, too (#325).
 - Added several options to author information plugin (#298).
+- Added missing filter hook calls.
+- Added new setting for automatic linking of page titles using MultiHook (#335).
+- Added MultiHook needle.
 
 Bugfixes:
-- None yet.
+- Minor fixes for external display (#332).
 
 ### Version 5.0.3
 

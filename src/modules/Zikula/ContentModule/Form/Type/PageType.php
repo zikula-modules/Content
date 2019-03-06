@@ -85,6 +85,7 @@ class PageType extends AbstractPageType
             'active',
             'activeFrom',
             'activeTo',
+            'scope',
             'inMenu',
             'stylingClasses',
             'categories'

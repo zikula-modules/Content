@@ -8,6 +8,7 @@ imports:
   - { resource: 'forms.yml' }
   - { resource: 'helpers.yml' }
   - { resource: 'hooks.yml' }
+  - { resource: 'needles.yml' }
   - { resource: 'twig.yml' }
   - { resource: 'logger.yml' }
   - { resource: 'customServices.yml' }

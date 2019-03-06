@@ -84,6 +84,15 @@ abstract class AbstractAppSettings
     protected $inheritPermissions = false;
     
     /**
+     * Whether page titles should automatically be linked using MultiHook.
+     *
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
+     * @var boolean $enableAutomaticPageLinks
+     */
+    protected $enableAutomaticPageLinks = true;
+    
+    /**
      * A list of CSS class names available for styling pages - for example "product" or "legal".
      *
      * @Assert\NotBlank()
@@ -426,6 +435,30 @@ abstract class AbstractAppSettings
     {
         if (boolval($this->inheritPermissions) !== boolval($inheritPermissions)) {
             $this->inheritPermissions = boolval($inheritPermissions);
+        }
+    }
+    
+    /**
+     * Returns the enable automatic page links.
+     *
+     * @return boolean
+     */
+    public function getEnableAutomaticPageLinks()
+    {
+        return $this->enableAutomaticPageLinks;
+    }
+    
+    /**
+     * Sets the enable automatic page links.
+     *
+     * @param boolean $enableAutomaticPageLinks
+     *
+     * @return void
+     */
+    public function setEnableAutomaticPageLinks($enableAutomaticPageLinks)
+    {
+        if (boolval($this->enableAutomaticPageLinks) !== boolval($enableAutomaticPageLinks)) {
+            $this->enableAutomaticPageLinks = boolval($enableAutomaticPageLinks);
         }
     }
     
@@ -959,6 +992,9 @@ abstract class AbstractAppSettings
         if (isset($moduleVars['inheritPermissions'])) {
             $this->setInheritPermissions($moduleVars['inheritPermissions']);
         }
+        if (isset($moduleVars['enableAutomaticPageLinks'])) {
+            $this->setEnableAutomaticPageLinks($moduleVars['enableAutomaticPageLinks']);
+        }
         if (isset($moduleVars['pageStyles'])) {
             $this->setPageStyles($moduleVars['pageStyles']);
         }
@@ -1035,6 +1071,7 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'yandexTranslateApiKey', $this->getYandexTranslateApiKey());
         $this->variableApi->set('ZikulaContentModule', 'enableRawPlugin', $this->getEnableRawPlugin());
         $this->variableApi->set('ZikulaContentModule', 'inheritPermissions', $this->getInheritPermissions());
+        $this->variableApi->set('ZikulaContentModule', 'enableAutomaticPageLinks', $this->getEnableAutomaticPageLinks());
         $this->variableApi->set('ZikulaContentModule', 'pageStyles', $this->getPageStyles());
         $this->variableApi->set('ZikulaContentModule', 'sectionStyles', $this->getSectionStyles());
         $this->variableApi->set('ZikulaContentModule', 'contentStyles', $this->getContentStyles());

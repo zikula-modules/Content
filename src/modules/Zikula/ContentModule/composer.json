@@ -1,6 +1,6 @@
 {
     "name": "zikula/content-module",
-    "version": "5.1.0",
+    "version": "5.2.0",
     "description": "Flexible hierachical page management.",
     "type": "zikula-module",
     "license": "LGPL-3.0-or-later",
