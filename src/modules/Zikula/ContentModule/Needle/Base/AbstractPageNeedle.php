@@ -173,7 +173,7 @@ abstract class AbstractPageNeedle
     {
         return true;
     }
-
+    
     /**
      * Returns the needle subject entries.
      *
@@ -181,7 +181,7 @@ abstract class AbstractPageNeedle
      */
     public function getSubjects()
     {
-        return ['CONTENTPAGES', 'CONTENTPAGE-'];
+        return ['PAGES', 'PAGE-'];
     }
     
     /**
@@ -213,7 +213,14 @@ abstract class AbstractPageNeedle
                 $cache[$needleId] = '';
             } else {
                 $cache[$needleId] = '<a href="' . $this->router->generate('zikulacontentmodule_page_view', [], UrlGeneratorInterface::ABSOLUTE_URL) . '" title="' . $this->translator->__('View pages', 'zikulacontentmodule') . '">' . $this->translator->__('Pages', 'zikulacontentmodule') . '</a>';
-            }
+        	}
+    
+            return $cache[$needleId];
+        }
+    
+        $needleParts = explode('-', $needleId);
+        if ('PAGE' != $needleParts[0] || count($needleParts) < 2) {
+            $cache[$needleId] = '';
     
             return $cache[$needleId];
         }
@@ -221,7 +228,7 @@ abstract class AbstractPageNeedle
         $entityId = intval($needleId);
         if (!$entityId) {
             $cache[$needleId] = '';
-
+    
             return $cache[$needleId];
         }
     
