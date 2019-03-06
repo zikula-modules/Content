@@ -40,7 +40,7 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
-            return true;
+            throw new AccessDeniedException();
         }
         
         $objectType = $request->query->getAlnum('ot', 'page');
