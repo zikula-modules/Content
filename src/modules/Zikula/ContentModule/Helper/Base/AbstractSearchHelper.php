@@ -241,7 +241,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
                 $created = isset($entity['createdDate']) ? $entity['createdDate'] : null;
     
                 $formattedTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
-                $displayUrl = '';
+                $displayUrl = null;
                 if ($hasDisplayAction) {
                     $urlArgs = $entity->createUrlArgs();
                     $urlArgs['_locale'] = (null !== $languageField && !empty($entity[$languageField])) ? $entity[$languageField] : $request->getLocale();
@@ -253,8 +253,10 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     ->setText($description)
                     ->setModule('ZikulaContentModule')
                     ->setCreated($created)
-                    ->setSesid($this->session->getId())
-                    ->setUrl($displayUrl);
+                    ->setSesid($this->session->getId());
+                if (null !== $displayUrl) {
+                    $result->setUrl($displayUrl);
+                }
                 $results[] = $result;
             }
         }
@@ -284,6 +286,9 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $allowedSearchTypes = [];
         foreach ($searchTypes as $searchType => $typeInfo) {
             if (!in_array($typeInfo['value'], $allowedTypes)) {
+                continue;
+            }
+            if (!$this->permissionHelper->hasComponentPermission($typeInfo['value'], ACCESS_READ)) {
                 continue;
             }
             $allowedSearchTypes[$searchType] = $typeInfo;
