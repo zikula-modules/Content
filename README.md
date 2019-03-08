@@ -138,7 +138,7 @@ New features:
 - None yet
 
 Bugfixes:
-- None yet
+- Fixed upgrade issue (#338).
 
 ### Version 5.1.0
 
