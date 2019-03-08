@@ -316,7 +316,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
             $this->addFlash('success', $this->__f('Done! Migrated %amount% pages.', ['%amount%' => count($pageMap)]));
 
-            $oldVersion = '5.0.0';
+            return true;
         }
 
         switch ($oldVersion) {
