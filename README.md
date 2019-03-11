@@ -139,6 +139,7 @@ New features:
 
 Bugfixes:
 - Fixed upgrade issue (#338).
+- Prevent log entry creation from other modules.
 
 ### Version 5.1.0
 
