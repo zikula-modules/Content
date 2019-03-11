@@ -12,6 +12,7 @@
 namespace Zikula\ContentModule\Listener\Base;
 
 use Gedmo\Loggable\LoggableListener as BaseListener;
+use Gedmo\Loggable\Mapping\Event\LoggableAdapter;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
@@ -85,6 +86,18 @@ abstract class AbstractLoggableListener extends BaseListener
             // treat all changes without an explicit description as update
             $logEntry->setActionDescription('_HISTORY_' . strtoupper($objectType) . '_UPDATED');
         }
+    }
+    
+    /**
+     * @inheritDoc
+     */
+    protected function createLogEntry($action, $object, LoggableAdapter $ea)
+    {
+        if (!$this->isEntityManagedByThisBundle($object) || !method_exists($object, 'get_objectType')) {
+            return;
+        }
+
+        return parent::createLogEntry($action, $object, $ea);
     }
     
     /**
