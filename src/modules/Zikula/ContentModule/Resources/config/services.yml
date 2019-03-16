@@ -41,6 +41,10 @@ services:
         arguments:
             $cacheDirectory: '%kernel.cache_dir%/ZikulaContentModule/'
 
+    Zikula\ContentModule\Helper\ViewHelper:
+        arguments:
+            $pageVars: '@zikula_core.common.theme.pagevars'
+
     # public because EntityLifecycleListener accesses this using container
     Zikula\ContentModule\Listener\LoggableListener:
         public: true
