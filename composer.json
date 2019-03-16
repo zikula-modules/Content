@@ -14,12 +14,12 @@
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "^1",
         "pdepend/pdepend": "^2",
-        "phploc/phploc": "^4",
+        "phploc/phploc": "^5",
         "phpmd/phpmd": "^2",
-        "phpunit/phpunit": "^5",
-        "sebastian/phpcpd": "^3",
+        "phpunit/phpunit": "^8",
+        "sebastian/phpcpd": "^4",
         "squizlabs/php_codesniffer": "^3",
-        "theseer/phpdox": "^0"
+        "theseer/phpdox": ">=0.12"
     },
     "suggest": {
     },
