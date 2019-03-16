@@ -16,6 +16,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
+use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\ControllerHelper;
+use Zikula\ContentModule\Helper\EntityDisplayHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ContentModule\Helper\WorkflowHelper;
 
 /**
  * Ajax controller implementation class.
@@ -29,36 +36,50 @@ class AjaxController extends AbstractAjaxController
      * @inheritDoc
      * @Route("/getItemListFinder", methods = {"GET"}, options={"expose"=true})
      */
-    public function getItemListFinderAction(Request $request)
-    {
-        return parent::getItemListFinderAction($request);
+    public function getItemListFinderAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        EntityDisplayHelper $entityDisplayHelper
+    ) {
+        return parent::getItemListFinderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $entityDisplayHelper);
     }
     
     /**
      * @inheritDoc
      * @Route("/checkForDuplicate", methods = {"GET"}, options={"expose"=true})
      */
-    public function checkForDuplicateAction(Request $request)
-    {
-        return parent::checkForDuplicateAction($request);
+    public function checkForDuplicateAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        EntityFactory $entityFactory
+    ) {
+        return parent::checkForDuplicateAction($request, $controllerHelper, $entityFactory);
     }
     
     /**
      * @inheritDoc
      * @Route("/toggleFlag", methods = {"POST"}, options={"expose"=true})
      */
-    public function toggleFlagAction(Request $request)
+    public function toggleFlagAction(Request $request, EntityFactory $entityFactory, CurrentUserApiInterface $currentUserApi)
     {
-        return parent::toggleFlagAction($request);
+        return parent::toggleFlagAction($request, $entityFactory, $currentUserApi);
     }
     
     /**
      * @inheritDoc
      * @Route("/handleTreeOperation", methods = {"POST"}, options={"expose"=true})
      */
-    public function handleTreeOperationAction(Request $request)
-    {
-        return parent::handleTreeOperationAction($request);
+    public function handleTreeOperationAction(
+        Request $request,
+        EntityFactory $entityFactory,
+        EntityDisplayHelper $entityDisplayHelper,
+        CurrentUserApiInterface $currentUserApi,
+        UserRepositoryInterface $userRepository,
+        WorkflowHelper $workflowHelper
+    ) {
+        return parent::handleTreeOperationAction($request, $entityFactory, $entityDisplayHelper, $currentUserApi, $userRepository, $workflowHelper);
     }
 
     // feel free to add your own ajax controller methods here

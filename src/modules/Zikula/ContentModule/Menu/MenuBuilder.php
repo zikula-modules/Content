@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Menu;
 
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Menu builder implementation class.
@@ -116,10 +117,11 @@ class MenuBuilder extends AbstractMenuBuilder
     }
 
     /**
-     * @param boolean $multilingual
+     * @required
+     * @param VariableApiInterface $variableApi
      */
-    public function setMultilingual($multilingual = true)
+    public function setMultilingual(VariableApiInterface $variableApi)
     {
-        $this->multilingual = $multilingual;
+        $this->multilingual = $variableApi->getSystemVar('multilingual', true);
     }
 }

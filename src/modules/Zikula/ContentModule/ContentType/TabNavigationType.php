@@ -12,7 +12,7 @@
 namespace Zikula\ContentModule\ContentType;
 
 use RuntimeException;
-use \Twig_Environment;
+use Twig\Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Content\AbstractContentType;
@@ -48,7 +48,7 @@ class TabNavigationType extends AbstractContentType
      * TabNavigationType constructor.
      *
      * @param TranslatorInterface  $translator       Translator service instance
-     * @param Twig_Environment     $twig             Twig service instance
+     * @param Environment          $twig             Twig service instance
      * @param FilesystemLoader     $twigLoader       Twig loader service instance
      * @param PermissionHelper     $permissionHelper PermissionHelper service instance
      * @param Asset                $assetHelper      Asset service instance
@@ -58,7 +58,7 @@ class TabNavigationType extends AbstractContentType
      */
     public function __construct(
         TranslatorInterface $translator,
-        Twig_Environment $twig,
+        Environment $twig,
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
         Asset $assetHelper,

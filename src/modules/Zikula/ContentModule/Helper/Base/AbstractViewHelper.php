@@ -14,7 +14,7 @@ namespace Zikula\ContentModule\Helper\Base;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Twig_Environment;
+use Twig\Environment;
 use Zikula\Core\Response\PlainResponse;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ThemeModule\Engine\AssetFilter;
@@ -28,7 +28,7 @@ use Zikula\ContentModule\Helper\PermissionHelper;
 abstract class AbstractViewHelper
 {
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     protected $twig;
     
@@ -70,7 +70,7 @@ abstract class AbstractViewHelper
     /**
      * ViewHelper constructor.
      *
-     * @param Twig_Environment     $twig             Twig service instance
+     * @param Environment          $twig             Twig service instance
      * @param FilesystemLoader     $twigLoader       Twig loader service instance
      * @param RequestStack         $requestStack     RequestStack service instance
      * @param VariableApiInterface $variableApi      VariableApi service instance
@@ -82,7 +82,7 @@ abstract class AbstractViewHelper
      * @return void
      */
     public function __construct(
-        Twig_Environment $twig,
+        Environment $twig,
         FilesystemLoader $twigLoader,
         RequestStack $requestStack,
         VariableApiInterface $variableApi,

@@ -15,7 +15,10 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Renderer\ListRenderer;
 use Symfony\Component\Routing\RouterInterface;
-use Twig_Extension;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
+use Twig\TwigTest;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
@@ -29,7 +32,7 @@ use Zikula\ContentModule\Menu\MenuBuilder;
 /**
  * Twig extension base class.
  */
-abstract class AbstractTwigExtension extends Twig_Extension
+abstract class AbstractTwigExtension extends AbstractExtension
 {
     use TranslatorTrait;
     
@@ -121,42 +124,42 @@ abstract class AbstractTwigExtension extends Twig_Extension
     /**
      * Returns a list of custom Twig functions.
      *
-     * @return \Twig_SimpleFunction[] List of functions
+     * @return TwigFunction[] List of functions
      */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('zikulacontentmodule_treeData', [$this, 'getTreeData'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('zikulacontentmodule_treeSelection', [$this, 'getTreeSelection']),
-            new \Twig_SimpleFunction('zikulacontentmodule_objectTypeSelector', [$this, 'getObjectTypeSelector']),
-            new \Twig_SimpleFunction('zikulacontentmodule_templateSelector', [$this, 'getTemplateSelector'])
+            new TwigFunction('zikulacontentmodule_treeData', [$this, 'getTreeData'], ['is_safe' => ['html']]),
+            new TwigFunction('zikulacontentmodule_treeSelection', [$this, 'getTreeSelection']),
+            new TwigFunction('zikulacontentmodule_objectTypeSelector', [$this, 'getObjectTypeSelector']),
+            new TwigFunction('zikulacontentmodule_templateSelector', [$this, 'getTemplateSelector'])
         ];
     }
     
     /**
      * Returns a list of custom Twig filters.
      *
-     * @return \Twig_SimpleFilter[] List of filters
+     * @return TwigFilter[] List of filters
      */
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('zikulacontentmodule_listEntry', [$this, 'getListEntry']),
-            new \Twig_SimpleFilter('zikulacontentmodule_logDescription', [$this, 'getLogDescription']),
-            new \Twig_SimpleFilter('zikulacontentmodule_formattedTitle', [$this, 'getFormattedEntityTitle']),
-            new \Twig_SimpleFilter('zikulacontentmodule_objectState', [$this, 'getObjectState'], ['is_safe' => ['html']])
+            new TwigFilter('zikulacontentmodule_listEntry', [$this, 'getListEntry']),
+            new TwigFilter('zikulacontentmodule_logDescription', [$this, 'getLogDescription']),
+            new TwigFilter('zikulacontentmodule_formattedTitle', [$this, 'getFormattedEntityTitle']),
+            new TwigFilter('zikulacontentmodule_objectState', [$this, 'getObjectState'], ['is_safe' => ['html']])
         ];
     }
     
     /**
      * Returns a list of custom Twig tests.
      *
-     * @return \Twig_SimpleTest[] List of tests
+     * @return TwigTest[] List of tests
      */
     public function getTests()
     {
         return [
-            new \Twig_SimpleTest('zikulacontentmodule_instanceOf', function ($var, $instance) {
+            new TwigTest('zikulacontentmodule_instanceOf', function ($var, $instance) {
                 return $var instanceof $instance;
             })
         ];

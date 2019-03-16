@@ -62,6 +62,14 @@ abstract class AbstractPageUiHooksSubscriber implements HookSubscriberInterface
     /**
      * @inheritDoc
      */
+    public function getAreaName()
+    {
+        return 'subscriber.zikulacontentmodule.ui_hooks.pages';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getEvents()
     {
         return [

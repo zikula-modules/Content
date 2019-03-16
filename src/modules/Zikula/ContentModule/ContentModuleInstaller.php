@@ -11,10 +11,14 @@
 
 namespace Zikula\ContentModule;
 
+use Zikula\Categories\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\ContentModule\Base\AbstractContentModuleInstaller;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageCategoryEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ExtensionsModule\Api\VariableApi;
+use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 
 /**
  * Installer implementation class.
@@ -48,7 +52,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             ini_set('max_execution_time', 300); // 300 seconds = 5 minutes
 
             // delete all old data
-            $variableApi = $this->container->get('zikula_extensions_module.api.variable');
+            $variableApi = $this->container->get(VariableApi::class);
             $variableApi->delAll('content');
             $variableApi->delAll('Content');
 
@@ -56,11 +60,11 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             $this->install();
 
             // determine category registry identifier
-            $registryRepository = $this->entityManager->getRepository('ZikulaCategoriesModule:CategoryRegistryEntity');
+            $registryRepository = $this->container->get(CategoryRepositoryInterface::class);
             $categoryRegistries = $registryRepository->findBy(['modname' => 'ZikulaContentModule']);
             $categoryRegistry = null;
             foreach ($categoryRegistries as $registry) {
-                if ($registry->getEntityname() == 'PageEntity') {
+                if ('PageEntity' == $registry->getEntityname()) {
                     $categoryRegistry = $registry;
                     break;
                 }
@@ -68,7 +72,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
             $connection = $this->entityManager->getConnection();
             $dbName = $this->getDbName();
-            $userRepository = $this->container->get('zikula_users_module.user_repository');
+            $userRepository = $this->container->get(UserRepositoryInterface::class);
             $contentTypeNamespace = 'Zikula\\ContentModule\\ContentType\\';
 
             $pageMap = [];
@@ -186,7 +190,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             }
 
             // migrate content and content translations
-            $contentDisplayHelper = $this->container->get('zikula_content_module.content_display_helper');
+            $contentDisplayHelper = $this->container->get(ContentDisplayHelper::class);
             $stmt = $connection->executeQuery("
                 SELECT *
                 FROM $dbName.`content_content`

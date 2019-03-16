@@ -11,7 +11,7 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-use \Twig_Environment;
+use Twig\Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\Common\Content\AbstractContentType;
@@ -23,6 +23,7 @@ use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ThemeModule\Engine\Asset;
 
 /**
@@ -54,30 +55,30 @@ class TableOfContentsType extends AbstractContentType
      * TableOfContentsType constructor.
      *
      * @param TranslatorInterface  $translator           Translator service instance
-     * @param Twig_Environment     $twig                 Twig service instance
+     * @param Environment          $twig                 Twig service instance
      * @param FilesystemLoader     $twigLoader           Twig loader service instance
      * @param PermissionHelper     $permissionHelper     PermissionHelper service instance
      * @param Asset                $assetHelper          Asset service instance
      * @param Routerinterface      $router               Router service instance
      * @param EntityFactory        $entityFactory        EntityFactory service instance
      * @param ContentDisplayHelper $displayHelper        ContentDisplayHelper service instance
-     * @param boolean              $ignoreFirstTreeLevel
+     * @param VariableApiInterface $variableApi
      */
     public function __construct(
         TranslatorInterface $translator,
-        Twig_Environment $twig,
+        Environment $twig,
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
         Asset $assetHelper,
         RouterInterface $router,
         EntityFactory $entityFactory,
         ContentDisplayHelper $displayHelper,
-        $ignoreFirstTreeLevel = true
+        VariableApiInterface $variableApi
     ) {
         $this->router = $router;
         $this->entityFactory = $entityFactory;
         $this->displayHelper = $displayHelper;
-        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
+        $this->ignoreFirstTreeLevel = $variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
         parent::__construct($translator, $twig, $twigLoader, $permissionHelper, $assetHelper);
     }
 

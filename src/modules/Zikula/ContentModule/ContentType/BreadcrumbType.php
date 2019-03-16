@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType;
 use Zikula\Common\Content\AbstractContentType;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\BreadcrumbType as FormType;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Breadcrumb content type.
@@ -99,10 +100,11 @@ class BreadcrumbType extends AbstractContentType
     }
 
     /**
-     * @param boolean $ignoreFirstTreeLevel
+     * @required
+     * @param VariableApiInterface $variableApi
      */
-    public function setIgnoreFirstTreeLevel($ignoreFirstTreeLevel = true)
+    public function setIgnoreFirstTreeLevel(VariableApiInterface $variableApi)
     {
-        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
+        $this->ignoreFirstTreeLevel = $variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
     }
 }

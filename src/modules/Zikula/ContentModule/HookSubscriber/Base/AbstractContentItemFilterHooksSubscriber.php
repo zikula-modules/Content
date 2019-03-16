@@ -62,6 +62,14 @@ abstract class AbstractContentItemFilterHooksSubscriber implements HookSubscribe
     /**
      * @inheritDoc
      */
+    public function getAreaName()
+    {
+        return 'subscriber.zikulacontentmodule.filter_hooks.contentitems';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getEvents()
     {
         return [

@@ -24,6 +24,7 @@ use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Content item editing form type implementation class.
@@ -47,16 +48,16 @@ class ContentItemType extends AbstractType
      *
      * @param TranslatorInterface $translator
      * @param ListEntriesHelper $listHelper
-     * @param string stylingClasses
+     * @param VariableApiInterface $variableApi
      */
     public function __construct(
         TranslatorInterface $translator,
         ListEntriesHelper $listHelper,
-        $stylingClasses
+        VariableApiInterface $variableApi
     ) {
         $this->setTranslator($translator);
         $this->listHelper = $listHelper;
-        $this->stylingClasses = $stylingClasses;
+        $this->stylingClasses = $variableApi->get('ZikulaContentModule', 'contentStyles', '');
     }
 
     /**

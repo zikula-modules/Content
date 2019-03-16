@@ -173,7 +173,7 @@ abstract class AbstractPageNeedle
     {
         return true;
     }
-    
+
     /**
      * Returns the needle subject entries.
      *
@@ -221,7 +221,7 @@ abstract class AbstractPageNeedle
         $entityId = intval($needleId);
         if (!$entityId) {
             $cache[$needleId] = '';
-    
+
             return $cache[$needleId];
         }
     

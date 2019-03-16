@@ -11,7 +11,7 @@
 
 namespace Zikula\ContentModule\ContentType;
 
-use \Twig_Environment;
+use Twig\Environment;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\Common\Content\AbstractContentType;
 use Zikula\Common\Content\ContentTypeInterface;
@@ -35,7 +35,7 @@ class FeedType extends AbstractContentType
      * FeedType constructor.
      *
      * @param TranslatorInterface $translator       Translator service instance
-     * @param Twig_Environment    $twig             Twig service instance
+     * @param Environment         $twig             Twig service instance
      * @param FilesystemLoader    $twigLoader       Twig loader service instance
      * @param PermissionHelper    $permissionHelper PermissionHelper service instance
      * @param Asset               $assetHelper      Asset service instance
@@ -43,7 +43,7 @@ class FeedType extends AbstractContentType
      */
     public function __construct(
         TranslatorInterface $translator,
-        Twig_Environment $twig,
+        Environment $twig,
         FilesystemLoader $twigLoader,
         PermissionHelper $permissionHelper,
         Asset $assetHelper,

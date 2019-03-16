@@ -62,6 +62,14 @@ abstract class AbstractPageFilterHooksSubscriber implements HookSubscriberInterf
     /**
      * @inheritDoc
      */
+    public function getAreaName()
+    {
+        return 'subscriber.zikulacontentmodule.filter_hooks.pages';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getEvents()
     {
         return [

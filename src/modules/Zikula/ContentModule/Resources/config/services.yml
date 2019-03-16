@@ -1,15 +1,69 @@
-imports:
-  - { resource: 'appSettings.yml' }
-  - { resource: 'menu.yml' }
-  - { resource: 'entityFactory.yml' }
-  - { resource: 'eventSubscriber.yml' }
-  - { resource: 'validators.yml' }
-  - { resource: 'formFields.yml' }
-  - { resource: 'forms.yml' }
-  - { resource: 'helpers.yml' }
-  - { resource: 'hooks.yml' }
-  - { resource: 'needles.yml' }
-  - { resource: 'twig.yml' }
-  - { resource: 'logger.yml' }
-  - { resource: 'customServices.yml' }
-  - { resource: 'contentTypes.yml' }
+parameters:
+    router.options.generator_base_class: Zikula\ContentModule\Routing\Generator\CustomUrlGenerator
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $bundle: '@Zikula\ContentModule\ZikulaContentModule'
+            $twigLoader: '@twig.loader'
+
+    Zikula\ContentModule\:
+        resource: '../../*'
+        exclude: '../../{bootstrap.php,Base/bootstrap.php,Tests,vendor}'
+
+    Zikula\ContentModule\Helper\:
+        resource: '../../Helper/*'
+        lazy: true
+
+    Zikula\ContentModule\Collector\ContentTypeCollector:
+        arguments:
+            $contentTypes: !tagged zikula.content_type
+
+    # public because EntityLifecycleListener accesses this using container
+    Zikula\ContentModule\Entity\Factory\EntityFactory:
+        public: true
+
+    Zikula\ContentModule\EntryProvider\PageEntryProvider:
+        tags: ['zikula.multihook_entry_provider']
+
+    Zikula\ContentModule\Listener\EntityLifecycleListener:
+        tags: ['doctrine.event_subscriber']
+
+    Zikula\ContentModule\Form\Handler\:
+        resource: '../../Form/Handler'
+        calls:
+            - [setLockingApi, ['@?Zikula\PageLockModule\Api\LockingApi']]
+
+    Zikula\ContentModule\Helper\CacheHelper:
+        arguments:
+            $cacheDirectory: '%kernel.cache_dir%/ZikulaContentModule/'
+
+    # public because EntityLifecycleListener accesses this using container
+    Zikula\ContentModule\Listener\LoggableListener:
+        public: true
+
+    Zikula\ContentModule\Menu\MenuBuilder:
+        tags:
+            - { name: knp_menu.menu_builder, method: createItemActionsMenu, alias: zikulaContentMenuItemActions }
+
+    Zikula\ContentModule\Needle\PageNeedle:
+        tags: ['zikula.multihook_needle']
+
+    Zikula\ContentModule\Routing\DynamicRouteLoader:
+        tags: ['routing.loader']
+
+    _instanceof:
+        Zikula\Common\Content\ContentTypeInterface:
+            bind:
+                $permissionHelper: '@Zikula\ContentModule\Helper\PermissionHelper'
+
+    stof_doctrine_extensions.listener.sluggable:
+        class: '%stof_doctrine_extensions.listener.sluggable.class%'
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader'] ]
+            - [ setTransliterator, [[Zikula\ContentModule\Helper\SlugTransliterator, 'transliterate']]]

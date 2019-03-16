@@ -15,6 +15,7 @@ use Zikula\ContentModule\Entity\Factory\Base\AbstractEntityInitialiser;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Entity initialiser class used to dynamically apply default values to newly created entities.
@@ -29,15 +30,15 @@ class EntityInitialiser extends AbstractEntityInitialiser
     /**
      * @inheritDoc
      *
-     * @param string $stateOfNewPages
+     * @param VariableApiInterface $variableApi
      */
     public function __construct(
         PermissionHelper $permissionHelper,
         ListEntriesHelper $listEntriesHelper,
-        $stateOfNewPages
+        VariableApiInterface $variableApi
     ) {
         parent::__construct($permissionHelper, $listEntriesHelper);
-        $this->stateOfNewPages = (int)$stateOfNewPages;
+        $this->stateOfNewPages = (int)$variableApi->get('ZikulaContentModule', 'stateOfNewPages', '1');
     }
 
     /**

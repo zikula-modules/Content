@@ -151,6 +151,7 @@ class TranslatableHelper extends AbstractTranslatableHelper
     }
 
     /**
+     * @required
      * @param ContentDisplayHelper $displayHelper
      */
     public function setContentDisplayHelper(ContentDisplayHelper $displayHelper)

@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Page entry provider.
@@ -65,18 +66,18 @@ class PageEntryProvider
      * @param TranslatorInterface $translator
      * @param RouterInterface $router
      * @param EntityFactory $entityFactory
-     * @param boolean $enableAutomaticPageLinks
+     * @param VariableApiInterface $variableApi
      */
     public function __construct(
         TranslatorInterface $translator,
         RouterInterface $router,
         EntityFactory $entityFactory,
-        $enableAutomaticPageLinks
+        VariableApiInterface $variableApi
     ) {
         $this->translator = $translator;
         $this->router = $router;
         $this->entityFactory = $entityFactory;
-        $this->enableAutomaticPageLinks = $enableAutomaticPageLinks;
+        $this->enableAutomaticPageLinks = $variableApi->get('ZikulaContentModule', 'enableAutomaticPageLinks', true);
 
         $nsParts = explode('\\', get_class($this));
         $vendor = $nsParts[0];

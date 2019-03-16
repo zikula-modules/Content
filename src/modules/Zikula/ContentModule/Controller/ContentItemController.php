@@ -24,8 +24,16 @@ use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Type\ContentItemType;
 use Zikula\ContentModule\Form\Type\MoveCopyContentItemType;
+use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ContentModule\Helper\HookHelper;
+use Zikula\ContentModule\Helper\LoggableHelper;
+use Zikula\ContentModule\Helper\ModelHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ContentModule\Helper\TranslatableHelper;
+use Zikula\ContentModule\Helper\WorkflowHelper;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 
 /**
@@ -41,9 +49,9 @@ class ContentItemController extends AbstractContentItemController
      * )
      * @Theme("admin")
      */
-    public function adminIndexAction(Request $request)
+    public function adminIndexAction(Request $request, PermissionHelper $permissionHelper)
     {
-        return parent::adminIndexAction($request);
+        return $this->indexInternal($request, $permissionHelper, true);
     }
     
     /**
@@ -53,9 +61,9 @@ class ContentItemController extends AbstractContentItemController
      *        methods = {"GET"}
      * )
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, PermissionHelper $permissionHelper)
     {
-        return parent::indexAction($request);
+        return $this->indexInternal($request, $permissionHelper, false);
     }
     
     /**
@@ -64,6 +72,8 @@ class ContentItemController extends AbstractContentItemController
      * @Route("/item/displayEditing/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
+     * @param PermissionHelper $permissionHelper
+     * @param ContentDisplayHelper $contentDisplayHelper
      * @param ContentItemEntity $contentItem
      *
      * @return JsonResponse
@@ -72,8 +82,12 @@ class ContentItemController extends AbstractContentItemController
      * @throws NotFoundHttpException Thrown if item isn't found
      * @throws RuntimeException      Thrown if item type isn't found
      */
-    public function displayEditingAction(Request $request, ContentItemEntity $contentItem = null)
-    {
+    public function displayEditingAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        ContentDisplayHelper $contentDisplayHelper,
+        ContentItemEntity $contentItem = null
+    ) {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -82,14 +96,11 @@ class ContentItemController extends AbstractContentItemController
             throw new NotFoundHttpException($this->__('No such content found.'));
         }
 
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayEdit($contentItem)) {
             throw new AccessDeniedException();
         }
 
-        $displayHelper = $this->get('zikula_content_module.content_display_helper');
-
-        $editDetails = $displayHelper->getDetailsForDisplayEditing($contentItem);
+        $editDetails = $contentDisplayHelper->getDetailsForDisplayEditing($contentItem);
 
         return $this->json($editDetails);
     }
@@ -100,6 +111,12 @@ class ContentItemController extends AbstractContentItemController
      * @Route("/item/duplicate/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
+     * @param WorkflowHelper $workflowHelper
+     * @param ModelHelper $modelHelper
+     * @param LoggableHelper $loggableHelper
+     * @param HookHelper $hookHelper
      * @param ContentItemEntity $contentItem
      *
      * @return JsonResponse
@@ -107,8 +124,16 @@ class ContentItemController extends AbstractContentItemController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page or content item isn't found
      */
-    public function duplicateAction(Request $request, ContentItemEntity $contentItem = null)
-    {
+    public function duplicateAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        ModelHelper $modelHelper,
+        LoggableHelper $loggableHelper,
+        HookHelper $hookHelper,
+        ContentItemEntity $contentItem = null
+    ) {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -117,7 +142,6 @@ class ContentItemController extends AbstractContentItemController
             throw new NotFoundHttpException($this->__('No such content found.'));
         }
 
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayEdit($contentItem)) {
             throw new AccessDeniedException();
         }
@@ -127,8 +151,7 @@ class ContentItemController extends AbstractContentItemController
             throw new RuntimeException($this->__('Invalid input received.'));
         }
 
-        $factory = $this->get('zikula_content_module.entity_factory');
-        $page = $factory->getRepository('page')->selectById($pageId);
+        $page = $entityFactory->getRepository('page')->selectById($pageId);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('Page not found.'));
         }
@@ -136,7 +159,6 @@ class ContentItemController extends AbstractContentItemController
         $newItem = clone $contentItem;
 
         if ($newItem->supportsHookSubscribers()) {
-            $hookHelper = $this->get('zikula_content_module.hook_helper');
             // Let any ui hooks perform additional validation actions
             $validationErrors = $hookHelper->callValidationHooks($newItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
             if (count($validationErrors) > 0) {
@@ -146,13 +168,11 @@ class ContentItemController extends AbstractContentItemController
 
         $page->addContentItems($newItem);
 
-        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
         $success = $workflowHelper->executeAction($newItem, 'submit');
         if (!$success) {
             return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
         }
 
-        $modelHelper = $this->get('zikula_content_module.model_helper');
         $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
 
         if ($newItem->supportsHookSubscribers()) {
@@ -161,7 +181,7 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_CLONED');
-        $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
+        $loggableHelper->updateContentData($page);
         $success = $workflowHelper->executeAction($page, 'update');
 
         return $this->json([
@@ -176,6 +196,13 @@ class ContentItemController extends AbstractContentItemController
      * @Route("/item/edit/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
+     * @param WorkflowHelper $workflowHelper
+     * @param LoggableHelper $loggableHelper
+     * @param ContentDisplayHelper $contentDisplayHelper
+     * @param TranslatableHelper $translatableHelper
+     * @param HookHelper $hookHelper
      * @param ContentItemEntity $contentItem
      *
      * @return JsonResponse
@@ -184,8 +211,17 @@ class ContentItemController extends AbstractContentItemController
      * @throws NotFoundHttpException Thrown if item to be edited isn't found
      * @throws RuntimeException      Thrown if item type isn't found
      */
-    public function editAction(Request $request, ContentItemEntity $contentItem = null)
-    {
+    public function editAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        LoggableHelper $loggableHelper,
+        ContentDisplayHelper $contentDisplayHelper,
+        TranslatableHelper $translatableHelper,
+        HookHelper $hookHelper,
+        ContentItemEntity $contentItem = null
+    ) {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -197,7 +233,6 @@ class ContentItemController extends AbstractContentItemController
         $dataSource = $isPost ? $request->request : $request->query;
 
         // permission check
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (null === $contentItem) {
             $isCreation = true;
             if (!$permissionHelper->hasComponentPermission('page', ACCESS_ADD)) {
@@ -209,13 +244,12 @@ class ContentItemController extends AbstractContentItemController
                 throw new RuntimeException($this->__('Invalid input received.'));
             }
 
-            $factory = $this->get('zikula_content_module.entity_factory');
-            $page = $factory->getRepository('page')->selectById($pageId);
+            $page = $entityFactory->getRepository('page')->selectById($pageId);
             if (null === $page) {
                 throw new NotFoundHttpException($this->__('Page not found.'));
             }
 
-            $contentItem = $factory->createContentItem();
+            $contentItem = $entityFactory->createContentItem();
             $contentItem->setOwningType($contentTypeClass);
             $page->addContentItems($contentItem);
         } else {
@@ -225,15 +259,10 @@ class ContentItemController extends AbstractContentItemController
             $page = $contentItem->getPage();
         }
 
-        if ($contentItem->supportsHookSubscribers()) {
-            $hookHelper = $this->get('zikula_content_module.hook_helper');
-        }
-
         $action = $dataSource->get('action', '');
-        $displayHelper = $this->get('zikula_content_module.content_display_helper');
         $form = null;
         try {
-            $contentType = $displayHelper->initContentType($contentItem);
+            $contentType = $contentDisplayHelper->initContentType($contentItem);
 
             if (true === $isCreation) {
                 $contentItem->setContentData($contentType->getDefaultData());
@@ -278,7 +307,6 @@ class ContentItemController extends AbstractContentItemController
         }
 
         if ($isPost) {
-            $workflowHelper = $this->get('zikula_content_module.workflow_helper');
             if (!in_array($action, ['save', 'delete'])) {
                 throw new RuntimeException($this->__('Invalid action received.'));
             }
@@ -323,8 +351,7 @@ class ContentItemController extends AbstractContentItemController
                     $nonTranslatableContentData[$fieldName] = $fieldValue;
                 }
                 if (count($nonTranslatableContentData) > 0) {
-                    $entityManager = $this->get('zikula_content_module.entity_factory')->getObjectManager();
-                    $translatableHelper = $this->get('zikula_content_module.translatable_helper');
+                    $entityManager = $entityFactory->getObjectManager();
                     $translations = $translatableHelper->prepareEntityForEditing($contentItem);
                     foreach ($translations as $language => $translationData) {
                         foreach ($nonTranslatableContentData as $fieldName => $fieldValue) {
@@ -351,7 +378,7 @@ class ContentItemController extends AbstractContentItemController
                 } else {
                     $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_UPDATED');
                 }
-                $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
+                $loggableHelper->updateContentData($page);
                 $success = $workflowHelper->executeAction($page, 'update');
 
                 return $this->json(['id' => $contentItem->getId(), 'message' => $this->__('Done! Content saved.')]);
@@ -401,7 +428,7 @@ class ContentItemController extends AbstractContentItemController
                 }
 
                 $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_DELETED');
-                $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
+                $loggableHelper->updateContentData($page);
                 $success = $workflowHelper->executeAction($page, 'update');
 
                 return $this->json(['message' => $this->__('Done! Content deleted.')]);
@@ -431,6 +458,12 @@ class ContentItemController extends AbstractContentItemController
      * @Route("/item/movecopy/{contentItem}", requirements = {"contentItem" = "\d+"}, options={"expose"=true})
      *
      * @param Request $request Current request instance
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
+     * @param WorkflowHelper $workflowHelper
+     * @param ModelHelper $modelHelper
+     * @param LoggableHelper $loggableHelper
+     * @param HookHelper $hookHelper
      * @param ContentItemEntity $contentItem
      *
      * @return JsonResponse
@@ -438,8 +471,16 @@ class ContentItemController extends AbstractContentItemController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if item to be moved/copied isn't found
      */
-    public function movecopyAction(Request $request, ContentItemEntity $contentItem = null)
-    {
+    public function movecopyAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        ModelHelper $modelHelper,
+        LoggableHelper $loggableHelper,
+        HookHelper $hookHelper,
+        ContentItemEntity $contentItem = null
+    ) {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -447,7 +488,6 @@ class ContentItemController extends AbstractContentItemController
         $isPost = $request->isMethod('POST');
 
         // permission check
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (null === $contentItem) {
             throw new NotFoundHttpException($this->__('Content item not found.'));
         }
@@ -492,18 +532,15 @@ class ContentItemController extends AbstractContentItemController
             if ($sourcePageId == $destinationPageId) {
                 throw new RuntimeException($this->__('Destination page must not be the current page.'));
             }
-            $factory = $this->get('zikula_content_module.entity_factory');
-            $sourcePage = $factory->getRepository('page')->selectById($sourcePageId);
+            $sourcePage = $entityFactory->getRepository('page')->selectById($sourcePageId);
             if (null === $sourcePage) {
                 throw new NotFoundHttpException($this->__('Source page not found.'));
             }
-            $destinationPage = $factory->getRepository('page')->selectById($destinationPageId);
+            $destinationPage = $entityFactory->getRepository('page')->selectById($destinationPageId);
             if (null === $destinationPage) {
                 throw new NotFoundHttpException($this->__('Destination page not found.'));
             }
 
-            $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-            $loggableHelper = $this->get('zikula_content_module.loggable_helper');
             if ('move' == $operationType) {
                 $sourcePage->removeContentItems($contentItem);
                 $destinationPage->addContentItems($contentItem);
@@ -522,7 +559,6 @@ class ContentItemController extends AbstractContentItemController
                 $newItem = clone $contentItem;
 
                 if ($newItem->supportsHookSubscribers()) {
-                    $hookHelper = $this->get('zikula_content_module.hook_helper');
                     // Let any ui hooks perform additional validation actions
                     $validationErrors = $hookHelper->callValidationHooks($newItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
                     if (count($validationErrors) > 0) {
@@ -537,7 +573,6 @@ class ContentItemController extends AbstractContentItemController
                     return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
                 }
 
-                $modelHelper = $this->get('zikula_content_module.model_helper');
                 $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
 
                 if ($newItem->supportsHookSubscribers()) {

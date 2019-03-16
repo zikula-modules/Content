@@ -338,4 +338,12 @@ abstract class AbstractSearchHelper implements SearchableInterface
     
         return $where;
     }
+    
+    /**
+     * @inheritDoc
+     */
+    public function getBundleName()
+    {
+        return 'ZikulaContentModule';
+    }
 }

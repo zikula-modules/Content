@@ -15,7 +15,8 @@ use Doctrine\DBAL\Driver\Connection;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
-use Twig_Extension;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
@@ -26,11 +27,12 @@ use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Twig extension implementation class.
  */
-class CustomTwigExtension extends Twig_Extension
+class CustomTwigExtension extends AbstractExtension
 {
     /**
      * @var Connection
@@ -105,8 +107,7 @@ class CustomTwigExtension extends Twig_Extension
      * @param CategoryRepositoryInterface $categoryRepository
      * @param EntityFactory               $entityFactory
      * @param CollectionFilterHelper      $collectionFilterHelper
-     * @param boolean                     $countPageViews
-     * @param boolean                     $ignoreFirstTreeLevel
+     * @param VariableApiInterface        $variableApi
      */
     public function __construct(
         Connection $connection,
@@ -119,8 +120,7 @@ class CustomTwigExtension extends Twig_Extension
         CategoryRepositoryInterface $categoryRepository,
         EntityFactory $entityFactory,
         CollectionFilterHelper $collectionFilterHelper,
-        $countPageViews = false,
-        $ignoreFirstTreeLevel = true
+        VariableApiInterface $variableApi
     ) {
         $this->databaseConnection = $connection;
         $this->requestStack = $requestStack;
@@ -132,28 +132,28 @@ class CustomTwigExtension extends Twig_Extension
         $this->categoryRepository = $categoryRepository;
         $this->entityFactory = $entityFactory;
         $this->collectionFilterHelper = $collectionFilterHelper;
-        $this->countPageViews = $countPageViews;
-        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
+        $this->countPageViews = $variableApi->get('ZikulaContentModule', 'countPageViews', false);
+        $this->ignoreFirstTreeLevel = $variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
     }
 
     /**
      * Returns a list of custom Twig functions.
      *
-     * @return \Twig_SimpleFunction[] List of functions
+     * @return TwigFunction[] List of functions
      */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('zikulacontentmodule_getPagePath', [$this, 'getPagePath'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('zikulacontentmodule_contentTypes', [$this, 'getContentTypes']),
-            new \Twig_SimpleFunction('zikulacontentmodule_contentDetails', [$this, 'getContentDetails']),
-            new \Twig_SimpleFunction('zikulacontentmodule_maySeeElement', [$this, 'isElementVisible']),
-            new \Twig_SimpleFunction('zikulacontentmodule_categoryInfo', [$this, 'getCategoryInfo']),
-            new \Twig_SimpleFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews']),
-            new \Twig_SimpleFunction('zikulacontentmodule_hasReadAccess', [$this, 'hasReadAccess']),
-            new \Twig_SimpleFunction('zikulacontentmodule_isCurrentPage', [$this, 'isCurrentPage']),
-            new \Twig_SimpleFunction('zikulacontentmodule_getSlug', [$this, 'getPageSlug']),
-            new \Twig_SimpleFunction('zikulacontentmodule_getPage', [$this, 'getPage'])
+            new TwigFunction('zikulacontentmodule_getPagePath', [$this, 'getPagePath'], ['is_safe' => ['html']]),
+            new TwigFunction('zikulacontentmodule_contentTypes', [$this, 'getContentTypes']),
+            new TwigFunction('zikulacontentmodule_contentDetails', [$this, 'getContentDetails']),
+            new TwigFunction('zikulacontentmodule_maySeeElement', [$this, 'isElementVisible']),
+            new TwigFunction('zikulacontentmodule_categoryInfo', [$this, 'getCategoryInfo']),
+            new TwigFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews']),
+            new TwigFunction('zikulacontentmodule_hasReadAccess', [$this, 'hasReadAccess']),
+            new TwigFunction('zikulacontentmodule_isCurrentPage', [$this, 'isCurrentPage']),
+            new TwigFunction('zikulacontentmodule_getSlug', [$this, 'getPageSlug']),
+            new TwigFunction('zikulacontentmodule_getPage', [$this, 'getPage'])
         ];
     }
 

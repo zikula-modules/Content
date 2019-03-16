@@ -24,8 +24,22 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Form\Handler\Page\EditHandler;
 use Zikula\ContentModule\Form\Type\TranslateType;
+use Zikula\ContentModule\Helper\CategoryHelper;
+use Zikula\ContentModule\Helper\ControllerHelper;
+use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ContentModule\Helper\FeatureActivationHelper;
+use Zikula\ContentModule\Helper\HookHelper;
+use Zikula\ContentModule\Helper\LoggableHelper;
+use Zikula\ContentModule\Helper\ModelHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ContentModule\Helper\TranslatableHelper;
+use Zikula\ContentModule\Helper\ViewHelper;
+use Zikula\ContentModule\Helper\WorkflowHelper;
 
 /**
  * Page controller class providing navigation and interaction functionality.
@@ -40,9 +54,9 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminIndexAction(Request $request)
+    public function adminIndexAction(Request $request, PermissionHelper $permissionHelper)
     {
-        return parent::adminIndexAction($request);
+        return $this->indexInternal($request, $permissionHelper, true);
     }
     
     /**
@@ -52,11 +66,10 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, PermissionHelper $permissionHelper)
     {
         // permission check
         $permLevel = ACCESS_READ;
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
             throw new AccessDeniedException();
         }
@@ -74,9 +87,20 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminViewAction(Request $request, $sort, $sortdir, $pos, $num)
-    {
-        return parent::adminViewAction($request, $sort, $sortdir, $pos, $num);
+    public function adminViewAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        CategoryHelper $categoryHelper,
+        FeatureActivationHelper $featureActivationHelper,
+        ViewHelper $viewHelper,
+        LoggableHelper $loggableHelper,
+        $sort,
+        $sortdir,
+        $pos,
+        $num
+    ) {
+        return $this->viewInternal($request, $controllerHelper, $permissionHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
     }
     
     /**
@@ -88,9 +112,20 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function viewAction(Request $request, $sort, $sortdir, $pos, $num)
-    {
-        return parent::viewAction($request, $sort, $sortdir, $pos, $num);
+    public function viewAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        CategoryHelper $categoryHelper,
+        FeatureActivationHelper $featureActivationHelper,
+        ViewHelper $viewHelper,
+        LoggableHelper $loggableHelper,
+        $sort,
+        $sortdir,
+        $pos,
+        $num
+    ) {
+        return $this->viewInternal($request, $controllerHelper, $permissionHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, false);
     }
     
     /**
@@ -104,9 +139,14 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminEditAction(Request $request)
-    {
-        return parent::adminEditAction($request);
+    public function adminEditAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        EditHandler $formHandler,
+        ViewHelper $viewHelper
+    ) {
+        return $this->editInternal($request, $controllerHelper, $permissionHelper, $formHandler, $viewHelper, true);
     }
     
     /**
@@ -119,9 +159,14 @@ class PageController extends AbstractPageController
      *        options={"expose"=true}
      * )
      */
-    public function editAction(Request $request)
-    {
-        return parent::editAction($request);
+    public function editAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        EditHandler $formHandler,
+        ViewHelper $viewHelper
+    ) {
+        return $this->editInternal($request, $controllerHelper, $permissionHelper, $formHandler, $viewHelper, false);
     }
     
     /**
@@ -133,9 +178,13 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminUndeleteAction(Request $request, $id = 0)
-    {
-        return parent::adminUndeleteAction($request, $id);
+    public function adminUndeleteAction(
+        Request $request,
+        LoggableHelper $loggableHelper,
+        TranslatableHelper $translatableHelper,
+        $id = 0
+    ) {
+        return $this->undeleteActionInternal($request, $loggableHelper, $translatableHelper, $id, true);
     }
     
     /**
@@ -146,9 +195,13 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function undeleteAction(Request $request, $id = 0)
-    {
-        return parent::undeleteAction($request, $id);
+    public function undeleteAction(
+        Request $request,
+        LoggableHelper $loggableHelper,
+        TranslatableHelper $translatableHelper,
+        $id = 0
+    ) {
+        return $this->undeleteActionInternal($request, $loggableHelper, $translatableHelper, $id, false);
     }
     
     /**
@@ -159,9 +212,16 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminLoggableHistoryAction(Request $request, $slug = '')
-    {
-        return parent::adminLoggableHistoryAction($request, $slug);
+    public function adminLoggableHistoryAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        LoggableHelper $loggableHelper,
+        TranslatableHelper $translatableHelper,
+        WorkflowHelper $workflowHelper,
+        $slug = ''
+    ) {
+        return $this->loggableHistoryActionInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $slug, true);
     }
     
     /**
@@ -171,9 +231,16 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function loggableHistoryAction(Request $request, $slug = '')
-    {
-        return parent::loggableHistoryAction($request, $slug);
+    public function loggableHistoryAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        LoggableHelper $loggableHelper,
+        TranslatableHelper $translatableHelper,
+        WorkflowHelper $workflowHelper,
+        $slug = ''
+    ) {
+        return $this->loggableHistoryActionInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $slug, false);
     }
     
     /**
@@ -185,7 +252,7 @@ class PageController extends AbstractPageController
      * )
      * @Template("ZikulaContentModule:Page:manageContent.html.twig")
      *
-     * @param Request $request Current request instance
+     * @param Request $request
      * @param string $slug Slug of treated page instance
      *
      * @return Response Output
@@ -193,9 +260,13 @@ class PageController extends AbstractPageController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function adminManageContentAction(Request $request, $slug)
-    {
-        return $this->manageContentInternal($request, $slug, true);
+    public function adminManageContentAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        $slug
+    ) {
+        return $this->manageContentInternal($request, $permissionHelper, $entityFactory, $slug, true);
     }
 
     /**
@@ -207,7 +278,7 @@ class PageController extends AbstractPageController
      * )
      * @Template("ZikulaContentModule:Page:manageContent.html.twig")
      *
-     * @param Request $request Current request instance
+     * @param Request $request
      * @param string $slug Slug of treated page instance
      *
      * @return Response Output
@@ -215,30 +286,41 @@ class PageController extends AbstractPageController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function manageContentAction(Request $request, $slug)
-    {
-        return $this->manageContentInternal($request, $slug, false);
+    public function manageContentAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        $slug
+    ) {
+        return $this->manageContentInternal($request, $permissionHelper, $entityFactory, $slug, false);
     }
 
     /**
      * This method includes the common implementation code for adminManageContentAction() and manageContentAction().
      *
-     * @param Request $request Current request instance
+     * @param Request $request
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
      * @param string $slug Slug of treated page instance
+     * @param boolean $isAdmin Whether the admin area is used or not
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    protected function manageContentInternal(Request $request, $slug, $isAdmin = false)
-    {
-        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+    protected function manageContentInternal(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        $slug,
+        $isAdmin = false
+    ) {
+        $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
 
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayManagePageContent($page)) {
             throw new AccessDeniedException();
         }
@@ -258,7 +340,7 @@ class PageController extends AbstractPageController
         // try to guarantee that only one person at a time can be editing this entity
         $hasPageLockModule = $this->get('kernel')->isBundle('ZikulaPageLockModule');
         if (true === $hasPageLockModule) {
-            $lockingApi = $this->get('zikula_pagelock_module.api.locking');
+            $lockingApi = $this->get('Zikula\PageLockModule\Api\LockingApi');
             $lockName = 'ZikulaContentModulePageContent' . $page->getKey();
 
             $lockingApi->addLock($lockName, $returnUrl);
@@ -294,7 +376,10 @@ class PageController extends AbstractPageController
      *        options={"expose"=true}
      * )
      *
-     * @param Request $request Current request instance
+     * @param Request $request
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
+     * @param WorkflowHelper $workflowHelper
      * @param integer $id Identifier of treated page instance
      *
      * @return JsonResponse Output
@@ -302,18 +387,22 @@ class PageController extends AbstractPageController
      * @throws NotFoundHttpException Thrown if the page was not found
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function updateLayoutAction(Request $request, $id)
-    {
+    public function updateLayoutAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        $id
+    ) {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
 
-        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectById($id);
+        $page = $entityFactory->getRepository('page')->selectById($id);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
 
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayManagePageContent($page)) {
             throw new AccessDeniedException();
         }
@@ -325,7 +414,6 @@ class PageController extends AbstractPageController
 
         // no hook calls on purpose here, because layout data should not be of interest for other modules
 
-        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
         $success = $workflowHelper->executeAction($page, 'update');
         if (!$success) {
             return $this->json(['message' => $this->__('Error! An error occured during layout persistence.')], Response::HTTP_BAD_REQUEST);
@@ -343,23 +431,27 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      *
-     * @param Request $request Current request instance
+     * @param Request $request
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function sitemapAction(Request $request)
-    {
+    public function sitemapAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory
+    ) {
         // permission check
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
             throw new AccessDeniedException();
         }
 
         $ignoreFirstTreeLevel = $this->getVar('ignoreFirstTreeLevelInRoutes', true);
         $where = 'tbl.lvl = ' . ($ignoreFirstTreeLevel ? '1' : '0');
-        $rootPages = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectWhere($where, 'tbl.lft');
+        $rootPages = $entityFactory->getRepository('page')->selectWhere($where, 'tbl.lft');
 
         return $this->render('@ZikulaContentModule/Page/sitemap.' . $request->getRequestFormat() . '.twig', [
             'pages' => $rootPages
@@ -367,66 +459,70 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * Handles duplication of a given page.
-     *
      * @Route("/admin/page/duplicate/{slug}",
      *        requirements = {"slug" = "[^.]+"},
      *        methods = {"GET"}
      * )
-     *
-     * @param Request $request Current request instance
-     * @param string $slug Slug of treated page instance
-     *
-     * @return RedirectResponse
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown if page to be duplicated isn't found
      */
-    public function adminDuplicateAction(Request $request, $slug)
-    {
-        return $this->duplicateInternal($request, $slug, true);
+    public function adminDuplicateAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        ModelHelper $modelHelper,
+        HookHelper $hookHelper,
+        $slug
+    ) {
+        return $this->duplicateInternal($request, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, true);
+    }
+
+    /**
+     * @Route("/page/duplicate/{slug}",
+     *        requirements = {"slug" = "[^.]+"},
+     *        methods = {"GET"}
+     * )
+     */
+    public function duplicateAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        ModelHelper $modelHelper,
+        HookHelper $hookHelper,
+        $slug
+    ) {
+        return $this->duplicateInternal($request, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, false);
     }
 
     /**
      * Handles duplication of a given page.
      *
-     * @Route("/page/duplicate/{slug}",
-     *        requirements = {"slug" = "[^.]+"},
-     *        methods = {"GET"}
-     * )
-     *
-     * @param Request $request Current request instance
+     * @param Request $request
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
      * @param string $slug Slug of treated page instance
+     * @param boolean $isAdmin Whether the admin area is used or not
      *
      * @return RedirectResponse
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be duplicated isn't found
      */
-    public function duplicateAction(Request $request, $slug)
-    {
-        return $this->duplicateInternal($request, $slug, false);
-    }
-
-    /**
-     * This method includes the common implementation code for adminDuplicateAction() and duplicateAction().
-     *
-     * @param Request $request Current request instance
-     * @param string $slug Slug of treated page instance
-     *
-     * @return RedirectResponse
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown if page to be duplicated isn't found
-     */
-    protected function duplicateInternal(Request $request, $slug, $isAdmin = false)
-    {
-        $oldPage = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+    protected function duplicateInternal(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        ModelHelper $modelHelper,
+        HookHelper $hookHelper,
+        $slug,
+        $isAdmin = false
+    ) {
+        $oldPage = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $oldPage) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
 
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayEdit($oldPage)) {
             throw new AccessDeniedException();
         }
@@ -449,9 +545,6 @@ class PageController extends AbstractPageController
         $slugParts = explode('/', $newPage->getSlug());
         $newPage->setSlug(end($slugParts) . str_replace(' ', '-', $titleSuffix));
 
-        $hookHelper = $this->get('zikula_content_module.hook_helper');
-        $workflowHelper = $this->get('zikula_content_module.workflow_helper');
-
         if ($newPage->supportsHookSubscribers()) {
             // Let any ui hooks perform additional validation actions
             $validationErrors = $hookHelper->callValidationHooks($newPage, UiHooksCategory::TYPE_VALIDATE_EDIT);
@@ -471,7 +564,6 @@ class PageController extends AbstractPageController
             return $this->redirect($returnUrl);
         }
 
-        $modelHelper = $this->get('zikula_content_module.model_helper');
         $modelHelper->clonePageTranslations($oldPage->getId(), $newPage->getId(), $titleSuffix);
 
         $layoutData = $newPage->getLayout();
@@ -539,70 +631,81 @@ class PageController extends AbstractPageController
     }
 
     /**
-     * Handles page translation.
-     *
      * @Route("/admin/page/translate/{slug}",
      *        requirements = {"slug" = "[^.]+"},
      *        methods = {"GET", "POST"},
      *        options={"expose"=true}
      * )
      * @Template("ZikulaContentModule:Page:translate.html.twig")
-     *
-     * @param Request $request Current request instance
-     * @param string $slug Slug of treated page instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function adminTranslateAction(Request $request, $slug)
-    {
-        return $this->translateInternal($request, $slug, true);
+    public function adminTranslateAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        LoggableHelper $loggableHelper,
+        TranslatableHelper $translatableHelper,
+        WorkflowHelper $workflowHelper,
+        ContentDisplayHelper $contentDisplayHelper,
+        $slug
+    ) {
+        return $this->translateInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, true);
     }
 
     /**
-     * Handles page translation.
-     *
      * @Route("/page/translate/{slug}",
      *        requirements = {"slug" = "[^.]+"},
      *        methods = {"GET", "POST"},
      *        options={"expose"=true}
      * )
      * @Template("ZikulaContentModule:Page:translate.html.twig")
-     *
-     * @param Request $request Current request instance
-     * @param string $slug Slug of treated page instance
-     *
-     * @return Response Output
-     *
-     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function translateAction(Request $request, $slug)
-    {
-        return $this->translateInternal($request, $slug, false);
+    public function translateAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        LoggableHelper $loggableHelper,
+        TranslatableHelper $translatableHelper,
+        WorkflowHelper $workflowHelper,
+        ContentDisplayHelper $contentDisplayHelper,
+        $slug
+    ) {
+        return $this->translateInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, false);
     }
 
     /**
-     * This method includes the common implementation code for adminTranslateAction() and translateAction().
+     * Handles page translation.
      *
-     * @param Request $request Current request instance
+     * @param Request $request
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
+     * @param LoggableHelper $loggableHelper
+     * @param TranslatableHelper $translatableHelper
+     * @param WorkflowHelper $workflowHelper
+     * @param ContentDisplayHelper $contentDisplayHelper
      * @param string $slug Slug of treated page instance
+     * @param boolean $isAdmin Whether the admin area is used or not
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    protected function translateInternal(Request $request, $slug, $isAdmin = false)
-    {
-        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+    protected function translateInternal(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        LoggableHelper $loggableHelper,
+        TranslatableHelper $translatableHelper,
+        WorkflowHelper $workflowHelper,
+        ContentDisplayHelper $contentDisplayHelper,
+        $slug,
+        $isAdmin = false
+    ) {
+        $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
 
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->mayEdit($page)) {
             throw new AccessDeniedException();
         }
@@ -634,13 +737,12 @@ class PageController extends AbstractPageController
         // try to guarantee that only one person at a time can be editing this entity
         $hasPageLockModule = $this->get('kernel')->isBundle('ZikulaPageLockModule');
         if (true === $hasPageLockModule) {
-            $lockingApi = $this->get('zikula_pagelock_module.api.locking');
+            $lockingApi = $this->get('Zikula\PageLockModule\Api\LockingApi');
             $lockName = 'ZikulaContentModuleTranslatePage' . $page->getKey();
 
             $lockingApi->addLock($lockName, $returnUrl);
         }
 
-        $translatableHelper = $this->get('zikula_content_module.translatable_helper');
         $supportedLanguages = $translatableHelper->getSupportedLanguages('page');
 
         $isPageStep = null === $contentItem;
@@ -664,8 +766,7 @@ class PageController extends AbstractPageController
             $slugParts = explode('/', $pageSlug);
             $page->setSlug(end($slugParts));
         } else {
-            $displayHelper = $this->get('zikula_content_module.content_display_helper');
-            $contentType = $displayHelper->initContentType($contentItem);
+            $contentType = $contentDisplayHelper->initContentType($contentItem);
             foreach ($translationInfo['items'] as $item) {
                 if ($item->getEntity()->getId() != $contentItemId) {
                     continue;
@@ -675,11 +776,11 @@ class PageController extends AbstractPageController
             }
 
             $formOptions['content_type'] = $contentType;
-            $displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_TRANSLATION);
+            $contentDisplayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_TRANSLATION);
         }
         $form = $this->createForm(TranslateType::class, $formObject, $formOptions);
-
-        if ($form->handleRequest($request)->isValid()) {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             $selfRoute = $routePrefix . 'translate';
             if ($isPageStep) {
                 $pageSlug = $page->getSlug();
@@ -709,7 +810,6 @@ class PageController extends AbstractPageController
             }
             $page->set_actionDescriptionForLogEntry('_HISTORY_PAGE_TRANSLATION_UPDATED');
             // handle form data
-            $workflowHelper = $this->get('zikula_content_module.workflow_helper');
             if (in_array($form->getClickedButton()->getName(), ['prev', 'next', 'saveandquit'])) {
                 // update translations
                 $success = $workflowHelper->executeAction($formObject, 'update');
@@ -717,7 +817,7 @@ class PageController extends AbstractPageController
             }
             if (!$isPageStep) {
                 // create new log entry
-                $this->get('zikula_content_module.loggable_helper')->updateContentData($page);
+                $loggableHelper->updateContentData($page);
                 $success = $workflowHelper->executeAction($page, 'update');
             }
 
@@ -786,7 +886,10 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      *
-     * @param Request $request Current request instance
+     * @param Request $request
+     * @param PermissionHelper $permissionHelper
+     * @param EntityFactory $entityFactory
+     * @param ViewHelper $viewHelper
      * @param string $slug Slug of treated page instance
      *
      * @return Response Output
@@ -794,20 +897,24 @@ class PageController extends AbstractPageController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
-    public function subpagesAction(Request $request, $slug)
-    {
-        $page = $this->get('zikula_content_module.entity_factory')->getRepository('page')->selectBySlug($slug);
+    public function subpagesAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        ViewHelper $viewHelper,
+        $slug
+    ) {
+        $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
-        
+
         // permission check
-        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->hasEntityPermission($page, ACCESS_READ)) {
             throw new AccessDeniedException();
         }
 
-        return $this->get('zikula_content_module.view_helper')->processTemplate('page', 'subpages', [
+        return $viewHelper->processTemplate('page', 'subpages', [
             'page' => $page,
             'routeArea' => ''
         ]);
@@ -818,17 +925,35 @@ class PageController extends AbstractPageController
      *
      * @Theme("admin")
      */
-    public function adminDisplayAction(Request $request, $slug)
-    {
-        return parent::adminDisplayAction($request, $slug);
+    public function adminDisplayAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        CategoryHelper $categoryHelper,
+        FeatureActivationHelper $featureActivationHelper,
+        ViewHelper $viewHelper,
+        LoggableHelper $loggableHelper,
+        $slug
+    ) {
+        return $this->displayInternal($request, $controllerHelper, $permissionHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $slug, true);
     }
     
     /**
      * @inheritDoc
      */
-    public function displayAction(Request $request, $slug)
-    {
-        return parent::displayAction($request, $slug);
+    public function displayAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        CategoryHelper $categoryHelper,
+        FeatureActivationHelper $featureActivationHelper,
+        ViewHelper $viewHelper,
+        LoggableHelper $loggableHelper,
+        $slug
+    ) {
+        return $this->displayInternal($request, $controllerHelper, $permissionHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $slug, false);
     }
     
     /**
@@ -838,9 +963,14 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminHandleSelectedEntriesAction(Request $request)
-    {
-        return parent::adminHandleSelectedEntriesAction($request);
+    public function adminHandleSelectedEntriesAction(
+        Request $request,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        HookHelper $hookHelper,
+        CurrentUserApiInterface $currentUserApi
+    ) {
+        return $this->handleSelectedEntriesActionInternal($request, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, true);
     }
     
     /**
@@ -849,8 +979,13 @@ class PageController extends AbstractPageController
      *        methods = {"POST"}
      * )
      */
-    public function handleSelectedEntriesAction(Request $request)
-    {
-        return parent::handleSelectedEntriesAction($request);
+    public function handleSelectedEntriesAction(
+        Request $request,
+        EntityFactory $entityFactory,
+        WorkflowHelper $workflowHelper,
+        HookHelper $hookHelper,
+        CurrentUserApiInterface $currentUserApi
+    ) {
+        return $this->handleSelectedEntriesActionInternal($request, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, false);
     }
 }

@@ -11,10 +11,10 @@
 
 namespace Zikula\ContentModule\Helper;
 
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -45,7 +45,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
      *
      * @param ContainerInterface       $container       Service container
      * @param TranslatorInterface      $translator      Translator service instance
-     * @param PageAssetApiInterface    $pageAssetApi    AageAssetApi service instance
+     * @param PageAssetApiInterface    $pageAssetApi    PageAssetApi service instance
      * @param GroupRepositoryInterface $groupRepository GroupRepository service instance
      */
     public function __construct(

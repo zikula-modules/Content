@@ -113,7 +113,6 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 'class' => 'input-sm category-selector',
                 'title' => $this->__('This is an optional filter.')
             ],
-            'help' => $this->__('This is an optional filter.'),
             'required' => false,
             'multiple' => false,
             'module' => 'ZikulaContentModule',

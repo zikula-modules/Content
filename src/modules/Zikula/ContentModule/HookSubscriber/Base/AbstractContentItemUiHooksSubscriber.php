@@ -62,6 +62,14 @@ abstract class AbstractContentItemUiHooksSubscriber implements HookSubscriberInt
     /**
      * @inheritDoc
      */
+    public function getAreaName()
+    {
+        return 'subscriber.zikulacontentmodule.ui_hooks.contentitems';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getEvents()
     {
         return [

@@ -14,6 +14,7 @@ namespace Zikula\ContentModule\ContentType;
 use Zikula\Common\Content\AbstractContentType;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Unfiltered raw content type.
@@ -138,10 +139,11 @@ class UnfilteredType extends AbstractContentType
     }
 
     /**
-     * @param boolean $enableRawPlugin
+     * @required
+     * @param VariableApiInterface $variableApi
      */
-    public function setEnableRawPlugin($enableRawPlugin)
+    public function setEnableRawPlugin(VariableApiInterface $variableApi)
     {
-        $this->enableRawPlugin = $enableRawPlugin;
+        $this->enableRawPlugin = $variableApi->get('ZikulaContentModule', 'enableRawPlugin', false);
     }
 }

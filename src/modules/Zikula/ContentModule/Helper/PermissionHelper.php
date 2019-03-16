@@ -13,6 +13,7 @@ namespace Zikula\ContentModule\Helper;
 
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractPermissionHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\GroupsModule\Constant as GroupsConstant;
 
 /**
@@ -109,11 +110,12 @@ class PermissionHelper extends AbstractPermissionHelper
     }
 
     /**
-     * @param boolean $inheritPermissions
+     * @required
+     * @param VariableApiInterface $variableApi
      */
-    public function setInheritPermissions($inheritPermissions = false)
+    public function setInheritPermissions(VariableApiInterface $variableApi)
     {
-        $this->inheritPermissions = $inheritPermissions;
+        $this->inheritPermissions = $variableApi->get('ZikulaContentModule', 'inheritPermissions', false);
     }
 
     /**

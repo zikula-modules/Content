@@ -115,6 +115,7 @@ class VimeoType extends AbstractContentType
     }
 
     /**
+     * @required
      * @param CacheHelper $cacheHelper
      */
     public function setCacheHelper(CacheHelper $cacheHelper)

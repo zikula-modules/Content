@@ -1,4 +1,4 @@
-application "Content" {
+application "Content" targets ZK30 {
     documentation "Flexible hierachical page management."
     vendor "Zikula"
     author "Axel Guckelsberger"
@@ -25,6 +25,7 @@ application "Content" {
         ContentModuleInstaller.php,
         Controller/ContentItemController.php,
         Controller/PageController.php,
+        DependencyInjection/ZikulaContentExtension.php,
         Entity/ContentItemEntity.php,
         Entity/Factory/EntityInitialiser.php,
         Entity/PageEntity.php,
@@ -43,8 +44,7 @@ application "Content" {
         Resources/config/routing.yml,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
         Resources/views/Block/itemlist_contentItem_display.html.twig,
-        Resources/views/Block/itemlist_page_display_description.html.twig,
-        ZikulaContentModule.php
+        Resources/views/Block/itemlist_page_display_description.html.twig
     "
     markFiles "
         composer.json,

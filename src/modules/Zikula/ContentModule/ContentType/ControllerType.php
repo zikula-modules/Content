@@ -185,6 +185,7 @@ class ControllerType extends AbstractContentType
     }
 
     /**
+     * @required
      * @param ZikulaHttpKernelInterface $kernel
      */
     public function setKernel(ZikulaHttpKernelInterface $kernel)
@@ -193,6 +194,7 @@ class ControllerType extends AbstractContentType
     }
 
     /**
+     * @required
      * @param RequestStack $requestStack
      */
     public function setRequestStack(RequestStack $requestStack)

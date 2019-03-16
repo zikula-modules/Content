@@ -212,6 +212,7 @@ class ExampleDataHelper extends AbstractExampleDataHelper
     }
 
     /**
+     * @required
      * @param RouterInterface $router
      */
     public function setRouter(RouterInterface $router)
@@ -220,6 +221,7 @@ class ExampleDataHelper extends AbstractExampleDataHelper
     }
 
     /**
+     * @required
      * @param ContentDisplayHelper $displayHelper
      */
     public function setContentDisplayHelper(ContentDisplayHelper $displayHelper)

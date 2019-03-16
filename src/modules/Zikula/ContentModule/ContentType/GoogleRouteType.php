@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Content\AbstractContentType;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Google route content type.
@@ -173,10 +174,11 @@ class GoogleRouteType extends AbstractContentType
     }
 
     /**
-     * @param string $googleMapsApiKey
+     * @required
+     * @param VariableApiInterface $variableApi
      */
-    public function setGoogleMapsApiKey($googleMapsApiKey)
+    public function setGoogleMapsApiKey(VariableApiInterface $variableApi)
     {
-        $this->googleMapsApiKey = $googleMapsApiKey;
+        $this->googleMapsApiKey = $variableApi->get('ZikulaContentModule', 'googleMapsApiKey', '');
     }
 }

@@ -62,6 +62,14 @@ abstract class AbstractContentItemFormAwareHookSubscriber implements HookSubscri
     /**
      * @inheritDoc
      */
+    public function getAreaName()
+    {
+        return 'subscriber.zikulacontentmodule.form_aware_hook.contentitems';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getEvents()
     {
         return [

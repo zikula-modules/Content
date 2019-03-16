@@ -134,6 +134,7 @@ class ComputerCodeType extends AbstractContentType
     }
 
     /**
+     * @required
      * @param ZikulaHttpKernelInterface $kernel
      */
     public function setKernel(ZikulaHttpKernelInterface $kernel)

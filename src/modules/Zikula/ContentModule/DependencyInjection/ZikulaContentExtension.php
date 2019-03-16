@@ -11,6 +11,9 @@
 
 namespace Zikula\ContentModule\DependencyInjection;
 
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\DependencyInjection\Base\AbstractZikulaContentExtension;
 
 /**
@@ -18,5 +21,17 @@ use Zikula\ContentModule\DependencyInjection\Base\AbstractZikulaContentExtension
  */
 class ZikulaContentExtension extends AbstractZikulaContentExtension
 {
-    // custom enhancements can go here
+    /**
+     * @inheritDoc
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        parent::load($configs, $container);
+
+        $container->registerForAutoconfiguration(ContentTypeInterface::class)
+            ->addTag('zikula.content_type')
+            ->setPublic(true)
+            ->setShared(true)
+        ;
+    }
 }

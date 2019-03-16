@@ -13,17 +13,13 @@ namespace Zikula\ContentModule\Helper;
 
 use Doctrine\ORM\QueryBuilder;
 use Zikula\ContentModule\Helper\Base\AbstractCollectionFilterHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
  * Entity collection filter helper implementation class.
  */
 class CollectionFilterHelper extends AbstractCollectionFilterHelper
 {
-    /**
-     * @var boolean
-     */
-    protected $ignoreFirstTreeLevel;
-
     /**
      * @inheritDoc
      */
@@ -35,7 +31,7 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         }
 
         $qb->andWhere('tbl.active = 1');
-        if (true === $this->ignoreFirstTreeLevel) {
+        if (true === $this->ignoreFirstTreeLevel()) {
             $qb->andWhere('tbl.lvl > 0');
         }
         if (in_array('tblContentItems', $qb->getAllAliases())) {
@@ -109,10 +105,10 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
     }
 
     /**
-     * @param boolean $ignoreFirstTreeLevel
+     * @return boolean
      */
-    public function setIgnoreFirstTreeLevel($ignoreFirstTreeLevel = true)
+    public function ignoreFirstTreeLevel()
     {
-        $this->ignoreFirstTreeLevel = $ignoreFirstTreeLevel;
+        return $this->variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
     }
 }

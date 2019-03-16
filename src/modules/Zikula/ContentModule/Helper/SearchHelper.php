@@ -110,7 +110,7 @@ class SearchHelper extends AbstractSearchHelper
             $result = new SearchResultEntity();
             $result->setTitle($formattedTitle)
                 ->setText($entity['metaDescription'])
-                ->setModule('ZikulaContentModule')
+                ->setModule($this->getBundleName())
                 ->setCreated($entity['createdDate'])
                 ->setSesid($this->session->getId())
                 ->setUrl($displayUrl);
@@ -121,6 +121,7 @@ class SearchHelper extends AbstractSearchHelper
     }
 
     /**
+     * @required
      * @param VariableApiInterface $variableApi
      */
     public function setVariableApi(VariableApiInterface $variableApi)

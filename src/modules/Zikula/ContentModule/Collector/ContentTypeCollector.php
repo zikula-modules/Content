@@ -27,9 +27,12 @@ class ContentTypeCollector
     /**
      * ContentTypeCollector constructor.
      */
-    public function __construct()
+    public function __construct(iterable $contentTypes)
     {
         $this->contentTypes = [];
+        foreach ($contentTypes as $contentType) {
+            $this->add($contentType);
+        }
     }
 
     /**
@@ -39,7 +42,7 @@ class ContentTypeCollector
      */
     public function add(ContentTypeInterface $contentType)
     {
-        $id = $contentType->getBundleName() . $contentType->getName();
+        $id = str_replace('\\', '_', get_class($contentType));
 
         $this->contentTypes[$id] = $contentType;
     }
