@@ -31,7 +31,7 @@ class ZikulaContentExtension extends AbstractZikulaContentExtension
         $container->registerForAutoconfiguration(ContentTypeInterface::class)
             ->addTag('zikula.content_type')
             ->setPublic(true)
-            ->setShared(true)
+            ->setShared(false)
         ;
     }
 }
