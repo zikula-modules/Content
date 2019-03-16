@@ -13,8 +13,8 @@ namespace Zikula\ContentModule\Block\Base;
 
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\BlocksModule\AbstractBlockHandler;
-use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Block\Form\Type\ItemListBlockType;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
