@@ -48,11 +48,6 @@ application "Content" targets ZK30 {
     "
     markFiles "
         composer.json,
-        Resources/config/appSettings.yml,
-        Resources/config/entityFactory.yml,
-        Resources/config/forms.yml,
-        Resources/config/helpers.yml,
-        Resources/config/menu.yml,
         Resources/config/services.yml
     "
     entities {
