@@ -1,5 +1,8 @@
 <?php
-class ModulABC_Integration_StackTest extends PHPUnit_Framework_TestCase
+
+use PHPUnit\Framework\TestCase;
+
+class ModulABC_Integration_StackTest extends TestCase
 {
     public function testEmpty()
     {

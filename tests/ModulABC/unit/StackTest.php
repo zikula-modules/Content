@@ -1,5 +1,8 @@
 <?php
-class ModulABC_Unit_StackTest extends PHPUnit_Framework_TestCase
+
+use PHPUnit\Framework\TestCase;
+
+class ModulABC_Unit_StackTest extends TestCase
 {
     public function testPushAndPop()
     {
