@@ -53,11 +53,11 @@ abstract class AbstractExampleDataHelper
     /**
      * ExampleDataHelper constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param LoggerInterface $logger
-     * @param EntityFactory $entityFactory
-     * @param WorkflowHelper $workflowHelper
+     * @param TranslatorInterface $translator     Translator service instance
+     * @param RequestStack        $requestStack   RequestStack service instance
+     * @param LoggerInterface     $logger         Logger service instance
+     * @param EntityFactory       $entityFactory  EntityFactory service instance
+     * @param WorkflowHelper      $workflowHelper WorkflowHelper service instance
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -83,10 +83,10 @@ abstract class AbstractExampleDataHelper
         $dtNow = date('Y-m-d H:i:s');
         // example category
         $categoryId = 41; // Business and work
-        $category = $this->entityFactory->getEntityManager()->find('ZikulaCategoriesModule:CategoryEntity', $categoryId);
+        $category = $this->entityFactory->getObjectManager()->find('ZikulaCategoriesModule:CategoryEntity', $categoryId);
     
         // determine category registry identifiers
-        $registryRepository = $this->entityFactory->getEntityManager()->getRepository('ZikulaCategoriesModule:CategoryRegistryEntity');
+        $registryRepository = $this->entityFactory->getObjectManager()->getRepository('ZikulaCategoriesModule:CategoryRegistryEntity');
         $categoryRegistries = $registryRepository->findBy(['modname' => 'ZikulaContentModule']);
     
     
@@ -142,7 +142,7 @@ abstract class AbstractExampleDataHelper
         // execute the workflow action for each entity
         $action = 'submit';
         try {
-            $entityManager = $this->entityFactory->getEntityManager();
+            $entityManager = $this->entityFactory->getObjectManager();
             $entityManager->persist($page1);
             $entityManager->persist($contentItem1);
             $success = $this->workflowHelper->executeAction($page1, $action);

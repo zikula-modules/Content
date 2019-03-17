@@ -30,7 +30,7 @@ abstract class AbstractMultiListType extends AbstractType
     /**
      * MultiListType constructor.
      *
-     * @param ListEntriesHelper $listHelper
+     * @param ListEntriesHelper $listHelper ListEntriesHelper service instance
      */
     public function __construct(ListEntriesHelper $listHelper)
     {

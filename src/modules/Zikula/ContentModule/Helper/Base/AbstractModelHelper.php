@@ -26,7 +26,7 @@ abstract class AbstractModelHelper
     /**
      * ModelHelper constructor.
      *
-     * @param EntityFactory $entityFactory
+     * @param EntityFactory $entityFactory EntityFactory service instance
      */
     public function __construct(EntityFactory $entityFactory)
     {

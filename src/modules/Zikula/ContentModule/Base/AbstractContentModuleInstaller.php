@@ -13,43 +13,13 @@ namespace Zikula\ContentModule\Base;
 
 use RuntimeException;
 use Zikula\Core\AbstractExtensionInstaller;
-use Zikula\CategoriesModule\Api\CategoryPermissionApi;
 use Zikula\CategoriesModule\Entity\CategoryRegistryEntity;
-use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
-use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
-use Zikula\Common\Translator\Translator;
-use Zikula\ExtensionsModule\Api\VariableApi;
-use Zikula\UsersModule\Api\CurrentUserApi;
-use Zikula\ContentModule\Entity\PageEntity;
-use Zikula\ContentModule\Entity\PageLogEntryEntity;
-use Zikula\ContentModule\Entity\PageTranslationEntity;
-use Zikula\ContentModule\Entity\PageCategoryEntity;
-use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Entity\ContentItemTranslationEntity;
 
 /**
  * Installer base class.
  */
 abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
 {
-    /**
-     * @var array
-     */
-    protected $entities = [
-        PageEntity::class
-        ,
-        PageLogEntryEntity::class
-        ,
-        PageTranslationEntity::class
-        ,
-        PageCategoryEntity::class
-        ,
-        ContentItemEntity::class
-        ,
-        ContentItemTranslationEntity::class
-        ,
-    ];
-
     /**
      * Install the ZikulaContentModule application.
      *
@@ -60,11 +30,11 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     public function install()
     {
         $logger = $this->container->get('logger');
-        $userName = $this->container->get(CurrentUserApi::class)->get('uname');
+        $userName = $this->container->get('zikula_users_module.current_user')->get('uname');
     
         // create all tables from according entity definitions
         try {
-            $this->schemaTool->create($this->entities);
+            $this->schemaTool->create($this->listEntityClasses());
         } catch (\Exception $exception) {
             $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
             $logger->error('{app}: Could not create the database tables during installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
@@ -104,14 +74,14 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     
         // add default entry for category registry (property named Main)
         $categoryHelper = new \Zikula\ContentModule\Helper\CategoryHelper(
-            $this->container->get(Translator::class),
+            $this->container->get('translator.default'),
             $this->container->get('request_stack'),
             $logger,
-            $this->container->get(CurrentUserApi::class),
-            $this->container->get(CategoryRegistryRepositoryInterface::class),
-            $this->container->get(CategoryPermissionApi::class)
+            $this->container->get('zikula_users_module.current_user'),
+            $this->container->get('zikula_categories_module.category_registry_repository'),
+            $this->container->get('zikula_categories_module.api.category_permission')
         );
-        $categoryGlobal = $this->container->get(CategoryRepositoryInterface::class)->findOneBy(['name' => 'Global']);
+        $categoryGlobal = $this->container->get('zikula_categories_module.category_repository')->findOneBy(['name' => 'Global']);
         if ($categoryGlobal) {
             $categoryRegistryIdsPerEntity = [];
     
@@ -158,7 +128,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                 // ...
                 // update the database schema
                 try {
-                    $this->schemaTool->update($this->entities);
+                    $this->schemaTool->update($this->listEntityClasses());
                 } catch (\Exception $exception) {
                     $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
                     $logger->error('{app}: Could not update the database tables during the upgrade. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
@@ -184,7 +154,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $logger = $this->container->get('logger');
     
         try {
-            $this->schemaTool->drop($this->entities);
+            $this->schemaTool->drop($this->listEntityClasses());
         } catch (\Exception $exception) {
             $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
             $logger->error('{app}: Could not remove the database tables during uninstallation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
@@ -196,7 +166,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->delVars();
     
         // remove category registry entries
-        $registries = $this->container->get(CategoryRegistryRepositoryInterface::class)->findBy(['modname' => 'ZikulaContentModule']);
+        $registries = $this->container->get('zikula_categories_module.category_registry_repository')->findBy(['modname' => 'ZikulaContentModule']);
         foreach ($registries as $registry) {
             $this->entityManager->remove($registry);
         }
@@ -204,5 +174,23 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     
         // uninstallation successful
         return true;
+    }
+    
+    /**
+     * Build array with all entity classes for ZikulaContentModule.
+     *
+     * @return string[] List of class names
+     */
+    protected function listEntityClasses()
+    {
+        $classNames = [];
+        $classNames[] = 'Zikula\ContentModule\Entity\PageEntity';
+        $classNames[] = 'Zikula\ContentModule\Entity\PageLogEntryEntity';
+        $classNames[] = 'Zikula\ContentModule\Entity\PageTranslationEntity';
+        $classNames[] = 'Zikula\ContentModule\Entity\PageCategoryEntity';
+        $classNames[] = 'Zikula\ContentModule\Entity\ContentItemEntity';
+        $classNames[] = 'Zikula\ContentModule\Entity\ContentItemTranslationEntity';
+    
+        return $classNames;
     }
 }

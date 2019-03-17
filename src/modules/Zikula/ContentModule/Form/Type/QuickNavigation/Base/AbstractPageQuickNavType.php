@@ -44,9 +44,9 @@ abstract class AbstractPageQuickNavType extends AbstractType
     /**
      * PageQuickNavType constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param ListEntriesHelper $listHelper
-     * @param FeatureActivationHelper $featureActivationHelper
+     * @param TranslatorInterface $translator   Translator service instance
+     * @param ListEntriesHelper   $listHelper   ListEntriesHelper service instance
+     * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -61,7 +61,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface $translator Translator service instance
      */
     public function setTranslator(TranslatorInterface $translator)
     {
@@ -113,6 +113,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 'class' => 'input-sm category-selector',
                 'title' => $this->__('This is an optional filter.')
             ],
+            'help' => $this->__('This is an optional filter.'),
             'required' => false,
             'multiple' => false,
             'module' => 'ZikulaContentModule',

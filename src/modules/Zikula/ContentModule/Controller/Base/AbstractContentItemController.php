@@ -11,38 +11,57 @@
 
 namespace Zikula\ContentModule\Controller\Base;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
 use Zikula\Core\RouteUrl;
 use Zikula\ContentModule\Entity\ContentItemEntity;
-use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
 /**
  * Content item controller base class.
  */
 abstract class AbstractContentItemController extends AbstractController
 {
-    
     /**
-     * This is the default action handling the index area called without defining arguments.
+     * This is the default action handling the index admin area called without defining arguments.
      *
-     * @param Request $request
-     * @param PermissionHelper $permissionHelper
+     * @param Request $request Current request instance
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    protected function indexInternal(
-        Request $request,
-        PermissionHelper $permissionHelper,
-        $isAdmin = false
-    ) {
+    public function adminIndexAction(Request $request)
+    {
+        return $this->indexInternal($request, true);
+    }
+    
+    /**
+     * This is the default action handling the index area called without defining arguments.
+     *
+     * @param Request $request Current request instance
+     *
+     * @return Response Output
+     *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     */
+    public function indexAction(Request $request)
+    {
+        return $this->indexInternal($request, false);
+    }
+    
+    /**
+     * This method includes the common implementation code for adminIndex() and index().
+     */
+    protected function indexInternal(Request $request, $isAdmin = false)
+    {
         $objectType = 'contentItem';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_OVERVIEW;
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
             throw new AccessDeniedException();
         }

@@ -11,7 +11,7 @@
 
 namespace Zikula\ContentModule\Entity\Factory\Base;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use InvalidArgumentException;
 use Zikula\ContentModule\Entity\Factory\EntityInitialiser;
@@ -24,12 +24,12 @@ use Zikula\ContentModule\Helper\FeatureActivationHelper;
 abstract class AbstractEntityFactory
 {
     /**
-     * @var EntityManagerInterface
+     * @var ObjectManager The object manager to be used for determining the repository
      */
-    protected $entityManager;
+    protected $objectManager;
 
     /**
-     * @var EntityInitialiser The entity initialiser for dynamic application of default values
+     * @var EntityInitialiser The entity initialiser for dynamical application of default values
      */
     protected $entityInitialiser;
 
@@ -46,18 +46,18 @@ abstract class AbstractEntityFactory
     /**
      * EntityFactory constructor.
      *
-     * @param EntityManagerInterface $entityManager
-     * @param EntityInitialiser $entityInitialiser
-     * @param CollectionFilterHelper $collectionFilterHelper
-     * @param FeatureActivationHelper $featureActivationHelper
+     * @param ObjectManager          $objectManager          The object manager to be used for determining the repositories
+     * @param EntityInitialiser      $entityInitialiser      The entity initialiser for dynamical application of default values
+     * @param CollectionFilterHelper $collectionFilterHelper CollectionFilterHelper service instance
+     * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
+        ObjectManager $objectManager,
         EntityInitialiser $entityInitialiser,
         CollectionFilterHelper $collectionFilterHelper,
         FeatureActivationHelper $featureActivationHelper)
     {
-        $this->entityManager = $entityManager;
+        $this->objectManager = $objectManager;
         $this->entityInitialiser = $entityInitialiser;
         $this->collectionFilterHelper = $collectionFilterHelper;
         $this->featureActivationHelper = $featureActivationHelper;
@@ -74,7 +74,7 @@ abstract class AbstractEntityFactory
     {
         $entityClass = 'Zikula\\ContentModule\\Entity\\' . ucfirst($objectType) . 'Entity';
 
-        $repository = $this->getEntityManager()->getRepository($entityClass);
+        $repository = $this->objectManager->getRepository($entityClass);
         $repository->setCollectionFilterHelper($this->collectionFilterHelper);
 
         if (in_array($objectType, ['page', 'contentItem'])) {
@@ -130,32 +130,32 @@ abstract class AbstractEntityFactory
         }
         $entityClass = 'ZikulaContentModule:' . ucfirst($objectType) . 'Entity';
     
-        $meta = $this->getEntityManager()->getClassMetadata($entityClass);
+        $meta = $this->getObjectManager()->getClassMetadata($entityClass);
     
         return $meta->getSingleIdentifierFieldName();
     }
 
     /**
-     * Returns the entity manager.
+     * Returns the object manager.
      *
-     * @return EntityManagerInterface
+     * @return ObjectManager
      */
-    public function getEntityManager()
+    public function getObjectManager()
     {
-        return $this->entityManager;
+        return $this->objectManager;
     }
     
     /**
-     * Sets the entity manager.
+     * Sets the object manager.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param ObjectManager $objectManager
      *
      * @return void
      */
-    public function setEntityManager($entityManager)
+    public function setObjectManager($objectManager)
     {
-        if ($this->entityManager != $entityManager) {
-            $this->entityManager = $entityManager;
+        if ($this->objectManager != $objectManager) {
+            $this->objectManager = $objectManager;
         }
     }
     

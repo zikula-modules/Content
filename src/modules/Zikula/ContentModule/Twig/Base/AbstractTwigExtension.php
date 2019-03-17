@@ -79,15 +79,15 @@ abstract class AbstractTwigExtension extends AbstractExtension
     /**
      * TwigExtension constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param Routerinterface $router
-     * @param VariableApiInterface $variableApi
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param WorkflowHelper $workflowHelper
-     * @param ListEntriesHelper $listHelper
-     * @param LoggableHelper $loggableHelper
-     * @param MenuBuilder $menuBuilder
+     * @param TranslatorInterface $translator     Translator service instance
+     * @param Routerinterface     $router         Router service instance
+     * @param VariableApiInterface   $variableApi    VariableApi service instance
+     * @param EntityFactory          $entityFactory  EntityFactory service instance
+     * @param EntityDisplayHelper    $entityDisplayHelper EntityDisplayHelper service instance
+     * @param WorkflowHelper         $workflowHelper WorkflowHelper service instance
+     * @param ListEntriesHelper   $listHelper     ListEntriesHelper service instance
+     * @param LoggableHelper      $loggableHelper LoggableHelper service instance
+     * @param MenuBuilder         $menuBuilder    MenuBuilder service instance
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -114,7 +114,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface $translator Translator service instance
      */
     public function setTranslator(TranslatorInterface $translator)
     {

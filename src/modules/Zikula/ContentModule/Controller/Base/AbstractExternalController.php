@@ -16,15 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
-use Zikula\ThemeModule\Engine\Asset;
-use Zikula\ContentModule\Entity\Factory\EntityFactory;
-use Zikula\ContentModule\Helper\CategoryHelper;
-use Zikula\ContentModule\Helper\CollectionFilterHelper;
-use Zikula\ContentModule\Helper\ControllerHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
-use Zikula\ContentModule\Helper\ListEntriesHelper;
-use Zikula\ContentModule\Helper\PermissionHelper;
-use Zikula\ContentModule\Helper\ViewHelper;
 
 /**
  * Controller for external calls base class.
@@ -34,35 +26,23 @@ abstract class AbstractExternalController extends AbstractController
     /**
      * Displays one item of a certain object type using a separate template for external usages.
      *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     * @param EntityFactory $entityFactory
-     * @param ViewHelper $viewHelper
-     * @param string $objectType The currently treated object type
-     * @param int $id Identifier of the entity to be shown
-     * @param string $source Source of this call (block, contentType, scribite)
-     * @param string $displayMode Display mode (link or embed)
+     * @param Request $request     The current request
+     * @param string  $objectType  The currently treated object type
+     * @param int     $id          Identifier of the entity to be shown
+     * @param string  $source      Source of this call (block, contentType, scribite)
+     * @param string  $displayMode Display mode (link or embed)
      *
      * @return string Desired data output
      */
-    public function displayAction(
-        Request $request,
-        ControllerHelper $controllerHelper,
-        PermissionHelper $permissionHelper,
-        EntityFactory $entityFactory,
-        ViewHelper $viewHelper,
-        $objectType,
-        $id,
-        $source,
-        $displayMode
-    )
-     {
+    public function displayAction(Request $request, $objectType, $id, $source, $displayMode)
+    {
+        $controllerHelper = $this->get('zikula_content_module.controller_helper');
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
         if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
         }
         
+        $entityFactory = $this->get('zikula_content_module.entity_factory');
         $repository = $entityFactory->getRepository($objectType);
         
         // assign object data fetched from the database
@@ -71,12 +51,12 @@ abstract class AbstractExternalController extends AbstractController
             return new Response($this->__('No such item.'));
         }
         
-        if (!$permissionHelper->mayRead($entity)) {
+        if (!$this->get('zikula_content_module.permission_helper')->mayRead($entity)) {
             return new Response('');
         }
         
         $template = $request->query->has('template') ? $request->query->get('template', null) : null;
-        if (null === $template || '' == $template) {
+        if (null === $template || $template == '') {
             $template = 'display.html.twig';
         }
         
@@ -88,8 +68,9 @@ abstract class AbstractExternalController extends AbstractController
         ];
         
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
-        $templateParameters = $controllerHelper->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
+        $templateParameters = $this->get('zikula_content_module.controller_helper')->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
         
+        $viewHelper = $this->get('zikula_content_module.view_helper');
         $request->query->set('raw', true);
         
         return $viewHelper->processTemplate('external', ucfirst($objectType) . '/' . str_replace('.html.twig', '', $template), $templateParameters);
@@ -99,46 +80,21 @@ abstract class AbstractExternalController extends AbstractController
      * Popup selector for Scribite plugins.
      * Finds items of a certain object type.
      *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     * @param EntityFactory $entityFactory
-     * @param CollectionFilterHelper $collectionFilterHelper
-     * @param ListEntriesHelper $listEntriesHelper
-     * @param CategoryHelper $categoryHelper
-     * @param FeatureActivationHelper $featureActivationHelper
-     * @param ViewHelper $viewHelper
-     * @param Asset $assetHelper
-     * @param string $objectType The object type
-     * @param string $editor Name of used Scribite editor
-     * @param string $sort Sorting field
-     * @param string $sortdir Sorting direction
-     * @param int $pos Current pager position
-     * @param int $num Amount of entries to display
+     * @param Request $request    The current request
+     * @param string  $objectType The object type
+     * @param string  $editor     Name of used Scribite editor
+     * @param string  $sort       Sorting field
+     * @param string  $sortdir    Sorting direction
+     * @param int     $pos        Current pager position
+     * @param int     $num        Amount of entries to display
      *
      * @return output The external item finder page
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function finderAction(
-        Request $request,
-        ControllerHelper $controllerHelper,
-        PermissionHelper $permissionHelper,
-        EntityFactory $entityFactory,
-        CollectionFilterHelper $collectionFilterHelper,
-        ListEntriesHelper $listEntriesHelper,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
-        ViewHelper $viewHelper,
-        Asset $assetHelper,
-        $objectType,
-        $editor,
-        $sort,
-        $sortdir,
-        $pos = 1,
-        $num = 0
-    )
-     {
+    public function finderAction(Request $request, $objectType, $editor, $sort, $sortdir, $pos = 1, $num = 0)
+    {
+        $listEntriesHelper = $this->get('zikula_content_module.listentries_helper');
         $activatedObjectTypes = $listEntriesHelper->extractMultiList($this->getVar('enabledFinderTypes', ''));
         if (!in_array($objectType, $activatedObjectTypes)) {
             if (!count($activatedObjectTypes)) {
@@ -151,7 +107,7 @@ abstract class AbstractExternalController extends AbstractController
             return new RedirectResponse($redirectUrl);
         }
         
-        if (!$permissionHelper->hasComponentPermission($objectType, ACCESS_COMMENT)) {
+        if (!$this->get('zikula_content_module.permission_helper')->hasComponentPermission($objectType, ACCESS_COMMENT)) {
             throw new AccessDeniedException();
         }
         
@@ -159,11 +115,12 @@ abstract class AbstractExternalController extends AbstractController
             return new Response($this->__('Error: Invalid editor context given for external controller action.'));
         }
         
+        $assetHelper = $this->get('zikula_core.common.theme.asset_helper');
         $cssAssetBag = $this->get('zikula_core.common.theme.assets_css');
         $cssAssetBag->add($assetHelper->resolve('@ZikulaContentModule:css/style.css'));
         $cssAssetBag->add([$assetHelper->resolve('@ZikulaContentModule:css/custom.css') => 120]);
         
-        $repository = $entityFactory->getRepository($objectType);
+        $repository = $this->get('zikula_content_module.entity_factory')->getRepository($objectType);
         if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
             $sort = $repository->getDefaultSortingField();
         }
@@ -214,15 +171,16 @@ abstract class AbstractExternalController extends AbstractController
         $qb = $repository->getListQueryBuilder($where, $orderBy);
         
         if ('' != $searchTerm) {
-            $qb = $this->$collectionFilterHelper->addSearchFilter($objectType, $qb, $searchTerm);
+            $qb = $this->get('zikula_content_module.collection_filter_helper')->addSearchFilter($objectType, $qb, $searchTerm);
         }
         $query = $repository->getQueryFromBuilder($qb);
         
         list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
         
         if (in_array($objectType, ['page'])) {
+            $featureActivationHelper = $this->get('zikula_content_module.feature_activation_helper');
             if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
-                $entities = $categoryHelper->filterEntitiesByPermission($entities);
+                $entities = $this->get('zikula_content_module.category_helper')->filterEntitiesByPermission($entities);
             }
         }
         
@@ -230,7 +188,7 @@ abstract class AbstractExternalController extends AbstractController
         $templateParameters['finderForm'] = $form->createView();
         
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
-        $templateParameters = $controllerHelper->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
+        $templateParameters = $this->get('zikula_content_module.controller_helper')->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
         
         $templateParameters['activatedObjectTypes'] = $activatedObjectTypes;
         
@@ -239,6 +197,7 @@ abstract class AbstractExternalController extends AbstractController
             'itemsperpage' => $resultsPerPage
         ];
         
+        $viewHelper = $this->get('zikula_content_module.view_helper');
         $request->query->set('raw', true);
         
         return $viewHelper->processTemplate('external', ucfirst($objectType) . '/find', $templateParameters);

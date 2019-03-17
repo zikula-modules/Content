@@ -17,13 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
-use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
-use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
-use Zikula\ContentModule\Entity\Factory\EntityFactory;
-use Zikula\ContentModule\Helper\ControllerHelper;
-use Zikula\ContentModule\Helper\EntityDisplayHelper;
-use Zikula\ContentModule\Helper\PermissionHelper;
-use Zikula\ContentModule\Helper\WorkflowHelper;
 
 /**
  * Ajax controller base class.
@@ -32,24 +25,16 @@ abstract class AbstractAjaxController extends AbstractController
 {
     
     /**
-     * Retrieve item list for finder selections, for example used in Scribite editor plug-ins.
+     * Retrieve item list for finder selections in Forms, Content type plugin and Scribite.
      *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
+     * @param string $ot      Name of currently used object type
+     * @param string $sort    Sorting field
+     * @param string $sortdir Sorting direction
      *
      * @return JsonResponse
      */
-    public function getItemListFinderAction(
-        Request $request,
-        ControllerHelper $controllerHelper,
-        PermissionHelper $permissionHelper,
-        EntityFactory $entityFactory,
-        EntityDisplayHelper $entityDisplayHelper
-    )
-     {
+    public function getItemListFinderAction(Request $request)
+    {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -59,12 +44,14 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $objectType = $request->query->getAlnum('ot', 'page');
+        $controllerHelper = $this->get('zikula_content_module.controller_helper');
         $contextArgs = ['controller' => 'ajax', 'action' => 'getItemListFinder'];
         if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
         }
         
-        $repository = $entityFactory->getRepository($objectType);
+        $repository = $this->get('zikula_content_module.entity_factory')->getRepository($objectType);
+        $entityDisplayHelper = $this->get('zikula_content_module.entity_display_helper');
         $descriptionFieldName = $entityDisplayHelper->getDescriptionFieldName($objectType);
         
         $sort = $request->query->getAlnum('sort', '');
@@ -89,12 +76,13 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $slimItems = [];
+        $permissionHelper = $this->get('zikula_content_module.permission_helper');
         foreach ($entities as $item) {
             if (!$permissionHelper->mayRead($item)) {
                 continue;
             }
             $itemId = $item->getKey();
-            $slimItems[] = $this->prepareSlimItem($controllerHelper, $repository, $entityDisplayHelper, $item, $itemId, $descriptionFieldName);
+            $slimItems[] = $this->prepareSlimItem($repository, $objectType, $item, $itemId, $descriptionFieldName);
         }
         
         // return response
@@ -104,27 +92,25 @@ abstract class AbstractAjaxController extends AbstractController
     /**
      * Builds and returns a slim data array from a given entity.
      *
-     * @param ControllerHelper $controllerHelper
-     * @param EntityRepository $repository Repository for the treated object type
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param object $item The currently treated entity
-     * @param string $itemId Data item identifier(s)
-     * @param string $descriptionField Name of item description field
+     * @param EntityRepository $repository       Repository for the treated object type
+     * @param string           $objectType       The currently treated object type
+     * @param object           $item             The currently treated entity
+     * @param string           $itemId           Data item identifier(s)
+     * @param string           $descriptionField Name of item description field
      *
      * @return array The slim data representation
      */
-    protected function prepareSlimItem(ControllerHelper $controllerHelper, $repository, EntityDisplayHelper $entityDisplayHelper, $item, $itemId, $descriptionField)
+    protected function prepareSlimItem($repository, $objectType, $item, $itemId, $descriptionField)
     {
-        $objectType = $item->get_objectType();
         $previewParameters = [
             $objectType => $item
         ];
         $contextArgs = ['controller' => $objectType, 'action' => 'display'];
-        $previewParameters = $controllerHelper->addTemplateParameters($objectType, $previewParameters, 'controllerAction', $contextArgs);
+        $previewParameters = $this->get('zikula_content_module.controller_helper')->addTemplateParameters($objectType, $previewParameters, 'controllerAction', $contextArgs);
     
         $previewInfo = base64_encode($this->get('twig')->render('@ZikulaContentModule/External/' . ucfirst($objectType) . '/info.html.twig', $previewParameters));
     
-        $title = $entityDisplayHelper->getFormattedTitle($item);
+        $title = $this->get('zikula_content_module.entity_display_helper')->getFormattedTitle($item);
         $description = $descriptionField != '' ? $item[$descriptionField] : '';
     
         return [
@@ -138,20 +124,14 @@ abstract class AbstractAjaxController extends AbstractController
     /**
      * Checks whether a field value is a duplicate or not.
      *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param EntityFactory $entityFactory
+     * @param Request $request Current request instance
      *
      * @return JsonResponse
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function checkForDuplicateAction(
-        Request $request,
-        ControllerHelper $controllerHelper,
-        EntityFactory $entityFactory
-    )
-     {
+    public function checkForDuplicateAction(Request $request)
+    {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -161,6 +141,7 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $objectType = $request->query->getAlnum('ot', 'page');
+        $controllerHelper = $this->get('zikula_content_module.controller_helper');
         $contextArgs = ['controller' => 'ajax', 'action' => 'checkForDuplicate'];
         if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
@@ -188,15 +169,15 @@ abstract class AbstractAjaxController extends AbstractController
         
         $result = false;
         switch ($objectType) {
-            case 'page':
-                $repository = $entityFactory->getRepository($objectType);
-                switch ($fieldName) {
-                    case 'slug':
-                        $entity = $repository->selectBySlug($value, false, false, $exclude);
-                        $result = null !== $entity && isset($entity['slug']);
-                        break;
-                }
-                break;
+        case 'page':
+            $repository = $this->get('zikula_content_module.entity_factory')->getRepository($objectType);
+            switch ($fieldName) {
+                case 'slug':
+                    $entity = $repository->selectBySlug($value, false, false, $exclude);
+                    $result = null !== $entity && isset($entity['slug']);
+                    break;
+            }
+            break;
         }
         
         // return response
@@ -206,20 +187,14 @@ abstract class AbstractAjaxController extends AbstractController
     /**
      * Changes a given flag (boolean field) by switching between true and false.
      *
-     * @param Request $request
-     * @param EntityFactory $entityFactory
-     * @param CurrentUserApiInterface $currentUserApi
+     * @param Request $request Current request instance
      *
      * @return JsonResponse
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function toggleFlagAction(
-        Request $request,
-        EntityFactory $entityFactory,
-        CurrentUserApiInterface $currentUserApi
-    )
-     {
+    public function toggleFlagAction(Request $request)
+    {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -241,6 +216,7 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         // select data from data source
+        $entityFactory = $this->get('zikula_content_module.entity_factory');
         $repository = $entityFactory->getRepository($objectType);
         $entity = $repository->selectById($id, false);
         if (null === $entity) {
@@ -251,10 +227,10 @@ abstract class AbstractAjaxController extends AbstractController
         $entity[$field] = !$entity[$field];
         
         // save entity back to database
-        $entityFactory->getEntityManager()->flush($entity);
+        $entityFactory->getObjectManager()->flush($entity);
         
         $logger = $this->get('logger');
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'field' => $field, 'entity' => $objectType, 'id' => $id];
+        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->get('zikula_users_module.current_user')->get('uname'), 'field' => $field, 'entity' => $objectType, 'id' => $id];
         $logger->notice('{app}: User {user} toggled the {field} flag the {entity} with id {id}.', $logArgs);
         
         // return response
@@ -268,26 +244,14 @@ abstract class AbstractAjaxController extends AbstractController
     /**
      * Performs different operations on tree hierarchies.
      *
-     * @param Request $request
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param CurrentUserApiInterface $currentUserApi
-     * @param UserRepositoryInterface $userRepository
-     * @param WorkflowHelper $workflowHelper
+     * @param Request $request Current request instance
      *
      * @return JsonResponse
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function handleTreeOperationAction(
-        Request $request,
-        EntityFactory $entityFactory,
-        EntityDisplayHelper $entityDisplayHelper,
-        CurrentUserApiInterface $currentUserApi,
-        UserRepositoryInterface $userRepository,
-        WorkflowHelper $workflowHelper
-    )
-     {
+    public function handleTreeOperationAction(Request $request)
+    {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -330,6 +294,7 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $createMethod = 'create' . ucfirst($objectType);
+        $entityFactory = $this->get('zikula_content_module.entity_factory');
         $repository = $entityFactory->getRepository($objectType);
         
         $rootId = 1;
@@ -343,19 +308,21 @@ abstract class AbstractAjaxController extends AbstractController
             }
         }
         
-        $entityManager = $entityFactory->getEntityManager();
+        $entityManager = $entityFactory->getObjectManager();
+        $entityDisplayHelper = $this->get('zikula_content_module.entity_display_helper');
         $titleFieldName = $entityDisplayHelper->getTitleFieldName($objectType);
         $descriptionFieldName = $entityDisplayHelper->getDescriptionFieldName($objectType);
         
+        $currentUserApi = $this->get('zikula_users_module.current_user');
         $logger = $this->get('logger');
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $objectType];
         
         $currentUserId = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uid') : 1;
-        $currentUser = $userRepository->find($currentUserId);
+        $currentUser = $this->get('zikula_users_module.user_repository')->find($currentUserId);
         
         switch ($op) {
             case 'addRootNode':
-                $entity = $entityFactory->$createMethod();
+                $entity = $this->get('zikula_content_module.entity_factory')->$createMethod();
                 if (!empty($titleFieldName)) {
                     $entity[$titleFieldName] = $this->__('New root node');
                 }
@@ -371,6 +338,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $action = 'submit';
                 try {
                     // execute the workflow action
+                    $workflowHelper = $this->get('zikula_content_module.workflow_helper');
                     $success = $workflowHelper->executeAction($entity, $action);
                     if (!$success) {
                         $returnValue['result'] = 'failure';
@@ -393,7 +361,7 @@ abstract class AbstractAjaxController extends AbstractController
                     return $this->json($returnValue);
                 }
                 
-                $childEntity = $entityFactory->$createMethod();
+                $childEntity = $this->get('zikula_content_module.entity_factory')->$createMethod();
                 $childEntity[$titleFieldName] = $this->__('New child node');
                 if (!empty($descriptionFieldName)) {
                     $childEntity[$descriptionFieldName] = $this->__('This is a new child node');
@@ -415,6 +383,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $action = 'submit';
                 try {
                     // execute the workflow action
+                    $workflowHelper = $this->get('zikula_content_module.workflow_helper');
                     $success = $workflowHelper->executeAction($childEntity, $action);
                     if (!$success) {
                         $returnValue['result'] = 'failure';
@@ -448,6 +417,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $action = 'delete';
                 try {
                     // execute the workflow action
+                    $workflowHelper = $this->get('zikula_content_module.workflow_helper');
                     $success = $workflowHelper->executeAction($entity, $action);
                     if (!$success) {
                         $returnValue['result'] = 'failure';

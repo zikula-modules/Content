@@ -12,26 +12,14 @@
 namespace Zikula\ContentModule\Block\Base;
 
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
-use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
 use Zikula\BlocksModule\AbstractBlockHandler;
 use Zikula\ContentModule\Block\Form\Type\ItemBlockType;
-use Zikula\ContentModule\Helper\ControllerHelper;
 
 /**
  * Generic item detail block base class.
  */
 abstract class AbstractItemBlock extends AbstractBlockHandler
 {
-    /**
-     * @var ControllerHelper
-     */
-    protected $controllerHelper;
-    
-    /**
-     * @var FragmentHandler
-     */
-    protected $fragmentHandler;
-    
     /**
      * @inheritDoc
      */
@@ -58,14 +46,15 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
             return '';
         }
     
+        $controllerHelper = $this->get('zikula_content_module.controller_helper');
         $contextArgs = ['name' => 'detail'];
-        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs))) {
-            $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
+        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $controllerHelper->getObjectTypes('block', $contextArgs))) {
+            $properties['objectType'] = $controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
     
         $controllerReference = new ControllerReference('ZikulaContentModule:External:display', $this->getDisplayArguments($properties), ['template' => $properties['customTemplate']]);
     
-        return $this->fragmentHandler->render($controllerReference, 'inline', []);
+        return $this->get('fragment.handler')->render($controllerReference, 'inline', []);
     }
     
     /**
@@ -100,7 +89,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     {
         $objectType = 'page';
     
-        $request = $this->requestStack->getCurrentRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
         if ($request->attributes->has('blockEntity')) {
             $blockEntity = $request->attributes->get('blockEntity');
             if (is_object($blockEntity) && method_exists($blockEntity, 'getProperties')) {
@@ -140,23 +129,5 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
             'template' => 'item_display.html.twig',
             'customTemplate' => null
         ];
-    }
-    
-    /**
-     * @required
-     * @param ControllerHelper $controllerHelper
-     */
-    public function setControllerHelper(ControllerHelper $controllerHelper)
-    {
-        $this->controllerHelper = $controllerHelper;
-    }
-    
-    /**
-     * @required
-     * @param FragmentHandler $fragmentHandler
-     */
-    public function setFragmentHandler(FragmentHandler $fragmentHandler)
-    {
-        $this->fragmentHandler = $fragmentHandler;
     }
 }

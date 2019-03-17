@@ -32,8 +32,8 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
     /**
      * ListEntryValidator constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param ListEntriesHelper $listEntriesHelper
+     * @param TranslatorInterface $translator        Translator service instance
+     * @param ListEntriesHelper   $listEntriesHelper ListEntriesHelper service instance
      */
     public function __construct(TranslatorInterface $translator, ListEntriesHelper $listEntriesHelper)
     {
@@ -44,7 +44,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface $translator Translator service instance
      */
     public function setTranslator(TranslatorInterface $translator)
     {

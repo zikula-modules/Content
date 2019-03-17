@@ -35,8 +35,8 @@ abstract class AbstractLoggableListener extends BaseListener
     /**
      * LoggableListener constructor.
      *
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param LoggableHelper $loggableHelper
+     * @param EntityDisplayHelper $entityDisplayHelper EntityDisplayHelper service instance
+     * @param LoggableHelper      $loggableHelper      LoggableHelper service instance
      */
     public function __construct(
         EntityDisplayHelper $entityDisplayHelper,

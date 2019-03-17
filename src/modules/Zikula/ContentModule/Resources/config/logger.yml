@@ -1,0 +1,5 @@
+services:
+    # Log processor
+    zikula_content_module.log.processor:
+        class: Monolog\Processor\PsrLogMessageProcessor
+        tags: ['monolog.processor']

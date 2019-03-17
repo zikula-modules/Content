@@ -1,0 +1,134 @@
+services:
+    # Helper services
+    zikula_content_module.category_helper:
+        class: Zikula\ContentModule\Helper\CategoryHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@logger"
+            - "@zikula_users_module.current_user"
+            - "@zikula_categories_module.category_registry_repository"
+            - "@zikula_categories_module.api.category_permission"
+    
+    zikula_content_module.collection_filter_helper:
+        class: Zikula\ContentModule\Helper\CollectionFilterHelper
+        arguments:
+            - "@request_stack"
+            - "@zikula_content_module.permission_helper"
+            - "@zikula_users_module.current_user"
+            - "@zikula_content_module.category_helper"
+            - "@zikula_extensions_module.api.variable"
+            - "@=service('zikula_extensions_module.api.variable').get('ZikulaContentModule', 'showOnlyOwnEntries', false)"
+    
+    zikula_content_module.controller_helper:
+        class: Zikula\ContentModule\Helper\ControllerHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@form.factory"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.collection_filter_helper"
+            - "@zikula_content_module.permission_helper"
+            - "@zikula_content_module.model_helper"
+            - "@zikula_content_module.feature_activation_helper"
+    
+    zikula_content_module.entity_display_helper:
+        class: Zikula\ContentModule\Helper\EntityDisplayHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@zikula_content_module.listentries_helper"
+    
+    zikula_content_module.example_data_helper:
+        class: Zikula\ContentModule\Helper\ExampleDataHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@logger"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.workflow_helper"
+    
+    zikula_content_module.feature_activation_helper:
+        class: Zikula\ContentModule\Helper\FeatureActivationHelper
+    
+    zikula_content_module.hook_helper:
+        class: Zikula\ContentModule\Helper\HookHelper
+        arguments:
+            - "@hook_dispatcher"
+    
+    zikula_content_module.listentries_helper:
+        class: Zikula\ContentModule\Helper\ListEntriesHelper
+        arguments:
+            - "@translator.default"
+    
+    zikula_content_module.loggable_helper:
+        class: Zikula\ContentModule\Helper\LoggableHelper
+        arguments:
+            - "@translator.default"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.entity_display_helper"
+            - "@zikula_content_module.entity_lifecycle_listener"
+            - "@zikula_content_module.translatable_helper"
+    
+    zikula_content_module.model_helper:
+        class: Zikula\ContentModule\Helper\ModelHelper
+        arguments:
+            - "@zikula_content_module.entity_factory"
+    
+    zikula_content_module.permission_helper:
+        class: Zikula\ContentModule\Helper\PermissionHelper
+        arguments:
+            - "@service_container"
+            - "@request_stack"
+            - "@zikula_permissions_module.api.permission"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_users_module.current_user"
+            - "@zikula_users_module.user_repository"
+    
+    zikula_content_module.search_helper:
+        class: Zikula\ContentModule\Helper\SearchHelper
+        arguments:
+            - "@translator.default"
+            - "@session"
+            - "@request_stack"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.controller_helper"
+            - "@zikula_content_module.entity_display_helper"
+            - "@zikula_content_module.permission_helper"
+            - "@zikula_content_module.feature_activation_helper"
+            - "@zikula_content_module.category_helper"
+        tags:
+            - { name: zikula.searchable_module, bundleName: ZikulaContentModule }
+    
+    zikula_content_module.translatable_helper:
+        class: Zikula\ContentModule\Helper\TranslatableHelper
+        arguments:
+            - "@translator.default"
+            - "@request_stack"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_settings_module.locale_api"
+            - "@zikula_content_module.entity_factory"
+    
+    zikula_content_module.view_helper:
+        class: Zikula\ContentModule\Helper\ViewHelper
+        arguments:
+            - "@twig"
+            - "@twig.loader"
+            - "@request_stack"
+            - "@zikula_extensions_module.api.variable"
+            - "@zikula_core.internal.theme_filter"
+            - "@zikula_core.common.theme.pagevars"
+            - "@zikula_content_module.controller_helper"
+            - "@zikula_content_module.permission_helper"
+    
+    zikula_content_module.workflow_helper:
+        class: Zikula\ContentModule\Helper\WorkflowHelper
+        arguments:
+            - "@translator.default"
+            - "@workflow.registry"
+            - "@logger"
+            - "@zikula_users_module.current_user"
+            - "@zikula_content_module.entity_factory"
+            - "@zikula_content_module.listentries_helper"
+            - "@zikula_content_module.permission_helper"

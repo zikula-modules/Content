@@ -74,15 +74,15 @@ abstract class AbstractControllerHelper
     /**
      * ControllerHelper constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param FormFactoryInterface $formFactory
-     * @param VariableApiInterface $variableApi
-     * @param EntityFactory $entityFactory
-     * @param CollectionFilterHelper $collectionFilterHelper
-     * @param PermissionHelper $permissionHelper
-     * @param ModelHelper $modelHelper
-     * @param FeatureActivationHelper $featureActivationHelper
+     * @param TranslatorInterface $translator       Translator service instance
+     * @param RequestStack        $requestStack     RequestStack service instance
+     * @param FormFactoryInterface $formFactory     FormFactory service instance
+     * @param VariableApiInterface $variableApi     VariableApi service instance
+     * @param EntityFactory       $entityFactory    EntityFactory service instance
+     * @param CollectionFilterHelper $collectionFilterHelper CollectionFilterHelper service instance
+     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
+     * @param ModelHelper         $modelHelper      ModelHelper service instance
+     * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -109,7 +109,7 @@ abstract class AbstractControllerHelper
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface $translator Translator service instance
      */
     public function setTranslator(TranslatorInterface $translator)
     {

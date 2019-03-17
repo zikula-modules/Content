@@ -11,14 +11,10 @@
 
 namespace Zikula\ContentModule\Block\Base;
 
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\BlocksModule\AbstractBlockHandler;
-use Zikula\ContentModule\Block\Form\Type\ItemListBlockType;
-use Zikula\ContentModule\Entity\Factory\EntityFactory;
-use Zikula\ContentModule\Helper\CategoryHelper;
-use Zikula\ContentModule\Helper\ControllerHelper;
+use Zikula\Core\AbstractBundle;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
-use Zikula\ContentModule\Helper\ModelHelper;
+use Zikula\ContentModule\Block\Form\Type\ItemListBlockType;
 
 /**
  * Generic item list block base class.
@@ -26,41 +22,25 @@ use Zikula\ContentModule\Helper\ModelHelper;
 abstract class AbstractItemListBlock extends AbstractBlockHandler
 {
     /**
-     * @var FilesystemLoader
-     */
-    protected $twigLoader;
-    
-    /**
-     * @var ControllerHelper
-     */
-    protected $controllerHelper;
-    
-    /**
-     * @var ModelHelper
-     */
-    protected $modelHelper;
-    
-    /**
-     * @var EntityFactory
-     */
-    protected $entityFactory;
-    
-    /**
-     * @var categoryHelper
-     */
-    protected $categoryHelper;
-    
-    /**
-     * @var FeatureActivationHelper
-     */
-    protected $featureActivationHelper;
-    
-    /**
      * List of object types allowing categorisation.
      *
      * @var array
      */
     protected $categorisableObjectTypes;
+    
+    /**
+     * ItemListBlock constructor.
+     *
+     * @param AbstractBundle $bundle An AbstractBundle instance
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(AbstractBundle $bundle)
+    {
+        parent::__construct($bundle);
+    
+        $this->categorisableObjectTypes = ['page'];
+    }
     
     /**
      * @inheritDoc
@@ -80,35 +60,36 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
             return '';
         }
     
-        $this->categorisableObjectTypes = ['page'];
-    
         // set default values for all params which are not properly set
         $defaults = $this->getDefaults();
         $properties = array_merge($defaults, $properties);
     
-        $hasCategories = in_array($objectType, $this->categorisableObjectTypes)
-            && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType']);
-        if ($hasCategories) {
-            $categoryProperties = $this->resolveCategoryIds($properties);
+        $featureActivationHelper = $this->get('zikula_content_module.feature_activation_helper');
+        if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType'])) {
+            $properties = $this->resolveCategoryIds($properties);
         }
     
+        $controllerHelper = $this->get('zikula_content_module.controller_helper');
         $contextArgs = ['name' => 'list'];
-        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs))) {
-            $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
+        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $controllerHelper->getObjectTypes('block', $contextArgs))) {
+            $properties['objectType'] = $controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
     
         $objectType = $properties['objectType'];
     
-        $repository = $this->entityFactory->getRepository($objectType);
+        $repository = $this->get('zikula_content_module.entity_factory')->getRepository($objectType);
     
         // create query
-        $orderBy = $this->modelHelper->resolveSortParameter($objectType, $properties['sorting']);
+        $orderBy = $this->get('zikula_content_module.model_helper')->resolveSortParameter($objectType, $properties['sorting']);
         $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy);
     
-        if ($hasCategories) {
-            // apply category filters
-            if (is_array($properties['categories']) && count($properties['categories']) > 0) {
-                $qb = $this->categoryHelper->buildFilterClauses($qb, $objectType, $properties['categories']);
+        if (in_array($objectType, $this->categorisableObjectTypes)) {
+            if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType'])) {
+                $categoryHelper = $this->get('zikula_content_module.category_helper');
+                // apply category filters
+                if (is_array($properties['categories']) && count($properties['categories']) > 0) {
+                    $qb = $categoryHelper->buildFilterClauses($qb, $objectType, $properties['categories']);
+                }
             }
         }
     
@@ -123,8 +104,8 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
             $objectCount = 0;
         }
     
-        if ($hasCategories) {
-            $entities = $this->categoryHelper->filterEntitiesByPermission($entities);
+        if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
+            $entities = $this->get('zikula_content_module.category_helper')->filterEntitiesByPermission($entities);
         }
     
         // set a block title
@@ -139,11 +120,11 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
             'objectType' => $objectType,
             'items' => $entities
         ];
-        if ($hasCategories) {
-            $templateParameters['properties'] = $categoryProperties;
+        if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType'])) {
+            $templateParameters['properties'] = $properties;
         }
     
-        $templateParameters = $this->controllerHelper->addTemplateParameters($properties['objectType'], $templateParameters, 'block', []);
+        $templateParameters = $this->get('zikula_content_module.controller_helper')->addTemplateParameters($properties['objectType'], $templateParameters, 'block', []);
     
         return $this->renderView($template, $templateParameters);
     }
@@ -163,6 +144,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         }
     
         $templateForObjectType = str_replace('itemlist_', 'itemlist_' . $properties['objectType'] . '_', $templateFile);
+        $templating = $this->get('templating');
     
         $templateOptions = [
             'Block/' . $templateForObjectType,
@@ -172,7 +154,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
         $template = '';
         foreach ($templateOptions as $templatePath) {
-            if ($this->twigLoader->exists('@ZikulaContentModule/' . $templatePath)) {
+            if ($templating->exists('@ZikulaContentModule/' . $templatePath)) {
                 $template = '@ZikulaContentModule/' . $templatePath;
                 break;
             }
@@ -195,9 +177,8 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     public function getFormOptions()
     {
         $objectType = 'page';
-        $this->categorisableObjectTypes = ['page'];
     
-        $request = $this->requestStack->getCurrentRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
         if ($request->attributes->has('blockEntity')) {
             $blockEntity = $request->attributes->get('blockEntity');
             if (is_object($blockEntity) && method_exists($blockEntity, 'getProperties')) {
@@ -214,8 +195,8 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         return [
             'object_type' => $objectType,
             'is_categorisable' => in_array($objectType, $this->categorisableObjectTypes),
-            'category_helper' => $this->categoryHelper,
-            'feature_activation_helper' => $this->featureActivationHelper
+            'category_helper' => $this->get('zikula_content_module.category_helper'),
+            'feature_activation_helper' => $this->get('zikula_content_module.feature_activation_helper')
         ];
     }
     
@@ -253,7 +234,8 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
      */
     protected function resolveCategoryIds(array $properties = [])
     {
-        $primaryRegistry = $this->categoryHelper->getPrimaryProperty($properties['objectType']);
+        $categoryHelper = $this->get('zikula_content_module.category_helper');
+        $primaryRegistry = $categoryHelper->getPrimaryProperty($properties['objectType']);
         if (!isset($properties['categories'])) {
             $properties['categories'] = [$primaryRegistry => []];
         } else {
@@ -270,54 +252,5 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         }
     
         return $properties;
-    }
-    
-    /**
-     * @required
-     * @param FilesystemLoader $twigLoader
-     */
-    public function setTwigLoader(FilesystemLoader $twigLoader)
-    {
-        $this->twigLoader = $twigLoader;
-    }
-    
-    /**
-     * @required
-     * @param ControllerHelper $controllerHelper
-     */
-    public function setControllerHelper(ControllerHelper $controllerHelper)
-    {
-        $this->controllerHelper = $controllerHelper;
-    }
-    
-    /**
-     * @required
-     * @param ModelHelper $modelHelper
-     */
-    public function setModelHelper(ModelHelper $modelHelper)
-    {
-        $this->modelHelper = $modelHelper;
-    }
-    
-    /**
-     * @required
-     * @param EntityFactory $entityFactory
-     */
-    public function setEntityFactory(EntityFactory $entityFactory)
-    {
-        $this->entityFactory = $entityFactory;
-    }
-    
-    /**
-     * @required
-     * @param CategoryHelper $categoryHelper
-     * @param FeatureActivationHelper $featureActivationHelper
-     */
-    public function setCategoryDependencies(
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper
-    ) {
-        $this->categoryHelper = $categoryHelper;
-        $this->featureActivationHelper = $featureActivationHelper;
     }
 }

@@ -35,7 +35,7 @@ abstract class AbstractHookHelper
     /**
      * HookHelper constructor.
      *
-     * @param HookDispatcherInterface $hookDispatcher
+     * @param HookDispatcherInterface $hookDispatcher Hook dispatcher service instance
      */
     public function __construct(HookDispatcherInterface $hookDispatcher)
     {

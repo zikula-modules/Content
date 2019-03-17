@@ -11,10 +11,10 @@
 
 namespace Zikula\ContentModule\Helper\Base;
 
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use Twig\Loader\LoaderInterface;
 use Zikula\Core\Response\PlainResponse;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ThemeModule\Engine\AssetFilter;
@@ -33,7 +33,7 @@ abstract class AbstractViewHelper
     protected $twig;
     
     /**
-     * @var FilesystemLoader
+     * @var LoaderInterface
      */
     protected $twigLoader;
     
@@ -70,20 +70,20 @@ abstract class AbstractViewHelper
     /**
      * ViewHelper constructor.
      *
-     * @param Environment $twig
-     * @param FilesystemLoader $twigLoader
-     * @param RequestStack $requestStack
-     * @param VariableApiInterface $variableApi
-     * @param AssetFilter $assetFilter
-     * @param ParameterBag $pageVars
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
+     * @param Environment          $twig             Twig service instance
+     * @param LoaderInterface      $twigLoader       Twig loader service instance
+     * @param RequestStack         $requestStack     RequestStack service instance
+     * @param VariableApiInterface $variableApi      VariableApi service instance
+     * @param AssetFilter          $assetFilter      Theme asset filter
+     * @param ParameterBag         $pageVars         ParameterBag for theme page variables
+     * @param ControllerHelper     $controllerHelper ControllerHelper service instance
+     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
      *
      * @return void
      */
     public function __construct(
         Environment $twig,
-        FilesystemLoader $twigLoader,
+        LoaderInterface $twigLoader,
         RequestStack $requestStack,
         VariableApiInterface $variableApi,
         AssetFilter $assetFilter,

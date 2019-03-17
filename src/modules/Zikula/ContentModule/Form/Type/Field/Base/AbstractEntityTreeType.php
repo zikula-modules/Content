@@ -31,7 +31,7 @@ abstract class AbstractEntityTreeType extends AbstractType
     /**
      * EntityTreeType constructor.
      *
-     * @param EntityDisplayHelper $entityDisplayHelper
+     * @param EntityDisplayHelper $entityDisplayHelper EntityDisplayHelper service instance
      */
     public function __construct(EntityDisplayHelper $entityDisplayHelper)
     {

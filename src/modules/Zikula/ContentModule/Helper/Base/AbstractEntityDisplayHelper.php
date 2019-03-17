@@ -41,9 +41,9 @@ abstract class AbstractEntityDisplayHelper
     /**
      * EntityDisplayHelper constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param ListEntriesHelper $listEntriesHelper
+     * @param TranslatorInterface $translator        Translator service instance
+     * @param RequestStack        $requestStack      RequestStack service instance
+     * @param ListEntriesHelper   $listEntriesHelper Helper service for managing list entries
      */
     public function __construct(
         TranslatorInterface $translator,

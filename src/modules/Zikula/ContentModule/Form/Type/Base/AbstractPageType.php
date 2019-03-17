@@ -86,14 +86,14 @@ abstract class AbstractPageType extends AbstractType
     /**
      * PageType constructor.
      *
-     * @param TranslatorInterface $translator
-     * @param EntityFactory $entityFactory
-     * @param CollectionFilterHelper $collectionFilterHelper
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param VariableApiInterface $variableApi
-     * @param TranslatableHelper $translatableHelper
-     * @param ListEntriesHelper $listHelper
-     * @param FeatureActivationHelper $featureActivationHelper
+     * @param TranslatorInterface $translator     Translator service instance
+     * @param EntityFactory $entityFactory EntityFactory service instance
+     * @param CollectionFilterHelper $collectionFilterHelper CollectionFilterHelper service instance
+     * @param EntityDisplayHelper $entityDisplayHelper EntityDisplayHelper service instance
+     * @param VariableApiInterface $variableApi VariableApi service instance
+     * @param TranslatableHelper $translatableHelper TranslatableHelper service instance
+     * @param ListEntriesHelper $listHelper ListEntriesHelper service instance
+     * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -118,7 +118,7 @@ abstract class AbstractPageType extends AbstractType
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface $translator Translator service instance
      */
     public function setTranslator(TranslatorInterface $translator)
     {

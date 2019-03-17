@@ -58,14 +58,6 @@ abstract class AbstractPageUiHooksSubscriber implements HookSubscriberInterface
     {
         return $this->translator->__('Page ui hooks subscriber');
     }
-    
-    /**
-     * @inheritDoc
-     */
-    public function getAreaName()
-    {
-        return 'subscriber.zikulacontentmodule.ui_hooks.pages';
-    }
 
     /**
      * @inheritDoc
