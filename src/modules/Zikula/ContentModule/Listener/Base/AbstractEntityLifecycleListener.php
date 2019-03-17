@@ -33,7 +33,7 @@ use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Event\FilterPageEvent;
 use Zikula\ContentModule\Event\FilterContentItemEvent;
-use Zikula\ContentModule\Entity\Listener\LoggableListener;
+use Zikula\ContentModule\Listener\LoggableListener;
 
 /**
  * Event subscriber base class for entity lifecycle events.
