@@ -33,8 +33,8 @@ class AuthorType extends AbstractContentFormType
     /**
      * AuthorType constructor.
      *
-     * @param TranslatorInterface     $translator     Translator service instance
-     * @param UserRepositoryInterface $userRepository UserRepository service instance
+     * @param TranslatorInterface $translator
+     * @param UserRepositoryInterface $userRepository
      */
     public function __construct(TranslatorInterface $translator, UserRepositoryInterface $userRepository)
     {

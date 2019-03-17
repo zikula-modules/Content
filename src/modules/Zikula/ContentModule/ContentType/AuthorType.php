@@ -40,13 +40,13 @@ class AuthorType extends AbstractContentType
     /**
      * AuthorType constructor.
      *
-     * @param TranslatorInterface     $translator       Translator service instance
-     * @param Environment             $twig             Twig service instance
-     * @param FilesystemLoader        $twigLoader       Twig loader service instance
-     * @param PermissionHelper        $permissionHelper PermissionHelper service instance
-     * @param Asset                   $assetHelper      Asset service instance
-     * @param CurrentUserApiInterface $currentUserApi   CurrentUserApi service instance
-     * @param UserRepositoryInterface $userRepository   UserRepository service instance
+     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     * @param FilesystemLoader $twigLoader
+     * @param PermissionHelper $permissionHelper
+     * @param Asset $assetHelper
+     * @param CurrentUserApiInterface $currentUserApi
+     * @param UserRepositoryInterface $userRepository
      */
     public function __construct(
         TranslatorInterface $translator,

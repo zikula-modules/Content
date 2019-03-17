@@ -58,7 +58,7 @@ abstract class AbstractPageFormAwareHookSubscriber implements HookSubscriberInte
     {
         return $this->translator->__('Page form aware subscriber');
     }
-
+    
     /**
      * @inheritDoc
      */

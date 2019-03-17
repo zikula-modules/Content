@@ -29,8 +29,8 @@ class AppSettings extends AbstractAppSettings
     /**
      * AppSettings constructor.
      *
-     * @param VariableApiInterface $variableApi VariableApi service instance
-     * @param EntityFactory $entityFactory EntityFactory service instance
+     * @param VariableApiInterface $variableApi
+     * @param EntityFactory $entityFactory
      * @param CacheClearer $cacheClearer
      */
     public function __construct(

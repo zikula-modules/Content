@@ -89,18 +89,18 @@ class PageController extends AbstractPageController
      */
     public function adminViewAction(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
-        ViewHelper $viewHelper,
         LoggableHelper $loggableHelper,
         $sort,
         $sortdir,
         $pos,
         $num
     ) {
-        return $this->viewInternal($request, $controllerHelper, $permissionHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
+        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $categoryHelper, $featureActivationHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
     }
     
     /**
@@ -114,18 +114,18 @@ class PageController extends AbstractPageController
      */
     public function viewAction(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
-        ViewHelper $viewHelper,
         LoggableHelper $loggableHelper,
         $sort,
         $sortdir,
         $pos,
         $num
     ) {
-        return $this->viewInternal($request, $controllerHelper, $permissionHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, false);
+        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $categoryHelper, $featureActivationHelper, $loggableHelper, $sort, $sortdir, $pos, $num, false);
     }
     
     /**
@@ -141,12 +141,12 @@ class PageController extends AbstractPageController
      */
     public function adminEditAction(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
-        EditHandler $formHandler,
-        ViewHelper $viewHelper
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
+        EditHandler $formHandler
     ) {
-        return $this->editInternal($request, $controllerHelper, $permissionHelper, $formHandler, $viewHelper, true);
+        return $this->editInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $formHandler, true);
     }
     
     /**
@@ -161,12 +161,12 @@ class PageController extends AbstractPageController
      */
     public function editAction(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
-        EditHandler $formHandler,
-        ViewHelper $viewHelper
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
+        EditHandler $formHandler
     ) {
-        return $this->editInternal($request, $controllerHelper, $permissionHelper, $formHandler, $viewHelper, false);
+        return $this->editInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $formHandler, false);
     }
     
     /**
@@ -927,16 +927,16 @@ class PageController extends AbstractPageController
      */
     public function adminDisplayAction(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
         EntityFactory $entityFactory,
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
-        ViewHelper $viewHelper,
         LoggableHelper $loggableHelper,
         $slug
     ) {
-        return $this->displayInternal($request, $controllerHelper, $permissionHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $slug, true);
+        return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $loggableHelper, $slug, true);
     }
     
     /**
@@ -944,16 +944,16 @@ class PageController extends AbstractPageController
      */
     public function displayAction(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
         EntityFactory $entityFactory,
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
-        ViewHelper $viewHelper,
         LoggableHelper $loggableHelper,
         $slug
     ) {
-        return $this->displayInternal($request, $controllerHelper, $permissionHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $viewHelper, $loggableHelper, $slug, false);
+        return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $loggableHelper, $slug, false);
     }
     
     /**

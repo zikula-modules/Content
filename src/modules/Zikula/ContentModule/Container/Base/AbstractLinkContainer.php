@@ -50,11 +50,11 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
     /**
      * LinkContainer constructor.
      *
-     * @param TranslatorInterface  $translator       Translator service instance
-     * @param Routerinterface      $router           Router service instance
-     * @param VariableApiInterface $variableApi      VariableApi service instance
-     * @param ControllerHelper     $controllerHelper ControllerHelper service instance
-     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
+     * @param TranslatorInterface $translator
+     * @param Routerinterface $router
+     * @param VariableApiInterface $variableApi
+     * @param ControllerHelper $controllerHelper
+     * @param PermissionHelper $permissionHelper
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -73,7 +73,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {

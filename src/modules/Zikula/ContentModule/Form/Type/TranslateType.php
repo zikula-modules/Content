@@ -45,9 +45,9 @@ class TranslateType extends AbstractType
     /**
      * PageType constructor.
      *
-     * @param TranslatorInterface $translator     Translator service instance
-     * @param VariableApiInterface $variableApi VariableApi service instance
-     * @param TranslatableHelper $translatableHelper TranslatableHelper service instance
+     * @param TranslatorInterface $translator
+     * @param VariableApiInterface $variableApi
+     * @param TranslatableHelper $translatableHelper
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -62,7 +62,7 @@ class TranslateType extends AbstractType
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {

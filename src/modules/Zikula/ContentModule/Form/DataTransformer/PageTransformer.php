@@ -30,7 +30,7 @@ class PageTransformer implements DataTransformerInterface
     /**
      * PageTransformer constructor.
      *
-     * @param EntityFactory $entityFactory EntityFactory service instance
+     * @param EntityFactory $entityFactory
      */
     public function __construct(EntityFactory $entityFactory)
     {

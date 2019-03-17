@@ -57,16 +57,16 @@ class BlockType extends AbstractContentType
     /**
      * BlockType constructor.
      *
-     * @param TranslatorInterface       $translator       Translator service instance
-     * @param Environment               $twig             Twig service instance
-     * @param FilesystemLoader          $twigLoader       Twig loader service instance
-     * @param PermissionHelper          $permissionHelper PermissionHelper service instance
-     * @param Asset                     $assetHelper      Asset service instance
-     * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
-     * @param Routerinterface           $router           Router service instance
-     * @param BlockRepositoryInterface  $blockRepository  BlockRepository service instance
-     * @param BlockApiInterface         $blockApi         BlockApi service instance
-     * @param Engine                    $themeEngine      Theme engine service instance
+     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     * @param FilesystemLoader $twigLoader
+     * @param PermissionHelper $permissionHelper
+     * @param Asset $assetHelper
+     * @param ZikulaHttpKernelInterface $kernel
+     * @param Routerinterface $router
+     * @param BlockRepositoryInterface $blockRepository
+     * @param BlockApiInterface $blockApi
+     * @param Engine $themeEngine
      */
     public function __construct(
         TranslatorInterface $translator,

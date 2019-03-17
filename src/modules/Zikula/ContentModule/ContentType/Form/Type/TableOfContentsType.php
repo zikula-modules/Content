@@ -35,8 +35,8 @@ class TableOfContentsType extends AbstractContentFormType
     /**
      * TableOfContentsType constructor.
      *
-     * @param TranslatorInterface $translator    Translator service instance
-     * @param EntityFactory       $entityFactory EntityFactory service instance
+     * @param TranslatorInterface $translator
+     * @param EntityFactory $entityFactory
      */
     public function __construct(TranslatorInterface $translator, EntityFactory $entityFactory)
     {

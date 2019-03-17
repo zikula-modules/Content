@@ -23,8 +23,8 @@ use Zikula\Component\SortableColumns\SortableColumns;
 use Zikula\Core\Controller\AbstractController;
 use Zikula\Core\RouteUrl;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
-use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Handler\Page\EditHandler;
 use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
@@ -41,19 +41,22 @@ use Zikula\ContentModule\Helper\WorkflowHelper;
  */
 abstract class AbstractPageController extends AbstractController
 {
+    
     /**
      * This is the default action handling the index area called without defining arguments.
      *
      * @param Request $request
-     * @param Request PermissionHelper $permissionHelper
-     * @param boolean $isAdmin Whether the admin area is used or not
+     * @param PermissionHelper $permissionHelper
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    protected function indexInternal(Request $request, PermissionHelper $permissionHelper, $isAdmin = false)
-    {
+    protected function indexInternal(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        $isAdmin = false
+    ) {
         $objectType = 'page';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_OVERVIEW;
@@ -68,21 +71,16 @@ abstract class AbstractPageController extends AbstractController
         return $this->redirectToRoute('zikulacontentmodule_page_' . $templateParameters['routeArea'] . 'view');
     }
     
+    
     /**
      * This action provides an item list overview.
      *
      * @param Request $request
-     * @param ControllerHelper $controllerHelper
      * @param PermissionHelper $permissionHelper
+     * @param ControllerHelper $controllerHelper
+     * @param ViewHelper $viewHelper
      * @param CategoryHelper $categoryHelper
      * @param FeatureActivationHelper $featureActivationHelper
-     * @param ViewHelper $viewHelper
-     * @param LoggableHelper $loggableHelper
-     * @param string $sort         Sorting field
-     * @param string $sortdir      Sorting direction
-     * @param int    $pos          Current pager position
-     * @param int    $num          Amount of entries to display
-     * @param boolean $isAdmin Whether the admin area is used or not
      *
      * @return Response Output
      *
@@ -90,11 +88,11 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function viewInternal(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
-        ViewHelper $viewHelper,
         LoggableHelper $loggableHelper,
         $sort,
         $sortdir,
@@ -181,19 +179,17 @@ abstract class AbstractPageController extends AbstractController
         return $viewHelper->processTemplate($objectType, 'view', $templateParameters);
     }
     
+    
     /**
-     * This action provides a item detail view in the admin area.
+     * This action provides a item detail view.
      *
      * @param Request $request
-     * @param ControllerHelper $controllerHelper
      * @param PermissionHelper $permissionHelper
+     * @param ControllerHelper $controllerHelper
+     * @param ViewHelper $viewHelper
      * @param EntityFactory $entityFactory
      * @param CategoryHelper $categoryHelper
      * @param FeatureActivationHelper $featureActivationHelper
-     * @param ViewHelper $viewHelper
-     * @param LoggableHelper $loggableHelper
-     * @param string $slug Slug of treated page instance
-     * @param boolean $isAdmin Whether the admin area is used or not
      *
      * @return Response Output
      *
@@ -202,22 +198,22 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function displayInternal(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
         EntityFactory $entityFactory,
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
-        ViewHelper $viewHelper,
         LoggableHelper $loggableHelper,
         $slug,
         $isAdmin = false
     ) {
-        $objectType = 'page';
-        $page = $entityFactory->getRepository($objectType)->selectBySlug($slug);
+        $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
-    
+        
+        $objectType = 'page';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
         $route = $request->attributes->get('_route', '');
@@ -254,27 +250,27 @@ abstract class AbstractPageController extends AbstractController
         return $response;
     }
     
+    
     /**
      * This action provides a handling of edit requests.
      *
      * @param Request $request
-     * @param ControllerHelper $controllerHelper
      * @param PermissionHelper $permissionHelper
-     * @param EditHandler $formHandler
+     * @param ControllerHelper $controllerHelper
      * @param ViewHelper $viewHelper
-     * @param boolean $isAdmin Whether the admin area is used or not
+     * @param EditHandler $formHandler
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
-     * @throws RuntimeException      Thrown if another critical error occurs (e.g. workflow actions not available)
+     * @throws RuntimeException Thrown if another critical error occurs (e.g. workflow actions not available)
      */
     protected function editInternal(
         Request $request,
-        ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
-        EditHandler $formHandler,
+        ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
+        EditHandler $formHandler,
         $isAdmin = false
     ) {
         $objectType = 'page';
@@ -301,6 +297,7 @@ abstract class AbstractPageController extends AbstractController
         // fetch and return the appropriate template
         return $viewHelper->processTemplate($objectType, 'edit', $templateParameters);
     }
+    
     
     /**
      * Process status changes for multiple items.
@@ -404,6 +401,7 @@ abstract class AbstractPageController extends AbstractController
         return $this->redirectToRoute('zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'index');
     }
     
+    
     /**
      * Displays or undeletes a deleted page.
      *
@@ -415,6 +413,7 @@ abstract class AbstractPageController extends AbstractController
      *
      * @return Response Output
      *
+     * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
     protected function undeleteActionInternal(
@@ -447,6 +446,7 @@ abstract class AbstractPageController extends AbstractController
         
         return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'display', $page->createUrlArgs());
     }
+    
     
     /**
      * This method provides a change history for a given page.
@@ -490,7 +490,7 @@ abstract class AbstractPageController extends AbstractController
         }
         
         $routeArea = $isAdmin ? 'admin' : '';
-        $entityManager = $entityFactory->getObjectManager();
+        $entityManager = $entityFactory->getEntityManager();
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
         $logEntries = $logEntriesRepository->getLogEntries($page);
         

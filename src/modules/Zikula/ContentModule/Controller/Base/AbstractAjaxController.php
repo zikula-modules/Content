@@ -32,7 +32,7 @@ abstract class AbstractAjaxController extends AbstractController
 {
     
     /**
-     * Retrieve item list for finder selections in Forms, Content type plugin and Scribite.
+     * Retrieve item list for finder selections, for example used in Scribite editor plug-ins.
      *
      * @param Request $request
      * @param ControllerHelper $controllerHelper
@@ -48,13 +48,14 @@ abstract class AbstractAjaxController extends AbstractController
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper
-    ) {
+    )
+     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
         
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
-            return true;
+            throw new AccessDeniedException();
         }
         
         $objectType = $request->query->getAlnum('ot', 'page');
@@ -93,7 +94,7 @@ abstract class AbstractAjaxController extends AbstractController
                 continue;
             }
             $itemId = $item->getKey();
-            $slimItems[] = $this->prepareSlimItem($controllerHelper, $repository, $entityDisplayHelper, $objectType, $item, $itemId, $descriptionFieldName);
+            $slimItems[] = $this->prepareSlimItem($controllerHelper, $repository, $entityDisplayHelper, $item, $itemId, $descriptionFieldName);
         }
         
         // return response
@@ -104,17 +105,17 @@ abstract class AbstractAjaxController extends AbstractController
      * Builds and returns a slim data array from a given entity.
      *
      * @param ControllerHelper $controllerHelper
-     * @param EntityRepository $repository       Repository for the treated object type
+     * @param EntityRepository $repository Repository for the treated object type
      * @param EntityDisplayHelper $entityDisplayHelper
-     * @param string           $objectType       The currently treated object type
-     * @param object           $item             The currently treated entity
-     * @param string           $itemId           Data item identifier(s)
-     * @param string           $descriptionField Name of item description field
+     * @param object $item The currently treated entity
+     * @param string $itemId Data item identifier(s)
+     * @param string $descriptionField Name of item description field
      *
      * @return array The slim data representation
      */
-    protected function prepareSlimItem(ControllerHelper $controllerHelper, $repository, EntityDisplayHelper $entityDisplayHelper, $objectType, $item, $itemId, $descriptionField)
+    protected function prepareSlimItem(ControllerHelper $controllerHelper, $repository, EntityDisplayHelper $entityDisplayHelper, $item, $itemId, $descriptionField)
     {
+        $objectType = $item->get_objectType();
         $previewParameters = [
             $objectType => $item
         ];
@@ -149,7 +150,8 @@ abstract class AbstractAjaxController extends AbstractController
         Request $request,
         ControllerHelper $controllerHelper,
         EntityFactory $entityFactory
-    ) {
+    )
+     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -186,15 +188,15 @@ abstract class AbstractAjaxController extends AbstractController
         
         $result = false;
         switch ($objectType) {
-        case 'page':
-            $repository = $entityFactory->getRepository($objectType);
-            switch ($fieldName) {
-                case 'slug':
-                    $entity = $repository->selectBySlug($value, false, false, $exclude);
-                    $result = null !== $entity && isset($entity['slug']);
-                    break;
-            }
-            break;
+            case 'page':
+                $repository = $entityFactory->getRepository($objectType);
+                switch ($fieldName) {
+                    case 'slug':
+                        $entity = $repository->selectBySlug($value, false, false, $exclude);
+                        $result = null !== $entity && isset($entity['slug']);
+                        break;
+                }
+                break;
         }
         
         // return response
@@ -212,8 +214,12 @@ abstract class AbstractAjaxController extends AbstractController
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function toggleFlagAction(Request $request, EntityFactory $entityFactory, CurrentUserApiInterface $currentUserApi)
-    {
+    public function toggleFlagAction(
+        Request $request,
+        EntityFactory $entityFactory,
+        CurrentUserApiInterface $currentUserApi
+    )
+     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -245,7 +251,7 @@ abstract class AbstractAjaxController extends AbstractController
         $entity[$field] = !$entity[$field];
         
         // save entity back to database
-        $entityFactory->getObjectManager()->flush($entity);
+        $entityFactory->getEntityManager()->flush($entity);
         
         $logger = $this->get('logger');
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'field' => $field, 'entity' => $objectType, 'id' => $id];
@@ -280,7 +286,8 @@ abstract class AbstractAjaxController extends AbstractController
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository,
         WorkflowHelper $workflowHelper
-    ) {
+    )
+     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -336,7 +343,7 @@ abstract class AbstractAjaxController extends AbstractController
             }
         }
         
-        $entityManager = $entityFactory->getObjectManager();
+        $entityManager = $entityFactory->getEntityManager();
         $titleFieldName = $entityDisplayHelper->getTitleFieldName($objectType);
         $descriptionFieldName = $entityDisplayHelper->getDescriptionFieldName($objectType);
         

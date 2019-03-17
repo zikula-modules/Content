@@ -39,10 +39,10 @@ abstract class AbstractExternalController extends AbstractController
      * @param PermissionHelper $permissionHelper
      * @param EntityFactory $entityFactory
      * @param ViewHelper $viewHelper
-     * @param string  $objectType  The currently treated object type
-     * @param int     $id          Identifier of the entity to be shown
-     * @param string  $source      Source of this call (block, contentType, scribite)
-     * @param string  $displayMode Display mode (link or embed)
+     * @param string $objectType The currently treated object type
+     * @param int $id Identifier of the entity to be shown
+     * @param string $source Source of this call (block, contentType, scribite)
+     * @param string $displayMode Display mode (link or embed)
      *
      * @return string Desired data output
      */
@@ -56,7 +56,8 @@ abstract class AbstractExternalController extends AbstractController
         $id,
         $source,
         $displayMode
-    ) {
+    )
+     {
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
         if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
@@ -75,7 +76,7 @@ abstract class AbstractExternalController extends AbstractController
         }
         
         $template = $request->query->has('template') ? $request->query->get('template', null) : null;
-        if (null === $template || $template == '') {
+        if (null === $template || '' == $template) {
             $template = 'display.html.twig';
         }
         
@@ -108,12 +109,12 @@ abstract class AbstractExternalController extends AbstractController
      * @param FeatureActivationHelper $featureActivationHelper
      * @param ViewHelper $viewHelper
      * @param Asset $assetHelper
-     * @param string  $objectType The object type
-     * @param string  $editor     Name of used Scribite editor
-     * @param string  $sort       Sorting field
-     * @param string  $sortdir    Sorting direction
-     * @param int     $pos        Current pager position
-     * @param int     $num        Amount of entries to display
+     * @param string $objectType The object type
+     * @param string $editor Name of used Scribite editor
+     * @param string $sort Sorting field
+     * @param string $sortdir Sorting direction
+     * @param int $pos Current pager position
+     * @param int $num Amount of entries to display
      *
      * @return output The external item finder page
      *
@@ -136,7 +137,8 @@ abstract class AbstractExternalController extends AbstractController
         $sortdir,
         $pos = 1,
         $num = 0
-    ) {
+    )
+     {
         $activatedObjectTypes = $listEntriesHelper->extractMultiList($this->getVar('enabledFinderTypes', ''));
         if (!in_array($objectType, $activatedObjectTypes)) {
             if (!count($activatedObjectTypes)) {
@@ -160,7 +162,7 @@ abstract class AbstractExternalController extends AbstractController
         $cssAssetBag = $this->get('zikula_core.common.theme.assets_css');
         $cssAssetBag->add($assetHelper->resolve('@ZikulaContentModule:css/style.css'));
         $cssAssetBag->add([$assetHelper->resolve('@ZikulaContentModule:css/custom.css') => 120]);
-
+        
         $repository = $entityFactory->getRepository($objectType);
         if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
             $sort = $repository->getDefaultSortingField();
@@ -195,7 +197,8 @@ abstract class AbstractExternalController extends AbstractController
         ];
         $form = $this->createForm('Zikula\ContentModule\Form\Type\Finder\\' . ucfirst($objectType) . 'FinderType', $templateParameters, $formOptions);
         
-        if ($form->handleRequest($request)->isValid()) {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $templateParameters = array_merge($templateParameters, $formData);
             $currentPage = $formData['currentPage'];
@@ -211,7 +214,7 @@ abstract class AbstractExternalController extends AbstractController
         $qb = $repository->getListQueryBuilder($where, $orderBy);
         
         if ('' != $searchTerm) {
-            $qb = $collectionFilterHelper->addSearchFilter($objectType, $qb, $searchTerm);
+            $qb = $this->$collectionFilterHelper->addSearchFilter($objectType, $qb, $searchTerm);
         }
         $query = $repository->getQueryFromBuilder($qb);
         

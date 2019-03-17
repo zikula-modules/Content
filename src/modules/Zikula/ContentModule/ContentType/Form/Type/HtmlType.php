@@ -24,7 +24,7 @@ class HtmlType extends AbstractContentFormType
     /**
      * HtmlType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
     {

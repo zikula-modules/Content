@@ -39,7 +39,7 @@ class MenuBlockType extends AbstractType
     /**
      * MenuBlockType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      * @param EntityFactory $entityFactory
      */
     public function __construct(
@@ -53,7 +53,7 @@ class MenuBlockType extends AbstractType
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {

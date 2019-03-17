@@ -23,9 +23,6 @@
                 Zikula.Config = {'entrypoint': '{{ getSystemVar('entrypoint', 'index.php') }}', 'baseURL': '{{ app.request.schemeAndHttpHost ~ '/' }}', 'baseURI': '{{ app.request.basePath }}'};
             /* ]]> */
         </script>
-        {% if 'edit' in app.request.get('_route') or 'config' in app.request.get('_route') %}
-            {{ polyfill(['forms', 'forms-ext']) }}
-        {% endif %}
         {% if useFinder|default != true %}
             <script>
             /* <![CDATA[ */

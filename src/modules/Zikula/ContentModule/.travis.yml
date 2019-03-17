@@ -3,11 +3,8 @@ language: php
 sudo: false
 
 php:
-  - 5.5
-  - 5.6
-  - 7.0
-  - 7.1
   - 7.2
+  - 7.3
   - nightly
 
 matrix:
@@ -19,13 +16,9 @@ services:
   - mysql
 
 before_install:
-    - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]]; then phpenv config-rm xdebug.ini; fi;
-    # load memcache.so for php 5
-    - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]] && [ $(php -r "echo PHP_MAJOR_VERSION;") == 5 ]; then (pecl install -f memcached-2.1.0 && echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini) || echo "Continuing without memcache extension"; fi;
-    # load memcache.so for php >= 7.1
-    - if [[ "$TRAVIS_PHP_VERSION" != "nightly" ]] && [ $(php -r "echo PHP_MAJOR_VERSION;") == 7 ] && [ $(php -r "echo PHP_MINOR_VERSION;") >= 1 ]; then (pecl install -f memcached-2.1.0 && echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini) || echo "Continuing without memcache extension"; fi;
-    # Set the COMPOSER_ROOT_VERSION to the right version according to the branch being built
-    - if [ "$TRAVIS_BRANCH" = "master" ]; then export COMPOSER_ROOT_VERSION=dev-master; else export COMPOSER_ROOT_VERSION="$TRAVIS_BRANCH".x-dev; fi;
+    - phpenv config-rm xdebug.ini
+    # load memcache.so
+    #- pecl install -f memcached-3.1.3 && echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
     - composer self-update
     - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
@@ -34,10 +27,10 @@ before_install:
 install:
     - composer install
     - zip -qr ZikulaContentModule.zip .
-    - wget https://github.com/zikula/core/releases/download/2.0.12/2.0.tar.gz
-    - tar -xpzf 2.0.tar.gz
-    - rm 2.0.tar.gz
-    - cd 2.0
+    - wget http://ci.zikula.org/job/Zikula/job/3.0/lastSuccessfulBuild/artifact/build_work/archive/3.0.tar.gz
+    - tar -xpzf 3.0.tar.gz
+    - rm 3.0.tar.gz
+    - cd 3.0
     - php bin/console zikula:install:start -n --database_user=root --database_name=zk_test --password=12345678 --email=admin@example.com --router:request_context:host=localhost
     - php bin/console zikula:install:finish
     - cd modules
@@ -48,7 +41,7 @@ install:
     - unzip -q ../../../../ZikulaContentModule
     - cd  ../../..
     - php bin/console bootstrap:bundles
-    - mysql -e "INSERT INTO zk_test.modules (id, name, type, displayname, url, description, version, capabilities, state, securityschema, core_min, core_max) VALUES (NULL, 'ZikulaContentModule', '3', 'Content', 'content', 'Flexible hierachical page management.', '5.1.0', 'N;', '3', 'N;', '2.0.12', '3.0.0');"
+    - mysql -e "INSERT INTO zk_test.modules (id, name, type, displayname, url, description, version, capabilities, state, securityschema, core_min, core_max) VALUES (NULL, 'ZikulaContentModule', '3', 'Content', 'content', 'Flexible hierachical page management.', '5.2.0', 'N;', '3', 'N;', '3.0.0', '3.0.0');"
     - php bin/console cache:warmup
 
 script:

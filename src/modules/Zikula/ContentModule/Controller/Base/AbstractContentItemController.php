@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
+use Zikula\Core\RouteUrl;
+use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
@@ -22,19 +24,22 @@ use Zikula\ContentModule\Helper\PermissionHelper;
  */
 abstract class AbstractContentItemController extends AbstractController
 {
+    
     /**
      * This is the default action handling the index area called without defining arguments.
      *
      * @param Request $request
-     * @param Request PermissionHelper $permissionHelper
-     * @param boolean $isAdmin Whether the admin area is used or not
+     * @param PermissionHelper $permissionHelper
      *
      * @return Response Output
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    protected function indexInternal(Request $request, PermissionHelper $permissionHelper, $isAdmin = false)
-    {
+    protected function indexInternal(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        $isAdmin = false
+    ) {
         $objectType = 'contentItem';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_OVERVIEW;
@@ -49,4 +54,5 @@ abstract class AbstractContentItemController extends AbstractController
         // return index template
         return $this->render('@ZikulaContentModule/ContentItem/index.html.twig', $templateParameters);
     }
+    
 }

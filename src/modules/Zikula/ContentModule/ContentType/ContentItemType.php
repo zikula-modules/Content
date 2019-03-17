@@ -41,13 +41,13 @@ class ContentItemType extends AbstractContentType
     /**
      * ContentItemType constructor.
      *
-     * @param TranslatorInterface  $translator       Translator service instance
-     * @param Environment          $twig             Twig service instance
-     * @param FilesystemLoader     $twigLoader       Twig loader service instance
-     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
-     * @param Asset                $assetHelper      Asset service instance
-     * @param EntityFactory        $entityFactory    EntityFactory service instance
-     * @param ContentDisplayHelper $displayHelper    ContentDisplayHelper service instance
+     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     * @param FilesystemLoader $twigLoader
+     * @param PermissionHelper $permissionHelper
+     * @param Asset $assetHelper
+     * @param EntityFactory $entityFactory
+     * @param ContentDisplayHelper $displayHelper
      */
     public function __construct(
         TranslatorInterface $translator,

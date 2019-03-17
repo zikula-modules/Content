@@ -58,7 +58,7 @@ abstract class AbstractPageUiHooksSubscriber implements HookSubscriberInterface
     {
         return $this->translator->__('Page ui hooks subscriber');
     }
-
+    
     /**
      * @inheritDoc
      */

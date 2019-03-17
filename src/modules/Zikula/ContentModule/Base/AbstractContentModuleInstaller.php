@@ -11,21 +11,21 @@
 
 namespace Zikula\ContentModule\Base;
 
-use Doctrine\DBAL\Connection;
 use RuntimeException;
+use Zikula\Core\AbstractExtensionInstaller;
 use Zikula\CategoriesModule\Api\CategoryPermissionApi;
 use Zikula\CategoriesModule\Entity\CategoryRegistryEntity;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\Common\Translator\Translator;
+use Zikula\ExtensionsModule\Api\VariableApi;
+use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageLogEntryEntity;
 use Zikula\ContentModule\Entity\PageTranslationEntity;
 use Zikula\ContentModule\Entity\PageCategoryEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\ContentItemTranslationEntity;
-use Zikula\Core\AbstractExtensionInstaller;
-use Zikula\UsersModule\Api\CurrentUserApi;
 
 /**
  * Installer base class.
@@ -36,12 +36,18 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
      * @var array
      */
     protected $entities = [
-        PageEntity::class,
-        PageLogEntryEntity::class,
-        PageTranslationEntity::class,
-        PageCategoryEntity::class,
-        ContentItemEntity::class,
+        PageEntity::class
+        ,
+        PageLogEntryEntity::class
+        ,
+        PageTranslationEntity::class
+        ,
+        PageCategoryEntity::class
+        ,
+        ContentItemEntity::class
+        ,
         ContentItemTranslationEntity::class
+        ,
     ];
 
     /**
@@ -54,7 +60,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     public function install()
     {
         $logger = $this->container->get('logger');
-        $userName = $this->container->get('zikula_users_module.current_user')->get('uname');
+        $userName = $this->container->get(CurrentUserApi::class)->get('uname');
     
         // create all tables from according entity definitions
         try {

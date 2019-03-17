@@ -26,12 +26,12 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
      * @var ControllerHelper
      */
     protected $controllerHelper;
-
+    
     /**
      * @var FragmentHandler
      */
     protected $fragmentHandler;
-
+    
     /**
      * @inheritDoc
      */
@@ -141,7 +141,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
             'customTemplate' => null
         ];
     }
-
+    
     /**
      * @required
      * @param ControllerHelper $controllerHelper
@@ -150,7 +150,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     {
         $this->controllerHelper = $controllerHelper;
     }
-
+    
     /**
      * @required
      * @param FragmentHandler $fragmentHandler

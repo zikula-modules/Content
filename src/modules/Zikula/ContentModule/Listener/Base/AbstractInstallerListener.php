@@ -29,7 +29,7 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
     /**
      * InstallerListener constructor.
      *
-     * @param ExampleDataHelper $exampleDataHelper Example data helper service instance
+     * @param ExampleDataHelper $exampleDataHelper
      */
     public function __construct(
         ExampleDataHelper $exampleDataHelper

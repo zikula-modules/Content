@@ -34,12 +34,12 @@ class FeedType extends AbstractContentType
     /**
      * FeedType constructor.
      *
-     * @param TranslatorInterface $translator       Translator service instance
-     * @param Environment         $twig             Twig service instance
-     * @param FilesystemLoader    $twigLoader       Twig loader service instance
-     * @param PermissionHelper    $permissionHelper PermissionHelper service instance
-     * @param Asset               $assetHelper      Asset service instance
-     * @param CacheHelper         $cacheHelper      CacheHelper service instance
+     * @param TranslatorInterface $translator
+     * @param Environment $twig
+     * @param FilesystemLoader $twigLoader
+     * @param PermissionHelper $permissionHelper
+     * @param Asset $assetHelper
+     * @param CacheHelper $cacheHelper
      */
     public function __construct(
         TranslatorInterface $translator,

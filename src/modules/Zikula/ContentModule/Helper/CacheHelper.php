@@ -38,8 +38,8 @@ class CacheHelper
     /**
      * CacheHelper constructor.
      *
-     * @param Filesystem $filesystem     Filesystem service instance
-     * @param string     $cacheDirectory Path to cache directoy
+     * @param Filesystem $filesystem
+     * @param string $cacheDirectory Path to cache directoy
      */
     public function __construct(
         Filesystem $filesystem,

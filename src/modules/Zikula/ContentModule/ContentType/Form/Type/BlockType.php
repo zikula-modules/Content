@@ -31,8 +31,8 @@ class BlockType extends AbstractContentFormType
     /**
      * BlockType constructor.
      *
-     * @param TranslatorInterface      $translator      Translator service instance
-     * @param BlockRepositoryInterface $blockRepository BlockRepository service instance
+     * @param TranslatorInterface $translator
+     * @param BlockRepositoryInterface $blockRepository
      */
     public function __construct(TranslatorInterface $translator, BlockRepositoryInterface $blockRepository)
     {

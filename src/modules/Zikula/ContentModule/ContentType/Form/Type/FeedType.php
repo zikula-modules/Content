@@ -26,7 +26,7 @@ class FeedType extends AbstractContentFormType
     /**
      * FeedType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
     {

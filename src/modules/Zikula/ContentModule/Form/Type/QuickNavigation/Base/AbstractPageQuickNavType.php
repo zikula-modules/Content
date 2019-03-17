@@ -44,9 +44,9 @@ abstract class AbstractPageQuickNavType extends AbstractType
     /**
      * PageQuickNavType constructor.
      *
-     * @param TranslatorInterface $translator   Translator service instance
-     * @param ListEntriesHelper   $listHelper   ListEntriesHelper service instance
-     * @param FeatureActivationHelper $featureActivationHelper FeatureActivationHelper service instance
+     * @param TranslatorInterface $translator
+     * @param ListEntriesHelper $listHelper
+     * @param FeatureActivationHelper $featureActivationHelper
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -61,7 +61,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {

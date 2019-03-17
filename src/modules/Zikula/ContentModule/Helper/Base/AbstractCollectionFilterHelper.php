@@ -59,11 +59,11 @@ abstract class AbstractCollectionFilterHelper
     /**
      * CollectionFilterHelper constructor.
      *
-     * @param RequestStack $requestStack RequestStack service instance
-     * @param PermissionHelper $permissionHelper PermissionHelper service instance
-     * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
-     * @param CategoryHelper $categoryHelper CategoryHelper service instance
-     * @param VariableApiInterface $variableApi VariableApi service instance
+     * @param RequestStack $requestStack
+     * @param PermissionHelper $permissionHelper
+     * @param CurrentUserApiInterface $currentUserApi
+     * @param CategoryHelper $categoryHelper
+     * @param VariableApiInterface $variableApi
      */
     public function __construct(
         RequestStack $requestStack,

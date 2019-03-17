@@ -70,14 +70,14 @@ abstract class AbstractViewHelper
     /**
      * ViewHelper constructor.
      *
-     * @param Environment          $twig             Twig service instance
-     * @param FilesystemLoader     $twigLoader       Twig loader service instance
-     * @param RequestStack         $requestStack     RequestStack service instance
-     * @param VariableApiInterface $variableApi      VariableApi service instance
-     * @param AssetFilter          $assetFilter      Theme asset filter
-     * @param ParameterBag         $pageVars         ParameterBag for theme page variables
-     * @param ControllerHelper     $controllerHelper ControllerHelper service instance
-     * @param PermissionHelper     $permissionHelper PermissionHelper service instance
+     * @param Environment $twig
+     * @param FilesystemLoader $twigLoader
+     * @param RequestStack $requestStack
+     * @param VariableApiInterface $variableApi
+     * @param AssetFilter $assetFilter
+     * @param ParameterBag $pageVars
+     * @param ControllerHelper $controllerHelper
+     * @param PermissionHelper $permissionHelper
      *
      * @return void
      */

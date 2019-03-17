@@ -31,8 +31,8 @@ class ComputerCodeType extends AbstractContentFormType
     /**
      * ComputerCodeType constructor.
      *
-     * @param TranslatorInterface       $translator Translator service instance
-     * @param ZikulaHttpKernelInterface $kernel     Kernel service instance
+     * @param TranslatorInterface $translator
+     * @param ZikulaHttpKernelInterface $kernel
      */
     public function __construct(TranslatorInterface $translator, ZikulaHttpKernelInterface $kernel)
     {

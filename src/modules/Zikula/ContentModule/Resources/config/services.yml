@@ -22,15 +22,17 @@ services:
         arguments:
             $contentTypes: !tagged zikula.content_type
 
+    _instanceof:
+        Zikula\Common\Content\ContentTypeInterface:
+            bind:
+                $permissionHelper: '@Zikula\ContentModule\Helper\PermissionHelper'
+
     # public because EntityLifecycleListener accesses this using container
     Zikula\ContentModule\Entity\Factory\EntityFactory:
         public: true
 
     Zikula\ContentModule\EntryProvider\PageEntryProvider:
         tags: ['zikula.multihook_entry_provider']
-
-    Zikula\ContentModule\Listener\EntityLifecycleListener:
-        tags: ['doctrine.event_subscriber']
 
     Zikula\ContentModule\Form\Handler\:
         resource: '../../Form/Handler'
@@ -45,6 +47,9 @@ services:
         arguments:
             $pageVars: '@zikula_core.common.theme.pagevars'
 
+    Zikula\ContentModule\Listener\EntityLifecycleListener:
+        tags: ['doctrine.event_subscriber']
+
     # public because EntityLifecycleListener accesses this using container
     Zikula\ContentModule\Listener\LoggableListener:
         public: true
@@ -58,11 +63,6 @@ services:
 
     Zikula\ContentModule\Routing\DynamicRouteLoader:
         tags: ['routing.loader']
-
-    _instanceof:
-        Zikula\Common\Content\ContentTypeInterface:
-            bind:
-                $permissionHelper: '@Zikula\ContentModule\Helper\PermissionHelper'
 
     stof_doctrine_extensions.listener.sluggable:
         class: '%stof_doctrine_extensions.listener.sluggable.class%'

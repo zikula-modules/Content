@@ -63,7 +63,7 @@ class ContentItemType extends AbstractType
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(/*TranslatorInterface */$translator)
     {

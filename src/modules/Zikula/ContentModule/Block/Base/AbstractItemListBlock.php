@@ -29,32 +29,32 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
      * @var FilesystemLoader
      */
     protected $twigLoader;
-
+    
     /**
      * @var ControllerHelper
      */
     protected $controllerHelper;
-
+    
     /**
      * @var ModelHelper
      */
     protected $modelHelper;
-
+    
     /**
      * @var EntityFactory
      */
     protected $entityFactory;
-
+    
     /**
      * @var categoryHelper
      */
     protected $categoryHelper;
-
+    
     /**
      * @var FeatureActivationHelper
      */
     protected $featureActivationHelper;
-
+    
     /**
      * List of object types allowing categorisation.
      *
@@ -89,7 +89,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         $hasCategories = in_array($objectType, $this->categorisableObjectTypes)
             && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType']);
         if ($hasCategories) {
-            $properties = $this->resolveCategoryIds($properties);
+            $categoryProperties = $this->resolveCategoryIds($properties);
         }
     
         $contextArgs = ['name' => 'list'];
@@ -140,7 +140,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
             'items' => $entities
         ];
         if ($hasCategories) {
-            $templateParameters['properties'] = $properties;
+            $templateParameters['properties'] = $categoryProperties;
         }
     
         $templateParameters = $this->controllerHelper->addTemplateParameters($properties['objectType'], $templateParameters, 'block', []);
@@ -271,7 +271,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
         return $properties;
     }
-
+    
     /**
      * @required
      * @param FilesystemLoader $twigLoader
@@ -280,7 +280,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     {
         $this->twigLoader = $twigLoader;
     }
-
+    
     /**
      * @required
      * @param ControllerHelper $controllerHelper
@@ -289,7 +289,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     {
         $this->controllerHelper = $controllerHelper;
     }
-
+    
     /**
      * @required
      * @param ModelHelper $modelHelper
@@ -298,7 +298,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     {
         $this->modelHelper = $modelHelper;
     }
-
+    
     /**
      * @required
      * @param EntityFactory $entityFactory
@@ -307,22 +307,17 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     {
         $this->entityFactory = $entityFactory;
     }
-
+    
     /**
      * @required
      * @param CategoryHelper $categoryHelper
-     */
-    public function setCategoryHelper(CategoryHelper $categoryHelper)
-    {
-        $this->categoryHelper = $categoryHelper;
-    }
-
-    /**
-     * @required
      * @param FeatureActivationHelper $featureActivationHelper
      */
-    public function setFeatureActivationHelper(FeatureActivationHelper $featureActivationHelper)
-    {
+    public function setCategoryDependencies(
+        CategoryHelper $categoryHelper,
+        FeatureActivationHelper $featureActivationHelper
+    ) {
+        $this->categoryHelper = $categoryHelper;
         $this->featureActivationHelper = $featureActivationHelper;
     }
 }

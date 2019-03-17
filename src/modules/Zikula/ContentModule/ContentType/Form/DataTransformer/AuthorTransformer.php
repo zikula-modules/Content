@@ -31,7 +31,7 @@ class AuthorTransformer implements DataTransformerInterface
     /**
      * AuthorTransformer constructor.
      *
-     * @param UserRepositoryInterface $userRepository UserRepository service instance
+     * @param UserRepositoryInterface $userRepository
      */
     public function __construct(UserRepositoryInterface $userRepository)
     {

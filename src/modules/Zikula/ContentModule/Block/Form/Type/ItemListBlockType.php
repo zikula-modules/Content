@@ -36,7 +36,7 @@ class ItemListBlockType extends AbstractItemListBlockType
     /**
      * ItemListBlockType constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      * @param EntityFactory $entityFactory
      * @param CategoryRepositoryInterface $categoryRepository
      */

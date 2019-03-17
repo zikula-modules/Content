@@ -43,10 +43,10 @@ class ContentDisplayHelper implements ContainerAwareInterface
     /**
      * ContentDisplayHelper constructor.
      *
-     * @param ContainerInterface       $container       Service container
-     * @param TranslatorInterface      $translator      Translator service instance
-     * @param PageAssetApiInterface    $pageAssetApi    PageAssetApi service instance
-     * @param GroupRepositoryInterface $groupRepository GroupRepository service instance
+     * @param ContainerInterface $container
+     * @param TranslatorInterface $translator
+     * @param PageAssetApiInterface  $pageAssetApi
+     * @param GroupRepositoryInterface $groupRepository
      */
     public function __construct(
         ContainerInterface $container,
@@ -63,7 +63,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {
@@ -74,7 +74,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
      * Returns all required details for display view of a content item.
      *
      * @param ContentItemEntity $item
-     * @param string            $context The target page context (one of CONTEXT* constants)
+     * @param string $context The target page context (one of CONTEXT* constants)
      *
      * @return array
      */

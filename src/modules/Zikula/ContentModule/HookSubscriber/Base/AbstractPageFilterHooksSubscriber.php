@@ -58,7 +58,7 @@ abstract class AbstractPageFilterHooksSubscriber implements HookSubscriberInterf
     {
         return $this->translator->__('Page filter hooks subscriber');
     }
-
+    
     /**
      * @inheritDoc
      */

@@ -11,10 +11,10 @@
 
 namespace Zikula\ContentModule\Controller;
 
-use Zikula\ContentModule\Controller\Base\AbstractExternalController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Zikula\ThemeModule\Engine\Asset;
+use Zikula\ContentModule\Controller\Base\AbstractExternalController;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
@@ -49,7 +49,8 @@ class ExternalController extends AbstractExternalController
         $id,
         $source,
         $displayMode
-    ) {
+    )
+     {
         return parent::displayAction($request, $controllerHelper, $permissionHelper, $entityFactory, $viewHelper, $objectType, $id, $source, $displayMode);
     }
 
@@ -79,7 +80,8 @@ class ExternalController extends AbstractExternalController
         $sortdir,
         $pos = 1,
         $num = 0
-    ) {
+    )
+     {
         return parent::finderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $collectionFilterHelper, $listEntriesHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $assetHelper, $objectType, $editor, $sort, $sortdir, $pos, $num);
     }
 

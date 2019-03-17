@@ -29,7 +29,7 @@ abstract class AbstractConfigController extends AbstractController
     /**
      * This method takes care of the application configuration.
      *
-     * @param Request $request Current request instance
+     * @param Request $request
      * @param PermissionHelper $permissionHelper
      * @param AppSettings $appSettings
      * @param LoggerInterface $logger

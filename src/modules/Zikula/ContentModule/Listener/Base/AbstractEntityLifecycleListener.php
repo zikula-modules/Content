@@ -33,7 +33,7 @@ use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Event\FilterPageEvent;
 use Zikula\ContentModule\Event\FilterContentItemEvent;
-use Zikula\ContentModule\Listener\LoggableListener;
+use Zikula\ContentModule\Entity\Listener\LoggableListener;
 
 /**
  * Event subscriber base class for entity lifecycle events.
@@ -55,9 +55,9 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     /**
      * EntityLifecycleListener constructor.
      *
-     * @param ContainerInterface       $container
-     * @param EventDispatcherInterface $eventDispatcher EventDispatcher service instance
-     * @param LoggerInterface          $logger          Logger service instance
+     * @param ContainerInterface $container
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ContainerInterface $container,
@@ -210,7 +210,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
                 return;
             }
         
-            $repository = $this->container->get(EntityFactory::class)->getObjectManager()->getRepository($entity->getObjectClass());
+            $repository = $this->container->get(EntityFactory::class)->getEntityManager()->getRepository($entity->getObjectClass());
             $object = $repository->find($entity->getObjectId());
             if (null === $object || !method_exists($object, 'get_objectType')) {
                 return;
@@ -381,7 +381,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             return;
         }
 
-        $entityManager = $this->container->get(EntityFactory::class)->getObjectManager();
+        $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
         $variableApi = $this->container->get(VariableApi::class);
         $objectTypeCapitalised = ucfirst($objectType);
 
@@ -402,7 +402,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      */
     protected function activateCustomLoggableListener()
     {
-        $entityManager = $this->container->get(EntityFactory::class)->getObjectManager();
+        $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
         $eventManager = $entityManager->getEventManager();
         $customLoggableListener = $this->container->get(LoggableListener::class);
 

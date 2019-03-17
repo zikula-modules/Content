@@ -28,8 +28,8 @@ class ListEntriesHelper extends AbstractListEntriesHelper
     /**
      * ListEntriesHelper constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
-     * @param GroupRepositoryInterface $groupRepository GroupRepository service instance
+     * @param TranslatorInterface $translator
+     * @param GroupRepositoryInterface $groupRepository
      */
     public function __construct(TranslatorInterface $translator, GroupRepositoryInterface $groupRepository)
     {
