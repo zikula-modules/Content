@@ -86,18 +86,18 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         $defaults = $this->getDefaults();
         $properties = array_merge($defaults, $properties);
     
-        $hasCategories = in_array($objectType, $this->categorisableObjectTypes)
-            && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType']);
-        if ($hasCategories) {
-            $categoryProperties = $this->resolveCategoryIds($properties);
-        }
-    
         $contextArgs = ['name' => 'list'];
         if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs))) {
             $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
     
         $objectType = $properties['objectType'];
+    
+        $hasCategories = in_array($objectType, $this->categorisableObjectTypes)
+            && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType']);
+        if ($hasCategories) {
+            $categoryProperties = $this->resolveCategoryIds($properties);
+        }
     
         $repository = $this->entityFactory->getRepository($objectType);
     

@@ -36,18 +36,12 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
      * @var array
      */
     protected $entities = [
-        PageEntity::class
-        ,
-        PageLogEntryEntity::class
-        ,
-        PageTranslationEntity::class
-        ,
-        PageCategoryEntity::class
-        ,
-        ContentItemEntity::class
-        ,
-        ContentItemTranslationEntity::class
-        ,
+        PageEntity::class,
+        PageLogEntryEntity::class,
+        PageTranslationEntity::class,
+        PageCategoryEntity::class,
+        ContentItemEntity::class,
+        ContentItemTranslationEntity::class,
     ];
 
     /**
