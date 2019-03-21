@@ -58,6 +58,14 @@ abstract class AbstractPageFormAwareHookSubscriber implements HookSubscriberInte
     {
         return $this->translator->__('Page form aware subscriber');
     }
+    
+    /**
+     * @inheritDoc
+     */
+    public function getAreaName()
+    {
+        return 'subscriber.zikulacontentmodule.form_aware_hook.pages';
+    }
 
     /**
      * @inheritDoc

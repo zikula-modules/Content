@@ -11,9 +11,18 @@
 
 namespace Zikula\ContentModule\Controller;
 
-use Zikula\ContentModule\Controller\Base\AbstractExternalController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Zikula\ThemeModule\Engine\Asset;
+use Zikula\ContentModule\Controller\Base\AbstractExternalController;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Helper\CategoryHelper;
+use Zikula\ContentModule\Helper\CollectionFilterHelper;
+use Zikula\ContentModule\Helper\ControllerHelper;
+use Zikula\ContentModule\Helper\FeatureActivationHelper;
+use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
+use Zikula\ContentModule\Helper\ViewHelper;
 
 /**
  * Controller for external calls implementation class.
@@ -30,23 +39,50 @@ class ExternalController extends AbstractExternalController
      *        methods = {"GET"}
      * )
      */
-    public function displayAction(Request $request, $objectType, $id, $source, $displayMode)
-    {
-        return parent::displayAction($request, $objectType, $id, $source, $displayMode);
+    public function displayAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        ViewHelper $viewHelper,
+        $objectType,
+        $id,
+        $source,
+        $displayMode
+    )
+     {
+        return parent::displayAction($request, $controllerHelper, $permissionHelper, $entityFactory, $viewHelper, $objectType, $id, $source, $displayMode);
     }
 
     /**
      * @inheritDoc
      * @Route("/finder/{objectType}/{editor}/{sort}/{sortdir}/{pos}/{num}",
      *        requirements = {"editor" = "ckeditor|quill|summernote|tinymce", "sortdir" = "asc|desc", "pos" = "\d+", "num" = "\d+"},
-     *        defaults = {"sort" = "", "sortdir" = "asc", "pos" = 1, "num" = 0},
+     *        defaults = {"sort" = "dummy", "sortdir" = "asc", "pos" = 1, "num" = 0},
      *        methods = {"GET"},
      *        options={"expose"=true}
      * )
      */
-    public function finderAction(Request $request, $objectType, $editor, $sort, $sortdir, $pos = 1, $num = 0)
-    {
-        return parent::finderAction($request, $objectType, $editor, $sort, $sortdir, $pos, $num);
+    public function finderAction(
+        Request $request,
+        ControllerHelper $controllerHelper,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory,
+        CollectionFilterHelper $collectionFilterHelper,
+        ListEntriesHelper $listEntriesHelper,
+        CategoryHelper $categoryHelper,
+        FeatureActivationHelper $featureActivationHelper,
+        ViewHelper $viewHelper,
+        Asset $assetHelper,
+        $objectType,
+        $editor,
+        $sort,
+        $sortdir,
+        $pos = 1,
+        $num = 0
+    )
+     {
+        return parent::finderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $collectionFilterHelper, $listEntriesHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $assetHelper, $objectType, $editor, $sort, $sortdir, $pos, $num);
     }
 
     // feel free to extend the external controller here

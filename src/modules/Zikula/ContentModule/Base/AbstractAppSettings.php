@@ -281,8 +281,8 @@ abstract class AbstractAppSettings
     /**
      * AppSettings constructor.
      *
-     * @param VariableApiInterface $variableApi VariableApi service instance
-     * @param EntityFactory $entityFactory EntityFactory service instance
+     * @param VariableApiInterface $variableApi
+     * @param EntityFactory $entityFactory
      */
     public function __construct(
         VariableApiInterface $variableApi,
@@ -1094,7 +1094,7 @@ abstract class AbstractAppSettings
         $this->variableApi->set('ZikulaContentModule', 'periodForPageRevisions', $this->getPeriodForPageRevisions());
         $this->variableApi->set('ZikulaContentModule', 'showPageHistory', $this->getShowPageHistory());
     
-        $entityManager = $this->entityFactory->getObjectManager();
+        $entityManager = $this->entityFactory->getEntityManager();
         $revisionHandling = $this->getRevisionHandlingForPage();
         $limitParameter = '';
         if ('limitedByAmount' == $revisionHandling) {

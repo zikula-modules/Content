@@ -237,22 +237,22 @@ abstract class AbstractEditHandler
     /**
      * EditHandler constructor.
      *
-     * @param ZikulaHttpKernelInterface $kernel           Kernel service instance
-     * @param TranslatorInterface       $translator       Translator service instance
-     * @param FormFactoryInterface      $formFactory      FormFactory service instance
-     * @param RequestStack              $requestStack     RequestStack service instance
-     * @param RouterInterface           $router           Router service instance
-     * @param LoggerInterface           $logger           Logger service instance
-     * @param VariableApiInterface      $variableApi      VariableApi service instance
-     * @param CurrentUserApiInterface   $currentUserApi   CurrentUserApi service instance
-     * @param EntityFactory             $entityFactory    EntityFactory service instance
-     * @param ControllerHelper          $controllerHelper ControllerHelper service instance
-     * @param ModelHelper               $modelHelper      ModelHelper service instance
-     * @param PermissionHelper          $permissionHelper PermissionHelper service instance
-     * @param WorkflowHelper            $workflowHelper   WorkflowHelper service instance
-     * @param HookHelper                $hookHelper       HookHelper service instance
-     * @param TranslatableHelper        $translatableHelper TranslatableHelper service instance
-     * @param FeatureActivationHelper   $featureActivationHelper FeatureActivationHelper service instance
+     * @param ZikulaHttpKernelInterface $kernel
+     * @param TranslatorInterface $translator
+     * @param FormFactoryInterface $formFactory
+     * @param RequestStack $requestStack
+     * @param RouterInterface $router
+     * @param LoggerInterface $logger
+     * @param VariableApiInterface $variableApi
+     * @param CurrentUserApiInterface $currentUserApi
+     * @param EntityFactory $entityFactory
+     * @param ControllerHelper $controllerHelper
+     * @param ModelHelper $modelHelper
+     * @param PermissionHelper $permissionHelper
+     * @param WorkflowHelper $workflowHelper
+     * @param HookHelper $hookHelper
+     * @param TranslatableHelper $translatableHelper
+     * @param FeatureActivationHelper $featureActivationHelper
      */
     public function __construct(
         ZikulaHttpKernelInterface $kernel,
@@ -293,7 +293,7 @@ abstract class AbstractEditHandler
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {

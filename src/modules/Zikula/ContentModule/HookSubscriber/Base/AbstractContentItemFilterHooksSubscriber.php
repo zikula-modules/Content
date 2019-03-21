@@ -58,6 +58,14 @@ abstract class AbstractContentItemFilterHooksSubscriber implements HookSubscribe
     {
         return $this->translator->__('Content item filter hooks subscriber');
     }
+    
+    /**
+     * @inheritDoc
+     */
+    public function getAreaName()
+    {
+        return 'subscriber.zikulacontentmodule.filter_hooks.contentitems';
+    }
 
     /**
      * @inheritDoc

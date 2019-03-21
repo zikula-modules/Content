@@ -36,8 +36,8 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     /**
      * ThirdPartyListener constructor.
      *
-     * @param Filesystem   $filesystem   Filesystem service instance
-     * @param RequestStack $requestStack RequestStack service instance
+     * @param Filesystem $filesystem
+     * @param RequestStack $requestStack
      *
      * @return void
      */

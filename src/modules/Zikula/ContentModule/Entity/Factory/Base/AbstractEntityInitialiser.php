@@ -27,15 +27,15 @@ abstract class AbstractEntityInitialiser
     protected $permissionHelper;
 
     /**
-     * @var ListEntriesHelper Helper service for managing list entries
+     * @var ListEntriesHelper
      */
     protected $listEntriesHelper;
 
     /**
      * EntityInitialiser constructor.
      *
-     * @param PermissionHelper $permissionHelper PermissionHelper service instance
-     * @param ListEntriesHelper $listEntriesHelper Helper service for managing list entries
+     * @param PermissionHelper $permissionHelper
+     * @param ListEntriesHelper $listEntriesHelper
      */
     public function __construct(
         PermissionHelper $permissionHelper,

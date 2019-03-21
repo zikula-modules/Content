@@ -266,7 +266,7 @@ abstract class AbstractEditHandler extends EditHandler
         try {
             if ($applyLock) {
                 // assert version
-                $this->entityFactory->getObjectManager()->lock($entity, LockMode::OPTIMISTIC, $expectedVersion);
+                $this->entityFactory->getEntityManager()->lock($entity, LockMode::OPTIMISTIC, $expectedVersion);
             }
             
             // execute the workflow action
@@ -312,7 +312,7 @@ abstract class AbstractEditHandler extends EditHandler
     
         if ('create' != $this->templateParameters['mode']) {
             // force refresh because slugs may have changed (e.g. by translatable)
-            $this->entityFactory->getObjectManager()->clear();
+            $this->entityFactory->getEntityManager()->clear();
             $this->entityRef = $this->initEntityForEditing();
         }
     

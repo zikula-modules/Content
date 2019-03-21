@@ -59,27 +59,25 @@ abstract class AbstractCollectionFilterHelper
     /**
      * CollectionFilterHelper constructor.
      *
-     * @param RequestStack $requestStack RequestStack service instance
-     * @param PermissionHelper $permissionHelper PermissionHelper service instance
-     * @param CurrentUserApiInterface $currentUserApi CurrentUserApi service instance
-     * @param CategoryHelper $categoryHelper CategoryHelper service instance
-     * @param VariableApiInterface $variableApi VariableApi service instance
-     * @param boolean $showOnlyOwnEntries Fallback value to determine whether only own entries should be selected or not
+     * @param RequestStack $requestStack
+     * @param PermissionHelper $permissionHelper
+     * @param CurrentUserApiInterface $currentUserApi
+     * @param CategoryHelper $categoryHelper
+     * @param VariableApiInterface $variableApi
      */
     public function __construct(
         RequestStack $requestStack,
         PermissionHelper $permissionHelper,
         CurrentUserApiInterface $currentUserApi,
         CategoryHelper $categoryHelper,
-        VariableApiInterface $variableApi,
-        $showOnlyOwnEntries
+        VariableApiInterface $variableApi
     ) {
         $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->currentUserApi = $currentUserApi;
         $this->categoryHelper = $categoryHelper;
         $this->variableApi = $variableApi;
-        $this->showOnlyOwnEntries = $showOnlyOwnEntries;
+        $this->showOnlyOwnEntries = $variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', false);
     }
     
     /**

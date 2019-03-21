@@ -25,10 +25,15 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Zikula\Common\Translator\Translator;
 use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\ExtensionsModule\Api\VariableApi;
+use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\ContentModule\ContentEvents;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Event\FilterPageEvent;
 use Zikula\ContentModule\Event\FilterContentItemEvent;
+use Zikula\ContentModule\Listener\LoggableListener;
 
 /**
  * Event subscriber base class for entity lifecycle events.
@@ -50,9 +55,9 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     /**
      * EntityLifecycleListener constructor.
      *
-     * @param ContainerInterface       $container
-     * @param EventDispatcherInterface $eventDispatcher EventDispatcher service instance
-     * @param LoggerInterface          $logger          Logger service instance
+     * @param ContainerInterface $container
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ContainerInterface $container,
@@ -166,7 +171,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         
         $this->purgeHistory($objectType);
         
-        $currentUserApi = $this->container->get('zikula_users_module.current_user');
+        $currentUserApi = $this->container->get(CurrentUserApi::class);
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $objectType, 'id' => $entity->getKey()];
         $this->logger->debug('{app}: User {user} removed the {entity} with id {id}.', $logArgs);
         
@@ -205,7 +210,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
                 return;
             }
         
-            $repository = $this->container->get('zikula_content_module.entity_factory')->getObjectManager()->getRepository($entity->getObjectClass());
+            $repository = $this->container->get(EntityFactory::class)->getEntityManager()->getRepository($entity->getObjectClass());
             $object = $repository->find($entity->getObjectId());
             if (null === $object || !method_exists($object, 'get_objectType')) {
                 return;
@@ -246,7 +251,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             return;
         }
         
-        $currentUserApi = $this->container->get('zikula_users_module.current_user');
+        $currentUserApi = $this->container->get(CurrentUserApi::class);
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $entity->get_objectType(), 'id' => $entity->getKey()];
         $this->logger->debug('{app}: User {user} created the {entity} with id {id}.', $logArgs);
         
@@ -295,7 +300,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             return;
         }
         
-        $currentUserApi = $this->container->get('zikula_users_module.current_user');
+        $currentUserApi = $this->container->get(CurrentUserApi::class);
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $entity->get_objectType(), 'id' => $entity->getKey()];
         $this->logger->debug('{app}: User {user} updated the {entity} with id {id}.', $logArgs);
         
@@ -376,8 +381,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             return;
         }
 
-        $entityManager = $this->container->get('zikula_content_module.entity_factory')->getObjectManager();
-        $variableApi = $this->container->get('zikula_extensions_module.api.variable');
+        $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
+        $variableApi = $this->container->get(VariableApi::class);
         $objectTypeCapitalised = ucfirst($objectType);
 
         $revisionHandling = $variableApi->get('ZikulaContentModule', 'revisionHandlingFor' . $objectTypeCapitalised, 'unlimited');
@@ -397,9 +402,9 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      */
     protected function activateCustomLoggableListener()
     {
-        $entityManager = $this->container->get('zikula_content_module.entity_factory')->getObjectManager();
+        $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
         $eventManager = $entityManager->getEventManager();
-        $customLoggableListener = $this->container->get('zikula_content_module.loggable_listener');
+        $customLoggableListener = $this->container->get(LoggableListener::class);
 
         $hasLoggableActivated = false;
         foreach ($eventManager->getListeners() as $event => $listeners) {
@@ -418,8 +423,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             return;
         }
 
-        $currentUserApi = $this->container->get('zikula_users_module.current_user');
-        $userName = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uname') : $this->container->get('translator.default')->__('Guest');
+        $currentUserApi = $this->container->get(CurrentUserApi::class);
+        $userName = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uname') : $this->container->get(Translator::class)->__('Guest');
 
         $customLoggableListener->setUsername($userName);
 

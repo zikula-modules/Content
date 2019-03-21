@@ -55,11 +55,11 @@ abstract class AbstractLoggableHelper
     /**
      * LoggableHelper constructor.
      *
-     * @param TranslatorInterface     $translator              Translator service instance
-     * @param EntityFactory           $entityFactory           EntityFactory service instance
-     * @param EntityDisplayHelper     $entityDisplayHelper     EntityDisplayHelper service instance
-     * @param EntityLifecycleListener $entityLifecycleListener Entity lifecycle subscriber
-     * @param TranslatableHelper      $translatableHelper      TranslatableHelper service instance
+     * @param TranslatorInterface $translator
+     * @param EntityFactory $entityFactory
+     * @param EntityDisplayHelper $entityDisplayHelper
+     * @param EntityLifecycleListener $entityLifecycleListener
+     * @param TranslatableHelper $translatableHelper
      */
     public function __construct(
         TranslatorInterface $translator,
@@ -78,7 +78,7 @@ abstract class AbstractLoggableHelper
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {
@@ -166,7 +166,7 @@ abstract class AbstractLoggableHelper
         }
     
         // alternative (with worse performance)
-        $entityManager = $this->entityFactory->getObjectManager();
+        $entityManager = $this->entityFactory->getEntityManager();
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
         $logEntries = $logEntriesRepository->getLogEntries($entity);
     
@@ -182,7 +182,7 @@ abstract class AbstractLoggableHelper
      */
     public function hasDeletedEntities($objectType = '')
     {
-        $entityManager = $this->entityFactory->getObjectManager();
+        $entityManager = $this->entityFactory->getEntityManager();
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
     
         return count($logEntriesRepository->selectDeleted(1)) > 0;
@@ -197,7 +197,7 @@ abstract class AbstractLoggableHelper
      */
     public function getDeletedEntities($objectType = '')
     {
-        $entityManager = $this->entityFactory->getObjectManager();
+        $entityManager = $this->entityFactory->getEntityManager();
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
     
         return $logEntriesRepository->selectDeleted();
@@ -214,7 +214,7 @@ abstract class AbstractLoggableHelper
      */
     public function revert($entity, $requestedVersion = 1, $detach = false)
     {
-        $entityManager = $this->entityFactory->getObjectManager();
+        $entityManager = $this->entityFactory->getEntityManager();
         $objectType = $entity->get_objectType();
     
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
@@ -255,7 +255,7 @@ abstract class AbstractLoggableHelper
         $setter = 'set' . ucfirst($idField);
         $entity->$setter($id);
     
-        $entityManager = $this->entityFactory->getObjectManager();
+        $entityManager = $this->entityFactory->getEntityManager();
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
         $logEntries = $logEntriesRepository->getLogEntries($entity);
         $lastVersionBeforeDeletion = null;
@@ -312,7 +312,7 @@ abstract class AbstractLoggableHelper
             $entity = $this->translatableHelper->setEntityFieldsFromLogData($entity);
         }
     
-        $eventArgs = new LifecycleEventArgs($entity, $this->entityFactory->getObjectManager());
+        $eventArgs = new LifecycleEventArgs($entity, $this->entityFactory->getEntityManager());
         $this->entityLifecycleListener->postLoad($eventArgs);
     
         return $entity;
@@ -329,7 +329,7 @@ abstract class AbstractLoggableHelper
      */
     public function undelete($entity)
     {
-        $entityManager = $this->entityFactory->getObjectManager();
+        $entityManager = $this->entityFactory->getEntityManager();
     
         $metadata = $entityManager->getClassMetaData(get_class($entity));
         $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);

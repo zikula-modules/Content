@@ -24,7 +24,7 @@ abstract class AbstractListEntriesHelper
     /**
      * ListEntriesHelper constructor.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
     {
@@ -34,7 +34,7 @@ abstract class AbstractListEntriesHelper
     /**
      * Sets the translator.
      *
-     * @param TranslatorInterface $translator Translator service instance
+     * @param TranslatorInterface $translator
      */
     public function setTranslator(TranslatorInterface $translator)
     {
