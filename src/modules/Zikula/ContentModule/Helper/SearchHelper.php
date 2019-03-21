@@ -91,6 +91,7 @@ class SearchHelper extends AbstractSearchHelper
         }
 
         $request = $this->requestStack->getCurrentRequest();
+        $session = $request->getSession();
         foreach ($entities as $entity) {
             if (!$this->permissionHelper->mayRead($entity)) {
                 continue;
@@ -112,7 +113,7 @@ class SearchHelper extends AbstractSearchHelper
                 ->setText($entity['metaDescription'])
                 ->setModule($this->getBundleName())
                 ->setCreated($entity['createdDate'])
-                ->setSesid($this->session->getId())
+                ->setSesid($session->getId())
                 ->setUrl($displayUrl);
             $results[] = $result;
         }
