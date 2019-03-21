@@ -58,7 +58,7 @@ class ExternalController extends AbstractExternalController
      * @inheritDoc
      * @Route("/finder/{objectType}/{editor}/{sort}/{sortdir}/{pos}/{num}",
      *        requirements = {"editor" = "ckeditor|quill|summernote|tinymce", "sortdir" = "asc|desc", "pos" = "\d+", "num" = "\d+"},
-     *        defaults = {"sort" = "", "sortdir" = "asc", "pos" = 1, "num" = 0},
+     *        defaults = {"sort" = "dummy", "sortdir" = "asc", "pos" = 1, "num" = 0},
      *        methods = {"GET"},
      *        options={"expose"=true}
      * )
