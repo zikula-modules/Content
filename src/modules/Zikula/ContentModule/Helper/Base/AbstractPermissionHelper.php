@@ -74,7 +74,7 @@ abstract class AbstractPermissionHelper
     /**
      * Checks if the given entity instance may be read.
      *
-     * @param object  $entity
+     * @param object $entity
      * @param integer $userId
      *
      * @return boolean
@@ -87,7 +87,7 @@ abstract class AbstractPermissionHelper
     /**
      * Checks if the given entity instance may be edited.
      *
-     * @param object  $entity
+     * @param object $entity
      * @param integer $userId
      *
      * @return boolean
@@ -100,7 +100,7 @@ abstract class AbstractPermissionHelper
     /**
      * Checks if the given entity instance may be deleted.
      *
-     * @param object  $entity
+     * @param object $entity
      * @param integer $userId
      *
      * @return boolean
@@ -115,7 +115,7 @@ abstract class AbstractPermissionHelper
     /**
      * Checks if the given entity instance may be deleted.
      *
-     * @param object  $entity
+     * @param object $entity
      * @param integer $userId
      *
      * @return boolean
@@ -128,7 +128,7 @@ abstract class AbstractPermissionHelper
     /**
      * Checks if a certain permission level is granted for the given entity instance.
      *
-     * @param object  $entity
+     * @param object $entity
      * @param integer $permissionLevel
      * @param integer $userId
      *
@@ -145,7 +145,7 @@ abstract class AbstractPermissionHelper
     /**
      * Checks if a certain permission level is granted for the given object type.
      *
-     * @param string  $objectType
+     * @param string $objectType
      * @param integer $permissionLevel
      * @param integer $userId
      *
@@ -154,6 +154,19 @@ abstract class AbstractPermissionHelper
     public function hasComponentPermission($objectType, $permissionLevel, $userId = null)
     {
         return $this->permissionApi->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', '::', $permissionLevel, $userId);
+    }
+    
+    /**
+     * Checks if the quick navigation form for the given object type may be used or not.
+     *
+     * @param string $objectType
+     * @param integer $userId
+     *
+     * @return boolean
+     */
+    public function mayUseQuickNav($objectType, $userId = null)
+    {
+        return $this->hasComponentPermission($objectType, ACCESS_READ, $userId);
     }
     
     /**
