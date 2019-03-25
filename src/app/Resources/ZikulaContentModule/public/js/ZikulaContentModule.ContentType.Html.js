@@ -43,7 +43,7 @@ function contentInitHtmlTranslation() {
 
         sourceMarkup = jQuery(this).parent().next('xmp').html();
 
-        tempHolder = jQuery('<textarea />');
+        tempHolder = jQuery('<textarea>');
         jQuery('body').append(tempHolder);
         tempHolder.val(sourceMarkup).select();
         document.execCommand('copy');
