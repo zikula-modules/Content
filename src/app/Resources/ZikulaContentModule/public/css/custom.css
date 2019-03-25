@@ -36,12 +36,12 @@ div.green-box {
 div.orange-announcement-box {
     color: #440000;
     background-color: #ffce80;
-    border: 0px solid #e59d45;
+    border: 0 solid #e59d45;
 }
 div.green-important-box {
     color: #003300;
     background-color: #ecf291;
-    border: 0px solid #94994c;
+    border: 0 solid #94994c;
 }
 div.orange-announcement-box,
 div.green-important-box {

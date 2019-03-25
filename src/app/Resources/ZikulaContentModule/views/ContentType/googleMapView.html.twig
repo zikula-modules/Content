@@ -13,7 +13,7 @@
     {% endif %}
     <div id="map{{ contentId }}" class="map{% if directionsInline %} pull-left{% endif %}" style="width: 100%; height: {{ height }}px"></div>
     {% if directionsInline %}
-        <div id="directions{{ contentId }}" class="map-directions pull-right" style="width: 0%; height: {{ height }}px"></div>
+        <div id="directions{{ contentId }}" class="map-directions pull-right" style="width: 0; height: {{ height }}px"></div>
         <br style="clear: both" />
     {% endif %}
     <p class="content-description">{{ text }}</p>

@@ -41,7 +41,7 @@ function contentPageGetWidgetId(widget) {
  * Dynamically loads asset files.
  */
 function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
-    if (-1 == jQuery.inArray(type, ['css', 'js'])) {
+    if (-1 === jQuery.inArray(type, ['css', 'js'])) {
         return;
     }
     if (pathes.length < 1) {
@@ -50,7 +50,7 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
 
     var downloadAsset = function(path) {
         if (-1 < jQuery.inArray(path, loadedDynamicAssets[type])) {
-            if ('js' == type) {
+            if ('js' === type) {
                 if (pathes.length > 0) {
                     downloadAsset(pathes.shift());
                 } else {
@@ -62,7 +62,7 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
             return;
         }
 
-        if ('css' == type) {
+        if ('css' === type) {
             jQuery('<link />')
                 .appendTo('head') // first append for IE8 compatibility
                 .attr({
@@ -72,7 +72,7 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
                 })
             ;
             loadedDynamicAssets[type].push(path);
-        } else if ('js' == type) {
+        } else if ('js' === type) {
             jQuery.contentGetSyncCachedScript(path)
                 .done(function (script, textStatus) {
                     loadedDynamicAssets[type].push(path);
@@ -244,7 +244,7 @@ function contentPageInitSectionActions() {
 function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
     jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container hidden">' + jQuery('#sectionStylesContainer').html() + '</div><div class="well"><div class="grid-stack"></div></div></div>');
-    if ('' != stylingClasses) {
+    if ('' !== stylingClasses) {
         jQuery('#' + sectionId + ' .style-selector-container select').first().val(stylingClasses.split(' '));
     }
     if (true === scrollToSection) {
@@ -373,7 +373,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             event.preventDefault();
 
             params = '';
-            if ('btnSaveContent' == jQuery(this).attr('id')) {
+            if ('btnSaveContent' === jQuery(this).attr('id')) {
                 if ('undefined' !== typeof CKEDITOR) {
                     // update textarea
                     for (var instanceName in CKEDITOR.instances) {
@@ -385,18 +385,18 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 }
                 params += 'action=save&';
                 action = isCreation ? 'create' : 'update';
-            } else if ('btnDeleteContent' == jQuery(this).attr('id')) {
+            } else if ('btnDeleteContent' === jQuery(this).attr('id')) {
                 params += 'action=delete&';
                 action = 'delete';
             }
 
-            if ('delete' != action) {
+            if ('delete' !== action) {
                 // check input validation
                 zikulaContentExecuteCustomValidationConstraints();
                 if (!form.get(0).checkValidity()) {
                     return;
                 }
-            } else if ('delete' == action && !confirm(Translator.__('Do you really want to delete this content?'))) {
+            } else if ('delete' === action && !confirm(Translator.__('Do you really want to delete this content?'))) {
                 return;
             }
 
@@ -410,18 +410,18 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             })
             .done(function (data) {
                 modal.modal('hide');
-                if ('create' == action) {
+                if ('create' === action) {
                     // update ID
                     widget.attr('id', 'widget' + data.id);
                     widget.find('.dropdown-menu .dropdown-header .widget-id').text(data.id);
-                } else if ('delete' == action) {
+                } else if ('delete' === action) {
                     contentPageRemoveWidget(widget);
                 }
                 if ('undefined' !== typeof data.message) {
                     jQuery('#widgetUpdateDoneAlert').remove();
                     contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
-                if ('delete' != action) {
+                if ('delete' !== action) {
                     suspendAutoSave = false;
                     contentPageSave();
                     contentPageLoadWidgetData(contentPageGetWidgetId(widget), false);
@@ -521,7 +521,7 @@ function contentPageInitWidgetMovingCopying(widget) {
                 return;
             }
 
-            if (pageId == jQuery('#zikulacontentmodule_movecopycontentitem_destinationPage').val()) {
+            if (pageId === jQuery('#zikulacontentmodule_movecopycontentitem_destinationPage').val()) {
                 alert(Translator.__('Destination page must not be the current page.'));
                 return;
             }
@@ -542,7 +542,7 @@ function contentPageInitWidgetMovingCopying(widget) {
                     jQuery('#widgetUpdateDoneAlert').remove();
                     contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
-                if ('move' == operationType) {
+                if ('move' === operationType) {
                     contentPageRemoveWidget(widget);
                     contentPageSave();
                 }
@@ -793,7 +793,7 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
             return (className.match (/(^|\s)panel-\S+/g) || []).join(' ');
         }).addClass('panel-' + data.panelClass);
 
-        isActive = data.panelClass != 'danger';
+        isActive = data.panelClass !== 'danger';
         widget.find('.panel-title .dropdown .dropdown-menu .activate-item').toggleClass('hidden', isActive);
         widget.find('.panel-title .dropdown .dropdown-menu .deactivate-item').toggleClass('hidden', !isActive);
 
@@ -802,7 +802,7 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
             widget.find('.panel-title .dropdown .dropdown-menu .edit-item').click();
         }
     }).fail(function(jqxhr, textStatus, error) {
-        if ('error' == textStatus && 'Not Found' == error) {
+        if ('error' === textStatus && 'Not Found' === error) {
             widget.remove();
         }
     });
@@ -821,7 +821,7 @@ function contentPageUpdateAllGridAttributes() {
         _.each(widgets, function (node) {
             var widget = jQuery('#widget' + node.id);
             var colOffset = 0;
-            if (null !== lastNode && node.y == lastNode.y) {
+            if (null !== lastNode && node.y === lastNode.y) {
                 colOffset = node.x - (lastNode.x + lastNode.width);
             } else {
                 colOffset = node.x;
@@ -862,7 +862,7 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
         var minWidth = 'undefined' != typeof node.minWidth ? node.minWidth : jQuery('#widgetDimensions').data('minwidth');
         grid.addWidget(widget, node.x, node.y, node.width, /*node.height*/jQuery('#widgetDimensions').data('height'), false, node.minWidth);
         var colOffset = 0;
-        if (null !== lastNode && node.y == lastNode.y) {
+        if (null !== lastNode && node.y === lastNode.y) {
             colOffset = node.x - (lastNode.x + lastNode.width);
         } else {
             colOffset = node.x;
@@ -922,11 +922,11 @@ function contentPageSortWidgetsForSave(nodes) {
     return nodes.sort(function (a, b) {
         var aNode = jQuery(a).data(nodeDataAttribute);
         var bNode = jQuery(b).data(nodeDataAttribute);
-        if (aNode.y != bNode.y) {
-            return ((aNode.y < bNode.y) ? -1 : ((aNode.y > bNode.y) ? 1 : 0));
+        if (aNode.y !== bNode.y) {
+            return (aNode.y < bNode.y ? -1 : ((aNode.y > bNode.y) ? 1 : 0));
         }
 
-        return ((aNode.x < bNode.x) ? -1 : ((aNode.x > bNode.x) ? 1 : 0));
+        return (aNode.x < bNode.x ? -1 : ((aNode.x > bNode.x) ? 1 : 0));
     });
 }
 
@@ -1082,10 +1082,10 @@ function contentPageFixWysiwygBehaviour() {
 
     editor = jQuery('#wysiwygEditor').data('default');
 
-    if ('CKEditor' == editor) {
+    if ('CKEditor' === editor) {
         // https://gist.github.com/james2doyle/65d06029bfd128dd5ecc
         jQuery.fn.modal.Constructor.prototype.enforceFocus = function() {
-            var modal_this = this
+            var modal_this = this;
             jQuery(document).on('focusin.modal', function (e) {
                 if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
                     && !jQuery(e.target.parentNode).hasClass('cke_dialog_ui_input_select')
@@ -1095,7 +1095,7 @@ function contentPageFixWysiwygBehaviour() {
                 }
             })
         };
-    } else if ('Summernote' == editor) {
+    } else if ('Summernote' === editor) {
         // https://stackoverflow.com/questions/21786258/summernote-modals-locked-within-pure-bootstrap-modals
         jQuery(document).on('show.bs.modal', '.modal', function (event) {
             var zIndex = 100000 + (10 * jQuery('.modal:visible').length);
@@ -1106,7 +1106,7 @@ function contentPageFixWysiwygBehaviour() {
         }).on('hidden.bs.modal', '.modal', function (event) {
             jQuery('.modal:visible').length && jQuery('body').addClass('modal-open');
         });
-    } else if ('TinyMce' == editor) {
+    } else if ('TinyMce' === editor) {
         // https://stackoverflow.com/questions/18111582/tinymce-4-links-plugin-modal-in-not-editable
         jQuery(document).on('focusin', function(e) {
             if (jQuery(e.target).closest('.mce-window').length || jQuery(e.target).closest('.moxman-window').length) {

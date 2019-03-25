@@ -104,7 +104,7 @@ function contentGoogleMapCalcRoute(contentId) {
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
     directionsService.route(request, function(result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
+        if (google.maps.DirectionsStatus.OK === status) {
             // adjust the width of the map and directions panel
             originalHeight = jQuery('#map' + contentId).css('height');
             jQuery('#map' + contentId + ', #directions' + contentId).css({width: '50%', height: '600px'});

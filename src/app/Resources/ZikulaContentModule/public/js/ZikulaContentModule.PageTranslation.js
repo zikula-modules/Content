@@ -34,7 +34,7 @@ function contentPageInitYandexSupport(yandexApiKey) {
         sourceContent = jQuery('#sourceContent' + sourceLanguage + ' .field-' + fieldName + ' .form-control-static').html();
         targetLanguage = jQuery(this).parents('.tab-pane').first().data('language');
 
-        if (sourceLanguage == targetLanguage || !sourceContent) {
+        if (sourceLanguage === targetLanguage || !sourceContent) {
             targetInput.val(sourceContent);
 
             return;
@@ -91,7 +91,7 @@ jQuery(document).ready(function () {
         jQuery('.source-section').addClass('hidden');
         jQuery('#sourceContent' + jQuery(this).val()).removeClass('hidden');
     });
-    if ('' != yandexApiKey) {
+    if ('' !== yandexApiKey) {
         contentPageInitYandexSupport(yandexApiKey);
     }
 });

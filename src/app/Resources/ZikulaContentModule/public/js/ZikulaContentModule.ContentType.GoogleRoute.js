@@ -146,11 +146,11 @@ function contentGoogleRouteUpdateDirections(contentId) {
     // Route the directions and pass the response to a
     // function to create markers for each step.
     directionsService.route(request, function (result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
+        if (google.maps.DirectionsStatus.OK === status) {
             directionsDisplay.setDirections(result);
             jQuery('#directions' + contentId).removeClass('hidden');
 
-            if (result.routes[0].warnings != '') {
+            if ('' !== result.routes[0].warnings) {
                 jQuery('#warningsPanel' + contentId).removeClass('hidden').html('<strong>' + result.routes[0].warnings + '</strong>');
             }
             contentGoogleRouteShowSteps(contentId, result);
