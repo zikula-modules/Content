@@ -13,14 +13,14 @@
             <h3>{{ __('Quick navigation') }}</h3>
             {% set categoriesEnabled = featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
             {% if categoriesEnabled %}
-                {% if (categoryFilter is defined and categoryFilter != true) %}
+                {% if categoryFilter is defined and categoryFilter != true %}
                     <div class="hidden">
                 {% else %}
                     <div class="row">
                         <div class="col-sm-3">
                 {% endif %}
                     {{ form_row(quickNavForm.categories) }}
-                {% if (categoryFilter is defined and categoryFilter != true) %}
+                {% if categoryFilter is defined and categoryFilter != true %}
                     </div>
                 {% else %}
                         </div>
