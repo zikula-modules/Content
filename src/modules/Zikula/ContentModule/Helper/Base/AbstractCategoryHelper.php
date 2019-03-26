@@ -205,6 +205,7 @@ abstract class AbstractCategoryHelper
                 continue;
             }
     
+            $propertyName = str_replace(' ', '', $propertyName);
             $filtersPerRegistry[] = '(
                 tblCategories.categoryRegistryId = :propId' . $propertyName . '
                 AND tblCategories.category IN (:categories' . $propertyName . ')
