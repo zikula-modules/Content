@@ -329,6 +329,9 @@ abstract class AbstractPageController extends AbstractController
         // Get parameters
         $action = $request->request->get('action', null);
         $items = $request->request->get('items', null);
+        if (!is_array($items) || !count($items)) {
+            return $this->redirectToRoute('zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'index');
+        }
         
         $action = strtolower($action);
         
