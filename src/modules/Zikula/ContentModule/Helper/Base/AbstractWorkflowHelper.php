@@ -305,6 +305,7 @@ abstract class AbstractWorkflowHelper
             } else {
                 $entityManager->persist($entity);
             }
+            $entityManager->flush();
             $workflow->apply($entity, $actionId);
             $entityManager->flush();
     
