@@ -118,7 +118,6 @@ By default there are unlimited levels added to a menu. You can limit this by add
 In content each page consists of several content items. Each content item uses a certain content type. Interestingly, other modules can provide additional content types, so for example a calendar module can offer a content type for displaying a list of events for a specific category or the details of a single event. For each content type a corresponding class needs to be implemented which cares about displaying, editing and translating the managed data.
 
 - A content type class names should be suffixed by `Type` and located in the `ModuleRoot/ContentType/` directory. This is not mandatory but a recommended convention.
-- Content type classes must be registered as a service using the `zikula.content_type` tag.
 - Content type classes must implement `Zikula\Common\Content\ContentTypeInterface`.
 - Content type classes may extend `Zikula\Common\Content\AbstractContentType` for convenience.
 - Content type classes must define a Symfony form type class to allow editing of their data fields if this is needed. This form type class should extend `Zikula\Common\Content\AbstractContentFormType` for convenience.
@@ -134,6 +133,9 @@ In content each page consists of several content items. Each content item uses a
 ## Changelog
 
 ### Version 5.2.0
+
+Structural changes:
+- Upgrades for Zikula 3.0.x.
 
 New features:
 - None yet

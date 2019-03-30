@@ -21,9 +21,6 @@ use Zikula\ContentModule\DependencyInjection\Base\AbstractZikulaContentExtension
  */
 class ZikulaContentExtension extends AbstractZikulaContentExtension
 {
-    /**
-     * @inheritDoc
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         parent::load($configs, $container);

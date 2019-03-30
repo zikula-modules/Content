@@ -25,7 +25,7 @@ class ContentTypeCollector
     private $contentTypes;
 
     /**
-     * ContentTypeCollector constructor.
+     * @param ContentTypeInterface[] $contentTypes
      */
     public function __construct(iterable $contentTypes)
     {
@@ -37,8 +37,6 @@ class ContentTypeCollector
 
     /**
      * Adds a content type to the collection.
-     *
-     * @param ContentTypeInterface $contentType
      */
     public function add(ContentTypeInterface $contentType)
     {
@@ -49,13 +47,10 @@ class ContentTypeCollector
 
     /**
      * Returns a content type from the collection by service.id.
-     *
-     * @param $id
-     * @return ContentTypeInterface
      */
-    public function get($id)
+    public function get(string $id): ?ContentTypeInterface
     {
-        return isset($this->contentTypes[$id]) ? $this->contentTypes[$id] : null;
+        return $this->contentTypes[$id] ?? null;
     }
 
     /**
@@ -63,7 +58,7 @@ class ContentTypeCollector
      *
      * @return ContentTypeInterface[]
      */
-    public function getAll()
+    public function getAll(): iterable
     {
         $this->sortTypes();
 
@@ -75,9 +70,9 @@ class ContentTypeCollector
      *
      * @return ContentTypeInterface[]
      */
-    public function getActive()
+    public function getActive(): iterable
     {
-        return array_filter($this->getAll(), function($item) {
+        return array_filter($this->getAll(), function(ContentTypeInterface $item) {
             return $item->isActive();
         });
     }
@@ -85,18 +80,16 @@ class ContentTypeCollector
     /**
      * Sorts available types by their title.
      */
-    private function sortTypes() {
+    private function sortTypes(): void
+    {
         $types = $this->contentTypes;
-        usort($types, function ($a, $b) {
+        usort($types, function (ContentTypeInterface $a, ContentTypeInterface $b) {
             return strcmp($a->getTitle(), $b->getTitle());
         });
         $this->contentTypes = $types;
     }
 
-    /**
-     * @return array
-     */
-    public function getContentTypesChoiceList()
+    public function getContentTypesChoiceList(): array
     {
         $this->sortTypes();
 
