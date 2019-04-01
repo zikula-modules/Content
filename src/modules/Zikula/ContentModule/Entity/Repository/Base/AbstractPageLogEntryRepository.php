@@ -30,7 +30,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
     /**
      * Selects all log entries for removals to determine deleted pages.
      */
-    public function selectDeleted(int $limit = null): ArrayCollection
+    public function selectDeleted(int $limit = null): array
     {
         $objectClass = str_replace('LogEntry', '', $this->_entityName);
     
