@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -13,6 +16,7 @@ namespace Zikula\ContentModule\EntryProvider;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Zikula\Common\MultiHook\EntryProviderInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
@@ -20,11 +24,9 @@ use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 /**
  * Page entry provider.
  */
-class PageEntryProvider
+class PageEntryProvider implements EntryProviderInterface
 {
     /**
-     * Translator instance
-     *
      * @var TranslatorInterface
      */
     private $translator;
@@ -56,18 +58,10 @@ class PageEntryProvider
     /**
      * Whether automatic page linking is enabled or not
      *
-     * @var boolean
+     * @var bool
      */
     private $enableAutomaticPageLinks;
 
-    /**
-     * PageEntryProvider constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RouterInterface $router
-     * @param EntityFactory $entityFactory
-     * @param VariableApiInterface $variableApi
-     */
     public function __construct(
         TranslatorInterface $translator,
         RouterInterface $router,
@@ -87,90 +81,44 @@ class PageEntryProvider
         $this->name = str_replace('Provider', '', array_pop($nsParts));
     }
 
-    /**
-     * Returns the bundle name.
-     *
-     * @return string
-     */
-    public function getBundleName()
-    {
-        return $this->bundleName;
-    }
-
-    /**
-     * Returns the name of this entry provider.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * Returns the icon name (FontAwesome icon code suffix, e.g. "pencil").
-     *
-     * @return string
-     */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'book';
     }
 
-    /**
-     * Returns the title of this entry provider.
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->translator->__('Pages', 'zikulacontentmodule');
     }
 
-    /**
-     * Returns the description of this entry provider.
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->translator->__('Links page titles to corresponding pages.', 'zikulacontentmodule');
     }
 
-    /**
-     * Returns an extended plugin information shown on settings page.
-     *
-     * @return string
-     */
-    public function getAdminInfo()
+    public function getAdminInfo(): string
     {
         return '';
     }
 
-    /**
-     * Returns whether this entry provider is active or not.
-     *
-     * @return boolean
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return true;
     }
 
-    /**
-     * Returns entries for given entry types.
-     *
-     * @param string[] $entryTypes
-     * @return array
-     */
-    public function getEntries(array $entryTypes = [])
+    public function getEntries(array $entryTypes = []): array
     {
         $result = [];
         if (true !== $this->enableAutomaticPageLinks) {
             return $result;
         }
 
-        if (!in_array('link', $entryTypes)) {
+        if (!in_array('link', $entryTypes, true)) {
             return $result;
         }
 
@@ -188,5 +136,10 @@ class PageEntryProvider
         }
 
         return $result;
+    }
+
+    public function getBundleName(): string
+    {
+        return $this->bundleName;
     }
 }

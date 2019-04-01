@@ -31,9 +31,6 @@ services:
     Zikula\ContentModule\Entity\Factory\EntityFactory:
         public: true
 
-    Zikula\ContentModule\EntryProvider\PageEntryProvider:
-        tags: ['zikula.multihook_entry_provider']
-
     Zikula\ContentModule\Form\Handler\:
         resource: '../../Form/Handler'
         calls:
@@ -58,16 +55,13 @@ services:
         tags:
             - { name: knp_menu.menu_builder, method: createItemActionsMenu, alias: zikulaContentMenuItemActions }
 
-    Zikula\ContentModule\Needle\PageNeedle:
-        tags: ['zikula.multihook_needle']
-
     Zikula\ContentModule\Routing\DynamicRouteLoader:
         tags: ['routing.loader']
 
     stof_doctrine_extensions.listener.sluggable:
         class: '%stof_doctrine_extensions.listener.sluggable.class%'
+        calls:
+            - [setAnnotationReader, ['@annotation_reader']]
+            - [setTransliterator, [[Zikula\ContentModule\Helper\SlugTransliterator, 'transliterate']]]
         tags:
             - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, ['@annotation_reader'] ]
-            - [ setTransliterator, [[Zikula\ContentModule\Helper\SlugTransliterator, 'transliterate']]]

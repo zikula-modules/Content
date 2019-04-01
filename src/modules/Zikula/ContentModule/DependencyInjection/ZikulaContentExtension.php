@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,7 +14,6 @@
 
 namespace Zikula\ContentModule\DependencyInjection;
 
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\DependencyInjection\Base\AbstractZikulaContentExtension;
@@ -21,9 +23,6 @@ use Zikula\ContentModule\DependencyInjection\Base\AbstractZikulaContentExtension
  */
 class ZikulaContentExtension extends AbstractZikulaContentExtension
 {
-    /**
-     * @inheritDoc
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         parent::load($configs, $container);
