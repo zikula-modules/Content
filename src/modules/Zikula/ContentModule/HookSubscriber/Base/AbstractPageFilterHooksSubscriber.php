@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -25,52 +28,32 @@ abstract class AbstractPageFilterHooksSubscriber implements HookSubscriberInterf
      */
     protected $translator;
 
-    /**
-     * PageFilterHooksSubscriber constructor.
-     *
-     * @param TranslatorInterface $translator
-     */
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOwner()
+    public function getOwner(): string
     {
         return 'ZikulaContentModule';
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getCategory()
+    public function getCategory(): string
     {
         return FilterHooksCategory::NAME;
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->translator->__('Page filter hooks subscriber');
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getAreaName()
+    public function getAreaName(): string
     {
         return 'subscriber.zikulacontentmodule.filter_hooks.pages';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEvents()
+    public function getEvents(): array
     {
         return [
             FilterHooksCategory::TYPE_FILTER => 'zikulacontentmodule.filter_hooks.pages.filter'

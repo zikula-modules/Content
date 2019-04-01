@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -23,9 +26,6 @@ use Symfony\Component\Form\FormInterface;
  */
 abstract class AbstractTranslationListener implements EventSubscriberInterface
 {
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents()
     {
         return [
@@ -35,10 +35,8 @@ abstract class AbstractTranslationListener implements EventSubscriberInterface
     
     /**
      * Adds translation fields to the form.
-     *
-     * @param FormEvent $event
      */
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         $form = $event->getForm();
         $formOptions = $form->getConfig()->getOptions();
@@ -52,8 +50,8 @@ abstract class AbstractTranslationListener implements EventSubscriberInterface
     
             $originalFieldConfig = $entityForm->get($fieldName)->getConfig();
             $fieldOptions = $originalFieldConfig->getOptions();
-            $fieldOptions['required'] = $fieldOptions['required'] && in_array($fieldName, $formOptions['mandatory_fields']);
-            $fieldOptions['data'] = isset($formOptions['values'][$fieldName]) ? $formOptions['values'][$fieldName] : null;
+            $fieldOptions['required'] = $fieldOptions['required'] && in_array($fieldName, $formOptions['mandatory_fields'], true);
+            $fieldOptions['data'] = $formOptions['values'][$fieldName] ?? null;
     
             $form->add($fieldName, get_class($originalFieldConfig->getType()->getInnerType()), $fieldOptions);
         }
@@ -61,12 +59,8 @@ abstract class AbstractTranslationListener implements EventSubscriberInterface
     
     /**
      * Returns parent form editing the entity.
-     *
-     * @param FormInterface $form
-     *
-     * @return FormInterface
      */
-    protected function getEntityForm(FormInterface $form)
+    protected function getEntityForm(FormInterface $form): FormInterface
     {
         $parentForm = $form;
         do {

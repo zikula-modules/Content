@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -43,7 +46,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $countPageViews
+     * @var bool $countPageViews
      */
     protected $countPageViews = false;
     
@@ -70,7 +73,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $enableRawPlugin
+     * @var bool $enableRawPlugin
      */
     protected $enableRawPlugin = false;
     
@@ -79,7 +82,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $inheritPermissions
+     * @var bool $inheritPermissions
      */
     protected $inheritPermissions = false;
     
@@ -88,7 +91,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $enableAutomaticPageLinks
+     * @var bool $enableAutomaticPageLinks
      */
     protected $enableAutomaticPageLinks = true;
     
@@ -97,7 +100,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotBlank()
      * @Assert\Length(min="0", max="5000")
-     * @var text $pageStyles
+     * @var string $pageStyles
      */
     protected $pageStyles = 'dummy|Dummy';
     
@@ -106,7 +109,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotBlank()
      * @Assert\Length(min="0", max="5000")
-     * @var text $sectionStyles
+     * @var string $sectionStyles
      */
     protected $sectionStyles = 'dummy|Dummy';
     
@@ -115,7 +118,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotBlank()
      * @Assert\Length(min="0", max="5000")
-     * @var text $contentStyles
+     * @var string $contentStyles
      */
     protected $contentStyles = 'dummy|Dummy';
     
@@ -124,7 +127,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $enableOptionalString1
+     * @var bool $enableOptionalString1
      */
     protected $enableOptionalString1 = false;
     
@@ -133,7 +136,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $enableOptionalString2
+     * @var bool $enableOptionalString2
      */
     protected $enableOptionalString2 = false;
     
@@ -142,7 +145,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $enableOptionalText
+     * @var bool $enableOptionalText
      */
     protected $enableOptionalText = false;
     
@@ -151,7 +154,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $ignoreBundleNameInRoutes
+     * @var bool $ignoreBundleNameInRoutes
      */
     protected $ignoreBundleNameInRoutes = true;
     
@@ -160,7 +163,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $ignoreEntityNameInRoutes
+     * @var bool $ignoreEntityNameInRoutes
      */
     protected $ignoreEntityNameInRoutes = true;
     
@@ -169,7 +172,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $ignoreFirstTreeLevelInRoutes
+     * @var bool $ignoreFirstTreeLevelInRoutes
      */
     protected $ignoreFirstTreeLevelInRoutes = true;
     
@@ -187,7 +190,7 @@ abstract class AbstractAppSettings
      * @Assert\NotBlank()
      * @Assert\NotEqualTo(value=0)
      * @Assert\LessThan(value=100000000000)
-     * @var integer $pageEntriesPerPage
+     * @var int $pageEntriesPerPage
      */
     protected $pageEntriesPerPage = 10;
     
@@ -196,7 +199,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $linkOwnPagesOnAccountPage
+     * @var bool $linkOwnPagesOnAccountPage
      */
     protected $linkOwnPagesOnAccountPage = true;
     
@@ -205,7 +208,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $pagePrivateMode
+     * @var bool $pagePrivateMode
      */
     protected $pagePrivateMode = false;
     
@@ -214,7 +217,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $showOnlyOwnEntries
+     * @var bool $showOnlyOwnEntries
      */
     protected $showOnlyOwnEntries = false;
     
@@ -223,7 +226,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $allowModerationSpecificCreatorForPage
+     * @var bool $allowModerationSpecificCreatorForPage
      */
     protected $allowModerationSpecificCreatorForPage = false;
     
@@ -232,7 +235,7 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $allowModerationSpecificCreationDateForPage
+     * @var bool $allowModerationSpecificCreationDateForPage
      */
     protected $allowModerationSpecificCreationDateForPage = false;
     
@@ -273,17 +276,11 @@ abstract class AbstractAppSettings
      *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $showPageHistory
+     * @var bool $showPageHistory
      */
     protected $showPageHistory = true;
     
     
-    /**
-     * AppSettings constructor.
-     *
-     * @param VariableApiInterface $variableApi
-     * @param EntityFactory $entityFactory
-     */
     public function __construct(
         VariableApiInterface $variableApi,
         EntityFactory $entityFactory
@@ -294,675 +291,339 @@ abstract class AbstractAppSettings
         $this->load();
     }
     
-    /**
-     * Returns the state of new pages.
-     *
-     * @return string
-     */
-    public function getStateOfNewPages()
+    public function getStateOfNewPages(): string
     {
         return $this->stateOfNewPages;
     }
     
-    /**
-     * Sets the state of new pages.
-     *
-     * @param string $stateOfNewPages
-     *
-     * @return void
-     */
-    public function setStateOfNewPages($stateOfNewPages)
+    public function setStateOfNewPages(string $stateOfNewPages): void
     {
         if ($this->stateOfNewPages !== $stateOfNewPages) {
-            $this->stateOfNewPages = isset($stateOfNewPages) ? $stateOfNewPages : '';
+            $this->stateOfNewPages = $stateOfNewPages ?? '';
         }
     }
     
-    /**
-     * Returns the count page views.
-     *
-     * @return boolean
-     */
-    public function getCountPageViews()
+    public function getCountPageViews(): bool
     {
         return $this->countPageViews;
     }
     
-    /**
-     * Sets the count page views.
-     *
-     * @param boolean $countPageViews
-     *
-     * @return void
-     */
-    public function setCountPageViews($countPageViews)
+    public function setCountPageViews(bool $countPageViews): void
     {
-        if (boolval($this->countPageViews) !== boolval($countPageViews)) {
-            $this->countPageViews = boolval($countPageViews);
+        if ((bool)$this->countPageViews !== $countPageViews) {
+            $this->countPageViews = $countPageViews;
         }
     }
     
-    /**
-     * Returns the google maps api key.
-     *
-     * @return string
-     */
-    public function getGoogleMapsApiKey()
+    public function getGoogleMapsApiKey(): string
     {
         return $this->googleMapsApiKey;
     }
     
-    /**
-     * Sets the google maps api key.
-     *
-     * @param string $googleMapsApiKey
-     *
-     * @return void
-     */
-    public function setGoogleMapsApiKey($googleMapsApiKey)
+    public function setGoogleMapsApiKey(string $googleMapsApiKey): void
     {
         if ($this->googleMapsApiKey !== $googleMapsApiKey) {
-            $this->googleMapsApiKey = isset($googleMapsApiKey) ? $googleMapsApiKey : '';
+            $this->googleMapsApiKey = $googleMapsApiKey ?? '';
         }
     }
     
-    /**
-     * Returns the yandex translate api key.
-     *
-     * @return string
-     */
-    public function getYandexTranslateApiKey()
+    public function getYandexTranslateApiKey(): string
     {
         return $this->yandexTranslateApiKey;
     }
     
-    /**
-     * Sets the yandex translate api key.
-     *
-     * @param string $yandexTranslateApiKey
-     *
-     * @return void
-     */
-    public function setYandexTranslateApiKey($yandexTranslateApiKey)
+    public function setYandexTranslateApiKey(string $yandexTranslateApiKey): void
     {
         if ($this->yandexTranslateApiKey !== $yandexTranslateApiKey) {
-            $this->yandexTranslateApiKey = isset($yandexTranslateApiKey) ? $yandexTranslateApiKey : '';
+            $this->yandexTranslateApiKey = $yandexTranslateApiKey ?? '';
         }
     }
     
-    /**
-     * Returns the enable raw plugin.
-     *
-     * @return boolean
-     */
-    public function getEnableRawPlugin()
+    public function getEnableRawPlugin(): bool
     {
         return $this->enableRawPlugin;
     }
     
-    /**
-     * Sets the enable raw plugin.
-     *
-     * @param boolean $enableRawPlugin
-     *
-     * @return void
-     */
-    public function setEnableRawPlugin($enableRawPlugin)
+    public function setEnableRawPlugin(bool $enableRawPlugin): void
     {
-        if (boolval($this->enableRawPlugin) !== boolval($enableRawPlugin)) {
-            $this->enableRawPlugin = boolval($enableRawPlugin);
+        if ((bool)$this->enableRawPlugin !== $enableRawPlugin) {
+            $this->enableRawPlugin = $enableRawPlugin;
         }
     }
     
-    /**
-     * Returns the inherit permissions.
-     *
-     * @return boolean
-     */
-    public function getInheritPermissions()
+    public function getInheritPermissions(): bool
     {
         return $this->inheritPermissions;
     }
     
-    /**
-     * Sets the inherit permissions.
-     *
-     * @param boolean $inheritPermissions
-     *
-     * @return void
-     */
-    public function setInheritPermissions($inheritPermissions)
+    public function setInheritPermissions(bool $inheritPermissions): void
     {
-        if (boolval($this->inheritPermissions) !== boolval($inheritPermissions)) {
-            $this->inheritPermissions = boolval($inheritPermissions);
+        if ((bool)$this->inheritPermissions !== $inheritPermissions) {
+            $this->inheritPermissions = $inheritPermissions;
         }
     }
     
-    /**
-     * Returns the enable automatic page links.
-     *
-     * @return boolean
-     */
-    public function getEnableAutomaticPageLinks()
+    public function getEnableAutomaticPageLinks(): bool
     {
         return $this->enableAutomaticPageLinks;
     }
     
-    /**
-     * Sets the enable automatic page links.
-     *
-     * @param boolean $enableAutomaticPageLinks
-     *
-     * @return void
-     */
-    public function setEnableAutomaticPageLinks($enableAutomaticPageLinks)
+    public function setEnableAutomaticPageLinks(bool $enableAutomaticPageLinks): void
     {
-        if (boolval($this->enableAutomaticPageLinks) !== boolval($enableAutomaticPageLinks)) {
-            $this->enableAutomaticPageLinks = boolval($enableAutomaticPageLinks);
+        if ((bool)$this->enableAutomaticPageLinks !== $enableAutomaticPageLinks) {
+            $this->enableAutomaticPageLinks = $enableAutomaticPageLinks;
         }
     }
     
-    /**
-     * Returns the page styles.
-     *
-     * @return text
-     */
-    public function getPageStyles()
+    public function getPageStyles(): string
     {
         return $this->pageStyles;
     }
     
-    /**
-     * Sets the page styles.
-     *
-     * @param text $pageStyles
-     *
-     * @return void
-     */
-    public function setPageStyles($pageStyles)
+    public function setPageStyles(string $pageStyles): void
     {
         if ($this->pageStyles !== $pageStyles) {
-            $this->pageStyles = isset($pageStyles) ? $pageStyles : '';
+            $this->pageStyles = $pageStyles ?? '';
         }
     }
     
-    /**
-     * Returns the section styles.
-     *
-     * @return text
-     */
-    public function getSectionStyles()
+    public function getSectionStyles(): string
     {
         return $this->sectionStyles;
     }
     
-    /**
-     * Sets the section styles.
-     *
-     * @param text $sectionStyles
-     *
-     * @return void
-     */
-    public function setSectionStyles($sectionStyles)
+    public function setSectionStyles(string $sectionStyles): void
     {
         if ($this->sectionStyles !== $sectionStyles) {
-            $this->sectionStyles = isset($sectionStyles) ? $sectionStyles : '';
+            $this->sectionStyles = $sectionStyles ?? '';
         }
     }
     
-    /**
-     * Returns the content styles.
-     *
-     * @return text
-     */
-    public function getContentStyles()
+    public function getContentStyles(): string
     {
         return $this->contentStyles;
     }
     
-    /**
-     * Sets the content styles.
-     *
-     * @param text $contentStyles
-     *
-     * @return void
-     */
-    public function setContentStyles($contentStyles)
+    public function setContentStyles(string $contentStyles): void
     {
         if ($this->contentStyles !== $contentStyles) {
-            $this->contentStyles = isset($contentStyles) ? $contentStyles : '';
+            $this->contentStyles = $contentStyles ?? '';
         }
     }
     
-    /**
-     * Returns the enable optional string 1.
-     *
-     * @return boolean
-     */
-    public function getEnableOptionalString1()
+    public function getEnableOptionalString1(): bool
     {
         return $this->enableOptionalString1;
     }
     
-    /**
-     * Sets the enable optional string 1.
-     *
-     * @param boolean $enableOptionalString1
-     *
-     * @return void
-     */
-    public function setEnableOptionalString1($enableOptionalString1)
+    public function setEnableOptionalString1(bool $enableOptionalString1): void
     {
-        if (boolval($this->enableOptionalString1) !== boolval($enableOptionalString1)) {
-            $this->enableOptionalString1 = boolval($enableOptionalString1);
+        if ((bool)$this->enableOptionalString1 !== $enableOptionalString1) {
+            $this->enableOptionalString1 = $enableOptionalString1;
         }
     }
     
-    /**
-     * Returns the enable optional string 2.
-     *
-     * @return boolean
-     */
-    public function getEnableOptionalString2()
+    public function getEnableOptionalString2(): bool
     {
         return $this->enableOptionalString2;
     }
     
-    /**
-     * Sets the enable optional string 2.
-     *
-     * @param boolean $enableOptionalString2
-     *
-     * @return void
-     */
-    public function setEnableOptionalString2($enableOptionalString2)
+    public function setEnableOptionalString2(bool $enableOptionalString2): void
     {
-        if (boolval($this->enableOptionalString2) !== boolval($enableOptionalString2)) {
-            $this->enableOptionalString2 = boolval($enableOptionalString2);
+        if ((bool)$this->enableOptionalString2 !== $enableOptionalString2) {
+            $this->enableOptionalString2 = $enableOptionalString2;
         }
     }
     
-    /**
-     * Returns the enable optional text.
-     *
-     * @return boolean
-     */
-    public function getEnableOptionalText()
+    public function getEnableOptionalText(): bool
     {
         return $this->enableOptionalText;
     }
     
-    /**
-     * Sets the enable optional text.
-     *
-     * @param boolean $enableOptionalText
-     *
-     * @return void
-     */
-    public function setEnableOptionalText($enableOptionalText)
+    public function setEnableOptionalText(bool $enableOptionalText): void
     {
-        if (boolval($this->enableOptionalText) !== boolval($enableOptionalText)) {
-            $this->enableOptionalText = boolval($enableOptionalText);
+        if ((bool)$this->enableOptionalText !== $enableOptionalText) {
+            $this->enableOptionalText = $enableOptionalText;
         }
     }
     
-    /**
-     * Returns the ignore bundle name in routes.
-     *
-     * @return boolean
-     */
-    public function getIgnoreBundleNameInRoutes()
+    public function getIgnoreBundleNameInRoutes(): bool
     {
         return $this->ignoreBundleNameInRoutes;
     }
     
-    /**
-     * Sets the ignore bundle name in routes.
-     *
-     * @param boolean $ignoreBundleNameInRoutes
-     *
-     * @return void
-     */
-    public function setIgnoreBundleNameInRoutes($ignoreBundleNameInRoutes)
+    public function setIgnoreBundleNameInRoutes(bool $ignoreBundleNameInRoutes): void
     {
-        if (boolval($this->ignoreBundleNameInRoutes) !== boolval($ignoreBundleNameInRoutes)) {
-            $this->ignoreBundleNameInRoutes = boolval($ignoreBundleNameInRoutes);
+        if ((bool)$this->ignoreBundleNameInRoutes !== $ignoreBundleNameInRoutes) {
+            $this->ignoreBundleNameInRoutes = $ignoreBundleNameInRoutes;
         }
     }
     
-    /**
-     * Returns the ignore entity name in routes.
-     *
-     * @return boolean
-     */
-    public function getIgnoreEntityNameInRoutes()
+    public function getIgnoreEntityNameInRoutes(): bool
     {
         return $this->ignoreEntityNameInRoutes;
     }
     
-    /**
-     * Sets the ignore entity name in routes.
-     *
-     * @param boolean $ignoreEntityNameInRoutes
-     *
-     * @return void
-     */
-    public function setIgnoreEntityNameInRoutes($ignoreEntityNameInRoutes)
+    public function setIgnoreEntityNameInRoutes(bool $ignoreEntityNameInRoutes): void
     {
-        if (boolval($this->ignoreEntityNameInRoutes) !== boolval($ignoreEntityNameInRoutes)) {
-            $this->ignoreEntityNameInRoutes = boolval($ignoreEntityNameInRoutes);
+        if ((bool)$this->ignoreEntityNameInRoutes !== $ignoreEntityNameInRoutes) {
+            $this->ignoreEntityNameInRoutes = $ignoreEntityNameInRoutes;
         }
     }
     
-    /**
-     * Returns the ignore first tree level in routes.
-     *
-     * @return boolean
-     */
-    public function getIgnoreFirstTreeLevelInRoutes()
+    public function getIgnoreFirstTreeLevelInRoutes(): bool
     {
         return $this->ignoreFirstTreeLevelInRoutes;
     }
     
-    /**
-     * Sets the ignore first tree level in routes.
-     *
-     * @param boolean $ignoreFirstTreeLevelInRoutes
-     *
-     * @return void
-     */
-    public function setIgnoreFirstTreeLevelInRoutes($ignoreFirstTreeLevelInRoutes)
+    public function setIgnoreFirstTreeLevelInRoutes(bool $ignoreFirstTreeLevelInRoutes): void
     {
-        if (boolval($this->ignoreFirstTreeLevelInRoutes) !== boolval($ignoreFirstTreeLevelInRoutes)) {
-            $this->ignoreFirstTreeLevelInRoutes = boolval($ignoreFirstTreeLevelInRoutes);
+        if ((bool)$this->ignoreFirstTreeLevelInRoutes !== $ignoreFirstTreeLevelInRoutes) {
+            $this->ignoreFirstTreeLevelInRoutes = $ignoreFirstTreeLevelInRoutes;
         }
     }
     
-    /**
-     * Returns the permalink suffix.
-     *
-     * @return string
-     */
-    public function getPermalinkSuffix()
+    public function getPermalinkSuffix(): string
     {
         return $this->permalinkSuffix;
     }
     
-    /**
-     * Sets the permalink suffix.
-     *
-     * @param string $permalinkSuffix
-     *
-     * @return void
-     */
-    public function setPermalinkSuffix($permalinkSuffix)
+    public function setPermalinkSuffix(string $permalinkSuffix): void
     {
         if ($this->permalinkSuffix !== $permalinkSuffix) {
-            $this->permalinkSuffix = isset($permalinkSuffix) ? $permalinkSuffix : '';
+            $this->permalinkSuffix = $permalinkSuffix ?? '';
         }
     }
     
-    /**
-     * Returns the page entries per page.
-     *
-     * @return integer
-     */
-    public function getPageEntriesPerPage()
+    public function getPageEntriesPerPage(): int
     {
         return $this->pageEntriesPerPage;
     }
     
-    /**
-     * Sets the page entries per page.
-     *
-     * @param integer $pageEntriesPerPage
-     *
-     * @return void
-     */
-    public function setPageEntriesPerPage($pageEntriesPerPage)
+    public function setPageEntriesPerPage(int $pageEntriesPerPage): void
     {
-        if (intval($this->pageEntriesPerPage) !== intval($pageEntriesPerPage)) {
-            $this->pageEntriesPerPage = intval($pageEntriesPerPage);
+        if ((int)$this->pageEntriesPerPage !== $pageEntriesPerPage) {
+            $this->pageEntriesPerPage = $pageEntriesPerPage;
         }
     }
     
-    /**
-     * Returns the link own pages on account page.
-     *
-     * @return boolean
-     */
-    public function getLinkOwnPagesOnAccountPage()
+    public function getLinkOwnPagesOnAccountPage(): bool
     {
         return $this->linkOwnPagesOnAccountPage;
     }
     
-    /**
-     * Sets the link own pages on account page.
-     *
-     * @param boolean $linkOwnPagesOnAccountPage
-     *
-     * @return void
-     */
-    public function setLinkOwnPagesOnAccountPage($linkOwnPagesOnAccountPage)
+    public function setLinkOwnPagesOnAccountPage(bool $linkOwnPagesOnAccountPage): void
     {
-        if (boolval($this->linkOwnPagesOnAccountPage) !== boolval($linkOwnPagesOnAccountPage)) {
-            $this->linkOwnPagesOnAccountPage = boolval($linkOwnPagesOnAccountPage);
+        if ((bool)$this->linkOwnPagesOnAccountPage !== $linkOwnPagesOnAccountPage) {
+            $this->linkOwnPagesOnAccountPage = $linkOwnPagesOnAccountPage;
         }
     }
     
-    /**
-     * Returns the page private mode.
-     *
-     * @return boolean
-     */
-    public function getPagePrivateMode()
+    public function getPagePrivateMode(): bool
     {
         return $this->pagePrivateMode;
     }
     
-    /**
-     * Sets the page private mode.
-     *
-     * @param boolean $pagePrivateMode
-     *
-     * @return void
-     */
-    public function setPagePrivateMode($pagePrivateMode)
+    public function setPagePrivateMode(bool $pagePrivateMode): void
     {
-        if (boolval($this->pagePrivateMode) !== boolval($pagePrivateMode)) {
-            $this->pagePrivateMode = boolval($pagePrivateMode);
+        if ((bool)$this->pagePrivateMode !== $pagePrivateMode) {
+            $this->pagePrivateMode = $pagePrivateMode;
         }
     }
     
-    /**
-     * Returns the show only own entries.
-     *
-     * @return boolean
-     */
-    public function getShowOnlyOwnEntries()
+    public function getShowOnlyOwnEntries(): bool
     {
         return $this->showOnlyOwnEntries;
     }
     
-    /**
-     * Sets the show only own entries.
-     *
-     * @param boolean $showOnlyOwnEntries
-     *
-     * @return void
-     */
-    public function setShowOnlyOwnEntries($showOnlyOwnEntries)
+    public function setShowOnlyOwnEntries(bool $showOnlyOwnEntries): void
     {
-        if (boolval($this->showOnlyOwnEntries) !== boolval($showOnlyOwnEntries)) {
-            $this->showOnlyOwnEntries = boolval($showOnlyOwnEntries);
+        if ((bool)$this->showOnlyOwnEntries !== $showOnlyOwnEntries) {
+            $this->showOnlyOwnEntries = $showOnlyOwnEntries;
         }
     }
     
-    /**
-     * Returns the allow moderation specific creator for page.
-     *
-     * @return boolean
-     */
-    public function getAllowModerationSpecificCreatorForPage()
+    public function getAllowModerationSpecificCreatorForPage(): bool
     {
         return $this->allowModerationSpecificCreatorForPage;
     }
     
-    /**
-     * Sets the allow moderation specific creator for page.
-     *
-     * @param boolean $allowModerationSpecificCreatorForPage
-     *
-     * @return void
-     */
-    public function setAllowModerationSpecificCreatorForPage($allowModerationSpecificCreatorForPage)
+    public function setAllowModerationSpecificCreatorForPage(bool $allowModerationSpecificCreatorForPage): void
     {
-        if (boolval($this->allowModerationSpecificCreatorForPage) !== boolval($allowModerationSpecificCreatorForPage)) {
-            $this->allowModerationSpecificCreatorForPage = boolval($allowModerationSpecificCreatorForPage);
+        if ((bool)$this->allowModerationSpecificCreatorForPage !== $allowModerationSpecificCreatorForPage) {
+            $this->allowModerationSpecificCreatorForPage = $allowModerationSpecificCreatorForPage;
         }
     }
     
-    /**
-     * Returns the allow moderation specific creation date for page.
-     *
-     * @return boolean
-     */
-    public function getAllowModerationSpecificCreationDateForPage()
+    public function getAllowModerationSpecificCreationDateForPage(): bool
     {
         return $this->allowModerationSpecificCreationDateForPage;
     }
     
-    /**
-     * Sets the allow moderation specific creation date for page.
-     *
-     * @param boolean $allowModerationSpecificCreationDateForPage
-     *
-     * @return void
-     */
-    public function setAllowModerationSpecificCreationDateForPage($allowModerationSpecificCreationDateForPage)
+    public function setAllowModerationSpecificCreationDateForPage(bool $allowModerationSpecificCreationDateForPage): void
     {
-        if (boolval($this->allowModerationSpecificCreationDateForPage) !== boolval($allowModerationSpecificCreationDateForPage)) {
-            $this->allowModerationSpecificCreationDateForPage = boolval($allowModerationSpecificCreationDateForPage);
+        if ((bool)$this->allowModerationSpecificCreationDateForPage !== $allowModerationSpecificCreationDateForPage) {
+            $this->allowModerationSpecificCreationDateForPage = $allowModerationSpecificCreationDateForPage;
         }
     }
     
-    /**
-     * Returns the enabled finder types.
-     *
-     * @return string
-     */
-    public function getEnabledFinderTypes()
+    public function getEnabledFinderTypes(): string
     {
         return $this->enabledFinderTypes;
     }
     
-    /**
-     * Sets the enabled finder types.
-     *
-     * @param string $enabledFinderTypes
-     *
-     * @return void
-     */
-    public function setEnabledFinderTypes($enabledFinderTypes)
+    public function setEnabledFinderTypes(string $enabledFinderTypes): void
     {
         if ($this->enabledFinderTypes !== $enabledFinderTypes) {
-            $this->enabledFinderTypes = isset($enabledFinderTypes) ? $enabledFinderTypes : '';
+            $this->enabledFinderTypes = $enabledFinderTypes ?? '';
         }
     }
     
-    /**
-     * Returns the revision handling for page.
-     *
-     * @return string
-     */
-    public function getRevisionHandlingForPage()
+    public function getRevisionHandlingForPage(): string
     {
         return $this->revisionHandlingForPage;
     }
     
-    /**
-     * Sets the revision handling for page.
-     *
-     * @param string $revisionHandlingForPage
-     *
-     * @return void
-     */
-    public function setRevisionHandlingForPage($revisionHandlingForPage)
+    public function setRevisionHandlingForPage(string $revisionHandlingForPage): void
     {
         if ($this->revisionHandlingForPage !== $revisionHandlingForPage) {
-            $this->revisionHandlingForPage = isset($revisionHandlingForPage) ? $revisionHandlingForPage : '';
+            $this->revisionHandlingForPage = $revisionHandlingForPage ?? '';
         }
     }
     
-    /**
-     * Returns the maximum amount of page revisions.
-     *
-     * @return string
-     */
-    public function getMaximumAmountOfPageRevisions()
+    public function getMaximumAmountOfPageRevisions(): string
     {
         return $this->maximumAmountOfPageRevisions;
     }
     
-    /**
-     * Sets the maximum amount of page revisions.
-     *
-     * @param string $maximumAmountOfPageRevisions
-     *
-     * @return void
-     */
-    public function setMaximumAmountOfPageRevisions($maximumAmountOfPageRevisions)
+    public function setMaximumAmountOfPageRevisions(string $maximumAmountOfPageRevisions): void
     {
         if ($this->maximumAmountOfPageRevisions !== $maximumAmountOfPageRevisions) {
-            $this->maximumAmountOfPageRevisions = isset($maximumAmountOfPageRevisions) ? $maximumAmountOfPageRevisions : '';
+            $this->maximumAmountOfPageRevisions = $maximumAmountOfPageRevisions ?? '';
         }
     }
     
-    /**
-     * Returns the period for page revisions.
-     *
-     * @return string
-     */
-    public function getPeriodForPageRevisions()
+    public function getPeriodForPageRevisions(): string
     {
         return $this->periodForPageRevisions;
     }
     
-    /**
-     * Sets the period for page revisions.
-     *
-     * @param string $periodForPageRevisions
-     *
-     * @return void
-     */
-    public function setPeriodForPageRevisions($periodForPageRevisions)
+    public function setPeriodForPageRevisions(string $periodForPageRevisions): void
     {
         if ($this->periodForPageRevisions !== $periodForPageRevisions) {
-            $this->periodForPageRevisions = isset($periodForPageRevisions) ? $periodForPageRevisions : '';
+            $this->periodForPageRevisions = $periodForPageRevisions ?? '';
         }
     }
     
-    /**
-     * Returns the show page history.
-     *
-     * @return boolean
-     */
-    public function getShowPageHistory()
+    public function getShowPageHistory(): bool
     {
         return $this->showPageHistory;
     }
     
-    /**
-     * Sets the show page history.
-     *
-     * @param boolean $showPageHistory
-     *
-     * @return void
-     */
-    public function setShowPageHistory($showPageHistory)
+    public function setShowPageHistory(bool $showPageHistory): void
     {
-        if (boolval($this->showPageHistory) !== boolval($showPageHistory)) {
-            $this->showPageHistory = boolval($showPageHistory);
+        if ((bool)$this->showPageHistory !== $showPageHistory) {
+            $this->showPageHistory = $showPageHistory;
         }
     }
     
@@ -970,7 +631,7 @@ abstract class AbstractAppSettings
     /**
      * Loads module variables from the database.
      */
-    protected function load()
+    protected function load(): void
     {
         $moduleVars = $this->variableApi->getAll('ZikulaContentModule');
     
@@ -1063,7 +724,7 @@ abstract class AbstractAppSettings
     /**
      * Saves module variables into the database.
      */
-    public function save()
+    public function save(): void
     {
         $this->variableApi->set('ZikulaContentModule', 'stateOfNewPages', $this->getStateOfNewPages());
         $this->variableApi->set('ZikulaContentModule', 'countPageViews', $this->getCountPageViews());
@@ -1097,9 +758,9 @@ abstract class AbstractAppSettings
         $entityManager = $this->entityFactory->getEntityManager();
         $revisionHandling = $this->getRevisionHandlingForPage();
         $limitParameter = '';
-        if ('limitedByAmount' == $revisionHandling) {
+        if ('limitedByAmount' === $revisionHandling) {
             $limitParameter = $this->getMaximumAmountOfPageRevisions();
-        } elseif ('limitedByDate' == $revisionHandling) {
+        } elseif ('limitedByDate' === $revisionHandling) {
             $limitParameter = $this->getPeriodForPageRevisions();
         }
     

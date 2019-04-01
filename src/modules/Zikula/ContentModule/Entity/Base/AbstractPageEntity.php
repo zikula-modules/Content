@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -13,6 +16,7 @@ namespace Zikula\ContentModule\Entity\Base;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,7 +51,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Gedmo\Versioned
      * @ORM\Column(type="integer", unique=true)
-     * @var integer $id
+     * @var int $id
      */
     protected $id = 0;
     
@@ -76,7 +80,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $showTitle
+     * @var bool $showTitle
      */
     protected $showTitle = true;
     
@@ -94,7 +98,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $skipHookSubscribers
+     * @var bool $skipHookSubscribers
      */
     protected $skipHookSubscribers = false;
     
@@ -113,7 +117,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Assert\Type(type="integer")
      * @Assert\NotNull()
      * @Assert\LessThan(value=100000000000)
-     * @var integer $views
+     * @var int $views
      */
     protected $views = 0;
     
@@ -122,7 +126,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $active
+     * @var bool $active
      */
     protected $active = true;
     
@@ -130,7 +134,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Versioned
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
-     * @var DateTime $activeFrom
+     * @var \DateTime $activeFrom
      */
     protected $activeFrom;
     
@@ -139,7 +143,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
      * @Assert\Expression("!value or value > this.getActiveFrom()", message="The start must be before the end.")
-     * @var DateTime $activeTo
+     * @var \DateTime $activeTo
      */
     protected $activeTo;
     
@@ -159,7 +163,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $inMenu
+     * @var bool $inMenu
      */
     protected $inMenu = true;
     
@@ -186,7 +190,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="text", length=2000)
      * @Assert\NotNull()
      * @Assert\Length(min="0", max="2000")
-     * @var text $optionalText
+     * @var string $optionalText
      */
     protected $optionalText = '';
     
@@ -206,7 +210,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Assert\NotBlank()
      * @Assert\NotEqualTo(value=0)
      * @Assert\LessThan(value=100000000000)
-     * @var integer $currentVersion
+     * @var int $currentVersion
      */
     protected $currentVersion = 1;
     
@@ -262,31 +266,31 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\TreeLeft
      * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
-     * @var integer $lft
+     * @Assert\Type(type="int")
+     * @var int $lft
      */
     protected $lft;
     
     /**
      * @Gedmo\TreeLevel
      * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
-     * @var integer $lvl
+     * @Assert\Type(type="int")
+     * @var int $lvl
      */
     protected $lvl;
     
     /**
      * @Gedmo\TreeRight
      * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer")
-     * @var integer $rgt
+     * @Assert\Type(type="int")
+     * @var int $rgt
      */
     protected $rgt;
     
     /**
      * @Gedmo\TreeRoot
      * @ORM\Column(type="integer", nullable=true)
-     * @var integer $root
+     * @var int $root
      */
     protected $root;
     
@@ -297,7 +301,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="\Zikula\ContentModule\Entity\PageEntity", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
-     * @var \Zikula\ContentModule\Entity\PageEntity $parent
+     * @var self $parent
      */
     protected $parent;
     
@@ -306,7 +310,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      *
      * @ORM\OneToMany(targetEntity="\Zikula\ContentModule\Entity\PageEntity", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
-     * @var \Zikula\ContentModule\Entity\PageEntity $children
+     * @var self $children
      */
     protected $children;
     
@@ -341,745 +345,380 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         $this->categories = new ArrayCollection();
     }
     
-    /**
-     * Returns the _object type.
-     *
-     * @return string
-     */
-    public function get_objectType()
+    public function get_objectType(): string
     {
         return $this->_objectType;
     }
     
-    /**
-     * Sets the _object type.
-     *
-     * @param string $_objectType
-     *
-     * @return void
-     */
-    public function set_objectType($_objectType)
+    public function set_objectType(string $_objectType): void
     {
-        if ($this->_objectType != $_objectType) {
-            $this->_objectType = isset($_objectType) ? $_objectType : '';
+        if ($this->_objectType !== $_objectType) {
+            $this->_objectType = $_objectType ?? '';
         }
     }
     
     
-    /**
-     * Returns the id.
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
     
-    /**
-     * Sets the id.
-     *
-     * @param integer $id
-     *
-     * @return void
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
-        if (intval($this->id) !== intval($id)) {
-            $this->id = intval($id);
+        if ((int)$this->id !== $id) {
+            $this->id = $id;
         }
     }
     
-    /**
-     * Returns the workflow state.
-     *
-     * @return string
-     */
-    public function getWorkflowState()
+    public function getWorkflowState(): string
     {
         return $this->workflowState;
     }
     
-    /**
-     * Sets the workflow state.
-     *
-     * @param string $workflowState
-     *
-     * @return void
-     */
-    public function setWorkflowState($workflowState)
+    public function setWorkflowState(string $workflowState): void
     {
         if ($this->workflowState !== $workflowState) {
-            $this->workflowState = isset($workflowState) ? $workflowState : '';
+            $this->workflowState = $workflowState ?? '';
         }
     }
     
-    /**
-     * Returns the title.
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
     
-    /**
-     * Sets the title.
-     *
-     * @param string $title
-     *
-     * @return void
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         if ($this->title !== $title) {
-            $this->title = isset($title) ? $title : '';
+            $this->title = $title ?? '';
         }
     }
     
-    /**
-     * Returns the show title.
-     *
-     * @return boolean
-     */
-    public function getShowTitle()
+    public function getShowTitle(): bool
     {
         return $this->showTitle;
     }
     
-    /**
-     * Sets the show title.
-     *
-     * @param boolean $showTitle
-     *
-     * @return void
-     */
-    public function setShowTitle($showTitle)
+    public function setShowTitle(bool $showTitle): void
     {
-        if (boolval($this->showTitle) !== boolval($showTitle)) {
-            $this->showTitle = boolval($showTitle);
+        if ((bool)$this->showTitle !== $showTitle) {
+            $this->showTitle = $showTitle;
         }
     }
     
-    /**
-     * Returns the meta description.
-     *
-     * @return string
-     */
-    public function getMetaDescription()
+    public function getMetaDescription(): string
     {
         return $this->metaDescription;
     }
     
-    /**
-     * Sets the meta description.
-     *
-     * @param string $metaDescription
-     *
-     * @return void
-     */
-    public function setMetaDescription($metaDescription)
+    public function setMetaDescription(string $metaDescription): void
     {
         if ($this->metaDescription !== $metaDescription) {
-            $this->metaDescription = isset($metaDescription) ? $metaDescription : '';
+            $this->metaDescription = $metaDescription ?? '';
         }
     }
     
-    /**
-     * Returns the skip hook subscribers.
-     *
-     * @return boolean
-     */
-    public function getSkipHookSubscribers()
+    public function getSkipHookSubscribers(): bool
     {
         return $this->skipHookSubscribers;
     }
     
-    /**
-     * Sets the skip hook subscribers.
-     *
-     * @param boolean $skipHookSubscribers
-     *
-     * @return void
-     */
-    public function setSkipHookSubscribers($skipHookSubscribers)
+    public function setSkipHookSubscribers(bool $skipHookSubscribers): void
     {
-        if (boolval($this->skipHookSubscribers) !== boolval($skipHookSubscribers)) {
-            $this->skipHookSubscribers = boolval($skipHookSubscribers);
+        if ((bool)$this->skipHookSubscribers !== $skipHookSubscribers) {
+            $this->skipHookSubscribers = $skipHookSubscribers;
         }
     }
     
-    /**
-     * Returns the layout.
-     *
-     * @return array
-     */
-    public function getLayout()
+    public function getLayout(): array
     {
         return $this->layout;
     }
     
-    /**
-     * Sets the layout.
-     *
-     * @param array $layout
-     *
-     * @return void
-     */
-    public function setLayout($layout)
+    public function setLayout(array $layout): void
     {
         if ($this->layout !== $layout) {
-            $this->layout = isset($layout) ? $layout : '';
+            $this->layout = $layout ?? '';
         }
     }
     
-    /**
-     * Returns the views.
-     *
-     * @return integer
-     */
-    public function getViews()
+    public function getViews(): int
     {
         return $this->views;
     }
     
-    /**
-     * Sets the views.
-     *
-     * @param integer $views
-     *
-     * @return void
-     */
-    public function setViews($views)
+    public function setViews(int $views): void
     {
-        if (intval($this->views) !== intval($views)) {
-            $this->views = intval($views);
+        if ((int)$this->views !== $views) {
+            $this->views = $views;
         }
     }
     
-    /**
-     * Returns the active.
-     *
-     * @return boolean
-     */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
     
-    /**
-     * Sets the active.
-     *
-     * @param boolean $active
-     *
-     * @return void
-     */
-    public function setActive($active)
+    public function setActive(bool $active): void
     {
-        if (boolval($this->active) !== boolval($active)) {
-            $this->active = boolval($active);
+        if ((bool)$this->active !== $active) {
+            $this->active = $active;
         }
     }
     
-    /**
-     * Returns the active from.
-     *
-     * @return DateTime
-     */
-    public function getActiveFrom()
+    public function getActiveFrom(): ?\DateTimeInterface
     {
         return $this->activeFrom;
     }
     
-    /**
-     * Sets the active from.
-     *
-     * @param DateTime $activeFrom
-     *
-     * @return void
-     */
-    public function setActiveFrom($activeFrom)
+    public function setActiveFrom(\DateTimeInterface $activeFrom = null): void
     {
         if ($this->activeFrom !== $activeFrom) {
-            if (!(null == $activeFrom && empty($activeFrom)) && !(is_object($activeFrom) && $activeFrom instanceOf \DateTimeInterface)) {
+            if (!(null === $activeFrom && empty($activeFrom)) && !(is_object($activeFrom) && $activeFrom instanceOf \DateTimeInterface)) {
                 $activeFrom = new \DateTime($activeFrom);
             }
             
-            if ($this->activeFrom != $activeFrom) {
+            if ($this->activeFrom !== $activeFrom) {
                 $this->activeFrom = $activeFrom;
             }
         }
     }
     
-    /**
-     * Returns the active to.
-     *
-     * @return DateTime
-     */
-    public function getActiveTo()
+    public function getActiveTo(): ?\DateTimeInterface
     {
         return $this->activeTo;
     }
     
-    /**
-     * Sets the active to.
-     *
-     * @param DateTime $activeTo
-     *
-     * @return void
-     */
-    public function setActiveTo($activeTo)
+    public function setActiveTo(\DateTimeInterface $activeTo = null): void
     {
         if ($this->activeTo !== $activeTo) {
-            if (!(null == $activeTo && empty($activeTo)) && !(is_object($activeTo) && $activeTo instanceOf \DateTimeInterface)) {
+            if (!(null === $activeTo && empty($activeTo)) && !(is_object($activeTo) && $activeTo instanceOf \DateTimeInterface)) {
                 $activeTo = new \DateTime($activeTo);
             }
             
-            if ($this->activeTo != $activeTo) {
+            if ($this->activeTo !== $activeTo) {
                 $this->activeTo = $activeTo;
             }
         }
     }
     
-    /**
-     * Returns the scope.
-     *
-     * @return string
-     */
-    public function getScope()
+    public function getScope(): string
     {
         return $this->scope;
     }
     
-    /**
-     * Sets the scope.
-     *
-     * @param string $scope
-     *
-     * @return void
-     */
-    public function setScope($scope)
+    public function setScope(string $scope): void
     {
         if ($this->scope !== $scope) {
-            $this->scope = isset($scope) ? $scope : '';
+            $this->scope = $scope ?? '';
         }
     }
     
-    /**
-     * Returns the in menu.
-     *
-     * @return boolean
-     */
-    public function getInMenu()
+    public function getInMenu(): bool
     {
         return $this->inMenu;
     }
     
-    /**
-     * Sets the in menu.
-     *
-     * @param boolean $inMenu
-     *
-     * @return void
-     */
-    public function setInMenu($inMenu)
+    public function setInMenu(bool $inMenu): void
     {
-        if (boolval($this->inMenu) !== boolval($inMenu)) {
-            $this->inMenu = boolval($inMenu);
+        if ((bool)$this->inMenu !== $inMenu) {
+            $this->inMenu = $inMenu;
         }
     }
     
-    /**
-     * Returns the optional string 1.
-     *
-     * @return string
-     */
-    public function getOptionalString1()
+    public function getOptionalString1(): string
     {
         return $this->optionalString1;
     }
     
-    /**
-     * Sets the optional string 1.
-     *
-     * @param string $optionalString1
-     *
-     * @return void
-     */
-    public function setOptionalString1($optionalString1)
+    public function setOptionalString1(string $optionalString1): void
     {
         if ($this->optionalString1 !== $optionalString1) {
-            $this->optionalString1 = isset($optionalString1) ? $optionalString1 : '';
+            $this->optionalString1 = $optionalString1 ?? '';
         }
     }
     
-    /**
-     * Returns the optional string 2.
-     *
-     * @return string
-     */
-    public function getOptionalString2()
+    public function getOptionalString2(): string
     {
         return $this->optionalString2;
     }
     
-    /**
-     * Sets the optional string 2.
-     *
-     * @param string $optionalString2
-     *
-     * @return void
-     */
-    public function setOptionalString2($optionalString2)
+    public function setOptionalString2(string $optionalString2): void
     {
         if ($this->optionalString2 !== $optionalString2) {
-            $this->optionalString2 = isset($optionalString2) ? $optionalString2 : '';
+            $this->optionalString2 = $optionalString2 ?? '';
         }
     }
     
-    /**
-     * Returns the optional text.
-     *
-     * @return text
-     */
-    public function getOptionalText()
+    public function getOptionalText(): string
     {
         return $this->optionalText;
     }
     
-    /**
-     * Sets the optional text.
-     *
-     * @param text $optionalText
-     *
-     * @return void
-     */
-    public function setOptionalText($optionalText)
+    public function setOptionalText(string $optionalText): void
     {
         if ($this->optionalText !== $optionalText) {
-            $this->optionalText = isset($optionalText) ? $optionalText : '';
+            $this->optionalText = $optionalText ?? '';
         }
     }
     
-    /**
-     * Returns the styling classes.
-     *
-     * @return array
-     */
-    public function getStylingClasses()
+    public function getStylingClasses(): ?array
     {
         return $this->stylingClasses;
     }
     
-    /**
-     * Sets the styling classes.
-     *
-     * @param array $stylingClasses
-     *
-     * @return void
-     */
-    public function setStylingClasses($stylingClasses)
+    public function setStylingClasses(array $stylingClasses = null): void
     {
         if ($this->stylingClasses !== $stylingClasses) {
             $this->stylingClasses = $stylingClasses;
         }
     }
     
-    /**
-     * Returns the current version.
-     *
-     * @return integer
-     */
-    public function getCurrentVersion()
+    public function getCurrentVersion(): int
     {
         return $this->currentVersion;
     }
     
-    /**
-     * Sets the current version.
-     *
-     * @param integer $currentVersion
-     *
-     * @return void
-     */
-    public function setCurrentVersion($currentVersion)
+    public function setCurrentVersion(int $currentVersion): void
     {
-        if (intval($this->currentVersion) !== intval($currentVersion)) {
-            $this->currentVersion = intval($currentVersion);
+        if ((int)$this->currentVersion !== $currentVersion) {
+            $this->currentVersion = $currentVersion;
         }
     }
     
-    /**
-     * Returns the content data.
-     *
-     * @return array
-     */
-    public function getContentData()
+    public function getContentData(): array
     {
         return $this->contentData;
     }
     
-    /**
-     * Sets the content data.
-     *
-     * @param array $contentData
-     *
-     * @return void
-     */
-    public function setContentData($contentData)
+    public function setContentData(array $contentData): void
     {
         if ($this->contentData !== $contentData) {
-            $this->contentData = isset($contentData) ? $contentData : '';
+            $this->contentData = $contentData ?? '';
         }
     }
     
-    /**
-     * Returns the translation data.
-     *
-     * @return array
-     */
-    public function getTranslationData()
+    public function getTranslationData(): array
     {
         return $this->translationData;
     }
     
-    /**
-     * Sets the translation data.
-     *
-     * @param array $translationData
-     *
-     * @return void
-     */
-    public function setTranslationData($translationData)
+    public function setTranslationData(array $translationData): void
     {
         if ($this->translationData !== $translationData) {
-            $this->translationData = isset($translationData) ? $translationData : '';
+            $this->translationData = $translationData ?? '';
         }
     }
     
-    /**
-     * Returns the _action description for log entry.
-     *
-     * @return string
-     */
-    public function get_actionDescriptionForLogEntry()
+    public function get_actionDescriptionForLogEntry(): string
     {
         return $this->_actionDescriptionForLogEntry;
     }
     
-    /**
-     * Sets the _action description for log entry.
-     *
-     * @param string $_actionDescriptionForLogEntry
-     *
-     * @return void
-     */
-    public function set_actionDescriptionForLogEntry($_actionDescriptionForLogEntry)
+    public function set_actionDescriptionForLogEntry(string $_actionDescriptionForLogEntry): void
     {
-        if ($this->_actionDescriptionForLogEntry != $_actionDescriptionForLogEntry) {
-            $this->_actionDescriptionForLogEntry = isset($_actionDescriptionForLogEntry) ? $_actionDescriptionForLogEntry : '';
+        if ($this->_actionDescriptionForLogEntry !== $_actionDescriptionForLogEntry) {
+            $this->_actionDescriptionForLogEntry = $_actionDescriptionForLogEntry ?? '';
         }
     }
     
-    /**
-     * Returns the slug.
-     *
-     * @return string
-     */
-    public function getSlug()
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
     
-    /**
-     * Sets the slug.
-     *
-     * @param string $slug
-     *
-     * @return void
-     */
-    public function setSlug($slug)
+    public function setSlug(string $slug = null): void
     {
-        if ($this->slug != $slug) {
+        if ($this->slug !== $slug) {
             $this->slug = $slug;
         }
     }
     
-    /**
-     * Returns the locale.
-     *
-     * @return string
-     */
     public function getLocale()
     {
         return $this->locale;
     }
     
-    /**
-     * Sets the locale.
-     *
-     * @param string $locale
-     *
-     * @return void
-     */
-    public function setLocale($locale)
+    public function setLocale($locale = null): void
     {
-        if ($this->locale != $locale) {
+        if ($this->locale !== $locale) {
             $this->locale = $locale;
         }
     }
     
-    /**
-     * Returns the lft.
-     *
-     * @return integer
-     */
-    public function getLft()
+    public function getLft(): ?int
     {
         return $this->lft;
     }
     
-    /**
-     * Sets the lft.
-     *
-     * @param integer $lft
-     *
-     * @return void
-     */
-    public function setLft($lft)
+    public function setLft(int $lft = null): void
     {
-        if ($this->lft != $lft) {
+        if ($this->lft !== $lft) {
             $this->lft = $lft;
         }
     }
     
-    /**
-     * Returns the lvl.
-     *
-     * @return integer
-     */
-    public function getLvl()
+    public function getLvl(): ?int
     {
         return $this->lvl;
     }
     
-    /**
-     * Sets the lvl.
-     *
-     * @param integer $lvl
-     *
-     * @return void
-     */
-    public function setLvl($lvl)
+    public function setLvl(int $lvl = null): void
     {
-        if ($this->lvl != $lvl) {
+        if ($this->lvl !== $lvl) {
             $this->lvl = $lvl;
         }
     }
     
-    /**
-     * Returns the rgt.
-     *
-     * @return integer
-     */
-    public function getRgt()
+    public function getRgt(): ?int
     {
         return $this->rgt;
     }
     
-    /**
-     * Sets the rgt.
-     *
-     * @param integer $rgt
-     *
-     * @return void
-     */
-    public function setRgt($rgt)
+    public function setRgt(int $rgt = null): void
     {
-        if ($this->rgt != $rgt) {
+        if ($this->rgt !== $rgt) {
             $this->rgt = $rgt;
         }
     }
     
-    /**
-     * Returns the root.
-     *
-     * @return integer
-     */
-    public function getRoot()
+    public function getRoot(): ?int
     {
         return $this->root;
     }
     
-    /**
-     * Sets the root.
-     *
-     * @param integer $root
-     *
-     * @return void
-     */
-    public function setRoot($root)
+    public function setRoot(int $root = null): void
     {
-        if ($this->root != $root) {
+        if ($this->root !== $root) {
             $this->root = $root;
         }
     }
     
-    /**
-     * Returns the parent.
-     *
-     * @return \Zikula\ContentModule\Entity\PageEntity
-     */
-    public function getParent()
+    public function getParent(): ?self
     {
         return $this->parent;
     }
     
-    /**
-     * Sets the parent.
-     *
-     * @param \Zikula\ContentModule\Entity\PageEntity $parent
-     *
-     * @return void
-     */
-    public function setParent($parent = null)
+    public function setParent(self $parent = null): void
     {
-        if ($this->parent != $parent) {
+        if ($this->parent !== $parent) {
             $this->parent = $parent;
         }
     }
     
-    /**
-     * Returns the children.
-     *
-     * @return array
-     */
-    public function getChildren()
+    public function getChildren(): ?Collection
     {
         return $this->children;
     }
     
-    /**
-     * Sets the children.
-     *
-     * @param array $children
-     *
-     * @return void
-     */
-    public function setChildren($children)
+    public function setChildren(Collection $children = null): void
     {
-        if ($this->children != $children) {
+        if ($this->children !== $children) {
             $this->children = $children;
         }
     }
     
-    /**
-     * Returns the categories.
-     *
-     * @return ArrayCollection[]
-     */
-    public function getCategories()
+    public function getCategories(): ?Collection
     {
         return $this->categories;
     }
@@ -1087,15 +726,11 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * Sets the categories.
-     *
-     * @param ArrayCollection $categories List of categories
-     *
-     * @return void
      */
-    public function setCategories(ArrayCollection $categories)
+    public function setCategories(Collection $categories): void
     {
         foreach ($this->categories as $category) {
-            if (false === $key = $this->collectionContains($categories, $category)) {
+            if (false === ($key = $this->collectionContains($categories, $category))) {
                 $this->categories->removeElement($category);
             } else {
                 $categories->remove($key);
@@ -1109,17 +744,14 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Checks if a collection contains an element based only on two criteria (categoryRegistryId, category).
      *
-     * @param ArrayCollection $collection Given collection
-     * @param \Zikula\ContentModule\Entity\PageCategoryEntity $element Element to search for
-     *
      * @return bool|int
      */
-    private function collectionContains(ArrayCollection $collection, \Zikula\ContentModule\Entity\PageCategoryEntity $element)
+    private function collectionContains(Collection $collection, \Zikula\ContentModule\Entity\PageCategoryEntity $element)
     {
         foreach ($collection as $key => $category) {
             /** @var \Zikula\ContentModule\Entity\PageCategoryEntity $category */
-            if ($category->getCategoryRegistryId() == $element->getCategoryRegistryId()
-                && $category->getCategory() == $element->getCategory()
+            if ($category->getCategoryRegistryId() === $element->getCategoryRegistryId()
+                && $category->getCategory() === $element->getCategory()
             ) {
                 return $key;
             }
@@ -1128,24 +760,12 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return false;
     }
     
-    /**
-     * Returns the content items.
-     *
-     * @return \Zikula\ContentModule\Entity\ContentItemEntity[]
-     */
     public function getContentItems()
     {
         return $this->contentItems;
     }
     
-    /**
-     * Sets the content items.
-     *
-     * @param \Zikula\ContentModule\Entity\ContentItemEntity[] $contentItems
-     *
-     * @return void
-     */
-    public function setContentItems($contentItems)
+    public function setContentItems($contentItems = null): void
     {
         foreach ($this->contentItems as $contentItemSingle) {
             $this->removeContentItems($contentItemSingle);
@@ -1157,12 +777,8 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * Adds an instance of \Zikula\ContentModule\Entity\ContentItemEntity to the list of content items.
-     *
-     * @param \Zikula\ContentModule\Entity\ContentItemEntity $contentItem The instance to be added to the collection
-     *
-     * @return void
      */
-    public function addContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem)
+    public function addContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem): void
     {
         $this->contentItems->add($contentItem);
         $contentItem->setPage($this);
@@ -1170,12 +786,8 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * Removes an instance of \Zikula\ContentModule\Entity\ContentItemEntity from the list of content items.
-     *
-     * @param \Zikula\ContentModule\Entity\ContentItemEntity $contentItem The instance to be removed from the collection
-     *
-     * @return void
      */
-    public function removeContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem)
+    public function removeContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem): void
     {
         $this->contentItems->removeElement($contentItem);
         $contentItem->setPage(null);
@@ -1185,12 +797,8 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * Creates url arguments array for easy creation of display urls.
-     *
-     * @param boolean $forEditing
-     *
-     * @return array List of resulting arguments
      */
-    public function createUrlArgs($forEditing = false)
+    public function createUrlArgs(bool $forEditing = false): array
     {
         if (true === $forEditing) {
             return [
@@ -1206,42 +814,32 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * Returns the primary key.
-     *
-     * @return integer The identifier
      */
-    public function getKey()
+    public function getKey(): int
     {
         return $this->getId();
     }
     
     /**
      * Determines whether this entity supports hook subscribers or not.
-     *
-     * @return boolean
      */
-    public function supportsHookSubscribers()
+    public function supportsHookSubscribers(): bool
     {
         return true;
     }
     
     /**
      * Return lower case name of multiple items needed for hook areas.
-     *
-     * @return string
      */
-    public function getHookAreaPrefix()
+    public function getHookAreaPrefix(): string
     {
         return 'zikulacontentmodule.ui_hooks.pages';
     }
     
     /**
      * Returns an array of all related objects that need to be persisted after clone.
-     * 
-     * @param array $objects Objects that are added to this array
-     * 
-     * @return array List of entity objects
      */
-    public function getRelatedObjectsToPersist(&$objects = [])
+    public function getRelatedObjectsToPersist(array &$objects = []): array
     {
         return [];
     }
@@ -1249,10 +847,8 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * ToString interceptor implementation.
      * This method is useful for debugging purposes.
-     *
-     * @return string The output string for this entity
      */
-    public function __toString()
+    public function __toString(): string
     {
         return 'Page ' . $this->getKey() . ': ' . $this->getTitle();
     }

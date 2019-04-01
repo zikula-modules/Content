@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -17,6 +20,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Gedmo\Translatable\Query\TreeWalker\TranslationWalker;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -34,7 +38,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * @var string The main entity class
      */
-    protected $mainEntityClass = 'Zikula\ContentModule\Entity\ContentItemEntity';
+    protected $mainEntityClass = ContentItemEntity::class;
 
     /**
      * @var string The default sorting field/expression
@@ -44,7 +48,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * @var CollectionFilterHelper
      */
-    protected $collectionFilterHelper = null;
+    protected $collectionFilterHelper;
 
     /**
      * @var bool Whether translations are enabled or not
@@ -56,7 +60,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
      *
      * @return string[] List of sorting field names
      */
-    public function getAllowedSortingFields()
+    public function getAllowedSortingFields(): array
     {
         return [
             'owningType',
@@ -72,75 +76,39 @@ abstract class AbstractContentItemRepository extends EntityRepository
         ];
     }
 
-    /**
-     * Returns the default sorting field.
-     *
-     * @return string
-     */
-    public function getDefaultSortingField()
+    public function getDefaultSortingField(): ?string
     {
         return $this->defaultSortingField;
     }
     
-    /**
-     * Sets the default sorting field.
-     *
-     * @param string $defaultSortingField
-     *
-     * @return void
-     */
-    public function setDefaultSortingField($defaultSortingField)
+    public function setDefaultSortingField(string $defaultSortingField = null): void
     {
-        if ($this->defaultSortingField != $defaultSortingField) {
+        if ($this->defaultSortingField !== $defaultSortingField) {
             $this->defaultSortingField = $defaultSortingField;
         }
     }
     
-    /**
-     * Returns the collection filter helper.
-     *
-     * @return CollectionFilterHelper
-     */
-    public function getCollectionFilterHelper()
+    public function getCollectionFilterHelper(): ?CollectionFilterHelper
     {
         return $this->collectionFilterHelper;
     }
     
-    /**
-     * Sets the collection filter helper.
-     *
-     * @param CollectionFilterHelper $collectionFilterHelper
-     *
-     * @return void
-     */
-    public function setCollectionFilterHelper($collectionFilterHelper)
+    public function setCollectionFilterHelper(CollectionFilterHelper $collectionFilterHelper = null): void
     {
-        if ($this->collectionFilterHelper != $collectionFilterHelper) {
+        if ($this->collectionFilterHelper !== $collectionFilterHelper) {
             $this->collectionFilterHelper = $collectionFilterHelper;
         }
     }
     
-    /**
-     * Returns the translations enabled.
-     *
-     * @return bool
-     */
-    public function getTranslationsEnabled()
+    public function getTranslationsEnabled(): ?bool
     {
         return $this->translationsEnabled;
     }
     
-    /**
-     * Sets the translations enabled.
-     *
-     * @param bool $translationsEnabled
-     *
-     * @return void
-     */
-    public function setTranslationsEnabled($translationsEnabled)
+    public function setTranslationsEnabled(bool $translationsEnabled = null): void
     {
-        if ($this->translationsEnabled != $translationsEnabled) {
-            $this->translationsEnabled = isset($translationsEnabled) ? $translationsEnabled : '';
+        if ($this->translationsEnabled !== $translationsEnabled) {
+            $this->translationsEnabled = $translationsEnabled;
         }
     }
     
@@ -148,21 +116,16 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Updates the creator of all objects created by a certain user.
      *
-     * @param integer $userId
-     * @param integer $newUserId
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface $logger
-     * @param CurrentUserApiInterface $currentUserApi
-     *
-     * @return void
-     *
      * @throws InvalidArgumentException Thrown if invalid parameters are received
      */
-    public function updateCreator($userId, $newUserId, TranslatorInterface $translator, LoggerInterface $logger, CurrentUserApiInterface $currentUserApi)
-    {
-        // check id parameter
-        if ($userId == 0 || !is_numeric($userId)
-         || $newUserId == 0 || !is_numeric($newUserId)) {
+    public function updateCreator(
+        int $userId,
+        int $newUserId,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        CurrentUserApiInterface $currentUserApi
+    ): void {
+        if (0 === $userId || 0 === $newUserId) {
             throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
         }
     
@@ -181,21 +144,16 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Updates the last editor of all objects updated by a certain user.
      *
-     * @param integer $userId
-     * @param integer $newUserId
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface $logger
-     * @param CurrentUserApiInterface $currentUserApi
-     *
-     * @return void
-     *
      * @throws InvalidArgumentException Thrown if invalid parameters are received
      */
-    public function updateLastEditor($userId, $newUserId, TranslatorInterface $translator, LoggerInterface $logger, CurrentUserApiInterface $currentUserApi)
-    {
-        // check id parameter
-        if ($userId == 0 || !is_numeric($userId)
-         || $newUserId == 0 || !is_numeric($newUserId)) {
+    public function updateLastEditor(
+        int $userId,
+        int $newUserId,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        CurrentUserApiInterface $currentUserApi
+    ): void {
+        if (0 === $userId || 0 === $newUserId) {
             throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
         }
     
@@ -214,19 +172,15 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Deletes all objects created by a certain user.
      *
-     * @param integer $userId
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface $logger
-     * @param CurrentUserApiInterface $currentUserApi
-     *
-     * @return void
-     *
      * @throws InvalidArgumentException Thrown if invalid parameters are received
      */
-    public function deleteByCreator($userId, TranslatorInterface $translator, LoggerInterface $logger, CurrentUserApiInterface $currentUserApi)
-    {
-        // check id parameter
-        if ($userId == 0 || !is_numeric($userId)) {
+    public function deleteByCreator(
+        int $userId,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        CurrentUserApiInterface $currentUserApi
+    ): void {
+        if (0 === $userId) {
             throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
         }
     
@@ -244,19 +198,15 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Deletes all objects updated by a certain user.
      *
-     * @param integer $userId
-     * @param TranslatorInterface $translator
-     * @param LoggerInterface $logger
-     * @param CurrentUserApiInterface $currentUserApi
-     *
-     * @return void
-     *
      * @throws InvalidArgumentException Thrown if invalid parameters are received
      */
-    public function deleteByLastEditor($userId, TranslatorInterface $translator, LoggerInterface $logger, CurrentUserApiInterface $currentUserApi)
-    {
-        // check id parameter
-        if ($userId == 0 || !is_numeric($userId)) {
+    public function deleteByLastEditor(
+        int $userId,
+        TranslatorInterface $translator,
+        LoggerInterface $logger,
+        CurrentUserApiInterface $currentUserApi
+    ): void {
+        if (0 === $userId) {
             throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
         }
     
@@ -274,20 +224,14 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Adds an array of id filters to given query instance.
      *
-     * @param array        $idList List of identifiers to use to retrieve the object
-     * @param QueryBuilder $qb     Query builder to be enhanced
-     *
-     * @return QueryBuilder Enriched query builder instance
-     *
      * @throws InvalidArgumentException Thrown if invalid parameters are received
      */
-    protected function addIdListFilter(array $idList, QueryBuilder $qb)
+    protected function addIdListFilter(array $idList, QueryBuilder $qb): QueryBuilder
     {
         $orX = $qb->expr()->orX();
     
         foreach ($idList as $id) {
-            // check id parameter
-            if ($id == 0) {
+            if (0 === $id) {
                 throw new InvalidArgumentException('Invalid identifier received.');
             }
     
@@ -302,29 +246,29 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Selects an object from the database.
      *
-     * @param mixed   $id       The id (or array of ids) to use to retrieve the object (optional) (default=0)
-     * @param boolean $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param boolean $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
+     * @param mixed $id The id (or array of ids) to use to retrieve the object (optional) (default=0)
+     * @param bool $useJoins Whether to include joining related objects (optional) (default=true)
+     * @param bool $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
      *
-     * @return array|contentItemEntity Retrieved data array or contentItemEntity instance
+     * @return array|ContentItemEntity Retrieved data array or contentItemEntity instance
      */
-    public function selectById($id = 0, $useJoins = true, $slimMode = false)
+    public function selectById($id = 0, bool $useJoins = true, bool $slimMode = false)
     {
         $results = $this->selectByIdList(is_array($id) ? $id : [$id], $useJoins, $slimMode);
     
-        return null !== $results && count($results) > 0 ? $results[0] : null;
+        return null !== $results && 0 < count($results) ? $results[0] : null;
     }
     
     /**
      * Selects a list of objects with an array of ids
      *
-     * @param mixed   $idList   The array of ids to use to retrieve the objects (optional) (default=0)
-     * @param boolean $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param boolean $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
+     * @param array $idList The array of ids to use to retrieve the objects (optional) (default=0)
+     * @param bool $useJoins Whether to include joining related objects (optional) (default=true)
+     * @param bool $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
      *
-     * @return ArrayCollection Collection containing retrieved contentItemEntity instances
+     * @return array Retrieved ContentItemEntity instances
      */
-    public function selectByIdList($idList = [0], $useJoins = true, $slimMode = false)
+    public function selectByIdList(array $idList = [0], bool $useJoins = true, bool $slimMode = false): array
     {
         $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
         $qb = $this->addIdListFilter($idList, $qb);
@@ -337,20 +281,15 @@ abstract class AbstractContentItemRepository extends EntityRepository
     
         $results = $query->getResult();
     
-        return count($results) > 0 ? $results : null;
+        return 0 < count($results) ? $results : null;
     }
 
     /**
      * Adds where clauses excluding desired identifiers from selection.
-     *
-     * @param QueryBuilder $qb         Query builder to be enhanced
-     * @param array        $exclusions List of identifiers to be excluded from selection
-     *
-     * @return QueryBuilder Enriched query builder instance
      */
-    protected function addExclusion(QueryBuilder $qb, array $exclusions = [])
+    protected function addExclusion(QueryBuilder $qb, array $exclusions = []): QueryBuilder
     {
-        if (count($exclusions) > 0) {
+        if (0 < count($exclusions)) {
             $qb->andWhere('tbl.id NOT IN (:excludedIdentifiers)')
                ->setParameter('excludedIdentifiers', $exclusions);
         }
@@ -360,15 +299,8 @@ abstract class AbstractContentItemRepository extends EntityRepository
 
     /**
      * Returns query builder for selecting a list of objects with a given where clause.
-     *
-     * @param string  $where    The where clause to use when retrieving the collection (optional) (default='')
-     * @param string  $orderBy  The order-by clause to use when retrieving the collection (optional) (default='')
-     * @param boolean $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param boolean $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
-     *
-     * @return QueryBuilder Query builder for the given arguments
      */
-    public function getListQueryBuilder($where = '', $orderBy = '', $useJoins = true, $slimMode = false)
+    public function getListQueryBuilder(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): QueryBuilder
     {
         $qb = $this->genericBaseQuery($where, $orderBy, $useJoins, $slimMode);
         if (!$slimMode && null !== $this->collectionFilterHelper) {
@@ -380,42 +312,35 @@ abstract class AbstractContentItemRepository extends EntityRepository
     
     /**
      * Selects a list of objects with a given where clause.
-     *
-     * @param string  $where    The where clause to use when retrieving the collection (optional) (default='')
-     * @param string  $orderBy  The order-by clause to use when retrieving the collection (optional) (default='')
-     * @param boolean $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param boolean $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
-     *
-     * @return ArrayCollection Collection containing retrieved contentItemEntity instances
      */
-    public function selectWhere($where = '', $orderBy = '', $useJoins = true, $slimMode = false)
+    public function selectWhere(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): array
     {
         $qb = $this->getListQueryBuilder($where, $orderBy, $useJoins, $slimMode);
     
         $query = $this->getQueryFromBuilder($qb);
     
-        return $this->retrieveCollectionResult($query, false);
+        return $this->retrieveCollectionResult($query);
     }
 
     /**
      * Returns query builder instance for retrieving a list of objects with a given where clause and pagination parameters.
      *
-     * @param QueryBuilder $qb             Query builder to be enhanced
-     * @param integer      $currentPage    Where to start selection
-     * @param integer      $resultsPerPage Amount of items to select
+     * @param QueryBuilder $qb Query builder to be enhanced
+     * @param int $currentPage Where to start selection
+     * @param int $resultsPerPage Amount of items to select
      *
      * @return Query Created query instance
      */
-    public function getSelectWherePaginatedQuery(QueryBuilder $qb, $currentPage = 1, $resultsPerPage = 25)
+    public function getSelectWherePaginatedQuery(QueryBuilder $qb, int $currentPage = 1, int $resultsPerPage = 25): Query
     {
-        if ($currentPage < 1) {
+        if (1 > $currentPage) {
             $currentPage = 1;
         }
-        if ($resultsPerPage < 1) {
+        if (1 > $resultsPerPage) {
             $resultsPerPage = 25;
         }
         $query = $this->getQueryFromBuilder($qb);
-        $offset = ($currentPage-1) * $resultsPerPage;
+        $offset = ($currentPage - 1) * $resultsPerPage;
     
         $query->setFirstResult($offset)
               ->setMaxResults($resultsPerPage);
@@ -426,16 +351,9 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Selects a list of objects with a given where clause and pagination parameters.
      *
-     * @param string  $where          The where clause to use when retrieving the collection (optional) (default='')
-     * @param string  $orderBy        The order-by clause to use when retrieving the collection (optional) (default='')
-     * @param integer $currentPage    Where to start selection
-     * @param integer $resultsPerPage Amount of items to select
-     * @param boolean $useJoins       Whether to include joining related objects (optional) (default=true)
-     * @param boolean $slimMode       If activated only some basic fields are selected without using any joins (optional) (default=false)
-     *
-     * @return array Retrieved collection and amount of total records affected by this query
+     * @return array Retrieved collection and the amount of total records affected
      */
-    public function selectWherePaginated($where = '', $orderBy = '', $currentPage = 1, $resultsPerPage = 25, $useJoins = true, $slimMode = false)
+    public function selectWherePaginated(string $where = '', string $orderBy = '', int $currentPage = 1, int $resultsPerPage = 25, bool $useJoins = true, bool $slimMode = false): array
     {
         $qb = $this->getListQueryBuilder($where, $orderBy, $useJoins, $slimMode);
         $query = $this->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
@@ -446,19 +364,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Selects entities by a given search fragment.
      *
-     * @param string  $fragment       The fragment to search for
-     * @param array   $exclude        List of identifiers to be excluded from search
-     * @param string  $orderBy        The order-by clause to use when retrieving the collection (optional) (default='')
-     * @param integer $currentPage    Where to start selection
-     * @param integer $resultsPerPage Amount of items to select
-     * @param boolean $useJoins       Whether to include joining related objects (optional) (default=true)
-     *
-     * @return array Retrieved collection and amount of total records affected by this query
+     * @return array Retrieved collection and (for paginated queries) the amount of total records affected
      */
-    public function selectSearch($fragment = '', array $exclude = [], $orderBy = '', $currentPage = 1, $resultsPerPage = 25, $useJoins = true)
+    public function selectSearch(string $fragment = '', array $exclude = [], string $orderBy = '', int $currentPage = 1, int $resultsPerPage = 25, bool $useJoins = true): array
     {
         $qb = $this->getListQueryBuilder('', $orderBy, $useJoins);
-        if (count($exclude) > 0) {
+        if (0 < count($exclude)) {
             $qb = $this->addExclusion($qb, $exclude);
         }
     
@@ -474,12 +385,9 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Performs a given database selection and post-processed the results.
      *
-     * @param Query   $query       The Query instance to be executed
-     * @param boolean $isPaginated Whether the given query uses a paginator or not (optional) (default=false)
-     *
      * @return array Retrieved collection and (for paginated queries) the amount of total records affected
      */
-    public function retrieveCollectionResult(Query $query, $isPaginated = false)
+    public function retrieveCollectionResult(Query $query, bool $isPaginated = false): array
     {
         $count = 0;
         if (!$isPaginated) {
@@ -503,13 +411,8 @@ abstract class AbstractContentItemRepository extends EntityRepository
 
     /**
      * Returns query builder instance for a count query.
-     *
-     * @param string  $where    The where clause to use when retrieving the object count (optional) (default='')
-     * @param boolean $useJoins Whether to include joining related objects (optional) (default=false)
-     *
-     * @return QueryBuilder Created query builder instance
      */
-    public function getCountQuery($where = '', $useJoins = false)
+    public function getCountQuery(string $where = '', bool $useJoins = false): QueryBuilder
     {
         $selection = 'COUNT(tbl.id) AS numContentItems';
     
@@ -530,14 +433,8 @@ abstract class AbstractContentItemRepository extends EntityRepository
 
     /**
      * Selects entity count with a given where clause.
-     *
-     * @param string  $where      The where clause to use when retrieving the object count (optional) (default='')
-     * @param boolean $useJoins   Whether to include joining related objects (optional) (default=false)
-     * @param array   $parameters List of determined filter options
-     *
-     * @return integer Amount of affected records
      */
-    public function selectCount($where = '', $useJoins = false, array $parameters = [])
+    public function selectCount(string $where = '', bool $useJoins = false, array $parameters = []): int
     {
         $qb = $this->getCountQuery($where, $useJoins);
     
@@ -547,22 +444,16 @@ abstract class AbstractContentItemRepository extends EntityRepository
     
         $query = $qb->getQuery();
     
-        return $query->getSingleScalarResult();
+        return (int)$query->getSingleScalarResult();
     }
 
 
     /**
      * Checks for unique values.
-     *
-     * @param string  $fieldName  The name of the property to be checked
-     * @param string  $fieldValue The value of the property to be checked
-     * @param integer $excludeId  Id of content items to exclude (optional)
-     *
-     * @return boolean Result of this check, true if the given content item does not already exist
      */
-    public function detectUniqueState($fieldName, $fieldValue, $excludeId = 0)
+    public function detectUniqueState(string $fieldName, string $fieldValue, int $excludeId = 0): bool
     {
-        $qb = $this->getCountQuery('', false);
+        $qb = $this->getCountQuery();
         $qb->andWhere('tbl.' . $fieldName . ' = :' . $fieldName)
            ->setParameter($fieldName, $fieldValue);
     
@@ -572,22 +463,15 @@ abstract class AbstractContentItemRepository extends EntityRepository
     
         $query = $qb->getQuery();
     
-        $count = $query->getSingleScalarResult();
+        $count = (int)$query->getSingleScalarResult();
     
-        return ($count == 0);
+        return 1 > $count;
     }
 
     /**
      * Builds a generic Doctrine query supporting WHERE and ORDER BY.
-     *
-     * @param string  $where    The where clause to use when retrieving the collection (optional) (default='')
-     * @param string  $orderBy  The order-by clause to use when retrieving the collection (optional) (default='')
-     * @param boolean $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param boolean $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
-     *
-     * @return QueryBuilder Query builder instance to be further processed
      */
-    public function genericBaseQuery($where = '', $orderBy = '', $useJoins = true, $slimMode = false)
+    public function genericBaseQuery(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): QueryBuilder
     {
         // normally we select the whole table
         $selection = 'tbl';
@@ -623,18 +507,13 @@ abstract class AbstractContentItemRepository extends EntityRepository
 
     /**
      * Adds ORDER BY clause to given query builder.
-     *
-     * @param QueryBuilder $qb      Given query builder instance
-     * @param string       $orderBy The order-by clause to use when retrieving the collection (optional) (default='')
-     *
-     * @return QueryBuilder Query builder instance to be further processed
      */
-    protected function genericBaseQueryAddOrderBy(QueryBuilder $qb, $orderBy = '')
+    protected function genericBaseQueryAddOrderBy(QueryBuilder $qb, string $orderBy = ''): QueryBuilder
     {
-        if ($orderBy == 'RAND()') {
+        if ('RAND()' === $orderBy) {
             // random selection
-            $qb->addSelect('MOD(tbl.id, ' . mt_rand(2, 15) . ') AS HIDDEN randomIdentifiers')
-               ->add('orderBy', 'randomIdentifiers');
+            $qb->addSelect('MOD(tbl.id, ' . random_int(2, 15) . ') AS HIDDEN randomIdentifiers')
+               ->orderBy('randomIdentifiers');
     
             return $qb;
         }
@@ -668,21 +547,14 @@ abstract class AbstractContentItemRepository extends EntityRepository
 
     /**
      * Retrieves Doctrine query from query builder.
-     *
-     * @param QueryBuilder $qb Query builder instance
-     *
-     * @return Query Query instance to be further processed
      */
-    public function getQueryFromBuilder(QueryBuilder $qb)
+    public function getQueryFromBuilder(QueryBuilder $qb): Query
     {
         $query = $qb->getQuery();
     
         if (true === $this->translationsEnabled) {
             // set the translation query hint
-            $query->setHint(
-                Query::HINT_CUSTOM_OUTPUT_WALKER,
-                'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
-            );
+            $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, TranslationWalker::class);
         }
     
         return $query;
@@ -690,10 +562,8 @@ abstract class AbstractContentItemRepository extends EntityRepository
 
     /**
      * Helper method to add join selections.
-     *
-     * @return String Enhancement for select clause
      */
-    protected function addJoinsToSelection()
+    protected function addJoinsToSelection(): string
     {
         $selection = ', tblPage';
     
@@ -702,12 +572,8 @@ abstract class AbstractContentItemRepository extends EntityRepository
     
     /**
      * Helper method to add joins to from clause.
-     *
-     * @param QueryBuilder $qb Query builder instance used to create the query
-     *
-     * @return QueryBuilder The query builder enriched by additional joins
      */
-    protected function addJoinsToFrom(QueryBuilder $qb)
+    protected function addJoinsToFrom(QueryBuilder $qb): QueryBuilder
     {
         $qb->leftJoin('tbl.page', 'tblPage');
     

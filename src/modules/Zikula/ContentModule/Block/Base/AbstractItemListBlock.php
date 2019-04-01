@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,6 +14,7 @@
 
 namespace Zikula\ContentModule\Block\Base;
 
+use Exception;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Zikula\BlocksModule\AbstractBlockHandler;
 use Zikula\ContentModule\Block\Form\Type\ItemListBlockType;
@@ -62,21 +66,15 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
      */
     protected $categorisableObjectTypes;
     
-    /**
-     * @inheritDoc
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->__('Content list', 'zikulacontentmodule');
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function display(array $properties = [])
+    public function display(array $properties = []): string
     {
         // only show block content if the user has the required permissions
-        if (!$this->hasPermission('ZikulaContentModule:ItemListBlock:', "$properties[title]::", ACCESS_OVERVIEW)) {
+        if (!$this->hasPermission('ZikulaContentModule:ItemListBlock:', $properties['title'] . '::', ACCESS_OVERVIEW)) {
             return '';
         }
     
@@ -87,13 +85,13 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         $properties = array_merge($defaults, $properties);
     
         $contextArgs = ['name' => 'list'];
-        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs))) {
+        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs), true)) {
             $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
     
         $objectType = $properties['objectType'];
     
-        $hasCategories = in_array($objectType, $this->categorisableObjectTypes)
+        $hasCategories = in_array($objectType, $this->categorisableObjectTypes, true)
             && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType']);
         if ($hasCategories) {
             $categoryProperties = $this->resolveCategoryIds($properties);
@@ -118,7 +116,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         $query = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
         try {
             list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $entities = [];
             $objectCount = 0;
         }
@@ -143,22 +141,18 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
             $templateParameters['properties'] = $categoryProperties;
         }
     
-        $templateParameters = $this->controllerHelper->addTemplateParameters($properties['objectType'], $templateParameters, 'block', []);
+        $templateParameters = $this->controllerHelper->addTemplateParameters($properties['objectType'], $templateParameters, 'block');
     
         return $this->renderView($template, $templateParameters);
     }
     
     /**
      * Returns the template used for output.
-     *
-     * @param array $properties The block properties
-     *
-     * @return string the template path
      */
-    protected function getDisplayTemplate(array $properties = [])
+    protected function getDisplayTemplate(array $properties = []): string
     {
         $templateFile = $properties['template'];
-        if ('custom' == $templateFile && null !== $properties['customTemplate'] && '' != $properties['customTemplate']) {
+        if ('custom' === $templateFile && null !== $properties['customTemplate'] && '' !== $properties['customTemplate']) {
             $templateFile = $properties['customTemplate'];
         }
     
@@ -181,24 +175,18 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         return $template;
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getFormClassName()
+    public function getFormClassName(): string
     {
         return ItemListBlockType::class;
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getFormOptions()
+    public function getFormOptions(): array
     {
         $objectType = 'page';
         $this->categorisableObjectTypes = ['page'];
     
         $request = $this->requestStack->getCurrentRequest();
-        if ($request->attributes->has('blockEntity')) {
+        if (null !== $request && $request->attributes->has('blockEntity')) {
             $blockEntity = $request->attributes->get('blockEntity');
             if (is_object($blockEntity) && method_exists($blockEntity, 'getProperties')) {
                 $blockProperties = $blockEntity->getProperties();
@@ -213,26 +201,21 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
         return [
             'object_type' => $objectType,
-            'is_categorisable' => in_array($objectType, $this->categorisableObjectTypes),
+            'is_categorisable' => in_array($objectType, $this->categorisableObjectTypes, true),
             'category_helper' => $this->categoryHelper,
             'feature_activation_helper' => $this->featureActivationHelper
         ];
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getFormTemplate()
+    public function getFormTemplate(): string
     {
         return '@ZikulaContentModule/Block/itemlist_modify.html.twig';
     }
     
     /**
      * Returns default settings for this block.
-     *
-     * @return array The default settings
      */
-    protected function getDefaults()
+    protected function getDefaults(): array
     {
         return [
             'objectType' => 'page',
@@ -246,12 +229,8 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
     /**
      * Resolves category filter ids.
-     *
-     * @param array $properties The block properties
-     *
-     * @return array The updated block properties
      */
-    protected function resolveCategoryIds(array $properties = [])
+    protected function resolveCategoryIds(array $properties = []): array
     {
         $primaryRegistry = $this->categoryHelper->getPrimaryProperty($properties['objectType']);
         if (!isset($properties['categories'])) {
@@ -274,49 +253,43 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
     /**
      * @required
-     * @param FilesystemLoader $twigLoader
      */
-    public function setTwigLoader(FilesystemLoader $twigLoader)
+    public function setTwigLoader(FilesystemLoader $twigLoader): void
     {
         $this->twigLoader = $twigLoader;
     }
     
     /**
      * @required
-     * @param ControllerHelper $controllerHelper
      */
-    public function setControllerHelper(ControllerHelper $controllerHelper)
+    public function setControllerHelper(ControllerHelper $controllerHelper): void
     {
         $this->controllerHelper = $controllerHelper;
     }
     
     /**
      * @required
-     * @param ModelHelper $modelHelper
      */
-    public function setModelHelper(ModelHelper $modelHelper)
+    public function setModelHelper(ModelHelper $modelHelper): void
     {
         $this->modelHelper = $modelHelper;
     }
     
     /**
      * @required
-     * @param EntityFactory $entityFactory
      */
-    public function setEntityFactory(EntityFactory $entityFactory)
+    public function setEntityFactory(EntityFactory $entityFactory): void
     {
         $this->entityFactory = $entityFactory;
     }
     
     /**
      * @required
-     * @param CategoryHelper $categoryHelper
-     * @param FeatureActivationHelper $featureActivationHelper
      */
     public function setCategoryDependencies(
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper
-    ) {
+    ): void {
         $this->categoryHelper = $categoryHelper;
         $this->featureActivationHelper = $featureActivationHelper;
     }

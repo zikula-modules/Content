@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -55,15 +58,6 @@ abstract class AbstractTranslatableHelper
      */
     protected $loggableListener;
     
-    /**
-     * TranslatableHelper constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param VariableApiInterface $variableApi
-     * @param LocaleApiInterface $localeApi
-     * @param EntityFactory $entityFactory
-     */
     public function __construct(
         TranslatorInterface $translator,
         RequestStack $requestStack,
@@ -83,12 +77,8 @@ abstract class AbstractTranslatableHelper
      * Return list of translatable fields per entity.
      * These are required to be determined to recognise
      * that they have to be selected from according translation tables.
-     *
-     * @param string $objectType The currently treated object type
-     *
-     * @return array List of translatable fields
      */
-    public function getTranslatableFields($objectType)
+    public function getTranslatableFields(string $objectType): array
     {
         $fields = [];
         switch ($objectType) {
@@ -105,22 +95,18 @@ abstract class AbstractTranslatableHelper
     
     /**
      * Return the current language code.
-     *
-     * @return string code of current language
      */
-    public function getCurrentLanguage()
+    public function getCurrentLanguage(): string
     {
-        return $this->requestStack->getCurrentRequest()->getLocale();
+        $request = $this->requestStack->getCurrentRequest();
+    
+        return null !== $request ? $request->getLocale() : 'en';
     }
     
     /**
      * Return list of supported languages on the current system.
-     *
-     * @param string $objectType The currently treated object type
-     *
-     * @return array List of language codes
      */
-    public function getSupportedLanguages($objectType)
+    public function getSupportedLanguages(string $objectType): array
     {
         if ($this->variableApi->getSystemVar('multilingual')) {
             return $this->localeApi->getSupportedLocales();
@@ -132,12 +118,8 @@ abstract class AbstractTranslatableHelper
     
     /**
      * Returns a list of mandatory fields for each supported language.
-     *
-     * @param string $objectType The currently treated object type
-     *
-     * @return array List of mandatory fields for each language code
      */
-    public function getMandatoryFields($objectType)
+    public function getMandatoryFields(string $objectType): array
     {
         $mandatoryFields = [];
         foreach ($this->getSupportedLanguages($objectType) as $language) {
@@ -150,16 +132,14 @@ abstract class AbstractTranslatableHelper
     /**
      * Collects translated fields for editing.
      *
-     * @param EntityAccess $entity The entity being edited
-     *
      * @return array Collected translations for each language code
      */
-    public function prepareEntityForEditing($entity)
+    public function prepareEntityForEditing(EntityAccess $entity): array
     {
         $translations = [];
         $objectType = $entity->get_objectType();
     
-        if ($this->variableApi->getSystemVar('multilingual') != 1) {
+        if (!$this->variableApi->getSystemVar('multilingual')) {
             return $translations;
         }
     
@@ -177,7 +157,7 @@ abstract class AbstractTranslatableHelper
         $supportedLanguages = $this->getSupportedLanguages($objectType);
         $currentLanguage = $this->getCurrentLanguage();
         foreach ($supportedLanguages as $language) {
-            if ($language == $currentLanguage) {
+            if ($language === $currentLanguage) {
                 foreach ($fields as $fieldName) {
                     if (null === $entity[$fieldName]) {
                         $entity[$fieldName] = '';
@@ -188,9 +168,9 @@ abstract class AbstractTranslatableHelper
             }
             $translationData = [];
             foreach ($fields as $fieldName) {
-                $translationData[$fieldName] = isset($entityTranslations[$language][$fieldName]) ? $entityTranslations[$language][$fieldName] : '';
+                $translationData[$fieldName] = $entityTranslations[$language][$fieldName] ?? '';
             }
-            if (in_array($objectType, ['page']) && isset($translationData['slug'])) {
+            if (isset($translationData['slug']) && in_array($objectType, ['page'])) {
                 $slugParts = explode('/', $translationData['slug']);
                 $translationData['slug'] = end($slugParts);
             }
@@ -203,11 +183,8 @@ abstract class AbstractTranslatableHelper
     
     /**
      * Post-editing method persisting translated fields.
-     *
-     * @param EntityAccess  $entity The entity being edited
-     * @param FormInterface $form   Form containing translations
      */
-    public function processEntityAfterEditing($entity, FormInterface $form)
+    public function processEntityAfterEditing(EntityAccess $entity, FormInterface $form): void
     {
         $this->toggleLoggable(false);
     
@@ -226,7 +203,7 @@ abstract class AbstractTranslatableHelper
             }
     
             $entity->setLocale($language);
-            $entityManager->flush($entity);
+            $entityManager->flush();
         }
     
         $this->toggleLoggable(true);
@@ -234,19 +211,15 @@ abstract class AbstractTranslatableHelper
     
     /**
      * Collects translated fields from given form for a specific language.
-     *
-     * @param FormInterface $form     Form containing translations
-     * @param string        $language The desired language
-     *
-     * @return array
      */
-    public function readTranslationInput(FormInterface $form, $language = 'en')
+    public function readTranslationInput(FormInterface $form, string $language = 'en'): array
     {
         $data = [];
-        if (!isset($form['translations' . $language])) {
+        $translationKey = 'translations' . $language;
+        if (!isset($form[$translationKey])) {
             return $data;
         }
-        $translatedFields = $form['translations' . $language];
+        $translatedFields = $form[$translationKey];
         foreach ($translatedFields as $fieldName => $formField) {
             $fieldData = $formField->getData();
             if (!$fieldData && isset($form[$fieldName])) {
@@ -261,10 +234,8 @@ abstract class AbstractTranslatableHelper
     /**
      * Enables or disables the loggable listener to avoid log entries
      * for translation changes.
-     *
-     * @param boolean $enable True for enable, false for disable
      */
-    public function toggleLoggable($enable = true)
+    public function toggleLoggable(bool $enable = true): void
     {
         $eventManager = $this->entityFactory->getEntityManager()->getEventManager();
         if (null === $this->loggableListener) {
@@ -291,12 +262,8 @@ abstract class AbstractTranslatableHelper
     /**
      * Sets values for translatable fields of given entity from it's stored
      * translation data.
-     *
-     * @param EntityAccess $entity Currently treated entity instance
-     *
-     * @return EntityAccess The processed entity instance
      */
-    public function setEntityFieldsFromLogData($entity)
+    public function setEntityFieldsFromLogData(EntityAccess $entity): EntityAccess
     {
         // check if this revision has translation data for current locale
         $translationData = $entity->getTranslationData();
@@ -324,10 +291,8 @@ abstract class AbstractTranslatableHelper
      * translation data.
      *
      * The logic of this method is similar to processEntityAfterEditing above.
-     *
-     * @param EntityAccess $entity Currently treated entity instance
      */
-    public function refreshTranslationsFromLogData($entity)
+    public function refreshTranslationsFromLogData(EntityAccess $entity): void
     {
         $this->toggleLoggable(false);
     
@@ -366,7 +331,7 @@ abstract class AbstractTranslatableHelper
             }
     
             $entity->setLocale($language);
-            $entityManager->flush($entity);
+            $entityManager->flush();
         }
     
         $this->toggleLoggable(true);

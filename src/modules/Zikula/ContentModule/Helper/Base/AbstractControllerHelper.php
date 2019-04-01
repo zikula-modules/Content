@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,6 +14,7 @@
 
 namespace Zikula\ContentModule\Helper\Base;
 
+use Exception;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
@@ -71,19 +75,6 @@ abstract class AbstractControllerHelper
      */
     protected $featureActivationHelper;
     
-    /**
-     * ControllerHelper constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param FormFactoryInterface $formFactory
-     * @param VariableApiInterface $variableApi
-     * @param EntityFactory $entityFactory
-     * @param CollectionFilterHelper $collectionFilterHelper
-     * @param PermissionHelper $permissionHelper
-     * @param ModelHelper $modelHelper
-     * @param FeatureActivationHelper $featureActivationHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         RequestStack $requestStack,
@@ -106,12 +97,7 @@ abstract class AbstractControllerHelper
         $this->featureActivationHelper = $featureActivationHelper;
     }
     
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
@@ -119,14 +105,11 @@ abstract class AbstractControllerHelper
     /**
      * Returns an array of all allowed object types in ZikulaContentModule.
      *
-     * @param string $context Usage context (allowed values: controllerAction, api, helper, actionHandler, block, contentType, util)
-     * @param array  $args    Additional arguments
-     *
      * @return string[] List of allowed object types
      */
-    public function getObjectTypes($context = '', array $args = [])
+    public function getObjectTypes(string $context = '', array $args = []): array
     {
-        if (!in_array($context, ['controllerAction', 'api', 'helper', 'actionHandler', 'block', 'contentType', 'util'])) {
+        if (!in_array($context, ['controllerAction', 'api', 'helper', 'actionHandler', 'block', 'contentType', 'util'], true)) {
             $context = 'controllerAction';
         }
     
@@ -139,15 +122,10 @@ abstract class AbstractControllerHelper
     
     /**
      * Returns the default object type in ZikulaContentModule.
-     *
-     * @param string $context Usage context (allowed values: controllerAction, api, helper, actionHandler, block, contentType, util)
-     * @param array  $args    Additional arguments
-     *
-     * @return string The name of the default object type
      */
-    public function getDefaultObjectType($context = '', array $args = [])
+    public function getDefaultObjectType(string $context = '', array $args = []): string
     {
-        if (!in_array($context, ['controllerAction', 'api', 'helper', 'actionHandler', 'block', 'contentType', 'util'])) {
+        if (!in_array($context, ['controllerAction', 'api', 'helper', 'actionHandler', 'block', 'contentType', 'util'], true)) {
             $context = 'controllerAction';
         }
     
@@ -157,22 +135,22 @@ abstract class AbstractControllerHelper
     /**
      * Processes the parameters for a view action.
      * This includes handling pagination, quick navigation forms and other aspects.
-     *
-     * @param string          $objectType         Name of treated entity type
-     * @param SortableColumns $sortableColumns    Used SortableColumns instance
-     * @param array           $templateParameters Template data
-     * @param boolean         $hasHookSubscriber  Whether hook subscribers are supported or not
-     *
-     * @return array Enriched template parameters used for creating the response
      */
-    public function processViewActionParameters($objectType, SortableColumns $sortableColumns, array $templateParameters = [], $hasHookSubscriber = false)
-    {
+    public function processViewActionParameters(
+        string $objectType,
+        SortableColumns $sortableColumns,
+        array $templateParameters = [],
+        bool $hasHookSubscriber = false
+    ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'view'];
-        if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs))) {
-            throw new \Exception($this->__('Error! Invalid object type received.'));
+        if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
+            throw new Exception($this->__('Error! Invalid object type received.'));
         }
     
         $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            throw new Exception($this->__('Error! Controller helper needs a request.'));
+        }
         $repository = $this->entityFactory->getRepository($objectType);
     
         // parameter for used sorting field
@@ -180,36 +158,36 @@ abstract class AbstractControllerHelper
         $templateParameters['sort'] = $sort;
         $templateParameters['sortdir'] = strtolower($sortdir);
     
-        if ('tree' == $request->query->getAlnum('tpl', '')) {
+        if ('tree' === $request->query->getAlnum('tpl')) {
             $templateParameters['trees'] = $repository->selectAllTrees();
     
             return $this->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
         }
     
-        $templateParameters['all'] = 'csv' == $request->getRequestFormat() ? 1 : $request->query->getInt('all', 0);
+        $templateParameters['all'] = 'csv' === $request->getRequestFormat() ? 1 : $request->query->getInt('all');
         $routeName = $request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_' . strtolower($objectType) . '_admin');
-        if (!$isAdminArea && in_array($objectType, ['page'])) {
-            $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', $objectType . 'PrivateMode', false);
-            if (true == $showOnlyOwnEntries) {
+        if (!$isAdminArea && in_array($objectType, ['page'], true)) {
+            $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', $objectType . 'PrivateMode');
+            if (true === $showOnlyOwnEntries) {
                 $templateParameters['own'] = 1;
             } else {
-                $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', false)) ? 1 : 0;
+                $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries')) ? 1 : 0;
             }
         } else {
-            $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries', false)) ? 1 : 0;
+            $templateParameters['own'] = (bool)$request->query->getInt('own', $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries')) ? 1 : 0;
         }
     
         $resultsPerPage = 0;
-        if (1 != $templateParameters['all']) {
+        if (1 !== $templateParameters['all']) {
             // the number of items displayed on a page for pagination
-            $resultsPerPage = $request->query->getInt('num', 0);
-            if (in_array($resultsPerPage, [0, 10])) {
+            $resultsPerPage = $request->query->getInt('num');
+            if (in_array($resultsPerPage, [0, 10], true)) {
                 $resultsPerPage = $this->variableApi->get('ZikulaContentModule', $objectType . 'EntriesPerPage', 10);
             }
         }
         $templateParameters['num'] = $resultsPerPage;
-        $templateParameters['tpl'] = $request->query->getAlnum('tpl', '');
+        $templateParameters['tpl'] = $request->query->getAlnum('tpl');
     
         $templateParameters = $this->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
     
@@ -218,14 +196,14 @@ abstract class AbstractControllerHelper
         if ($quickNavForm->isSubmitted()) {
             $quickNavData = $quickNavForm->getData();
             foreach ($quickNavData as $fieldName => $fieldValue) {
-                if ($fieldName == 'routeArea') {
+                if ('routeArea' === $fieldName) {
                     continue;
                 }
-                if (in_array($fieldName, ['all', 'own', 'num'])) {
+                if (in_array($fieldName, ['all', 'own', 'num'], true)) {
                     $templateParameters[$fieldName] = $fieldValue;
-                } elseif ('sort' == $fieldName && !empty($fieldValue)) {
+                } elseif ('sort' === $fieldName && !empty($fieldValue)) {
                     $sort = $fieldValue;
-                } elseif ('sortdir' == $fieldName && !empty($fieldValue)) {
+                } elseif ('sortdir' === $fieldName && !empty($fieldValue)) {
                     $sortdir = $fieldValue;
                 } elseif (false === stripos($fieldName, 'thumbRuntimeOptions') && false === stripos($fieldName, 'featureActivationHelper') && false === stripos($fieldName, 'permissionHelper')) {
                     // set filter as query argument, fetched inside repository
@@ -250,7 +228,7 @@ abstract class AbstractControllerHelper
         $sortableColumns->setAdditionalUrlParameters($urlParameters);
     
         $where = '';
-        if ($templateParameters['all'] == 1) {
+        if (1 === $templateParameters['all']) {
             // retrieve item list without pagination
             $entities = $repository->selectWhere($where, $sort . ' ' . $sortdir);
         } else {
@@ -295,18 +273,17 @@ abstract class AbstractControllerHelper
     
     /**
      * Determines the default sorting criteria.
-     *
-     * @param string $objectType Name of treated entity type
-     *
-     * @return array with sort field and sort direction
      */
-    protected function determineDefaultViewSorting($objectType)
+    protected function determineDefaultViewSorting(string $objectType): array
     {
         $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            return ['', 'ASC'];
+        }
         $repository = $this->entityFactory->getRepository($objectType);
     
         $sort = $request->query->get('sort', '');
-        if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
+        if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields(), true)) {
             $sort = $repository->getDefaultSortingField();
             $request->query->set('sort', $sort);
             // set default sorting in route parameters (e.g. for the pager)
@@ -325,18 +302,12 @@ abstract class AbstractControllerHelper
     
     /**
      * Processes the parameters for a display action.
-     *
-     * @param string  $objectType         Name of treated entity type
-     * @param array   $templateParameters Template data
-     * @param boolean $hasHookSubscriber  Whether hook subscribers are supported or not
-     *
-     * @return array Enriched template parameters used for creating the response
      */
-    public function processDisplayActionParameters($objectType, array $templateParameters = [], $hasHookSubscriber = false)
+    public function processDisplayActionParameters(string $objectType, array $templateParameters = [], bool $hasHookSubscriber = false): array
     {
         $contextArgs = ['controller' => $objectType, 'action' => 'display'];
-        if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs))) {
-            throw new \Exception($this->__('Error! Invalid object type received.'));
+        if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
+            throw new Exception($this->__('Error! Invalid object type received.'));
         }
     
         if (true === $hasHookSubscriber) {
@@ -352,17 +323,12 @@ abstract class AbstractControllerHelper
     
     /**
      * Processes the parameters for an edit action.
-     *
-     * @param string  $objectType         Name of treated entity type
-     * @param array   $templateParameters Template data
-     *
-     * @return array Enriched template parameters used for creating the response
      */
-    public function processEditActionParameters($objectType, array $templateParameters = [])
+    public function processEditActionParameters(string $objectType, array $templateParameters = []): array
     {
         $contextArgs = ['controller' => $objectType, 'action' => 'edit'];
-        if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs))) {
-            throw new \Exception($this->__('Error! Invalid object type received.'));
+        if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
+            throw new Exception($this->__('Error! Invalid object type received.'));
         }
     
         return $this->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
@@ -370,21 +336,14 @@ abstract class AbstractControllerHelper
     
     /**
      * Returns an array of additional template variables which are specific to the object type.
-     *
-     * @param string $objectType Name of treated entity type
-     * @param array  $parameters Given parameters to enrich
-     * @param string $context    Usage context (allowed values: controllerAction, api, actionHandler, block, contentType)
-     * @param array  $args       Additional arguments
-     *
-     * @return array List of template variables to be assigned
      */
-    public function addTemplateParameters($objectType = '', array $parameters = [], $context = '', array $args = [])
+    public function addTemplateParameters(string $objectType = '', array $parameters = [], string $context = '', array $args = []): array
     {
-        if (!in_array($context, ['controllerAction', 'api', 'actionHandler', 'block', 'contentType', 'mailz'])) {
+        if (!in_array($context, ['controllerAction', 'api', 'actionHandler', 'block', 'contentType', 'mailz'], true)) {
             $context = 'controllerAction';
         }
     
-        if ($context == 'controllerAction') {
+        if ('controllerAction' === $context) {
             if (!isset($args['action'])) {
                 $routeName = $this->requestStack->getCurrentRequest()->get('_route');
                 $routeNameParts = explode('_', $routeName);

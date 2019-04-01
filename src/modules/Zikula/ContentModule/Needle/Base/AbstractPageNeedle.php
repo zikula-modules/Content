@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -63,15 +66,6 @@ abstract class AbstractPageNeedle implements NeedleInterface
      */
     protected $name;
     
-    /**
-     * PageNeedle constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RouterInterface $router
-     * @param PermissionHelper $permissionHelper
-    * @param EntityFactory $entityFactory
-    * @param EntityDisplayHelper $entityDisplayHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         RouterInterface $router,
@@ -92,7 +86,7 @@ abstract class AbstractPageNeedle implements NeedleInterface
         $this->bundleName = $vendor . $nameAndType;
         $this->name = str_replace('Needle', '', array_pop($nsParts));
     }
-
+    
     public function getName(): string
     {
         return $this->name;
@@ -133,6 +127,9 @@ abstract class AbstractPageNeedle implements NeedleInterface
         return ['CONTENTPAGES', 'CONTENTPAGE-'];
     }
     
+    /**
+     * Applies the needle functionality.
+     */
     public function apply(string $needleId, string $needleText): string
     {
         // cache the results
@@ -149,7 +146,7 @@ abstract class AbstractPageNeedle implements NeedleInterface
         // strip application prefix from needle
         $needleText = str_replace('CONTENT', '', $needleText);
     
-        if ('PAGES' == $needleText) {
+        if ('PAGES' === $needleText) {
             if (!$this->permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
                 $cache[$needleId] = '';
             } else {
@@ -159,7 +156,7 @@ abstract class AbstractPageNeedle implements NeedleInterface
             return $cache[$needleId];
         }
     
-        $entityId = intval($needleId);
+        $entityId = (int)$needleId;
         if (!$entityId) {
             $cache[$needleId] = '';
     
@@ -185,7 +182,7 @@ abstract class AbstractPageNeedle implements NeedleInterface
     
         return $cache[$needleId];
     }
-
+    
     public function getBundleName(): string
     {
         return $this->bundleName;

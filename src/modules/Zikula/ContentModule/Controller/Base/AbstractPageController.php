@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,10 +14,12 @@
 
 namespace Zikula\ContentModule\Controller\Base;
 
+use Exception;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
@@ -45,18 +50,13 @@ abstract class AbstractPageController extends AbstractController
     /**
      * This is the default action handling the index area called without defining arguments.
      *
-     * @param Request $request
-     * @param PermissionHelper $permissionHelper
-     *
-     * @return Response Output
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     protected function indexInternal(
         Request $request,
         PermissionHelper $permissionHelper,
-        $isAdmin = false
-    ) {
+        bool $isAdmin = false
+    ): Response {
         $objectType = 'page';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_OVERVIEW;
@@ -75,16 +75,8 @@ abstract class AbstractPageController extends AbstractController
     /**
      * This action provides an item list overview.
      *
-     * @param Request $request
-     * @param PermissionHelper $permissionHelper
-     * @param ControllerHelper $controllerHelper
-     * @param ViewHelper $viewHelper
-     * @param CategoryHelper $categoryHelper
-     * @param FeatureActivationHelper $featureActivationHelper
-     *
-     * @return Response Output
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
+     * @throws Exception
      */
     protected function viewInternal(
         Request $request,
@@ -94,16 +86,16 @@ abstract class AbstractPageController extends AbstractController
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
-        $sort,
-        $sortdir,
-        $pos,
-        $num,
-        $isAdmin = false
-    ) {
+        string $sort,
+        string $sortdir,
+        int $pos,
+        int $num,
+        bool $isAdmin = false
+    ): Response {
         $objectType = 'page';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
-        if (!$isAdmin && 'tree' == $request->query->getAlnum('tpl', '')) {
+        if (!$isAdmin && 'tree' === $request->query->getAlnum('tpl')) {
             $permLevel = ACCESS_EDIT;
         }
         if (!$permissionHelper->hasComponentPermission($objectType, $permLevel)) {
@@ -115,8 +107,8 @@ abstract class AbstractPageController extends AbstractController
         ];
         
         // check if deleted entities should be displayed
-        $viewDeleted = $request->query->getInt('deleted', 0);
-        if ($viewDeleted == 1 && $permissionHelper->hasComponentPermission('page', ACCESS_EDIT)) {
+        $viewDeleted = $request->query->getInt('deleted');
+        if (1 === $viewDeleted && $permissionHelper->hasComponentPermission('page', ACCESS_EDIT)) {
             $templateParameters['deletedEntities'] = $loggableHelper->getDeletedEntities($objectType);
         
             return $viewHelper->processTemplate($objectType, 'viewDeleted', $templateParameters);
@@ -126,9 +118,11 @@ abstract class AbstractPageController extends AbstractController
         $request->query->set('sortdir', $sortdir);
         $request->query->set('pos', $pos);
         
-        $sortableColumns = new SortableColumns($this->get('router'), 'zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'view', 'sort', 'sortdir');
+        /** @var RouterInterface $router */
+        $router = $this->get('router');
+        $sortableColumns = new SortableColumns($router, 'zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'view', 'sort', 'sortdir');
         
-        if ('tree' == $request->query->getAlnum('tpl', '')) {
+        if ('tree' === $request->query->getAlnum('tpl')) {
             $templateParameters = $controllerHelper->processViewActionParameters($objectType, $sortableColumns, $templateParameters, true);
         
             // fetch and return the appropriate template
@@ -183,16 +177,6 @@ abstract class AbstractPageController extends AbstractController
     /**
      * This action provides a item detail view.
      *
-     * @param Request $request
-     * @param PermissionHelper $permissionHelper
-     * @param ControllerHelper $controllerHelper
-     * @param ViewHelper $viewHelper
-     * @param EntityFactory $entityFactory
-     * @param CategoryHelper $categoryHelper
-     * @param FeatureActivationHelper $featureActivationHelper
-     *
-     * @return Response Output
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
@@ -205,10 +189,13 @@ abstract class AbstractPageController extends AbstractController
         CategoryHelper $categoryHelper,
         FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
-        $slug,
-        $isAdmin = false
-    ) {
-        $page = $entityFactory->getRepository('page')->selectBySlug($slug);
+        PageEntity $page = null,
+        string $slug = '',
+        bool $isAdmin = false
+    ): Response {
+        if (null === $page) {
+            $page = $entityFactory->getRepository('page')->selectBySlug($slug);
+        }
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
@@ -217,7 +204,7 @@ abstract class AbstractPageController extends AbstractController
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_READ;
         $route = $request->attributes->get('_route', '');
-        if (!$isAdmin && 'zikulacontentmodule_page_displaydeleted' == $route) {
+        if (!$isAdmin && 'zikulacontentmodule_page_displaydeleted' === $route) {
             $permLevel = ACCESS_EDIT;
         }
         if (!$permissionHelper->hasEntityPermission($page, $permLevel)) {
@@ -230,9 +217,9 @@ abstract class AbstractPageController extends AbstractController
             }
         }
         
-        $requestedVersion = $request->query->getInt('version', 0);
+        $requestedVersion = $request->query->getInt('version');
         $versionPermLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
-        if ($requestedVersion > 0 && $permissionHelper->hasEntityPermission($page, $versionPermLevel)) {
+        if (0 < $requestedVersion && $permissionHelper->hasEntityPermission($page, $versionPermLevel)) {
             // preview of a specific version is desired, but detach entity
             $page = $loggableHelper->revert($page, $requestedVersion, true);
         }
@@ -254,16 +241,9 @@ abstract class AbstractPageController extends AbstractController
     /**
      * This action provides a handling of edit requests.
      *
-     * @param Request $request
-     * @param PermissionHelper $permissionHelper
-     * @param ControllerHelper $controllerHelper
-     * @param ViewHelper $viewHelper
-     * @param EditHandler $formHandler
-     *
-     * @return Response Output
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws RuntimeException Thrown if another critical error occurs (e.g. workflow actions not available)
+     * @throws Exception
      */
     protected function editInternal(
         Request $request,
@@ -271,8 +251,8 @@ abstract class AbstractPageController extends AbstractController
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
         EditHandler $formHandler,
-        $isAdmin = false
-    ) {
+        bool $isAdmin = false
+    ): Response {
         $objectType = 'page';
         // permission check
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
@@ -305,15 +285,6 @@ abstract class AbstractPageController extends AbstractController
      * This function processes the items selected in the admin view page.
      * Multiple items may have their state changed or be deleted.
      *
-     * @param Request $request
-     * @param EntityFactory $entityFactory
-     * @param WorkflowHelper $workflowHelper
-     * @param HookHelper $hookHelper
-     * @param CurrentUserApiInterface $currentUserApi
-     * @param boolean $isAdmin Whether the admin area is used or not
-     *
-     * @return RedirectResponse
-     *
      * @throws RuntimeException Thrown if executing the workflow action fails
      */
     protected function handleSelectedEntriesActionInternal(
@@ -322,13 +293,13 @@ abstract class AbstractPageController extends AbstractController
         WorkflowHelper $workflowHelper,
         HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi,
-        $isAdmin = false
-    ) {
+        bool $isAdmin = false
+    ): RedirectResponse {
         $objectType = 'page';
         
         // Get parameters
-        $action = $request->request->get('action', null);
-        $items = $request->request->get('items', null);
+        $action = $request->request->get('action');
+        $items = $request->request->get('items');
         if (!is_array($items) || !count($items)) {
             return $this->redirectToRoute('zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'index');
         }
@@ -350,14 +321,14 @@ abstract class AbstractPageController extends AbstractController
             // check if $action can be applied to this entity (may depend on it's current workflow state)
             $allowedActions = $workflowHelper->getActionsForObject($entity);
             $actionIds = array_keys($allowedActions);
-            if (!in_array($action, $actionIds)) {
+            if (!in_array($action, $actionIds, true)) {
                 // action not allowed, skip this object
                 continue;
             }
         
             if ($entity->supportsHookSubscribers()) {
                 // Let any ui hooks perform additional validation actions
-                $hookType = $action == 'delete' ? UiHooksCategory::TYPE_VALIDATE_DELETE : UiHooksCategory::TYPE_VALIDATE_EDIT;
+                $hookType = 'delete' === $action ? UiHooksCategory::TYPE_VALIDATE_DELETE : UiHooksCategory::TYPE_VALIDATE_EDIT;
                 $validationErrors = $hookHelper->callValidationHooks($entity, $hookType);
                 if (count($validationErrors) > 0) {
                     foreach ($validationErrors as $message) {
@@ -371,7 +342,7 @@ abstract class AbstractPageController extends AbstractController
             try {
                 // execute the workflow action
                 $success = $workflowHelper->executeAction($entity, $action);
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action.', ['%action%' => $action]) . '  ' . $exception->getMessage());
                 $logger->error('{app}: User {user} tried to execute the {action} workflow action for the {entity} with id {id}, but failed. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'action' => $action, 'entity' => 'page', 'id' => $itemId, 'errorMessage' => $exception->getMessage()]);
             }
@@ -380,7 +351,7 @@ abstract class AbstractPageController extends AbstractController
                 continue;
             }
         
-            if ($action == 'delete') {
+            if ('delete' === $action) {
                 $this->addFlash('status', $this->__('Done! Item deleted.'));
                 $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'entity' => 'page', 'id' => $itemId]);
             } else {
@@ -390,9 +361,9 @@ abstract class AbstractPageController extends AbstractController
         
             if ($entity->supportsHookSubscribers()) {
                 // Let any ui hooks know that we have updated or deleted an item
-                $hookType = $action == 'delete' ? UiHooksCategory::TYPE_PROCESS_DELETE : UiHooksCategory::TYPE_PROCESS_EDIT;
+                $hookType = 'delete' === $action ? UiHooksCategory::TYPE_PROCESS_DELETE : UiHooksCategory::TYPE_PROCESS_EDIT;
                 $url = null;
-                if ($action != 'delete') {
+                if ('delete' !== $action) {
                     $urlArgs = $entity->createUrlArgs();
                     $urlArgs['_locale'] = $request->getLocale();
                     $url = new RouteUrl('zikulacontentmodule_page_display', $urlArgs);
@@ -408,38 +379,48 @@ abstract class AbstractPageController extends AbstractController
     /**
      * Displays or undeletes a deleted page.
      *
-     * @param Request $request
-     * @param LoggableHelper $loggableHelper
-     * @param TranslatableHelper $translatableHelper
-     * @param integer $id Identifier of entity
-     * @param boolean $isAdmin Whether the admin area is used or not
-     *
-     * @return Response Output
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
     protected function undeleteActionInternal(
         Request $request,
+        PermissionHelper $permissionHelper,
+        ControllerHelper $controllerHelper,
+        ViewHelper $viewHelper,
+        EntityFactory $entityFactory,
+        CategoryHelper $categoryHelper,
+        FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
         TranslatableHelper $translatableHelper,
-        $id = 0,
-        $isAdmin = false
-    ) {
+        int $id = 0,
+        bool $isAdmin = false
+    ): Response {
         $page = $loggableHelper->restoreDeletedEntity('page', $id);
         if (null === $page) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
         
-        $preview = $request->query->getInt('preview', 0);
-        if ($preview == 1) {
-            return $this->displayInternal($request, $page, $isAdmin);
+        $preview = $request->query->getInt('preview');
+        if (1 === $preview) {
+            return $this->displayInternal(
+                $request,
+                $permissionHelper,
+                $controllerHelper,
+                $viewHelper,
+                $entityFactory,
+                $categoryHelper,
+                $featureActivationHelper,
+                $loggableHelper,
+                $page,
+                null,
+                $isAdmin
+            );
         }
         
         try {
             $loggableHelper->undelete($page);
             $this->addFlash('status', $this->__('Done! Undeleted page.'));
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
         }
         
@@ -454,17 +435,6 @@ abstract class AbstractPageController extends AbstractController
     /**
      * This method provides a change history for a given page.
      *
-     * @param Request $request
-     * @param PermissionHelper $permissionHelper
-     * @param EntityFactory $entityFactory
-     * @param LoggableHelper $loggableHelper
-     * @param TranslatableHelper $translatableHelper
-     * @param WorkflowHelper $workflowHelper
-     * @param integer $slug Identifier of page
-     * @param boolean $isAdmin Whether the admin area is used or not
-     *
-     * @return Response Output
-     *
      * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
@@ -475,9 +445,9 @@ abstract class AbstractPageController extends AbstractController
         LoggableHelper $loggableHelper,
         TranslatableHelper $translatableHelper,
         WorkflowHelper $workflowHelper,
-        $slug = '',
-        $isAdmin = false
-    ) {
+        string $slug = '',
+        bool $isAdmin = false
+    ): Response {
         if (empty($slug)) {
             throw new NotFoundHttpException($this->__('No such page found.'));
         }
@@ -497,8 +467,8 @@ abstract class AbstractPageController extends AbstractController
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:PageLogEntryEntity');
         $logEntries = $logEntriesRepository->getLogEntries($page);
         
-        $revertToVersion = $request->query->getInt('revert', 0);
-        if ($revertToVersion > 0 && count($logEntries) > 1) {
+        $revertToVersion = $request->query->getInt('revert');
+        if (0 < $revertToVersion && 1 < count($logEntries)) {
             // revert to requested version
             $pageId = $page->getId();
             $page = $loggableHelper->revert($page, $revertToVersion);
@@ -514,7 +484,7 @@ abstract class AbstractPageController extends AbstractController
                 } else {
                     $this->addFlash('error', $this->__f('Error! Reverting page to version %version% failed.', ['%version%' => $revertToVersion]));
                 }
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'update']) . '  ' . $exception->getMessage());
             }
         
@@ -525,7 +495,7 @@ abstract class AbstractPageController extends AbstractController
         
         $isDiffView = false;
         $versions = $request->query->get('versions', []);
-        if (is_array($versions) && count($versions) == 2) {
+        if (is_array($versions) && 2 === count($versions)) {
             $isDiffView = true;
             $allVersionsExist = true;
             foreach ($versions as $versionNumber) {

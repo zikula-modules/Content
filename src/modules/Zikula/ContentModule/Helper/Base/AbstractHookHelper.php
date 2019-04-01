@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,7 +14,8 @@
 
 namespace Zikula\ContentModule\Helper\Base;
 
-use Symfony\Component\Form\Form;
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\Form\FormInterface;
 use Zikula\Bundle\HookBundle\Dispatcher\HookDispatcherInterface;
 use Zikula\Bundle\HookBundle\FormAwareHook\FormAwareHook;
 use Zikula\Bundle\HookBundle\FormAwareHook\FormAwareResponse;
@@ -32,11 +36,6 @@ abstract class AbstractHookHelper
      */
     protected $hookDispatcher;
     
-    /**
-     * HookHelper constructor.
-     *
-     * @param HookDispatcherInterface $hookDispatcher
-     */
     public function __construct(HookDispatcherInterface $hookDispatcher)
     {
         $this->hookDispatcher = $hookDispatcher;
@@ -45,12 +44,9 @@ abstract class AbstractHookHelper
     /**
      * Calls validation hooks.
      *
-     * @param EntityAccess $entity   The currently processed entity
-     * @param string       $hookType Name of hook type to be called
-     *
      * @return string[] List of error messages returned by validators
      */
-    public function callValidationHooks($entity, $hookType)
+    public function callValidationHooks(EntityAccess $entity, string $hookType): array
     {
         $hookAreaPrefix = $entity->getHookAreaPrefix();
     
@@ -62,12 +58,8 @@ abstract class AbstractHookHelper
     
     /**
      * Calls process hooks.
-     *
-     * @param EntityAccess $entity   The currently processed entity
-     * @param string       $hookType Name of hook type to be called
-     * @param UrlInterface $routeUrl The route url object
      */
-    public function callProcessHooks($entity, $hookType, UrlInterface $routeUrl = null)
+    public function callProcessHooks(EntityAccess $entity, string $hookType, UrlInterface $routeUrl = null): void
     {
         $hookAreaPrefix = $entity->getHookAreaPrefix();
     
@@ -77,14 +69,8 @@ abstract class AbstractHookHelper
     
     /**
      * Calls form aware display hooks.
-     *
-     * @param Form         $form     The form instance
-     * @param EntityAccess $entity   The currently processed entity
-     * @param string       $hookType Name of hook type to be called
-     *
-     * @return FormAwareHook The created hook instance
      */
-    public function callFormDisplayHooks(Form $form, $entity, $hookType)
+    public function callFormDisplayHooks(FormInterface $form, EntityAccess $entity, string $hookType): FormAwareHook
     {
         $hookAreaPrefix = $entity->getHookAreaPrefix();
         $hookAreaPrefix = str_replace('.ui_hooks.', '.form_aware_hook.', $hookAreaPrefix);
@@ -97,13 +83,8 @@ abstract class AbstractHookHelper
     
     /**
      * Calls form aware processing hooks.
-     *
-     * @param Form         $form     The form instance
-     * @param EntityAccess $entity   The currently processed entity
-     * @param string       $hookType Name of hook type to be called
-     * @param UrlInterface $routeUrl The route url object
      */
-    public function callFormProcessHooks(Form $form, $entity, $hookType, UrlInterface $routeUrl = null)
+    public function callFormProcessHooks(FormInterface $form, EntityAccess $entity, string $hookType, UrlInterface $routeUrl = null): void
     {
         $formResponse = new FormAwareResponse($form, $entity, $routeUrl);
         $hookAreaPrefix = $entity->getHookAreaPrefix();
@@ -114,14 +95,9 @@ abstract class AbstractHookHelper
     
     /**
      * Dispatch hooks.
-     *
-     * @param string $name Hook event name
-     * @param Hook   $hook Hook interface
-     *
-     * @return Hook
      */
-    public function dispatchHooks($name, Hook $hook)
+    public function dispatchHooks(string $eventName, Hook $hook): Event
     {
-        return $this->hookDispatcher->dispatch($name, $hook);
+        return $this->hookDispatcher->dispatch($eventName, $hook);
     }
 }

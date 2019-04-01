@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -14,7 +17,6 @@ namespace Zikula\ContentModule\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\ContentModule\Controller\Base\AbstractAjaxController;
@@ -33,6 +35,7 @@ class AjaxController extends AbstractAjaxController
 {
     
     /**
+     *
      * @inheritDoc
      * @Route("/getItemListFinder", methods = {"GET"}, options={"expose"=true})
      */
@@ -42,7 +45,7 @@ class AjaxController extends AbstractAjaxController
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper
-    )
+    ): JsonResponse
      {
         return parent::getItemListFinderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $entityDisplayHelper);
     }
@@ -55,7 +58,7 @@ class AjaxController extends AbstractAjaxController
         Request $request,
         ControllerHelper $controllerHelper,
         EntityFactory $entityFactory
-    )
+    ): JsonResponse
      {
         return parent::checkForDuplicateAction($request, $controllerHelper, $entityFactory);
     }
@@ -68,7 +71,7 @@ class AjaxController extends AbstractAjaxController
         Request $request,
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi
-    )
+    ): JsonResponse
      {
         return parent::toggleFlagAction($request, $entityFactory, $currentUserApi);
     }
@@ -84,7 +87,7 @@ class AjaxController extends AbstractAjaxController
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository,
         WorkflowHelper $workflowHelper
-    )
+    ): JsonResponse
      {
         return parent::handleTreeOperationAction($request, $entityFactory, $entityDisplayHelper, $currentUserApi, $userRepository, $workflowHelper);
     }

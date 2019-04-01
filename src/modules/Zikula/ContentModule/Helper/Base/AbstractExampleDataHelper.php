@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,8 +14,10 @@
 
 namespace Zikula\ContentModule\Helper\Base;
 
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Zikula\CategoriesModule\Entity\CategoryEntity;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
@@ -50,15 +55,6 @@ abstract class AbstractExampleDataHelper
      */
     protected $workflowHelper;
     
-    /**
-     * ExampleDataHelper constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param LoggerInterface $logger
-     * @param EntityFactory $entityFactory
-     * @param WorkflowHelper $workflowHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         RequestStack $requestStack,
@@ -75,14 +71,13 @@ abstract class AbstractExampleDataHelper
     
     /**
      * Create the default data for ZikulaContentModule.
-     *
-     * @return void
      */
-    public function createDefaultData()
+    public function createDefaultData(): void
     {
         $dtNow = date('Y-m-d H:i:s');
         // example category
         $categoryId = 41; // Business and work
+        /** @var CategoryEntity $category */
         $category = $this->entityFactory->getEntityManager()->find('ZikulaCategoriesModule:CategoryEntity', $categoryId);
     
         // determine category registry identifiers
@@ -96,7 +91,7 @@ abstract class AbstractExampleDataHelper
         
         $categoryRegistry = null;
         foreach ($categoryRegistries as $registry) {
-            if ($registry->getEntityname() == 'PageEntity') {
+            if ('PageEntity' === $registry->getEntityname()) {
                 $categoryRegistry = $registry;
                 break;
             }
@@ -147,11 +142,9 @@ abstract class AbstractExampleDataHelper
             $entityManager->persist($contentItem1);
             $success = $this->workflowHelper->executeAction($page1, $action);
             $success = $this->workflowHelper->executeAction($contentItem1, $action);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->translator->__('Exception during example data creation') . ': ' . $exception->getMessage());
             $this->logger->error('{app}: Could not completely create example data after installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
-        
-            return false;
         }
     }
 }

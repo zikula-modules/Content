@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,7 +14,6 @@
 
 namespace Zikula\ContentModule\DependencyInjection;
 
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\DependencyInjection\Base\AbstractZikulaContentExtension;

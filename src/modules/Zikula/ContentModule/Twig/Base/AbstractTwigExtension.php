@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -21,6 +24,7 @@ use Twig\TwigFunction;
 use Twig\TwigTest;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
@@ -76,19 +80,6 @@ abstract class AbstractTwigExtension extends AbstractExtension
      */
     protected $menuBuilder;
     
-    /**
-     * TwigExtension constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param Routerinterface $router
-     * @param VariableApiInterface $variableApi
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param WorkflowHelper $workflowHelper
-     * @param ListEntriesHelper $listHelper
-     * @param LoggableHelper $loggableHelper
-     * @param MenuBuilder $menuBuilder
-     */
     public function __construct(
         TranslatorInterface $translator,
         RouterInterface $router,
@@ -111,21 +102,11 @@ abstract class AbstractTwigExtension extends AbstractExtension
         $this->menuBuilder = $menuBuilder;
     }
     
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
     
-    /**
-     * Returns a list of custom Twig functions.
-     *
-     * @return TwigFunction[] List of functions
-     */
     public function getFunctions()
     {
         return [
@@ -136,11 +117,6 @@ abstract class AbstractTwigExtension extends AbstractExtension
         ];
     }
     
-    /**
-     * Returns a list of custom Twig filters.
-     *
-     * @return TwigFilter[] List of filters
-     */
     public function getFilters()
     {
         return [
@@ -151,15 +127,10 @@ abstract class AbstractTwigExtension extends AbstractExtension
         ];
     }
     
-    /**
-     * Returns a list of custom Twig tests.
-     *
-     * @return TwigTest[] List of tests
-     */
     public function getTests()
     {
         return [
-            new TwigTest('zikulacontentmodule_instanceOf', function ($var, $instance) {
+            new TwigTest('zikulacontentmodule_instanceOf', static function ($var, $instance) {
                 return $var instanceof $instance;
             })
         ];
@@ -170,13 +141,8 @@ abstract class AbstractTwigExtension extends AbstractExtension
      * Examples:
      *    {{ item.workflowState|zikulacontentmodule_objectState }}        {# with visual feedback #}
      *    {{ item.workflowState|zikulacontentmodule_objectState(false) }} {# no ui feedback #}
-     *
-     * @param string  $state      Name of given workflow state
-     * @param boolean $uiFeedback Whether the output should include some visual feedback about the state
-     *
-     * @return string Enriched and translated workflow state ready for display
      */
-    public function getObjectState($state = 'initial', $uiFeedback = true)
+    public function getObjectState(string $state = 'initial', bool $uiFeedback = true): string
     {
         $stateInfo = $this->workflowHelper->getStateInfo($state);
     
@@ -194,17 +160,10 @@ abstract class AbstractTwigExtension extends AbstractExtension
      * or names for a given list item.
      * Example:
      *     {{ entity.listField|zikulacontentmodule_listEntry('entityName', 'fieldName') }}
-     *
-     * @param string $value      The dropdown value to process
-     * @param string $objectType The treated object type
-     * @param string $fieldName  The list field's name
-     * @param string $delimiter  String used as separator for multiple selections
-     *
-     * @return string List item name
      */
-    public function getListEntry($value, $objectType = '', $fieldName = '', $delimiter = ', ')
+    public function getListEntry(string $value, string $objectType = '', string $fieldName = '', string $delimiter = ', '): string
     {
-        if ((empty($value) && $value != '0') || empty($objectType) || empty($fieldName)) {
+        if ((empty($value) && '0' !== $value) || empty($objectType) || empty($fieldName)) {
             return $value;
         }
     
@@ -217,18 +176,11 @@ abstract class AbstractTwigExtension extends AbstractExtension
     /**
      * The zikulacontentmodule_treeData function delivers the html output for a JS tree
      * based on given tree entities.
-     *
-     * @param string  $objectType Name of treated object type
-     * @param array   $tree       Object collection with tree items
-     * @param string  $routeArea  Either 'admin' or an emptyy string
-     * @param integer $rootId     Optional id of root node, defaults to 1
-     *
-     * @return string Output markup
      */
-    public function getTreeData($objectType, $tree = [], $routeArea = '', $rootId = 1)
+    public function getTreeData(string $objectType, array $tree = [], string $routeArea = '', int $rootId = 1): array
     {
         // check whether an edit action is available
-        $hasEditAction = in_array($objectType, ['page']);
+        $hasEditAction = in_array($objectType, ['page'], true);
     
         $repository = $this->entityFactory->getRepository($objectType);
         $descriptionFieldName = $this->entityDisplayHelper->getDescriptionFieldName($objectType);
@@ -238,7 +190,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
             'actions' => ''
         ];
         foreach ($tree as $node) {
-            if ($node->getLvl() < 1 || $node->getKey() == $rootId) {
+            if (1 > $node->getLvl() || $rootId === $node->getKey()) {
                 list ($nodes, $actions) = $this->processTreeItemWithChildren($objectType, $node, $routeArea, $rootId, $descriptionFieldName, $hasEditAction);
                 $result['nodes'] .= $nodes;
                 $result['actions'] .= $actions;
@@ -250,22 +202,13 @@ abstract class AbstractTwigExtension extends AbstractExtension
     
     /**
      * Builds an unordered list for a tree node and it's children.
-     *
-     * @param string  $objectType           Name of treated object type
-     * @param object  $node                 The processed tree node
-     * @param string  $routeArea            Either 'admin' or an emptyy string
-     * @param integer $rootId               Optional id of root node, defaults to 1
-     * @param string  $descriptionFieldName Name of field to be used as a description
-     * @param boolean $hasEditAction        Whether item editing is possible or not
-     *
-     * @return string Output markup
      */
-    protected function processTreeItemWithChildren($objectType, $node, $routeArea, $rootId, $descriptionFieldName, $hasEditAction)
+    protected function processTreeItemWithChildren(string $objectType, EntityAccess $node, string $routeArea, int $rootId, string $descriptionFieldName, bool $hasEditAction): array
     {
         $idPrefix = 'tree' . $rootId . 'node_' . $node->getKey();
-        $title = $descriptionFieldName != '' ? strip_tags($node[$descriptionFieldName]) : '';
+        $title = '' !== $descriptionFieldName ? strip_tags($node[$descriptionFieldName]) : '';
     
-        $needsArg = in_array($objectType, ['page']);
+        $needsArg = in_array($objectType, ['page'], true);
         $urlArgs = $needsArg ? $node->createUrlArgs(true) : $node->createUrlArgs();
         $urlDataAttributes = '';
         foreach ($urlArgs as $field => $value) {
@@ -290,8 +233,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     
         $actions = '<li id="itemActions' . $node->getKey() . '">';
         $actions .= $renderer->render($itemActionsMenu);
-        $actions = str_replace(' class="first"', '', $actions);
-        $actions = str_replace(' class="last"', '', $actions);
+        $actions = str_replace([' class="first"', ' class="last"'], '', $actions);
         $actions .= '</li>';
     
         if (count($node->getChildren()) > 0) {
@@ -312,16 +254,8 @@ abstract class AbstractTwigExtension extends AbstractExtension
     
     /**
      * The zikulacontentmodule_treeSelection function retrieves tree entities based on a given one.
-     *
-     * Available parameters:
-     *   - objectType:   Name of treated object type.
-     *   - node:         Given entity as tree entry point.
-     *   - target:       One of 'allParents', 'directParent', 'allChildren', 'directChildren', 'predecessors', 'successors', 'preandsuccessors'
-     *   - skipRootNode: Whether root nodes are skipped or not (defaults to true). Useful for when working with many trees at once.
-     *
-     * @return string The output of the plugin
      */
-    public function getTreeSelection($objectType, $node, $target, $skipRootNode = true)
+    public function getTreeSelection(string $objectType, EntityAccess $node, string $target, bool $skipRootNode = true): array
     {
         $repository = $this->entityFactory->getRepository($objectType);
         $titleFieldName = $this->entityDisplayHelper->getTitleFieldName($objectType);
@@ -332,24 +266,24 @@ abstract class AbstractTwigExtension extends AbstractExtension
             case 'allParents':
             case 'directParent':
                 $path = $repository->getPath($node);
-                if (count($path) > 0) {
+                if (0 < count($path)) {
                     // remove $node
                     unset($path[count($path)-1]);
                 }
-                if ($skipRootNode && count($path) > 0) {
+                if ($skipRootNode && 0 < count($path)) {
                     // remove root level
                     array_shift($path);
                 }
-                if ($target == 'allParents') {
+                if ('allParents' === $target) {
                     $result = $path;
-                } elseif ($target == 'directParent' && count($path) > 0) {
-                    $result = $path[count($path)-1];
+                } elseif ('directParent' === $target && 0 < count($path)) {
+                    $result = $path[count($path) - 1];
                 }
                 break;
             case 'allChildren':
             case 'directChildren':
-                $direct = $target == 'directChildren';
-                $sortByField = $titleFieldName != '' ? $titleFieldName : null;
+                $direct = 'directChildren' === $target;
+                $sortByField = '' !== $titleFieldName ? $titleFieldName : null;
                 $sortDirection = 'ASC';
                 $result = $repository->children($node, $direct, $sortByField, $sortDirection);
                 break;
@@ -371,63 +305,15 @@ abstract class AbstractTwigExtension extends AbstractExtension
     }
     
     
-    /**
-     * The zikulacontentmodule_objectTypeSelector function provides items for a dropdown selector.
-     *
-     * @return string The output of the plugin
-     */
-    public function getObjectTypeSelector()
-    {
-        $result = [];
-    
-        $result[] = [
-            'text' => $this->__('Pages'),
-            'value' => 'page'
-        ];
-        $result[] = [
-            'text' => $this->__('Content items'),
-            'value' => 'contentItem'
-        ];
-    
-        return $result;
-    }
     
     
-    /**
-     * The zikulacontentmodule_templateSelector function provides items for a dropdown selector.
-     *
-     * @return string The output of the plugin
-     */
-    public function getTemplateSelector()
-    {
-        $result = [];
-    
-        $result[] = [
-            'text' => $this->__('Only item titles'),
-            'value' => 'itemlist_display.html.twig'
-        ];
-        $result[] = [
-            'text' => $this->__('With description'),
-            'value' => 'itemlist_display_description.html.twig'
-        ];
-        $result[] = [
-            'text' => $this->__('Custom template'),
-            'value' => 'custom'
-        ];
-    
-        return $result;
-    }
     
     /**
      * The zikulacontentmodule_formattedTitle filter outputs a formatted title for a given entity.
      * Example:
      *     {{ myPost|zikulacontentmodule_formattedTitle }}
-     *
-     * @param object $entity The given entity instance
-     *
-     * @return string The formatted title
      */
-    public function getFormattedEntityTitle($entity)
+    public function getFormattedEntityTitle(EntityAccess $entity): string
     {
         return $this->entityDisplayHelper->getFormattedTitle($entity);
     }
@@ -437,12 +323,8 @@ abstract class AbstractTwigExtension extends AbstractExtension
      * description for a given log entry.
      * Example:
      *     {{ logEntry|zikulacontentmodule_logDescription }}
-     *
-     * @param AbstractLogEntry $logEntry
-     *
-     * @return string
      */
-    public function getLogDescription(AbstractLogEntry $logEntry)
+    public function getLogDescription(AbstractLogEntry $logEntry): string
     {
         return $this->loggableHelper->translateActionDescription($logEntry);
     }

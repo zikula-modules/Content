@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -44,7 +47,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", unique=true)
-     * @var integer $id
+     * @var int $id
      */
     protected $id = 0;
     
@@ -79,14 +82,14 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @var boolean $active
+     * @var bool $active
      */
     protected $active = true;
     
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
-     * @var DateTime $activeFrom
+     * @var \DateTime $activeFrom
      */
     protected $activeFrom;
     
@@ -94,7 +97,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime()
      * @Assert\Expression("!value or value > this.getActiveFrom()", message="The start must be before the end.")
-     * @var DateTime $activeTo
+     * @var \DateTime $activeTo
      */
     protected $activeTo;
     
@@ -120,7 +123,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * @ORM\Column(type="text", length=100000)
      * @Assert\NotNull()
      * @Assert\Length(min="0", max="100000")
-     * @var text $searchText
+     * @var string $searchText
      */
     protected $searchText = '';
     
@@ -166,350 +169,182 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     {
     }
     
-    /**
-     * Returns the _object type.
-     *
-     * @return string
-     */
-    public function get_objectType()
+    public function get_objectType(): string
     {
         return $this->_objectType;
     }
     
-    /**
-     * Sets the _object type.
-     *
-     * @param string $_objectType
-     *
-     * @return void
-     */
-    public function set_objectType($_objectType)
+    public function set_objectType(string $_objectType): void
     {
-        if ($this->_objectType != $_objectType) {
-            $this->_objectType = isset($_objectType) ? $_objectType : '';
+        if ($this->_objectType !== $_objectType) {
+            $this->_objectType = $_objectType ?? '';
         }
     }
     
     
-    /**
-     * Returns the id.
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
     
-    /**
-     * Sets the id.
-     *
-     * @param integer $id
-     *
-     * @return void
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
-        if (intval($this->id) !== intval($id)) {
-            $this->id = intval($id);
+        if ((int)$this->id !== $id) {
+            $this->id = $id;
         }
     }
     
-    /**
-     * Returns the workflow state.
-     *
-     * @return string
-     */
-    public function getWorkflowState()
+    public function getWorkflowState(): string
     {
         return $this->workflowState;
     }
     
-    /**
-     * Sets the workflow state.
-     *
-     * @param string $workflowState
-     *
-     * @return void
-     */
-    public function setWorkflowState($workflowState)
+    public function setWorkflowState(string $workflowState): void
     {
         if ($this->workflowState !== $workflowState) {
-            $this->workflowState = isset($workflowState) ? $workflowState : '';
+            $this->workflowState = $workflowState ?? '';
         }
     }
     
-    /**
-     * Returns the owning type.
-     *
-     * @return string
-     */
-    public function getOwningType()
+    public function getOwningType(): string
     {
         return $this->owningType;
     }
     
-    /**
-     * Sets the owning type.
-     *
-     * @param string $owningType
-     *
-     * @return void
-     */
-    public function setOwningType($owningType)
+    public function setOwningType(string $owningType): void
     {
         if ($this->owningType !== $owningType) {
-            $this->owningType = isset($owningType) ? $owningType : '';
+            $this->owningType = $owningType ?? '';
         }
     }
     
-    /**
-     * Returns the content data.
-     *
-     * @return array
-     */
-    public function getContentData()
+    public function getContentData(): array
     {
         return $this->contentData;
     }
     
-    /**
-     * Sets the content data.
-     *
-     * @param array $contentData
-     *
-     * @return void
-     */
-    public function setContentData($contentData)
+    public function setContentData(array $contentData): void
     {
         if ($this->contentData !== $contentData) {
-            $this->contentData = isset($contentData) ? $contentData : '';
+            $this->contentData = $contentData ?? '';
         }
     }
     
-    /**
-     * Returns the active.
-     *
-     * @return boolean
-     */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
     
-    /**
-     * Sets the active.
-     *
-     * @param boolean $active
-     *
-     * @return void
-     */
-    public function setActive($active)
+    public function setActive(bool $active): void
     {
-        if (boolval($this->active) !== boolval($active)) {
-            $this->active = boolval($active);
+        if ((bool)$this->active !== $active) {
+            $this->active = $active;
         }
     }
     
-    /**
-     * Returns the active from.
-     *
-     * @return DateTime
-     */
-    public function getActiveFrom()
+    public function getActiveFrom(): ?\DateTimeInterface
     {
         return $this->activeFrom;
     }
     
-    /**
-     * Sets the active from.
-     *
-     * @param DateTime $activeFrom
-     *
-     * @return void
-     */
-    public function setActiveFrom($activeFrom)
+    public function setActiveFrom(\DateTimeInterface $activeFrom = null): void
     {
         if ($this->activeFrom !== $activeFrom) {
-            if (!(null == $activeFrom && empty($activeFrom)) && !(is_object($activeFrom) && $activeFrom instanceOf \DateTimeInterface)) {
+            if (!(null === $activeFrom && empty($activeFrom)) && !(is_object($activeFrom) && $activeFrom instanceOf \DateTimeInterface)) {
                 $activeFrom = new \DateTime($activeFrom);
             }
             
-            if ($this->activeFrom != $activeFrom) {
+            if ($this->activeFrom !== $activeFrom) {
                 $this->activeFrom = $activeFrom;
             }
         }
     }
     
-    /**
-     * Returns the active to.
-     *
-     * @return DateTime
-     */
-    public function getActiveTo()
+    public function getActiveTo(): ?\DateTimeInterface
     {
         return $this->activeTo;
     }
     
-    /**
-     * Sets the active to.
-     *
-     * @param DateTime $activeTo
-     *
-     * @return void
-     */
-    public function setActiveTo($activeTo)
+    public function setActiveTo(\DateTimeInterface $activeTo = null): void
     {
         if ($this->activeTo !== $activeTo) {
-            if (!(null == $activeTo && empty($activeTo)) && !(is_object($activeTo) && $activeTo instanceOf \DateTimeInterface)) {
+            if (!(null === $activeTo && empty($activeTo)) && !(is_object($activeTo) && $activeTo instanceOf \DateTimeInterface)) {
                 $activeTo = new \DateTime($activeTo);
             }
             
-            if ($this->activeTo != $activeTo) {
+            if ($this->activeTo !== $activeTo) {
                 $this->activeTo = $activeTo;
             }
         }
     }
     
-    /**
-     * Returns the scope.
-     *
-     * @return string
-     */
-    public function getScope()
+    public function getScope(): string
     {
         return $this->scope;
     }
     
-    /**
-     * Sets the scope.
-     *
-     * @param string $scope
-     *
-     * @return void
-     */
-    public function setScope($scope)
+    public function setScope(string $scope): void
     {
         if ($this->scope !== $scope) {
-            $this->scope = isset($scope) ? $scope : '';
+            $this->scope = $scope ?? '';
         }
     }
     
-    /**
-     * Returns the styling classes.
-     *
-     * @return array
-     */
-    public function getStylingClasses()
+    public function getStylingClasses(): ?array
     {
         return $this->stylingClasses;
     }
     
-    /**
-     * Sets the styling classes.
-     *
-     * @param array $stylingClasses
-     *
-     * @return void
-     */
-    public function setStylingClasses($stylingClasses)
+    public function setStylingClasses(array $stylingClasses = null): void
     {
         if ($this->stylingClasses !== $stylingClasses) {
             $this->stylingClasses = $stylingClasses;
         }
     }
     
-    /**
-     * Returns the search text.
-     *
-     * @return text
-     */
-    public function getSearchText()
+    public function getSearchText(): string
     {
         return $this->searchText;
     }
     
-    /**
-     * Sets the search text.
-     *
-     * @param text $searchText
-     *
-     * @return void
-     */
-    public function setSearchText($searchText)
+    public function setSearchText(string $searchText): void
     {
         if ($this->searchText !== $searchText) {
-            $this->searchText = isset($searchText) ? $searchText : '';
+            $this->searchText = $searchText ?? '';
         }
     }
     
-    /**
-     * Returns the additional search text.
-     *
-     * @return string
-     */
-    public function getAdditionalSearchText()
+    public function getAdditionalSearchText(): string
     {
         return $this->additionalSearchText;
     }
     
-    /**
-     * Sets the additional search text.
-     *
-     * @param string $additionalSearchText
-     *
-     * @return void
-     */
-    public function setAdditionalSearchText($additionalSearchText)
+    public function setAdditionalSearchText(string $additionalSearchText): void
     {
         if ($this->additionalSearchText !== $additionalSearchText) {
-            $this->additionalSearchText = isset($additionalSearchText) ? $additionalSearchText : '';
+            $this->additionalSearchText = $additionalSearchText ?? '';
         }
     }
     
-    /**
-     * Returns the locale.
-     *
-     * @return string
-     */
     public function getLocale()
     {
         return $this->locale;
     }
     
-    /**
-     * Sets the locale.
-     *
-     * @param string $locale
-     *
-     * @return void
-     */
-    public function setLocale($locale)
+    public function setLocale($locale = null): void
     {
-        if ($this->locale != $locale) {
+        if ($this->locale !== $locale) {
             $this->locale = $locale;
         }
     }
     
     
-    /**
-     * Returns the page.
-     *
-     * @return \Zikula\ContentModule\Entity\PageEntity
-     */
-    public function getPage()
+    public function getPage(): ?\Zikula\ContentModule\Entity\PageEntity
     {
         return $this->page;
     }
     
-    /**
-     * Sets the page.
-     *
-     * @param \Zikula\ContentModule\Entity\PageEntity $page
-     *
-     * @return void
-     */
-    public function setPage($page = null)
+    public function setPage(\Zikula\ContentModule\Entity\PageEntity $page = null): void
     {
         $this->page = $page;
     }
@@ -518,10 +353,8 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     
     /**
      * Creates url arguments array for easy creation of display urls.
-     *
-     * @return array List of resulting arguments
      */
-    public function createUrlArgs()
+    public function createUrlArgs(): array
     {
         return [
             'id' => $this->getId()
@@ -530,42 +363,32 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     
     /**
      * Returns the primary key.
-     *
-     * @return integer The identifier
      */
-    public function getKey()
+    public function getKey(): int
     {
         return $this->getId();
     }
     
     /**
      * Determines whether this entity supports hook subscribers or not.
-     *
-     * @return boolean
      */
-    public function supportsHookSubscribers()
+    public function supportsHookSubscribers(): bool
     {
         return true;
     }
     
     /**
      * Return lower case name of multiple items needed for hook areas.
-     *
-     * @return string
      */
-    public function getHookAreaPrefix()
+    public function getHookAreaPrefix(): string
     {
         return 'zikulacontentmodule.ui_hooks.contentitems';
     }
     
     /**
      * Returns an array of all related objects that need to be persisted after clone.
-     * 
-     * @param array $objects Objects that are added to this array
-     * 
-     * @return array List of entity objects
      */
-    public function getRelatedObjectsToPersist(&$objects = [])
+    public function getRelatedObjectsToPersist(array &$objects = []): array
     {
         return [];
     }
@@ -573,10 +396,8 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * ToString interceptor implementation.
      * This method is useful for debugging purposes.
-     *
-     * @return string The output string for this entity
      */
-    public function __toString()
+    public function __toString(): string
     {
         return 'Content item ' . $this->getKey() . ': ' . $this->getOwningType();
     }

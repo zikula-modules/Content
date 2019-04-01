@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -55,7 +58,7 @@ class PageEntryProvider implements EntryProviderInterface
     /**
      * Whether automatic page linking is enabled or not
      *
-     * @var boolean
+     * @var bool
      */
     private $enableAutomaticPageLinks;
 
@@ -115,7 +118,7 @@ class PageEntryProvider implements EntryProviderInterface
             return $result;
         }
 
-        if (!in_array('link', $entryTypes)) {
+        if (!in_array('link', $entryTypes, true)) {
             return $result;
         }
 

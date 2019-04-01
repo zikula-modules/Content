@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -14,6 +17,7 @@ namespace Zikula\ContentModule\Helper\Base;
 use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
@@ -38,13 +42,6 @@ abstract class AbstractEntityDisplayHelper
      */
     protected $dateFormatter;
     
-    /**
-     * EntityDisplayHelper constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param ListEntriesHelper $listEntriesHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         RequestStack $requestStack,
@@ -58,12 +55,8 @@ abstract class AbstractEntityDisplayHelper
     
     /**
      * Returns the formatted title for a given entity.
-     *
-     * @param object $entity The given entity instance
-     *
-     * @return string The formatted title
      */
-    public function getFormattedTitle($entity)
+    public function getFormattedTitle(EntityAccess $entity): string
     {
         if ($entity instanceof PageEntity) {
             return $this->formatPage($entity);
@@ -77,12 +70,8 @@ abstract class AbstractEntityDisplayHelper
     
     /**
      * Returns the formatted title for a given entity.
-     *
-     * @param PageEntity $entity The given entity instance
-     *
-     * @return string The formatted title
      */
-    protected function formatPage(PageEntity $entity)
+    protected function formatPage(PageEntity $entity): string
     {
         return $this->translator->__f('%title%', [
             '%title%' => $entity->getTitle()
@@ -91,12 +80,8 @@ abstract class AbstractEntityDisplayHelper
     
     /**
      * Returns the formatted title for a given entity.
-     *
-     * @param ContentItemEntity $entity The given entity instance
-     *
-     * @return string The formatted title
      */
-    protected function formatContentItem(ContentItemEntity $entity)
+    protected function formatContentItem(ContentItemEntity $entity): string
     {
         return $this->translator->__f('%owningType%', [
             '%owningType%' => $entity->getOwningType()
@@ -105,17 +90,13 @@ abstract class AbstractEntityDisplayHelper
     
     /**
      * Returns name of the field used as title / name for entities of this repository.
-     *
-     * @param string $objectType Name of treated entity type
-     *
-     * @return string Name of field to be used as title
      */
-    public function getTitleFieldName($objectType)
+    public function getTitleFieldName(string $objectType = ''): string
     {
-        if ($objectType == 'page') {
+        if ('page' === $objectType) {
             return 'title';
         }
-        if ($objectType == 'contentItem') {
+        if ('contentItem' === $objectType) {
             return 'owningType';
         }
     
@@ -124,17 +105,13 @@ abstract class AbstractEntityDisplayHelper
     
     /**
      * Returns name of the field used for describing entities of this repository.
-     *
-     * @param string $objectType Name of treated entity type
-     *
-     * @return string Name of field to be used as description
      */
-    public function getDescriptionFieldName($objectType)
+    public function getDescriptionFieldName(string $objectType = ''): string
     {
-        if ($objectType == 'page') {
+        if ('page' === $objectType) {
             return 'optionalText';
         }
-        if ($objectType == 'contentItem') {
+        if ('contentItem' === $objectType) {
             return 'searchText';
         }
     
@@ -144,17 +121,13 @@ abstract class AbstractEntityDisplayHelper
     /**
      * Returns name of the date(time) field to be used for representing the start
      * of this object. Used for providing meta data to the tag module.
-     *
-     * @param string $objectType Name of treated entity type
-     *
-     * @return string Name of field to be used as date
      */
-    public function getStartDateFieldName($objectType)
+    public function getStartDateFieldName(string $objectType = ''): string
     {
-        if ($objectType == 'page') {
+        if ('page' === $objectType) {
             return 'activeFrom';
         }
-        if ($objectType == 'contentItem') {
+        if ('contentItem' === $objectType) {
             return 'activeFrom';
         }
     

@@ -60,8 +60,8 @@ services:
 
     stof_doctrine_extensions.listener.sluggable:
         class: '%stof_doctrine_extensions.listener.sluggable.class%'
+        calls:
+            - [setAnnotationReader, ['@annotation_reader']]
+            - [setTransliterator, [[Zikula\ContentModule\Helper\SlugTransliterator, 'transliterate']]]
         tags:
             - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, ['@annotation_reader'] ]
-            - [ setTransliterator, [[Zikula\ContentModule\Helper\SlugTransliterator, 'transliterate']]]

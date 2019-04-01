@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -32,12 +35,6 @@ abstract class AbstractLoggableListener extends BaseListener
      */
     protected $loggableHelper;
     
-    /**
-     * LoggableListener constructor.
-     *
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param LoggableHelper $loggableHelper
-     */
     public function __construct(
         EntityDisplayHelper $entityDisplayHelper,
         LoggableHelper $loggableHelper
@@ -47,13 +44,11 @@ abstract class AbstractLoggableListener extends BaseListener
         $this->loggableHelper = $loggableHelper;
     }
     
-    /**
-     * @inheritDoc
-     */
     protected function prePersistLogEntry($logEntry, $object)
     {
         parent::prePersistLogEntry($logEntry, $object);
     
+        /** @var EntityAccess $object */
         if (!$this->isEntityManagedByThisBundle($object) || !method_exists($object, 'get_objectType')) {
             return;
         }
@@ -64,7 +59,7 @@ abstract class AbstractLoggableListener extends BaseListener
         $versionGetter = 'get' . ucfirst($versionFieldName);
     
         // workaround to set correct version after restore of item
-        if (BaseListener::ACTION_CREATE == $logEntry->getAction() && $logEntry->getVersion() < $object->$versionGetter()) {
+        if (BaseListener::ACTION_CREATE === $logEntry->getAction() && $logEntry->getVersion() < $object->$versionGetter()) {
             $logEntry->setVersion($object->$versionGetter());
         }
     
@@ -72,7 +67,7 @@ abstract class AbstractLoggableListener extends BaseListener
             return;
         }
     
-        if (BaseListener::ACTION_REMOVE == $logEntry->getAction()) {
+        if (BaseListener::ACTION_REMOVE === $logEntry->getAction()) {
             // provide title to make the object identifiable in the list of deleted entities
             $logEntry->setActionDescription($this->entityDisplayHelper->getFormattedTitle($object));
     
@@ -88,9 +83,6 @@ abstract class AbstractLoggableListener extends BaseListener
         }
     }
     
-    /**
-     * @inheritDoc
-     */
     protected function createLogEntry($action, $object, LoggableAdapter $ea)
     {
         if (!$this->isEntityManagedByThisBundle($object) || !method_exists($object, 'get_objectType')) {
@@ -104,18 +96,16 @@ abstract class AbstractLoggableListener extends BaseListener
      * Checks whether this listener is responsible for the given entity or not.
      *
      * @param EntityAccess $entity The given entity
-     *
-     * @return boolean True if entity is managed by this listener, false otherwise
      */
-    protected function isEntityManagedByThisBundle($entity)
+    protected function isEntityManagedByThisBundle($entity): bool
     {
         $entityClassParts = explode('\\', get_class($entity));
     
-        if ('DoctrineProxy' == $entityClassParts[0] && '__CG__' == $entityClassParts[1]) {
+        if ('DoctrineProxy' === $entityClassParts[0] && '__CG__' === $entityClassParts[1]) {
             array_shift($entityClassParts);
             array_shift($entityClassParts);
         }
     
-        return ('Zikula' == $entityClassParts[0] && 'ContentModule' == $entityClassParts[1]);
+        return 'Zikula' === $entityClassParts[0] && 'ContentModule' === $entityClassParts[1];
     }
 }

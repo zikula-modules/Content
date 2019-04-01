@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -25,52 +28,32 @@ abstract class AbstractPageFormAwareHookSubscriber implements HookSubscriberInte
      */
     protected $translator;
 
-    /**
-     * PageFormAwareHookSubscriber constructor.
-     *
-     * @param TranslatorInterface $translator
-     */
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOwner()
+    public function getOwner(): string
     {
         return 'ZikulaContentModule';
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getCategory()
+    public function getCategory(): string
     {
         return FormAwareCategory::NAME;
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->translator->__('Page form aware subscriber');
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getAreaName()
+    public function getAreaName(): string
     {
         return 'subscriber.zikulacontentmodule.form_aware_hook.pages';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEvents()
+    public function getEvents(): array
     {
         return [
             // Display hook for create/edit forms.

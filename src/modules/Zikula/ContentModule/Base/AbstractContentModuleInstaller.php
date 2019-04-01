@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,14 +14,13 @@
 
 namespace Zikula\ContentModule\Base;
 
-use RuntimeException;
+use Exception;
 use Zikula\Core\AbstractExtensionInstaller;
 use Zikula\CategoriesModule\Api\CategoryPermissionApi;
 use Zikula\CategoriesModule\Entity\CategoryRegistryEntity;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\Common\Translator\Translator;
-use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageLogEntryEntity;
@@ -33,7 +35,7 @@ use Zikula\ContentModule\Entity\ContentItemTranslationEntity;
 abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $entities = [
         PageEntity::class,
@@ -44,14 +46,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         ContentItemTranslationEntity::class,
     ];
 
-    /**
-     * Install the ZikulaContentModule application.
-     *
-     * @return boolean True on success, or false
-     *
-     * @throws RuntimeException Thrown if database tables can not be created or another error occurs
-     */
-    public function install()
+    public function install(): bool
     {
         $logger = $this->container->get('logger');
         $userName = $this->container->get(CurrentUserApi::class)->get('uname');
@@ -59,7 +54,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         // create all tables from according entity definitions
         try {
             $this->schemaTool->create($this->entities);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
             $logger->error('{app}: Could not create the database tables during installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
     
@@ -118,7 +113,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
             try {
                 $this->entityManager->persist($registry);
                 $this->entityManager->flush();
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->addFlash('warning', $this->__f('Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.', ['%entity%' => 'page']));
                 $logger->error('{app}: User {user} could not create a category registry for {entities} during installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'entities' => 'pages', 'errorMessage' => $exception->getMessage()]);
             }
@@ -129,18 +124,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         return true;
     }
     
-    /**
-     * Upgrade the ZikulaContentModule application from an older version.
-     *
-     * If the upgrade fails at some point, it returns the last upgraded version.
-     *
-     * @param integer $oldVersion Version to upgrade from
-     *
-     * @return boolean True on success, false otherwise
-     *
-     * @throws RuntimeException Thrown if database tables can not be updated
-     */
-    public function upgrade($oldVersion)
+    public function upgrade(string $oldVersion): bool
     {
     /*
         $logger = $this->container->get('logger');
@@ -153,7 +137,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                 // update the database schema
                 try {
                     $this->schemaTool->update($this->entities);
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
                     $logger->error('{app}: Could not update the database tables during the upgrade. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
     
@@ -166,20 +150,13 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         return true;
     }
     
-    /**
-     * Uninstall ZikulaContentModule.
-     *
-     * @return boolean True on success, false otherwise
-     *
-     * @throws RuntimeException Thrown if database tables or stored workflows can not be removed
-     */
-    public function uninstall()
+    public function uninstall(): bool
     {
         $logger = $this->container->get('logger');
     
         try {
             $this->schemaTool->drop($this->entities);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
             $logger->error('{app}: Could not remove the database tables during uninstallation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
     

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -29,12 +32,6 @@ class AbstractFilterContentItemEvent extends Event
      */
     protected $entityChangeSet = [];
 
-    /**
-     * FilterContentItemEvent constructor.
-     *
-     * @param ContentItemEntity $contentItem Processed entity
-     * @param array $entityChangeSet Change set for preUpdate events
-     */
     public function __construct(ContentItemEntity $contentItem, array $entityChangeSet = [])
     {
         $this->contentItem = $contentItem;
@@ -42,21 +39,17 @@ class AbstractFilterContentItemEvent extends Event
     }
 
     /**
-     * Returns the entity.
-     *
      * @return ContentItemEntity
      */
-    public function getContentItem()
+    public function getContentItem(): ContentItemEntity
     {
         return $this->contentItem;
     }
 
     /**
-     * Returns the change set.
-     *
      * @return array Entity change set
      */
-    public function getEntityChangeSet()
+    public function getEntityChangeSet(): array
     {
         return $this->entityChangeSet;
     }

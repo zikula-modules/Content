@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -32,21 +35,15 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
      */
     protected $fragmentHandler;
     
-    /**
-     * @inheritDoc
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->__('Content detail', 'zikulacontentmodule');
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function display(array $properties = [])
+    public function display(array $properties = []): string
     {
         // only show block content if the user has the required permissions
-        if (!$this->hasPermission('ZikulaContentModule:ItemBlock:', "$properties[title]::", ACCESS_OVERVIEW)) {
+        if (!$this->hasPermission('ZikulaContentModule:ItemBlock:', $properties['title'] . '::', ACCESS_OVERVIEW)) {
             return '';
         }
     
@@ -59,23 +56,19 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
         }
     
         $contextArgs = ['name' => 'detail'];
-        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs))) {
+        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs), true)) {
             $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
     
         $controllerReference = new ControllerReference('ZikulaContentModule:External:display', $this->getDisplayArguments($properties), ['template' => $properties['customTemplate']]);
     
-        return $this->fragmentHandler->render($controllerReference, 'inline', []);
+        return $this->fragmentHandler->render($controllerReference);
     }
     
     /**
      * Returns common arguments for displaying the selected object using the external controller.
-     *
-     * @param array $properties The block properties
-     *
-     * @return array Display arguments
      */
-    protected function getDisplayArguments(array $properties = [])
+    protected function getDisplayArguments(array $properties = []): array
     {
         return [
             'objectType' => $properties['objectType'],
@@ -85,23 +78,17 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
         ];
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getFormClassName()
+    public function getFormClassName(): string
     {
         return ItemBlockType::class;
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getFormOptions()
+    public function getFormOptions(): array
     {
         $objectType = 'page';
     
         $request = $this->requestStack->getCurrentRequest();
-        if ($request->attributes->has('blockEntity')) {
+        if (null !== $request && $request->attributes->has('blockEntity')) {
             $blockEntity = $request->attributes->get('blockEntity');
             if (is_object($blockEntity) && method_exists($blockEntity, 'getProperties')) {
                 $blockProperties = $blockEntity->getProperties();
@@ -119,20 +106,15 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
         ];
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getFormTemplate()
+    public function getFormTemplate(): string
     {
         return '@ZikulaContentModule/Block/item_modify.html.twig';
     }
     
     /**
      * Returns default settings for this block.
-     *
-     * @return array The default settings
      */
-    protected function getDefaults()
+    protected function getDefaults(): array
     {
         return [
             'objectType' => 'page',
@@ -144,18 +126,16 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     
     /**
      * @required
-     * @param ControllerHelper $controllerHelper
      */
-    public function setControllerHelper(ControllerHelper $controllerHelper)
+    public function setControllerHelper(ControllerHelper $controllerHelper): void
     {
         $this->controllerHelper = $controllerHelper;
     }
     
     /**
      * @required
-     * @param FragmentHandler $fragmentHandler
      */
-    public function setFragmentHandler(FragmentHandler $fragmentHandler)
+    public function setFragmentHandler(FragmentHandler $fragmentHandler): void
     {
         $this->fragmentHandler = $fragmentHandler;
     }

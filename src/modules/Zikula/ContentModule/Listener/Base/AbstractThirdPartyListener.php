@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -14,7 +17,6 @@ namespace Zikula\ContentModule\Listener\Base;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zikula\Core\Event\GenericEvent;
 use Zikula\ScribiteModule\Event\EditorHelperEvent;
 
@@ -33,23 +35,12 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      */
     protected $requestStack;
     
-    /**
-     * ThirdPartyListener constructor.
-     *
-     * @param Filesystem $filesystem
-     * @param RequestStack $requestStack
-     *
-     * @return void
-     */
     public function __construct(Filesystem $filesystem, RequestStack $requestStack)
     {
         $this->filesystem = $filesystem;
         $this->requestStack = $requestStack;
     }
     
-    /**
-     * Makes our handlers known to the event system.
-     */
     public static function getSubscribedEvents()
     {
         return [
@@ -73,9 +64,8 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param EditorHelperEvent $event The event instance
      */
-    public function getEditorHelpers(EditorHelperEvent $event)
+    public function getEditorHelpers(EditorHelperEvent $event): void
     {
         // install assets for Scribite plugins
         $targetDir = 'web/modules/zikulacontent';
@@ -105,9 +95,8 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param GenericEvent $event The event instance
      */
-    public function getCKEditorPlugins(GenericEvent $event)
+    public function getCKEditorPlugins(GenericEvent $event): void
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
@@ -127,9 +116,8 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param GenericEvent $event The event instance
      */
-    public function getQuillPlugins(GenericEvent $event)
+    public function getQuillPlugins(GenericEvent $event): void
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
@@ -147,9 +135,8 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param GenericEvent $event The event instance
      */
-    public function getSummernotePlugins(GenericEvent $event)
+    public function getSummernotePlugins(GenericEvent $event): void
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
@@ -167,9 +154,8 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param GenericEvent $event The event instance
      */
-    public function getTinyMcePlugins(GenericEvent $event)
+    public function getTinyMcePlugins(GenericEvent $event): void
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',

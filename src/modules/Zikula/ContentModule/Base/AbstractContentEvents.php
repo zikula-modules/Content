@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -12,6 +15,7 @@
 namespace Zikula\ContentModule\Base;
 
 use Zikula\ContentModule\Listener\EntityLifecycleListener;
+use Zikula\ContentModule\Menu\MenuBuilder;
 
 /**
  * Events definition base class.
@@ -25,10 +29,10 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent instance.
      *
-     * @see Zikula\ContentModule\Menu\MenuBuilder::createItemActionsMenu()
+     * @see MenuBuilder::createItemActionsMenu()
      * @var string
      */
-    const MENU_ITEMACTIONS_PRE_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_pre_configure';
+    public const MENU_ITEMACTIONS_PRE_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_pre_configure';
     
     /**
      * The zikulacontentmodule.itemactionsmenu_post_configure event is thrown after the item actions
@@ -37,10 +41,10 @@ abstract class AbstractContentEvents
      * The event listener receives an
      * Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent instance.
      *
-     * @see Zikula\ContentModule\Menu\MenuBuilder::createItemActionsMenu()
+     * @see MenuBuilder::createItemActionsMenu()
      * @var string
      */
-    const MENU_ITEMACTIONS_POST_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_post_configure';
+    public const MENU_ITEMACTIONS_POST_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_post_configure';
     /**
      * The zikulacontentmodule.page_post_load event is thrown when pages
      * are loaded from the database.
@@ -51,7 +55,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postLoad()
      * @var string
      */
-    const PAGE_POST_LOAD = 'zikulacontentmodule.page_post_load';
+    public const PAGE_POST_LOAD = 'zikulacontentmodule.page_post_load';
     
     /**
      * The zikulacontentmodule.page_pre_persist event is thrown before a new page
@@ -63,7 +67,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::prePersist()
      * @var string
      */
-    const PAGE_PRE_PERSIST = 'zikulacontentmodule.page_pre_persist';
+    public const PAGE_PRE_PERSIST = 'zikulacontentmodule.page_pre_persist';
     
     /**
      * The zikulacontentmodule.page_post_persist event is thrown after a new page
@@ -75,7 +79,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postPersist()
      * @var string
      */
-    const PAGE_POST_PERSIST = 'zikulacontentmodule.page_post_persist';
+    public const PAGE_POST_PERSIST = 'zikulacontentmodule.page_post_persist';
     
     /**
      * The zikulacontentmodule.page_pre_remove event is thrown before an existing page
@@ -87,7 +91,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::preRemove()
      * @var string
      */
-    const PAGE_PRE_REMOVE = 'zikulacontentmodule.page_pre_remove';
+    public const PAGE_PRE_REMOVE = 'zikulacontentmodule.page_pre_remove';
     
     /**
      * The zikulacontentmodule.page_post_remove event is thrown after an existing page
@@ -99,7 +103,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postRemove()
      * @var string
      */
-    const PAGE_POST_REMOVE = 'zikulacontentmodule.page_post_remove';
+    public const PAGE_POST_REMOVE = 'zikulacontentmodule.page_post_remove';
     
     /**
      * The zikulacontentmodule.page_pre_update event is thrown before an existing page
@@ -111,7 +115,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::preUpdate()
      * @var string
      */
-    const PAGE_PRE_UPDATE = 'zikulacontentmodule.page_pre_update';
+    public const PAGE_PRE_UPDATE = 'zikulacontentmodule.page_pre_update';
     
     /**
      * The zikulacontentmodule.page_post_update event is thrown after an existing new page
@@ -123,7 +127,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postUpdate()
      * @var string
      */
-    const PAGE_POST_UPDATE = 'zikulacontentmodule.page_post_update';
+    public const PAGE_POST_UPDATE = 'zikulacontentmodule.page_post_update';
     
     /**
      * The zikulacontentmodule.contentitem_post_load event is thrown when content items
@@ -135,7 +139,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postLoad()
      * @var string
      */
-    const CONTENTITEM_POST_LOAD = 'zikulacontentmodule.contentitem_post_load';
+    public const CONTENTITEM_POST_LOAD = 'zikulacontentmodule.contentitem_post_load';
     
     /**
      * The zikulacontentmodule.contentitem_pre_persist event is thrown before a new content item
@@ -147,7 +151,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::prePersist()
      * @var string
      */
-    const CONTENTITEM_PRE_PERSIST = 'zikulacontentmodule.contentitem_pre_persist';
+    public const CONTENTITEM_PRE_PERSIST = 'zikulacontentmodule.contentitem_pre_persist';
     
     /**
      * The zikulacontentmodule.contentitem_post_persist event is thrown after a new content item
@@ -159,7 +163,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postPersist()
      * @var string
      */
-    const CONTENTITEM_POST_PERSIST = 'zikulacontentmodule.contentitem_post_persist';
+    public const CONTENTITEM_POST_PERSIST = 'zikulacontentmodule.contentitem_post_persist';
     
     /**
      * The zikulacontentmodule.contentitem_pre_remove event is thrown before an existing content item
@@ -171,7 +175,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::preRemove()
      * @var string
      */
-    const CONTENTITEM_PRE_REMOVE = 'zikulacontentmodule.contentitem_pre_remove';
+    public const CONTENTITEM_PRE_REMOVE = 'zikulacontentmodule.contentitem_pre_remove';
     
     /**
      * The zikulacontentmodule.contentitem_post_remove event is thrown after an existing content item
@@ -183,7 +187,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postRemove()
      * @var string
      */
-    const CONTENTITEM_POST_REMOVE = 'zikulacontentmodule.contentitem_post_remove';
+    public const CONTENTITEM_POST_REMOVE = 'zikulacontentmodule.contentitem_post_remove';
     
     /**
      * The zikulacontentmodule.contentitem_pre_update event is thrown before an existing content item
@@ -195,7 +199,7 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::preUpdate()
      * @var string
      */
-    const CONTENTITEM_PRE_UPDATE = 'zikulacontentmodule.contentitem_pre_update';
+    public const CONTENTITEM_PRE_UPDATE = 'zikulacontentmodule.contentitem_pre_update';
     
     /**
      * The zikulacontentmodule.contentitem_post_update event is thrown after an existing new content item
@@ -207,6 +211,6 @@ abstract class AbstractContentEvents
      * @see EntityLifecycleListener::postUpdate()
      * @var string
      */
-    const CONTENTITEM_POST_UPDATE = 'zikulacontentmodule.contentitem_post_update';
+    public const CONTENTITEM_POST_UPDATE = 'zikulacontentmodule.contentitem_post_update';
     
 }

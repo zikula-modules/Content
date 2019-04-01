@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -18,6 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\CategoriesModule\Api\ApiInterface\CategoryPermissionApiInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
 use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 
 /**
@@ -55,16 +59,6 @@ abstract class AbstractCategoryHelper
      */
     protected $categoryPermissionApi;
     
-    /**
-     * CategoryHelper constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RequestStack $requestStack
-     * @param LoggerInterface $logger
-     * @param CurrentUserApiInterface $currentUserApi
-     * @param CategoryRegistryRepositoryInterface $categoryRegistryRepository
-     * @param CategoryPermissionApiInterface $categoryPermissionApi
-     */
     public function __construct(
         TranslatorInterface $translator,
         RequestStack $requestStack,
@@ -85,13 +79,8 @@ abstract class AbstractCategoryHelper
      * Defines whether multiple selection is enabled for a given object type
      * or not. Subclass can override this method to apply a custom behaviour
      * to certain category registries for example.
-     *
-     * @param string $objectType The object type to retrieve
-     * @param string $registry   Name of category registry to be used (optional)
-     *
-     * @return boolean true if multiple selection is allowed, else false
      */
-    public function hasMultipleSelection($objectType = '', $registry = '')
+    public function hasMultipleSelection(string $objectType = '', string $registry = ''): bool
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
@@ -116,20 +105,15 @@ abstract class AbstractCategoryHelper
     
     /**
      * Retrieves input data from POST for all registries.
-     *
-     * @param string $objectType The object type to retrieve
-     * @param string $source     Where to retrieve the data from (defaults to POST)
-     *
-     * @return array The fetched data indexed by the registry id
      */
-    public function retrieveCategoriesFromRequest($objectType = '', $source = 'POST')
+    public function retrieveCategoriesFromRequest(string $objectType = '', string $source = 'POST'): array
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
         }
     
         $request = $this->requestStack->getCurrentRequest();
-        $dataSource = $source == 'GET' ? $request->query : $request->request;
+        $dataSource = 'GET' === $source ? $request->query : $request->request;
         $catIdsPerRegistry = [];
     
         $properties = $this->getAllProperties($objectType);
@@ -144,21 +128,22 @@ abstract class AbstractCategoryHelper
         if (null === $inputValues) {
             return $catIdsPerRegistry;
         }
-        $inputCategories = isset($inputValues['categories']) ? $inputValues['categories'] : [];
+        $inputCategories = $inputValues['categories'] ?? [];
     
         if (!count($inputCategories)) {
             return $catIdsPerRegistry;
         }
     
         foreach ($properties as $propertyName => $propertyId) {
-            $inputValue = isset($inputCategories['registry_' . $propertyId]) ? $inputCategories['registry_' . $propertyId] : [];
+            $registryKey = 'registry_' . $propertyId;
+            $inputValue = $inputCategories[$registryKey] ?? [];
             if (!is_array($inputValue)) {
                 $inputValue = [$inputValue];
             }
     
             // prevent "All" option hiding all entries
             foreach ($inputValue as $k => $v) {
-                if ($v == 0) {
+                if (0 === $v) {
                     unset($inputValue[$k]);
                 }
             }
@@ -171,14 +156,8 @@ abstract class AbstractCategoryHelper
     
     /**
      * Adds a list of where clauses for a certain list of categories to a given query builder.
-     *
-     * @param QueryBuilder $queryBuilder Query builder instance to be enhanced
-     * @param string       $objectType   The treated object type (optional)
-     * @param array        $catIds       Category ids grouped by property name
-     *
-     * @return QueryBuilder The enriched query builder instance
      */
-    public function buildFilterClauses(QueryBuilder $queryBuilder, $objectType = '', array $catIds = [])
+    public function buildFilterClauses(QueryBuilder $queryBuilder, string $objectType = '', array $catIds = []): QueryBuilder
     {
         $qb = $queryBuilder;
     
@@ -214,8 +193,8 @@ abstract class AbstractCategoryHelper
             $filterParameters['values'][$propertyName] = $catIdsForProperty;
         }
     
-        if (count($filtersPerRegistry) > 0) {
-            if (count($filtersPerRegistry) == 1) {
+        if (0 < count($filtersPerRegistry)) {
+            if (1 === count($filtersPerRegistry)) {
                 $qb->andWhere($filtersPerRegistry[0]);
             } else {
                 $qb->andWhere('(' . implode(' OR ', $filtersPerRegistry) . ')');
@@ -231,12 +210,8 @@ abstract class AbstractCategoryHelper
     
     /**
      * Returns a list of all registries / properties for a given object type.
-     *
-     * @param string $objectType The object type to retrieve
-     *
-     * @return array list of the registries (property name as key, id as value)
      */
-    public function getAllProperties($objectType = '')
+    public function getAllProperties(string $objectType = ''): array
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
@@ -257,13 +232,8 @@ abstract class AbstractCategoryHelper
     
     /**
      * Returns a list of all registries with main category for a given object type.
-     *
-     * @param string $objectType The object type to retrieve
-     * @param string $arrayKey   Key for the result array (optional)
-     *
-     * @return array list of the registries (registry id as key, main category id as value)
      */
-    public function getAllPropertiesWithMainCat($objectType = '', $arrayKey = 'property')
+    public function getAllPropertiesWithMainCat(string $objectType = '', string $arrayKey = 'property'): array
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
@@ -285,19 +255,14 @@ abstract class AbstractCategoryHelper
     
     /**
      * Returns the main category id for a given object type and a certain property name.
-     *
-     * @param string $objectType The object type to retrieve
-     * @param string $property   The property name (optional)
-     *
-     * @return integer The main category id of desired tree
      */
-    public function getMainCatForProperty($objectType = '', $property = '')
+    public function getMainCatForProperty(string $objectType = '', string $property = ''): ?int
     {
         if (empty($objectType)) {
             throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
         }
     
-        $registries = $this->getAllPropertiesWithMainCat($objectType, 'property');
+        $registries = $this->getAllPropertiesWithMainCat($objectType);
         if ($registries && isset($registries[$property]) && $registries[$property]) {
             return $registries[$property];
         }
@@ -307,12 +272,8 @@ abstract class AbstractCategoryHelper
     
     /**
      * Returns the name of the primary registry.
-     *
-     * @param string $objectType The object type to retrieve
-     *
-     * @return string name of the main registry
      */
-    public function getPrimaryProperty($objectType = '')
+    public function getPrimaryProperty(string $objectType = ''): string
     {
         return 'Main';
     }
@@ -321,10 +282,8 @@ abstract class AbstractCategoryHelper
      * Filters a given list of entities to these the current user has permissions for.
      *
      * @param array|ArrayCollection $entities The given list of entities
-     *
-     * @return array The filtered list of entities
      */
-    public function filterEntitiesByPermission($entities)
+    public function filterEntitiesByPermission($entities): array
     {
         $filteredEntities = [];
         foreach ($entities as $entity) {
@@ -339,12 +298,8 @@ abstract class AbstractCategoryHelper
     
     /**
      * Checks whether permissions are granted to the given categories or not.
-     *
-     * @param object $entity The entity to check permission for
-     *
-     * @return boolean True if permissions are given, false otherwise
      */
-    public function hasPermission($entity)
+    public function hasPermission(EntityAccess $entity): bool
     {
         $requireAccessForAll = $this->requireAccessForAll($entity);
     
@@ -359,12 +314,8 @@ abstract class AbstractCategoryHelper
      * to at least one selected category.
      * Returning true only allows access if the user has access
      * to all selected categories.
-     *
-     * @param object $entity The entity to check permission for
-     *
-     * @return boolean True if access is required for all categories, false otherwise
      */
-    protected function requireAccessForAll($entity)
+    protected function requireAccessForAll(EntityAccess $entity): bool
     {
         return false;
     }

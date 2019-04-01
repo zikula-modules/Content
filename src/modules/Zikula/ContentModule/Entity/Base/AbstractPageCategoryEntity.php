@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -13,6 +16,7 @@ namespace Zikula\ContentModule\Entity\Base;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zikula\CategoriesModule\Entity\AbstractCategoryAssignment;
+use Zikula\ContentModule\Entity\PageEntity;
 
 /**
  * Entity extension domain class storing page categories.
@@ -24,27 +28,20 @@ abstract class AbstractPageCategoryEntity extends AbstractCategoryAssignment
     /**
      * @ORM\ManyToOne(targetEntity="\Zikula\ContentModule\Entity\PageEntity", inversedBy="categories")
      * @ORM\JoinColumn(name="entityId", referencedColumnName="id")
-     * @var \Zikula\ContentModule\Entity\PageEntity
+     * @var PageEntity
      */
     protected $entity;
     
-    /**
-     * Get reference to owning entity.
-     *
-     * @return \Zikula\ContentModule\Entity\PageEntity
-     */
-    public function getEntity()
+    public function getEntity(): PageEntity
     {
         return $this->entity;
     }
     
-    /**
-     * Set reference to owning entity.
-     *
-     * @param \Zikula\ContentModule\Entity\PageEntity $entity
-     */
-    public function setEntity(/*\Zikula\ContentModule\Entity\PageEntity */$entity)
+    public function setEntity($entity): void
     {
-        $this->entity = $entity;
+        if ($this->entity !== $entity) {
+            $this->entity = $entity ?? '';
+        }
     }
+    
 }

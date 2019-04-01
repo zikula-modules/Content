@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -39,13 +42,6 @@ abstract class AbstractItemBlockType extends AbstractType
      */
     protected $entityDisplayHelper;
 
-    /**
-     * ItemBlockType constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         EntityFactory $entityFactory,
@@ -56,19 +52,11 @@ abstract class AbstractItemBlockType extends AbstractType
         $this->entityDisplayHelper = $entityDisplayHelper;
     }
 
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addObjectTypeField($builder, $options);
@@ -78,11 +66,8 @@ abstract class AbstractItemBlockType extends AbstractType
 
     /**
      * Adds an object type field.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addObjectTypeField(FormBuilderInterface $builder, array $options = [])
+    public function addObjectTypeField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('objectType', HiddenType::class, [
             'label' => $this->__('Object type', 'zikulacontentmodule') . ':',
@@ -92,11 +77,8 @@ abstract class AbstractItemBlockType extends AbstractType
 
     /**
      * Adds a item identifier field.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addIdField(FormBuilderInterface $builder, array $options = [])
+    public function addIdField(FormBuilderInterface $builder, array $options = []): void
     {
         $repository = $this->entityFactory->getRepository($options['object_type']);
         // select without joins
@@ -119,11 +101,8 @@ abstract class AbstractItemBlockType extends AbstractType
 
     /**
      * Adds template fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addTemplateField(FormBuilderInterface $builder, array $options = [])
+    public function addTemplateField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder
             ->add('customTemplate', TextType::class, [
@@ -141,17 +120,11 @@ abstract class AbstractItemBlockType extends AbstractType
         ;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_detailblock';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver

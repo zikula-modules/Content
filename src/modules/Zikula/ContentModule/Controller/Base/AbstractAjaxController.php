@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,6 +14,7 @@
 
 namespace Zikula\ContentModule\Controller\Base;
 
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,14 +37,6 @@ abstract class AbstractAjaxController extends AbstractController
     
     /**
      * Retrieve item list for finder selections, for example used in Scribite editor plug-ins.
-     *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
-     *
-     * @return JsonResponse
      */
     public function getItemListFinderAction(
         Request $request,
@@ -48,7 +44,7 @@ abstract class AbstractAjaxController extends AbstractController
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper
-    )
+    ): JsonResponse
      {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -60,29 +56,29 @@ abstract class AbstractAjaxController extends AbstractController
         
         $objectType = $request->query->getAlnum('ot', 'page');
         $contextArgs = ['controller' => 'ajax', 'action' => 'getItemListFinder'];
-        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
+        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs), true)) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
         }
         
         $repository = $entityFactory->getRepository($objectType);
         $descriptionFieldName = $entityDisplayHelper->getDescriptionFieldName($objectType);
         
-        $sort = $request->query->getAlnum('sort', '');
-        if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
+        $sort = $request->query->getAlnum('sort');
+        if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields(), true)) {
             $sort = $repository->getDefaultSortingField();
         }
         
-        $sdir = strtolower($request->query->getAlpha('sortdir', ''));
-        if ($sdir != 'asc' && $sdir != 'desc') {
+        $sdir = strtolower($request->query->getAlpha('sortdir'));
+        if ('asc' !== $sdir && 'desc' !== $sdir) {
             $sdir = 'asc';
         }
         
         $where = ''; // filters are processed inside the repository class
-        $searchTerm = $request->query->get('q', '');
+        $searchTerm = $request->query->get('q');
         $sortParam = $sort . ' ' . $sdir;
         
         $entities = [];
-        if ($searchTerm != '') {
+        if ('' !== $searchTerm) {
             list ($entities, $totalAmount) = $repository->selectSearch($searchTerm, [], $sortParam, 1, 50);
         } else {
             $entities = $repository->selectWhere($where, $sortParam);
@@ -103,18 +99,15 @@ abstract class AbstractAjaxController extends AbstractController
     
     /**
      * Builds and returns a slim data array from a given entity.
-     *
-     * @param ControllerHelper $controllerHelper
-     * @param EntityRepository $repository Repository for the treated object type
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param object $item The currently treated entity
-     * @param string $itemId Data item identifier(s)
-     * @param string $descriptionField Name of item description field
-     *
-     * @return array The slim data representation
      */
-    protected function prepareSlimItem(ControllerHelper $controllerHelper, $repository, EntityDisplayHelper $entityDisplayHelper, $item, $itemId, $descriptionField)
-    {
+    protected function prepareSlimItem(
+        ControllerHelper $controllerHelper,
+        EntityRepository $repository,
+        EntityDisplayHelper $entityDisplayHelper,
+        $item,
+        string $itemId,
+        string $descriptionField
+    ): array {
         $objectType = $item->get_objectType();
         $previewParameters = [
             $objectType => $item
@@ -125,11 +118,11 @@ abstract class AbstractAjaxController extends AbstractController
         $previewInfo = base64_encode($this->get('twig')->render('@ZikulaContentModule/External/' . ucfirst($objectType) . '/info.html.twig', $previewParameters));
     
         $title = $entityDisplayHelper->getFormattedTitle($item);
-        $description = $descriptionField != '' ? $item[$descriptionField] : '';
+        $description = $descriptionField !== '' ? $item[$descriptionField] : '';
     
         return [
-            'id'          => $itemId,
-            'title'       => str_replace('&amp;', '&', $title),
+            'id' => $itemId,
+            'title' => str_replace('&amp;', '&', $title),
             'description' => $description,
             'previewInfo' => $previewInfo
         ];
@@ -138,19 +131,13 @@ abstract class AbstractAjaxController extends AbstractController
     /**
      * Checks whether a field value is a duplicate or not.
      *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param EntityFactory $entityFactory
-     *
-     * @return JsonResponse
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function checkForDuplicateAction(
         Request $request,
         ControllerHelper $controllerHelper,
         EntityFactory $entityFactory
-    )
+    ): JsonResponse
      {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -162,12 +149,12 @@ abstract class AbstractAjaxController extends AbstractController
         
         $objectType = $request->query->getAlnum('ot', 'page');
         $contextArgs = ['controller' => 'ajax', 'action' => 'checkForDuplicate'];
-        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
+        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs), true)) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
         }
         
-        $fieldName = $request->query->getAlnum('fn', '');
-        $value = $request->query->get('v', '');
+        $fieldName = $request->query->getAlnum('fn');
+        $value = $request->query->get('v');
         
         if (empty($fieldName) || empty($value)) {
             return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
@@ -180,11 +167,11 @@ abstract class AbstractAjaxController extends AbstractController
                 $uniqueFields = ['slug'];
                 break;
         }
-        if (!count($uniqueFields) || !in_array($fieldName, $uniqueFields)) {
+        if (!count($uniqueFields) || !in_array($fieldName, $uniqueFields, true)) {
             return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
         }
         
-        $exclude = $request->query->getInt('ex', '');
+        $exclude = $request->query->getInt('ex');
         
         $result = false;
         switch ($objectType) {
@@ -206,19 +193,13 @@ abstract class AbstractAjaxController extends AbstractController
     /**
      * Changes a given flag (boolean field) by switching between true and false.
      *
-     * @param Request $request
-     * @param EntityFactory $entityFactory
-     * @param CurrentUserApiInterface $currentUserApi
-     *
-     * @return JsonResponse
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function toggleFlagAction(
         Request $request,
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi
-    )
+    ): JsonResponse
      {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -229,13 +210,13 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $objectType = $request->request->getAlnum('ot', 'page');
-        $field = $request->request->getAlnum('field', '');
-        $id = $request->request->getInt('id', 0);
+        $field = $request->request->getAlnum('field');
+        $id = $request->request->getInt('id');
         
-        if ($id == 0
-            || ($objectType != 'page' && $objectType != 'contentItem')
-        || ($objectType == 'page' && !in_array($field, ['active', 'inMenu']))
-        || ($objectType == 'contentItem' && !in_array($field, ['active']))
+        if (0 === $id
+            || ('page' !== $objectType && 'contentItem' !== $objectType)
+        || ('page' === $objectType && !in_array($field, ['active', 'inMenu'], true))
+        || ('contentItem' === $objectType && !in_array($field, ['active'], true))
         ) {
             return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
         }
@@ -251,7 +232,7 @@ abstract class AbstractAjaxController extends AbstractController
         $entity[$field] = !$entity[$field];
         
         // save entity back to database
-        $entityFactory->getEntityManager()->flush($entity);
+        $entityFactory->getEntityManager()->flush();
         
         $logger = $this->get('logger');
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'field' => $field, 'entity' => $objectType, 'id' => $id];
@@ -268,15 +249,6 @@ abstract class AbstractAjaxController extends AbstractController
     /**
      * Performs different operations on tree hierarchies.
      *
-     * @param Request $request
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param CurrentUserApiInterface $currentUserApi
-     * @param UserRepositoryInterface $userRepository
-     * @param WorkflowHelper $workflowHelper
-     *
-     * @return JsonResponse
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function handleTreeOperationAction(
@@ -286,7 +258,7 @@ abstract class AbstractAjaxController extends AbstractController
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository,
         WorkflowHelper $workflowHelper
-    )
+    ): JsonResponse
      {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -299,7 +271,7 @@ abstract class AbstractAjaxController extends AbstractController
         // parameter specifying which type of objects we are treating
         $objectType = $request->request->getAlnum('ot', 'page');
         // ensure that we use only object types with tree extension enabled
-        if (!in_array($objectType, ['page'])) {
+        if (!in_array($objectType, ['page'], true)) {
             $objectType = 'page';
         }
         
@@ -309,8 +281,8 @@ abstract class AbstractAjaxController extends AbstractController
             'message' => ''
         ];
         
-        $op = $request->request->getAlpha('op', '');
-        if (!in_array($op, ['addRootNode', 'addChildNode', 'deleteNode', 'moveNode', 'moveNodeTo'])) {
+        $op = $request->request->getAlpha('op');
+        if (!in_array($op, ['addRootNode', 'addChildNode', 'deleteNode', 'moveNode', 'moveNodeTo'], true)) {
             $returnValue['result'] = 'failure';
             $returnValue['message'] = $this->__('Error: invalid operation.');
         
@@ -319,8 +291,8 @@ abstract class AbstractAjaxController extends AbstractController
         
         // Get id of treated node
         $id = 0;
-        if (!in_array($op, ['addRootNode', 'addChildNode'])) {
-            $id = $request->request->getInt('id', 0);
+        if (!in_array($op, ['addRootNode', 'addChildNode'], true)) {
+            $id = $request->request->getInt('id');
             if (!$id) {
                 $returnValue['result'] = 'failure';
                 $returnValue['message'] = $this->__('Error: invalid node.');
@@ -333,8 +305,8 @@ abstract class AbstractAjaxController extends AbstractController
         $repository = $entityFactory->getRepository($objectType);
         
         $rootId = 1;
-        if (!in_array($op, ['addRootNode'])) {
-            $rootId = $request->request->getInt('root', 0);
+        if (!in_array($op, ['addRootNode'], true)) {
+            $rootId = $request->request->getInt('root');
             if (!$rootId) {
                 $returnValue['result'] = 'failure';
                 $returnValue['message'] = $this->__('Error: invalid root node.');
@@ -375,7 +347,7 @@ abstract class AbstractAjaxController extends AbstractController
                     if (!$success) {
                         $returnValue['result'] = 'failure';
                     }
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
                     $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
                 
@@ -385,7 +357,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $logger->notice('{app}: User {user} added a new root node in the {entity} tree.', $logArgs);
                 break;
             case 'addChildNode':
-                $parentId = $request->request->getInt('pid', 0);
+                $parentId = $request->request->getInt('pid');
                 if (!$parentId) {
                     $returnValue['result'] = 'failure';
                     $returnValue['message'] = $this->__('Error: invalid parent node.');
@@ -419,13 +391,13 @@ abstract class AbstractAjaxController extends AbstractController
                     if (!$success) {
                         $returnValue['result'] = 'failure';
                     } else {
-                        if (in_array($objectType, ['page'])) {
-                            $needsArg = in_array($objectType, ['page']);
+                        if (in_array($objectType, ['page'], true)) {
+                            $needsArg = in_array($objectType, ['page'], true);
                             $urlArgs = $needsArg ? $childEntity->createUrlArgs(true) : $childEntity->createUrlArgs();
                             $returnValue['returnUrl'] = $this->get('router')->generate('zikulacontentmodule_' . strtolower($objectType) . '_edit', $urlArgs, UrlGeneratorInterface::ABSOLUTE_URL);
                         }
                     }
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
                     $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
                 
@@ -452,7 +424,7 @@ abstract class AbstractAjaxController extends AbstractController
                     if (!$success) {
                         $returnValue['result'] = 'failure';
                     }
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
                     $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
                 
@@ -465,8 +437,8 @@ abstract class AbstractAjaxController extends AbstractController
                 $logger->notice('{app}: User {user} deleted a node from the {entity} tree.', $logArgs);
                 break;
             case 'moveNode':
-                $moveDirection = $request->request->getAlpha('direction', '');
-                if (!in_array($moveDirection, ['top', 'up', 'down', 'bottom'])) {
+                $moveDirection = $request->request->getAlpha('direction');
+                if (!in_array($moveDirection, ['top', 'up', 'down', 'bottom'], true)) {
                     $returnValue['result'] = 'failure';
                     $returnValue['message'] = $this->__('Error: invalid direction.');
                 
@@ -481,13 +453,13 @@ abstract class AbstractAjaxController extends AbstractController
                     return $this->json($returnValue);
                 }
                 
-                if ($moveDirection == 'top') {
+                if ('top' === $moveDirection) {
                     $repository->moveUp($entity, true);
-                } elseif ($moveDirection == 'up') {
+                } elseif ('up' === $moveDirection) {
                     $repository->moveUp($entity, 1);
-                } elseif ($moveDirection == 'down') {
+                } elseif ('down' === $moveDirection) {
                     $repository->moveDown($entity, 1);
-                } elseif ($moveDirection == 'bottom') {
+                } elseif ('bottom' === $moveDirection) {
                     $repository->moveDown($entity, true);
                 }
                 $entityManager->flush();
@@ -495,15 +467,15 @@ abstract class AbstractAjaxController extends AbstractController
                 $logger->notice('{app}: User {user} moved a node in the {entity} tree.', $logArgs);
                 break;
             case 'moveNodeTo':
-                $moveDirection = $request->request->getAlpha('direction', '');
-                if (!in_array($moveDirection, ['after', 'before', 'bottom'])) {
+                $moveDirection = $request->request->getAlpha('direction');
+                if (!in_array($moveDirection, ['after', 'before', 'bottom'], true)) {
                     $returnValue['result'] = 'failure';
                     $returnValue['message'] = $this->__('Error: invalid direction.');
                 
                     return $this->json($returnValue);
                 }
                 
-                $destId = $request->request->getInt('destid', 0);
+                $destId = $request->request->getInt('destid');
                 if (!$destId) {
                     $returnValue['result'] = 'failure';
                     $returnValue['message'] = $this->__('Error: invalid destination node.');
@@ -520,11 +492,11 @@ abstract class AbstractAjaxController extends AbstractController
                     return $this->json($returnValue);
                 }
                 
-                if ($moveDirection == 'after') {
+                if ('after' === $moveDirection) {
                     $repository->persistAsNextSiblingOf($entity, $destEntity);
-                } elseif ($moveDirection == 'before') {
+                } elseif ('before' === $moveDirection) {
                     $repository->persistAsPrevSiblingOf($entity, $destEntity);
-                } elseif ($moveDirection == 'bottom') {
+                } elseif ('bottom' === $moveDirection) {
                     $repository->persistAsLastChildOf($entity, $destEntity);
                 }
                 
