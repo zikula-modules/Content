@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,6 +14,7 @@
 
 namespace Zikula\ContentModule\Helper\Base;
 
+use Dompdf\Dompdf;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,20 +71,6 @@ abstract class AbstractViewHelper
      */
     protected $permissionHelper;
     
-    /**
-     * ViewHelper constructor.
-     *
-     * @param Environment $twig
-     * @param FilesystemLoader $twigLoader
-     * @param RequestStack $requestStack
-     * @param VariableApiInterface $variableApi
-     * @param AssetFilter $assetFilter
-     * @param ParameterBag $pageVars
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     *
-     * @return void
-     */
     public function __construct(
         Environment $twig,
         FilesystemLoader $twigLoader,
@@ -103,13 +93,8 @@ abstract class AbstractViewHelper
     
     /**
      * Determines the view template for a certain method with given parameters.
-     *
-     * @param string $type Current controller (name of currently treated entity)
-     * @param string $func Current function (index, view, ...)
-     *
-     * @return string name of template file
      */
-    public function getViewTemplate($type, $func)
+    public function getViewTemplate(string $type, string $func): string
     {
         // create the base template name
         $template = '@ZikulaContentModule/' . ucfirst($type) . '/' . $func;
@@ -118,7 +103,8 @@ abstract class AbstractViewHelper
         $templateExtension = '.' . $this->determineExtension($type, $func);
     
         // check whether a special template is used
-        $tpl = $this->requestStack->getCurrentRequest()->query->getAlnum('tpl', '');
+        $request = $this->requestStack->getCurrentRequest();
+        $tpl = null !== $request ? $request->query->getAlnum('tpl') : '';
         if (!empty($tpl)) {
             // check if custom template exists
             $customTemplate = $template . ucfirst($tpl);
@@ -134,30 +120,28 @@ abstract class AbstractViewHelper
     
     /**
      * Helper method for managing view templates.
-     *
-     * @param string $type               Current controller (name of currently treated entity)
-     * @param string $func               Current function (index, view, ...)
-     * @param array  $templateParameters Template data
-     * @param string $template           Optional assignment of precalculated template file
-     *
-     * @return mixed Output
      */
-    public function processTemplate($type, $func, array $templateParameters = [], $template = '')
-    {
+    public function processTemplate(
+        string $type,
+        string $func,
+        array $templateParameters = [],
+        string $template = ''
+    ): Response {
         $templateExtension = $this->determineExtension($type, $func);
         if (empty($template)) {
             $template = $this->getViewTemplate($type, $func);
         }
     
-        if ($templateExtension == 'pdf.twig') {
+        if ('pdf.twig' === $templateExtension) {
             $template = str_replace('.pdf', '.html', $template);
     
             return $this->processPdf($templateParameters, $template);
         }
     
         // look whether we need output with or without the theme
-        $raw = $this->requestStack->getCurrentRequest()->query->getBoolean('raw', false);
-        if (!$raw && $templateExtension != 'html.twig') {
+        $request = $this->requestStack->getCurrentRequest();
+        $raw = null !== $request ? $request->query->getBoolean('raw') : false;
+        if (!$raw && 'html.twig' !== $templateExtension) {
             $raw = true;
         }
     
@@ -165,7 +149,7 @@ abstract class AbstractViewHelper
         $response = null;
         if (true === $raw) {
             // standalone output
-            if ($templateExtension == 'csv.twig') {
+            if ('csv.twig' === $templateExtension) {
                 // convert to UTF-16 for improved excel compatibility
                 // see http://stackoverflow.com/questions/4348802/how-can-i-output-a-utf-8-csv-in-php-that-excel-will-read-properly
                 $output = chr(255) . chr(254) . mb_convert_encoding($output, 'UTF-16LE', 'UTF-8');
@@ -198,25 +182,16 @@ abstract class AbstractViewHelper
     
     /**
      * Adds assets to a raw page which is not processed by the Theme engine.
-     *
-     * @param string $output The output to be enhanced
-     *
-     * @return string Output including additional assets
      */
-    protected function injectAssetsIntoRawOutput($output = '')
+    protected function injectAssetsIntoRawOutput(string $output = ''): string
     {
         return $this->assetFilter->filter($output);
     }
     
     /**
      * Get extension of the currently treated template.
-     *
-     * @param string $type Current controller (name of currently treated entity)
-     * @param string $func Current function (index, view, ...)
-     *
-     * @return string Template extension
      */
-    protected function determineExtension($type, $func)
+    protected function determineExtension(string $type, string $func): string
     {
         $templateExtension = 'html.twig';
         if (!in_array($func, ['view', 'display'])) {
@@ -224,8 +199,13 @@ abstract class AbstractViewHelper
         }
     
         $extensions = $this->availableExtensions($type, $func);
-        $format = $this->requestStack->getCurrentRequest()->getRequestFormat();
-        if ($format != 'html' && in_array($format, $extensions)) {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            return $templateExtension;
+        }
+    
+        $format = $request->getRequestFormat();
+        if ('html' !== $format && in_array($format, $extensions, true)) {
             $templateExtension = $format . '.twig';
         }
     
@@ -235,22 +215,19 @@ abstract class AbstractViewHelper
     /**
      * Get list of available template extensions.
      *
-     * @param string $type Current controller (name of currently treated entity)
-     * @param string $func Current function (index, view, ...)
-     *
      * @return string[] List of allowed template extensions
      */
-    protected function availableExtensions($type, $func)
+    protected function availableExtensions(string $type,  string$func): array
     {
         $extensions = [];
         $hasAdminAccess = $this->permissionHelper->hasComponentPermission($type, ACCESS_ADMIN);
-        if ($func == 'view') {
+        if ('view' === $func) {
             if ($hasAdminAccess) {
                 $extensions = ['csv', 'xml', 'json', 'pdf'];
             } else {
                 $extensions = ['pdf'];
             }
-        } elseif ($func == 'display') {
+        } elseif ('display' === $func) {
             if ($hasAdminAccess) {
                 $extensions = ['xml', 'json', 'pdf'];
             } else {
@@ -263,32 +240,31 @@ abstract class AbstractViewHelper
     
     /**
      * Processes a template file using dompdf (LGPL).
-     *
-     * @param array  $templateParameters Template data
-     * @param string $template           Name of template to use
-     *
-     * @return mixed Output
      */
-    protected function processPdf(array $templateParameters = [], $template = '')
+    protected function processPdf(array $templateParameters = [], string $template = ''): Response
     {
         // first the content, to set page vars
         $output = $this->twig->render($template, $templateParameters);
     
         // make local images absolute
         $request = $this->requestStack->getCurrentRequest();
-        $output = str_replace('img src="' . $request->getSchemeAndHttpHost() . $request->getBasePath() . '/', 'img src="/', $output);
-        $output = str_replace('img src="/', 'img src="' . $request->server->get('DOCUMENT_ROOT') . '/', $output);
+        $output = str_replace(
+            ['img src="' . $request->getSchemeAndHttpHost() . $request->getBasePath() . '/', 'img src="/'],
+            ['img src="/', 'img src="' . $request->server->get('DOCUMENT_ROOT') . '/'],
+            $output
+        );
     
         // then the surrounding
         $output = $this->twig->render('@ZikulaContentModule/includePdfHeader.html.twig') . $output . '</body></html>';
     
         // create name of the pdf output file
         $siteName = $this->variableApi->getSystemVar('sitename');
-        $pageTitle = iconv('UTF-8', 'ASCII//TRANSLIT', $this->pageVars->get('title', ''));
+        $pageTitle = iconv('UTF-8', 'ASCII//TRANSLIT', $this->pageVars->get('title'));
         $fileTitle = iconv('UTF-8', 'ASCII//TRANSLIT', $siteName)
-                   . '-'
-                   . ($pageTitle != '' ? $pageTitle . '-' : '')
-                   . date('Ymd') . '.pdf';
+           . '-'
+           . ('' !== $pageTitle ? $pageTitle . '-' : '')
+           . date('Ymd') . '.pdf'
+       ;
        $fileTitle = str_replace(' ', '_', $fileTitle);
     
         /*
@@ -298,7 +274,7 @@ abstract class AbstractViewHelper
         */
     
         // instantiate pdf object
-        $pdf = new \Dompdf\Dompdf();
+        $pdf = new Dompdf();
         // define page properties
         $pdf->setPaper('A4', 'portrait');
         // load html input data

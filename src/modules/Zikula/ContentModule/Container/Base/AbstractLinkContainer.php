@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -14,7 +17,6 @@ namespace Zikula\ContentModule\Container\Base;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
-use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\Core\LinkContainer\LinkContainerInterface;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Helper\ControllerHelper;
@@ -47,15 +49,6 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
      */
     protected $permissionHelper;
 
-    /**
-     * LinkContainer constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param Routerinterface $router
-     * @param VariableApiInterface $variableApi
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         RouterInterface $router,
@@ -70,34 +63,22 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
         $this->permissionHelper = $permissionHelper;
     }
 
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
 
-    /**
-     * Returns available header links.
-     *
-     * @param string $type The type to collect links for
-     *
-     * @return array List of header links
-     */
-    public function getLinks($type = LinkContainerInterface::TYPE_ADMIN)
+    public function getLinks(string $type = LinkContainerInterface::TYPE_ADMIN): array
     {
         $contextArgs = ['api' => 'linkContainer', 'action' => 'getLinks'];
         $allowedObjectTypes = $this->controllerHelper->getObjectTypes('api', $contextArgs);
 
-        $permLevel = LinkContainerInterface::TYPE_ADMIN == $type ? ACCESS_ADMIN : ACCESS_READ;
+        $permLevel = LinkContainerInterface::TYPE_ADMIN === $type ? ACCESS_ADMIN : ACCESS_READ;
 
         // Create an array of links to return
         $links = [];
 
-        if (LinkContainerInterface::TYPE_ACCOUNT == $type) {
+        if (LinkContainerInterface::TYPE_ACCOUNT === $type) {
             if (!$this->permissionHelper->hasPermission(ACCESS_OVERVIEW)) {
                 return $links;
             }
@@ -106,8 +87,8 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
                 $objectType = 'page';
                 if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_READ)) {
                     $routeArgs = ['own' => 1];
-                    $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
-                    if (true == $showOnlyOwnEntries) {
+                    $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', 'pagePrivateMode');
+                    if (true === $showOnlyOwnEntries) {
                         $routeArgs = [];
                     }
                     $links[] = [
@@ -130,8 +111,8 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             return $links;
         }
 
-        $routeArea = LinkContainerInterface::TYPE_ADMIN == $type ? 'admin' : '';
-        if (LinkContainerInterface::TYPE_ADMIN == $type) {
+        $routeArea = LinkContainerInterface::TYPE_ADMIN === $type ? 'admin' : '';
+        if (LinkContainerInterface::TYPE_ADMIN === $type) {
             if ($this->permissionHelper->hasPermission(ACCESS_READ)) {
                 $links[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_index'),
@@ -151,7 +132,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             }
         }
         
-        if (in_array('page', $allowedObjectTypes)
+        if (in_array('page', $allowedObjectTypes, true)
             && $this->permissionHelper->hasComponentPermission('page', $permLevel)) {
             $links[] = [
                 'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view'),
@@ -159,7 +140,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
                 'title' => $this->__('Pages list', 'zikulacontentmodule')
             ];
         }
-        if ($routeArea == 'admin' && $this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
+        if ('admin' === $routeArea && $this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
             $links[] = [
                 'url' => $this->router->generate('zikulacontentmodule_config_config'),
                 'text' => $this->__('Settings', 'zikulacontentmodule'),
@@ -171,12 +152,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
         return $links;
     }
 
-    /**
-     * Returns the name of the providing bundle.
-     *
-     * @return string The bundle name
-     */
-    public function getBundleName()
+    public function getBundleName(): string
     {
         return 'ZikulaContentModule';
     }

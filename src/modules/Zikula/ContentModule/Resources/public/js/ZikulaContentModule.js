@@ -112,25 +112,25 @@ function zikulaContentInitMassToggle() {
  * Creates a dropdown menu for the item actions.
  */
 function zikulaContentInitItemActions(context) {
-    if (context == 'display') {
+    if ('display' === context) {
         jQuery('.btn-group-sm.item-actions').each(function (index) {
             var innerList;
             innerList = jQuery(this).children('ul.list-inline').first().detach();
             jQuery(this).append(innerList.find('a.btn'));
         });
     }
-    if (context == 'view') {
+    if ('view' === context) {
         var containerSelector;
         var containers;
         
         containerSelector = '';
-        if (context == 'view') {
+        if ('view' === context) {
             containerSelector = '.zikulacontentmodule-view';
-        } else if (context == 'display') {
+        } else if ('display' === context) {
             containerSelector = 'h2, h3';
         }
         
-        if (containerSelector == '') {
+        if ('' === containerSelector) {
             return;
         }
         

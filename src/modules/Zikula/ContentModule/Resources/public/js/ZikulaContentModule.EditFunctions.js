@@ -90,7 +90,7 @@ function zikulaContentInitEditForm(mode, entityId) {
     });
     editForm.submit(zikulaContentHandleFormSubmit);
 
-    if (mode != 'create') {
+    if ('create' !== mode) {
         zikulaContentTriggerFormValidation();
     }
 }

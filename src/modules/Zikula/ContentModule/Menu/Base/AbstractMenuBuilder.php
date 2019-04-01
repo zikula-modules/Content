@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -69,18 +72,6 @@ class AbstractMenuBuilder
      */
     protected $currentUserApi;
 
-    /**
-     * MenuBuilder constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param FactoryInterface $factory
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RequestStack $requestStack
-     * @param PermissionHelper $permissionHelper
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param LoggableHelper $loggableHelper
-     * @param CurrentUserApiInterface $currentUserApi
-     */
     public function __construct(
         TranslatorInterface $translator,
         FactoryInterface $factory,
@@ -101,27 +92,18 @@ class AbstractMenuBuilder
         $this->currentUserApi = $currentUserApi;
     }
 
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
 
     /**
      * Builds the item actions menu.
-     *
-     * @param array $options List of additional options
-     *
-     * @return ItemInterface The assembled menu
      */
-    public function createItemActionsMenu(array $options = [])
+    public function createItemActionsMenu(array $options = []): ItemInterface
     {
         $menu = $this->factory->createItem('itemActions');
-        if (!isset($options['entity']) || !isset($options['area']) || !isset($options['context'])) {
+        if (!isset($options['entity'], $options['area'], $options['context'])) {
             return $menu;
         }
 
@@ -131,7 +113,7 @@ class AbstractMenuBuilder
 
         // return empty menu for preview of deleted items
         $routeName = $this->requestStack->getMasterRequest()->get('_route');
-        if (stristr($routeName, 'displaydeleted')) {
+        if (false !== stripos($routeName, 'displaydeleted')) {
             return $menu;
         }
         $menu->setChildrenAttribute('class', 'list-inline item-actions');
@@ -141,9 +123,9 @@ class AbstractMenuBuilder
         $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
         if ($entity instanceof PageEntity) {
             $routePrefix = 'zikulacontentmodule_page_';
-            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
+            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId === $entity->getCreatedBy()->getUid();
         
-            if ($routeArea == 'admin') {
+            if ('admin' === $routeArea) {
                 $title = $this->__('Preview', 'zikulacontentmodule');
                 $previewRouteParameters = $entity->createUrlArgs();
                 $previewRouteParameters['preview'] = 1;
@@ -153,19 +135,19 @@ class AbstractMenuBuilder
                 ]);
                 $menu[$title]->setLinkAttribute('target', '_blank');
                 $menu[$title]->setLinkAttribute('title', $this->__('Open preview page', 'zikulacontentmodule'));
-                if ($context == 'display') {
+                if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-search-plus');
             }
-            if ($context != 'display') {
+            if ('display' !== $context) {
                 $title = $this->__('Details', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'display',
                     'routeParameters' => $entity->createUrlArgs()
                 ]);
                 $menu[$title]->setLinkAttribute('title', str_replace('"', '', $this->entityDisplayHelper->getFormattedTitle($entity)));
-                if ($context == 'display') {
+                if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-eye');
@@ -179,7 +161,7 @@ class AbstractMenuBuilder
                         'routeParameters' => $entity->createUrlArgs(true)
                     ]);
                     $menu[$title]->setLinkAttribute('title', $this->__('Edit this page', 'zikulacontentmodule'));
-                    if ($context == 'display') {
+                    if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
@@ -189,7 +171,7 @@ class AbstractMenuBuilder
                         'routeParameters' => ['astemplate' => $entity->getKey()]
                     ]);
                     $menu[$title]->setLinkAttribute('title', $this->__('Reuse for new page', 'zikulacontentmodule'));
-                    if ($context == 'display') {
+                    if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-files-o');
@@ -200,7 +182,7 @@ class AbstractMenuBuilder
                             'routeParameters' => ['parent' => $entity->getKey()]
                         ]);
                         $menu[$title]->setLinkAttribute('title', $this->__('Add a sub page to this page', 'zikulacontentmodule'));
-                        if ($context == 'display') {
+                        if ('display' === $context) {
                             $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                         }
                         $menu[$title]->setAttribute('icon', 'fa fa-child');
@@ -215,19 +197,19 @@ class AbstractMenuBuilder
                         'routeParameters' => $entity->createUrlArgs()
                     ]);
                     $menu[$title]->setLinkAttribute('title', $this->__('Watch version history', 'zikulacontentmodule'));
-                    if ($context == 'display') {
+                    if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-history');
                 }
             }
-            if ($context == 'display') {
+            if ('display' === $context) {
                 $title = $this->__('Pages list', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view'
                 ]);
                 $menu[$title]->setLinkAttribute('title', $title);
-                if ($context == 'display') {
+                if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-reply');
@@ -235,7 +217,7 @@ class AbstractMenuBuilder
         }
         if ($entity instanceof ContentItemEntity) {
             $routePrefix = 'zikulacontentmodule_contentitem_';
-            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId == $entity->getCreatedBy()->getUid();
+            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId === $entity->getCreatedBy()->getUid();
         
         }
 

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -24,33 +27,21 @@ abstract class AbstractPageLogEntryEntity extends AbstractLogEntry
     /**
      * Extended description of the executed action which produced this log entry.
      *
-     * @var string $actionDescription
-     *
+     * @var string
      * @ORM\Column(name="action_description", length=255)
      */
     protected $actionDescription = '';
     
-    /**
-     * Returns the action description.
-     *
-     * @return string
-     */
-    public function getActionDescription()
+    public function getActionDescription(): string
     {
         return $this->actionDescription;
     }
     
-    /**
-     * Sets the action description.
-     *
-     * @param string $actionDescription
-     *
-     * @return void
-     */
-    public function setActionDescription($actionDescription)
+    public function setActionDescription(string $actionDescription): void
     {
         if ($this->actionDescription !== $actionDescription) {
-            $this->actionDescription = isset($actionDescription) ? $actionDescription : '';
+            $this->actionDescription = $actionDescription ?? '';
         }
     }
+    
 }

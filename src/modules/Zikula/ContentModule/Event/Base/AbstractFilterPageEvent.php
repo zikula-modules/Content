@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -29,12 +32,6 @@ class AbstractFilterPageEvent extends Event
      */
     protected $entityChangeSet = [];
 
-    /**
-     * FilterPageEvent constructor.
-     *
-     * @param PageEntity $page Processed entity
-     * @param array $entityChangeSet Change set for preUpdate events
-     */
     public function __construct(PageEntity $page, array $entityChangeSet = [])
     {
         $this->page = $page;
@@ -42,21 +39,17 @@ class AbstractFilterPageEvent extends Event
     }
 
     /**
-     * Returns the entity.
-     *
      * @return PageEntity
      */
-    public function getPage()
+    public function getPage(): PageEntity
     {
         return $this->page;
     }
 
     /**
-     * Returns the change set.
-     *
      * @return array Entity change set
      */
-    public function getEntityChangeSet()
+    public function getEntityChangeSet(): array
     {
         return $this->entityChangeSet;
     }

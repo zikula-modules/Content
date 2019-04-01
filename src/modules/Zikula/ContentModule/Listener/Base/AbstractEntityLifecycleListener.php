@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -29,10 +32,7 @@ use Zikula\Common\Translator\Translator;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
-use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
-use Zikula\ContentModule\Event\FilterPageEvent;
-use Zikula\ContentModule\Event\FilterContentItemEvent;
 use Zikula\ContentModule\Listener\LoggableListener;
 
 /**
@@ -52,13 +52,6 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      */
     protected $logger;
 
-    /**
-     * EntityLifecycleListener constructor.
-     *
-     * @param ContainerInterface $container
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         ContainerInterface $container,
         EventDispatcherInterface $eventDispatcher,
@@ -94,10 +87,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * The preFlush event is called at EntityManager#flush() before anything else.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#preflush
-     *
-     * @param PreFlushEventArgs $args Event arguments
      */
-    public function preFlush(PreFlushEventArgs $args)
+    public function preFlush(PreFlushEventArgs $args): void
     {
         $this->activateCustomLoggableListener();
     }
@@ -107,10 +98,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * managed entities and their associations have been computed.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#onflush
-     *
-     * @param OnFlushEventArgs $args Event arguments
      */
-    public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $args): void
     {
     }
 
@@ -118,10 +107,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * The postFlush event is called at the end of EntityManager#flush().
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#postflush
-     *
-     * @param PostFlushEventArgs $args Event arguments
      */
-    public function postFlush(PostFlushEventArgs $args)
+    public function postFlush(PostFlushEventArgs $args): void
     {
     }
 
@@ -130,11 +117,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * remove operation for that entity is executed. It is not called for a DQL DELETE statement.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#preremove
-     *
-     * @param LifecycleEventArgs $args Event arguments
      */
-    public function preRemove(LifecycleEventArgs $args)
+    public function preRemove(LifecycleEventArgs $args): void
     {
+        /** @var EntityAccess $entity */
         $entity = $args->getObject();
         if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
             return;
@@ -143,9 +129,6 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $event = $this->createFilterEvent($entity);
         $this->eventDispatcher->dispatch(constant('\\Zikula\\ContentModule\\ContentEvents::' . strtoupper($entity->get_objectType()) . '_PRE_REMOVE'), $event);
-        if ($event->isPropagationStopped()) {
-            return false;
-        }
     }
 
     /**
@@ -157,11 +140,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * In this case, you should load yourself the proxy in the associated pre event.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#postupdate-postremove-postpersist
-     *
-     * @param LifecycleEventArgs $args Event arguments
      */
-    public function postRemove(LifecycleEventArgs $args)
+    public function postRemove(LifecycleEventArgs $args): void
     {
+        /** @var EntityAccess $entity */
         $entity = $args->getObject();
         if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
             return;
@@ -189,11 +171,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * This includes modifications to collections such as additions, removals or replacement.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#prepersist
-     *
-     * @param LifecycleEventArgs $args Event arguments
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
+        /** @var EntityAccess $entity */
         $entity = $args->getObject();
         if (!$this->isEntityManagedByThisBundle($entity) || (!method_exists($entity, 'get_objectType') && !$entity instanceof AbstractLogEntry)) {
             return;
@@ -201,7 +182,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         
         if ($entity instanceof AbstractLogEntry) {
             // check if a supported object has been undeleted
-            if ('create' != $entity->getAction()) {
+            if ('create' !== $entity->getAction()) {
                 return;
             }
         
@@ -218,7 +199,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         
             // set correct version after undeletion
             $logVersion = $entity->getVersion();
-            if ('page' == $object->get_objectType() && method_exists($object, 'getCurrentVersion')) {
+            if ('page' === $object->get_objectType() && method_exists($object, 'getCurrentVersion')) {
                 if ($logVersion < $object->getCurrentVersion()) {
                     $entity->setVersion($object->getCurrentVersion());
                 }
@@ -230,9 +211,6 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $event = $this->createFilterEvent($entity);
         $this->eventDispatcher->dispatch(constant('\\Zikula\\ContentModule\\ContentEvents::' . strtoupper($entity->get_objectType()) . '_PRE_PERSIST'), $event);
-        if ($event->isPropagationStopped()) {
-            return false;
-        }
     }
 
     /**
@@ -241,11 +219,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * are available in the postPersist event.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#postupdate-postremove-postpersist
-     *
-     * @param LifecycleEventArgs $args Event arguments
      */
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args): void
     {
+        /** @var EntityAccess $entity */
         $entity = $args->getObject();
         if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
             return;
@@ -267,11 +244,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * It is not called for a DQL UPDATE statement nor when the computed changeset is empty.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#preupdate
-     *
-     * @param PreUpdateEventArgs $args Event arguments
      */
-    public function preUpdate(PreUpdateEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
+        /** @var EntityAccess $entity */
         $entity = $args->getObject();
         if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
             return;
@@ -280,9 +256,6 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $event = $this->createFilterEvent($entity);
         $this->eventDispatcher->dispatch(constant('\\Zikula\\ContentModule\\ContentEvents::' . strtoupper($entity->get_objectType()) . '_PRE_UPDATE'), $event);
-        if ($event->isPropagationStopped()) {
-            return false;
-        }
     }
 
     /**
@@ -290,11 +263,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * It is not called for a DQL UPDATE statement.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#postupdate-postremove-postpersist
-     *
-     * @param LifecycleEventArgs $args Event arguments
      */
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(LifecycleEventArgs $args): void
     {
+        /** @var EntityAccess $entity */
         $entity = $args->getObject();
         if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
             return;
@@ -321,11 +293,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * and postLoad event handlers.
      *
      * @see https://www.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html#postload
-     *
-     * @param LifecycleEventArgs $args Event arguments
      */
-    public function postLoad(LifecycleEventArgs $args)
+    public function postLoad(LifecycleEventArgs $args): void
     {
+        /** @var EntityAccess $entity */
         $entity = $args->getObject();
         if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
             return;
@@ -340,42 +311,33 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
      * Checks whether this listener is responsible for the given entity or not.
      *
      * @param EntityAccess $entity The given entity
-     *
-     * @return boolean True if entity is managed by this listener, false otherwise
      */
-    protected function isEntityManagedByThisBundle($entity)
+    protected function isEntityManagedByThisBundle($entity): bool
     {
         $entityClassParts = explode('\\', get_class($entity));
 
-        if ('DoctrineProxy' == $entityClassParts[0] && '__CG__' == $entityClassParts[1]) {
+        if ('DoctrineProxy' === $entityClassParts[0] && '__CG__' === $entityClassParts[1]) {
             array_shift($entityClassParts);
             array_shift($entityClassParts);
         }
 
-        return ('Zikula' == $entityClassParts[0] && 'ContentModule' == $entityClassParts[1]);
+        return 'Zikula' === $entityClassParts[0] && 'ContentModule' === $entityClassParts[1];
     }
 
     /**
      * Returns a filter event instance for the given entity.
-     *
-     * @param EntityAccess $entity The given entity
-     *
-     * @return Event The created event instance
      */
-    protected function createFilterEvent($entity)
+    protected function createFilterEvent(EntityAccess $entity): Event
     {
         $filterEventClass = '\\Zikula\\ContentModule\\Event\\Filter' . ucfirst($entity->get_objectType()) . 'Event';
-        $event = new $filterEventClass($entity);
 
-        return $event;
+        return new $filterEventClass($entity);
     }
 
     /**
      * Purges the version history as configured.
-     *
-     * @param string $objectType The object type
      */
-    protected function purgeHistory($objectType = '')
+    protected function purgeHistory( string$objectType = ''): void
     {
         if (!in_array($objectType, ['page'])) {
             return;
@@ -387,9 +349,9 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
 
         $revisionHandling = $variableApi->get('ZikulaContentModule', 'revisionHandlingFor' . $objectTypeCapitalised, 'unlimited');
         $limitParameter = '';
-        if ('limitedByAmount' == $revisionHandling) {
+        if ('limitedByAmount' === $revisionHandling) {
             $limitParameter = $variableApi->get('ZikulaContentModule', 'maximumAmountOf' . $objectTypeCapitalised . 'Revisions', 25);
-        } elseif ('limitedByDate' == $revisionHandling) {
+        } elseif ('limitedByDate' === $revisionHandling) {
             $limitParameter = $variableApi->get('ZikulaContentModule', 'periodFor' . $objectTypeCapitalised . 'Revisions', 'P1Y0M0DT0H0M0S');
         }
 
@@ -400,7 +362,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     /**
      * Enables the custom loggable listener.
      */
-    protected function activateCustomLoggableListener()
+    protected function activateCustomLoggableListener(): void
     {
         $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
         $eventManager = $entityManager->getEventManager();
@@ -409,7 +371,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $hasLoggableActivated = false;
         foreach ($eventManager->getListeners() as $event => $listeners) {
             foreach ($listeners as $hash => $listener) {
-                if (is_object($listener) && 'Gedmo\Loggable\LoggableListener' == get_class($listener)) {
+                if (is_object($listener) && 'Gedmo\Loggable\LoggableListener' === get_class($listener)) {
                     $eventManager->removeEventSubscriber($listener);
                     $hasLoggableActivated = true;
                     break 2;

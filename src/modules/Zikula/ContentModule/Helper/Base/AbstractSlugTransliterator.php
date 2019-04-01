@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -22,13 +25,8 @@ abstract class AbstractSlugTransliterator
 {
     /**
      * Transliterates a given text.
-     *
-     * @param string $text
-     * @param string $separator
-     *
-     * @return string
      */
-    public static function transliterate($text, $separator = '-')
+    public static function transliterate($text, $separator = '-'): string
     {
         $text = Urlizer::unaccent($text);
 

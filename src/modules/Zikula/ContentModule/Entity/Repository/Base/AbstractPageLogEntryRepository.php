@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,6 +14,8 @@
 
 namespace Zikula\ContentModule\Entity\Repository\Base;
 
+use DateInterval;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
 use Gedmo\Loggable\LoggableListener;
@@ -24,12 +29,8 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
 {
     /**
      * Selects all log entries for removals to determine deleted pages.
-     *
-     * @param integer $limit The maximum amount of items to fetch
-     *
-     * @return ArrayCollection Collection containing retrieved items
      */
-    public function selectDeleted($limit = null)
+    public function selectDeleted(int $limit = null): array
     {
         $objectClass = str_replace('LogEntry', '', $this->_entityName);
     
@@ -62,11 +63,11 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
      * Removes (or rather conflates) all obsolete log entries.
      *
      * @param string $revisionHandling The currently configured revision handling mode
-     * @param string $limitParameter   Optional parameter for limitation (maximum revision amount or date interval)
+     * @param string $limitParameter Optional parameter for limitation (maximum revision amount or date interval)
      */
-    public function purgeHistory($revisionHandling = 'unlimited', $limitParameter = '')
+    public function purgeHistory(string $revisionHandling = 'unlimited', string $limitParameter = ''): void
     {
-        if ('unlimited' == $revisionHandling || !in_array($revisionHandling, ['limitedByAmount', 'limitedByDate'])) {
+        if ('unlimited' === $revisionHandling || !in_array($revisionHandling, ['limitedByAmount', 'limitedByDate'], true)) {
             // nothing to do
             return;
         }
@@ -84,8 +85,8 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
         ;
     
         $logAmountMap = [];
-        if ('limitedByAmount' == $revisionHandling) {
-            $limitParameter = intval($limitParameter);
+        if ('limitedByAmount' === $revisionHandling) {
+            $limitParameter = (int)$limitParameter;
             if (!$limitParameter) {
                 $limitParameter = 25;
             }
@@ -109,12 +110,12 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
             $qb->andWhere('log.objectId IN (:identifiers)')
                ->setParameter('identifiers', $identifiers)
             ;
-        } elseif ('limitedByDate' == $revisionHandling) {
+        } elseif ('limitedByDate' === $revisionHandling) {
             if (!$limitParameter) {
                 $limitParameter = 'P1Y0M0DT0H0M0S';
             }
-            $thresholdDate = new \DateTime(date('Ymd'));
-            $thresholdDate->sub(new \DateInterval($limitParameter));
+            $thresholdDate = new DateTime(date('Ymd'));
+            $thresholdDate->sub(new DateInterval($limitParameter));
     
             $qb->andWhere('log.loggedAt <= :thresholdDate')
                ->setParameter('thresholdDate', $thresholdDate)
@@ -132,7 +133,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
         }
     
         $entityManager = $this->getEntityManager();
-        $keepPerObject = 'limitedByAmount' == $revisionHandling ? $limitParameter : -1;
+        $keepPerObject = 'limitedByAmount' === $revisionHandling ? $limitParameter : -1;
         $thresholdForObject = 0;
         $counterPerObject = 0;
     
@@ -143,7 +144,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
         foreach ($result as $logEntry) {
             // step 2 - conflate data arrays
             $objectId = $logEntry->getObjectId();
-            if ($lastObjectId != $objectId) {
+            if ($lastObjectId !== $objectId) {
                 if ($lastObjectId > 0) {
                     if (count($dataForObject)) {
                         // write conflated data into last obsolete version (which will be kept)
@@ -160,7 +161,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
                 $dataForObject = $logEntry->getData();
             } else {
                 // we have a another log entry for the same object
-                if ($keepPerObject < 0 || $counterPerObject < $thresholdForObject) {
+                if (0 > $keepPerObject || $counterPerObject < $thresholdForObject) {
                     if (null !== $logEntry->getData()) {
                         $dataForObject = array_merge($dataForObject, $logEntry->getData());
                     }
@@ -170,7 +171,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
             }
     
             $lastObjectId = $objectId;
-            if ($keepPerObject < 0 || $counterPerObject < $thresholdForObject) {
+            if (0 > $keepPerObject || $counterPerObject < $thresholdForObject) {
                 $lastLogEntry = $logEntry;
             }
             $counterPerObject++;

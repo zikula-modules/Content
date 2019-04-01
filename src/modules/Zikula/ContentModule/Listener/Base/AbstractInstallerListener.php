@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -26,29 +29,21 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      */
     protected $exampleDataHelper;
     
-    /**
-     * InstallerListener constructor.
-     *
-     * @param ExampleDataHelper $exampleDataHelper
-     */
     public function __construct(
         ExampleDataHelper $exampleDataHelper
     ) {
         $this->exampleDataHelper = $exampleDataHelper;
     }
     
-    /**
-     * Makes our handlers known to the event system.
-     */
     public static function getSubscribedEvents()
     {
         return [
-            CoreEvents::MODULE_INSTALL             => ['moduleInstalled', 5],
-            CoreEvents::MODULE_POSTINSTALL         => ['modulePostInstalled', 5],
-            CoreEvents::MODULE_UPGRADE             => ['moduleUpgraded', 5],
-            CoreEvents::MODULE_ENABLE              => ['moduleEnabled', 5],
-            CoreEvents::MODULE_DISABLE             => ['moduleDisabled', 5],
-            CoreEvents::MODULE_REMOVE              => ['moduleRemoved', 5]
+            CoreEvents::MODULE_INSTALL     => ['moduleInstalled', 5],
+            CoreEvents::MODULE_POSTINSTALL => ['modulePostInstalled', 5],
+            CoreEvents::MODULE_UPGRADE     => ['moduleUpgraded', 5],
+            CoreEvents::MODULE_ENABLE      => ['moduleEnabled', 5],
+            CoreEvents::MODULE_DISABLE     => ['moduleDisabled', 5],
+            CoreEvents::MODULE_REMOVE      => ['moduleRemoved', 5]
         ];
     }
     
@@ -64,9 +59,8 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param ModuleStateEvent $event The event instance
      */
-    public function moduleInstalled(ModuleStateEvent $event)
+    public function moduleInstalled(ModuleStateEvent $event): void
     {
     }
     
@@ -82,16 +76,15 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param ModuleStateEvent $event The event instance
      */
-    public function modulePostInstalled(ModuleStateEvent $event)
+    public function modulePostInstalled(ModuleStateEvent $event): void
     {
         $module = $event->getModule();
         if (null === $module) {
             return;
         }
     
-        if ($module->getName() === 'ZikulaContentModule') {
+        if ('ZikulaContentModule' === $module->getName()) {
             $this->exampleDataHelper->createDefaultData();
         }
     }
@@ -108,9 +101,8 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param ModuleStateEvent $event The event instance
      */
-    public function moduleUpgraded(ModuleStateEvent $event)
+    public function moduleUpgraded(ModuleStateEvent $event): void
     {
     }
     
@@ -126,9 +118,8 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param ModuleStateEvent $event The event instance
      */
-    public function moduleEnabled(ModuleStateEvent $event)
+    public function moduleEnabled(ModuleStateEvent $event): void
     {
     }
     
@@ -144,9 +135,8 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param ModuleStateEvent $event The event instance
      */
-    public function moduleDisabled(ModuleStateEvent $event)
+    public function moduleDisabled(ModuleStateEvent $event): void
     {
     }
     
@@ -162,9 +152,8 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
-     * @param ModuleStateEvent $event The event instance
      */
-    public function moduleRemoved(ModuleStateEvent $event)
+    public function moduleRemoved(ModuleStateEvent $event): void
     {
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -40,12 +43,6 @@ abstract class AbstractConfigType extends AbstractType
      */
     protected $listHelper;
 
-    /**
-     * ConfigType constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param ListEntriesHelper $listHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         ListEntriesHelper $listHelper
@@ -54,19 +51,11 @@ abstract class AbstractConfigType extends AbstractType
         $this->listHelper = $listHelper;
     }
 
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addGeneralSettingsFields($builder, $options);
@@ -83,11 +72,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for general settings fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addGeneralSettingsFields(FormBuilderInterface $builder, array $options = [])
+    public function addGeneralSettingsFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $listEntries = $this->listHelper->getEntries('appSettings', 'stateOfNewPages');
@@ -202,11 +188,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for custom styles fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addCustomStylesFields(FormBuilderInterface $builder, array $options = [])
+    public function addCustomStylesFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $builder->add('pageStyles', TextareaType::class, [
@@ -260,11 +243,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for additional fields fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addAdditionalFieldsFields(FormBuilderInterface $builder, array $options = [])
+    public function addAdditionalFieldsFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $builder->add('enableOptionalString1', CheckboxType::class, [
@@ -312,11 +292,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for permalinks fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addPermalinksFields(FormBuilderInterface $builder, array $options = [])
+    public function addPermalinksFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $builder->add('ignoreBundleNameInRoutes', CheckboxType::class, [
@@ -385,11 +362,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for list views fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addListViewsFields(FormBuilderInterface $builder, array $options = [])
+    public function addListViewsFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $builder->add('pageEntriesPerPage', IntegerType::class, [
@@ -454,11 +428,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for moderation fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addModerationFields(FormBuilderInterface $builder, array $options = [])
+    public function addModerationFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $builder->add('allowModerationSpecificCreatorForPage', CheckboxType::class, [
@@ -492,11 +463,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for integration fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addIntegrationFields(FormBuilderInterface $builder, array $options = [])
+    public function addIntegrationFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $listEntries = $this->listHelper->getEntries('appSettings', 'enabledFinderTypes');
@@ -529,11 +497,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds fields for versioning fields.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addVersioningFields(FormBuilderInterface $builder, array $options = [])
+    public function addVersioningFields(FormBuilderInterface $builder, array $options = []): void
     {
         
         $listEntries = $this->listHelper->getEntries('appSettings', 'revisionHandlingForPage');
@@ -637,11 +602,8 @@ abstract class AbstractConfigType extends AbstractType
 
     /**
      * Adds submit buttons.
-     *
-     * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The options
      */
-    public function addSubmitButtons(FormBuilderInterface $builder, array $options = [])
+    public function addSubmitButtons(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('save', SubmitType::class, [
             'label' => $this->__('Update configuration'),
@@ -668,17 +630,11 @@ abstract class AbstractConfigType extends AbstractType
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_config';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver

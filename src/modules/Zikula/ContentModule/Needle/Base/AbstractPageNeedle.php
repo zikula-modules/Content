@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -13,6 +16,7 @@ namespace Zikula\ContentModule\Needle\Base;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Zikula\Common\MultiHook\NeedleInterface;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
@@ -21,11 +25,9 @@ use Zikula\ContentModule\Helper\PermissionHelper;
 /**
  * PageNeedle base class.
  */
-abstract class AbstractPageNeedle
+abstract class AbstractPageNeedle implements NeedleInterface
 {
     /**
-     * Translator instance
-     *
      * @var TranslatorInterface
      */
     protected $translator;
@@ -64,15 +66,6 @@ abstract class AbstractPageNeedle
      */
     protected $name;
     
-    /**
-     * PageNeedle constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param RouterInterface $router
-     * @param PermissionHelper $permissionHelper
-    * @param EntityFactory $entityFactory
-    * @param EntityDisplayHelper $entityDisplayHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         RouterInterface $router,
@@ -94,105 +87,50 @@ abstract class AbstractPageNeedle
         $this->name = str_replace('Needle', '', array_pop($nsParts));
     }
     
-    /**
-     * Returns the bundle name.
-     *
-     * @return string
-     */
-    public function getBundleName()
-    {
-        return $this->bundleName;
-    }
-    
-    /**
-     * Returns the name of this needle.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
     
-    /**
-     * Returns the icon name (FontAwesome icon code suffix, e.g. "pencil").
-     *
-     * @return string
-     */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'circle-o';
     }
     
-    /**
-     * Returns the title of this needle.
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->translator->__('Pages', 'zikulacontentmodule');
     }
     
-    /**
-     * Returns the description of this needle.
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->translator->__('Links to the list of pages and specific pages.', 'zikulacontentmodule');
     }
     
-    /**
-     * Returns usage information shown on settings page.
-     *
-     * @return string
-     */
-    public function getUsageInfo()
+    public function getUsageInfo(): string
     {
         return 'CONTENT{PAGES|PAGE-pageId}';
     }
     
-    /**
-     * Returns whether this needle is active or not.
-     *
-     * @return boolean
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return true;
     }
     
-    /**
-     * Returns whether this needle is case sensitive or not.
-     *
-     * @return boolean
-     */
-    public function isCaseSensitive()
+    public function isCaseSensitive(): bool
     {
         return true;
     }
     
-    /**
-     * Returns the needle subject entries.
-     *
-     * @return string[]
-     */
-    public function getSubjects()
+    public function getSubjects(): array
     {
         return ['CONTENTPAGES', 'CONTENTPAGE-'];
     }
     
     /**
      * Applies the needle functionality.
-     *
-     * @param string $needleId
-     * @param string $needleText
-     *
-     * @return string Replaced value for the needle
      */
-    public function apply($needleId, $needleText)
+    public function apply(string $needleId, string $needleText): string
     {
         // cache the results
         static $cache;
@@ -208,7 +146,7 @@ abstract class AbstractPageNeedle
         // strip application prefix from needle
         $needleText = str_replace('CONTENT', '', $needleText);
     
-        if ('PAGES' == $needleText) {
+        if ('PAGES' === $needleText) {
             if (!$this->permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
                 $cache[$needleId] = '';
             } else {
@@ -218,7 +156,7 @@ abstract class AbstractPageNeedle
             return $cache[$needleId];
         }
     
-        $entityId = intval($needleId);
+        $entityId = (int)$needleId;
         if (!$entityId) {
             $cache[$needleId] = '';
     
@@ -243,5 +181,10 @@ abstract class AbstractPageNeedle
         $cache[$needleId] = '<a href="' . $this->router->generate('zikulacontentmodule_page_display', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL) . '" title="' . str_replace('"', '', $title) . '">' . $title . '</a>';
     
         return $cache[$needleId];
+    }
+    
+    public function getBundleName(): string
+    {
+        return $this->bundleName;
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -34,17 +37,6 @@ abstract class AbstractExternalController extends AbstractController
     /**
      * Displays one item of a certain object type using a separate template for external usages.
      *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     * @param EntityFactory $entityFactory
-     * @param ViewHelper $viewHelper
-     * @param string $objectType The currently treated object type
-     * @param int $id Identifier of the entity to be shown
-     * @param string $source Source of this call (block, contentType, scribite)
-     * @param string $displayMode Display mode (link or embed)
-     *
-     * @return string Desired data output
      */
     public function displayAction(
         Request $request,
@@ -52,14 +44,14 @@ abstract class AbstractExternalController extends AbstractController
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         ViewHelper $viewHelper,
-        $objectType,
-        $id,
-        $source,
-        $displayMode
-    )
+        string $objectType,
+        int $id,
+        string $source,
+        string $displayMode
+    ): Response
      {
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
-        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs))) {
+        if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs), true)) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
         }
         
@@ -75,8 +67,8 @@ abstract class AbstractExternalController extends AbstractController
             return new Response('');
         }
         
-        $template = $request->query->has('template') ? $request->query->get('template', null) : null;
-        if (null === $template || '' == $template) {
+        $template = $request->query->get('template');
+        if (null === $template || '' === $template) {
             $template = 'display.html.twig';
         }
         
@@ -99,25 +91,6 @@ abstract class AbstractExternalController extends AbstractController
      * Popup selector for Scribite plugins.
      * Finds items of a certain object type.
      *
-     * @param Request $request
-     * @param ControllerHelper $controllerHelper
-     * @param PermissionHelper $permissionHelper
-     * @param EntityFactory $entityFactory
-     * @param CollectionFilterHelper $collectionFilterHelper
-     * @param ListEntriesHelper $listEntriesHelper
-     * @param CategoryHelper $categoryHelper
-     * @param FeatureActivationHelper $featureActivationHelper
-     * @param ViewHelper $viewHelper
-     * @param Asset $assetHelper
-     * @param string $objectType The object type
-     * @param string $editor Name of used Scribite editor
-     * @param string $sort Sorting field
-     * @param string $sortdir Sorting direction
-     * @param int $pos Current pager position
-     * @param int $num Amount of entries to display
-     *
-     * @return output The external item finder page
-     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
     public function finderAction(
@@ -131,16 +104,16 @@ abstract class AbstractExternalController extends AbstractController
         FeatureActivationHelper $featureActivationHelper,
         ViewHelper $viewHelper,
         Asset $assetHelper,
-        $objectType,
-        $editor,
-        $sort,
-        $sortdir,
-        $pos = 1,
-        $num = 0
-    )
+        string $objectType,
+        string $editor,
+        string $sort,
+        string $sortdir,
+        int $pos = 1,
+        int $num = 0
+    ): Response
      {
         $activatedObjectTypes = $listEntriesHelper->extractMultiList($this->getVar('enabledFinderTypes', ''));
-        if (!in_array($objectType, $activatedObjectTypes)) {
+        if (!in_array($objectType, $activatedObjectTypes, true)) {
             if (!count($activatedObjectTypes)) {
                 throw new AccessDeniedException();
             }
@@ -155,7 +128,7 @@ abstract class AbstractExternalController extends AbstractController
             throw new AccessDeniedException();
         }
         
-        if (empty($editor) || !in_array($editor, ['ckeditor', 'quill', 'summernote', 'tinymce'])) {
+        if (empty($editor) || !in_array($editor, ['ckeditor', 'quill', 'summernote', 'tinymce'], true)) {
             return new Response($this->__('Error: Invalid editor context given for external controller action.'));
         }
         
@@ -164,21 +137,21 @@ abstract class AbstractExternalController extends AbstractController
         $cssAssetBag->add([$assetHelper->resolve('@ZikulaContentModule:css/custom.css') => 120]);
         
         $repository = $entityFactory->getRepository($objectType);
-        if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields())) {
+        if (empty($sort) || !in_array($sort, $repository->getAllowedSortingFields(), true)) {
             $sort = $repository->getDefaultSortingField();
         }
         
         $sdir = strtolower($sortdir);
-        if ($sdir != 'asc' && $sdir != 'desc') {
+        if ('asc' !== $sdir && 'desc' !== $sdir) {
             $sdir = 'asc';
         }
         
         // the current offset which is used to calculate the pagination
-        $currentPage = (int) $pos;
+        $currentPage = $pos;
         
         // the number of items displayed on a page for pagination
-        $resultsPerPage = (int) $num;
-        if ($resultsPerPage == 0) {
+        $resultsPerPage = $num;
+        if (0 === $resultsPerPage) {
             $resultsPerPage = $this->getVar($objectType . 'EntriesPerPage', 20);
         }
         
@@ -213,14 +186,14 @@ abstract class AbstractExternalController extends AbstractController
         
         $qb = $repository->getListQueryBuilder($where, $orderBy);
         
-        if ('' != $searchTerm) {
+        if ('' !== $searchTerm) {
             $qb = $this->$collectionFilterHelper->addSearchFilter($objectType, $qb, $searchTerm);
         }
         $query = $repository->getQueryFromBuilder($qb);
         
         list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
         
-        if (in_array($objectType, ['page'])) {
+        if (in_array($objectType, ['page'], true)) {
             if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
                 $entities = $categoryHelper->filterEntitiesByPermission($entities);
             }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -19,51 +22,46 @@ abstract class AbstractFeatureActivationHelper
     /**
      * Categorisation feature
      */
-    const CATEGORIES = 'categories';
+    public const CATEGORIES = 'categories';
     
     /**
      * Translation feature
      */
-    const TRANSLATIONS = 'translations';
+    public const TRANSLATIONS = 'translations';
     
     /**
      * Tree relatives feature
      */
-    const TREE_RELATIVES = 'treeRelatives';
+    public const TREE_RELATIVES = 'treeRelatives';
     
     /**
      * This method checks whether a certain feature is enabled for a given entity type or not.
-     *
-     * @param string $feature     Name of requested feature
-     * @param string $objectType  Currently treated entity type
-     *
-     * @return boolean True if the feature is enabled, false otherwise
      */
-    public function isEnabled($feature, $objectType)
+    public function isEnabled(string $feature = '', string $objectType = ''): bool
     {
-        if (self::CATEGORIES == $feature) {
+        if (self::CATEGORIES === $feature) {
             $method = 'hasCategories';
             if (method_exists($this, $method)) {
                 return $this->$method($objectType);
             }
     
-            return in_array($objectType, ['page']);
+            return in_array($objectType, ['page'], true);
         }
-        if (self::TRANSLATIONS == $feature) {
+        if (self::TRANSLATIONS === $feature) {
             $method = 'hasTranslations';
             if (method_exists($this, $method)) {
                 return $this->$method($objectType);
             }
     
-            return in_array($objectType, ['page', 'contentItem']);
+            return in_array($objectType, ['page', 'contentItem'], true);
         }
-        if (self::TREE_RELATIVES == $feature) {
+        if (self::TREE_RELATIVES === $feature) {
             $method = 'hasTreeRelatives';
             if (method_exists($this, $method)) {
                 return $this->$method($objectType);
             }
     
-            return in_array($objectType, ['page']);
+            return in_array($objectType, ['page'], true);
         }
     
         return false;

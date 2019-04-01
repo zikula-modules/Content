@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -12,6 +15,7 @@
 namespace Zikula\ContentModule\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Zikula\ThemeModule\Engine\Asset;
 use Zikula\ContentModule\Controller\Base\AbstractExternalController;
@@ -45,11 +49,11 @@ class ExternalController extends AbstractExternalController
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         ViewHelper $viewHelper,
-        $objectType,
-        $id,
-        $source,
-        $displayMode
-    )
+        string $objectType,
+        int $id,
+        string $source,
+        string $displayMode
+    ): Response
      {
         return parent::displayAction($request, $controllerHelper, $permissionHelper, $entityFactory, $viewHelper, $objectType, $id, $source, $displayMode);
     }
@@ -74,13 +78,13 @@ class ExternalController extends AbstractExternalController
         FeatureActivationHelper $featureActivationHelper,
         ViewHelper $viewHelper,
         Asset $assetHelper,
-        $objectType,
-        $editor,
-        $sort,
-        $sortdir,
-        $pos = 1,
-        $num = 0
-    )
+        string $objectType,
+        string $editor,
+        string $sort,
+        string $sortdir,
+        int $pos = 1,
+        int $num = 0
+    ): Response
      {
         return parent::finderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $collectionFilterHelper, $listEntriesHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $assetHelper, $objectType, $editor, $sort, $sortdir, $pos, $num);
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,6 +14,7 @@
 
 namespace Zikula\ContentModule\Entity\Factory\Base;
 
+use DateTime;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
@@ -31,12 +35,6 @@ abstract class AbstractEntityInitialiser
      */
     protected $listEntriesHelper;
 
-    /**
-     * EntityInitialiser constructor.
-     *
-     * @param PermissionHelper $permissionHelper
-     * @param ListEntriesHelper $listEntriesHelper
-     */
     public function __construct(
         PermissionHelper $permissionHelper,
         ListEntriesHelper $listEntriesHelper
@@ -47,12 +45,8 @@ abstract class AbstractEntityInitialiser
 
     /**
      * Initialises a given page instance.
-     *
-     * @param PageEntity $entity The newly created entity instance
-     *
-     * @return PageEntity The updated entity instance
      */
-    public function initPage(PageEntity $entity)
+    public function initPage(PageEntity $entity): PageEntity
     {
         $listEntries = $this->listEntriesHelper->getEntries('page', 'scope');
         $items = [];
@@ -68,12 +62,8 @@ abstract class AbstractEntityInitialiser
 
     /**
      * Initialises a given contentItem instance.
-     *
-     * @param ContentItemEntity $entity The newly created entity instance
-     *
-     * @return ContentItemEntity The updated entity instance
      */
-    public function initContentItem(ContentItemEntity $entity)
+    public function initContentItem(ContentItemEntity $entity): ContentItemEntity
     {
         $listEntries = $this->listEntriesHelper->getEntries('contentItem', 'scope');
         $items = [];
@@ -87,26 +77,14 @@ abstract class AbstractEntityInitialiser
         return $entity;
     }
 
-    /**
-     * Returns the list entries helper.
-     *
-     * @return ListEntriesHelper
-     */
-    public function getListEntriesHelper()
+    public function getListEntriesHelper(): ?ListEntriesHelper
     {
         return $this->listEntriesHelper;
     }
     
-    /**
-     * Sets the list entries helper.
-     *
-     * @param ListEntriesHelper $listEntriesHelper
-     *
-     * @return void
-     */
-    public function setListEntriesHelper($listEntriesHelper)
+    public function setListEntriesHelper(ListEntriesHelper $listEntriesHelper = null): void
     {
-        if ($this->listEntriesHelper != $listEntriesHelper) {
+        if ($this->listEntriesHelper !== $listEntriesHelper) {
             $this->listEntriesHelper = $listEntriesHelper;
         }
     }

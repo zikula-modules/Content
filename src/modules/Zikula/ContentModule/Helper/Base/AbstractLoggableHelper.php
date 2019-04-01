@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -12,6 +15,7 @@
 namespace Zikula\ContentModule\Helper\Base;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Common\Proxy\Proxy;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Exception;
@@ -52,15 +56,6 @@ abstract class AbstractLoggableHelper
      */
     protected $translatableHelper;
     
-    /**
-     * LoggableHelper constructor.
-     *
-     * @param TranslatorInterface $translator
-     * @param EntityFactory $entityFactory
-     * @param EntityDisplayHelper $entityDisplayHelper
-     * @param EntityLifecycleListener $entityLifecycleListener
-     * @param TranslatableHelper $translatableHelper
-     */
     public function __construct(
         TranslatorInterface $translator,
         EntityFactory $entityFactory,
@@ -75,25 +70,15 @@ abstract class AbstractLoggableHelper
         $this->translatableHelper = $translatableHelper;
     }
     
-    /**
-     * Sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
     
     /**
      * Determines template parameters for diff view.
-     *
-     * @param array $logEntries List of log entries for currently treated entity instance
-     * @param array $versions   List of desired version numbers
-     *
-     * @return array
      */
-    public function determineDiffViewParameters($logEntries, $versions)
+    public function determineDiffViewParameters(array $logEntries, array $versions): array
     {
         $minVersion = $maxVersion = 0;
         if ($versions[0] < $versions[1]) {
@@ -123,7 +108,7 @@ abstract class AbstractLoggableHelper
                     $diffValues[$field]['new'] = $value;
                 } elseif ($logEntry->getVersion() <= $maxVersion) {
                     $diffValues[$field]['new'] = $value;
-                    $diffValues[$field]['changed'] = $diffValues[$field]['new'] != $diffValues[$field]['old'];
+                    $diffValues[$field]['changed'] = $diffValues[$field]['new'] !== $diffValues[$field]['old'];
                 }
             }
         }
@@ -133,28 +118,20 @@ abstract class AbstractLoggableHelper
     
     /**
      * Return name of the version field for the given object type.
-     *
-     * @param string $objectType Currently treated entity type
-     *
-     * @return string|null
      */
-    public function getVersionFieldName($objectType = '')
+    public function getVersionFieldName(string $objectType = ''): ?string
     {
         $versionFieldMap = [
             'page' => 'currentVersion',
         ];
     
-        return isset($versionFieldMap[$objectType]) ? $versionFieldMap[$objectType] : null;
+        return $versionFieldMap[$objectType] ?? null;
     }
     
     /**
      * Checks whether a history may be shown for the given entity instance.
-     *
-     * @param EntityAccess $entity Currently treated entity instance
-     *
-     * @return boolean
      */
-    public function hasHistoryItems($entity)
+    public function hasHistoryItems(EntityAccess $entity): bool
     {
         $objectType = $entity->get_objectType();
         $versionFieldName = $this->getVersionFieldName($objectType);
@@ -162,7 +139,7 @@ abstract class AbstractLoggableHelper
         if (null !== $versionFieldName) {
             $versionGetter = 'get' . ucfirst($versionFieldName);
     
-            return $entity->$versionGetter() > 1;
+            return 1 < $entity->$versionGetter();
         }
     
         // alternative (with worse performance)
@@ -170,32 +147,24 @@ abstract class AbstractLoggableHelper
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
         $logEntries = $logEntriesRepository->getLogEntries($entity);
     
-        return count($logEntries) > 1;
+        return 1 < count($logEntries);
     }
     
     /**
      * Checks whether deleted entities exist for the given object type.
-     *
-     * @param string $objectType Currently treated entity type
-     *
-     * @return boolean
      */
-    public function hasDeletedEntities($objectType = '')
+    public function hasDeletedEntities(string $objectType = ''): bool
     {
         $entityManager = $this->entityFactory->getEntityManager();
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
     
-        return count($logEntriesRepository->selectDeleted(1)) > 0;
+        return 0 < count($logEntriesRepository->selectDeleted(1));
     }
     
     /**
      * Returns deleted entities for the given object type.
-     *
-     * @param string $objectType Currently treated entity type
-     *
-     * @return array
      */
-    public function getDeletedEntities($objectType = '')
+    public function getDeletedEntities(string $objectType = ''): array
     {
         $entityManager = $this->entityFactory->getEntityManager();
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
@@ -205,21 +174,15 @@ abstract class AbstractLoggableHelper
     
     /**
      * Sets the given entity to back to a specific version.
-     *
-     * @param EntityAccess $entity           Currently treated entity instance
-     * @param integer      $requestedVersion Target version
-     * @param boolean      $detach           Whether to detach the entity or not
-     *
-     * @return EntityAccess The reverted entity instance
      */
-    public function revert($entity, $requestedVersion = 1, $detach = false)
+    public function revert(EntityAccess $entity, int $requestedVersion = 1, bool $detach = false): EntityAccess
     {
         $entityManager = $this->entityFactory->getEntityManager();
         $objectType = $entity->get_objectType();
     
         $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
         $logEntries = $logEntriesRepository->getLogEntries($entity);
-        if (count($logEntries) < 2) {
+        if (2 > count($logEntries)) {
             return $entity;
         }
     
@@ -230,20 +193,13 @@ abstract class AbstractLoggableHelper
             $entityManager->detach($entity);
         }
     
-        $entity = $this->revertPostProcess($entity);
-    
-        return $entity;
+        return $this->revertPostProcess($entity);
     }
     
     /**
      * Resets a deleted entity back to the last version before it's deletion.
-     *
-     * @param string  $objectType Currently treated entity type
-     * @param integer $id         The entity's identifier
-     *
-     * @return EntityAccess|null The restored entity instance
      */
-    public function restoreDeletedEntity($objectType = '', $id = 0)
+    public function restoreDeletedEntity(string $objectType = '', int $id = 0): ?EntityAccess
     {
         if (!$id) {
             return null;
@@ -260,7 +216,7 @@ abstract class AbstractLoggableHelper
         $logEntries = $logEntriesRepository->getLogEntries($entity);
         $lastVersionBeforeDeletion = null;
         foreach ($logEntries as $logEntry) {
-            if (LoggableListener::ACTION_REMOVE != $logEntry->getAction()) {
+            if (LoggableListener::ACTION_REMOVE !== $logEntry->getAction()) {
                 $lastVersionBeforeDeletion = $logEntry->getVersion();
                 break;
             }
@@ -280,35 +236,29 @@ abstract class AbstractLoggableHelper
     
         $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_RESTORED|%version=' . $lastVersionBeforeDeletion);
     
-        $entity = $this->revertPostProcess($entity);
-    
-        return $entity;
+        return $this->revertPostProcess($entity);
     }
     
     /**
      * Performs actions after reverting an entity to a previous revision.
-     *
-     * @param EntityAccess $entity Currently treated entity instance
-     *
-     * @return EntityAccess The processed entity instance
      */
-    protected function revertPostProcess($entity)
+    protected function revertPostProcess(EntityAccess $entity): EntityAccess
     {
         $objectType = $entity->get_objectType();
     
-        if (in_array($objectType, ['page'])) {
+        if (in_array($objectType, ['page'], true)) {
             // check if parent is still valid
             $repository = $this->entityFactory->getRepository($objectType);
             $parentId = $entity->getParent()->getId();
             $parent = $parentId ? $repository->find($parentId) : null;
-            if (in_array('Doctrine\Common\Proxy\Proxy', class_implements($parent), true)) {
+            if (in_array(Proxy::class, class_implements($parent), true)) {
                 // look for a root node to use as parent
                 $parentNode = $repository->findOneBy(['lvl' => 0]);
                 $entity->setParent($parentNode);
             }
         }
     
-        if (in_array($objectType, ['page'])) {
+        if (in_array($objectType, ['page'], true)) {
             $entity = $this->translatableHelper->setEntityFieldsFromLogData($entity);
         }
     
@@ -321,13 +271,9 @@ abstract class AbstractLoggableHelper
     /**
      * Persists a formerly entity again.
      *
-     * @param EntityAccess $entity Currently treated entity instance
-     *
-     * @return EntityAccess|null The restored entity instance
-     *
      * @throws Exception If something goes wrong
      */
-    public function undelete($entity)
+    public function undelete(EntityAccess $entity): void
     {
         $entityManager = $this->entityFactory->getEntityManager();
     
@@ -340,7 +286,7 @@ abstract class AbstractLoggableHelper
         $metadata->setVersionField(null);
     
         $entityManager->persist($entity);
-        $entityManager->flush($entity);
+        $entityManager->flush();
     
         $metadata->setVersioned(true);
         $metadata->setVersionField($versionField);
@@ -348,22 +294,18 @@ abstract class AbstractLoggableHelper
     
     /**
      * Returns the translated clear text action description for a given log entry.
-     *
-     * @param AbstractLogEntry $logEntry
-     *
-     * @return string
      */
-    public function translateActionDescription(AbstractLogEntry $logEntry)
+    public function translateActionDescription(AbstractLogEntry $logEntry): string
     {
         $textAndParam = explode('|', $logEntry->getActionDescription());
         $text = $textAndParam[0];
-        $parametersStr = count($textAndParam) > 1 ? $textAndParam[1] : '';
+        $parametersStr = 1 < count($textAndParam) ? $textAndParam[1] : '';
     
         $parameters = [];
         $parametersStr = explode(',', $parametersStr);
         foreach ($parametersStr as $parameterStr) {
             $varAndValue = explode('=', $parameterStr);
-            if (2 == count($varAndValue)) {
+            if (2 === count($varAndValue)) {
                 $parameters[$varAndValue[0]] = $varAndValue[1];
             }
         }
@@ -373,13 +315,8 @@ abstract class AbstractLoggableHelper
     
     /**
      * Returns the translated clear text action description for a given log entry.
-     *
-     * @param string $text       The constant which is replaced by a corresponding Gettext call
-     * @param array  $parameters Optional additional parameters for the Gettext call
-     *
-     * @return string The resulting description
      */
-    protected function translateActionDescriptionInternal($text = '', array $parameters = [])
+    protected function translateActionDescriptionInternal(string $text = '', array $parameters = []): string
     {
         $this->translator->setDomain('zikulacontentmodule');
         $actionTranslated = '';

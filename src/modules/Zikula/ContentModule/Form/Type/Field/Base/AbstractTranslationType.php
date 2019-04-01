@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Content.
  *
@@ -11,6 +14,7 @@
 
 namespace Zikula\ContentModule\Form\Type\Field\Base;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -27,33 +31,24 @@ abstract class AbstractTranslationType extends AbstractType
      */
     protected $translationListener;
 
-    /**
-     * TranslationsType constructor.
-     */
     public function __construct()
     {
         $this->translationListener = new TranslationListener();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addEventSubscriber($this->translationListener);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
             ->setDefaults([
                 'by_reference' => false,
                 'mapped' => false,
-                'empty_data' => function (FormInterface $form) {
-                    return new \Doctrine\Common\Collections\ArrayCollection();
+                'empty_data' => static function (FormInterface $form) {
+                    return new ArrayCollection();
                 },
                 'fields' => [],
                 'mandatory_fields' => [],
@@ -67,9 +62,6 @@ abstract class AbstractTranslationType extends AbstractType
         ;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_field_translation';
