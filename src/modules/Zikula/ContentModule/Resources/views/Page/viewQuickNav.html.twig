@@ -92,6 +92,7 @@
                 </div>
             {% endif %}
             {{ form_widget(quickNavForm.updateview) }}
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea|default ~ 'view') }}" title="{{ __('Back to default view') }}" class="btn btn-default btn-sm">{{ __('Reset') }}</a>
             {% if categoriesEnabled %}
                 {% if categoryFilter is defined and categoryFilter != true %}
                 {% else %}
