@@ -153,6 +153,7 @@ abstract class AbstractItemListBlockType extends AbstractType
     {
         $builder->add('sorting', ChoiceType::class, [
             'label' => $this->__('Sorting', 'zikulacontentmodule') . ':',
+            'label_attr' => ['class' => 'radio-inline'],
             'empty_data' => 'default',
             'choices' => [
                 $this->__('Random', 'zikulacontentmodule') => 'random',
@@ -161,7 +162,7 @@ abstract class AbstractItemListBlockType extends AbstractType
                 $this->__('Default', 'zikulacontentmodule') => 'default'
             ],
             'multiple' => false,
-            'expanded' => false
+            'expanded' => true
         ]);
     }
 
