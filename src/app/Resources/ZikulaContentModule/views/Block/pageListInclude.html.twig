@@ -2,7 +2,7 @@
 <ul{% if isDropdown|default %} class="dropdown-menu"{% endif %}>
     {% if includeSelf|default(false) == true %}
         <li{% if context|default == 'menuBlock' %} role="presentation"{% endif %}{#% if isActivePage|default(false) %} class="active"{% endif %#}>
-            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ __('Overview') }}</a>
+            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ __('Overview', 'zikulacontentmodule') }}</a>
         </li>
     {% endif %}
     {% for page in pages if zikulacontentmodule_hasReadAccess(page) %}
