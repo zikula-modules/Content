@@ -143,6 +143,7 @@ New features:
 Bugfixes:
 - Fixed upgrade issue (#338).
 - Prevent log entry creation from other modules.
+- Fixed sporadic scrolling problem in editing modal.
 
 ### Version 5.1.0
 
