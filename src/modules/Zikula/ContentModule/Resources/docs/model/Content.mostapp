@@ -40,6 +40,7 @@ application "Content" targets ZK30 {
         Helper/SearchHelper.php,
         Helper/TranslatableHelper.php,
         Helper/ViewHelper.php,
+        Listener/EntityLifecycleListener.php,
         Menu/MenuBuilder.php,
         Resources/config/routing.yml,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,

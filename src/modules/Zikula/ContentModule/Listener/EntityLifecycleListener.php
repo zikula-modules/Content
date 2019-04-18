@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * Content.
  *
@@ -14,6 +11,10 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Listener;
 
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
+use Zikula\ContentModule\Entity\PageEntity;
+use Zikula\ContentModule\Helper\TranslatableHelper;
 use Zikula\ContentModule\Listener\Base\AbstractEntityLifecycleListener;
 
 /**
@@ -21,5 +22,84 @@ use Zikula\ContentModule\Listener\Base\AbstractEntityLifecycleListener;
  */
 class EntityLifecycleListener extends AbstractEntityLifecycleListener
 {
-    // feel free to enhance this listener by custom actions
+    public function postPersist(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+        if ($entity instanceof PageEntity) {
+            $this->fixTranslatedTreeSlugs($entity);
+        }
+
+        parent::postPersist($args);
+    }
+
+    public function postUpdate(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+        if ($entity instanceof PageEntity) {
+            $this->fixTranslatedTreeSlugs($entity);
+        }
+
+        parent::postUpdate($args);
+    }
+
+    /**
+     * Ugly but working fix for #309
+     */
+    private function fixTranslatedTreeSlugs(PageEntity $page): void
+    {
+        if (null === $page->getParent()) {
+            return;
+        }
+
+        $entityManager = $this->container->get(EntityFactory::class)->getObjectManager();
+        $connection = $entityManager->getConnection();
+        $dbName = $this->container->getParameter('database_name');
+
+        $translatableHelper = $this->container->get(TranslatableHelper::class);
+        $currentLocale = $translatableHelper->getCurrentLanguage();
+        $supportedLocales = $translatableHelper->getSupportedLanguages('page');
+
+        $parentSlugForCurrentLocale = $this->getTranslatedSlug($page->getParent()->getId(), $currentLocale);
+
+        foreach ($supportedLocales as $locale) {
+            if ($locale === $currentLocale) {
+                continue;
+            }
+
+            $parentSlugForLocale = $this->getTranslatedSlug($page->getParent()->getId(), $locale);
+            $slugForLocale = $this->getTranslatedSlug($page->getId(), $locale);
+            $slugForLocale = str_replace($parentSlugForCurrentLocale, $parentSlugForLocale, $slugForLocale);
+
+            $sql = '
+                UPDATE ' . $dbName . '.`zikula_content_page_translation`
+                SET `content` = "' . $slugForLocale . '"
+                WHERE `foreign_key` = ' . $page->getId() . '
+                AND `field` = "slug"
+                AND `locale` = "' . $locale . '"
+            ';
+            $stmt = $connection->prepare($sql);
+            $stmt->execute();
+        }
+    }
+
+    private function getTranslatedSlug(int $pageId, string $locale): string
+    {
+        $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
+        $connection = $entityManager->getConnection();
+        $dbName = $this->container->getParameter('database_name');
+
+        $slug = '';
+        $stmt = $connection->executeQuery("
+            SELECT `content`
+            FROM $dbName.`zikula_content_page_translation`
+            WHERE `foreign_key` = " . $pageId . "
+            AND `field` = \"slug\"
+            AND `locale` = \"" . $locale . "\"
+        ");
+        while ($row = $stmt->fetch()) {
+            $slug = $row['content'];
+        }
+
+        return $slug;
+    }
 }

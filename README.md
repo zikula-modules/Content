@@ -144,6 +144,7 @@ Bugfixes:
 - Fixed upgrade issue (#338).
 - Prevent log entry creation from other modules.
 - Fixed sporadic scrolling problem in editing modal.
+- Fixed wrong combination of translatable tree slugs (#309).
 
 ### Version 5.1.0
 
