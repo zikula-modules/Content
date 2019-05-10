@@ -320,7 +320,7 @@ abstract class AbstractPageType extends AbstractType
                 'title' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.')
             ],
             'help' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.'),
-            'empty_data' => '0',
+            'empty_data' => [],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Choose the scope.')

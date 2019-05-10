@@ -481,7 +481,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => $this->__('Which sections are supported in the Finder component (used by Scribite plug-ins).')
             ],
             'help' => $this->__('Which sections are supported in the Finder component (used by Scribite plug-ins).'),
-            'empty_data' => 'page',
+            'empty_data' => [],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('Choose the enabled finder types.')
