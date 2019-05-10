@@ -220,7 +220,7 @@ abstract class AbstractCollectionFilterHelper
     
             // field filter
             if ((!is_numeric($v) && '' !== $v) || (is_numeric($v) && 0 < $v)) {
-                if ('workflowState' === $k && '0' === strpos($v, '!')) {
+                if ('workflowState' === $k && 0 === strpos($v, '!')) {
                     $qb->andWhere('tbl.' . $k . ' != :' . $k)
                        ->setParameter($k, substr($v, 1));
                 } elseif (0 === strpos($v, '%')) {
@@ -282,7 +282,7 @@ abstract class AbstractCollectionFilterHelper
     
             // field filter
             if ((!is_numeric($v) && '' !== $v) || (is_numeric($v) && 0 < $v)) {
-                if ('workflowState' === $k && '0' === strpos($v, '!')) {
+                if ('workflowState' === $k && 0 === strpos($v, '!')) {
                     $qb->andWhere('tbl.' . $k . ' != :' . $k)
                        ->setParameter($k, substr($v, 1));
                 } elseif (0 === strpos($v, '%')) {
@@ -311,13 +311,17 @@ abstract class AbstractCollectionFilterHelper
         if (null === $request) {
             return $qb;
         }
+    
+        $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', 'pagePrivateMode');
+        if ($showOnlyOwnEntries) {
+            $qb = $this->addCreatorFilter($qb);
+        }
+    
         $routeName = $request->get('_route', '');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_page_admin');
         if ($isAdminArea) {
             return $qb;
         }
-    
-        $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', 'pagePrivateMode');
     
         if (!array_key_exists('workflowState', $parameters) || empty($parameters['workflowState'])) {
             // per default we show approved pages only
@@ -329,10 +333,6 @@ abstract class AbstractCollectionFilterHelper
             }
             $qb->andWhere('tbl.workflowState IN (:onlineStates)')
                ->setParameter('onlineStates', $onlineStates);
-        }
-    
-        if ($showOnlyOwnEntries) {
-            $qb = $this->addCreatorFilter($qb);
         }
     
         $qb = $this->applyDateRangeFilterForPage($qb);
@@ -352,23 +352,23 @@ abstract class AbstractCollectionFilterHelper
         if (null === $request) {
             return $qb;
         }
+    
+        $showOnlyOwnEntries = (bool)$request->query->getInt('own', $this->showOnlyOwnEntries);
+        if ($showOnlyOwnEntries) {
+            $qb = $this->addCreatorFilter($qb);
+        }
+    
         $routeName = $request->get('_route', '');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_contentitem_admin');
         if ($isAdminArea) {
             return $qb;
         }
     
-        $showOnlyOwnEntries = (bool)$request->query->getInt('own', $this->showOnlyOwnEntries);
-    
         if (!array_key_exists('workflowState', $parameters) || empty($parameters['workflowState'])) {
             // per default we show approved content items only
             $onlineStates = ['approved'];
             $qb->andWhere('tbl.workflowState IN (:onlineStates)')
                ->setParameter('onlineStates', $onlineStates);
-        }
-    
-        if ($showOnlyOwnEntries) {
-            $qb = $this->addCreatorFilter($qb);
         }
     
         $qb = $this->applyDateRangeFilterForContentItem($qb);
