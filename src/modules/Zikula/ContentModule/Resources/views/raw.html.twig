@@ -24,15 +24,18 @@
             /* ]]> */
         </script>
         {% if useFinder|default != true %}
-            <script>
-            /* <![CDATA[ */
-                ( function($) {
-                    $(document).ready(function() {
-                        $('.dropdown-toggle').addClass('hidden');
-                    });
-                })(jQuery);
-            /* ]]> */
-            </script>
+            {% set customScript %}
+                <script>
+                /* <![CDATA[ */
+                    ( function($) {
+                        $(document).ready(function() {
+                            $('.dropdown-toggle').addClass('hidden');
+                        });
+                    })(jQuery);
+                /* ]]> */
+                </script>
+            {% endset %}
+            {{ pageAddAsset('footer', customScript) }}
         {% endif %}
     {% endblock %}
 </body>
