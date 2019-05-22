@@ -226,17 +226,18 @@ abstract class AbstractControllerHelper
         }
     
         $sortableColumns->setAdditionalUrlParameters($urlParameters);
+        $useJoins = in_array($objectType, ['page']);
     
         $where = '';
         if (1 === $templateParameters['all']) {
             // retrieve item list without pagination
-            $entities = $repository->selectWhere($where, $sort . ' ' . $sortdir, false);
+            $entities = $repository->selectWhere($where, $sort . ' ' . $sortdir, $useJoins);
         } else {
             // the current offset which is used to calculate the pagination
             $currentPage = $request->query->getInt('pos', 1);
     
             // retrieve item list with pagination
-            list($entities, $objectCount) = $repository->selectWherePaginated($where, $sort . ' ' . $sortdir, $currentPage, $resultsPerPage, false);
+            list($entities, $objectCount) = $repository->selectWherePaginated($where, $sort . ' ' . $sortdir, $currentPage, $resultsPerPage, $useJoins);
     
             $templateParameters['currentPage'] = $currentPage;
             $templateParameters['pager'] = [
