@@ -23,6 +23,7 @@ use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ModelHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Generic item list block base class.
@@ -43,6 +44,11 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
      * @var ModelHelper
      */
     protected $modelHelper;
+    
+    /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
     
     /**
      * @var EntityFactory
@@ -121,9 +127,8 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
             $objectCount = 0;
         }
     
-        if ($hasCategories) {
-            $entities = $this->categoryHelper->filterEntitiesByPermission($entities);
-        }
+        // filter by permissions
+        $entities = $this->permissionHelper->filterCollection($objectType, $entities, ACCESS_VIEW);
     
         // set a block title
         if (empty($properties['title'])) {
@@ -273,6 +278,14 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     public function setModelHelper(ModelHelper $modelHelper): void
     {
         $this->modelHelper = $modelHelper;
+    }
+    
+    /**
+     * @required
+     */
+    public function setPermissionHelper(PermissionHelper $permissionHelper): void
+    {
+        $this->permissionHelper = $permissionHelper;
     }
     
     /**

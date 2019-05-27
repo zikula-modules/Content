@@ -20,10 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Zikula\ThemeModule\Engine\Asset;
 use Zikula\ContentModule\Controller\Base\AbstractExternalController;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
-use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
-use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ContentModule\Helper\ViewHelper;
@@ -74,8 +72,6 @@ class ExternalController extends AbstractExternalController
         EntityFactory $entityFactory,
         CollectionFilterHelper $collectionFilterHelper,
         ListEntriesHelper $listEntriesHelper,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         ViewHelper $viewHelper,
         Asset $assetHelper,
         string $objectType,
@@ -86,7 +82,7 @@ class ExternalController extends AbstractExternalController
         int $num = 0
     ): Response
      {
-        return parent::finderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $collectionFilterHelper, $listEntriesHelper, $categoryHelper, $featureActivationHelper, $viewHelper, $assetHelper, $objectType, $editor, $sort, $sortdir, $pos, $num);
+        return parent::finderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $collectionFilterHelper, $listEntriesHelper, $viewHelper, $assetHelper, $objectType, $editor, $sort, $sortdir, $pos, $num);
     }
 
     // feel free to extend the external controller here

@@ -21,10 +21,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
 use Zikula\ThemeModule\Engine\Asset;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
-use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
-use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ContentModule\Helper\ViewHelper;
@@ -100,8 +98,6 @@ abstract class AbstractExternalController extends AbstractController
         EntityFactory $entityFactory,
         CollectionFilterHelper $collectionFilterHelper,
         ListEntriesHelper $listEntriesHelper,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         ViewHelper $viewHelper,
         Asset $assetHelper,
         string $objectType,
@@ -193,11 +189,8 @@ abstract class AbstractExternalController extends AbstractController
         
         list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
         
-        if (in_array($objectType, ['page'], true)) {
-            if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
-                $entities = $categoryHelper->filterEntitiesByPermission($entities);
-            }
-        }
+        // filter by permissions
+        $entities = $permissionHelper->filterCollection($objectType, $entities, ACCESS_VIEW);
         
         $templateParameters['items'] = $entities;
         $templateParameters['finderForm'] = $form->createView();
