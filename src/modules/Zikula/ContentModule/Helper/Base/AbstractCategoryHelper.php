@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Helper\Base;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -276,24 +277,6 @@ abstract class AbstractCategoryHelper
     public function getPrimaryProperty(string $objectType = ''): string
     {
         return 'Main';
-    }
-    
-    /**
-     * Filters a given list of entities to these the current user has permissions for.
-     *
-     * @param array|ArrayCollection $entities The given list of entities
-     */
-    public function filterEntitiesByPermission($entities): array
-    {
-        $filteredEntities = [];
-        foreach ($entities as $entity) {
-            if (!$this->hasPermission($entity)) {
-                continue;
-            }
-            $filteredEntities[] = $entity;
-        }
-    
-        return $filteredEntities;
     }
     
     /**

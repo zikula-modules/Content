@@ -31,9 +31,7 @@ use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Handler\Page\EditHandler;
-use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
-use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\HookHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
@@ -83,8 +81,6 @@ abstract class AbstractPageController extends AbstractController
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
         string $sort,
         string $sortdir,
@@ -149,19 +145,7 @@ abstract class AbstractPageController extends AbstractController
         $templateParameters = $controllerHelper->processViewActionParameters($objectType, $sortableColumns, $templateParameters, true);
         
         // filter by permissions
-        $filteredEntities = [];
-        foreach ($templateParameters['items'] as $page) {
-            if (!$permissionHelper->hasEntityPermission($page, $permLevel)) {
-                continue;
-            }
-            $filteredEntities[] = $page;
-        }
-        $templateParameters['items'] = $filteredEntities;
-        
-        // filter by category permissions
-        if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
-            $templateParameters['items'] = $categoryHelper->filterEntitiesByPermission($templateParameters['items']);
-        }
+        $templateParameters['items'] = $permissionHelper->filterCollection($objectType, $templateParameters['items'], $permLevel);
         
         // check if there exist any deleted page
         $templateParameters['hasDeletedEntities'] = false;
@@ -186,8 +170,6 @@ abstract class AbstractPageController extends AbstractController
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
         EntityFactory $entityFactory,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
         PageEntity $page = null,
         string $slug = '',
@@ -209,12 +191,6 @@ abstract class AbstractPageController extends AbstractController
         }
         if (!$permissionHelper->hasEntityPermission($page, $permLevel)) {
             throw new AccessDeniedException();
-        }
-        
-        if ($featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
-            if (!$categoryHelper->hasPermission($page)) {
-                throw new AccessDeniedException();
-            }
         }
         
         $requestedVersion = $request->query->getInt('version');

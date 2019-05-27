@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Helper\Base;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
@@ -22,6 +23,8 @@ use Zikula\PermissionsModule\Api\ApiInterface\PermissionApiInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\UsersModule\Entity\UserEntity;
+use Zikula\ContentModule\Helper\CategoryHelper;
+use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
 /**
  * Permission helper base class.
@@ -53,18 +56,32 @@ abstract class AbstractPermissionHelper
      */
     protected $userRepository;
     
+    /**
+     * @var FeatureActivationHelper
+     */
+    protected $featureActivationHelper;
+    
+    /**
+     * @var CategoryHelper
+     */
+    protected $categoryHelper;
+    
     public function __construct(
         RequestStack $requestStack,
         PermissionApiInterface $permissionApi,
         VariableApiInterface $variableApi,
         CurrentUserApiInterface $currentUserApi,
-        UserRepositoryInterface $userRepository
+        UserRepositoryInterface $userRepository,
+        FeatureActivationHelper $featureActivationHelper,
+        CategoryHelper $categoryHelper
     ) {
         $this->requestStack = $requestStack;
         $this->permissionApi = $permissionApi;
         $this->variableApi = $variableApi;
         $this->currentUserApi = $currentUserApi;
         $this->userRepository = $userRepository;
+        $this->featureActivationHelper = $featureActivationHelper;
+        $this->categoryHelper = $categoryHelper;
     }
     
     /**
@@ -109,7 +126,34 @@ abstract class AbstractPermissionHelper
         $objectType = $entity->get_objectType();
         $instance = $entity->getKey() . '::';
     
+        // check category permissions
+        if (in_array($objectType, ['page'], true)) {
+            if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
+                if (!$this->categoryHelper->hasPermission($entity)) {
+                    return false;
+                }
+            }
+        }
+    
         return $this->permissionApi->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', $instance, $permissionLevel, $userId);
+    }
+    
+    /**
+     * Filters a given collection of entities based on different permission checks.
+     *
+     * @param array|ArrayCollection $entities The given list of entities
+     */
+    public function filterCollection($objectType, $entities, int $permissionLevel, int $userId = null): array
+    {
+        $filteredEntities = [];
+        foreach ($entities as $content) {
+            if (!$this->hasEntityPermission($content, $permissionLevel, $userId)) {
+                continue;
+            }
+            $filteredEntities[] = $content;
+        }
+    
+        return $filteredEntities;
     }
     
     /**
