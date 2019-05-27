@@ -31,10 +31,8 @@ use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\Handler\Page\EditHandler;
 use Zikula\ContentModule\Form\Type\TranslateType;
-use Zikula\ContentModule\Helper\CategoryHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
-use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\HookHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
 use Zikula\ContentModule\Helper\ModelHelper;
@@ -96,15 +94,13 @@ class PageController extends AbstractPageController
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
         string $sort,
         string $sortdir,
         int $pos,
         int $num
     ): Response {
-        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $categoryHelper, $featureActivationHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
+        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
     }
     
     /**
@@ -121,15 +117,13 @@ class PageController extends AbstractPageController
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
         string $sort,
         string $sortdir,
         int $pos,
         int $num
     ): Response {
-        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $categoryHelper, $featureActivationHelper, $loggableHelper, $sort, $sortdir, $pos, $num, false);
+        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, false);
     }
     
     /**
@@ -882,13 +876,11 @@ class PageController extends AbstractPageController
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
         EntityFactory $entityFactory,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
         PageEntity $page = null,
         string $slug = ''
     ): Response {
-        return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $loggableHelper, $page, $slug, true);
+        return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $loggableHelper, $page, $slug, true);
     }
     
     /**
@@ -900,13 +892,11 @@ class PageController extends AbstractPageController
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
         EntityFactory $entityFactory,
-        CategoryHelper $categoryHelper,
-        FeatureActivationHelper $featureActivationHelper,
         LoggableHelper $loggableHelper,
         PageEntity $page = null,
         string $slug = ''
     ): Response {
-        return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $categoryHelper, $featureActivationHelper, $loggableHelper, $page, $slug, false);
+        return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $loggableHelper, $page, $slug, false);
     }
     
     /**
