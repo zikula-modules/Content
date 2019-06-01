@@ -128,7 +128,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         }
     
         // filter by permissions
-        $entities = $this->permissionHelper->filterCollection($objectType, $entities, ACCESS_VIEW);
+        $entities = $this->permissionHelper->filterCollection($objectType, $entities, ACCESS_READ);
     
         // set a block title
         if (empty($properties['title'])) {
