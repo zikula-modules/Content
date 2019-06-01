@@ -190,7 +190,7 @@ abstract class AbstractExternalController extends AbstractController
         list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
         
         // filter by permissions
-        $entities = $permissionHelper->filterCollection($objectType, $entities, ACCESS_VIEW);
+        $entities = $permissionHelper->filterCollection($objectType, $entities, ACCESS_READ);
         
         $templateParameters['items'] = $entities;
         $templateParameters['finderForm'] = $form->createView();
