@@ -1684,16 +1684,16 @@
         },
         {
             "name": "sebastian/type",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "79fd7f2f8acff994d4a330bb434b09b813479068"
+                "reference": "b2a7f9aac51ce18cd7ac8b31e37c8ce5646fc741"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/79fd7f2f8acff994d4a330bb434b09b813479068",
-                "reference": "79fd7f2f8acff994d4a330bb434b09b813479068",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/b2a7f9aac51ce18cd7ac8b31e37c8ce5646fc741",
+                "reference": "b2a7f9aac51ce18cd7ac8b31e37c8ce5646fc741",
                 "shasum": ""
             },
             "require": {
@@ -1711,9 +1711,6 @@
             "autoload": {
                 "classmap": [
                     "src/"
-                ],
-                "files": [
-                    "tests/_fixture/callback_function.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1729,7 +1726,7 @@
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
             "homepage": "https://github.com/sebastianbergmann/type",
-            "time": "2019-06-07T09:58:20+00:00"
+            "time": "2019-06-08T04:53:27+00:00"
         },
         {
             "name": "sebastian/version",
