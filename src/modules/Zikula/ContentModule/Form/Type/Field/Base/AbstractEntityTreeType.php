@@ -32,6 +32,11 @@ abstract class AbstractEntityTreeType extends AbstractType
      */
     protected $entityDisplayHelper;
 
+    /**
+     * @var array
+     */
+    protected $labelMap;
+
     public function __construct(EntityDisplayHelper $entityDisplayHelper)
     {
         $this->entityDisplayHelper = $entityDisplayHelper;
@@ -50,7 +55,9 @@ abstract class AbstractEntityTreeType extends AbstractType
                 'attr' => [
                     'class' => 'entity-tree'
                 ],
-                'choice_label' => null
+                'choice_label' => function ($choice, $key, $value) {
+                    return isset($this->labelMap[$key]) ? $this->labelMap[$key] : $key;
+                }
             ])
             ->setAllowedTypes('root', 'int')
             ->setAllowedTypes('include_leaf_nodes', 'bool')
@@ -91,7 +98,9 @@ abstract class AbstractEntityTreeType extends AbstractType
                     continue;
                 }
 
-                $choices[$this->createChoiceLabel($node, $options['include_root_nodes'])] = $node;
+                $nodeId = $node['id'];
+                $this->labelMap[$nodeId] = $this->createChoiceLabel($node, $options['include_root_nodes']);
+                $choices[$nodeId] = $node;
             }
         }
 
