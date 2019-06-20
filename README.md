@@ -145,6 +145,7 @@ Bugfixes:
 - Prevent log entry creation from other modules.
 - Fixed sporadic scrolling problem in editing modal.
 - Fixed wrong combination of translatable tree slugs (#309).
+- Fixed tree selection form type with duplicate labels.
 
 ### Version 5.1.0
 
