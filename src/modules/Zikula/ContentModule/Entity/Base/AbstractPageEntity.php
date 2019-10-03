@@ -358,12 +358,12 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     }
     
     
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
     
-    public function setId(int $id): void
+    public function setId(int $id = null): void
     {
         if ((int)$this->id !== $id) {
             $this->id = $id;
@@ -815,7 +815,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * Returns the primary key.
      */
-    public function getKey(): int
+    public function getKey(): ?int
     {
         return $this->getId();
     }
