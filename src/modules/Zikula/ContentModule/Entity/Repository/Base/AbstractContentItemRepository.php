@@ -268,7 +268,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
      *
      * @return array Retrieved ContentItemEntity instances
      */
-    public function selectByIdList(array $idList = [0], bool $useJoins = true, bool $slimMode = false): array
+    public function selectByIdList(array $idList = [0], bool $useJoins = true, bool $slimMode = false): ?array
     {
         $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
         $qb = $this->addIdListFilter($idList, $qb);
