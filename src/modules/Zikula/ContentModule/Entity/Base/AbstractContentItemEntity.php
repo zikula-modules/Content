@@ -226,7 +226,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     public function setContentData(array $contentData): void
     {
         if ($this->contentData !== $contentData) {
-            $this->contentData = $contentData ?? '';
+            $this->contentData = $contentData ?? [];
         }
     }
     
