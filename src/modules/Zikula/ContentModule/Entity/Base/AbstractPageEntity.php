@@ -438,7 +438,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     public function setLayout(array $layout): void
     {
         if ($this->layout !== $layout) {
-            $this->layout = $layout ?? '';
+            $this->layout = $layout ?? [];
         }
     }
     
@@ -594,7 +594,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     public function setContentData(array $contentData): void
     {
         if ($this->contentData !== $contentData) {
-            $this->contentData = $contentData ?? '';
+            $this->contentData = $contentData ?? [];
         }
     }
     
@@ -606,7 +606,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     public function setTranslationData(array $translationData): void
     {
         if ($this->translationData !== $translationData) {
-            $this->translationData = $translationData ?? '';
+            $this->translationData = $translationData ?? [];
         }
     }
     
