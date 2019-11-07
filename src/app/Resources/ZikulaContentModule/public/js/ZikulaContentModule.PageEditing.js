@@ -815,10 +815,10 @@ function contentPageUpdateAllGridAttributes() {
     if (jQuery('#debugSavedData').length < 1) {
         return;
     }
-    _.each(widgetData, function (section) {
+    jQuery.each(widgetData, function (index, section) {
         var lastNode = null;
         var widgets = GridStackUI.Utils.sort(section.widgets);
-        _.each(widgets, function (node) {
+        jQuery.each(widgets, function (index, node) {
             var widget = jQuery('#widget' + node.id);
             var colOffset = 0;
             if (null !== lastNode && node.y === lastNode.y) {
@@ -855,7 +855,7 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
     var grid = jQuery('#' + containerId + ' .grid-stack').data('gridstack');
     var lastNode = null;
     var widgets = GridStackUI.Utils.sort(widgetList);
-    _.each(widgets, function (node) {
+    jQuery.each(widgets, function (index, node) {
         var widget;
 
         widget = contentPageCreateNewWidget(node.id);
@@ -870,7 +870,7 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
         contentPageUpdateGridAttributes(widget, colOffset);
         lastNode = node;
     });
-    _.each(widgets, function (node) {
+    jQuery.each(widgets, function (index, node) {
         contentPageLoadWidgetData(node.id, false);
     });
 }
@@ -882,7 +882,7 @@ function contentPageLoad() {
     var sectionNumber;
     contentPageClear();
     sectionNumber = 0;
-    _.each(widgetData, function (section) {
+    jQuery.each(widgetData, function (index, section) {
         sectionNumber++;
         contentPageAddSection(section.id, sectionNumber, section.stylingClasses, false);
         contentPageInitSectionActions();
@@ -893,7 +893,7 @@ function contentPageLoad() {
         contentPageAddSection('section' + sectionNumber, sectionNumber, '', false);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
-        _.each(orphanData, function (contentItemId) {
+        jQuery.each(orphanData, function (index, contentItemId) {
             var newWidget;
             var grid;
             var width;
@@ -936,7 +936,7 @@ function contentPageSortWidgetsForSave(nodes) {
 function contentPageSerialiseWidgets(elements) {
     elements = contentPageSortWidgetsForSave(elements);
 
-    return _.map(elements, function (widget) {
+    return jQuery.map(elements, function (index, widget) {
         widget = jQuery(widget);
         var node = widget.data(nodeDataAttribute);
 
@@ -960,7 +960,7 @@ function contentPageSave() {
         return;
     }
     sectionCounter = 0;
-    widgetData = _.map(jQuery('#widgets .grid-section'), function (section) {
+    widgetData = jQuery.map(jQuery('#widgets .grid-section'), function (index, section) {
         section = jQuery(section);
         return {
             id: 'section' + ++sectionCounter,
