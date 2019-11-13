@@ -264,8 +264,8 @@ abstract class AbstractViewHelper
            . '-'
            . ('' !== $pageTitle ? $pageTitle . '-' : '')
            . date('Ymd') . '.pdf'
-       ;
-       $fileTitle = str_replace(' ', '_', $fileTitle);
+        ;
+        $fileTitle = str_replace(' ', '_', $fileTitle);
     
         /*
         if (true === $request->query->getBoolean('dbg', false)) {
