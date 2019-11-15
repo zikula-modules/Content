@@ -119,7 +119,14 @@ function contentPageInitPalette() {
         contentPagePreparePaletteEntryForAddition(widget, newId);
 
         var grid = gridSection.find('.grid-stack').first().data('gridstack');
-        grid.addWidget(widget, 0, 0, widget.attr('data-gs-width'), widget.attr('data-gs-height'), true, widget.attr('data-gs-min-width'));
+        grid.addWidget(widget, {
+            x: 0,
+            y: 0,
+            width: widget.attr('data-gs-width'),
+            height: widget.attr('data-gs-height'),
+            autoPosition: true,
+            minWidth: widget.attr('data-gs-min-width')
+        });
 
         contentPageInitWidgetEditing(widget, true);
 
@@ -687,7 +694,14 @@ function contentPageInitWidgetActions() {
                 contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
 
                 var grid = widget.parents('.grid-stack').first().data('gridstack');
-                grid.addWidget(newWidget, 0, 0, widget.attr('data-gs-width'), widget.attr('data-gs-height'), true, widget.attr('data-gs-min-width'));
+                grid.addWidget(newWidget, {
+                    x: 0,
+                    y: 0,
+                    width: widget.attr('data-gs-width'),
+                    height: widget.attr('data-gs-height'),
+                    autoPosition: true,
+                    minWidth: widget.attr('data-gs-min-width')
+                });
 
                 contentPageLoadWidgetData(data.id, true);
             }
@@ -860,7 +874,14 @@ function contentPageUnserialiseWidgets(containerId, widgetList) {
 
         widget = contentPageCreateNewWidget(node.id);
         var minWidth = 'undefined' != typeof node.minWidth ? node.minWidth : jQuery('#widgetDimensions').data('minwidth');
-        grid.addWidget(widget, node.x, node.y, node.width, /*node.height*/jQuery('#widgetDimensions').data('height'), false, node.minWidth);
+        grid.addWidget(widget, {
+            x: node.x,
+            y: node.y,
+            width: node.width,
+            height: /*node.height*/jQuery('#widgetDimensions').data('height'),
+            autoPosition: false,
+            minWidth: /*node.*/minWidth
+        });
         var colOffset = 0;
         if (null !== lastNode && node.y === lastNode.y) {
             colOffset = node.x - (lastNode.x + lastNode.width);
@@ -896,17 +917,18 @@ function contentPageLoad() {
         jQuery.each(orphanData, function (index, contentItemId) {
             var newWidget;
             var grid;
-            var width;
-            var height;
-            var minWidth;
 
             newWidget = contentPageCreateNewWidget(contentItemId);
-
             grid = jQuery('#section' + sectionNumber + ' .grid-stack').first().data('gridstack');
-            width = jQuery('#widgetDimensions').data('width');
-            height = jQuery('#widgetDimensions').data('height');
-            minWidth = jQuery('#widgetDimensions').data('minwidth');
-            grid.addWidget(newWidget, 0, 0, width, height, true, minWidth);
+
+            grid.addWidget(newWidget, {
+                x: 0,
+                y: 0,
+                width: jQuery('#widgetDimensions').data('width'),
+                height: jQuery('#widgetDimensions').data('height'),
+                autoPosition: true,
+                minWidth: jQuery('#widgetDimensions').data('minwidth')
+            });
 
             contentPageLoadWidgetData(contentItemId, false);
         });
