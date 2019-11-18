@@ -74,16 +74,16 @@
         },
         {
             "name": "drmonty/leaflet",
-            "version": "1.5.1",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrohnstock/leaflet.git",
-                "reference": "960e709e56f0317f16ef49508775266f328ddb6b"
+                "reference": "45164225aed66ddff7b079d8a8ab90a9858fa91c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrohnstock/leaflet/zipball/960e709e56f0317f16ef49508775266f328ddb6b",
-                "reference": "960e709e56f0317f16ef49508775266f328ddb6b",
+                "url": "https://api.github.com/repos/mrohnstock/leaflet/zipball/45164225aed66ddff7b079d8a8ab90a9858fa91c",
+                "reference": "45164225aed66ddff7b079d8a8ab90a9858fa91c",
                 "shasum": ""
             },
             "type": "component",
@@ -107,7 +107,7 @@
                 "gis",
                 "map"
             ],
-            "time": "2019-05-09T05:39:02+00:00"
+            "time": "2019-11-18T06:58:49+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
