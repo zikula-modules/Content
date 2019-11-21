@@ -38,17 +38,17 @@ function zikulaContentPerformTreeOperation(objectType, rootId, op) {
         method: 'POST',
         url: Routing.generate('zikulacontentmodule_ajax_handletreeoperation'),
         data: params
-    }).done(function (response) {
-        if (response.result == 'success') {
-            /*zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Success'), response.message, 'treeAjaxDoneAlert', 'success');*/
+    }).done(function (data) {
+        if (data.result == 'success') {
+            /*zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Success'), data.message, 'treeAjaxDoneAlert', 'success');*/
 
-            if (typeof response.returnUrl != 'undefined') {
-                window.location = response.returnUrl;
+            if (typeof data.returnUrl != 'undefined') {
+                window.location = data.returnUrl;
             } else {
                 window.location.reload();
             }
         } else {
-            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), response.message != '' ? response.message : Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
+            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), data.message != '' ? data.message : Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
         }
     }).fail(function (jqXHR, textStatus) {
         zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
@@ -360,15 +360,17 @@ function zikulaContentTreeMoveNode(node, refNode, position, doReload) {
             id: nodeId,
             destid: destId
         }
-    }).done(function (res) {
+    }).done(function (data) {
         if (true === doReload) {
             window.location.reload();
         }
+
         return true;
     }).fail(function (jqXHR, textStatus) {
         zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
 
         window.location.reload();
+
         return false;
     });
 
