@@ -20,7 +20,7 @@ services:
 
     Zikula\ContentModule\Collector\ContentTypeCollector:
         arguments:
-            $contentTypes: !tagged zikula.content_type
+            $contentTypes: !tagged_iterator zikula.content_type
 
     _instanceof:
         Zikula\Common\Content\ContentTypeInterface:
