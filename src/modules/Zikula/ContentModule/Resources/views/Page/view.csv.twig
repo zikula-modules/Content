@@ -5,36 +5,32 @@
 
 {% spaceless %}
     "{{ page.title }}";"{% if not page.showTitle %}0{% else %}1{% endif %}";"{{ page.metaDescription }}";"{% if not page.skipHookSubscribers %}0{% else %}1{% endif %}";"{% if page.layout is iterable and page.layout|length > 0 %}
-        <ul>
-        {% for entry in page.layout if entry is not iterable %}
-            <li>{{ entry }}</li>
+        {% set firstItem = true %}
+        {% for entry in if entry is not iterable %}
+            {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
-        </ul>
     {% endif %}
     ";"{{ page.views }}";"{% if not page.active %}0{% else %}1{% endif %}";"{% if page.activeFrom is not empty %}
         {{ page.activeFrom|localizeddate('medium', 'short') }}
     {% endif %}";"{% if page.activeTo is not empty %}
         {{ page.activeTo|localizeddate('medium', 'short') }}
     {% endif %}";"{{ page.scope|zikulacontentmodule_listEntry('page', 'scope') }}";"{% if not page.inMenu %}0{% else %}1{% endif %}";"{{ page.optionalString1 }}";"{{ page.optionalString2 }}";"{{ page.optionalText|safeHtml }}";"{% if page.stylingClasses is iterable and page.stylingClasses|length > 0 %}
-        <ul>
-        {% for entry in page.stylingClasses if entry is not iterable %}
-            <li>{{ entry }}</li>
+        {% set firstItem = true %}
+        {% for entry in if entry is not iterable %}
+            {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
-        </ul>
     {% endif %}
     ";"{{ page.currentVersion }}";"{% if page.contentData is iterable and page.contentData|length > 0 %}
-        <ul>
-        {% for entry in page.contentData if entry is not iterable %}
-            <li>{{ entry }}</li>
+        {% set firstItem = true %}
+        {% for entry in if entry is not iterable %}
+            {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
-        </ul>
     {% endif %}
     ";"{% if page.translationData is iterable and page.translationData|length > 0 %}
-        <ul>
-        {% for entry in page.translationData if entry is not iterable %}
-            <li>{{ entry }}</li>
+        {% set firstItem = true %}
+        {% for entry in if entry is not iterable %}
+            {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
-        </ul>
     {% endif %}
     ";"{{ page.workflowState|zikulacontentmodule_objectState(false)|lower }}";"
     {% if page.contentItems|default %}
