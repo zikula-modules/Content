@@ -1,5 +1,5 @@
 /**
- * gridstack.js 0.5.3
+ * gridstack.js 0.5.4
  * https://gridstackjs.com/
  * (c) 2014-2019 Dylan Weiss, Alain Dumesny, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
@@ -801,11 +801,12 @@
       this.container.children('.' + this.opts.itemClass + ':not(.' + this.opts.placeholderClass + ')')
         .each(function(index, el) {
           el = $(el);
+          var x = parseInt(el.attr('data-gs-x'));
+          var y = parseInt(el.attr('data-gs-y'));
           elements.push({
             el: el,
-            // if x,y are missing (autoPosition) add them to end of list - keep their respective DOM order
-            i: (parseInt(el.attr('data-gs-x')) || 100) +
-              (parseInt(el.attr('data-gs-y')) || 100) * _this.opts.column
+            // if x,y are missing (autoPosition) add them to end of list - but keep their respective DOM order
+            i: (Number.isNaN(x) ? 1000 : x) + (Number.isNaN(y) ? 1000 : y) * _this.opts.column
           });
         });
       Utils.sortBy(elements, function(x) { return x.i; }).forEach(function(item) {
@@ -1090,12 +1091,12 @@
       maxHeight = this._styles._max;
     }
 
-    if (this._styles._max !== 0 && maxHeight <= this._styles._max) { // Keep this._styles._max increasing
-      return ;
-    }
     this._initStyles();
     this._updateContainerHeight();
     if (!this.opts.cellHeight) { // The rest will be handled by CSS
+      return ;
+    }
+    if (this._styles._max !== 0 && maxHeight <= this._styles._max) { // Keep this._styles._max increasing
       return ;
     }
 
