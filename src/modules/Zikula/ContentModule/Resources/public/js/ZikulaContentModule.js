@@ -44,21 +44,20 @@ function zikulaContentToggleFlag(objectType, fieldName, itemId) {
             ot: objectType,
             field: fieldName,
             id: itemId
-        },
-        success: function (data) {
-            var idSuffix;
-            var toggleLink;
-
-            idSuffix = zikulaContentCapitaliseFirstLetter(fieldName) + itemId;
-            toggleLink = jQuery('#toggle' + idSuffix);
-
-            /*if (data.message) {
-                zikulaContentSimpleAlert(toggleLink, Translator.__('Success'), data.message, 'toggle' + idSuffix + 'DoneAlert', 'success');
-            }*/
-
-            toggleLink.find('.fa-check').toggleClass('hidden', true !== data.state);
-            toggleLink.find('.fa-times').toggleClass('hidden', true === data.state);
         }
+    }).done(function (data) {
+        var idSuffix;
+        var toggleLink;
+
+        idSuffix = zikulaContentCapitaliseFirstLetter(fieldName) + itemId;
+        toggleLink = jQuery('#toggle' + idSuffix);
+
+        /*if (data.message) {
+            zikulaContentSimpleAlert(toggleLink, Translator.__('Success'), data.message, 'toggle' + idSuffix + 'DoneAlert', 'success');
+        }*/
+
+        toggleLink.find('.fa-check').toggleClass('hidden', true !== data.state);
+        toggleLink.find('.fa-times').toggleClass('hidden', true === data.state);
     });
 }
 
