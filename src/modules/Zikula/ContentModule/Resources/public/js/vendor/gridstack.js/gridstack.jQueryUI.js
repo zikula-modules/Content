@@ -1,18 +1,12 @@
+/** gridstack.js 0.5.5 - JQuery UI Drag&Drop plugin @preserve */
 /**
- * gridstack.js 0.5.4
  * https://gridstackjs.com/
  * (c) 2014-2019 Dylan Weiss, Alain Dumesny, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
- * @preserve
 */
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
-    define(['jquery', 'gridstack', 'exports', 'jquery-ui/data', 'jquery-ui/disable-selection',
-      'jquery-ui/focusable', 'jquery-ui/form', 'jquery-ui/ie', 'jquery-ui/keycode', 'jquery-ui/labels',
-      'jquery-ui/jquery-1-7', 'jquery-ui/plugin', 'jquery-ui/safe-active-element', 'jquery-ui/safe-blur',
-      'jquery-ui/scroll-parent', 'jquery-ui/tabbable', 'jquery-ui/unique-id', 'jquery-ui/version',
-      'jquery-ui/widget', 'jquery-ui/widgets/mouse', 'jquery-ui/widgets/draggable',
-      'jquery-ui/widgets/droppable', 'jquery-ui/widgets/resizable'], factory);
+    define(['jquery', 'gridstack', 'exports'], factory);
   } else if (typeof exports !== 'undefined') {
     try { jQuery = require('jquery'); } catch (e) {}
     try { gridstack = require('gridstack'); } catch (e) {}
