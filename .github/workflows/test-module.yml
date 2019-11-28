@@ -1,0 +1,45 @@
+name: Test module
+# This workflow is triggered on pushes to the repository and for pull requests.
+on: [push, pull_request]
+
+jobs:
+  build:
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: zikula
+          MYSQL_DATABASE: zikula
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v1
+
+    # see https://github.com/Guite/zikula-action
+    - name: Build and test
+      uses: guite/zikula-action@master
+      with:
+        vendor_name: 'Zikula'
+        module_name: 'Content'
+        module_version: '5.2.0'
+        core_version: 'ZK3DEV'
+        create_artifacts: true
+      env:
+        DATABASE_URL: mysql://root:zikula@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/zikula
+
+    # see https://github.com/actions/upload-artifact
+    - name: Upload tar archive as artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: tar-archive
+        path: './ZikulaContentModule_v5.2.0.tar.gz'
+    - name: Upload zip archive as artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: zip-archive
+        path: './ZikulaContentModule_v5.2.0.zip'

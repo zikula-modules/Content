@@ -1,7 +1,7 @@
 # Content module for the Zikula Application Framework
 
-![Build Status](http://guite.info:8080/buildStatus/icon?job=Applications_Content/master)
-
+![](https://github.com/zikula-modules/Content/workflows/Test%20module/badge.svg)
+![](https://github.com/zikula-modules/Content/workflows/Generate%20module/badge.svg)
 
 ## Documentation
 
@@ -33,7 +33,7 @@ It also features additional functionality, like translating content and tracking
 ## Requirements
 
 The `master` branch of this module is intended for being used with Zikula 3.0.
-For Zikula 2.0.12 look at [releases](https://github.com/zikula-modules/Content/releases/).
+For Zikula 2.0.x look at [releases](https://github.com/zikula-modules/Content/releases/).
 
 
 <a name="installation" />

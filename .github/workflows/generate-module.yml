@@ -1,0 +1,50 @@
+name: Generate module
+# This workflow is triggered after standalone generator is built using an external event
+on: repository_dispatch
+# you could also trigger it on pushes to the repository
+#on:
+#  push:
+#    branches-ignore:
+#      - generator-update
+# you could also just run it regularly, for example every 12 hours
+#on:
+#  schedule:
+#    - cron:  '0 12 * * *'
+jobs:
+  build:
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources from master branch
+      uses: actions/checkout@v1
+      with:
+        ref: master
+
+    # see https://github.com/Guite/generator-action/
+    - name: Call standalone generator
+      uses: guite/generator-action@master
+      with:
+        model_name: 'Content.mostapp'
+        module_name: 'Zikula/ContentModule'
+        verbose: true
+
+    - name: Set output variables
+      run: |
+        echo ::set-env name=PULL_REQUEST_TITLE::"Generator update $(date +%d-%m-%Y)"
+        echo ::set-env name=PULL_REQUEST_BODY::"This PR was auto-generated on $(date +%d-%m-%Y) \
+          with latest generator using [generator-action](https://github.com/Guite/generator-action/) :tada:"
+
+    # see https://github.com/peter-evans/create-pull-request
+    - name: Commit changes and create/update pull request
+      uses: peter-evans/create-pull-request@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'update generated code :rocket:'
+        title: ${{ env.PULL_REQUEST_TITLE }}
+        body: ${{ env.PULL_REQUEST_BODY }}
+        branch: generator-update
+        branch-suffix: none
+
+    - name: Check outputs
+      run: |
+        echo "Created pull request number: ${{ env.PULL_REQUEST_NUMBER }}"
