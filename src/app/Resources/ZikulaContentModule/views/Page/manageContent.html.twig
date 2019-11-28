@@ -1,4 +1,4 @@
-{# purpose of this template: gridstack playground #}
+{# purpose of this template: page content management #}
 {% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
 {% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Manage content') }}{% endblock %}
 {% block admin_page_icon 'cubes' %}
@@ -14,7 +14,6 @@
         </div>
     {% endset %}
     {{ zikulacontentmodule_getPagePath(page, false) }}
-    {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
     {% set widgetDimensions = {width: 4, minWidth: 2, height: 3} %}
     <div id="notificationContainer">
         <div id="notificationBox"></div>
@@ -132,6 +131,7 @@
                 {% endfor %}
             {% endif %}
 
+            {# gridstack.js reference docs: https://github.com/gridstack/gridstack.js/tree/develop/doc #}
             var gridOptions = {
                 acceptWidgets: true,
                 alwaysShowResizeHandle: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
