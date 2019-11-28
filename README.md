@@ -1,7 +1,7 @@
 # Content module for the Zikula Application Framework
 
-![](https://github.com/zikula-modules/Content/workflows/Generate%20module/badge.svg)
-![](https://github.com/zikula-modules/Content/workflows/Test%20module/badge.svg)
+[![](https://github.com/zikula-modules/Content/workflows/Generate%20module/badge.svg)](https://github.com/zikula-modules/Content/actions?query=workflow%3A"Generate+module")
+[![](https://github.com/zikula-modules/Content/workflows/Test%20module/badge.svg)](https://github.com/zikula-modules/Content/actions?query=workflow%3A"Test+module")
 
 ## Documentation
 
