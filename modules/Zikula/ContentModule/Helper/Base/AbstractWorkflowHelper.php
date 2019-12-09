@@ -261,11 +261,8 @@ abstract class AbstractWorkflowHelper
                 $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_UPDATED');
             }
         }
-        $result = false;
-        if (!$workflow->can($entity, $actionId)) {
-            return $result;
-        }
     
+        $result = false;
         try {
             if ('delete' === $actionId) {
                 $entityManager->remove($entity);
