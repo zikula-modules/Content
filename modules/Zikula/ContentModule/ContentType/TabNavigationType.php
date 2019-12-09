@@ -73,6 +73,11 @@ class TabNavigationType extends AbstractContentType
         ];
     }
 
+    public function getTranslatableDataFields(): array
+    {
+        return ['tabTitles'];
+    }
+
     public function displayView(): string
     {
         // Convert the variables into arrays

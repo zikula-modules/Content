@@ -138,7 +138,7 @@ Structural changes:
 - Upgrades for Zikula 3.0.x.
 
 New features:
-- None yet
+- Tab titles of tab navigation elements can be translated.
 
 Bugfixes:
 - Fixed upgrade issue (#338).
