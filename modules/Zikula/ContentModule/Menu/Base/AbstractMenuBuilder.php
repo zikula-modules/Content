@@ -17,6 +17,7 @@ namespace Zikula\ContentModule\Menu\Base;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
@@ -84,7 +85,7 @@ class AbstractMenuBuilder
     ) {
         $this->setTranslator($translator);
         $this->factory = $factory;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
         $this->requestStack = $requestStack;
         $this->permissionHelper = $permissionHelper;
         $this->entityDisplayHelper = $entityDisplayHelper;
@@ -118,7 +119,7 @@ class AbstractMenuBuilder
         }
         $menu->setChildrenAttribute('class', 'list-inline item-actions');
 
-        $this->eventDispatcher->dispatch(ContentEvents::MENU_ITEMACTIONS_PRE_CONFIGURE, new ConfigureItemActionsMenuEvent($this->factory, $menu, $options));
+        $this->eventDispatcher->dispatch(new ConfigureItemActionsMenuEvent($this->factory, $menu, $options), ContentEvents::MENU_ITEMACTIONS_PRE_CONFIGURE);
 
         $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
         if ($entity instanceof PageEntity) {
@@ -221,7 +222,7 @@ class AbstractMenuBuilder
         
         }
 
-        $this->eventDispatcher->dispatch(ContentEvents::MENU_ITEMACTIONS_POST_CONFIGURE, new ConfigureItemActionsMenuEvent($this->factory, $menu, $options));
+        $this->eventDispatcher->dispatch(new ConfigureItemActionsMenuEvent($this->factory, $menu, $options), ContentEvents::MENU_ITEMACTIONS_POST_CONFIGURE);
 
         return $menu;
     }
