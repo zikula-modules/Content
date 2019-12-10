@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Block\Base;
 
 use Exception;
-use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Twig\Loader\FilesystemLoader;
 use Zikula\BlocksModule\AbstractBlockHandler;
 use Zikula\ContentModule\Block\Form\Type\ItemListBlockType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
