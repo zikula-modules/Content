@@ -6,13 +6,12 @@ on: repository_dispatch
 #  push:
 #    branches-ignore:
 #      - generator-update
-# you could also just run it regularly, for example every 12 hours
+# you could also just run it regularly
 #on:
 #  schedule:
-#    - cron:  '0 12 * * *'
+#    - cron:  '0 12 * * *' # run every 12 hours
 jobs:
   build:
-    # This job runs on Linux
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources from master branch
