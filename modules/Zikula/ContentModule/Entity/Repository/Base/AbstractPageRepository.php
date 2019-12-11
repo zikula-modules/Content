@@ -16,12 +16,10 @@ namespace Zikula\ContentModule\Entity\Repository\Base;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-
 use Gedmo\Translatable\Query\TreeWalker\TranslationWalker;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -143,7 +141,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'pages', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'pages',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} updated {entities} created by user id {userid}.', $logArgs);
     }
     
@@ -171,7 +174,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'pages', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'pages',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} updated {entities} edited by user id {userid}.', $logArgs);
     }
     
@@ -197,7 +205,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'pages', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'pages',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} deleted {entities} created by user id {userid}.', $logArgs);
     }
     
@@ -223,7 +236,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'pages', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'pages',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} deleted {entities} edited by user id {userid}.', $logArgs);
     }
 
@@ -254,12 +272,16 @@ abstract class AbstractPageRepository extends NestedTreeRepository
      *
      * @param mixed $id The id (or array of ids) to use to retrieve the object (optional) (default=0)
      * @param bool $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param bool $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
+     * @param bool $slimMode If activated only some basic fields are selected without using any joins
+     *                       (optional) (default=false)
      *
      * @return array|PageEntity Retrieved data array or pageEntity instance
      */
-    public function selectById($id = 0, bool $useJoins = true, bool $slimMode = false)
-    {
+    public function selectById(
+        $id = 0,
+        bool $useJoins = true,
+        bool $slimMode = false
+    ) {
         $results = $this->selectByIdList(is_array($id) ? $id : [$id], $useJoins, $slimMode);
     
         return null !== $results && 0 < count($results) ? $results[0] : null;
@@ -270,12 +292,16 @@ abstract class AbstractPageRepository extends NestedTreeRepository
      *
      * @param array $idList The array of ids to use to retrieve the objects (optional) (default=0)
      * @param bool $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param bool $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
+     * @param bool $slimMode If activated only some basic fields are selected without using any joins
+     *                       (optional) (default=false)
      *
      * @return array Retrieved PageEntity instances
      */
-    public function selectByIdList(array $idList = [0], bool $useJoins = true, bool $slimMode = false): ?array
-    {
+    public function selectByIdList(
+        array $idList = [0],
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): ?array {
         $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
         $qb = $this->addIdListFilter($idList, $qb);
     
@@ -295,8 +321,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
      *
      * @throws InvalidArgumentException Thrown if invalid parameters are received
      */
-    public function selectBySlug(string $slugTitle = '', bool $useJoins = true, bool $slimMode = false, int $excludeId = 0): PageEntity
-    {
+    public function selectBySlug(
+        string $slugTitle = '',
+        bool $useJoins = true,
+        bool $slimMode = false,
+        int $excludeId = 0
+    ): PageEntity {
         if ('' === $slugTitle) {
             throw new InvalidArgumentException('Invalid slug title received.');
         }
@@ -337,8 +367,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     /**
      * Returns query builder for selecting a list of objects with a given where clause.
      */
-    public function getListQueryBuilder(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): QueryBuilder
-    {
+    public function getListQueryBuilder(
+        string $where = '',
+        string $orderBy = '',
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): QueryBuilder {
         $qb = $this->genericBaseQuery($where, $orderBy, $useJoins, $slimMode);
         if (!$slimMode && null !== $this->collectionFilterHelper) {
             $qb = $this->collectionFilterHelper->addCommonViewFilters('page', $qb);
@@ -350,8 +384,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     /**
      * Selects a list of objects with a given where clause.
      */
-    public function selectWhere(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): array
-    {
+    public function selectWhere(
+        string $where = '',
+        string $orderBy = '',
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): array {
         $qb = $this->getListQueryBuilder($where, $orderBy, $useJoins, $slimMode);
     
         $query = $this->getQueryFromBuilder($qb);
@@ -360,10 +398,14 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     }
 
     /**
-     * Returns query builder instance for retrieving a list of objects with a given where clause and pagination parameters.
+     * Returns query builder instance for retrieving a list of objects with a given
+     * where clause and pagination parameters.
      */
-    public function getSelectWherePaginatedQuery(QueryBuilder $qb, int $currentPage = 1, int $resultsPerPage = 25): Query
-    {
+    public function getSelectWherePaginatedQuery(
+        QueryBuilder $qb,
+        int $currentPage = 1,
+        int $resultsPerPage = 25
+    ): Query {
         if (1 > $currentPage) {
             $currentPage = 1;
         }
@@ -384,8 +426,14 @@ abstract class AbstractPageRepository extends NestedTreeRepository
      *
      * @return array Retrieved collection and the amount of total records affected
      */
-    public function selectWherePaginated(string $where = '', string $orderBy = '', int $currentPage = 1, int $resultsPerPage = 25, bool $useJoins = true, bool $slimMode = false): array
-    {
+    public function selectWherePaginated(
+        string $where = '',
+        string $orderBy = '',
+        int $currentPage = 1,
+        int $resultsPerPage = 25,
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): array {
         $qb = $this->getListQueryBuilder($where, $orderBy, $useJoins, $slimMode);
         $query = $this->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
     
@@ -397,8 +445,14 @@ abstract class AbstractPageRepository extends NestedTreeRepository
      *
      * @return array Retrieved collection and (for paginated queries) the amount of total records affected
      */
-    public function selectSearch(string $fragment = '', array $exclude = [], string $orderBy = '', int $currentPage = 1, int $resultsPerPage = 25, bool $useJoins = true): array
-    {
+    public function selectSearch(
+        string $fragment = '',
+        array $exclude = [],
+        string $orderBy = '',
+        int $currentPage = 1,
+        int $resultsPerPage = 25,
+        bool $useJoins = true
+    ): array {
         $qb = $this->getListQueryBuilder('', $orderBy, $useJoins);
         if (0 < count($exclude)) {
             $qb = $this->addExclusion($qb, $exclude);
@@ -482,7 +536,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     /**
      * Selects tree of pages.
      */
-    public function selectTree(int $rootId = 0,  bool$useJoins = true): array
+    public function selectTree(int $rootId = 0, bool $useJoins = true): array
     {
         if (0 === $rootId) {
             // return all trees if no specific one has been asked for
@@ -542,8 +596,12 @@ abstract class AbstractPageRepository extends NestedTreeRepository
     /**
      * Builds a generic Doctrine query supporting WHERE and ORDER BY.
      */
-    public function genericBaseQuery(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): QueryBuilder
-    {
+    public function genericBaseQuery(
+        string $where = '',
+        string $orderBy = '',
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): QueryBuilder {
         // normally we select the whole table
         $selection = 'tbl';
     

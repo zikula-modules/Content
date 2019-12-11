@@ -150,8 +150,14 @@ abstract class AbstractPageNeedle implements NeedleInterface
             if (!$this->permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
                 $cache[$needleId] = '';
             } else {
-                $route = $this->router->generate('zikulacontentmodule_page_view', [], UrlGeneratorInterface::ABSOLUTE_URL);
-                $cache[$needleId] = '<a href="' . $route . '" title="' . $this->translator->__('View pages', 'zikulacontentmodule') . '">' . $this->translator->__('Pages', 'zikulacontentmodule') . '</a>';
+                $route = $this->router->generate(
+                    'zikulacontentmodule_page_view',
+                    [],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
+                $linkTitle = $this->translator->__('View pages', 'zikulacontentmodule');
+                $linkText = $this->translator->__('Pages', 'zikulacontentmodule');
+                $cache[$needleId] = '<a href="' . $route . '" title="' . $linkTitle . '">' . $linkText . '</a>';
             }
     
             return $cache[$needleId];
@@ -184,7 +190,11 @@ abstract class AbstractPageNeedle implements NeedleInterface
         }
     
         $title = $this->entityDisplayHelper->getFormattedTitle($entity);
-        $route = $this->router->generate('zikulacontentmodule_page_display', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
+        $route = $this->router->generate(
+            'zikulacontentmodule_page_display',
+            $entity->createUrlArgs(),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
         $cache[$needleId] = '<a href="' . $route . '" title="' . str_replace('"', '', $title) . '">' . $title . '</a>';
     
         return $cache[$needleId];

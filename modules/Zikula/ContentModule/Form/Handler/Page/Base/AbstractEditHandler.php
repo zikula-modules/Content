@@ -16,7 +16,6 @@ namespace Zikula\ContentModule\Form\Handler\Page\Base;
 
 use Zikula\ContentModule\Form\Handler\Common\EditHandler;
 use Zikula\ContentModule\Form\Type\PageType;
-
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
@@ -49,15 +48,28 @@ abstract class AbstractEditHandler extends EditHandler
         }
     
         if ('create' === $this->templateParameters['mode'] && !$this->modelHelper->canBeCreated($this->objectType)) {
-            $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add('error', $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!'));
-            $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname'), 'entity' => $this->objectType];
-            $this->logger->notice('{app}: User {user} tried to create a new {entity}, but failed as it other items are required which must be created before.', $logArgs);
+            $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add(
+                'error',
+                $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!')
+            );
+            $logArgs = [
+                'app' => 'ZikulaContentModule',
+                'user' => $this->currentUserApi->get('uname'),
+                'entity' => $this->objectType
+            ];
+            $this->logger->notice(
+                '{app}: User {user} tried to create a new {entity}, but failed as it other items are required which must be created before.',
+                $logArgs
+            );
     
             return new RedirectResponse($this->getRedirectUrl(['commandName' => '']), 302);
         }
         
         if ('edit' === $this->templateParameters['mode']) {
-            $this->requestStack->getCurrentRequest()->getSession()->set('ZikulaContentModuleEntityVersion', $this->entityRef->getCurrentVersion());
+            $this->requestStack->getCurrentRequest()->getSession()->set(
+                'ZikulaContentModuleEntityVersion',
+                $this->entityRef->getCurrentVersion()
+            );
         }
     
         $entityData = $this->entityRef->toArray();
@@ -80,8 +92,16 @@ abstract class AbstractEditHandler extends EditHandler
             'mode' => $this->templateParameters['mode'],
             'actions' => $this->templateParameters['actions'],
             'has_moderate_permission' => $this->permissionHelper->hasEntityPermission($this->entityRef, ACCESS_ADMIN),
-            'allow_moderation_specific_creator' => (bool)$this->variableApi->get('ZikulaContentModule', 'allowModerationSpecificCreatorFor' . $this->objectTypeCapital),
-            'allow_moderation_specific_creation_date' => (bool)$this->variableApi->get('ZikulaContentModule', 'allowModerationSpecificCreationDateFor' . $this->objectTypeCapital),
+            'allow_moderation_specific_creator' => (bool)$this->variableApi->get(
+                'ZikulaContentModule',
+                'allowModerationSpecificCreatorFor' . $this->objectTypeCapital,
+                false
+            ),
+            'allow_moderation_specific_creation_date' => (bool)$this->variableApi->get(
+                'ZikulaContentModule',
+                'allowModerationSpecificCreationDateFor' . $this->objectTypeCapital,
+                false
+            ),
             'filter_by_ownership' => !$this->permissionHelper->hasEntityPermission($this->entityRef, ACCESS_ADD),
             'inline_usage' => $this->templateParameters['inlineUsage']
         ];
@@ -103,8 +123,14 @@ abstract class AbstractEditHandler extends EditHandler
         }
     
         // only allow editing for the owner or people with higher permissions
-        $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
-        $isOwner = null !== $entity && null !== $entity->getCreatedBy() && $currentUserId === $entity->getCreatedBy()->getUid();
+        $currentUserId = $this->currentUserApi->isLoggedIn()
+            ? $this->currentUserApi->get('uid')
+            : UsersConstant::USER_ID_ANONYMOUS
+        ;
+        $isOwner = null !== $entity
+            && null !== $entity->getCreatedBy()
+            && $currentUserId === $entity->getCreatedBy()->getUid()
+        ;
         if (!$isOwner && !$this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
             throw new AccessDeniedException();
         }
@@ -143,13 +169,18 @@ abstract class AbstractEditHandler extends EditHandler
      */
     protected function getDefaultReturnUrl(array $args = []): string
     {
-        $objectIsPersisted = 'delete' !== $args['commandName'] && !('create' === $this->templateParameters['mode'] && 'cancel' === $args['commandName']);
+        $objectIsPersisted = 'delete' !== $args['commandName']
+            && !('create' === $this->templateParameters['mode'] && 'cancel' === $args['commandName']
+        );
         if (null !== $this->returnTo && $objectIsPersisted) {
             // return to referer
             return $this->returnTo;
         }
     
-        $routeArea = array_key_exists('routeArea', $this->templateParameters) ? $this->templateParameters['routeArea'] : '';
+        $routeArea = array_key_exists('routeArea', $this->templateParameters)
+            ? $this->templateParameters['routeArea']
+            : ''
+        ;
         $routePrefix = 'zikulacontentmodule_' . $this->objectTypeLower . '_' . $routeArea;
     
         // redirect to the list of pages
@@ -176,7 +207,11 @@ abstract class AbstractEditHandler extends EditHandler
                 $args['commandName'] = $action['id'];
             }
         }
-        if ('create' === $this->templateParameters['mode'] && $this->form->has('submitrepeat') && $this->form->get('submitrepeat')->isClicked()) {
+        if (
+            'create' === $this->templateParameters['mode']
+            && $this->form->has('submitrepeat')
+            && $this->form->get('submitrepeat')->isClicked()
+        ) {
             $args['commandName'] = 'submit';
             $this->repeatCreateAction = true;
         }
@@ -222,7 +257,7 @@ abstract class AbstractEditHandler extends EditHandler
         $action = $args['commandName'];
         if ('delete' === $action) {
             $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_DELETED');
-        } else if ('create' === $this->templateParameters['mode']) {
+        } elseif ('create' === $this->templateParameters['mode']) {
             $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CREATED');
         } else {
             $templateId = $this->requestStack->getCurrentRequest()->query->getInt('astemplate');
@@ -238,7 +273,10 @@ abstract class AbstractEditHandler extends EditHandler
         }
         
         $applyLock = 'create' !== $this->templateParameters['mode'] && 'delete' !== $action;
-        $expectedVersion = $this->requestStack->getCurrentRequest()->getSession()->get('ZikulaContentModuleEntityVersion', 1);
+        $expectedVersion = $this->requestStack->getCurrentRequest()->getSession()->get(
+            'ZikulaContentModuleEntityVersion',
+            1
+        );
     
         $success = false;
         $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
@@ -251,13 +289,39 @@ abstract class AbstractEditHandler extends EditHandler
             // execute the workflow action
             $success = $this->workflowHelper->executeAction($entity, $action);
         } catch (OptimisticLockException $exception) {
-            $flashBag->add('error', $this->__('Sorry, but someone else has already changed this record. Please apply the changes again!'));
-            $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname'), 'entity' => 'page', 'id' => $entity->getKey()];
-            $this->logger->error('{app}: User {user} tried to edit the {entity} with id {id}, but failed as someone else has already changed it.', $logArgs);
+            $flashBag->add(
+                'error',
+                $this->__('Sorry, but someone else has already changed this record. Please apply the changes again!')
+            );
+            $logArgs = [
+                'app' => 'ZikulaContentModule',
+                'user' => $this->currentUserApi->get('uname'),
+                'entity' => 'page',
+                'id' => $entity->getKey()
+            ];
+            $this->logger->error(
+                '{app}: User {user} tried to edit the {entity} with id {id}, but failed as someone else has already changed it.',
+                $logArgs
+            );
         } catch (Exception $exception) {
-            $flashBag->add('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . ' ' . $exception->getMessage());
-            $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname'), 'entity' => 'page', 'id' => $entity->getKey(), 'errorMessage' => $exception->getMessage()];
-            $this->logger->error('{app}: User {user} tried to edit the {entity} with id {id}, but failed. Error details: {errorMessage}.', $logArgs);
+            $flashBag->add(
+                'error',
+                $this->__f(
+                    'Sorry, but an error occured during the %action% action. Please apply the changes again!',
+                    ['%action%' => $action]
+                ) . ' ' . $exception->getMessage()
+            );
+            $logArgs = [
+                'app' => 'ZikulaContentModule',
+                'user' => $this->currentUserApi->get('uname'),
+                'entity' => 'page',
+                'id' => $entity->getKey(),
+                'errorMessage' => $exception->getMessage()
+            ];
+            $this->logger->error(
+                '{app}: User {user} tried to edit the {entity} with id {id}, but failed. Error details: {errorMessage}.',
+                $logArgs
+            );
         }
     
         $this->addDefaultMessage($args, $success);
@@ -313,7 +377,9 @@ abstract class AbstractEditHandler extends EditHandler
                 return $this->router->generate($routePrefix . 'view', [ 'own' => 1 ]);
             case 'userDisplay':
             case 'adminDisplay':
-                if ('delete' !== $args['commandName'] && !('create' === $this->templateParameters['mode'] && 'cancel' === $args['commandName'])) {
+                if ('delete' !== $args['commandName']
+                    && !('create' === $this->templateParameters['mode'] && 'cancel' === $args['commandName'])
+                ) {
                     return $this->router->generate($routePrefix . 'display', $this->entityRef->createUrlArgs());
                 }
     
