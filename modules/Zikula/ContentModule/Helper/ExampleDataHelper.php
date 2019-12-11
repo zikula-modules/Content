@@ -141,7 +141,7 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $item->setSearchText($contentType->getSearchableText());
         $item->setAdditionalSearchText(
             $this->translator->__(
-                'Zikula and Content provide powerful tools for creating websites and web applications.',#
+                'Zikula and Content provide powerful tools for creating websites and web applications.',
                 'zikulacontentmodule'
             )
         );
@@ -264,13 +264,17 @@ class ExampleDataHelper extends AbstractExampleDataHelper
                 'Warning! Could not create the example page for introduction.',
                 'zikulacontentmodule'
             ));
-            $flashBag->add('error',
+            $flashBag->add(
+                'error',
                 $this->translator->__(
                     'Exception during example data creation',
                     'zikulacontentmodule'
                 ) . ': ' . $exception->getMessage()
             );
-            $this->logger->error('{app}: Could not completely create example data after installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]);
+            $this->logger->error(
+                '{app}: Could not completely create example data after installation. Error details: {errorMessage}.',
+                ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
+            );
         }
     }
 

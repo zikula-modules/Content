@@ -24,8 +24,12 @@ use Zikula\ContentModule\Entity\Repository\Base\AbstractPageRepository;
  */
 class PageRepository extends AbstractPageRepository
 {
-    public function selectBySlug(string $slugTitle = '', bool $useJoins = true, bool $slimMode = false, int $excludeId = 0): PageEntity
-    {
+    public function selectBySlug(
+        string $slugTitle = '',
+        bool $useJoins = true,
+        bool $slimMode = false,
+        int $excludeId = 0
+    ): PageEntity {
         $result = parent::selectBySlug($slugTitle, $useJoins, $slimMode, $excludeId);
         if (null !== $result) {
             return $result;

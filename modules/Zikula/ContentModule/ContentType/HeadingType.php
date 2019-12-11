@@ -46,9 +46,9 @@ class HeadingType extends AbstractContentType
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->__('Heading'), 
-            'headingType' => 'h3', 
-            'anchorName' => '', 
+            'text' => $this->__('Heading'),
+            'headingType' => 'h3',
+            'anchorName' => '',
             'displayPageTitle' => false
         ];
     }

@@ -105,9 +105,15 @@ class AuthorType extends AbstractContentType
             return $assets;
         }
 
-        $assets['css'][] = $this->assetHelper->resolve('@ZikulaUsersModule:css/livesearch.css');
-        $assets['js'][] = $this->assetHelper->resolve('@ZikulaUsersModule:js/Zikula.Users.LiveSearch.js');
-        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Author.js');
+        $assets['css'][] = $this->assetHelper->resolve(
+            '@ZikulaUsersModule:css/livesearch.css'
+        );
+        $assets['js'][] = $this->assetHelper->resolve(
+            '@ZikulaUsersModule:js/Zikula.Users.LiveSearch.js'
+        );
+        $assets['js'][] = $this->assetHelper->resolve(
+            '@ZikulaContentModule:js/ZikulaContentModule.ContentType.Author.js'
+        );
 
         return $assets;
     }

@@ -82,16 +82,28 @@ class ControllerType extends AbstractContentType
             return '<p class="alert alert-info">' . $this->data['noDisplayMessage'] . '</p>';
         }
 
-        $quickAction = '<a href="javascript:void(0);" title="' . $this->translator->__('Preview controller content') . '" onclick="jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); jQuery(this).remove();"><i class="fa fa-2x fa-eye"></i></a>';
+        $quickAction = '<a href="javascript:void(0);" title="'
+            . $this->translator->__('Preview controller content')
+            . '" onclick="'
+            . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
+            . 'jQuery(this).remove();'
+            . '"><i class="fa fa-2x fa-eye"></i></a>'
+        ;
         $editOutput = '<h3>' . $this->data['controller'] . '</h3>';
         if ($this->data['query']) {
-            $editOutput .= '<p>' . $this->translator->__('GET parameters') . ': <em>' . $this->data['query'] . '</em></p>';
+            $editOutput .= '<p>' . $this->translator->__('GET parameters')
+                . ': <em>' . $this->data['query'] . '</em></p>'
+            ;
         }
         if ($this->data['request']) {
-            $editOutput .= '<p>' . $this->translator->__('POST parameters') . ': <em>' . $this->data['request'] . '</em></p>';
+            $editOutput .= '<p>' . $this->translator->__('POST parameters')
+                . ': <em>' . $this->data['request'] . '</em></p>'
+            ;
         }
         if ($this->data['attributes']) {
-            $editOutput .= '<p>' . $this->translator->__('Request attributes') . ': <em>' . $this->data['attributes'] . '</em></p>';
+            $editOutput .= '<p>' . $this->translator->__('Request attributes')
+                . ': <em>' . $this->data['attributes'] . '</em></p>'
+            ;
         }
         $editOutput .= '<p>' . $quickAction . '</p>';
         $editOutput .= '<div class="hidden">' . $output . '</div>';
@@ -114,12 +126,20 @@ class ControllerType extends AbstractContentType
 
         list($bundleName) = explode(':', $controller);
         if (!$this->kernel->isBundle($bundleName)) {
-            $this->data['noDisplayMessage'] = $this->translator->__f('Module %module is not available.', ['%module' => $bundleName]);
+            $this->data['noDisplayMessage'] = $this->translator->__f(
+                'Module %module is not available.',
+                ['%module' => $bundleName]
+            );
+
             return;
         }
         $moduleInstance = $this->kernel->getModule($bundleName);
         if (!isset($moduleInstance)) {
-            $this->data['noDisplayMessage'] = $this->translator->__f('Module %module is not available.', ['%module' => $bundleName]);
+            $this->data['noDisplayMessage'] = $this->translator->__f(
+                'Module %module is not available.',
+                ['%module' => $bundleName]
+            );
+
             return;
         }
 

@@ -78,7 +78,8 @@ class MenuBuilder extends AbstractMenuBuilder
                 'route' => $routePrefix . $routeArea . 'managecontent',
                 'routeParameters' => $entity->createUrlArgs()
             ]);
-            $menu[$title]->setLinkAttribute('title',
+            $menu[$title]->setLinkAttribute(
+                'title',
                 $this->__('Manage content elements of page', 'zikulacontentmodule')
             );
             if ('display' === $context) {
@@ -92,7 +93,8 @@ class MenuBuilder extends AbstractMenuBuilder
                 'route' => $routePrefix . $routeArea . 'duplicate',
                 'routeParameters' => $entity->createUrlArgs()
             ]);
-            $menu[$title]->setLinkAttribute('title',
+            $menu[$title]->setLinkAttribute(
+                'title',
                 $this->__('Duplicate this page', 'zikulacontentmodule')
             );
             if ('display' === $context) {
@@ -106,7 +108,8 @@ class MenuBuilder extends AbstractMenuBuilder
                 'route' => $routePrefix . $routeArea . 'translate',
                 'routeParameters' => $entity->createUrlArgs()
             ]);
-            $menu[$title]->setLinkAttribute('title',
+            $menu[$title]->setLinkAttribute(
+                'title',
                 $this->__('Translate this page', 'zikulacontentmodule')
             );
             if ('display' === $context) {

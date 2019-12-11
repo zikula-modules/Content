@@ -76,11 +76,15 @@ class LeafletMapType extends AbstractContentType
         $assets = parent::getAssets($context);
 
         if (in_array($context, [ContentTypeInterface::CONTEXT_VIEW, ContentTypeInterface::CONTEXT_EDIT], true)) {
-            $pathToStyle = $this->assetHelper->resolve('@ZikulaContentModule:css/style.css');
+            $pathToStyle = $this->assetHelper->resolve(
+                '@ZikulaContentModule:css/style.css'
+            );
             $pathToLeaflet = str_replace('Resources/public/css/style.css', '', $pathToStyle) . 'vendor/drmonty/leaflet/';
             $assets['css'][] = $pathToLeaflet . 'css/leaflet.css';
             $assets['js'][] = $pathToLeaflet . 'js/leaflet.min.js';
-            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.LeafletMap.js');
+            $assets['js'][] = $this->assetHelper->resolve(
+                '@ZikulaContentModule:js/ZikulaContentModule.ContentType.LeafletMap.js'
+            );
         }
 
         return $assets;

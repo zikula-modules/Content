@@ -80,7 +80,9 @@ class YouTubeType extends AbstractContentType
             $this->data['videoId'] = $matches[1];
             // @todo fetch additional data if needed - requires an API key though
             // https://developers.google.com/youtube/v3/docs/
-            /*$content = $this->cacheHelper->fetch('someurl' . $this->data['videoId'] . '.php');
+            /*$content = $this->cacheHelper->fetch(
+                'someurl' . $this->data['videoId'] . '.php'
+            );
             if (false !== $content) {
                 $this->data['details'] = @json_decode($content, true);
             }*/

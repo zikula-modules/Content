@@ -72,7 +72,9 @@ class TranslateType extends AbstractType
             if ($hasContentData) {
                 $editFormClass = $options['content_type']->getEditFormClass();
                 if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                    $builder->add('contentData', $editFormClass,
+                    $builder->add(
+                        'contentData',
+                        $editFormClass,
                         $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION)
                     );
                 }

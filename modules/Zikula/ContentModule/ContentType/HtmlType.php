@@ -69,7 +69,9 @@ class HtmlType extends AbstractContentType
     {
         $assets = parent::getAssets($context);
         if (in_array($context, [ContentTypeInterface::CONTEXT_EDIT, ContentTypeInterface::CONTEXT_TRANSLATION], true)) {
-            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Html.js');
+            $assets['js'][] = $this->assetHelper->resolve(
+                '@ZikulaContentModule:js/ZikulaContentModule.ContentType.Html.js'
+            );
         }
 
         return $assets;

@@ -94,7 +94,9 @@ class UnfilteredType extends AbstractContentType
             return $assets;
         }
 
-        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.Unfiltered.js');
+        $assets['js'][] = $this->assetHelper->resolve(
+            '@ZikulaContentModule:js/ZikulaContentModule.ContentType.Unfiltered.js'
+        );
 
         return $assets;
     }

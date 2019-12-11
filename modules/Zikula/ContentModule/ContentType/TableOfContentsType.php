@@ -75,7 +75,7 @@ class TableOfContentsType extends AbstractContentType
             'includeSelf' => false,
             'includeStart' => false,
             'includeNotInMenu' => false,
-            'includeHeading' => 0, 
+            'includeHeading' => 0,
             'includeHeadingLevel' => 0,
             'includeSubpage' => 1,
             'includeSubpageLevel' => 0
@@ -129,18 +129,24 @@ class TableOfContentsType extends AbstractContentType
         $pages = $repository->selectWhere($where, 'tbl.lft', $useJoins);
         $this->data['toc']['toc'] = [];
         foreach ($pages as $page) {
-            $this->data['toc']['toc'][] = $this->_genTocRecursive($page, (0 === $pageId ? 1 : 0));
+            $this->data['toc']['toc'][] = $this->genTocRecursive($page, (0 === $pageId ? 1 : 0));
         }
 
         return parent::displayView();
     }
 
-    protected function _genTocRecursive(PageEntity $page, int $level): array
+    protected function genTocRecursive(PageEntity $page, int $level): array
     {
         $toc = [];
         $pageUrl = $this->router->generate('zikulacontentmodule_page_display', ['slug' => $page->getSlug()]);
 
-        $includeHeadings = 1 === $this->data['includeHeading'] || (2 === $this->data['includeHeading'] && 0 <= $this->data['includeHeadingLevel'] - $level);
+        $includeHeadings =
+            1 === $this->data['includeHeading']
+            || (
+                2 === $this->data['includeHeading']
+                && 0 <= $this->data['includeHeadingLevel'] - $level
+            )
+        ;
         if ($includeHeadings && count($page->getContentItems())) {
             foreach ($page->getContentItems() as $contentItem) {
                 if ('Zikula\\ContentModule\\ContentType\\HeadingType' !== $contentItem->getOwningType()) {
@@ -167,10 +173,16 @@ class TableOfContentsType extends AbstractContentType
             }
         }
 
-        $includeChildren = 1 === $this->data['includeSubpage'] || (2 === $this->data['includeSubpage'] && 0 <= $this->data['includeSubpageLevel'] - $level);
+        $includeChildren =
+            1 === $this->data['includeSubpage']
+            || (
+                2 === $this->data['includeSubpage']
+                && 0 <= $this->data['includeSubpageLevel'] - $level
+            )
+        ;
         if ($includeChildren && count($page->getChildren())) {
             foreach ($page->getChildren() as $subPage) {
-                $toc[] = $this->_genTocRecursive($subPage, $level + 1);
+                $toc[] = $this->genTocRecursive($subPage, $level + 1);
             }
         }
 
@@ -196,7 +208,9 @@ class TableOfContentsType extends AbstractContentType
             return $assets;
         }
 
-        $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.TableOfContents.js');
+        $assets['js'][] = $this->assetHelper->resolve(
+            '@ZikulaContentModule:js/ZikulaContentModule.ContentType.TableOfContents.js'
+        );
 
         return $assets;
     }
@@ -222,6 +236,10 @@ class TableOfContentsType extends AbstractContentType
         $this->router = $router;
         $this->entityFactory = $entityFactory;
         $this->displayHelper = $displayHelper;
-        $this->ignoreFirstTreeLevel = (bool)$variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
+        $this->ignoreFirstTreeLevel = (bool)$variableApi->get(
+            'ZikulaContentModule',
+            'ignoreFirstTreeLevelInRoutes',
+            true
+        );
     }
 }

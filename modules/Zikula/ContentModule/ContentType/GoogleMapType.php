@@ -107,10 +107,14 @@ class GoogleMapType extends AbstractContentType
         $assets = parent::getAssets($context);
 
         if (ContentTypeInterface::CONTEXT_VIEW === $context) {
-            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleMap.js');
+            $assets['js'][] = $this->assetHelper->resolve(
+                '@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleMap.js'
+            );
         }
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
-            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleEdit.js');
+            $assets['js'][] = $this->assetHelper->resolve(
+                '@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleEdit.js'
+            );
         }
 
         $googleMapsScript = 'https://maps.google.com/maps/api/js?v=3&key=' . $this->googleMapsApiKey . '&language=' . $locale;

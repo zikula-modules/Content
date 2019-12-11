@@ -87,7 +87,11 @@ class GoogleRouteType extends AbstractContentType
 
     public function getSearchableText(): string
     {
-        return html_entity_decode(strip_tags($this->data['addressText'] . $this->data['topText'] . $this->data['bottomText']));
+        return html_entity_decode(
+            strip_tags(
+                $this->data['addressText'] . $this->data['topText'] . $this->data['bottomText']
+            )
+        );
     }
 
     public function getEditFormClass(): string
@@ -103,13 +107,19 @@ class GoogleRouteType extends AbstractContentType
         $assets = parent::getAssets($context);
 
         if (ContentTypeInterface::CONTEXT_VIEW === $context) {
-            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleRoute.js');
+            $assets['js'][] = $this->assetHelper->resolve(
+                '@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleRoute.js'
+            );
         }
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
-            $assets['js'][] = $this->assetHelper->resolve('@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleEdit.js');
+            $assets['js'][] = $this->assetHelper->resolve(
+                '@ZikulaContentModule:js/ZikulaContentModule.ContentType.GoogleEdit.js'
+            );
         }
 
-        $googleMapsScript = 'https://maps.google.com/maps/api/js?v=3&key=' . $this->googleMapsApiKey . '&language=' . $locale;
+        $googleMapsScript = 'https://maps.google.com/maps/api/js?v=3&key='
+            . $this->googleMapsApiKey . '&language=' . $locale
+        ;
         if (ContentTypeInterface::CONTEXT_VIEW === $context) {
             $googleMapsScript .= '&callback=contentInitGoogleRouteDisplay';
         }

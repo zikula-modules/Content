@@ -124,7 +124,9 @@ class CustomTwigExtension extends AbstractExtension
         $this->collectionFilterHelper = $collectionFilterHelper;
         $this->countPageViews = (bool)$variableApi->get('ZikulaContentModule', 'countPageViews');
         $this->ignoreFirstTreeLevel = (bool)$variableApi->get(
-            'ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true
+            'ZikulaContentModule',
+            'ignoreFirstTreeLevelInRoutes',
+            true
         );
     }
 
@@ -375,7 +377,8 @@ class CustomTwigExtension extends AbstractExtension
      * The zikulacontentmodule_getSlug function returns the slug for a
      * given page identifier and the current locale.
      * Examples:
-     *    <a href="{{ path('zikulacontentmodule_page_display', {slug: zikulacontentmodule_getSlug(2)}) }}" title="Test page">Test page</a>
+     *    {% set link = path('zikulacontentmodule_page_display', {slug: zikulacontentmodule_getSlug(2)}) %}
+     *    <a href="{{ link|e('html_attr') }}" title="Test page">Test page</a>
      */
     public function getPageSlug(int $pageId): string
     {

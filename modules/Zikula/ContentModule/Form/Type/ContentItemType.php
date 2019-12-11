@@ -66,7 +66,9 @@ class ContentItemType extends AbstractType
         if (null !== $options['content_type']) {
             $editFormClass = $options['content_type']->getEditFormClass();
             if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                $builder->add('contentData', $editFormClass,
+                $builder->add(
+                    'contentData',
+                    $editFormClass,
                     $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_EDIT)
                 );
             }

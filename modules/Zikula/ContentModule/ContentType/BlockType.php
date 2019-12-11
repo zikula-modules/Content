@@ -94,8 +94,21 @@ class BlockType extends AbstractContentType
         /** @var BlockEntity $block */
         $block = $this->data['block'];
         $quickActions = '';
-        $quickActions .= '<a href="javascript:void(0);" title="' . $this->translator->__('Preview block content') . '" onclick="jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); jQuery(this).remove();"><i class="fa fa-2x fa-eye"></i></a>';
-        $quickActions .= ' <a href="' . $this->router->generate('zikulablocksmodule_block_edit', ['blockEntity' => $this->data['blockId']]) . '" title="' . $this->translator->__('Edit this block') . '" target="_blank"><i class="fa fa-2x fa-pencil-square-o"></i></a>';
+        $quickActions .= '<a href="javascript:void(0);" title="'
+            . $this->translator->__('Preview block content')
+            . '" onclick="'
+            . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
+            . 'jQuery(this).remove();'
+            . '"><i class="fa fa-2x fa-eye"></i></a>'
+        ;
+        $editLink = $this->router->generate(
+            'zikulablocksmodule_block_edit',
+            ['blockEntity' => $this->data['blockId']]
+        );
+        $quickActions .= ' <a href="' . $editLink . '"'
+            . ' title="' . $this->translator->__('Edit this block') . '"'
+            . ' target="_blank"><i class="fa fa-2x fa-pencil-square-o"></i></a>'
+        ;
         $editOutput = '<h3>' . $block->getTitle() . '</h3>';
         if ($block->getDescription()) {
             $editOutput .= '<p><em>' . $block->getDescription() . '</em></p>';
@@ -128,11 +141,16 @@ class BlockType extends AbstractContentType
         $bundleName = $block->getModule()->getName();
         $moduleInstance = $this->kernel->getModule($bundleName);
         if (!isset($moduleInstance)) {
-            $this->data['noDisplayMessage'] = $this->translator->__f('Module %module is not available.', ['%module' => $bundleName]);
+            $this->data['noDisplayMessage'] = $this->translator->__f(
+                'Module %module is not available.',
+                ['%module' => $bundleName]
+            );
+
             return;
         }
         if (!$block->getActive()) {
             $this->data['noDisplayMessage'] = $this->translator->__('Block is inactive.');
+
             return;
         }
 

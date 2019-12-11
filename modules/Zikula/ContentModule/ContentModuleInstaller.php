@@ -39,13 +39,14 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
         $this->setVar('pageStyles', "product|Product page\nlegal|Legal page");
         $this->setVar('sectionStyles', "header|Header\nreferences|References\nfooter|Footer");
-        $this->setVar('contentStyles',
+        $this->setVar(
+            'contentStyles',
             "grey-box|Grey box\n"
-          . "red-box|Red box\n"
-          . "yellow-box|Yellow box\n"
-          . "green-box|Green box\n"
-          . "orange-announcement-box|Orange announcement box\n"
-          . "green-important-box|Green important box"
+            . "red-box|Red box\n"
+            . "yellow-box|Yellow box\n"
+            . "green-box|Green box\n"
+            . "orange-announcement-box|Orange announcement box\n"
+            . "green-important-box|Green important box"
         );
 
         return $result;
@@ -175,7 +176,9 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                         // check if category still exists
                         if (null !== $categoryMap[$categoryId]) {
                             $categoryEntity = new PageCategoryEntity(
-                                $categoryRegistry->getId(), $categoryMap[$categoryId], $page
+                                $categoryRegistry->getId(),
+                                $categoryMap[$categoryId],
+                                $page
                             );
                             $page->getCategories()->add($categoryEntity);
                         }
@@ -229,9 +232,11 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $item->setWorkflowState('approved');
                 if (!$isSupported) {
                     $item->setOwningType($contentTypeNamespace . 'HtmlType');
-                    $item->setContentData([
-                        'text' => $this->__f('<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>', ['%module%' => $row['con_module'], '%type%' => $row['con_type']])
-                    ]);
+                    $content = $this->__f(
+                        '<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>',
+                        ['%module%' => $row['con_module'], '%type%' => $row['con_type']]
+                    );
+                    $item->setContentData(['text' => $content]);
                 } else {
                     $contentTypeName = $row['con_type'] . 'Type';
                     if ('GoogleMapRouteType' === $contentTypeName) {
@@ -367,6 +372,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 ';
                 $stmt = $connection->prepare($sql);
                 $stmt->execute();
+                // no break
             case '5.1.0':
                 // nothing yet
             case '5.2.0':

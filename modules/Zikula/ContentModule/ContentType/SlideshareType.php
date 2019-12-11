@@ -70,7 +70,11 @@ class SlideshareType extends AbstractContentType
         $this->data['details'] = '';
 
         if (isset($this->data['url']) && '' !== $this->data['url']) {
-            $content = $this->cacheHelper->fetch('https://www.slideshare.net/api/oembed/2?url=' . $this->data['url'] . '&format=json');
+            $content = $this->cacheHelper->fetch(
+                'https://www.slideshare.net/api/oembed/2'
+                . '?url=' . $this->data['url']
+                . '&format=json'
+            );
             if (false !== $content) {
                 $this->data['details'] = @json_decode($content, true);
                 // see https://www.beliefmedia.com.au/slideshare-wordpress
