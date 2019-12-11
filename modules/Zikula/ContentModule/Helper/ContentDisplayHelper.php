@@ -87,7 +87,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
                     (function($) {
                         $(document).ready(function() {
                             if ('function' === typeof " . $jsEntryPoint . ') {
-                                ' . $jsEntryPoint. '();
+                                ' . $jsEntryPoint . '();
                             }
                         });
                     })(jQuery)

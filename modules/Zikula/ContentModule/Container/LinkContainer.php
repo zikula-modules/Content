@@ -65,14 +65,15 @@ class LinkContainer extends AbstractLinkContainer
                 if ($hasAddPermissions) {
                     $pagesSubLinks[] = $addNewPageLink;
                 }
+                $routeName = 'zikulacontentmodule_page_' . $routeArea . 'view';
                 $pagesSubLinks[] = [
-                    'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view'),
+                    'url' => $this->router->generate($routeName),
                     'text' => $this->__('Tabular view', 'zikulacontentmodule'),
                     'title' => $this->__('Shows the pages table', 'zikulacontentmodule'),
                     'icon' => 'table fa-fw'
                 ];
                 $pagesSubLinks[] = [
-                    'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view', ['tpl' => 'tree']),
+                    'url' => $this->router->generate($routeName, ['tpl' => 'tree']),
                     'text' => $this->__('Hierarchy view', 'zikulacontentmodule'),
                     'title' => $this->__('Shows the pages tree', 'zikulacontentmodule'),
                     'icon' => 'code-fork fa-fw'
@@ -96,13 +97,19 @@ class LinkContainer extends AbstractLinkContainer
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'extended']),
                     'text' => $this->__('Extended list', 'zikulacontentmodule'),
-                    'title' => $this->__('Shows an extended list of pages with first content elements', 'zikulacontentmodule'),
+                    'title' => $this->__(
+                        'Shows an extended list of pages with first content elements',
+                        'zikulacontentmodule'
+                    ),
                     'icon' => 'list fa-fw'
                 ];
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'complete']),
                     'text' => $this->__('Complete list', 'zikulacontentmodule'),
-                    'title' => $this->__('Shows a complete list of pages with complete content', 'zikulacontentmodule'),
+                    'title' => $this->__(
+                        'Shows a complete list of pages with complete content',
+                        'zikulacontentmodule'
+                    ),
                     'icon' => 'th-large fa-fw'
                 ];
                 $pagesSubLinks[] = [

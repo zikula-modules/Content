@@ -66,11 +66,15 @@ class TranslateType extends AbstractType
             $this->addPageFields($builder, $options);
         } elseif ('item' === $options['mode']) {
             $this->addItemFields($builder, $options);
-            $hasContentData = null !== $options['content_type'] && 0 < count($options['content_type']->getTranslatableDataFields());
+            $hasContentData = null !== $options['content_type']
+                && 0 < count($options['content_type']->getTranslatableDataFields())
+            ;
             if ($hasContentData) {
                 $editFormClass = $options['content_type']->getEditFormClass();
                 if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                    $builder->add('contentData', $editFormClass, $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION));
+                    $builder->add('contentData', $editFormClass,
+                        $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_TRANSLATION)
+                    );
                 }
             }
         }
@@ -182,15 +186,16 @@ class TranslateType extends AbstractType
      */
     public function addItemFields(FormBuilderInterface $builder, array $options = []): void
     {
+        $helpText = $this->__('You may enter any text which will be used during the site search to find this element.');
         $builder->add('additionalSearchText', TextType::class, [
             'label' => $this->__('Additional search text') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
-                'title' => $this->__('You may enter any text which will be used during the site search to find this element.')
+                'title' => $helpText
             ],
             'required' => false,
-            'help' => $this->__('You may enter any text which will be used during the site search to find this element.')
+            'help' => $helpText
         ]);
     }
 

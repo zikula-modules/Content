@@ -125,9 +125,10 @@ class PageEntryProvider implements EntryProviderInterface
         $entities = $this->entityFactory->getRepository('page')
             ->selectWhere('', '', false, true);
 
+        $routeName = 'zikulacontentmodule_page_display';
         foreach ($entities as $entity) {
             $result[] = [
-                'longform' => $this->router->generate('zikulacontentmodule_page_display', ['slug' => $entity['slug']], UrlGeneratorInterface::ABSOLUTE_URL),
+                'longform' => $this->router->generate($routeName, ['slug' => $entity['slug']], UrlGeneratorInterface::ABSOLUTE_URL),
                 'shortform' => $entity['title'],
                 'title' => $entity['title'],
                 'type' => 'link',

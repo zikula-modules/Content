@@ -123,7 +123,9 @@ class CustomTwigExtension extends AbstractExtension
         $this->entityFactory = $entityFactory;
         $this->collectionFilterHelper = $collectionFilterHelper;
         $this->countPageViews = (bool)$variableApi->get('ZikulaContentModule', 'countPageViews');
-        $this->ignoreFirstTreeLevel = (bool)$variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
+        $this->ignoreFirstTreeLevel = (bool)$variableApi->get(
+            'ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true
+        );
     }
 
     public function getFunctions()
@@ -168,7 +170,8 @@ class CustomTwigExtension extends AbstractExtension
             $content = $aPage['title'];
             if (true === $linkPages) {
                 $link = $this->router->generate('zikulacontentmodule_page_display', ['slug' => $aPage['slug']]);
-                $content = '<a href="' . $link . '" title="' . str_replace('"', '', $content) . '">' . $content . '</a>';
+                $titleAttribute = ' title="' . str_replace('"', '', $content) . '"';
+                $content = '<a href="' . $link . '"' . $titleAttribute . '>' . $content . '</a>';
             }
             $output .= '<li' . ($aPage === $page ? ' class="active"' : '') . '>' . $content . '</li>';
         }
@@ -202,10 +205,14 @@ class CustomTwigExtension extends AbstractExtension
     {
         $contentElements = [];
         foreach ($page->getContentItems() as $contentItem) {
+            $itemId = $contentItem->getId();
             try {
-                $contentElements[$contentItem->getId()] = $this->displayHelper->prepareForDisplay($contentItem, ContentTypeInterface::CONTEXT_VIEW);
+                $contentElements[$itemId] = $this->displayHelper->prepareForDisplay(
+                    $contentItem,
+                    ContentTypeInterface::CONTEXT_VIEW
+                );
             } catch (RuntimeException $exception) {
-                $contentElements[$contentItem->getId()] = '';
+                $contentElements[$itemId] = '';
             }
         }
 

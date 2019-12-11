@@ -66,7 +66,9 @@ class ContentItemType extends AbstractType
         if (null !== $options['content_type']) {
             $editFormClass = $options['content_type']->getEditFormClass();
             if (null !== $editFormClass && '' !== $editFormClass && class_exists($editFormClass)) {
-                $builder->add('contentData', $editFormClass, $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_EDIT));
+                $builder->add('contentData', $editFormClass,
+                    $options['content_type']->getEditFormOptions(ContentTypeInterface::CONTEXT_EDIT)
+                );
             }
         }
         $builder->add('active', CheckboxType::class, [
@@ -108,13 +110,14 @@ class ContentItemType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
+        $helpText = $this->__('As soon as at least one selected entry applies for the current user the content becomes visible.');
         $builder->add('scope', MultiListType::class, [
             'label' => $this->__('Scope') . ':',
             'label_attr' => [
                 'class' => 'tooltips checkbox-inline',
-                'title' => $this->__('As soon as at least one selected entry applies for the current user the content becomes visible.')
+                'title' => $helpText
             ],
-            'help' => $this->__('As soon as at least one selected entry applies for the current user the content becomes visible.'),
+            'help' => $helpText,
             'empty_data' => '0',
             'attr' => [
                 'class' => '',
@@ -149,15 +152,16 @@ class ContentItemType extends AbstractType
             'multiple' => true
         ]);
 
+        $helpText = $this->__('You may enter any text which will be used during the site search to find this element.');
         $builder->add('additionalSearchText', TextType::class, [
             'label' => $this->__('Additional search text') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
-                'title' => $this->__('You may enter any text which will be used during the site search to find this element.')
+                'title' => $helpText
             ],
             'required' => false,
-            'help' => $this->__('You may enter any text which will be used during the site search to find this element.')
+            'help' => $helpText
         ]);
     }
 

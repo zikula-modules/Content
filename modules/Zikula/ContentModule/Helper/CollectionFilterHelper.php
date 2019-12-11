@@ -86,14 +86,19 @@ class CollectionFilterHelper extends AbstractCollectionFilterHelper
         if ($isAdminArea/* || $this->permissionHelper->hasComponentPermission('page', ACCESS_ADD)*/) {
             return true;
         }
-        if (1 === $request->query->getInt('preview') && $this->permissionHelper->hasComponentPermission('page', ACCESS_ADMIN)) {
+        if (
+            1 === $request->query->getInt('preview')
+            && $this->permissionHelper->hasComponentPermission('page', ACCESS_ADMIN)
+        ) {
             return true;
         }
-        if (in_array($routeName, [
-            'zikulacontentmodule_page_managecontent',
-            'zikulacontentmodule_contentitem_displayediting',
-            'zikulacontentmodule_page_sitemap'
-        ], true)) {
+        if (
+            in_array($routeName, [
+                'zikulacontentmodule_page_managecontent',
+                'zikulacontentmodule_contentitem_displayediting',
+                'zikulacontentmodule_page_sitemap'
+            ], true)
+        ) {
             return true;
         }
 

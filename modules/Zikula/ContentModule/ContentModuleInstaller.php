@@ -39,7 +39,14 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
         $this->setVar('pageStyles', "product|Product page\nlegal|Legal page");
         $this->setVar('sectionStyles', "header|Header\nreferences|References\nfooter|Footer");
-        $this->setVar('contentStyles', "grey-box|Grey box\nred-box|Red box\nyellow-box|Yellow box\ngreen-box|Green box\norange-announcement-box|Orange announcement box\ngreen-important-box|Green important box");
+        $this->setVar('contentStyles',
+            "grey-box|Grey box\n"
+          . "red-box|Red box\n"
+          . "yellow-box|Yellow box\n"
+          . "green-box|Green box\n"
+          . "orange-announcement-box|Orange announcement box\n"
+          . "green-important-box|Green important box"
+        );
 
         return $result;
     }
@@ -160,11 +167,17 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                     $categoryId = (int)$row['page_categoryid'];
                     if ($categoryId > 0) {
                         if (!isset($categoryMap[$categoryId])) {
-                            $categoryMap[$categoryId] = $this->entityManager->find('ZikulaCategoriesModule:CategoryEntity', $categoryId);
+                            $categoryMap[$categoryId] = $this->entityManager->find(
+                                'ZikulaCategoriesModule:CategoryEntity',
+                                $categoryId
+                            );
                         }
                         // check if category still exists
                         if (null !== $categoryMap[$categoryId]) {
-                            $page->getCategories()->add(new PageCategoryEntity($categoryRegistry->getId(), $categoryMap[$categoryId], $page));
+                            $categoryEntity = new PageCategoryEntity(
+                                $categoryRegistry->getId(), $categoryMap[$categoryId], $page
+                            );
+                            $page->getCategories()->add($categoryEntity);
                         }
                     }
                 }
