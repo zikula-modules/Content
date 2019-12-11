@@ -16,7 +16,6 @@ namespace Zikula\ContentModule\Controller;
 
 use Zikula\Common\Content\AbstractContentType;
 use Zikula\ContentModule\Controller\Base\AbstractContentItemController;
-
 use RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -162,7 +161,10 @@ class ContentItemController extends AbstractContentItemController
 
         $success = $workflowHelper->executeAction($newItem, 'submit');
         if (!$success) {
-            return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+            return $this->json(
+                ['message' => $this->__('Error! An error occured during saving the content.')],
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
@@ -311,7 +313,10 @@ class ContentItemController extends AbstractContentItemController
 
                 if ($contentItem->supportsHookSubscribers()) {
                     // Let any ui hooks perform additional validation actions
-                    $validationErrors = $hookHelper->callValidationHooks($contentItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
+                    $validationErrors = $hookHelper->callValidationHooks(
+                        $contentItem,
+                        UiHooksCategory::TYPE_VALIDATE_EDIT
+                    );
                     if (count($validationErrors) > 0) {
                         return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
                     }
@@ -320,7 +325,10 @@ class ContentItemController extends AbstractContentItemController
                 // execute the workflow action
                 $success = $workflowHelper->executeAction($contentItem, $workflowAction);
                 if (!$success) {
-                    return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+                    return $this->json
+                        (['message' => $this->__('Error! An error occured during saving the content.')],
+                        Response::HTTP_BAD_REQUEST
+                    );
                 }
 
                 // sync non-translatable fields (which may have changed) with other translations
@@ -384,12 +392,18 @@ class ContentItemController extends AbstractContentItemController
                     break;
                 }
                 if (!$deleteAllowed) {
-                    return $this->json(['message' => $this->__('Error! It is not allowed to delete this content item.')], Response::HTTP_BAD_REQUEST);
+                    return $this->json(
+                        ['message' => $this->__('Error! It is not allowed to delete this content item.')],
+                        Response::HTTP_BAD_REQUEST
+                    );
                 }
 
                 if ($contentItem->supportsHookSubscribers()) {
                     // Let any ui hooks perform additional validation actions
-                    $validationErrors = $hookHelper->callValidationHooks($contentItem, UiHooksCategory::TYPE_VALIDATE_DELETE);
+                    $validationErrors = $hookHelper->callValidationHooks(
+                        $contentItem,
+                        UiHooksCategory::TYPE_VALIDATE_DELETE
+                    );
                     if (0 < count($validationErrors)) {
                         return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
                     }
@@ -399,7 +413,10 @@ class ContentItemController extends AbstractContentItemController
                 $success = $workflowHelper->executeAction($contentItem, $deleteActionId);
 
                 if (!$success) {
-                    return $this->json(['message' => $this->__('Error! An error occured during content deletion.')], Response::HTTP_BAD_REQUEST);
+                    return $this->json(
+                        ['message' => $this->__('Error! An error occured during content deletion.')],
+                        Response::HTTP_BAD_REQUEST
+                    );
                 }
 
                 if (null !== $form && $contentItem->supportsHookSubscribers()) {
@@ -520,7 +537,10 @@ class ContentItemController extends AbstractContentItemController
                 $destinationPage->addContentItems($contentItem);
                 $success = $workflowHelper->executeAction($contentItem, 'update');
                 if (!$success) {
-                    return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+                    return $this->json(
+                        ['message' => $this->__('Error! An error occured during saving the content.')],
+                        Response::HTTP_BAD_REQUEST
+                    );
                 }
 
                 $sourcePage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CONTENT_DELETED');
@@ -535,9 +555,15 @@ class ContentItemController extends AbstractContentItemController
 
                 if ($newItem->supportsHookSubscribers()) {
                     // Let any ui hooks perform additional validation actions
-                    $validationErrors = $hookHelper->callValidationHooks($newItem, UiHooksCategory::TYPE_VALIDATE_EDIT);
+                    $validationErrors = $hookHelper->callValidationHooks(
+                        $newItem,
+                        UiHooksCategory::TYPE_VALIDATE_EDIT
+                    );
                     if (count($validationErrors) > 0) {
-                        return $this->json(['message' => implode(' ', $validationErrors)], Response::HTTP_BAD_REQUEST);
+                        return $this->json(
+                            ['message' => implode(' ', $validationErrors)],
+                            Response::HTTP_BAD_REQUEST
+                        );
                     }
                 }
 
@@ -545,7 +571,10 @@ class ContentItemController extends AbstractContentItemController
 
                 $success = $workflowHelper->executeAction($newItem, 'submit');
                 if (!$success) {
-                    return $this->json(['message' => $this->__('Error! An error occured during saving the content.')], Response::HTTP_BAD_REQUEST);
+                    return $this->json(
+                        ['message' => $this->__('Error! An error occured during saving the content.')],
+                        Response::HTTP_BAD_REQUEST
+                    );
                 }
 
                 $modelHelper->cloneContentTranslations($contentItem->getId(), $newItem->getId());
@@ -565,7 +594,9 @@ class ContentItemController extends AbstractContentItemController
 
             return $this->json([
                 'id' => $contentItem->getId(),
-                'message' => 'move' === $operationType ? $this->__('Done! Content moved.') : $this->__('Done! Content copied.')
+                'message' => 'move' === $operationType
+                    ? $this->__('Done! Content moved.')
+                    : $this->__('Done! Content copied.')
             ]);
         }
 

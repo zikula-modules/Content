@@ -59,7 +59,12 @@ class ItemListBlockType extends AbstractItemListBlockType
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);
 
-        if ($options['feature_activation_helper']->isEnabled(FeatureActivationHelper::CATEGORIES, $options['object_type'])) {
+        if (
+            $options['feature_activation_helper']->isEnabled(
+                FeatureActivationHelper::CATEGORIES,
+                $options['object_type']
+            )
+        ) {
             $this->addCategoriesField($builder, $options);
         }
         $this->addSortingField($builder, $options);

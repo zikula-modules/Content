@@ -52,10 +52,26 @@ class DynamicRouteLoader extends Loader
     public function __construct(
         VariableApiInterface $variableApi
     ) {
-        $this->ignoreBundleNameInRoutes = (bool)$variableApi->get('ZikulaContentModule', 'ignoreBundleNameInRoutes', true);
-        $this->ignoreEntityNameInRoutes = (bool)$variableApi->get('ZikulaContentModule', 'ignoreEntityNameInRoutes', true);
-        $this->ignoreFirstTreeLevelInRoutes = (bool)$variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
-        $this->permalinkSuffix = $variableApi->get('ZikulaContentModule', 'permalinkSuffix', 'none');
+        $this->ignoreBundleNameInRoutes = (bool)$variableApi->get(
+            'ZikulaContentModule',
+            'ignoreBundleNameInRoutes',
+            true
+        );
+        $this->ignoreEntityNameInRoutes = (bool)$variableApi->get(
+            'ZikulaContentModule',
+            'ignoreEntityNameInRoutes',
+            true
+        );
+        $this->ignoreFirstTreeLevelInRoutes = (bool)$variableApi->get(
+            'ZikulaContentModule',
+            'ignoreFirstTreeLevelInRoutes',
+            true
+        );
+        $this->permalinkSuffix = $variableApi->get(
+            'ZikulaContentModule',
+            'permalinkSuffix',
+            'none'
+        );
         $this->isLoaded = false;
     }
 
@@ -92,7 +108,10 @@ class DynamicRouteLoader extends Loader
                 '_format' => $requiredFormat . '|xml|json|ics|pdf'
             ];
             $options = [
-                'i18n' => true, // needs to be enabled for locale prefix, BUT we need to remove zikulacontentmodule_page_admindisplay and zikulacontentmodule_page_display from routes.en.po to allow dynamic changes of the corresponding pathes
+                'i18n' => true, // needs to be enabled for locale prefix
+                                // BUT we need to remove zikulacontentmodule_page_admindisplay
+                                // and zikulacontentmodule_page_display from routes.en.po
+                                // to allow dynamic changes of the corresponding pathes
                 'expose' => true,
                 'zkPosition' => 'bottom'
             ];

@@ -41,13 +41,17 @@ class SubPagesBlockType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $helpText = $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule')
+            . ' '
+            . $this->__('Only digits are allowed.', 'zikulacontentmodule')
+        ;
         $builder->add('amount', IntegerType::class, [
             'label' => $this->__('Amount', 'zikulacontentmodule') . ':',
             'attr' => [
                 'maxlength' => 2,
-                'title' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule')
+                'title' => $helpText
             ],
-            'help' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule'),
+            'help' => $helpText,
             'empty_data' => 5,
             'scale' => 0
         ]);

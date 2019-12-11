@@ -32,7 +32,10 @@ class CustomUrlGenerator extends BaseUrlGenerator
         $hostTokens,
         array $requiredSchemes = []
     ) {
-        if (false !== strpos($name, 'zikulacontentmodule_page_admindisplay') || false !== strpos($name, 'zikulacontentmodule_page_display')) {
+        if (
+            false !== strpos($name, 'zikulacontentmodule_page_admindisplay')
+            || false !== strpos($name, 'zikulacontentmodule_page_display')
+        ) {
             $ignoreFirstTreeLevelInRoutes = true;
             if (isset($defaults['ignoreFirstTreeLevelInRoutes'])) {
                 $ignoreFirstTreeLevelInRoutes = $defaults['ignoreFirstTreeLevelInRoutes'];
@@ -44,7 +47,11 @@ class CustomUrlGenerator extends BaseUrlGenerator
                 unset($defaults['permalinkSuffix']);
             }
 
-            if (true === $ignoreFirstTreeLevelInRoutes && isset($parameters['slug']) && false !== strpos($parameters['slug'], '/')) {
+            if (
+                true === $ignoreFirstTreeLevelInRoutes
+                && isset($parameters['slug'])
+                && false !== strpos($parameters['slug'], '/')
+            ) {
                 $slugParts = explode('/', $parameters['slug']);
                 array_shift($slugParts);
                 $parameters['slug'] = implode('/', $slugParts);
@@ -54,6 +61,16 @@ class CustomUrlGenerator extends BaseUrlGenerator
             }
         }
 
-        return parent::doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $referenceType, $hostTokens, $requiredSchemes);
+        return parent::doGenerate(
+            $variables,
+            $defaults,
+            $requirements,
+            $tokens,
+            $parameters,
+            $name,
+            $referenceType,
+            $hostTokens,
+            $requiredSchemes
+        );
     }
 }

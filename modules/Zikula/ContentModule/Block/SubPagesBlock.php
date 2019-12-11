@@ -48,14 +48,21 @@ class SubPagesBlock extends AbstractBlockHandler
             return '';
         }
 
+        $displayRoutes = [
+            'zikulacontentmodule_page_display',
+            'zikulacontentmodule_page_admindisplay'
+        ];
+
         $entities = [];
 
         $pageId = 0;
         $repository = $this->entityFactory->getRepository('page');
         $request = $this->requestStack->getCurrentRequest();
         $routeName = $request->get('_route');
-        if (in_array($routeName, ['zikulacontentmodule_page_display', 'zikulacontentmodule_page_admindisplay'])
-            && $request->attributes->has('slug')) {
+        if (
+            in_array($routeName, $displayRoutes)
+            && $request->attributes->has('slug')
+        ) {
             /** @var PageEntity $page */
             $page = $repository->selectBySlug($request->attributes->get('slug'), false);
             $pageId = null !== $page ? $page->getId() : null;
