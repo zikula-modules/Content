@@ -166,8 +166,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
         string $objectType = '',
         string $fieldName = '',
         string $delimiter = ', '
-    ): string
-    {
+    ): string {
         if ((empty($value) && '0' !== $value) || empty($objectType) || empty($fieldName)) {
             return $value;
         }
