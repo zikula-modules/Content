@@ -9,7 +9,7 @@ on: repository_dispatch
 # you could also just run it regularly
 #on:
 #  schedule:
-#    - cron:  '0 12 * * *' # run every 12 hours
+#    - cron:  '0 */12 * * *' # run every 12 hours
 jobs:
   build:
     runs-on: ubuntu-latest
