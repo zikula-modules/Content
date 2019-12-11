@@ -46,8 +46,7 @@ abstract class AbstractExternalController extends AbstractController
         int $id,
         string $source,
         string $displayMode
-    ): Response
-     {
+    ): Response {
         $contextArgs = ['controller' => 'external', 'action' => 'display'];
         if (!in_array($objectType, $controllerHelper->getObjectTypes('controllerAction', $contextArgs), true)) {
             $objectType = $controllerHelper->getDefaultObjectType('controllerAction', $contextArgs);
@@ -106,8 +105,7 @@ abstract class AbstractExternalController extends AbstractController
         string $sortdir,
         int $pos = 1,
         int $num = 0
-    ): Response
-     {
+    ): Response {
         $activatedObjectTypes = $listEntriesHelper->extractMultiList($this->getVar('enabledFinderTypes', ''));
         if (!in_array($objectType, $activatedObjectTypes, true)) {
             if (!count($activatedObjectTypes)) {

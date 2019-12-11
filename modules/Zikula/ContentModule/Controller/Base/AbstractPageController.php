@@ -116,10 +116,16 @@ abstract class AbstractPageController extends AbstractController
         
         /** @var RouterInterface $router */
         $router = $this->get('router');
-        $sortableColumns = new SortableColumns($router, 'zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'view', 'sort', 'sortdir');
+        $routeName = 'zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'view';
+        $sortableColumns = new SortableColumns($router, $routeName, 'sort', 'sortdir');
         
         if ('tree' === $request->query->getAlnum('tpl')) {
-            $templateParameters = $controllerHelper->processViewActionParameters($objectType, $sortableColumns, $templateParameters, true);
+            $templateParameters = $controllerHelper->processViewActionParameters(
+                $objectType,
+                $sortableColumns,
+                $templateParameters,
+                true
+            );
         
             // fetch and return the appropriate template
             return $viewHelper->processTemplate($objectType, 'view', $templateParameters);
@@ -142,10 +148,19 @@ abstract class AbstractPageController extends AbstractController
             new Column('updatedDate'),
         ]);
         
-        $templateParameters = $controllerHelper->processViewActionParameters($objectType, $sortableColumns, $templateParameters, true);
+        $templateParameters = $controllerHelper->processViewActionParameters(
+            $objectType,
+            $sortableColumns,
+            $templateParameters,
+            true
+        );
         
         // filter by permissions
-        $templateParameters['items'] = $permissionHelper->filterCollection($objectType, $templateParameters['items'], $permLevel);
+        $templateParameters['items'] = $permissionHelper->filterCollection(
+            $objectType,
+            $templateParameters['items'],
+            $permLevel
+        );
         
         // check if there exist any deleted page
         $templateParameters['hasDeletedEntities'] = false;
@@ -205,7 +220,11 @@ abstract class AbstractPageController extends AbstractController
             $objectType => $page
         ];
         
-        $templateParameters = $controllerHelper->processDisplayActionParameters($objectType, $templateParameters, $page->supportsHookSubscribers());
+        $templateParameters = $controllerHelper->processDisplayActionParameters(
+            $objectType,
+            $templateParameters,
+            $page->supportsHookSubscribers()
+        );
         
         // fetch and return the appropriate template
         $response = $viewHelper->processTemplate($objectType, 'display', $templateParameters);
@@ -304,7 +323,10 @@ abstract class AbstractPageController extends AbstractController
         
             if ($entity->supportsHookSubscribers()) {
                 // Let any ui hooks perform additional validation actions
-                $hookType = 'delete' === $action ? UiHooksCategory::TYPE_VALIDATE_DELETE : UiHooksCategory::TYPE_VALIDATE_EDIT;
+                $hookType = 'delete' === $action
+                    ? UiHooksCategory::TYPE_VALIDATE_DELETE
+                    : UiHooksCategory::TYPE_VALIDATE_EDIT
+                ;
                 $validationErrors = $hookHelper->callValidationHooks($entity, $hookType);
                 if (count($validationErrors) > 0) {
                     foreach ($validationErrors as $message) {
@@ -319,8 +341,24 @@ abstract class AbstractPageController extends AbstractController
                 // execute the workflow action
                 $success = $workflowHelper->executeAction($entity, $action);
             } catch (Exception $exception) {
-                $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action.', ['%action%' => $action]) . '  ' . $exception->getMessage());
-                $logger->error('{app}: User {user} tried to execute the {action} workflow action for the {entity} with id {id}, but failed. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'action' => $action, 'entity' => 'page', 'id' => $itemId, 'errorMessage' => $exception->getMessage()]);
+                $this->addFlash(
+                    'error',
+                    $this->__f(
+                        'Sorry, but an error occured during the %action% action.',
+                        ['%action%' => $action]
+                    ) . '  ' . $exception->getMessage()
+                );
+                $logger->error(
+                    '{app}: User {user} tried to execute the {action} workflow action for the {entity} with id {id}, but failed. Error details: {errorMessage}.',
+                    [
+                        'app' => 'ZikulaContentModule',
+                        'user' => $userName,
+                        'action' => $action,
+                        'entity' => 'page',
+                        'id' => $itemId,
+                        'errorMessage' => $exception->getMessage()
+                    ]
+                );
             }
         
             if (!$success) {
@@ -329,15 +367,35 @@ abstract class AbstractPageController extends AbstractController
         
             if ('delete' === $action) {
                 $this->addFlash('status', $this->__('Done! Item deleted.'));
-                $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'entity' => 'page', 'id' => $itemId]);
+                $logger->notice(
+                    '{app}: User {user} deleted the {entity} with id {id}.',
+                    [
+                        'app' => 'ZikulaContentModule',
+                        'user' => $userName,
+                        'entity' => 'page',
+                        'id' => $itemId
+                    ]
+                );
             } else {
                 $this->addFlash('status', $this->__('Done! Item updated.'));
-                $logger->notice('{app}: User {user} executed the {action} workflow action for the {entity} with id {id}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'action' => $action, 'entity' => 'page', 'id' => $itemId]);
+                $logger->notice(
+                    '{app}: User {user} executed the {action} workflow action for the {entity} with id {id}.',
+                    [
+                        'app' => 'ZikulaContentModule',
+                        'user' => $userName,
+                        'action' => $action,
+                        'entity' => 'page',
+                        'id' => $itemId
+                    ]
+                );
             }
         
             if ($entity->supportsHookSubscribers()) {
                 // Let any ui hooks know that we have updated or deleted an item
-                $hookType = 'delete' === $action ? UiHooksCategory::TYPE_PROCESS_DELETE : UiHooksCategory::TYPE_PROCESS_EDIT;
+                $hookType = 'delete' === $action
+                    ? UiHooksCategory::TYPE_PROCESS_DELETE
+                    : UiHooksCategory::TYPE_PROCESS_EDIT
+                ;
                 $url = null;
                 if ('delete' !== $action) {
                     $urlArgs = $entity->createUrlArgs();
@@ -397,7 +455,13 @@ abstract class AbstractPageController extends AbstractController
             $loggableHelper->undelete($page);
             $this->addFlash('status', $this->__('Done! Undeleted page.'));
         } catch (Exception $exception) {
-            $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'undelete']) . '  ' . $exception->getMessage());
+            $this->addFlash(
+                'error',
+                $this->__f(
+                    'Sorry, but an error occured during the %action% action. Please apply the changes again!',
+                    ['%action%' => 'undelete']
+                ) . '  ' . $exception->getMessage()
+            );
         }
         
         $translatableHelper->refreshTranslationsFromLogData($page);
@@ -461,7 +525,13 @@ abstract class AbstractPageController extends AbstractController
                     $this->addFlash('error', $this->__f('Error! Reverting page to version %version% failed.', ['%version%' => $revertToVersion]));
                 }
             } catch (Exception $exception) {
-                $this->addFlash('error', $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => 'update']) . '  ' . $exception->getMessage());
+                $this->addFlash(
+                    'error',
+                    $this->__f(
+                        'Sorry, but an error occured during the %action% action. Please apply the changes again!',
+                        ['%action%' => 'update']
+                    ) . '  ' . $exception->getMessage()
+                );
             }
         
             $page = $entityFactory->getRepository('page')->selectById($pageId);
@@ -500,7 +570,14 @@ abstract class AbstractPageController extends AbstractController
         ];
         
         if (true === $isDiffView) {
-            list ($minVersion, $maxVersion, $diffValues) = $loggableHelper->determineDiffViewParameters($logEntries, $versions);
+            list (
+                $minVersion,
+                $maxVersion,
+                $diffValues
+            ) = $loggableHelper->determineDiffViewParameters(
+                $logEntries,
+                $versions
+            );
             $templateParameters['minVersion'] = $minVersion;
             $templateParameters['maxVersion'] = $maxVersion;
             $templateParameters['diffValues'] = $diffValues;
@@ -508,5 +585,4 @@ abstract class AbstractPageController extends AbstractController
         
         return $this->render('@ZikulaContentModule/Page/history.html.twig', $templateParameters);
     }
-    
 }

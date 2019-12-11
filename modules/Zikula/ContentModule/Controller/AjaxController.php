@@ -44,9 +44,14 @@ class AjaxController extends AbstractAjaxController
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper
-    ): JsonResponse
-     {
-        return parent::getItemListFinderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $entityDisplayHelper);
+    ): JsonResponse {
+        return parent::getItemListFinderAction(
+            $request,
+            $controllerHelper,
+            $permissionHelper,
+            $entityFactory,
+            $entityDisplayHelper
+        );
     }
     
     /**
@@ -56,9 +61,12 @@ class AjaxController extends AbstractAjaxController
         Request $request,
         ControllerHelper $controllerHelper,
         EntityFactory $entityFactory
-    ): JsonResponse
-     {
-        return parent::checkForDuplicateAction($request, $controllerHelper, $entityFactory);
+    ): JsonResponse {
+        return parent::checkForDuplicateAction(
+            $request,
+            $controllerHelper,
+            $entityFactory
+        );
     }
     
     /**
@@ -68,9 +76,12 @@ class AjaxController extends AbstractAjaxController
         Request $request,
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi
-    ): JsonResponse
-     {
-        return parent::toggleFlagAction($request, $entityFactory, $currentUserApi);
+    ): JsonResponse {
+        return parent::toggleFlagAction(
+            $request,
+            $entityFactory,
+            $currentUserApi
+        );
     }
     
     /**
@@ -83,9 +94,15 @@ class AjaxController extends AbstractAjaxController
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository,
         WorkflowHelper $workflowHelper
-    ): JsonResponse
-     {
-        return parent::handleTreeOperationAction($request, $entityFactory, $entityDisplayHelper, $currentUserApi, $userRepository, $workflowHelper);
+    ): JsonResponse {
+        return parent::handleTreeOperationAction(
+            $request,
+            $entityFactory,
+            $entityDisplayHelper,
+            $currentUserApi,
+            $userRepository,
+            $workflowHelper
+        );
     }
 
     // feel free to add your own ajax controller methods here
