@@ -315,9 +315,10 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     protected $children;
     
     /**
-     * @ORM\OneToMany(targetEntity="\Zikula\ContentModule\Entity\PageCategoryEntity", 
-     *                mappedBy="entity", cascade={"all"}, 
-     *                orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="\Zikula\ContentModule\Entity\PageCategoryEntity",
+     *                mappedBy="entity", cascade={"all"},
+     *                orphanRemoval=true
+     * )
      * @var \Zikula\ContentModule\Entity\PageCategoryEntity
      */
     protected $categories = null;
@@ -739,7 +740,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     public function setCategories(Collection $categories): void
     {
         foreach ($this->categories as $category) {
-            if (false === ($key = $this->collectionContains($categories, $category))) {
+            if (false === ($key = $this->categoryCollectionContains($categories, $category))) {
                 $this->categories->removeElement($category);
             } else {
                 $categories->remove($key);
@@ -755,11 +756,12 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      *
      * @return bool|int
      */
-    private function collectionContains(Collection $collection, \Zikula\ContentModule\Entity\PageCategoryEntity $element)
+    private function categoryCollectionContains(Collection $collection, \Zikula\ContentModule\Entity\PageCategoryEntity $element)
     {
         foreach ($collection as $key => $category) {
             /** @var \Zikula\ContentModule\Entity\PageCategoryEntity $category */
-            if ($category->getCategoryRegistryId() === $element->getCategoryRegistryId()
+            if (
+                $category->getCategoryRegistryId() === $element->getCategoryRegistryId()
                 && $category->getCategory() === $element->getCategory()
             ) {
                 return $key;

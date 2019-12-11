@@ -50,9 +50,18 @@ class ExternalController extends AbstractExternalController
         int $id,
         string $source,
         string $displayMode
-    ): Response
-     {
-        return parent::displayAction($request, $controllerHelper, $permissionHelper, $entityFactory, $viewHelper, $objectType, $id, $source, $displayMode);
+    ): Response {
+        return parent::displayAction(
+            $request,
+            $controllerHelper,
+            $permissionHelper,
+            $entityFactory,
+            $viewHelper,
+            $objectType,
+            $id,
+            $source,
+            $displayMode
+        );
     }
 
     /**
@@ -78,9 +87,23 @@ class ExternalController extends AbstractExternalController
         string $sortdir,
         int $pos = 1,
         int $num = 0
-    ): Response
-     {
-        return parent::finderAction($request, $controllerHelper, $permissionHelper, $entityFactory, $collectionFilterHelper, $listEntriesHelper, $viewHelper, $assetHelper, $objectType, $editor, $sort, $sortdir, $pos, $num);
+    ): Response {
+        return parent::finderAction(
+            $request,
+            $controllerHelper,
+            $permissionHelper,
+            $entityFactory,
+            $collectionFilterHelper,
+            $listEntriesHelper,
+            $viewHelper,
+            $assetHelper,
+            $objectType,
+            $editor,
+            $sort,
+            $sortdir,
+            $pos,
+            $num
+        );
     }
 
     // feel free to extend the external controller here

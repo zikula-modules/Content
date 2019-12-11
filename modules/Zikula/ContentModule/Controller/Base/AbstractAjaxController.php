@@ -44,8 +44,7 @@ abstract class AbstractAjaxController extends AbstractController
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper
-    ): JsonResponse
-     {
+    ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -137,8 +136,7 @@ abstract class AbstractAjaxController extends AbstractController
         Request $request,
         ControllerHelper $controllerHelper,
         EntityFactory $entityFactory
-    ): JsonResponse
-     {
+    ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -199,8 +197,7 @@ abstract class AbstractAjaxController extends AbstractController
         Request $request,
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi
-    ): JsonResponse
-     {
+    ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
@@ -258,8 +255,7 @@ abstract class AbstractAjaxController extends AbstractController
         CurrentUserApiInterface $currentUserApi,
         UserRepositoryInterface $userRepository,
         WorkflowHelper $workflowHelper
-    ): JsonResponse
-     {
+    ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
