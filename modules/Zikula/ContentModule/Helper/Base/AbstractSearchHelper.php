@@ -192,7 +192,10 @@ abstract class AbstractSearchHelper implements SearchableInterface
                 $displayUrl = null;
                 if ($hasDisplayAction) {
                     $urlArgs = $entity->createUrlArgs();
-                    $urlArgs['_locale'] = null !== $languageField && !empty($entity[$languageField]) ? $entity[$languageField] : $request->getLocale();
+                    $urlArgs['_locale'] = null !== $languageField && !empty($entity[$languageField])
+                        ? $entity[$languageField]
+                        : $request->getLocale()
+                    ;
                     $displayUrl = new RouteUrl('zikulacontentmodule_' . strtolower($objectType) . '_display', $urlArgs);
                 }
     
@@ -229,7 +232,10 @@ abstract class AbstractSearchHelper implements SearchableInterface
             ]
         ];
     
-        $allowedTypes = $this->controllerHelper->getObjectTypes('helper', ['helper' => 'search', 'action' => 'getSearchTypes']);
+        $allowedTypes = $this->controllerHelper->getObjectTypes(
+            'helper',
+            ['helper' => 'search', 'action' => 'getSearchTypes']
+        );
         $allowedSearchTypes = [];
         foreach ($searchTypes as $searchType => $typeInfo) {
             if (!in_array($typeInfo['value'], $allowedTypes, true)) {
@@ -252,8 +258,12 @@ abstract class AbstractSearchHelper implements SearchableInterface
     /**
      * Construct a QueryBuilder Where orX|andX Expr instance.
      */
-    protected function formatWhere(QueryBuilder $qb, array $words = [], array $fields = [], string $searchtype = 'AND'): ?Composite
-    {
+    protected function formatWhere(
+        QueryBuilder $qb,
+        array $words = [],
+        array $fields = [],
+        string $searchtype = 'AND'
+    ): ?Composite {
         if (empty($words) || empty($fields)) {
             return null;
         }

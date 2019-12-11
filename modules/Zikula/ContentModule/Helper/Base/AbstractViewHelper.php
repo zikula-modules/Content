@@ -217,7 +217,7 @@ abstract class AbstractViewHelper
      *
      * @return string[] List of allowed template extensions
      */
-    protected function availableExtensions(string $type,  string$func): array
+    protected function availableExtensions(string $type, string $func): array
     {
         $extensions = [];
         $hasAdminAccess = $this->permissionHelper->hasComponentPermission($type, ACCESS_ADMIN);

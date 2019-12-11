@@ -195,7 +195,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
         ];
         foreach ($tree as $node) {
             if (1 > $node->getLvl() || $rootId === $node->getKey()) {
-                list ($nodes, $actions) = $this->processTreeItemWithChildren($objectType, $node, $routeArea, $rootId, $descriptionFieldName, $hasEditAction);
+                list ($nodes, $actions) = $this->processTreeItemWithChildren(
+                    $objectType, $node, $routeArea, $rootId, $descriptionFieldName, $hasEditAction
+                );
                 $result['nodes'] .= $nodes;
                 $result['actions'] .= $actions;
             }
@@ -207,8 +209,14 @@ abstract class AbstractTwigExtension extends AbstractExtension
     /**
      * Builds an unordered list for a tree node and it's children.
      */
-    protected function processTreeItemWithChildren(string $objectType, EntityAccess $node, string $routeArea, int $rootId, string $descriptionFieldName, bool $hasEditAction): array
-    {
+    protected function processTreeItemWithChildren(
+        string $objectType,
+        EntityAccess $node,
+        string $routeArea,
+        int $rootId,
+        string $descriptionFieldName,
+        bool $hasEditAction
+    ): array {
         $idPrefix = 'tree' . $rootId . 'node_' . $node->getKey();
         $title = '' !== $descriptionFieldName ? strip_tags($node[$descriptionFieldName]) : '';
     
@@ -219,10 +227,12 @@ abstract class AbstractTwigExtension extends AbstractExtension
             $urlDataAttributes .= ' data-' . $field . '="' . $value . '"';
         }
     
-        $liTag = '<li id="' . $idPrefix . '" title="' . str_replace('"', '', $title) . '" class="lvl' . $node->getLvl() . '"' . $urlDataAttributes . '>';
+        $titleAttribute = ' title="' . str_replace('"', '', $title) . '"';
+        $liTag = '<li id="' . $idPrefix . '"' . $titleAttribute . ' class="lvl' . $node->getLvl() . '"' . $urlDataAttributes . '>';
         $liContent = $this->entityDisplayHelper->getFormattedTitle($node);
         if ($hasEditAction) {
-            $url = $this->router->generate('zikulacontentmodule_' . strtolower($objectType) . '_' . $routeArea . 'edit', $urlArgs);
+            $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_' . $routeArea . 'edit';
+            $url = $this->router->generate($routeName, $urlArgs);
             $liContent = '<a href="' . $url . '" title="' . str_replace('"', '', $title) . '">' . $liContent . '</a>';
         }
     
@@ -243,7 +253,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
         if (count($node->getChildren()) > 0) {
             $nodeItem .= '<ul>';
             foreach ($node->getChildren() as $childNode) {
-                list ($subNodes, $subActions) = $this->processTreeItemWithChildren($objectType, $childNode, $routeArea, $rootId, $descriptionFieldName, $hasEditAction);
+                list ($subNodes, $subActions) = $this->processTreeItemWithChildren(
+                    $objectType, $childNode, $routeArea, $rootId, $descriptionFieldName, $hasEditAction
+                );
                 $nodeItem .= $subNodes;
                 $actions .= $subActions;
             }
@@ -259,8 +271,12 @@ abstract class AbstractTwigExtension extends AbstractExtension
     /**
      * The zikulacontentmodule_treeSelection function retrieves tree entities based on a given one.
      */
-    public function getTreeSelection(string $objectType, EntityAccess $node, string $target, bool $skipRootNode = true): array
-    {
+    public function getTreeSelection(
+        string $objectType,
+        EntityAccess $node,
+        string $target,
+        bool $skipRootNode = true
+    ): array {
         $repository = $this->entityFactory->getRepository($objectType);
         $titleFieldName = $this->entityDisplayHelper->getTitleFieldName($objectType);
     
@@ -301,7 +317,10 @@ abstract class AbstractTwigExtension extends AbstractExtension
                 break;
             case 'preandsuccessors':
                 $includeSelf = false;
-                $result = array_merge($repository->getPrevSiblings($node, $includeSelf), $repository->getNextSiblings($node, $includeSelf));
+                $result = array_merge(
+                    $repository->getPrevSiblings($node, $includeSelf),
+                    $repository->getNextSiblings($node, $includeSelf)
+                );
                 break;
         }
     

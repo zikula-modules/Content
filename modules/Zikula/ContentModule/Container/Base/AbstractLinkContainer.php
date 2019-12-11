@@ -91,8 +91,9 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
                     if (true === $showOnlyOwnEntries) {
                         $routeArgs = [];
                     }
+                    $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_view';
                     $links[] = [
-                        'url' => $this->router->generate('zikulacontentmodule_' . strtolower($objectType) . '_view', $routeArgs),
+                        'url' => $this->router->generate($routeName, $routeArgs),
                         'text' => $this->__('My pages', 'zikulacontentmodule'),
                         'icon' => 'list-alt'
                     ];
@@ -132,8 +133,10 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             }
         }
         
-        if (in_array('page', $allowedObjectTypes, true)
-            && $this->permissionHelper->hasComponentPermission('page', $permLevel)) {
+        if (
+            in_array('page', $allowedObjectTypes, true)
+            && $this->permissionHelper->hasComponentPermission('page', $permLevel)
+        ) {
             $links[] = [
                 'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view'),
                 'text' => $this->__('Pages', 'zikulacontentmodule'),

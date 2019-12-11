@@ -50,7 +50,9 @@ abstract class AbstractTranslationListener implements EventSubscriberInterface
     
             $originalFieldConfig = $entityForm->get($fieldName)->getConfig();
             $fieldOptions = $originalFieldConfig->getOptions();
-            $fieldOptions['required'] = $fieldOptions['required'] && in_array($fieldName, $formOptions['mandatory_fields'], true);
+            $fieldOptions['required'] = $fieldOptions['required']
+                && in_array($fieldName, $formOptions['mandatory_fields'], true)
+            ;
             $fieldOptions['data'] = $formOptions['values'][$fieldName] ?? null;
     
             $form->add($fieldName, get_class($originalFieldConfig->getType()->getInnerType()), $fieldOptions);
