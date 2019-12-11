@@ -7,9 +7,10 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: zikula
+          MYSQL_USER: zikula
+          MYSQL_PASSWORD: zikula
           MYSQL_DATABASE: zikula
+          MYSQL_ROOT_PASSWORD: zikula
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -21,22 +22,17 @@ jobs:
     - name: Build and test
       uses: guite/zikula-action@master
       with:
-        vendor_name: 'Zikula'
-        module_name: 'Content'
+        vendor_name: Zikula
+        module_name: Content
         module_version: '5.2.0'
-        core_version: 'ZK3DEV'
+        core_version: ZK3DEV
+        database_host: mysql
+        database_port: 3306
         create_artifacts: true
-      env:
-        DATABASE_URL: mysql://root:zikula@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/zikula
 
     # see https://github.com/actions/upload-artifact
-    - name: Upload tar archive as artifact
+    - name: Upload release folder as artifact
       uses: actions/upload-artifact@master
       with:
-        name: tar-archive
-        path: './ZikulaContentModule_v5.2.0.tar.gz'
-    - name: Upload zip archive as artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: zip-archive
-        path: './ZikulaContentModule_v5.2.0.zip'
+        name: ZikulaContentModule_v5.2.0
+        path: './ZikulaContentModule_v5.2.0'
