@@ -244,7 +244,10 @@ abstract class AbstractLoggableHelper
             $entity->$versionSetter($lastVersionBeforeDeletion + 2);
         }
     
-        $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_RESTORED|%version=' . $lastVersionBeforeDeletion);
+        $entity->set_actionDescriptionForLogEntry(
+            '_HISTORY_' . strtoupper($objectType) . '_RESTORED'
+            . '|%version=' . $lastVersionBeforeDeletion
+        );
     
         return $this->revertPostProcess($entity);
     }

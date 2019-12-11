@@ -16,7 +16,6 @@ namespace Zikula\ContentModule\Entity\Repository\Base;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
-
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -137,7 +136,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'content items', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'content items',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} updated {entities} created by user id {userid}.', $logArgs);
     }
     
@@ -165,7 +169,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'content items', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'content items',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} updated {entities} edited by user id {userid}.', $logArgs);
     }
     
@@ -191,7 +200,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'content items', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'content items',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} deleted {entities} created by user id {userid}.', $logArgs);
     }
     
@@ -217,7 +231,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
         $query = $qb->getQuery();
         $query->execute();
     
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entities' => 'content items', 'userid' => $userId];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entities' => 'content items',
+            'userid' => $userId
+        ];
         $logger->debug('{app}: User {user} deleted {entities} edited by user id {userid}.', $logArgs);
     }
 
@@ -248,12 +267,16 @@ abstract class AbstractContentItemRepository extends EntityRepository
      *
      * @param mixed $id The id (or array of ids) to use to retrieve the object (optional) (default=0)
      * @param bool $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param bool $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
+     * @param bool $slimMode If activated only some basic fields are selected without using any joins
+     *                       (optional) (default=false)
      *
      * @return array|ContentItemEntity Retrieved data array or contentItemEntity instance
      */
-    public function selectById($id = 0, bool $useJoins = true, bool $slimMode = false)
-    {
+    public function selectById(
+        $id = 0,
+        bool $useJoins = true,
+        bool $slimMode = false
+    ) {
         $results = $this->selectByIdList(is_array($id) ? $id : [$id], $useJoins, $slimMode);
     
         return null !== $results && 0 < count($results) ? $results[0] : null;
@@ -264,12 +287,16 @@ abstract class AbstractContentItemRepository extends EntityRepository
      *
      * @param array $idList The array of ids to use to retrieve the objects (optional) (default=0)
      * @param bool $useJoins Whether to include joining related objects (optional) (default=true)
-     * @param bool $slimMode If activated only some basic fields are selected without using any joins (optional) (default=false)
+     * @param bool $slimMode If activated only some basic fields are selected without using any joins
+     *                       (optional) (default=false)
      *
      * @return array Retrieved ContentItemEntity instances
      */
-    public function selectByIdList(array $idList = [0], bool $useJoins = true, bool $slimMode = false): ?array
-    {
+    public function selectByIdList(
+        array $idList = [0],
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): ?array {
         $qb = $this->genericBaseQuery('', '', $useJoins, $slimMode);
         $qb = $this->addIdListFilter($idList, $qb);
     
@@ -300,8 +327,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Returns query builder for selecting a list of objects with a given where clause.
      */
-    public function getListQueryBuilder(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): QueryBuilder
-    {
+    public function getListQueryBuilder(
+        string $where = '',
+        string $orderBy = '',
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): QueryBuilder {
         $qb = $this->genericBaseQuery($where, $orderBy, $useJoins, $slimMode);
         if (!$slimMode && null !== $this->collectionFilterHelper) {
             $qb = $this->collectionFilterHelper->addCommonViewFilters('contentItem', $qb);
@@ -313,8 +344,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Selects a list of objects with a given where clause.
      */
-    public function selectWhere(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): array
-    {
+    public function selectWhere(
+        string $where = '',
+        string $orderBy = '',
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): array {
         $qb = $this->getListQueryBuilder($where, $orderBy, $useJoins, $slimMode);
     
         $query = $this->getQueryFromBuilder($qb);
@@ -323,10 +358,14 @@ abstract class AbstractContentItemRepository extends EntityRepository
     }
 
     /**
-     * Returns query builder instance for retrieving a list of objects with a given where clause and pagination parameters.
+     * Returns query builder instance for retrieving a list of objects with a given
+     * where clause and pagination parameters.
      */
-    public function getSelectWherePaginatedQuery(QueryBuilder $qb, int $currentPage = 1, int $resultsPerPage = 25): Query
-    {
+    public function getSelectWherePaginatedQuery(
+        QueryBuilder $qb,
+        int $currentPage = 1,
+        int $resultsPerPage = 25
+    ): Query {
         if (1 > $currentPage) {
             $currentPage = 1;
         }
@@ -347,8 +386,14 @@ abstract class AbstractContentItemRepository extends EntityRepository
      *
      * @return array Retrieved collection and the amount of total records affected
      */
-    public function selectWherePaginated(string $where = '', string $orderBy = '', int $currentPage = 1, int $resultsPerPage = 25, bool $useJoins = true, bool $slimMode = false): array
-    {
+    public function selectWherePaginated(
+        string $where = '',
+        string $orderBy = '',
+        int $currentPage = 1,
+        int $resultsPerPage = 25,
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): array {
         $qb = $this->getListQueryBuilder($where, $orderBy, $useJoins, $slimMode);
         $query = $this->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
     
@@ -360,8 +405,14 @@ abstract class AbstractContentItemRepository extends EntityRepository
      *
      * @return array Retrieved collection and (for paginated queries) the amount of total records affected
      */
-    public function selectSearch(string $fragment = '', array $exclude = [], string $orderBy = '', int $currentPage = 1, int $resultsPerPage = 25, bool $useJoins = true): array
-    {
+    public function selectSearch(
+        string $fragment = '',
+        array $exclude = [],
+        string $orderBy = '',
+        int $currentPage = 1,
+        int $resultsPerPage = 25,
+        bool $useJoins = true
+    ): array {
         $qb = $this->getListQueryBuilder('', $orderBy, $useJoins);
         if (0 < count($exclude)) {
             $qb = $this->addExclusion($qb, $exclude);
@@ -465,8 +516,12 @@ abstract class AbstractContentItemRepository extends EntityRepository
     /**
      * Builds a generic Doctrine query supporting WHERE and ORDER BY.
      */
-    public function genericBaseQuery(string $where = '', string $orderBy = '', bool $useJoins = true, bool $slimMode = false): QueryBuilder
-    {
+    public function genericBaseQuery(
+        string $where = '',
+        string $orderBy = '',
+        bool $useJoins = true,
+        bool $slimMode = false
+    ): QueryBuilder {
         // normally we select the whole table
         $selection = 'tbl';
     

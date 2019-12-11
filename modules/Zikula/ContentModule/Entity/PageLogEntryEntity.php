@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Entity;
 
 use Zikula\ContentModule\Entity\Base\AbstractPageLogEntryEntity as BaseEntity;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**

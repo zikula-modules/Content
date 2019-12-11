@@ -196,7 +196,12 @@ abstract class AbstractTwigExtension extends AbstractExtension
         foreach ($tree as $node) {
             if (1 > $node->getLvl() || $rootId === $node->getKey()) {
                 list ($nodes, $actions) = $this->processTreeItemWithChildren(
-                    $objectType, $node, $routeArea, $rootId, $descriptionFieldName, $hasEditAction
+                    $objectType,
+                    $node,
+                    $routeArea,
+                    $rootId,
+                    $descriptionFieldName,
+                    $hasEditAction
                 );
                 $result['nodes'] .= $nodes;
                 $result['actions'] .= $actions;
@@ -228,7 +233,8 @@ abstract class AbstractTwigExtension extends AbstractExtension
         }
     
         $titleAttribute = ' title="' . str_replace('"', '', $title) . '"';
-        $liTag = '<li id="' . $idPrefix . '"' . $titleAttribute . ' class="lvl' . $node->getLvl() . '"' . $urlDataAttributes . '>';
+        $classAttribute = ' class="lvl' . $node->getLvl() . '"';
+        $liTag = '<li id="' . $idPrefix . '"' . $titleAttribute . $classAttribute . $urlDataAttributes . '>';
         $liContent = $this->entityDisplayHelper->getFormattedTitle($node);
         if ($hasEditAction) {
             $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_' . $routeArea . 'edit';
@@ -254,7 +260,12 @@ abstract class AbstractTwigExtension extends AbstractExtension
             $nodeItem .= '<ul>';
             foreach ($node->getChildren() as $childNode) {
                 list ($subNodes, $subActions) = $this->processTreeItemWithChildren(
-                    $objectType, $childNode, $routeArea, $rootId, $descriptionFieldName, $hasEditAction
+                    $objectType,
+                    $childNode,
+                    $routeArea,
+                    $rootId,
+                    $descriptionFieldName,
+                    $hasEditAction
                 );
                 $nodeItem .= $subNodes;
                 $actions .= $subActions;

@@ -150,7 +150,10 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * Bidirectional - Many contentItems [content items] are linked by one page [page] (OWNING SIDE).
      *
-     * @ORM\ManyToOne(targetEntity="Zikula\ContentModule\Entity\PageEntity", inversedBy="contentItems", cascade={"persist"})
+     * @ORM\ManyToOne(
+     *     targetEntity="Zikula\ContentModule\Entity\PageEntity",
+     *     inversedBy="contentItems", cascade={"persist"}
+     * )
      * @ORM\JoinTable(name="zikula_content_page")
      * @Assert\Type(type="Zikula\ContentModule\Entity\PageEntity")
      * @var \Zikula\ContentModule\Entity\PageEntity $page
@@ -250,7 +253,10 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     public function setActiveFrom(\DateTimeInterface $activeFrom = null): void
     {
         if ($this->activeFrom !== $activeFrom) {
-            if (!(null === $activeFrom && empty($activeFrom)) && !(is_object($activeFrom) && $activeFrom instanceOf \DateTimeInterface)) {
+            if (
+                !(null === $activeFrom && empty($activeFrom))
+                && !(is_object($activeFrom) && $activeFrom instanceof \DateTimeInterface)
+            ) {
                 $activeFrom = new \DateTime($activeFrom);
             }
             
@@ -268,7 +274,10 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     public function setActiveTo(\DateTimeInterface $activeTo = null): void
     {
         if ($this->activeTo !== $activeTo) {
-            if (!(null === $activeTo && empty($activeTo)) && !(is_object($activeTo) && $activeTo instanceOf \DateTimeInterface)) {
+            if (
+                !(null === $activeTo && empty($activeTo))
+                && !(is_object($activeTo) && $activeTo instanceof \DateTimeInterface)
+            ) {
                 $activeTo = new \DateTime($activeTo);
             }
             
