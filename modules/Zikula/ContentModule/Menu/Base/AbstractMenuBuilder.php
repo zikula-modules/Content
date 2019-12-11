@@ -144,7 +144,8 @@ class AbstractMenuBuilder
                     'routeParameters' => $previewRouteParameters
                 ]);
                 $menu[$title]->setLinkAttribute('target', '_blank');
-                $menu[$title]->setLinkAttribute('title',
+                $menu[$title]->setLinkAttribute(
+                    'title',
                     $this->__('Open preview page', 'zikulacontentmodule')
                 );
                 if ('display' === $context) {
@@ -159,7 +160,8 @@ class AbstractMenuBuilder
                     'routeParameters' => $entity->createUrlArgs()
                 ]);
                 $entityTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
-                $menu[$title]->setLinkAttribute('title',
+                $menu[$title]->setLinkAttribute(
+                    'title',
                     str_replace('"', '', $entityTitle)
                 );
                 if ('display' === $context) {
@@ -175,7 +177,8 @@ class AbstractMenuBuilder
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => $entity->createUrlArgs(true)
                     ]);
-                    $menu[$title]->setLinkAttribute('title',
+                    $menu[$title]->setLinkAttribute(
+                        'title',
                         $this->__('Edit this page', 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
@@ -187,7 +190,8 @@ class AbstractMenuBuilder
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => ['astemplate' => $entity->getKey()]
                     ]);
-                    $menu[$title]->setLinkAttribute('title',
+                    $menu[$title]->setLinkAttribute(
+                        'title',
                         $this->__('Reuse for new page', 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
@@ -200,7 +204,8 @@ class AbstractMenuBuilder
                             'route' => $routePrefix . $routeArea . 'edit',
                             'routeParameters' => ['parent' => $entity->getKey()]
                         ]);
-                        $menu[$title]->setLinkAttribute('title',
+                        $menu[$title]->setLinkAttribute(
+                            'title',
                             $this->__('Add a sub page to this page', 'zikulacontentmodule')
                         );
                         if ('display' === $context) {
@@ -217,7 +222,8 @@ class AbstractMenuBuilder
                         'route' => $routePrefix . $routeArea . 'loggablehistory',
                         'routeParameters' => $entity->createUrlArgs()
                     ]);
-                    $menu[$title]->setLinkAttribute('title',
+                    $menu[$title]->setLinkAttribute(
+                        'title',
                         $this->__('Watch version history', 'zikulacontentmodule')
                     );
                     if ('display' === $context) {

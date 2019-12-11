@@ -130,7 +130,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $eventClass = '\\Zikula\\ContentModule\\ContentEvents';
         $event = $this->createFilterEvent($entity);
-        $this->eventDispatcher->dispatch($event, constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_PRE_REMOVE'));
+        $eventName = constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_PRE_REMOVE');
+        $this->eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
@@ -162,7 +163,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $eventClass = '\\Zikula\\ContentModule\\ContentEvents';
         $event = $this->createFilterEvent($entity);
-        $this->eventDispatcher->dispatch($event, constant($eventClass . '::' . strtoupper($objectType) . '_POST_REMOVE'));
+        $eventName = constant($eventClass . '::' . strtoupper($objectType) . '_POST_REMOVE');
+        $this->eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
@@ -214,7 +216,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $eventClass = '\\Zikula\\ContentModule\\ContentEvents';
         $event = $this->createFilterEvent($entity);
-        $this->eventDispatcher->dispatch($event, constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_PRE_PERSIST'));
+        $eventName = constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_PRE_PERSIST');
+        $this->eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
@@ -241,7 +244,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $eventClass = '\\Zikula\\ContentModule\\ContentEvents';
         $event = $this->createFilterEvent($entity);
-        $this->eventDispatcher->dispatch($event, constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_POST_PERSIST'));
+        $eventName = constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_POST_PERSIST');
+        $this->eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
@@ -261,7 +265,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $eventClass = '\\Zikula\\ContentModule\\ContentEvents';
         $event = $this->createFilterEvent($entity);
-        $this->eventDispatcher->dispatch($event, constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_PRE_UPDATE'));
+        $eventName = constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_PRE_UPDATE');
+        $this->eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
@@ -287,7 +292,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $eventClass = '\\Zikula\\ContentModule\\ContentEvents';
         $event = $this->createFilterEvent($entity);
-        $this->eventDispatcher->dispatch($event, constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_POST_UPDATE'));
+        $eventName = constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_POST_UPDATE');
+        $this->eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
@@ -312,7 +318,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         // create the filter event and dispatch it
         $eventClass = '\\Zikula\\ContentModule\\ContentEvents';
         $event = $this->createFilterEvent($entity);
-        $this->eventDispatcher->dispatch($event, constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_POST_LOAD'));
+        $eventName = constant($eventClass . '::' . strtoupper($entity->get_objectType()) . '_POST_LOAD');
+        $this->eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
@@ -345,7 +352,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     /**
      * Purges the version history as configured.
      */
-    protected function purgeHistory( string$objectType = ''): void
+    protected function purgeHistory(string $objectType = ''): void
     {
         if (!in_array($objectType, ['page'])) {
             return;

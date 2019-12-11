@@ -91,7 +91,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
     public function addCategoriesField(FormBuilderInterface $builder, array $options = []): void
     {
         $objectType = 'page';
-    
+        $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity';
         $builder->add('categories', CategoriesType::class, [
             'label' => $this->__('Category'),
             'empty_data' => null,
@@ -103,7 +103,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
             'multiple' => false,
             'module' => 'ZikulaContentModule',
             'entity' => ucfirst($objectType) . 'Entity',
-            'entityCategoryClass' => 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity',
+            'entityCategoryClass' => $entityCategoryClass,
             'showRegistryLabels' => true
         ]);
     }

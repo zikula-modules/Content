@@ -95,6 +95,7 @@ abstract class AbstractPageFinderType extends AbstractType
      */
     public function addCategoriesField(FormBuilderInterface $builder, array $options = []): void
     {
+        $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($options['object_type']) . 'CategoryEntity';
         $builder->add('categories', CategoriesType::class, [
             'label' => $this->__('Category') . ':',
             'empty_data' => null,
@@ -107,7 +108,7 @@ abstract class AbstractPageFinderType extends AbstractType
             'multiple' => false,
             'module' => 'ZikulaContentModule',
             'entity' => ucfirst($options['object_type']) . 'Entity',
-            'entityCategoryClass' => 'Zikula\ContentModule\Entity\\' . ucfirst($options['object_type']) . 'CategoryEntity',
+            'entityCategoryClass' => $entityCategoryClass,
             'showRegistryLabels' => true
         ]);
     }

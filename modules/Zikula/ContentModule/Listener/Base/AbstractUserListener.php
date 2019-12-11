@@ -125,22 +125,60 @@ abstract class AbstractUserListener implements EventSubscriberInterface
         
         $repo = $this->entityFactory->getRepository('page');
         // set creator to admin (UsersConstant::USER_ID_ADMIN) for all pages created by this user
-        $repo->updateCreator($userId, UsersConstant::USER_ID_ADMIN, $this->translator, $this->logger, $this->currentUserApi);
+        $repo->updateCreator(
+            $userId,
+            UsersConstant::USER_ID_ADMIN,
+            $this->translator,
+            $this->logger,
+            $this->currentUserApi
+        );
         
         // set last editor to admin (UsersConstant::USER_ID_ADMIN) for all pages updated by this user
-        $repo->updateLastEditor($userId, UsersConstant::USER_ID_ADMIN, $this->translator, $this->logger, $this->currentUserApi);
+        $repo->updateLastEditor(
+            $userId,
+            UsersConstant::USER_ID_ADMIN,
+            $this->translator,
+            $this->logger,
+            $this->currentUserApi
+        );
         
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname'), 'entities' => 'pages'];
-        $this->logger->notice('{app}: User {user} has been deleted, so we deleted/updated corresponding {entities}, too.', $logArgs);
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $this->currentUserApi->get('uname'),
+            'entities' => 'pages'
+        ];
+        $this->logger->notice(
+            '{app}: User {user} has been deleted, so we deleted/updated corresponding {entities}, too.',
+            $logArgs
+        );
         
         $repo = $this->entityFactory->getRepository('contentItem');
         // set creator to admin (UsersConstant::USER_ID_ADMIN) for all content items created by this user
-        $repo->updateCreator($userId, UsersConstant::USER_ID_ADMIN, $this->translator, $this->logger, $this->currentUserApi);
+        $repo->updateCreator(
+            $userId,
+            UsersConstant::USER_ID_ADMIN,
+            $this->translator,
+            $this->logger,
+            $this->currentUserApi
+        );
         
         // set last editor to admin (UsersConstant::USER_ID_ADMIN) for all content items updated by this user
-        $repo->updateLastEditor($userId, UsersConstant::USER_ID_ADMIN, $this->translator, $this->logger, $this->currentUserApi);
+        $repo->updateLastEditor(
+            $userId,
+            UsersConstant::USER_ID_ADMIN,
+            $this->translator,
+            $this->logger,
+            $this->currentUserApi
+        );
         
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $this->currentUserApi->get('uname'), 'entities' => 'content items'];
-        $this->logger->notice('{app}: User {user} has been deleted, so we deleted/updated corresponding {entities}, too.', $logArgs);
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $this->currentUserApi->get('uname'),
+            'entities' => 'content items'
+        ];
+        $this->logger->notice(
+            '{app}: User {user} has been deleted, so we deleted/updated corresponding {entities}, too.',
+            $logArgs
+        );
     }
 }

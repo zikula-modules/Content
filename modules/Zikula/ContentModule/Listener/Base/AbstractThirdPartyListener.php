@@ -80,7 +80,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
             [
                 'module' => 'ZikulaContentModule',
                 'type' => 'javascript',
-                'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/js/ZikulaContentModule.Finder.js'
+                'path' => $this->getPathToModuleWebAssets() . 'js/ZikulaContentModule.Finder.js'
             ]
         );
     }
@@ -100,7 +100,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/CKEditor/zikulacontentmodule/',
+            'path' => $this->getPathToModuleWebAssets() . 'scribite/CKEditor/zikulacontentmodule/',
             'file' => 'plugin.js',
             'img' => 'ed_zikulacontentmodule.gif'
         ]);
@@ -121,7 +121,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/Quill/zikulacontentmodule/plugin.js'
+            'path' => $this->getPathToModuleWebAssets() . 'scribite/Quill/zikulacontentmodule/plugin.js'
         ]);
     }
     
@@ -140,7 +140,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/Summernote/zikulacontentmodule/plugin.js'
+            'path' => $this->getPathToModuleWebAssets() . 'scribite/Summernote/zikulacontentmodule/plugin.js'
         ]);
     }
     
@@ -159,7 +159,15 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     {
         $event->getSubject()->add([
             'name' => 'zikulacontentmodule',
-            'path' => $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/scribite/TinyMce/zikulacontentmodule/plugin.js'
+            'path' => $this->getPathToModuleWebAssets() . 'scribite/TinyMce/zikulacontentmodule/plugin.js'
         ]);
+    }
+    
+    /**
+     * Returns base path where module assets are located.
+     */
+    protected function getPathToModuleWebAssets(): string
+    {
+        return $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/';
     }
 }
