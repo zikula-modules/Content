@@ -107,7 +107,9 @@ abstract class AbstractPermissionHelper
     {
         $objectType = $entity->get_objectType();
     
-        return $this->mayEdit($entity, $userId) && $this->variableApi->get('ZikulaContentModule', 'show' . ucfirst($objectType) . 'History', true);
+        return $this->mayEdit($entity, $userId)
+            && $this->variableApi->get('ZikulaContentModule', 'show' . ucfirst($objectType) . 'History', true)
+        ;
     }
     
     /**
@@ -135,7 +137,12 @@ abstract class AbstractPermissionHelper
             }
         }
     
-        return $this->permissionApi->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', $instance, $permissionLevel, $userId);
+        return $this->permissionApi->hasPermission(
+            'ZikulaContentModule:' . ucfirst($objectType) . ':',
+            $instance,
+            $permissionLevel,
+            $userId
+        );
     }
     
     /**
@@ -161,7 +168,12 @@ abstract class AbstractPermissionHelper
      */
     public function hasComponentPermission(string $objectType, int $permissionLevel, int $userId = null): bool
     {
-        return $this->permissionApi->hasPermission('ZikulaContentModule:' . ucfirst($objectType) . ':', '::', $permissionLevel, $userId);
+        return $this->permissionApi->hasPermission(
+            'ZikulaContentModule:' . ucfirst($objectType) . ':',
+            '::',
+            $permissionLevel,
+            $userId
+        );
     }
     
     /**
@@ -177,7 +189,12 @@ abstract class AbstractPermissionHelper
      */
     public function hasPermission(int $permissionLevel, int $userId = null): bool
     {
-        return $this->permissionApi->hasPermission('ZikulaContentModule::', '::', $permissionLevel, $userId);
+        return $this->permissionApi->hasPermission(
+            'ZikulaContentModule::',
+            '::',
+            $permissionLevel,
+            $userId
+        );
     }
     
     /**

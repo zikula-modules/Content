@@ -119,12 +119,21 @@ class AbstractMenuBuilder
         }
         $menu->setChildrenAttribute('class', 'list-inline item-actions');
 
-        $this->eventDispatcher->dispatch(new ConfigureItemActionsMenuEvent($this->factory, $menu, $options), ContentEvents::MENU_ITEMACTIONS_PRE_CONFIGURE);
+        $this->eventDispatcher->dispatch(
+            new ConfigureItemActionsMenuEvent($this->factory, $menu, $options),
+            ContentEvents::MENU_ITEMACTIONS_PRE_CONFIGURE
+        );
 
-        $currentUserId = $this->currentUserApi->isLoggedIn() ? $this->currentUserApi->get('uid') : UsersConstant::USER_ID_ANONYMOUS;
+        $currentUserId = $this->currentUserApi->isLoggedIn()
+            ? $this->currentUserApi->get('uid')
+            : UsersConstant::USER_ID_ANONYMOUS
+        ;
         if ($entity instanceof PageEntity) {
             $routePrefix = 'zikulacontentmodule_page_';
-            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId === $entity->getCreatedBy()->getUid();
+            $isOwner = 0 < $currentUserId
+                && null !== $entity->getCreatedBy()
+                && $currentUserId === $entity->getCreatedBy()->getUid()
+            ;
         
             if ('admin' === $routeArea) {
                 $title = $this->__('Preview', 'zikulacontentmodule');
@@ -135,7 +144,9 @@ class AbstractMenuBuilder
                     'routeParameters' => $previewRouteParameters
                 ]);
                 $menu[$title]->setLinkAttribute('target', '_blank');
-                $menu[$title]->setLinkAttribute('title', $this->__('Open preview page', 'zikulacontentmodule'));
+                $menu[$title]->setLinkAttribute('title',
+                    $this->__('Open preview page', 'zikulacontentmodule')
+                );
                 if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
@@ -147,7 +158,10 @@ class AbstractMenuBuilder
                     'route' => $routePrefix . $routeArea . 'display',
                     'routeParameters' => $entity->createUrlArgs()
                 ]);
-                $menu[$title]->setLinkAttribute('title', str_replace('"', '', $this->entityDisplayHelper->getFormattedTitle($entity)));
+                $entityTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
+                $menu[$title]->setLinkAttribute('title',
+                    str_replace('"', '', $entityTitle)
+                );
                 if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                 }
@@ -161,7 +175,9 @@ class AbstractMenuBuilder
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => $entity->createUrlArgs(true)
                     ]);
-                    $menu[$title]->setLinkAttribute('title', $this->__('Edit this page', 'zikulacontentmodule'));
+                    $menu[$title]->setLinkAttribute('title',
+                        $this->__('Edit this page', 'zikulacontentmodule')
+                    );
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
@@ -171,7 +187,9 @@ class AbstractMenuBuilder
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => ['astemplate' => $entity->getKey()]
                     ]);
-                    $menu[$title]->setLinkAttribute('title', $this->__('Reuse for new page', 'zikulacontentmodule'));
+                    $menu[$title]->setLinkAttribute('title',
+                        $this->__('Reuse for new page', 'zikulacontentmodule')
+                    );
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
@@ -182,7 +200,9 @@ class AbstractMenuBuilder
                             'route' => $routePrefix . $routeArea . 'edit',
                             'routeParameters' => ['parent' => $entity->getKey()]
                         ]);
-                        $menu[$title]->setLinkAttribute('title', $this->__('Add a sub page to this page', 'zikulacontentmodule'));
+                        $menu[$title]->setLinkAttribute('title',
+                            $this->__('Add a sub page to this page', 'zikulacontentmodule')
+                        );
                         if ('display' === $context) {
                             $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                         }
@@ -197,7 +217,9 @@ class AbstractMenuBuilder
                         'route' => $routePrefix . $routeArea . 'loggablehistory',
                         'routeParameters' => $entity->createUrlArgs()
                     ]);
-                    $menu[$title]->setLinkAttribute('title', $this->__('Watch version history', 'zikulacontentmodule'));
+                    $menu[$title]->setLinkAttribute('title',
+                        $this->__('Watch version history', 'zikulacontentmodule')
+                    );
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
@@ -218,11 +240,17 @@ class AbstractMenuBuilder
         }
         if ($entity instanceof ContentItemEntity) {
             $routePrefix = 'zikulacontentmodule_contentitem_';
-            $isOwner = $currentUserId > 0 && null !== $entity->getCreatedBy() && $currentUserId === $entity->getCreatedBy()->getUid();
+            $isOwner = 0 < $currentUserId
+                && null !== $entity->getCreatedBy()
+                && $currentUserId === $entity->getCreatedBy()->getUid()
+            ;
         
         }
 
-        $this->eventDispatcher->dispatch(new ConfigureItemActionsMenuEvent($this->factory, $menu, $options), ContentEvents::MENU_ITEMACTIONS_POST_CONFIGURE);
+        $this->eventDispatcher->dispatch(
+            new ConfigureItemActionsMenuEvent($this->factory, $menu, $options),
+            ContentEvents::MENU_ITEMACTIONS_POST_CONFIGURE
+        );
 
         return $menu;
     }

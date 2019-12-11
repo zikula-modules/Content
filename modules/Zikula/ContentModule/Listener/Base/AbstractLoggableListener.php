@@ -59,7 +59,10 @@ abstract class AbstractLoggableListener extends BaseListener
         $versionGetter = 'get' . ucfirst($versionFieldName);
     
         // workaround to set correct version after restore of item
-        if (BaseListener::ACTION_CREATE === $logEntry->getAction() && $logEntry->getVersion() < $object->$versionGetter()) {
+        if (
+            BaseListener::ACTION_CREATE === $logEntry->getAction()
+            && $logEntry->getVersion() < $object->$versionGetter()
+        ) {
             $logEntry->setVersion($object->$versionGetter());
         }
     

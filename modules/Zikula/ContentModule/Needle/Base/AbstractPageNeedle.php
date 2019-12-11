@@ -150,7 +150,8 @@ abstract class AbstractPageNeedle implements NeedleInterface
             if (!$this->permissionHelper->hasComponentPermission('page', ACCESS_READ)) {
                 $cache[$needleId] = '';
             } else {
-                $cache[$needleId] = '<a href="' . $this->router->generate('zikulacontentmodule_page_view', [], UrlGeneratorInterface::ABSOLUTE_URL) . '" title="' . $this->translator->__('View pages', 'zikulacontentmodule') . '">' . $this->translator->__('Pages', 'zikulacontentmodule') . '</a>';
+                $route = $this->router->generate('zikulacontentmodule_page_view', [], UrlGeneratorInterface::ABSOLUTE_URL);
+                $cache[$needleId] = '<a href="' . $route . '" title="' . $this->translator->__('View pages', 'zikulacontentmodule') . '">' . $this->translator->__('Pages', 'zikulacontentmodule') . '</a>';
             }
     
             return $cache[$needleId];
@@ -166,7 +167,12 @@ abstract class AbstractPageNeedle implements NeedleInterface
         $repository = $this->entityFactory->getRepository('page');
         $entity = $repository->selectById($entityId, false);
         if (null === $entity) {
-            $cache[$needleId] = '<em>' . $this->translator->__f('Page with id %id% could not be found', ['%id%' => $entityId], 'zikulacontentmodule') . '</em>';
+            $notFoundMessage = $this->translator->__f(
+                'Page with id %id% could not be found',
+                ['%id%' => $entityId],
+                'zikulacontentmodule'
+            );
+            $cache[$needleId] = '<em>' . $notFoundMessage . '</em>';
     
             return $cache[$needleId];
         }
@@ -178,7 +184,8 @@ abstract class AbstractPageNeedle implements NeedleInterface
         }
     
         $title = $this->entityDisplayHelper->getFormattedTitle($entity);
-        $cache[$needleId] = '<a href="' . $this->router->generate('zikulacontentmodule_page_display', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL) . '" title="' . str_replace('"', '', $title) . '">' . $title . '</a>';
+        $route = $this->router->generate('zikulacontentmodule_page_display', $entity->createUrlArgs(), UrlGeneratorInterface::ABSOLUTE_URL);
+        $cache[$needleId] = '<a href="' . $route . '" title="' . str_replace('"', '', $title) . '">' . $title . '</a>';
     
         return $cache[$needleId];
     }

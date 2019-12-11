@@ -35,7 +35,10 @@ trait ModerationFormFieldsTrait
             return;
         }
     
-        if (isset($options['allow_moderation_specific_creator']) && $options['allow_moderation_specific_creator']) {
+        if (
+            isset($options['allow_moderation_specific_creator'])
+            && $options['allow_moderation_specific_creator']
+        ) {
             $builder->add('moderationSpecificCreator', UserLiveSearchType::class, [
                 'mapped' => false,
                 'label' => $this->__('Creator') . ':',
@@ -48,7 +51,10 @@ trait ModerationFormFieldsTrait
                 'help' => $this->__('Here you can choose a user which will be set as creator.')
             ]);
         }
-        if (isset($options['allow_moderation_specific_creation_date']) && $options['allow_moderation_specific_creation_date']) {
+        if (
+            isset($options['allow_moderation_specific_creation_date'])
+            && $options['allow_moderation_specific_creation_date']
+        ) {
             $builder->add('moderationSpecificCreationDate', DateTimeType::class, [
                 'mapped' => false,
                 'label' => $this->__('Creation date') . ':',

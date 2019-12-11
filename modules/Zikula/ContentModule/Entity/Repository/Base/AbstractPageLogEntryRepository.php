@@ -48,7 +48,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
            ->setParameter('action', LoggableListener::ACTION_REMOVE)
            ->andWhere($qb->expr()->notIn('log.objectId', $qbExisting->getDQL()))
            ->orderBy('log.loggedAt', 'DESC')
-       ;
+        ;
     
         $query = $qb->getQuery();
     
@@ -67,7 +67,10 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
      */
     public function purgeHistory(string $revisionHandling = 'unlimited', string $limitParameter = ''): void
     {
-        if ('unlimited' === $revisionHandling || !in_array($revisionHandling, ['limitedByAmount', 'limitedByDate'], true)) {
+        if (
+            'unlimited' === $revisionHandling
+            || !in_array($revisionHandling, ['limitedByAmount', 'limitedByDate'], true)
+        ) {
             // nothing to do
             return;
         }
@@ -157,7 +160,10 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
                     // very first loop execution, nothing special to do here
                 }
                 $counterPerObject = 1;
-                $thresholdForObject = $keepPerObject > 0 && isset($logAmountMap[$objectId]) ? ($logAmountMap[$objectId] - $keepPerObject) : 1;
+                $thresholdForObject = 0 < $keepPerObject && isset($logAmountMap[$objectId])
+                    ? ($logAmountMap[$objectId] - $keepPerObject)
+                    : 1
+                ;
                 $dataForObject = $logEntry->getData();
             } else {
                 // we have a another log entry for the same object

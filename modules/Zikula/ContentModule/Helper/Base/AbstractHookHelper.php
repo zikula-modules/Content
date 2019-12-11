@@ -84,8 +84,12 @@ abstract class AbstractHookHelper
     /**
      * Calls form aware processing hooks.
      */
-    public function callFormProcessHooks(FormInterface $form, EntityAccess $entity, string $hookType, UrlInterface $routeUrl = null): void
-    {
+    public function callFormProcessHooks(
+        FormInterface $form,
+        EntityAccess $entity,
+        string $hookType,
+        UrlInterface $routeUrl = null
+    ): void {
         $formResponse = new FormAwareResponse($form, $entity, $routeUrl);
         $hookAreaPrefix = $entity->getHookAreaPrefix();
         $hookAreaPrefix = str_replace('.ui_hooks.', '.form_aware_hook.', $hookAreaPrefix);

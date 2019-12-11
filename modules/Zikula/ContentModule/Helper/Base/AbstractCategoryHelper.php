@@ -158,8 +158,11 @@ abstract class AbstractCategoryHelper
     /**
      * Adds a list of where clauses for a certain list of categories to a given query builder.
      */
-    public function buildFilterClauses(QueryBuilder $queryBuilder, string $objectType = '', array $catIds = []): QueryBuilder
-    {
+    public function buildFilterClauses(
+        QueryBuilder $queryBuilder,
+        string $objectType = '',
+        array $catIds = []
+    ): QueryBuilder {
         $qb = $queryBuilder;
     
         $properties = $this->getAllProperties($objectType);
@@ -286,7 +289,11 @@ abstract class AbstractCategoryHelper
     {
         $requireAccessForAll = $this->requireAccessForAll($entity);
     
-        return $this->categoryPermissionApi->hasCategoryAccess($entity->getCategories()->toArray(), ACCESS_OVERVIEW, $requireAccessForAll);
+        return $this->categoryPermissionApi->hasCategoryAccess(
+            $entity->getCategories()->toArray(),
+            ACCESS_OVERVIEW,
+            $requireAccessForAll
+        );
     }
     
     /**

@@ -144,7 +144,9 @@ abstract class AbstractLoggableHelper
     
         // alternative (with worse performance)
         $entityManager = $this->entityFactory->getEntityManager();
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
+        $logEntriesRepository = $entityManager->getRepository(
+            'ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity'
+        );
         $logEntries = $logEntriesRepository->getLogEntries($entity);
     
         return 1 < count($logEntries);
@@ -156,7 +158,9 @@ abstract class AbstractLoggableHelper
     public function hasDeletedEntities(string $objectType = ''): bool
     {
         $entityManager = $this->entityFactory->getEntityManager();
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
+        $logEntriesRepository = $entityManager->getRepository(
+            'ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity'
+        );
     
         return 0 < count($logEntriesRepository->selectDeleted(1));
     }
@@ -167,7 +171,9 @@ abstract class AbstractLoggableHelper
     public function getDeletedEntities(string $objectType = ''): array
     {
         $entityManager = $this->entityFactory->getEntityManager();
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
+        $logEntriesRepository = $entityManager->getRepository(
+            'ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity'
+        );
     
         return $logEntriesRepository->selectDeleted();
     }
@@ -180,7 +186,9 @@ abstract class AbstractLoggableHelper
         $entityManager = $this->entityFactory->getEntityManager();
         $objectType = $entity->get_objectType();
     
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
+        $logEntriesRepository = $entityManager->getRepository(
+            'ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity'
+        );
         $logEntries = $logEntriesRepository->getLogEntries($entity);
         if (2 > count($logEntries)) {
             return $entity;
@@ -212,7 +220,9 @@ abstract class AbstractLoggableHelper
         $entity->$setter($id);
     
         $entityManager = $this->entityFactory->getEntityManager();
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity');
+        $logEntriesRepository = $entityManager->getRepository(
+            'ZikulaContentModule:' . ucfirst($objectType) . 'LogEntryEntity'
+        );
         $logEntries = $logEntriesRepository->getLogEntries($entity);
         $lastVersionBeforeDeletion = null;
         foreach ($logEntries as $logEntry) {

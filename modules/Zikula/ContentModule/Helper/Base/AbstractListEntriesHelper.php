@@ -37,8 +37,12 @@ abstract class AbstractListEntriesHelper
     /**
      * Return the name or names for a given list item.
      */
-    public function resolve(string $value, string $objectType = '', string $fieldName = '', string $delimiter = ', '): string
-    {
+    public function resolve(
+        string $value,
+        string $objectType = '',
+        string $fieldName = '',
+        string $delimiter = ', '
+    ): string {
         if ((empty($value) && '0' !== $value) || empty($objectType) || empty($fieldName)) {
             return $value;
         }
