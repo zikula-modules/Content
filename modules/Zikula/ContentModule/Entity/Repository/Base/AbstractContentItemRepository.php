@@ -75,6 +75,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
         ];
     }
 
+    
     public function getDefaultSortingField(): ?string
     {
         return $this->defaultSortingField;
@@ -110,7 +111,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
             $this->translationsEnabled = $translationsEnabled;
         }
     }
-    
 
     /**
      * Updates the creator of all objects created by a certain user.

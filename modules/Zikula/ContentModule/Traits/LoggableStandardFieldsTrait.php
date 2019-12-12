@@ -61,6 +61,7 @@ trait LoggableStandardFieldsTrait
      */
     protected $updatedDate;
     
+    
     public function getCreatedBy(): ?UserEntity
     {
         return $this->createdBy;
@@ -108,5 +109,4 @@ trait LoggableStandardFieldsTrait
             $this->updatedDate = $updatedDate;
         }
     }
-    
 }

@@ -359,7 +359,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     }
     
     
-    
     /**
      * Creates url arguments array for easy creation of display urls.
      */

@@ -128,7 +128,6 @@ abstract class AbstractContentEvents
      * @var string
      */
     public const PAGE_POST_UPDATE = 'zikulacontentmodule.page_post_update';
-    
     /**
      * The zikulacontentmodule.contentitem_post_load event is thrown when content items
      * are loaded from the database.
@@ -212,5 +211,4 @@ abstract class AbstractContentEvents
      * @var string
      */
     public const CONTENTITEM_POST_UPDATE = 'zikulacontentmodule.contentitem_post_update';
-    
 }

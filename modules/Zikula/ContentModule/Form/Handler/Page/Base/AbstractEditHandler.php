@@ -58,7 +58,8 @@ abstract class AbstractEditHandler extends EditHandler
                 'entity' => $this->objectType
             ];
             $this->logger->notice(
-                '{app}: User {user} tried to create a new {entity}, but failed as it other items are required which must be created before.',
+                '{app}: User {user} tried to create a new {entity}, but failed'
+                    . ' as other items are required which must be created before.',
                 $logArgs
             );
     
@@ -300,7 +301,8 @@ abstract class AbstractEditHandler extends EditHandler
                 'id' => $entity->getKey()
             ];
             $this->logger->error(
-                '{app}: User {user} tried to edit the {entity} with id {id}, but failed as someone else has already changed it.',
+                '{app}: User {user} tried to edit the {entity} with id {id},'
+                    . ' but failed as someone else has already changed it.',
                 $logArgs
             );
         } catch (Exception $exception) {
@@ -377,7 +379,8 @@ abstract class AbstractEditHandler extends EditHandler
                 return $this->router->generate($routePrefix . 'view', [ 'own' => 1 ]);
             case 'userDisplay':
             case 'adminDisplay':
-                if ('delete' !== $args['commandName']
+                if (
+                    'delete' !== $args['commandName']
                     && !('create' === $this->templateParameters['mode'] && 'cancel' === $args['commandName'])
                 ) {
                     return $this->router->generate($routePrefix . 'display', $this->entityRef->createUrlArgs());

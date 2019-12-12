@@ -733,7 +733,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->categories;
     }
     
-    
     /**
      * Sets the categories.
      */
@@ -771,6 +770,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return false;
     }
     
+    
     public function getContentItems()
     {
         return $this->contentItems;
@@ -785,7 +785,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
             $this->addContentItems($contentItemSingle);
         }
     }
-    
     /**
      * Adds an instance of \Zikula\ContentModule\Entity\ContentItemEntity to the list of content items.
      */

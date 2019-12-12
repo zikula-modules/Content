@@ -77,6 +77,7 @@ abstract class AbstractEntityInitialiser
         return $entity;
     }
 
+    
     public function getListEntriesHelper(): ?ListEntriesHelper
     {
         return $this->listEntriesHelper;
@@ -88,5 +89,4 @@ abstract class AbstractEntityInitialiser
             $this->listEntriesHelper = $listEntriesHelper;
         }
     }
-    
 }

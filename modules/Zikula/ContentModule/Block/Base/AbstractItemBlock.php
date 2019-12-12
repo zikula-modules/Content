@@ -56,11 +56,18 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
         }
     
         $contextArgs = ['name' => 'detail'];
-        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs), true)) {
+        if (
+            !isset($properties['objectType'])
+            || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs), true)
+        ) {
             $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
     
-        $controllerReference = new ControllerReference('ZikulaContentModule:External:display', $this->getDisplayArguments($properties), ['template' => $properties['customTemplate']]);
+        $controllerReference = new ControllerReference(
+            'ZikulaContentModule:External:display',
+            $this->getDisplayArguments($properties),
+            ['template' => $properties['customTemplate']]
+        );
     
         return $this->fragmentHandler->render($controllerReference);
     }
