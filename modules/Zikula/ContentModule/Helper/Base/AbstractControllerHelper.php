@@ -356,8 +356,10 @@ abstract class AbstractControllerHelper
     /**
      * Processes the parameters for an edit action.
      */
-    public function processEditActionParameters(string $objectType, array $templateParameters = []): array
-    {
+    public function processEditActionParameters(
+        string $objectType,
+        array $templateParameters = []
+    ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'edit'];
         if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
             throw new Exception($this->__('Error! Invalid object type received.'));
