@@ -157,7 +157,8 @@ class BlockType extends AbstractContentType
         // copied from Zikula\BlocksModule\Twig\Extension\BlocksExtension:
 
         // add theme path to twig loader for theme overrides using namespace notation (e.g. @BundleName/foo)
-        // this duplicates functionality from \Zikula\ThemeModule\EventListener\TemplatePathOverrideListener::setUpThemePathOverrides
+        // this duplicates functionality from
+        // \Zikula\ThemeModule\EventListener\TemplatePathOverrideListener::setUpThemePathOverrides
         // but because blockHandlers don't call (and are not considered) a controller, that listener doesn't get called.
         $theme = $this->themeEngine->getTheme();
         if ($theme) {
@@ -187,7 +188,13 @@ class BlockType extends AbstractContentType
             $moduleInstance->addStylesheet();
         }
 
-        $this->data['content'] = $this->themeEngine->wrapBlockContentInTheme($content, $block->getTitle(), $block->getBlocktype(), $block->getBid(), $positionName);
+        $this->data['content'] = $this->themeEngine->wrapBlockContentInTheme(
+            $content,
+            $block->getTitle(),
+            $block->getBlocktype(),
+            $block->getBid(),
+            $positionName
+        );
     }
 
     public function getEditFormClass(): string

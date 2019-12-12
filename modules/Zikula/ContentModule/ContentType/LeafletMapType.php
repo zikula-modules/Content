@@ -52,7 +52,8 @@ class LeafletMapType extends AbstractContentType
             'height' => 400,
             'text' => '',
             'tileLayerUrl' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            'tileLayerAttribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            'tileLayerAttribution' => '&copy;'
+                . ' <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         ];
     }
 
@@ -79,7 +80,9 @@ class LeafletMapType extends AbstractContentType
             $pathToStyle = $this->assetHelper->resolve(
                 '@ZikulaContentModule:css/style.css'
             );
-            $pathToLeaflet = str_replace('Resources/public/css/style.css', '', $pathToStyle) . 'vendor/drmonty/leaflet/';
+            $pathToLeaflet = str_replace('Resources/public/css/style.css', '', $pathToStyle)
+                . 'vendor/drmonty/leaflet/'
+            ;
             $assets['css'][] = $pathToLeaflet . 'css/leaflet.css';
             $assets['js'][] = $pathToLeaflet . 'js/leaflet.min.js';
             $assets['js'][] = $this->assetHelper->resolve(

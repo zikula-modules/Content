@@ -325,8 +325,8 @@ class ContentItemController extends AbstractContentItemController
                 // execute the workflow action
                 $success = $workflowHelper->executeAction($contentItem, $workflowAction);
                 if (!$success) {
-                    return $this->json
-                        (['message' => $this->__('Error! An error occured during saving the content.')],
+                    return $this->json(
+                        ['message' => $this->__('Error! An error occured during saving the content.')],
                         Response::HTTP_BAD_REQUEST
                     );
                 }

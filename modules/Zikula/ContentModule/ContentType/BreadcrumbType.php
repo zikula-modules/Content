@@ -52,7 +52,7 @@ class BreadcrumbType extends AbstractContentType
     public function getDefaultData(): array
     {
         return [
-            'includeSelf' => true, 
+            'includeSelf' => true,
             'includeHome' => false
         ];
     }
@@ -89,6 +89,10 @@ class BreadcrumbType extends AbstractContentType
      */
     public function setIgnoreFirstTreeLevel(VariableApiInterface $variableApi): void
     {
-        $this->ignoreFirstTreeLevel = (bool)$variableApi->get('ZikulaContentModule', 'ignoreFirstTreeLevelInRoutes', true);
+        $this->ignoreFirstTreeLevel = (bool)$variableApi->get(
+            'ZikulaContentModule',
+            'ignoreFirstTreeLevelInRoutes',
+            true
+        );
     }
 }

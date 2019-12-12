@@ -117,7 +117,10 @@ class GoogleMapType extends AbstractContentType
             );
         }
 
-        $googleMapsScript = 'https://maps.google.com/maps/api/js?v=3&key=' . $this->googleMapsApiKey . '&language=' . $locale;
+        $googleMapsScript = 'https://maps.google.com/maps/api/js?v=3'
+            . '&key=' . $this->googleMapsApiKey
+            . '&language=' . $locale
+        ;
         if (ContentTypeInterface::CONTEXT_VIEW === $context) {
             $googleMapsScript .= '&callback=contentInitGoogleMapDisplay';
         }
