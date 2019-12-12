@@ -291,7 +291,6 @@ abstract class AbstractAppSettings
         $this->load();
     }
     
-    
     public function getStateOfNewPages(): string
     {
         return $this->stateOfNewPages;

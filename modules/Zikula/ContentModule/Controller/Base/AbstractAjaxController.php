@@ -229,8 +229,8 @@ abstract class AbstractAjaxController extends AbstractController
         if (
             0 === $id
             || ('page' !== $objectType && 'contentItem' !== $objectType)
-        || ('page' === $objectType && !in_array($field, ['active', 'inMenu'], true))
-        || ('contentItem' === $objectType && !in_array($field, ['active'], true))
+            || ('page' === $objectType && !in_array($field, ['active', 'inMenu'], true))
+            || ('contentItem' === $objectType && !in_array($field, ['active'], true))
         ) {
             return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
         }
@@ -412,13 +412,15 @@ abstract class AbstractAjaxController extends AbstractController
                     $success = $workflowHelper->executeAction($childEntity, $action);
                     if (!$success) {
                         $returnValue['result'] = 'failure';
-                    } else {
-                        if (in_array($objectType, ['page'], true)) {
-                            $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_edit';
-                            $needsArg = in_array($objectType, ['page'], true);
-                            $urlArgs = $needsArg ? $childEntity->createUrlArgs(true) : $childEntity->createUrlArgs();
-                            $returnValue['returnUrl'] = $this->get('router')->generate($routeName, $urlArgs, UrlGeneratorInterface::ABSOLUTE_URL);
-                        }
+                    } elseif (in_array($objectType, ['page'], true)) {
+                        $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_edit';
+                        $needsArg = in_array($objectType, ['page'], true);
+                        $urlArgs = $needsArg ? $childEntity->createUrlArgs(true) : $childEntity->createUrlArgs();
+                        $returnValue['returnUrl'] = $this->get('router')->generate(
+                            $routeName,
+                            $urlArgs,
+                            UrlGeneratorInterface::ABSOLUTE_URL
+                        );
                     }
                 } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';

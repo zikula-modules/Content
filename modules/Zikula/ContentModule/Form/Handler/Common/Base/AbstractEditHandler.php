@@ -501,7 +501,6 @@ abstract class AbstractEditHandler
         // to be customised in sub classes
     }
     
-    
     public function getTemplateParameters(): array
     {
         return $this->templateParameters;
