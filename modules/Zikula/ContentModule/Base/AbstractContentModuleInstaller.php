@@ -143,7 +143,8 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                 } catch (Exception $exception) {
                     $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
                     $logger->error(
-                        '{app}: Could not update the database tables during the upgrade. Error details: {errorMessage}.',
+                        '{app}: Could not update the database tables during the upgrade.'
+                            . ' Error details: {errorMessage}.',
                         ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
                     );
     
