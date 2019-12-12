@@ -91,9 +91,10 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         $properties = array_merge($defaults, $properties);
     
         $contextArgs = ['name' => 'list'];
+        $allowedObjectTypes = $this->controllerHelper->getObjectTypes('block', $contextArgs);
         if (
             !isset($properties['objectType'])
-            || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs), true)
+            || !in_array($properties['objectType'], $allowedObjectTypes, true)
         ) {
             $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
         }

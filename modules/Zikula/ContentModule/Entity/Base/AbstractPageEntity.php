@@ -890,7 +890,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         $this->setUpdatedBy(null);
         $this->setUpdatedDate(null);
     
-    
         // clone categories
         $categories = $this->categories;
         $this->categories = new ArrayCollection();

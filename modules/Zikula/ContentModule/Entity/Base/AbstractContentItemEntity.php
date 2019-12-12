@@ -436,6 +436,5 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         $this->setCreatedDate(null);
         $this->setUpdatedBy(null);
         $this->setUpdatedDate(null);
-    
     }
 }
