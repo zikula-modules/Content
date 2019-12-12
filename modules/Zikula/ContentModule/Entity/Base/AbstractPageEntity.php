@@ -361,7 +361,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         }
     }
     
-    
     public function getId(): ?int
     {
         return $this->id;
@@ -770,7 +769,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return false;
     }
     
-    
     public function getContentItems()
     {
         return $this->contentItems;
@@ -785,6 +783,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
             $this->addContentItems($contentItemSingle);
         }
     }
+    
     /**
      * Adds an instance of \Zikula\ContentModule\Entity\ContentItemEntity to the list of content items.
      */
@@ -802,7 +801,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         $this->contentItems->removeElement($contentItem);
         $contentItem->setPage(null);
     }
-    
     
     /**
      * Creates url arguments array for easy creation of display urls.

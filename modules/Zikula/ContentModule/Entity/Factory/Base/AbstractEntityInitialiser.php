@@ -76,7 +76,6 @@ abstract class AbstractEntityInitialiser
 
         return $entity;
     }
-
     
     public function getListEntriesHelper(): ?ListEntriesHelper
     {

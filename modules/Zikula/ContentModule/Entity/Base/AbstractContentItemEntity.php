@@ -184,7 +184,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         }
     }
     
-    
     public function getId(): ?int
     {
         return $this->id;
@@ -347,7 +346,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         }
     }
     
-    
     public function getPage(): ?\Zikula\ContentModule\Entity\PageEntity
     {
         return $this->page;
@@ -357,7 +355,6 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     {
         $this->page = $page;
     }
-    
     
     /**
      * Creates url arguments array for easy creation of display urls.

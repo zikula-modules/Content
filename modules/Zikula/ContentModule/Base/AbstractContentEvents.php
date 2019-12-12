@@ -45,6 +45,7 @@ abstract class AbstractContentEvents
      * @var string
      */
     public const MENU_ITEMACTIONS_POST_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_post_configure';
+    
     /**
      * The zikulacontentmodule.page_post_load event is thrown when pages
      * are loaded from the database.
