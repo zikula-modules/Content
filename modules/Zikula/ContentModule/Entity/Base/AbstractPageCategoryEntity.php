@@ -32,6 +32,7 @@ abstract class AbstractPageCategoryEntity extends AbstractCategoryAssignment
      */
     protected $entity;
     
+    
     public function getEntity(): PageEntity
     {
         return $this->entity;
@@ -43,5 +44,4 @@ abstract class AbstractPageCategoryEntity extends AbstractCategoryAssignment
             $this->entity = $entity ?? '';
         }
     }
-    
 }

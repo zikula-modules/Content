@@ -32,6 +32,7 @@ abstract class AbstractPageLogEntryEntity extends AbstractLogEntry
      */
     protected $actionDescription = '';
     
+    
     public function getActionDescription(): string
     {
         return $this->actionDescription;
@@ -43,5 +44,4 @@ abstract class AbstractPageLogEntryEntity extends AbstractLogEntry
             $this->actionDescription = $actionDescription ?? '';
         }
     }
-    
 }

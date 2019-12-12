@@ -91,14 +91,21 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         $properties = array_merge($defaults, $properties);
     
         $contextArgs = ['name' => 'list'];
-        if (!isset($properties['objectType']) || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs), true)) {
+        if (
+            !isset($properties['objectType'])
+            || !in_array($properties['objectType'], $this->controllerHelper->getObjectTypes('block', $contextArgs), true)
+        ) {
             $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
     
         $objectType = $properties['objectType'];
     
         $hasCategories = in_array($objectType, $this->categorisableObjectTypes, true)
-            && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $properties['objectType']);
+            && $this->featureActivationHelper->isEnabled(
+                FeatureActivationHelper::CATEGORIES,
+                $properties['objectType']
+            )
+        ;
         if ($hasCategories) {
             $categoryProperties = $this->resolveCategoryIds($properties);
         }
@@ -146,7 +153,11 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
             $templateParameters['properties'] = $categoryProperties;
         }
     
-        $templateParameters = $this->controllerHelper->addTemplateParameters($properties['objectType'], $templateParameters, 'block');
+        $templateParameters = $this->controllerHelper->addTemplateParameters(
+            $properties['objectType'],
+            $templateParameters,
+            'block'
+        );
     
         return $this->renderView($template, $templateParameters);
     }
@@ -157,7 +168,11 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     protected function getDisplayTemplate(array $properties = []): string
     {
         $templateFile = $properties['template'];
-        if ('custom' === $templateFile && null !== $properties['customTemplate'] && '' !== $properties['customTemplate']) {
+        if (
+            'custom' === $templateFile
+            && null !== $properties['customTemplate']
+            && '' !== $properties['customTemplate']
+        ) {
             $templateFile = $properties['customTemplate'];
         }
     

@@ -74,7 +74,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
             'updatedDate',
         ];
     }
-
+    
     public function getDefaultSortingField(): ?string
     {
         return $this->defaultSortingField;
@@ -111,7 +111,6 @@ abstract class AbstractContentItemRepository extends EntityRepository
         }
     }
     
-
     /**
      * Updates the creator of all objects created by a certain user.
      *

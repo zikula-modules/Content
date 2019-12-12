@@ -79,7 +79,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
             'updatedDate',
         ];
     }
-
+    
     public function getDefaultSortingField(): ?string
     {
         return $this->defaultSortingField;
@@ -116,7 +116,6 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         }
     }
     
-
     /**
      * Updates the creator of all objects created by a certain user.
      *

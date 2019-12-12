@@ -361,7 +361,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         }
     }
     
-    
     public function getId(): ?int
     {
         return $this->id;
@@ -733,7 +732,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->categories;
     }
     
-    
     /**
      * Sets the categories.
      */
@@ -803,8 +801,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         $this->contentItems->removeElement($contentItem);
         $contentItem->setPage(null);
     }
-    
-    
     
     /**
      * Creates url arguments array for easy creation of display urls.

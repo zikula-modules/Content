@@ -57,6 +57,7 @@ trait StandardFieldsTrait
      */
     protected $updatedDate;
     
+    
     public function getCreatedBy(): ?UserEntity
     {
         return $this->createdBy;
@@ -104,5 +105,4 @@ trait StandardFieldsTrait
             $this->updatedDate = $updatedDate;
         }
     }
-    
 }

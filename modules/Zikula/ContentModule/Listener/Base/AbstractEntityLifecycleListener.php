@@ -123,7 +123,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     {
         /** @var EntityAccess $entity */
         $entity = $args->getObject();
-        if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
+        if (
+            !$this->isEntityManagedByThisBundle($entity)
+            || !method_exists($entity, 'get_objectType')
+        ) {
             return;
         }
         
@@ -148,7 +151,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     {
         /** @var EntityAccess $entity */
         $entity = $args->getObject();
-        if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
+        if (
+            !$this->isEntityManagedByThisBundle($entity)
+            || !method_exists($entity, 'get_objectType')
+        ) {
             return;
         }
         
@@ -181,7 +187,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     {
         /** @var EntityAccess $entity */
         $entity = $args->getObject();
-        if (!$this->isEntityManagedByThisBundle($entity) || (!method_exists($entity, 'get_objectType') && !$entity instanceof AbstractLogEntry)) {
+        if (
+            !$this->isEntityManagedByThisBundle($entity)
+            || (!method_exists($entity, 'get_objectType') && !$entity instanceof AbstractLogEntry)
+        ) {
             return;
         }
         
@@ -196,7 +205,8 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
                 return;
             }
         
-            $repository = $this->container->get(EntityFactory::class)->getEntityManager()->getRepository($entity->getObjectClass());
+            $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
+            $repository = $entityManager->getRepository($entity->getObjectClass());
             $object = $repository->find($entity->getObjectId());
             if (null === $object || !method_exists($object, 'get_objectType')) {
                 return;
@@ -231,12 +241,20 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     {
         /** @var EntityAccess $entity */
         $entity = $args->getObject();
-        if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
+        if (
+            !$this->isEntityManagedByThisBundle($entity)
+            || !method_exists($entity, 'get_objectType')
+        ) {
             return;
         }
         
         $currentUserApi = $this->container->get(CurrentUserApi::class);
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $entity->get_objectType(), 'id' => $entity->getKey()];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entity' => $entity->get_objectType(),
+            'id' => $entity->getKey()
+        ];
         $this->logger->debug('{app}: User {user} created the {entity} with id {id}.', $logArgs);
         
         $this->purgeHistory($entity->get_objectType());
@@ -258,7 +276,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     {
         /** @var EntityAccess $entity */
         $entity = $args->getObject();
-        if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
+        if (
+            !$this->isEntityManagedByThisBundle($entity)
+            || !method_exists($entity, 'get_objectType')
+        ) {
             return;
         }
         
@@ -279,12 +300,20 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     {
         /** @var EntityAccess $entity */
         $entity = $args->getObject();
-        if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
+        if (
+            !$this->isEntityManagedByThisBundle($entity)
+            || !method_exists($entity, 'get_objectType')
+        ) {
             return;
         }
         
         $currentUserApi = $this->container->get(CurrentUserApi::class);
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $entity->get_objectType(), 'id' => $entity->getKey()];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'entity' => $entity->get_objectType(),
+            'id' => $entity->getKey()
+        ];
         $this->logger->debug('{app}: User {user} updated the {entity} with id {id}.', $logArgs);
         
         $this->purgeHistory($entity->get_objectType());
@@ -311,7 +340,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     {
         /** @var EntityAccess $entity */
         $entity = $args->getObject();
-        if (!$this->isEntityManagedByThisBundle($entity) || !method_exists($entity, 'get_objectType')) {
+        if (
+            !$this->isEntityManagedByThisBundle($entity)
+            || !method_exists($entity, 'get_objectType')
+        ) {
             return;
         }
         
@@ -336,7 +368,9 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             array_shift($entityClassParts);
         }
 
-        return 'Zikula' === $entityClassParts[0] && 'ContentModule' === $entityClassParts[1];
+        return 'Zikula' === $entityClassParts[0]
+            && 'ContentModule' === $entityClassParts[1]
+        ;
     }
 
     /**
@@ -362,15 +396,29 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $variableApi = $this->container->get(VariableApi::class);
         $objectTypeCapitalised = ucfirst($objectType);
 
-        $revisionHandling = $variableApi->get('ZikulaContentModule', 'revisionHandlingFor' . $objectTypeCapitalised, 'unlimited');
+        $revisionHandling = $variableApi->get(
+            'ZikulaContentModule',
+            'revisionHandlingFor' . $objectTypeCapitalised,
+            'unlimited'
+        );
         $limitParameter = '';
         if ('limitedByAmount' === $revisionHandling) {
-            $limitParameter = $variableApi->get('ZikulaContentModule', 'maximumAmountOf' . $objectTypeCapitalised . 'Revisions', 25);
+            $limitParameter = $variableApi->get(
+                'ZikulaContentModule',
+                'maximumAmountOf' . $objectTypeCapitalised . 'Revisions',
+                25
+            );
         } elseif ('limitedByDate' === $revisionHandling) {
-            $limitParameter = $variableApi->get('ZikulaContentModule', 'periodFor' . $objectTypeCapitalised . 'Revisions', 'P1Y0M0DT0H0M0S');
+            $limitParameter = $variableApi->get(
+                'ZikulaContentModule',
+                'periodFor' . $objectTypeCapitalised . 'Revisions',
+                'P1Y0M0DT0H0M0S'
+            );
         }
 
-        $logEntriesRepository = $entityManager->getRepository('ZikulaContentModule:' . $objectTypeCapitalised . 'LogEntryEntity');
+        $logEntriesRepository = $entityManager->getRepository(
+            'ZikulaContentModule:' . $objectTypeCapitalised . 'LogEntryEntity'
+        );
         $logEntriesRepository->purgeHistory($revisionHandling, $limitParameter);
     }
 
@@ -401,7 +449,10 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         }
 
         $currentUserApi = $this->container->get(CurrentUserApi::class);
-        $userName = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uname') : $this->container->get(Translator::class)->__('Guest');
+        $userName = $currentUserApi->isLoggedIn()
+            ? $currentUserApi->get('uname')
+            : $this->container->get(Translator::class)->__('Guest')
+        ;
 
         $customLoggableListener->setUsername($userName);
 

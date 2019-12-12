@@ -250,7 +250,6 @@ class AbstractMenuBuilder
                 && null !== $entity->getCreatedBy()
                 && $currentUserId === $entity->getCreatedBy()->getUid()
             ;
-        
         }
 
         $this->eventDispatcher->dispatch(

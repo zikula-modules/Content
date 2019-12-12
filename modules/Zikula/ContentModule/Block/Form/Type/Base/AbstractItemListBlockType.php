@@ -55,7 +55,12 @@ abstract class AbstractItemListBlockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addObjectTypeField($builder, $options);
-        if ($options['feature_activation_helper']->isEnabled(FeatureActivationHelper::CATEGORIES, $options['object_type'])) {
+        if (
+            $options['feature_activation_helper']->isEnabled(
+                FeatureActivationHelper::CATEGORIES,
+                $options['object_type']
+            )
+        ) {
             $this->addCategoriesField($builder, $options);
         }
         $this->addSortingField($builder, $options);
@@ -69,13 +74,17 @@ abstract class AbstractItemListBlockType extends AbstractType
      */
     public function addObjectTypeField(FormBuilderInterface $builder, array $options = []): void
     {
+        $helpText = $this->__(
+            'If you change this please save the block once to reload the parameters below.',
+            'zikulacontentmodule'
+        );
         $builder->add('objectType', ChoiceType::class, [
             'label' => $this->__('Object type', 'zikulacontentmodule') . ':',
             'empty_data' => 'page',
             'attr' => [
-                'title' => $this->__('If you change this please save the block once to reload the parameters below.', 'zikulacontentmodule')
+                'title' => $helpText
             ],
-            'help' => $this->__('If you change this please save the block once to reload the parameters below.', 'zikulacontentmodule'),
+            'help' => $helpText,
             'choices' => [
                 $this->__('Pages', 'zikulacontentmodule') => 'page',
                 $this->__('Content items', 'zikulacontentmodule') => 'contentItem'
@@ -95,10 +104,14 @@ abstract class AbstractItemListBlockType extends AbstractType
         }
     
         $objectType = $options['object_type'];
+        $label = $hasMultiSelection
+            ? $this->__('Categories', 'zikulacontentmodule')
+            : $this->__('Category', 'zikulacontentmodule')
+        ;
         $hasMultiSelection = $options['category_helper']->hasMultipleSelection($objectType);
         $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity';
         $builder->add('categories', CategoriesType::class, [
-            'label' => ($hasMultiSelection ? $this->__('Categories', 'zikulacontentmodule') : $this->__('Category', 'zikulacontentmodule')) . ':',
+            'label' => $label . ':',
             'empty_data' => $hasMultiSelection ? [] : null,
             'attr' => [
                 'class' => 'category-selector',
@@ -172,13 +185,16 @@ abstract class AbstractItemListBlockType extends AbstractType
      */
     public function addAmountField(FormBuilderInterface $builder, array $options = []): void
     {
+        $helpText = $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule')
+            . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule')
+        ;
         $builder->add('amount', IntegerType::class, [
             'label' => $this->__('Amount', 'zikulacontentmodule') . ':',
             'attr' => [
                 'maxlength' => 2,
-                'title' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule')
+                'title' => $helpText
             ],
-            'help' => $this->__('The maximum amount of items to be shown.', 'zikulacontentmodule') . ' ' . $this->__('Only digits are allowed.', 'zikulacontentmodule'),
+            'help' => $helpText,
             'empty_data' => 5,
             'scale' => 0
         ]);
@@ -189,28 +205,27 @@ abstract class AbstractItemListBlockType extends AbstractType
      */
     public function addTemplateFields(FormBuilderInterface $builder, array $options = []): void
     {
-        $builder
-            ->add('template', ChoiceType::class, [
-                'label' => $this->__('Template', 'zikulacontentmodule') . ':',
-                'empty_data' => 'itemlist_display.html.twig',
-                'choices' => [
-                    $this->__('Only item titles', 'zikulacontentmodule') => 'itemlist_display.html.twig',
-                    $this->__('With description', 'zikulacontentmodule') => 'itemlist_display_description.html.twig',
-                    $this->__('Custom template', 'zikulacontentmodule') => 'custom'
-                ],
-                'multiple' => false,
-                'expanded' => false
-            ])
-            ->add('customTemplate', TextType::class, [
-                'label' => $this->__('Custom template', 'zikulacontentmodule') . ':',
-                'required' => false,
-                'attr' => [
-                    'maxlength' => 80,
-                    'title' => $this->__('Example', 'zikulacontentmodule') . ': itemlist_[objectType]_display.html.twig'
-                ],
-                'help' => $this->__('Example', 'zikulacontentmodule') . ': <em>itemlist_[objectType]_display.html.twig</em>'
-            ])
-        ;
+        $builder->add('template', ChoiceType::class, [
+            'label' => $this->__('Template', 'zikulacontentmodule') . ':',
+            'empty_data' => 'itemlist_display.html.twig',
+            'choices' => [
+                $this->__('Only item titles', 'zikulacontentmodule') => 'itemlist_display.html.twig',
+                $this->__('With description', 'zikulacontentmodule') => 'itemlist_display_description.html.twig',
+                $this->__('Custom template', 'zikulacontentmodule') => 'custom'
+            ],
+            'multiple' => false,
+            'expanded' => false
+        ]);
+        $exampleTemplate = 'itemlist_[objectType]_display.html.twig';
+        $builder->add('customTemplate', TextType::class, [
+            'label' => $this->__('Custom template', 'zikulacontentmodule') . ':',
+            'required' => false,
+            'attr' => [
+                'maxlength' => 80,
+                'title' => $this->__('Example', 'zikulacontentmodule') . ': ' . $exampleTemplate
+            ],
+            'help' => $this->__('Example', 'zikulacontentmodule') . ': <em>' . $exampleTemplate . '</em>'
+        ]);
     }
 
     /**

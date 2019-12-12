@@ -422,7 +422,8 @@ abstract class AbstractEditHandler
                 'id' => $entity->getKey()
             ];
             $this->logger->error(
-                '{app}: User {user} tried to edit the {entity} with id {id}, but failed to determine available workflow actions.',
+                '{app}: User {user} tried to edit the {entity} with id {id},'
+                    . ' but failed to determine available workflow actions.',
                 $logArgs
             );
             throw new RuntimeException($this->__('Error! Could not determine workflow actions.'));
@@ -500,11 +501,11 @@ abstract class AbstractEditHandler
         // to be customised in sub classes
     }
     
+    
     public function getTemplateParameters(): array
     {
         return $this->templateParameters;
     }
-    
     
     /**
      * Initialise existing entity for editing.

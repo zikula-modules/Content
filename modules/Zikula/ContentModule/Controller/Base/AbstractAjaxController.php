@@ -89,7 +89,14 @@ abstract class AbstractAjaxController extends AbstractController
                 continue;
             }
             $itemId = $item->getKey();
-            $slimItems[] = $this->prepareSlimItem($controllerHelper, $repository, $entityDisplayHelper, $item, $itemId, $descriptionFieldName);
+            $slimItems[] = $this->prepareSlimItem(
+                $controllerHelper,
+                $repository,
+                $entityDisplayHelper,
+                $item,
+                $itemId,
+                $descriptionFieldName
+            );
         }
         
         // return response
@@ -112,9 +119,18 @@ abstract class AbstractAjaxController extends AbstractController
             $objectType => $item
         ];
         $contextArgs = ['controller' => $objectType, 'action' => 'display'];
-        $previewParameters = $controllerHelper->addTemplateParameters($objectType, $previewParameters, 'controllerAction', $contextArgs);
+        $previewParameters = $controllerHelper->addTemplateParameters(
+            $objectType,
+            $previewParameters,
+            'controllerAction',
+            $contextArgs
+        );
     
-        $previewInfo = base64_encode($this->get('twig')->render('@ZikulaContentModule/External/' . ucfirst($objectType) . '/info.html.twig', $previewParameters));
+        $previewInfo = $this->get('twig')->render(
+            '@ZikulaContentModule/External/' . ucfirst($objectType) . '/info.html.twig',
+            $previewParameters
+        );
+        $previewInfo = base64_encode($previewInfo);
     
         $title = $entityDisplayHelper->getFormattedTitle($item);
         $description = $descriptionField !== '' ? $item[$descriptionField] : '';
@@ -210,7 +226,8 @@ abstract class AbstractAjaxController extends AbstractController
         $field = $request->request->getAlnum('field');
         $id = $request->request->getInt('id');
         
-        if (0 === $id
+        if (
+            0 === $id
             || ('page' !== $objectType && 'contentItem' !== $objectType)
         || ('page' === $objectType && !in_array($field, ['active', 'inMenu'], true))
         || ('contentItem' === $objectType && !in_array($field, ['active'], true))
@@ -232,7 +249,13 @@ abstract class AbstractAjaxController extends AbstractController
         $entityFactory->getEntityManager()->flush();
         
         $logger = $this->get('logger');
-        $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'field' => $field, 'entity' => $objectType, 'id' => $id];
+        $logArgs = [
+            'app' => 'ZikulaContentModule',
+            'user' => $currentUserApi->get('uname'),
+            'field' => $field,
+            'entity' => $objectType,
+            'id' => $id
+        ];
         $logger->notice('{app}: User {user} toggled the {field} flag the {entity} with id {id}.', $logArgs);
         
         // return response
@@ -345,7 +368,10 @@ abstract class AbstractAjaxController extends AbstractController
                     }
                 } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
+                    $returnValue['message'] = $this->__f(
+                        'Sorry, but an error occured during the %action% action. Please apply the changes again!',
+                        ['%action%' => $action]
+                    ) . '  ' . $exception->getMessage();
                 
                     return $this->json($returnValue);
                 }
@@ -388,14 +414,18 @@ abstract class AbstractAjaxController extends AbstractController
                         $returnValue['result'] = 'failure';
                     } else {
                         if (in_array($objectType, ['page'], true)) {
+                            $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_edit';
                             $needsArg = in_array($objectType, ['page'], true);
                             $urlArgs = $needsArg ? $childEntity->createUrlArgs(true) : $childEntity->createUrlArgs();
-                            $returnValue['returnUrl'] = $this->get('router')->generate('zikulacontentmodule_' . strtolower($objectType) . '_edit', $urlArgs, UrlGeneratorInterface::ABSOLUTE_URL);
+                            $returnValue['returnUrl'] = $this->get('router')->generate($routeName, $urlArgs, UrlGeneratorInterface::ABSOLUTE_URL);
                         }
                     }
                 } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
+                    $returnValue['message'] = $this->__f(
+                        'Sorry, but an error occured during the %action% action. Please apply the changes again!',
+                        ['%action%' => $action]
+                    ) . '  ' . $exception->getMessage();
                 
                     return $this->json($returnValue);
                 }
@@ -422,7 +452,10 @@ abstract class AbstractAjaxController extends AbstractController
                     }
                 } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__f('Sorry, but an error occured during the %action% action. Please apply the changes again!', ['%action%' => $action]) . '  ' . $exception->getMessage();
+                    $returnValue['message'] = $this->__f(
+                        'Sorry, but an error occured during the %action% action. Please apply the changes again!',
+                        ['%action%' => $action]
+                    ) . '  ' . $exception->getMessage();
                 
                     return $this->json($returnValue);
                 }

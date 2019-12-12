@@ -291,6 +291,7 @@ abstract class AbstractAppSettings
         $this->load();
     }
     
+    
     public function getStateOfNewPages(): string
     {
         return $this->stateOfNewPages;
@@ -626,7 +627,6 @@ abstract class AbstractAppSettings
             $this->showPageHistory = $showPageHistory;
         }
     }
-    
     
     /**
      * Loads module variables from the database.

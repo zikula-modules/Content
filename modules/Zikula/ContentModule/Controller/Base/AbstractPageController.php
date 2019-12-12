@@ -349,7 +349,8 @@ abstract class AbstractPageController extends AbstractController
                     ) . '  ' . $exception->getMessage()
                 );
                 $logger->error(
-                    '{app}: User {user} tried to execute the {action} workflow action for the {entity} with id {id}, but failed. Error details: {errorMessage}.',
+                    '{app}: User {user} tried to execute the {action} workflow action for the {entity} with id {id},'
+                        . ' but failed. Error details: {errorMessage}.',
                     [
                         'app' => 'ZikulaContentModule',
                         'user' => $userName,
@@ -520,9 +521,21 @@ abstract class AbstractPageController extends AbstractController
                 $translatableHelper->refreshTranslationsFromLogData($page);
         
                 if ($success) {
-                    $this->addFlash('status', $this->__f('Done! Reverted page to version %version%.', ['%version%' => $revertToVersion]));
+                    $this->addFlash(
+                        'status',
+                        $this->__f(
+                            'Done! Reverted page to version %version%.',
+                            ['%version%' => $revertToVersion]
+                        )
+                    );
                 } else {
-                    $this->addFlash('error', $this->__f('Error! Reverting page to version %version% failed.', ['%version%' => $revertToVersion]));
+                    $this->addFlash(
+                        'error',
+                        $this->__f(
+                            'Error! Reverting page to version %version% failed.',
+                            ['%version%' => $revertToVersion]
+                        )
+                    );
                 }
             } catch (Exception $exception) {
                 $this->addFlash(
@@ -536,7 +549,10 @@ abstract class AbstractPageController extends AbstractController
         
             $page = $entityFactory->getRepository('page')->selectById($pageId);
         
-            return $this->redirectToRoute('zikulacontentmodule_page_' . $routeArea . 'loggablehistory', ['slug' => $page['slug']]);
+            return $this->redirectToRoute(
+                'zikulacontentmodule_page_' . $routeArea . 'loggablehistory',
+                ['slug' => $page['slug']]
+            );
         }
         
         $isDiffView = false;
