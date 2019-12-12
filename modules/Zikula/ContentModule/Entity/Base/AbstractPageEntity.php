@@ -804,7 +804,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     }
     
     
-    
     /**
      * Creates url arguments array for easy creation of display urls.
      */
