@@ -117,8 +117,17 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                 $this->entityManager->persist($registry);
                 $this->entityManager->flush();
             } catch (Exception $exception) {
-                $this->addFlash('warning', $this->__f('Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.', ['%entity%' => 'page']));
-                $logger->error('{app}: User {user} could not create a category registry for {entities} during installation. Error details: {errorMessage}.', ['app' => 'ZikulaContentModule', 'user' => $userName, 'entities' => 'pages', 'errorMessage' => $exception->getMessage()]);
+                $this->addFlash(
+                    'warning',
+                    $this->__f(
+                        'Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.',
+                        ['%entity%' => 'page']
+                    )
+                );
+                $logger->error(
+                    '{app}: User {user} could not create a category registry for {entities} during installation. Error details: {errorMessage}.',
+                    ['app' => 'ZikulaContentModule', 'user' => $userName, 'entities' => 'pages', 'errorMessage' => $exception->getMessage()]
+                );
             }
             $categoryRegistryIdsPerEntity['page'] = $registry->getId();
         }
