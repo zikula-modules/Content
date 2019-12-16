@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Event\Base;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Zikula\ContentModule\Entity\PageEntity;
 
 /**

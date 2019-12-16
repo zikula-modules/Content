@@ -13,7 +13,7 @@
         </div>
         {% form_theme finderForm with [
             '@ZikulaContentModule/Form/bootstrap_3.html.twig',
-            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+            '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(finderForm, {attr: {id: 'zikulaContentModuleSelectorForm'}}) }}
         {{ form_errors(finderForm) }}
