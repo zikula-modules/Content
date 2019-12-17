@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Helper\Base;
 
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\Proxy\Proxy;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Exception;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Gedmo\Loggable\LoggableListener;
