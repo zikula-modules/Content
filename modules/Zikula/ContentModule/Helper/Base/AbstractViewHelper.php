@@ -18,7 +18,7 @@ use Dompdf\Dompdf;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use Twig\Loader\LoaderInterface;
 use Zikula\Core\Response\PlainResponse;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ThemeModule\Engine\AssetFilter;
@@ -37,7 +37,7 @@ abstract class AbstractViewHelper
     protected $twig;
     
     /**
-     * @var FilesystemLoader
+     * @var LoaderInterface
      */
     protected $twigLoader;
     
@@ -73,7 +73,7 @@ abstract class AbstractViewHelper
     
     public function __construct(
         Environment $twig,
-        FilesystemLoader $twigLoader,
+        LoaderInterface $twigLoader,
         RequestStack $requestStack,
         VariableApiInterface $variableApi,
         AssetFilter $assetFilter,

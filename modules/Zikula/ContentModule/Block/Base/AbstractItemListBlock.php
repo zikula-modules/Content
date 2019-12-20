@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Block\Base;
 
 use Exception;
-use Twig\Loader\FilesystemLoader;
+use Twig\Loader\LoaderInterface;
 use Zikula\BlocksModule\AbstractBlockHandler;
 use Zikula\ContentModule\Block\Form\Type\ItemListBlockType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -31,7 +31,7 @@ use Zikula\ContentModule\Helper\PermissionHelper;
 abstract class AbstractItemListBlock extends AbstractBlockHandler
 {
     /**
-     * @var FilesystemLoader
+     * @var LoaderInterface
      */
     protected $twigLoader;
     
@@ -275,7 +275,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     /**
      * @required
      */
-    public function setTwigLoader(FilesystemLoader $twigLoader): void
+    public function setTwigLoader(LoaderInterface $twigLoader): void
     {
         $this->twigLoader = $twigLoader;
     }
