@@ -300,10 +300,13 @@ abstract class AbstractEditHandler extends EditHandler
             // execute the workflow action
             $success = $this->workflowHelper->executeAction($entity, $action);
         } catch (OptimisticLockException $exception) {
-            $flashBag->add(
-                'error',
-                $this->__('Sorry, but someone else has already changed this record. Please apply the changes again!')
-            );
+            $request = $this->requestStack->getCurrentRequest();
+            if ($request->hasSession() && ($session = $request->getSession())) {
+                $session->getFlashBag()->add(
+                    'error',
+                    $this->__('Sorry, but someone else has already changed this record. Please apply the changes again!')
+                );
+            }
             $logArgs = [
                 'app' => 'ZikulaContentModule',
                 'user' => $this->currentUserApi->get('uname'),
@@ -318,7 +321,7 @@ abstract class AbstractEditHandler extends EditHandler
         } catch (Exception $exception) {
             $request = $this->requestStack->getCurrentRequest();
             if ($request->hasSession() && ($session = $request->getSession())) {
-                $flashBag->add(
+                $session->getFlashBag()->add(
                     'error',
                     $this->__f(
                         'Sorry, but an error occured during the %action% action. Please apply the changes again!',
