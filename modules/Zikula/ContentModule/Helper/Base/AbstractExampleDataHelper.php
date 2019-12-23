@@ -144,12 +144,14 @@ abstract class AbstractExampleDataHelper
             $success = $this->workflowHelper->executeAction($page1, $action);
             $success = $this->workflowHelper->executeAction($contentItem1, $action);
         } catch (Exception $exception) {
-            $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
-            $flashBag->add(
-                'error',
-                $this->translator->__('Exception during example data creation')
-                    . ': ' . $exception->getMessage()
-            );
+            if ($this->requestStack->getCurrentRequest()->hasSession()) {
+                $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
+                $flashBag->add(
+                    'error',
+                    $this->translator->__('Exception during example data creation')
+                        . ': ' . $exception->getMessage()
+                );
+            }
             $this->logger->error(
                 '{app}: Could not completely create example data after installation. Error details: {errorMessage}.',
                 ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
