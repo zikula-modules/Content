@@ -1,7 +1,6 @@
 {# purpose of this template: build the form to edit an instance of page #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
-{% extends 'ZikulaContentModule::' ~ baseTemplate ~ '.html.twig' %}
-
+{% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
 {% block title mode == 'create' ? __('Create page') : __('Edit page') %}
 {% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
 {% block content %}
