@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Listener;
 
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\TranslatableHelper;
