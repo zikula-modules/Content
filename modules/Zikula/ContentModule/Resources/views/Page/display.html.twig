@@ -15,7 +15,7 @@
         <div class="col-sm-9">
     {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'display'}) %}
     <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
-        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
+        {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
     </div>
     <dl>
         {% if page.workflowState is not empty and routeArea == 'admin' %}
