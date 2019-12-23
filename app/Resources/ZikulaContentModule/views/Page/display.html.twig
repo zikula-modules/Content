@@ -1,6 +1,6 @@
 {# purpose of this template: pages display view #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
-{% extends 'ZikulaContentModule::' ~ baseTemplate ~ '.html.twig' %}
+{% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
 {% import _self as macros %}
 {% block appTitle %}
     {% if inList is not defined %}
@@ -36,7 +36,7 @@
                 {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'display'}) %}
                 {% if itemActions|length > 1 %}
                     <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{{ __('Actions') }}">
-                        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
+                        {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
                     </div>
                 {% endif %}
             {% endif %}

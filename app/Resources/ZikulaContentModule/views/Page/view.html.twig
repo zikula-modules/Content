@@ -1,5 +1,5 @@
 {# purpose of this template: pages list view #}
-{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
 {% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ __('My pages') }}{% elseif routeArea == 'admin' %}{{ __('Pages list') }}{% elseif list == 'complete' %}{{ __('Complete pages list') }}{% elseif list == 'extended' %}{{ __('Extended pages list') }}{% elseif list == 'categories' %}{{ __('Categories list') }}{% else %}{{ __('Pages list') }}{% endif %}{% endblock %}
 {% block admin_page_icon 'list-alt' %}
 {% block content %}
@@ -96,7 +96,7 @@
                     {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'view'}) %}
                     <div class="dropdown">
                         <a id="itemActions{{ page.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> <span class="caret"></span></a>
-                        {{ knp_menu_render(itemActions, {template: 'ZikulaMenuModule:Override:bootstrap_fontawesome.html.twig'}) }}
+                        {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
                     </div>
                 </td>
                 {% if routeArea == 'admin' %}<td headers="hWorkflowState" class="text-left nowrap">

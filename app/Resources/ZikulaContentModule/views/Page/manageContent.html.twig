@@ -1,5 +1,5 @@
 {# purpose of this template: page content management #}
-{% extends routeArea == 'admin' ? 'ZikulaContentModule::adminBase.html.twig' : 'ZikulaContentModule::base.html.twig' %}
+{% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
 {% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Manage content') }}{% endblock %}
 {% block admin_page_icon 'cubes' %}
 {% block content %}
