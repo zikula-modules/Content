@@ -248,7 +248,7 @@ class PageController extends AbstractPageController
      *        requirements = {"slug" = "[^.]+"},
      *        methods = {"GET"}
      * )
-     * @Template("ZikulaContentModule:Page:manageContent.html.twig")
+     * @Template("@ZikulaContentModule/Page/manageContent.html.twig")
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
@@ -269,7 +269,7 @@ class PageController extends AbstractPageController
      *        requirements = {"slug" = "[^.]+"},
      *        methods = {"GET"}
      * )
-     * @Template("ZikulaContentModule:Page:manageContent.html.twig")
+     * @Template("@ZikulaContentModule/Page/manageContent.html.twig")
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
@@ -596,7 +596,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET", "POST"},
      *        options={"expose"=true}
      * )
-     * @Template("ZikulaContentModule:Page:translate.html.twig")
+     * @Template("@ZikulaContentModule/Page/translate.html.twig")
      * @return array|RedirectResponse
      */
     public function adminTranslateAction(
@@ -618,7 +618,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET", "POST"},
      *        options={"expose"=true}
      * )
-     * @Template("ZikulaContentModule:Page:translate.html.twig")
+     * @Template("@ZikulaContentModule/Page/translate.html.twig")
      * @return array|RedirectResponse
      */
     public function translateAction(
