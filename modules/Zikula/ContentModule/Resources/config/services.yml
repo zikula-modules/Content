@@ -34,7 +34,7 @@ services:
     Zikula\ContentModule\Form\Handler\:
         resource: '../../Form/Handler'
         calls:
-            - [setLockingApi, ['@?Zikula\PageLockModule\Api\LockingApi']]
+            - setLockingApi: ['@?Zikula\PageLockModule\Api\LockingApi']
 
     Zikula\ContentModule\Helper\CacheHelper:
         arguments:
@@ -65,7 +65,7 @@ services:
     stof_doctrine_extensions.listener.sluggable:
         class: '%stof_doctrine_extensions.listener.sluggable.class%'
         calls:
-            - [setAnnotationReader, ['@annotation_reader']]
-            - [setTransliterator, [[Zikula\ContentModule\Helper\SlugTransliterator, 'transliterate']]]
+            - setAnnotationReader: ['@annotation_reader']
+            - setTransliterator: [[Zikula\ContentModule\Helper\SlugTransliterator, 'transliterate']]
         tags:
             - { name: doctrine.event_subscriber, connection: default }
