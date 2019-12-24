@@ -268,7 +268,6 @@ abstract class AbstractPageType extends AbstractType
                 'title' => $this->__('Enter the views of the page.') . ' ' . $this->__('Only digits are allowed.')
             ],
             'required' => false,
-            'scale' => 0
         ]);
         
         $builder->add('active', CheckboxType::class, [

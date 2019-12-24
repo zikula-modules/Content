@@ -179,7 +179,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
             $descriptionFieldName = $this->entityDisplayHelper->getDescriptionFieldName($objectType);
             $hasDisplayAction = in_array($objectType, $entitiesWithDisplayAction, true);
     
-            $session = $request->getSession();
+            $session = $request->hasSession() ? $request->getSession() : null;
             foreach ($entities as $entity) {
                 if (!$this->permissionHelper->mayRead($entity)) {
                     continue;
@@ -204,7 +204,7 @@ abstract class AbstractSearchHelper implements SearchableInterface
                     ->setText($description)
                     ->setModule($this->getBundleName())
                     ->setCreated($created)
-                    ->setSesid($session->getId())
+                    ->setSesid(null !== $session ? $session->getId() : null)
                 ;
                 if (null !== $displayUrl) {
                     $result->setUrl($displayUrl);

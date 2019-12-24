@@ -48,10 +48,13 @@ abstract class AbstractEditHandler extends EditHandler
         }
     
         if ('create' === $this->templateParameters['mode'] && !$this->modelHelper->canBeCreated($this->objectType)) {
-            $this->requestStack->getCurrentRequest()->getSession()->getFlashBag()->add(
-                'error',
-                $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!')
-            );
+            $request = $this->requestStack->getCurrentRequest();
+            if ($request->hasSession() && ($session = $request->getSession())) {
+                $session()->getFlashBag()->add(
+                    'error',
+                    $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!')
+                );
+            }
             $logArgs = [
                 'app' => 'ZikulaContentModule',
                 'user' => $this->currentUserApi->get('uname'),
@@ -67,10 +70,13 @@ abstract class AbstractEditHandler extends EditHandler
         }
         
         if ('edit' === $this->templateParameters['mode']) {
-            $this->requestStack->getCurrentRequest()->getSession()->set(
-                'ZikulaContentModuleEntityVersion',
-                $this->entityRef->getCurrentVersion()
-            );
+            $request = $this->requestStack->getCurrentRequest();
+            if ($request->hasSession() && ($session = $request->getSession())) {
+                $session->set(
+                    'ZikulaContentModuleEntityVersion',
+                    $this->entityRef->getCurrentVersion()
+                );
+            }
         }
     
         $entityData = $this->entityRef->toArray();
@@ -274,13 +280,17 @@ abstract class AbstractEditHandler extends EditHandler
         }
         
         $applyLock = 'create' !== $this->templateParameters['mode'] && 'delete' !== $action;
-        $expectedVersion = $this->requestStack->getCurrentRequest()->getSession()->get(
-            'ZikulaContentModuleEntityVersion',
-            1
-        );
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request->hasSession() && ($session = $request->getSession())) {
+            $expectedVersion = $session->get(
+                'ZikulaContentModuleEntityVersion',
+                1
+            );
+        } else {
+            $expectedVersion = 1;
+        }
     
         $success = false;
-        $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
         try {
             if ($applyLock) {
                 // assert version
@@ -290,10 +300,13 @@ abstract class AbstractEditHandler extends EditHandler
             // execute the workflow action
             $success = $this->workflowHelper->executeAction($entity, $action);
         } catch (OptimisticLockException $exception) {
-            $flashBag->add(
-                'error',
-                $this->__('Sorry, but someone else has already changed this record. Please apply the changes again!')
-            );
+            $request = $this->requestStack->getCurrentRequest();
+            if ($request->hasSession() && ($session = $request->getSession())) {
+                $session->getFlashBag()->add(
+                    'error',
+                    $this->__('Sorry, but someone else has already changed this record. Please apply the changes again!')
+                );
+            }
             $logArgs = [
                 'app' => 'ZikulaContentModule',
                 'user' => $this->currentUserApi->get('uname'),
@@ -306,13 +319,16 @@ abstract class AbstractEditHandler extends EditHandler
                 $logArgs
             );
         } catch (Exception $exception) {
-            $flashBag->add(
-                'error',
-                $this->__f(
-                    'Sorry, but an error occured during the %action% action. Please apply the changes again!',
-                    ['%action%' => $action]
-                ) . ' ' . $exception->getMessage()
-            );
+            $request = $this->requestStack->getCurrentRequest();
+            if ($request->hasSession() && ($session = $request->getSession())) {
+                $session->getFlashBag()->add(
+                    'error',
+                    $this->__f(
+                        'Sorry, but an error occured during the %action% action. Please apply the changes again!',
+                        ['%action%' => $action]
+                    ) . ' ' . $exception->getMessage()
+                );
+            }
             $logArgs = [
                 'app' => 'ZikulaContentModule',
                 'user' => $this->currentUserApi->get('uname'),
@@ -346,10 +362,12 @@ abstract class AbstractEditHandler extends EditHandler
             return $this->repeatReturnUrl;
         }
     
-        $session = $this->requestStack->getCurrentRequest()->getSession();
-        if ($session->has('zikulacontentmodule' . $this->objectTypeCapital . 'Referer')) {
-            $this->returnTo = $session->get('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
-            $session->remove('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request->hasSession() && ($session = $request->getSession())) {
+            if ($session->has('zikulacontentmodule' . $this->objectTypeCapital . 'Referer')) {
+                $this->returnTo = $session->get('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
+                $session->remove('zikulacontentmodule' . $this->objectTypeCapital . 'Referer');
+            }
         }
     
         if ('create' !== $this->templateParameters['mode']) {

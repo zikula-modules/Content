@@ -93,10 +93,10 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
 
         if (null !== $constraint->min && $count < $constraint->min) {
             $this->context->buildViolation(
-                $this->translator->transChoice(
+                $this->translator->trans(
                     'You must select at least "%limit%" choice.|You must select at least "%limit%" choices.',
-                    $count,
                     [
+                        '%count%' => $count,
                         '%limit%' => $constraint->min
                     ],
                     'zikulacontentmodule'
@@ -105,10 +105,10 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
         }
         if (null !== $constraint->max && $count > $constraint->max) {
             $this->context->buildViolation(
-                $this->translator->transChoice(
+                $this->translator->trans(
                     'You must select at most "%limit%" choice.|You must select at most "%limit%" choices.',
-                    $count,
                     [
+                        '%count%' => $count,
                         '%limit%' => $constraint->max
                     ],
                     'zikulacontentmodule'
