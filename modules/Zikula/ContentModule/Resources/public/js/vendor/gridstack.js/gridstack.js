@@ -1,5 +1,5 @@
 /**
- * gridstack.js 0.5.5
+ * gridstack.js 0.6.0
  * https://gridstackjs.com/
  * (c) 2014-2019 Dylan Weiss, Alain Dumesny, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
@@ -22,7 +22,7 @@
   // checks for obsolete method names
   var obsolete = function(f, oldName, newName) {
     var wrapper = function() {
-      console.warn('gridstack.js: Function `' + oldName + '` is deprecated as of v0.2.5 and has been replaced ' +
+      console.warn('gridstack.js: Function `' + oldName + '` is deprecated as of v0.5.2 and has been replaced ' +
       'with `' + newName + '`. It will be **completely** removed in v1.0.');
       return f.apply(this, arguments);
     };
@@ -35,7 +35,7 @@
   var obsoleteOpts = function(opts, oldName, newName) {
     if (opts[oldName] !== undefined) {
       opts[newName] = opts[oldName];
-      console.warn('gridstack.js: Option `' + oldName + '` is deprecated as of v0.2.5 and has been replaced with `' +
+      console.warn('gridstack.js: Option `' + oldName + '` is deprecated as of v0.5.2 and has been replaced with `' +
         newName + '`. It will be **completely** removed in v1.0.');
     }
   };
@@ -62,8 +62,10 @@
         width = Math.max.apply(Math, widths);
       }
 
-      dir = dir !== -1 ? 1 : -1;
-      return Utils.sortBy(nodes, function(n) { return dir * (n.x + n.y * width); });
+      if (dir === -1)
+        return Utils.sortBy(nodes, function(n) { return -(n.x + n.y * width); });
+      else
+        return Utils.sortBy(nodes, function(n) { return (n.x + n.y * width); });
     },
 
     createStylesheet: function(id) {
@@ -118,7 +120,7 @@
       var height = val;
       var heightUnit = 'px';
       if (height && typeof height === 'string') {
-        var match = height.match(/^(-[0-9]+\.[0-9]+|[0-9]*\.[0-9]+|-[0-9]+|[0-9]+)(px|em|rem|vh|vw)?$/);
+        var match = height.match(/^(-[0-9]+\.[0-9]+|[0-9]*\.[0-9]+|-[0-9]+|[0-9]+)(px|em|rem|vh|vw|%)?$/);
         if (!match) {
           throw new Error('Invalid height');
         }
@@ -248,13 +250,6 @@
     }
   };
 
-  /*eslint-disable camelcase */
-  Utils.is_intercepted = obsolete(Utils.isIntercepted, 'is_intercepted', 'isIntercepted');
-  Utils.create_stylesheet = obsolete(Utils.createStylesheet, 'create_stylesheet', 'createStylesheet');
-  Utils.remove_stylesheet = obsolete(Utils.removeStylesheet, 'remove_stylesheet', 'removeStylesheet');
-  Utils.insert_css_rule = obsolete(Utils.insertCSSRule, 'insert_css_rule', 'insertCSSRule');
-  /*eslint-enable camelcase */
-
   /**
   * @class GridStackDragDropPlugin
   * Base class for drag'n'drop plugin.
@@ -292,33 +287,33 @@
 
   var idSeq = 0;
 
-  var GridStackEngine = function(column, onchange, floatMode, maxRow, items) {
-    this.column = column;
-    this.float = floatMode || false;
+  var GridStackEngine = function(column, onchange, float, maxRow, items) {
+    this.column = column || 12;
+    this.float = float || false;
     this.maxRow = maxRow || 0;
 
     this.nodes = items || [];
     this.onchange = onchange || function() {};
 
-    this._updateCounter = 0;
-    this._float = this.float;
-
     this._addedNodes = [];
     this._removedNodes = [];
+    this._batchMode = false;
   };
 
   GridStackEngine.prototype.batchUpdate = function() {
-    this._updateCounter = 1;
-    this.float = true;
+    if (this._batchMode) return;
+    this._batchMode = true;
+    this._prevFloat = this.float;
+    this.float = true; // let things go anywhere for now... commit() will restore and possibly reposition
   };
 
   GridStackEngine.prototype.commit = function() {
-    if (this._updateCounter !== 0) {
-      this._updateCounter = 0;
-      this.float = this._float;
-      this._packNodes();
-      this._notify();
-    }
+    if (!this._batchMode) return;
+    this._batchMode = false;
+    this.float = this._prevFloat;
+    delete this._prevFloat;
+    this._packNodes();
+    this._notify();
   };
 
   // For Meteor support: https://github.com/gridstack/gridstack.js/pull/272
@@ -379,9 +374,7 @@
       }, this);
     } else {
       this.nodes.forEach(function(n, i) {
-        if (n.locked) {
-          return;
-        }
+        if (n.locked) { return; }
         while (n.y > 0) {
           var newY = n.y - 1;
           var canBeMoved = i === 0;
@@ -393,10 +386,11 @@
             canBeMoved = collisionNode === undefined;
           }
 
-          if (!canBeMoved) {
-            break;
-          }
-          n._dirty = n.y !== newY;
+          if (!canBeMoved) { break; }
+          // Note: must be dirty (from last position) for GridStack::OnChange CB to update positions
+          // and move items back. The user 'change' CB should detect changes from the original
+          // starting position instead.
+          n._dirty = (n.y !== newY);
           n.y = newY;
         }
       }, this);
@@ -459,21 +453,17 @@
   };
 
   GridStackEngine.prototype._notify = function() {
+    if (this._batchMode) { return; }
     var args = Array.prototype.slice.call(arguments, 0);
-    args[0] = args[0] === undefined ? [] : [args[0]];
-    args[1] = args[1] === undefined ? true : args[1];
-    if (this._updateCounter) {
-      return;
-    }
-    var deletedNodes = args[0].concat(this.getDirtyNodes());
-    this.onchange(deletedNodes, args[1]);
+    args[0] = (args[0] === undefined ? [] : (Array.isArray(args[0]) ? args[0] : [args[0]]) );
+    args[1] = (args[1] === undefined ? true : args[1]);
+    var dirtyNodes = args[0].concat(this.getDirtyNodes());
+    this.onchange(dirtyNodes, args[1]);
   };
 
   GridStackEngine.prototype.cleanNodes = function() {
-    if (this._updateCounter) {
-      return;
-    }
-    this.nodes.forEach(function(n) { n._dirty = false; });
+    if (this._batchMode) { return; }
+    this.nodes.forEach(function(n) { delete n._dirty; });
   };
 
   GridStackEngine.prototype.getDirtyNodes = function() {
@@ -481,6 +471,8 @@
   };
 
   GridStackEngine.prototype.addNode = function(node, triggerAddEvent) {
+    var prev = {x: node.x, y: node.y, width: node.width, height: node.height};
+
     node = this._prepareNode(node);
 
     if (node.maxWidth !== undefined) { node.width = Math.min(node.width, node.maxWidth); }
@@ -488,8 +480,7 @@
     if (node.minWidth !== undefined) { node.width = Math.max(node.width, node.minWidth); }
     if (node.minHeight !== undefined) { node.height = Math.max(node.height, node.minHeight); }
 
-    node._id = ++idSeq;
-    node._dirty = true;
+    node._id = node._id || ++idSeq;
 
     if (node.autoPosition) {
       this._sortNodes();
@@ -503,6 +494,7 @@
         if (!this.nodes.find(Utils._isAddNodeIntercepted, {x: x, y: y, node: node})) {
           node.x = x;
           node.y = y;
+          delete node.autoPosition; // found our slot
           break;
         }
       }
@@ -510,7 +502,11 @@
 
     this.nodes.push(node);
     if (triggerAddEvent) {
-      this._addedNodes.push(Utils.clone(node));
+      this._addedNodes.push(node);
+    }
+    // use single equal as they come as string/undefined but end as number....
+    if (!node._dirty && (prev.x != node.x || prev.y != node.y || prev.width != node.width || prev.height != node.height)) {
+      node._dirty = true;
     }
 
     this._fixCollisions(node);
@@ -520,12 +516,22 @@
   };
 
   GridStackEngine.prototype.removeNode = function(node, detachNode) {
-    detachNode = detachNode === undefined ? true : detachNode;
-    this._removedNodes.push(Utils.clone(node));
-    node._id = null;
+    detachNode = (detachNode === undefined ? true : detachNode);
+    this._removedNodes.push(node);
+    node._id = null; // hint that node is being removed
     this.nodes = Utils.without(this.nodes, node);
     this._packNodes();
     this._notify(node, detachNode);
+  };
+
+  GridStackEngine.prototype.removeAll = function(detachNode) {
+    delete this._layouts;
+    if (this.nodes.length === 0) { return; }
+    detachNode = (detachNode === undefined ? true : detachNode);
+    this.nodes.forEach(function(n) { n._id = null; }); // hint that node is being removed
+    this._removedNodes = this.nodes;
+    this.nodes = [];
+    this._notify(this._removedNodes, detachNode);
   };
 
   GridStackEngine.prototype.canMoveNode = function(node, x, y, width, height) {
@@ -603,9 +609,6 @@
   };
 
   GridStackEngine.prototype.moveNode = function(node, x, y, width, height, noPack) {
-    if (!this.isNodeChangedPosition(node, x, y, width, height)) {
-      return node;
-    }
     if (typeof x !== 'number') { x = node.x; }
     if (typeof y !== 'number') { y = node.y; }
     if (typeof width !== 'number') { width = node.width; }
@@ -648,19 +651,16 @@
   };
 
   GridStackEngine.prototype.beginUpdate = function(node) {
-    this.nodes.forEach(function(n) {
-      n._origY = n.y;
-    });
+    if (node._updating) return;
     node._updating = true;
+    this.nodes.forEach(function(n) { n._origY = n.y; });
   };
 
   GridStackEngine.prototype.endUpdate = function() {
-    this.nodes.forEach(function(n) {
-      n._origY = n.y;
-    });
     var n = this.nodes.find(function(n) { return n._updating; });
     if (n) {
       n._updating = false;
+      this.nodes.forEach(function(n) { delete n._origY; });
     }
   };
 
@@ -672,24 +672,12 @@
 
     this.container = $(el);
 
-    /*eslint-disable camelcase */
-    obsoleteOpts(opts, 'handle_class', 'handleClass');
-    obsoleteOpts(opts, 'item_class', 'itemClass');
-    obsoleteOpts(opts, 'placeholder_class', 'placeholderClass');
-    obsoleteOpts(opts, 'placeholder_text', 'placeholderText');
-    obsoleteOpts(opts, 'cell_height', 'cellHeight');
-    obsoleteOpts(opts, 'vertical_margin', 'verticalMargin');
-    obsoleteOpts(opts, 'min_width', 'minWidth');
-    obsoleteOpts(opts, 'static_grid', 'staticGrid');
-    obsoleteOpts(opts, 'is_nested', 'isNested');
-    obsoleteOpts(opts, 'always_show_resize_handle', 'alwaysShowResizeHandle');
     obsoleteOpts(opts, 'width', 'column');
     obsoleteOpts(opts, 'height', 'maxRow');
 
     // container attributes
     obsoleteAttr(this.container, 'data-gs-width', 'data-gs-column');
     obsoleteAttr(this.container, 'data-gs-height', 'data-gs-max-row');
-    /*eslint-enable camelcase */
 
     opts.itemClass = opts.itemClass || 'grid-stack-item';
     var isNested = this.container.closest('.' + opts.itemClass).length > 0;
@@ -774,7 +762,7 @@
     this._initStyles();
 
     this.grid = new GridStackEngine(this.opts.column, function(nodes, detachNode) {
-      detachNode = detachNode === undefined ? true : detachNode;
+      detachNode = (detachNode === undefined ? true : detachNode);
       var maxHeight = 0;
       this.nodes.forEach(function(n) {
         maxHeight = Math.max(maxHeight, n.y + n.height);
@@ -887,7 +875,7 @@
         .on(trashZone, 'dropover', function(event, ui) {
           var el = $(ui.draggable);
           var node = el.data('_gridstack_node');
-          if (node._grid !== self) {
+          if (!node || node._grid !== self) {
             return;
           }
           el.data('inTrashZone', true);
@@ -896,7 +884,7 @@
         .on(trashZone, 'dropout', function(event, ui) {
           var el = $(ui.draggable);
           var node = el.data('_gridstack_node');
-          if (node._grid !== self) {
+          if (!node || node._grid !== self) {
             return;
           }
           el.data('inTrashZone', false);
@@ -956,16 +944,25 @@
           }
         })
         .on(self.container, 'dropover', function(event, ui) {
-          var offset = self.container.offset();
           var el = $(ui.draggable);
+          var width, height;
+
+          // see if we already have a node with widget/height and check for attributes
+          var origNode = el.data('_gridstack_node');
+          if (!origNode || !origNode.width || !origNode.height) {
+            var w = parseInt(el.attr('data-gs-width'));
+            if (w > 0) { origNode = origNode || {}; origNode.width = w; }
+            var h = parseInt(el.attr('data-gs-height'));
+            if (h > 0) { origNode = origNode || {}; origNode.height = h; }
+          }
+
+          // if not calculate the grid size based on element outer size
+          // height: Each row is cellHeight + verticalMargin, until last one which has no margin below
           var cellWidth = self.cellWidth();
           var cellHeight = self.cellHeight();
-          var origNode = el.data('_gridstack_node');
           var verticalMargin = self.opts.verticalMargin;
-
-          // height: Each row is cellHeight + verticalMargin, until last one which has no margin below
-          var width = origNode ? origNode.width : Math.ceil(el.outerWidth() / cellWidth);
-          var height = origNode ? origNode.height : Math.round((el.outerHeight() + verticalMargin) / (cellHeight + verticalMargin));
+          width = origNode && origNode.width ? origNode.width : Math.ceil(el.outerWidth() / cellWidth);
+          height = origNode && origNode.height ? origNode.height : Math.round((el.outerHeight() + verticalMargin) / (cellHeight + verticalMargin));
 
           draggingElement = el;
 
@@ -1038,31 +1035,30 @@
     }
   };
 
-  GridStack.prototype._triggerChangeEvent = function(forceTrigger) {
+  GridStack.prototype._triggerChangeEvent = function(/*forceTrigger*/) {
+    if (this.grid._batchMode) { return; }
+    // TODO: compare original X,Y,W,H (or entire node?) instead as _dirty can be a temporary state
     var elements = this.grid.getDirtyNodes();
-    var hasChanges = false;
-
-    var eventParams = [];
     if (elements && elements.length) {
-      eventParams.push(elements);
-      hasChanges = true;
-    }
-
-    if (hasChanges || forceTrigger === true) {
-      this.container.trigger('change', eventParams);
+      this.grid._layoutsNodesChange(elements);
+      this.container.trigger('change', [elements]);
+      this.grid.cleanNodes(); // clear dirty flags now that we called
     }
   };
 
   GridStack.prototype._triggerAddEvent = function() {
+    if (this.grid._batchMode) { return; }
     if (this.grid._addedNodes && this.grid._addedNodes.length > 0) {
-      this.container.trigger('added', [this.grid._addedNodes.map(Utils.clone)]);
+      this.grid._layoutsNodesChange(this.grid._addedNodes);
+      this.container.trigger('added', [this.grid._addedNodes]);
       this.grid._addedNodes = [];
     }
   };
 
   GridStack.prototype._triggerRemoveEvent = function() {
+    if (this.grid._batchMode) { return; }
     if (this.grid._removedNodes && this.grid._removedNodes.length > 0) {
-      this.container.trigger('removed', [this.grid._removedNodes.map(Utils.clone)]);
+      this.container.trigger('removed', [this.grid._removedNodes]);
       this.grid._removedNodes = [];
     }
   };
@@ -1148,9 +1144,7 @@
   };
 
   GridStack.prototype._updateContainerHeight = function() {
-    if (this.grid._updateCounter) {
-      return;
-    }
+    if (this.grid._batchMode) { return; }
     var height = this.grid.getGridHeight();
     // check for css min height. Each row is cellHeight + verticalMargin, until last one which has no margin below
     var cssMinHeight = parseInt(this.container.css('min-height'));
@@ -1326,13 +1320,13 @@
         return;
       }
 
-      var forceNotify = false;
+      // var forceNotify = false; what is the point of calling 'change' event with no data, when the 'removed' event is already called ?
       self.placeholder.detach();
       node.el = o;
       self.placeholder.hide();
 
       if (node._isAboutToRemove) {
-        forceNotify = true;
+        // forceNotify = true;
         var gridToNotify = el.data('_gridstack_node')._grid;
         gridToNotify._triggerRemoveEvent();
         el.removeData('_gridstack_node');
@@ -1360,7 +1354,7 @@
         }
       }
       self._updateContainerHeight();
-      self._triggerChangeEvent(forceNotify);
+      self._triggerChangeEvent(/*forceNotify*/);
 
       self.grid.endUpdate();
 
@@ -1399,7 +1393,7 @@
       this.dd.resizable(el, 'disable');
     }
 
-    el.attr('data-gs-locked', node.locked ? 'yes' : null);
+    this._writeAttr(el, node);
   };
 
   GridStack.prototype._prepareElement = function(el, triggerAddEvent) {
@@ -1408,27 +1402,53 @@
     el = $(el);
 
     el.addClass(this.opts.itemClass);
-    var node = self.grid.addNode({
-      x: el.attr('data-gs-x'),
-      y: el.attr('data-gs-y'),
-      width: el.attr('data-gs-width'),
-      height: el.attr('data-gs-height'),
-      maxWidth: el.attr('data-gs-max-width'),
-      minWidth: el.attr('data-gs-min-width'),
-      maxHeight: el.attr('data-gs-max-height'),
-      minHeight: el.attr('data-gs-min-height'),
-      autoPosition: Utils.toBool(el.attr('data-gs-auto-position')),
-      noResize: Utils.toBool(el.attr('data-gs-no-resize')),
-      noMove: Utils.toBool(el.attr('data-gs-no-move')),
-      locked: Utils.toBool(el.attr('data-gs-locked')),
-      resizeHandles: el.attr('data-gs-resize-handles'),
-      el: el,
-      id: el.attr('data-gs-id'),
-      _grid: self
-    }, triggerAddEvent);
+    var node = this._readAttr(el, {el: el, _grid: self});
+    node = self.grid.addNode(node, triggerAddEvent);
     el.data('_gridstack_node', node);
 
     this._prepareElementsByNode(el, node);
+  };
+
+  /** call to write any default attributes back to element */
+  GridStack.prototype._writeAttr = function(el, node) {
+    el = $(el);
+    node = node || {};
+    // Note: passing null removes the attr in jquery
+    if (node.x !== undefined) { el.attr('data-gs-x', node.x); }
+    if (node.y !== undefined) { el.attr('data-gs-y', node.y); }
+    if (node.width !== undefined) { el.attr('data-gs-width', node.width); }
+    if (node.height !== undefined) { el.attr('data-gs-height', node.height); }
+    if (node.autoPosition !== undefined) { el.attr('data-gs-auto-position', node.autoPosition ? true : null); }
+    if (node.minWidth !== undefined) { el.attr('data-gs-min-width', node.minWidth); }
+    if (node.maxWidth !== undefined) { el.attr('data-gs-max-width', node.maxWidth); }
+    if (node.minHeight !== undefined) { el.attr('data-gs-min-height', node.minHeight); }
+    if (node.maxHeight !== undefined) { el.attr('data-gs-max-height', node.maxHeight); }
+    if (node.noResize !== undefined) { el.attr('data-gs-no-resize', node.noResize ? true : null); }
+    if (node.noMove !== undefined) { el.attr('data-gs-no-move', node.noMove ? true : null); }
+    if (node.locked !== undefined) { el.attr('data-gs-locked', node.locked ? true : null); }
+    if (node.resizeHandles !== undefined) { el.attr('data-gs-resize-handles', node.resizeHandles); }
+    if (node.id !== undefined) { el.attr('data-gs-id', node.id); }
+  };
+
+  /** call to write any default attributes back to element */
+  GridStack.prototype._readAttr = function(el, node) {
+    el = $(el);
+    node = node || {};
+    node.x = el.attr('data-gs-x');
+    node.y = el.attr('data-gs-y');
+    node.width = el.attr('data-gs-width');
+    node.height = el.attr('data-gs-height');
+    node.autoPosition = Utils.toBool(el.attr('data-gs-auto-position'));
+    node.maxWidth = el.attr('data-gs-max-width');
+    node.minWidth = el.attr('data-gs-min-width');
+    node.maxHeight = el.attr('data-gs-max-height');
+    node.minHeight = el.attr('data-gs-min-height');
+    node.noResize = Utils.toBool(el.attr('data-gs-no-resize'));
+    node.noMove = Utils.toBool(el.attr('data-gs-no-move'));
+    node.locked = Utils.toBool(el.attr('data-gs-locked'));
+    node.resizeHandles = el.attr('data-gs-resize-handles');
+    node.id = el.attr('data-gs-id');
+    return node;
   };
 
   GridStack.prototype.setAnimation = function(enable) {
@@ -1439,30 +1459,27 @@
     }
   };
 
-  GridStack.prototype.addWidget = function(el, x, y, width, height, autoPosition, minWidth, maxWidth, minHeight, maxHeight, id) {
+  GridStack.prototype.addWidget = function(el, node, y, width, height, autoPosition, minWidth, maxWidth, minHeight, maxHeight, id) {
 
-    // instead of passing all the params, the user might pass an object with all fields instead, if so extract them and call us back
-    if (x !== null && typeof x === 'object') {
-      return this.addWidget(el, x.x, x.y, x.width, x.height, x.autoPosition, x.minWidth, x.maxWidth, x.minHeight, x.maxHeight, x.id);
+    // new way of calling with an object - make sure all items have been properly initialized
+    if (node === undefined || typeof node === 'object') {
+      // Tempting to initialize the passed in node with default and valid values, but this break knockout demos
+      // as the actual value are filled in when _prepareElement() calls el.attr('data-gs-xyz) before adding the node.
+      // node = this.grid._prepareNode(node);
+      node = node || {};
+    } else {
+      // old legacy way of calling with items spelled out - call us back with single object instead (so we can properly initialized values)
+      return this.addWidget(el, {x: node, y: y, width: width, height: height, autoPosition: autoPosition,
+        minWidth: minWidth, maxWidth: maxWidth, minHeight: minHeight, maxHeight: maxHeight, id: id});
     }
 
     el = $(el);
-    // Note: passing null removes the attr in jquery
-    if (x !== undefined) { el.attr('data-gs-x', x); }
-    if (y !== undefined) { el.attr('data-gs-y', y); }
-    if (width !== undefined) { el.attr('data-gs-width', width); }
-    if (height !== undefined) { el.attr('data-gs-height', height); }
-    if (autoPosition !== undefined) { el.attr('data-gs-auto-position', autoPosition ? 'yes' : null); }
-    if (minWidth !== undefined) { el.attr('data-gs-min-width', minWidth); }
-    if (maxWidth !== undefined) { el.attr('data-gs-max-width', maxWidth); }
-    if (minHeight !== undefined) { el.attr('data-gs-min-height', minHeight); }
-    if (maxHeight !== undefined) { el.attr('data-gs-max-height', maxHeight); }
-    if (id !== undefined) { el.attr('data-gs-id', id); }
+    this._writeAttr(el, node);
     this.container.append(el);
     this._prepareElement(el, true);
-    this._triggerAddEvent();
     this._updateContainerHeight();
-    this._triggerChangeEvent(true);
+    this._triggerAddEvent();
+    // this._triggerChangeEvent(true); already have AddEvent
 
     return el;
   };
@@ -1470,9 +1487,9 @@
   GridStack.prototype.makeWidget = function(el) {
     el = $(el);
     this._prepareElement(el, true);
-    this._triggerAddEvent();
     this._updateContainerHeight();
-    this._triggerChangeEvent(true);
+    this._triggerAddEvent();
+    // this._triggerChangeEvent(true); already have AddEvent
 
     return el;
   };
@@ -1483,31 +1500,27 @@
   };
 
   GridStack.prototype.removeWidget = function(el, detachNode) {
-    detachNode = detachNode === undefined ? true : detachNode;
+    detachNode = (detachNode === undefined ? true : detachNode);
     el = $(el);
     var node = el.data('_gridstack_node');
-
     // For Meteor support: https://github.com/gridstack/gridstack.js/pull/272
     if (!node) {
       node = this.grid.getNodeDataByDOMEl(el);
     }
 
-    this.grid.removeNode(node, detachNode);
     el.removeData('_gridstack_node');
-    this._updateContainerHeight();
-    if (detachNode) {
-      el.remove();
-    }
-    this._triggerChangeEvent(true);
+    this.grid.removeNode(node, detachNode);
     this._triggerRemoveEvent();
+    // this._triggerChangeEvent(true); already have removeEvent
   };
 
   GridStack.prototype.removeAll = function(detachNode) {
-    this.grid.nodes.forEach(function(node) {
-      this.removeWidget(node.el, detachNode);
-    }, this);
-    this.grid.nodes = [];
-    this._updateContainerHeight();
+    if (detachNode !== false) {
+      // remove our data structure before list gets emptied and DOM elements stay behind
+      this.grid.nodes.forEach(function(node) { node.el.removeData('_gridstack_node') });
+    }
+    this.grid.removeAll(detachNode);
+    this._triggerRemoveEvent();
   };
 
   GridStack.prototype.destroy = function(detachGrid) {
@@ -1701,6 +1714,24 @@
     });
   };
 
+  /**
+   * relayout grid items to reclaim any empty space
+   */
+  GridStack.prototype.compact = function() {
+    if (this.grid.nodes.length === 0) { return; }
+    this.batchUpdate();
+    this.grid._sortNodes();
+    var nodes = this.grid.nodes;
+    this.grid.nodes = []; // pretend we have no nodes to conflict layout to start with...
+    nodes.forEach(function(n) {
+      if (!n.noMove && !n.locked) {
+        n.autoPosition = true;
+      }
+      this.grid.addNode(n, false); // 'false' for add event trigger
+    }, this);
+    this.commit();
+  };
+
   GridStack.prototype.verticalMargin = function(val, noUpdate) {
     if (val === undefined) {
       return this.opts.verticalMargin;
@@ -1769,7 +1800,9 @@
 
   GridStack.prototype.commit = function() {
     this.grid.commit();
-    this._updateContainerHeight();
+    this._triggerRemoveEvent();
+    this._triggerAddEvent();
+    this._triggerChangeEvent();
   };
 
   GridStack.prototype.isAreaEmpty = function(x, y, width, height) {
@@ -1793,112 +1826,142 @@
     }
   };
 
-  GridStack.prototype._updateNodeWidths = function(oldWidth, newWidth) {
-    this.grid._sortNodes();
-    this.grid.batchUpdate();
-    var node = {};
-    for (var i = 0; i < this.grid.nodes.length; i++) {
-      node = this.grid.nodes[i];
-      this.update(node.el, Math.round(node.x * newWidth / oldWidth), undefined,
-        Math.round(node.width * newWidth / oldWidth), undefined);
-    }
-    this.grid.commit();
-  };
-
-  GridStack.prototype.setColumn = function(column, doNotPropagate) {
-    if (this.opts.column === column) { return; }
-    this.container.removeClass('grid-stack-' + this.opts.column);
-    if (doNotPropagate !== true) {
-      this._updateNodeWidths(this.opts.column, column);
-    }
-    this.opts.column = this.grid.column = column;
-    this.container.addClass('grid-stack-' + column);
-  };
-  // legacy call from <= 0.5.2 - use new method instead.
-  GridStack.prototype.setGridWidth = function(column, doNotPropagate) {
-    console.warn('gridstack.js: setGridWidth() is deprecated as of v0.5.3 and has been replaced ' +
-      'with setColumn(). It will be **completely** removed in v1.0.');
-    this.setColumn(column, doNotPropagate);
+  /** called whenever a node is added or moved - updates the cached layouts */
+  GridStackEngine.prototype._layoutsNodesChange = function(nodes) {
+    if (!this._layouts || this._ignoreLayoutsNodeChange) return;
+    // remove smaller layouts - we will re-generate those on the fly... larger ones need to update
+    this._layouts.forEach(function(layout, i) {
+      if (!layout || i === this.column) return;
+      if (i < this.column) {
+        this._layouts[i] = undefined;
+      }
+      else {
+        // TODO: save the original x,y,w (h isn't cached) and see what actually changed to propagate correctly ?
+        nodes.forEach(function(node) {
+          var n = layout.find(function(l) { return l._id === node._id });
+          if (!n) return;
+          var ratio = i / this.column;
+          n.y = node.y;
+          n.x = Math.round(node.x * ratio);
+          // width ???
+        }, this);
+      }
+    }, this);
   }
 
-  /*eslint-disable camelcase */
-  GridStackEngine.prototype.batch_update = obsolete(GridStackEngine.prototype.batchUpdate);
-  GridStackEngine.prototype._fix_collisions = obsolete(GridStackEngine.prototype._fixCollisions,
-    '_fix_collisions', '_fixCollisions');
-  GridStackEngine.prototype.is_area_empty = obsolete(GridStackEngine.prototype.isAreaEmpty,
-    'is_area_empty', 'isAreaEmpty');
-  GridStackEngine.prototype._sort_nodes = obsolete(GridStackEngine.prototype._sortNodes,
-    '_sort_nodes', '_sortNodes');
-  GridStackEngine.prototype._pack_nodes = obsolete(GridStackEngine.prototype._packNodes,
-    '_pack_nodes', '_packNodes');
-  GridStackEngine.prototype._prepare_node = obsolete(GridStackEngine.prototype._prepareNode,
-    '_prepare_node', '_prepareNode');
-  GridStackEngine.prototype.clean_nodes = obsolete(GridStackEngine.prototype.cleanNodes,
-    'clean_nodes', 'cleanNodes');
-  GridStackEngine.prototype.get_dirty_nodes = obsolete(GridStackEngine.prototype.getDirtyNodes,
-    'get_dirty_nodes', 'getDirtyNodes');
-  GridStackEngine.prototype.add_node = obsolete(GridStackEngine.prototype.addNode,
-    'add_node', 'addNode, ');
-  GridStackEngine.prototype.remove_node = obsolete(GridStackEngine.prototype.removeNode,
-    'remove_node', 'removeNode');
-  GridStackEngine.prototype.can_move_node = obsolete(GridStackEngine.prototype.canMoveNode,
-    'can_move_node', 'canMoveNode');
-  GridStackEngine.prototype.move_node = obsolete(GridStackEngine.prototype.moveNode,
-    'move_node', 'moveNode');
-  GridStackEngine.prototype.get_grid_height = obsolete(GridStackEngine.prototype.getGridHeight,
-    'get_grid_height', 'getGridHeight');
-  GridStackEngine.prototype.begin_update = obsolete(GridStackEngine.prototype.beginUpdate,
-    'begin_update', 'beginUpdate');
-  GridStackEngine.prototype.end_update = obsolete(GridStackEngine.prototype.endUpdate,
-    'end_update', 'endUpdate');
-  GridStackEngine.prototype.can_be_placed_with_respect_to_height =
-    obsolete(GridStackEngine.prototype.canBePlacedWithRespectToHeight,
-      'can_be_placed_with_respect_to_height', 'canBePlacedWithRespectToHeight');
-  GridStack.prototype._trigger_change_event = obsolete(GridStack.prototype._triggerChangeEvent,
-    '_trigger_change_event', '_triggerChangeEvent');
-  GridStack.prototype._init_styles = obsolete(GridStack.prototype._initStyles,
-    '_init_styles', '_initStyles');
-  GridStack.prototype._update_styles = obsolete(GridStack.prototype._updateStyles,
-    '_update_styles', '_updateStyles');
-  GridStack.prototype._update_container_height = obsolete(GridStack.prototype._updateContainerHeight,
-    '_update_container_height', '_updateContainerHeight');
-  GridStack.prototype._is_one_column_mode = obsolete(GridStack.prototype._isOneColumnMode,
-    '_is_one_column_mode','_isOneColumnMode');
-  GridStack.prototype._prepare_element = obsolete(GridStack.prototype._prepareElement,
-    '_prepare_element', '_prepareElement');
-  GridStack.prototype.set_animation = obsolete(GridStack.prototype.setAnimation,
-    'set_animation', 'setAnimation');
-  GridStack.prototype.add_widget = obsolete(GridStack.prototype.addWidget,
-    'add_widget', 'addWidget');
-  GridStack.prototype.make_widget = obsolete(GridStack.prototype.makeWidget,
-    'make_widget', 'makeWidget');
-  GridStack.prototype.will_it_fit = obsolete(GridStack.prototype.willItFit,
-    'will_it_fit', 'willItFit');
-  GridStack.prototype.remove_widget = obsolete(GridStack.prototype.removeWidget,
-    'remove_widget', 'removeWidget');
-  GridStack.prototype.remove_all = obsolete(GridStack.prototype.removeAll,
-    'remove_all', 'removeAll');
-  GridStack.prototype.min_height = obsolete(GridStack.prototype.minHeight,
-    'min_height', 'minHeight');
-  GridStack.prototype.min_width = obsolete(GridStack.prototype.minWidth,
-    'min_width', 'minWidth');
-  GridStack.prototype._update_element = obsolete(GridStack.prototype._updateElement,
-    '_update_element', '_updateElement');
-  GridStack.prototype.cell_height = obsolete(GridStack.prototype.cellHeight,
-    'cell_height', 'cellHeight');
-  GridStack.prototype.cell_width = obsolete(GridStack.prototype.cellWidth,
-    'cell_width', 'cellWidth');
-  GridStack.prototype.get_cell_from_pixel = obsolete(GridStack.prototype.getCellFromPixel,
-    'get_cell_from_pixel', 'getCellFromPixel');
-  GridStack.prototype.batch_update = obsolete(GridStack.prototype.batchUpdate,
-    'batch_update', 'batchUpdate');
-  GridStack.prototype.is_area_empty = obsolete(GridStack.prototype.isAreaEmpty,
-    'is_area_empty', 'isAreaEmpty');
-  GridStack.prototype.set_static = obsolete(GridStack.prototype.setStatic,
-    'set_static', 'setStatic');
-  GridStack.prototype._set_static_class = obsolete(GridStack.prototype._setStaticClass,
-    '_set_static_class', '_setStaticClass');
-  /*eslint-enable camelcase */
+  /**
+   * Called to scale the widget width & position up/down based on the column change.
+   * Note we store previous layouts (especially original ones) to make it possible to go
+   * from say 12 -> 1 -> 12 and get back to where we were.
+   */
+  GridStackEngine.prototype._updateNodeWidths = function(oldColumn, column) {
+    if (this.nodes.length === 0 || oldColumn === column) { return; }
+    var nodes = Utils.sort(this.nodes, -1, oldColumn); // current column reverse sorting so we can insert last to front (limit collision)
+
+    // cache the current layout in case they want to go back (like 12 -> 1 -> 12) as it requires original data
+    var copy = [nodes.length];
+    nodes.forEach(function(n, i) {copy[i] = {x: n.x, y: n.y, width: n.width, _id: n._id}}); // only thing we change is x,y,w and id to find it back
+    this._layouts = this._layouts || []; // use array to find larger quick
+    this._layouts[oldColumn] = copy;
+
+    // see if we have cached previous layout. if NOT and we are going up in size start with the largest layout as down-scaling is more accurate
+    var lastIndex = this._layouts.length - 1;
+    var cacheNodes = this._layouts[column] || [];
+    if (cacheNodes.length === 0 && column > oldColumn && column < lastIndex) {
+      cacheNodes = this._layouts[lastIndex] || [];
+      if (cacheNodes.length) {
+        // pretend we came from that larger column by assigning those values as starting point
+        oldColumn = lastIndex;
+        cacheNodes.forEach(function(cacheNode) {
+          var j = nodes.findIndex(function(n) {return n && n._id === cacheNode._id});
+          if (j !== -1) {
+            // still current, use cache info positions
+            nodes[j].x = cacheNode.x;
+            nodes[j].y = cacheNode.y;
+            nodes[j].width = cacheNode.width;
+          }
+        });
+        cacheNodes = []; // we still don't have new column cached data... will generate from larger one.
+      }
+    }
+
+    // if we found cache re-use those nodes that are still current
+    var newNodes = [];
+    cacheNodes.forEach(function(cacheNode) {
+      var j = nodes.findIndex(function(n) {return n && n._id === cacheNode._id});
+      if (j !== -1) {
+        // still current, use cache info positions
+        nodes[j].x = cacheNode.x;
+        nodes[j].y = cacheNode.y;
+        nodes[j].width = cacheNode.width;
+        newNodes.push(nodes[j]);
+        nodes[j] = null; // erase it so we know what's left
+      }
+    });
+    // ...and add any extra non-cached ones
+    var ratio = column / oldColumn;
+    nodes.forEach(function(node) {
+      if (!node) return;
+      node.x = Math.round(node.x * ratio);
+      node.width = (oldColumn === 1 ? 1 : (Math.round(node.width * ratio) || 1));
+      newNodes.push(node);
+    });
+    newNodes = Utils.sort(newNodes, -1, column);
+
+    // finally relayout them in reverse order (to get correct placement)
+    this._ignoreLayoutsNodeChange = true;
+    this.batchUpdate();
+    this.nodes = []; // pretend we have no nodes to start with (we use same structures) to simplify layout
+    newNodes.forEach(function(node) {
+      this.addNode(node, false); // 'false' for add event trigger
+      node._dirty = true; // force attr update
+    }, this);
+    this.commit();
+    delete this._ignoreLayoutsNodeChange;
+  }
+
+  /**
+   * Modify number of columns in the grid. Will attempt to update existing widgets
+   * to conform to new number of columns. Requires `gridstack-extra.css` or `gridstack-extra.min.css` for [1-11],
+   * else you will need to generate correct CSS (see https://github.com/gridstack/gridstack.js#change-grid-columns)
+   * @param column - Integer > 0 (default 12).
+   * @param doNotPropagate if true existing widgets will not be updated (optional)
+   */
+  GridStack.prototype.setColumn = function(column, doNotPropagate) {
+    if (this.opts.column === column) { return; }
+    var oldColumn = this.opts.column;
+
+    this.container.removeClass('grid-stack-' + oldColumn);
+    this.container.addClass('grid-stack-' + column);
+    this.opts.column = this.grid.column = column;
+
+    // update the items now
+    if (doNotPropagate === true) { return; }
+    this.grid._updateNodeWidths(oldColumn, column);
+
+    // and trigger our event last...
+    this.grid._ignoreLayoutsNodeChange = true;
+    this._triggerChangeEvent();
+    delete this.grid._ignoreLayoutsNodeChange;
+  };
+
+  GridStack.prototype.float = function(val) {
+    // getter - returns the opts stored mode
+    if (val === undefined) {
+      return this.opts.float || false;
+    }
+    // setter - updates the mode and relayout if gravity is back on
+    if (this.opts.float === val) { return; }
+    this.opts.float = this.grid.float = val || false;
+    if (!val) {
+      this.grid._packNodes();
+      this.grid._notify();
+    }
+  };
+
+  // legacy method renames
+  GridStack.prototype.setGridWidth = obsolete(GridStack.prototype.setColumn,
+    'setGridWidth', 'setColumn'); // 0.5.3
 
   scope.GridStackUI = GridStack;
 

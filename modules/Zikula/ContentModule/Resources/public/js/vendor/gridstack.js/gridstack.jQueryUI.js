@@ -1,4 +1,4 @@
-/** gridstack.js 0.5.5 - JQuery UI Drag&Drop plugin @preserve */
+/** gridstack.js 0.6.0 - JQuery UI Drag&Drop plugin @preserve */
 /**
  * https://gridstackjs.com/
  * (c) 2014-2019 Dylan Weiss, Alain Dumesny, Pavel Reznikov
@@ -56,7 +56,9 @@
       el.draggable(opts);
     } else {
       el.draggable($.extend({}, this.grid.opts.draggable, {
-        containment: this.grid.opts.isNested ? this.grid.container.parent() : null,
+        containment: (this.grid.opts.isNested && !this.grid.opts.dragOut) ?
+          this.grid.container.parent() :
+          (this.grid.opts.draggable.containment || null),
         start: opts.start || function() {},
         stop: opts.stop || function() {},
         drag: opts.drag || function() {}
