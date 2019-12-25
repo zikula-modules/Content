@@ -119,12 +119,13 @@ class ControllerType extends AbstractContentType
         $this->data['content'] = '';
         $this->data['noDisplayMessage'] = '';
 
-        $controller = $this->data['controller'];
+        $controller = trim($this->data['controller'], '\\');
         if (!$controller) {
             return;
         }
 
-        list($bundleName) = explode(':', $controller);
+        list($vendor, $moduleName) = explode('\\', $controller);
+        $moduleName = $vendor . $moduleName;
         if (!$this->kernel->isBundle($bundleName)) {
             $this->data['noDisplayMessage'] = $this->translator->__f(
                 'Module %module is not available.',

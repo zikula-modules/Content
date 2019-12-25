@@ -16,9 +16,9 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Regex;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Translator\TranslatorInterface;
+use Zikula\SettingsModule\Validator\Constraints\ValidController;
 
 /**
  * Controller form type class.
@@ -35,9 +35,9 @@ class ControllerType extends AbstractContentFormType
         $builder
             ->add('controller', TextType::class, [
                 'label' => $this->__('Controller'),
-                'help' => $this->__('MyModuleName:Controller:method'),
+                'help' => $this->__('FQCN::method, for example Zikula\FooModule\Controller\BarController::mainAction'),
                 'constraints' => [
-                    new Regex('/\w+:\w+:\w+/')
+                    new ValidController()
                 ]
             ])
             ->add('query', TextType::class, [
