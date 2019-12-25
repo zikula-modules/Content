@@ -50,7 +50,7 @@ abstract class AbstractEditHandler extends EditHandler
         if ('create' === $this->templateParameters['mode'] && !$this->modelHelper->canBeCreated($this->objectType)) {
             $request = $this->requestStack->getCurrentRequest();
             if ($request->hasSession() && ($session = $request->getSession())) {
-                $session()->getFlashBag()->add(
+                $session->getFlashBag()->add(
                     'error',
                     $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!')
                 );
