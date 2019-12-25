@@ -3,9 +3,8 @@ framework:
         zikulacontentmodule_none:
             type: state_machine
             marking_store:
-                type: single_state
-                arguments:
-                    - workflowState
+                type: method
+                property: workflowState
             supports:
                 - Zikula\ContentModule\Entity\PageEntity
                 - Zikula\ContentModule\Entity\ContentItemEntity
