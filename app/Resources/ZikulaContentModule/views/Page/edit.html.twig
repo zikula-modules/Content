@@ -59,7 +59,7 @@
                 </div>
             </div>
         {% else %}
-            {% set language = app.request.locale %}
+            {% set language = app.request.locale|default('en') %}
             <fieldset>
                 <legend>{{ language|languageName|safeHtml }}</legend>
                 {{ form_row(form.title) }}
