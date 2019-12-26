@@ -1,14 +1,12 @@
 {# purpose of this template: pages change history view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
-{% import _self as helper %}
 {% macro outputSimpleValue(input) %}
     {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|localizeddate('long', 'medium') : input|default(__('an empty value')) }}
 {% endmacro %}
 {% macro outputArray(input, keysAreLanguages) %}
-    {% import _self as helper %}
     <ul>
         {% for key, value in input %}
-            <li><span class="bold">{{ keysAreLanguages ? key|languageName|safeHtml|humanize : key|humanize }}:</span> {% if value is iterable %}{{ helper.outputArray(value, false) }}{% else %}<span class="italic">{{ value }}</span>{% endif %}</li>
+            <li><span class="bold">{{ keysAreLanguages ? key|languageName|safeHtml|humanize : key|humanize }}:</span> {% if value is iterable %}{{ _self.outputArray(value, false) }}{% else %}<span class="italic">{{ value }}</span>{% endif %}</li>
         {% endfor %}
     </ul>
 {% endmacro %}
@@ -105,14 +103,14 @@
                                                             {{ __f('%field% set to <em>%value%</em>', {'%field%': field|humanize, '%value%': userAvatar(value.uid, {rating: 'g'}) ~ ' ' ~ value.uid|profileLinkByUserId()})|raw }}
                                                         {% else %}
                                                             {{ __f('%field% set to:', {'%field%': field|humanize}) }}
-                                                            {{ helper.outputArray(value, (field == 'translationData')) }}
+                                                            {{ _self.outputArray(value, (field == 'translationData')) }}
                                                         {% endif %}
                                                         </li>
                                                     {% else %}
                                                         <li>{{ __f('%field% set to <em>%value%</em>', {'%field%': field|humanize, '%value%': __('an empty collection')})|raw }}</li>
                                                     {% endif %}
                                                 {% else %}
-                                                    <li>{{ __f('%field% set to <em>%value%</em>', {'%field%': field|humanize, '%value%': helper.outputSimpleValue(value)})|raw }}</li>
+                                                    <li>{{ __f('%field% set to <em>%value%</em>', {'%field%': field|humanize, '%value%': _self.outputSimpleValue(value)})|raw }}</li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
@@ -166,13 +164,13 @@
                                     {% if fieldName in ['createdBy', 'updatedBy'] and values.old.uid is defined %}
                                         {{ userAvatar(values.old.uid, {rating: 'g'}) }} {{ values.old.uid|profileLinkByUserId() }}
                                     {% else %}
-                                        {{ helper.outputArray(values.old, (fieldName == 'translationData')) }}
+                                        {{ _self.outputArray(values.old, (fieldName == 'translationData')) }}
                                     {% endif %}
                                 {% else %}
                                     {{ __('an empty collection') }}
                                 {% endif %}
                             {% else %}
-                                {{ helper.outputSimpleValue(values.old) }}
+                                {{ _self.outputSimpleValue(values.old) }}
                             {% endif %}
                         </td>
                         <td headers="hMaxVersion h{{ fieldName|replace({' ': '', '"':''}) }}"{% if values.changed %} class="diff-new"{% endif %}>
@@ -181,13 +179,13 @@
                                     {% if fieldName in ['createdBy', 'updatedBy'] and values.new.uid is defined %}
                                         {{ userAvatar(values.new.uid, {rating: 'g'}) }} {{ values.new.uid|profileLinkByUserId() }}
                                     {% else %}
-                                        {{ helper.outputArray(values.new, (fieldName == 'translationData')) }}
+                                        {{ _self.outputArray(values.new, (fieldName == 'translationData')) }}
                                     {% endif %}
                                 {% else %}
                                     {{ __('an empty collection') }}
                                 {% endif %}
                             {% else %}
-                                {{ helper.outputSimpleValue(values.new) }}
+                                {{ _self.outputSimpleValue(values.new) }}
                             {% endif %}
                         </td>
                     </tr>
