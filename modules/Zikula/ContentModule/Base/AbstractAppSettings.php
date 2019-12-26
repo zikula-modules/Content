@@ -54,7 +54,7 @@ abstract class AbstractAppSettings
      * If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".
      *
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $googleMapsApiKey
      */
     protected $googleMapsApiKey = '';
@@ -63,7 +63,7 @@ abstract class AbstractAppSettings
      * If you want to get translation support by Yandex which can provide suggestions you need an API key for it.
      *
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $yandexTranslateApiKey
      */
     protected $yandexTranslateApiKey = '';
@@ -99,7 +99,7 @@ abstract class AbstractAppSettings
      * A list of CSS class names available for styling pages - for example "product" or "legal".
      *
      * @Assert\NotBlank
-     * @Assert\Length(min="0", max="5000")
+     * @Assert\Length(min="0", max="5000", allowEmptyString="false")
      * @var string $pageStyles
      */
     protected $pageStyles = 'dummy|Dummy';
@@ -108,7 +108,7 @@ abstract class AbstractAppSettings
      * A list of CSS class names available for styling page sections - for example "header" or "reference-row".
      *
      * @Assert\NotBlank
-     * @Assert\Length(min="0", max="5000")
+     * @Assert\Length(min="0", max="5000", allowEmptyString="false")
      * @var string $sectionStyles
      */
     protected $sectionStyles = 'dummy|Dummy';
@@ -117,7 +117,7 @@ abstract class AbstractAppSettings
      * A list of CSS class names available for styling single content elements - for instance "note" or "shadow".
      *
      * @Assert\NotBlank
-     * @Assert\Length(min="0", max="5000")
+     * @Assert\Length(min="0", max="5000", allowEmptyString="false")
      * @var string $contentStyles
      */
     protected $contentStyles = 'dummy|Dummy';
@@ -266,7 +266,7 @@ abstract class AbstractAppSettings
     
     /**
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $periodForPageRevisions
      */
     protected $periodForPageRevisions = 'P1Y0M0DT0H0M0S';

@@ -64,7 +64,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * @ORM\Column(length=255)
      * @Assert\NotBlank
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="false")
      * @var string $owningType
      */
     protected $owningType = '';
@@ -120,7 +120,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * @Gedmo\Translatable
      * @ORM\Column(type="text", length=100000)
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="100000")
+     * @Assert\Length(min="0", max="100000", allowEmptyString="true")
      * @var string $searchText
      */
     protected $searchText = '';
@@ -129,7 +129,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $additionalSearchText
      */
     protected $additionalSearchText = '';

@@ -70,7 +70,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotBlank
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="false")
      * @var string $title
      */
     protected $title = '';
@@ -88,7 +88,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $metaDescription
      */
     protected $metaDescription = '';
@@ -170,7 +170,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $optionalString1
      */
     protected $optionalString1 = '';
@@ -179,7 +179,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="255")
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $optionalString2
      */
     protected $optionalString2 = '';
@@ -188,7 +188,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Translatable
      * @ORM\Column(type="text", length=2000)
      * @Assert\NotNull
-     * @Assert\Length(min="0", max="2000")
+     * @Assert\Length(min="0", max="2000", allowEmptyString="true")
      * @var string $optionalText
      */
     protected $optionalText = '';
