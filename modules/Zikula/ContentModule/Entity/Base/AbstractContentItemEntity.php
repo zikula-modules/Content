@@ -55,7 +55,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * the current workflow state
      *
      * @ORM\Column(length=20)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ContentAssert\ListEntry(entityName="contentItem", propertyName="workflowState", multiple=false)
      * @var string $workflowState
      */
@@ -63,8 +63,8 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     
     /**
      * @ORM\Column(length=255)
-     * @Assert\NotBlank()
-     * @Assert\Length(min="0", max="255")
+     * @Assert\NotBlank
+     * @Assert\Length(min="0", max="255", allowEmptyString="false")
      * @var string $owningType
      */
     protected $owningType = '';
@@ -72,7 +72,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * @Gedmo\Translatable
      * @ORM\Column(type="array")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="array")
      * @var array $contentData
      */
@@ -80,7 +80,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $active
      */
@@ -103,7 +103,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
      * As soon as at least one selected entry applies for the current user the content becomes visible.
      *
      * @ORM\Column(length=100)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ContentAssert\ListEntry(entityName="contentItem", propertyName="scope", multiple=true)
      * @var string $scope
      */
@@ -119,8 +119,8 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * @Gedmo\Translatable
      * @ORM\Column(type="text", length=100000)
-     * @Assert\NotNull()
-     * @Assert\Length(min="0", max="100000")
+     * @Assert\NotNull
+     * @Assert\Length(min="0", max="100000", allowEmptyString="true")
      * @var string $searchText
      */
     protected $searchText = '';
@@ -128,8 +128,8 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
-     * @Assert\NotNull()
-     * @Assert\Length(min="0", max="255")
+     * @Assert\NotNull
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
      * @var string $additionalSearchText
      */
     protected $additionalSearchText = '';
