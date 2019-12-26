@@ -1,7 +1,6 @@
 {# purpose of this template: pages display view #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
-{% import _self as macros %}
 {% block appTitle %}
     {% if inList is not defined %}
         {{ parent() }}
@@ -97,7 +96,7 @@
                         {% set processedItemIds = processedItemIds|merge([item.id]) %}
                     {% endfor %}
                     {% if contentItem != null and zikulacontentmodule_maySeeElement(contentItem) %}
-                        {{ macros.showWidget(contentItem, widget, lastWidget, contentElements[contentItem.id]) }}
+                        {{ _self.showWidget(contentItem, widget, lastWidget, contentElements[contentItem.id]) }}
                         {% if inList is defined and list == 'extended' %}
                             {# extended list shows only the first content element #}
                             {% set showElement = false %}
@@ -113,7 +112,7 @@
         <div class="row section">
             {% for contentItem in page.contentItems if showElement == true and contentItem.id not in processedItemIds %}
                 {% if zikulacontentmodule_maySeeElement(contentItem) %}
-                    {{ macros.showWidget(contentItem, null, null, contentElements[contentItem.id]) }}
+                    {{ _self.showWidget(contentItem, null, null, contentElements[contentItem.id]) }}
                     {% if inList is defined and list == 'extended' %}
                         {# extended list shows only the first content element #}
                         {% set showElement = false %}
