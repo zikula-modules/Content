@@ -35,7 +35,7 @@ abstract class AbstractAppSettings
     protected $entityFactory;
     
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ContentAssert\ListEntry(entityName="appSettings", propertyName="stateOfNewPages", multiple=false)
      * @var string $stateOfNewPages
      */
@@ -44,7 +44,7 @@ abstract class AbstractAppSettings
     /**
      * Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $countPageViews
      */
@@ -53,7 +53,7 @@ abstract class AbstractAppSettings
     /**
      * If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Length(min="0", max="255")
      * @var string $googleMapsApiKey
      */
@@ -62,7 +62,7 @@ abstract class AbstractAppSettings
     /**
      * If you want to get translation support by Yandex which can provide suggestions you need an API key for it.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Length(min="0", max="255")
      * @var string $yandexTranslateApiKey
      */
@@ -71,7 +71,7 @@ abstract class AbstractAppSettings
     /**
      * Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $enableRawPlugin
      */
@@ -80,7 +80,7 @@ abstract class AbstractAppSettings
     /**
      * Whether to inherit permissions from parent to child pages or not.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $inheritPermissions
      */
@@ -89,7 +89,7 @@ abstract class AbstractAppSettings
     /**
      * Whether page titles should automatically be linked using MultiHook.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $enableAutomaticPageLinks
      */
@@ -98,7 +98,7 @@ abstract class AbstractAppSettings
     /**
      * A list of CSS class names available for styling pages - for example "product" or "legal".
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Length(min="0", max="5000")
      * @var string $pageStyles
      */
@@ -107,7 +107,7 @@ abstract class AbstractAppSettings
     /**
      * A list of CSS class names available for styling page sections - for example "header" or "reference-row".
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Length(min="0", max="5000")
      * @var string $sectionStyles
      */
@@ -116,7 +116,7 @@ abstract class AbstractAppSettings
     /**
      * A list of CSS class names available for styling single content elements - for instance "note" or "shadow".
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Length(min="0", max="5000")
      * @var string $contentStyles
      */
@@ -125,7 +125,7 @@ abstract class AbstractAppSettings
     /**
      * If you need an additional string for each page you can enable an optional field.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $enableOptionalString1
      */
@@ -134,7 +134,7 @@ abstract class AbstractAppSettings
     /**
      * If you need an additional string for each page you can enable an optional field.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $enableOptionalString2
      */
@@ -143,7 +143,7 @@ abstract class AbstractAppSettings
     /**
      * If you need an additional text for each page you can enable an optional field.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $enableOptionalText
      */
@@ -152,7 +152,7 @@ abstract class AbstractAppSettings
     /**
      * This removes the module name (defaults to "content") from permalinks.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $ignoreBundleNameInRoutes
      */
@@ -161,7 +161,7 @@ abstract class AbstractAppSettings
     /**
      * This removes the primary entity name ("page") from permalinks.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $ignoreEntityNameInRoutes
      */
@@ -170,14 +170,14 @@ abstract class AbstractAppSettings
     /**
      * This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $ignoreFirstTreeLevelInRoutes
      */
     protected $ignoreFirstTreeLevelInRoutes = true;
     
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ContentAssert\ListEntry(entityName="appSettings", propertyName="permalinkSuffix", multiple=false)
      * @var string $permalinkSuffix
      */
@@ -187,7 +187,7 @@ abstract class AbstractAppSettings
      * The amount of pages shown per page
      *
      * @Assert\Type(type="integer")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\NotEqualTo(value=0)
      * @Assert\LessThan(value=100000000000)
      * @var int $pageEntriesPerPage
@@ -197,7 +197,7 @@ abstract class AbstractAppSettings
     /**
      * Whether to add a link to pages of the current user on his account page
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $linkOwnPagesOnAccountPage
      */
@@ -206,7 +206,7 @@ abstract class AbstractAppSettings
     /**
      * Whether users may only see own pages
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $pagePrivateMode
      */
@@ -215,7 +215,7 @@ abstract class AbstractAppSettings
     /**
      * Whether only own entries should be shown on view pages by default or not
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $showOnlyOwnEntries
      */
@@ -224,7 +224,7 @@ abstract class AbstractAppSettings
     /**
      * Whether to allow moderators choosing a user which will be set as creator.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $allowModerationSpecificCreatorForPage
      */
@@ -233,7 +233,7 @@ abstract class AbstractAppSettings
     /**
      * Whether to allow moderators choosing a custom creation date.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $allowModerationSpecificCreationDateForPage
      */
@@ -242,7 +242,7 @@ abstract class AbstractAppSettings
     /**
      * Which sections are supported in the Finder component (used by Scribite plug-ins).
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @ContentAssert\ListEntry(entityName="appSettings", propertyName="enabledFinderTypes", multiple=true)
      * @var string $enabledFinderTypes
      */
@@ -251,21 +251,21 @@ abstract class AbstractAppSettings
     /**
      * Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ContentAssert\ListEntry(entityName="appSettings", propertyName="revisionHandlingForPage", multiple=false)
      * @var string $revisionHandlingForPage
      */
     protected $revisionHandlingForPage = 'unlimited';
     
     /**
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @ContentAssert\ListEntry(entityName="appSettings", propertyName="maximumAmountOfPageRevisions", multiple=false)
      * @var string $maximumAmountOfPageRevisions
      */
     protected $maximumAmountOfPageRevisions = '25';
     
     /**
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Length(min="0", max="255")
      * @var string $periodForPageRevisions
      */
@@ -274,7 +274,7 @@ abstract class AbstractAppSettings
     /**
      * Whether to show the version history to editors or not.
      *
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $showPageHistory
      */

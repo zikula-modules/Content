@@ -60,7 +60,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      *
      * @Gedmo\Versioned
      * @ORM\Column(length=20)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ContentAssert\ListEntry(entityName="page", propertyName="workflowState", multiple=false)
      * @var string $workflowState
      */
@@ -69,7 +69,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Length(min="0", max="255")
      * @var string $title
      */
@@ -78,7 +78,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $showTitle
      */
@@ -87,7 +87,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Length(min="0", max="255")
      * @var string $metaDescription
      */
@@ -96,7 +96,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $skipHookSubscribers
      */
@@ -105,8 +105,9 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @ORM\Column(type="json_array")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="array")
+     * @Assert\Json
      * @var array $layout
      */
     protected $layout = [];
@@ -115,7 +116,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @Gedmo\Versioned
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\LessThan(value=100000000000)
      * @var int $views
      */
@@ -124,7 +125,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $active
      */
@@ -150,7 +151,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      *
      * @Gedmo\Versioned
      * @ORM\Column(length=100)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @ContentAssert\ListEntry(entityName="page", propertyName="scope", multiple=true)
      * @var string $scope
      */
@@ -159,7 +160,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="bool")
      * @var bool $inMenu
      */
@@ -168,7 +169,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Length(min="0", max="255")
      * @var string $optionalString1
      */
@@ -177,7 +178,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=255)
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Length(min="0", max="255")
      * @var string $optionalString2
      */
@@ -186,7 +187,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Translatable
      * @ORM\Column(type="text", length=2000)
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Length(min="0", max="2000")
      * @var string $optionalText
      */
@@ -205,7 +206,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="integer")
      * @ORM\Version
      * @Assert\Type(type="integer")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\NotEqualTo(value=0)
      * @Assert\LessThan(value=100000000000)
      * @var int $currentVersion
@@ -215,8 +216,9 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @ORM\Column(type="json_array")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="array")
+     * @Assert\Json
      * @var array $contentData
      */
     protected $contentData = [];
@@ -224,8 +226,9 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     /**
      * @Gedmo\Versioned
      * @ORM\Column(type="json_array")
-     * @Assert\NotNull()
+     * @Assert\NotNull
      * @Assert\Type(type="array")
+     * @Assert\Json
      * @var array $translationData
      */
     protected $translationData = [];
