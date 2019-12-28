@@ -1,5 +1,5 @@
 {# purpose of this template: pages xml inclusion template #}
-<page id="{{ page.getId() }}" createdon="{{ page.createdDate|localizeddate('medium', 'short') }}" updatedon="{{ page.updatedDate|localizeddate('medium', 'short') }}">
+<page id="{{ page.getId() }}" createdon="{{ page.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ page.updatedDate|format_datetime('medium', 'short') }}">
     <id>{{ page.id }}</id>
     <title><![CDATA[{{ page.title }}]]></title>
     <showTitle>{% if not page.showTitle %}0{% else %}1{% endif %}</showTitle>
@@ -15,10 +15,10 @@
     <views>{{ page.views }}</views>
     <active>{% if not page.active %}0{% else %}1{% endif %}</active>
     <activeFrom>{% if page.activeFrom is not empty %}
-        {{ page.activeFrom|localizeddate('medium', 'short') }}
+        {{ page.activeFrom|format_datetime('medium', 'short') }}
     {% endif %}</activeFrom>
     <activeTo>{% if page.activeTo is not empty %}
-        {{ page.activeTo|localizeddate('medium', 'short') }}
+        {{ page.activeTo|format_datetime('medium', 'short') }}
     {% endif %}</activeTo>
     <scope>{{ page.scope|zikulacontentmodule_listEntry('page', 'scope') }}</scope>
     <inMenu>{% if not page.inMenu %}0{% else %}1{% endif %}</inMenu>

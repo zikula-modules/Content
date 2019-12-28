@@ -21,7 +21,7 @@
                                     <span class="label label-danger"><i class="fa fa-warning"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = language in localesWithMandatoryFields %}
-                                {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|languageName|safeHtml }}{% if hasRequiredFields %}</span>{% endif %}
+                                {% if hasRequiredFields %}<span class="required">{% endif %}{{ languagelanguage_name }}{% if hasRequiredFields %}</span>{% endif %}
                             </a>
                         </li>
                     {% endfor %}
@@ -30,7 +30,7 @@
                     {% for language in supportedLanguages %}
                         <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}">
                             <fieldset>
-                                <legend>{{ language|languageName|safeHtml }}</legend>
+                                <legend>{{ languagelanguage_name }}</legend>
                                 {% if language == app.request.locale %}
                                     {{ form_row(form.title) }}
                                     {{ form_row(form.metaDescription) }}
@@ -49,7 +49,7 @@
         {% else %}
             {% set language = app.request.locale %}
             <fieldset>
-                <legend>{{ language|languageName|safeHtml }}</legend>
+                <legend>{{ languagelanguage_name }}</legend>
                 {{ form_row(form.title) }}
                 {{ form_row(form.metaDescription) }}
                 {{ form_row(form.optionalString1) }}

@@ -29,7 +29,7 @@
                         <td headers="hTitle">
                             {{ logEntry|zikulacontentmodule_logDescription }}
                         </td>
-                        <td headers="hDate">{{ logEntry.loggedAt|localizeddate('long', 'medium') }}</td>
+                        <td headers="hDate">{{ logEntry.loggedAt|format_datetime('long', 'medium') }}</td>
                         <td headers="hUser">{{ userAvatar(logEntry.username, {size: 20, rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}</td>
                         <td headers="hActions" class="actions nowrap">
                             {% set linkTitle = __f('Preview page %id%', {'%id%': logEntry.objectId}) %}

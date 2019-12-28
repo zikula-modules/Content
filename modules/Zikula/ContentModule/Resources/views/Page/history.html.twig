@@ -1,12 +1,12 @@
 {# purpose of this template: pages change history view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
 {% macro outputSimpleValue(input) %}
-    {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|localizeddate('long', 'medium') : input|default(__('an empty value')) }}
+    {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|format_datetime('long', 'medium') : input|default(__('an empty value')) }}
 {% endmacro %}
 {% macro outputArray(input, keysAreLanguages) %}
     <ul>
         {% for key, value in input %}
-            <li><span class="bold">{{ keysAreLanguages ? key|languageName|safeHtml|humanize : key|humanize }}:</span> {% if value is iterable %}{{ _self.outputArray(value, false) }}{% else %}<span class="italic">{{ value }}</span>{% endif %}</li>
+            <li><span class="bold">{{ keysAreLanguages ? key|language_name : key|humanize }}:</span> {% if value is iterable %}{{ _self.outputArray(value, false) }}{% else %}<span class="italic">{{ value }}</span>{% endif %}</li>
         {% endfor %}
     </ul>
 {% endmacro %}
@@ -70,7 +70,7 @@
                                 <input type="checkbox" name="versions[]" value="{{ logEntry.version }}" class="zikulacontent-toggle-checkbox" />
                             </td>
                             <td headers="hVersion" class="text-center">{{ logEntry.version }}{% if loop.first %} ({{ __('latest') }}){% endif %}</td>
-                            <td headers="hDate">{{ logEntry.loggedAt|localizeddate('long', 'medium') }}</td>
+                            <td headers="hDate">{{ logEntry.loggedAt|format_datetime('long', 'medium') }}</td>
                             <td headers="hUser">
                                 {% if logEntry.username %}
                                     {{ userAvatar(logEntry.username, {rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}
