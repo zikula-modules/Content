@@ -124,21 +124,21 @@
                         {% endif %}
                     </div></noscript>
                     {% if page.activeFrom is not empty %}
-                        <br />{{ __f('only from %date', {'%date': page.activeFrom|localizeddate('short', 'short')}) }}
+                        <br />{{ __f('only from %date', {'%date': page.activeFrom|format_datetime('short', 'short')}) }}
                     {% endif %}
                     {% if page.activeTo is not empty %}
-                        <br />{{ __f('only until %date', {'%date': page.activeTo|localizeddate('short', 'short')}) }}
+                        <br />{{ __f('only until %date', {'%date': page.activeTo|format_datetime('short', 'short')}) }}
                     {% endif %}
                 </td>
                 {#
                 <td headers="hActiveFrom" class="text-left">
                     {% if page.activeFrom is not empty %}
-                        {{ page.activeFrom|localizeddate('medium', 'short') }}
+                        {{ page.activeFrom|format_datetime('medium', 'short') }}
                     {% endif %}
                 </td>
                 <td headers="hActiveTo" class="text-left">
                     {% if page.activeTo is not empty %}
-                        {{ page.activeTo|localizeddate('medium', 'short') }}
+                        {{ page.activeTo|format_datetime('medium', 'short') }}
                     {% endif %}
                 </td>
                 #}
@@ -159,9 +159,9 @@
                 <td headers="hCurrentVersion" class="text-left">
                     {% if page.updatedBy|default and page.updatedBy.uid > 0 %}
                         {% set profileLink = page.updatedBy.uid|profileLinkByUserId %}
-                        {{ __f('on %date by %user', {'%date': page.updatedDate|localizeddate('short', 'none'), '%user': profileLink})|raw }}
+                        {{ __f('on %date by %user', {'%date': page.updatedDate|format_date('short'), '%user': profileLink})|raw }}
                     {% else %}
-                        {{ __f('on %date', {'%date': page.updatedDate|localizeddate('short', 'none')})|raw }}
+                        {{ __f('on %date', {'%date': page.updatedDate|format_date('short')})|raw }}
                     {% endif %}
                 </td>
                 <td headers="hCurrentVersion" class="text-right">
