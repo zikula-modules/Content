@@ -76,13 +76,13 @@
         {% if page.activeFrom is not empty %}
             <dt>{{ __('Active from') }}</dt>
             <dd>{% if page.activeFrom is not empty %}
-                {{ page.activeFrom|localizeddate('medium', 'short') }}
+                {{ page.activeFrom|format_datetime('medium', 'short') }}
             {% endif %}</dd>
         {% endif %}
         {% if page.activeTo is not empty %}
             <dt>{{ __('Active to') }}</dt>
             <dd>{% if page.activeTo is not empty %}
-                {{ page.activeTo|localizeddate('medium', 'short') }}
+                {{ page.activeTo|format_datetime('medium', 'short') }}
             {% endif %}</dd>
         {% endif %}
         {% if page.scope is not empty %}

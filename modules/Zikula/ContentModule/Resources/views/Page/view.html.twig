@@ -108,12 +108,12 @@
                 </td>
                 <td headers="hActiveFrom" class="text-left">
                     {% if page.activeFrom is not empty %}
-                        {{ page.activeFrom|localizeddate('medium', 'short') }}
+                        {{ page.activeFrom|format_datetime('medium', 'short') }}
                     {% endif %}
                 </td>
                 <td headers="hActiveTo" class="text-left">
                     {% if page.activeTo is not empty %}
-                        {{ page.activeTo|localizeddate('medium', 'short') }}
+                        {{ page.activeTo|format_datetime('medium', 'short') }}
                     {% endif %}
                 </td>
                 <td headers="hInMenu" class="text-center">
