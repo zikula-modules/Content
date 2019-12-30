@@ -3,12 +3,13 @@
 {% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Translate') }}{% endblock %}
 {% block admin_page_icon 'language' %}
 {% block content %}
+    {% set currentLocale = app.request.locale|default('en') %}
     {% set yandexApiKey = getModVar('ZikulaContentModule', 'yandexTranslateApiKey', '') %}
     {{ zikulacontentmodule_getPagePath(page, false) }}
     <div class="zikulacontentmodule-page zikulacontentmodule-translate">
         {% form_theme form with [
             '@ZikulaContentModule/Form/bootstrap_3.html.twig',
-            'ZikulaFormExtensionBundle:Form:form_div_layout.html.twig'
+            '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(form, {attr: {id: 'pageTranslateForm', class: 'zikulacontent-translate-form'}}) }}
         {{ form_errors(form) }}
@@ -34,7 +35,7 @@
                     <div class="col-sm-6">
                         <select id="sourceLanguage" class="form-control">
                             {% for language in localesWithExistingData %}
-                                <option value="{{ language }}"{{ language == app.request.locale ? ' selected="selected"' : '' }}>{{ language|language_name }}</option>
+                                <option value="{{ language }}"{{ language == currentLocale ? ' selected="selected"' : '' }}>{{ language|language_name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -43,14 +44,14 @@
         </div>
         <br />
         {% for language in localesWithExistingData %}
-            <fieldset id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
+            <fieldset id="sourceContent{{ language }}" class="source-section{{ language == currentLocale ? '' : ' hidden' }}">
                 <legend>{{ __('Source content') }} ({{ language|language_name }})</legend>
                 {% if currentStep == 1 %}
                     {% for fieldName in pageFields|filter(f => form[f] is defined) %}
                         <div class="form-group field-{{ fieldName|e('html_attr') }}">
                             <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
                             <div class="col-sm-9">
-                                <div class="form-control-static">{{ (language == app.request.locale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                                <div class="form-control-static">{{ (language == currentLocale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
                             </div>
                         </div>
                     {% endfor %}
@@ -58,11 +59,11 @@
                     {% if form.contentData is defined %}
                         {% for field in form.contentData %}
                             {% set fieldName = field.vars.name %}
-                            {% if (language == app.request.locale and contentItem.contentData[fieldName] is defined or language != app.request.locale and form['translations' ~ language].contentData[fieldName].vars.value is defined) %}
+                            {% if (language == currentLocale and contentItem.contentData[fieldName] is defined or language != currentLocale and form['translations' ~ language].contentData[fieldName].vars.value is defined) %}
                             <div class="form-group field-{{ fieldName|e('html_attr') }}">
                                 <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
                                 <div class="col-sm-9">
-                                    <div class="form-control-static">{{ (language == app.request.locale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
+                                    <div class="form-control-static">{{ (language == currentLocale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
                                 </div>
                             </div>
                             {% endif %}
@@ -72,7 +73,7 @@
                     <div class="form-group field-{{ fieldName|e('html_attr') }}">
                         <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
                         <div class="col-sm-9">
-                            <div class="form-control-static">{{ (language == app.request.locale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                            <div class="form-control-static">{{ (language == currentLocale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
                         </div>
                     </div>
                 {% endif %}
@@ -83,7 +84,7 @@
             <div class="zikula-bootstrap-tab-container">
                 <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs">
                     {% for language in supportedLanguages %}
-                        <li{% if language == app.request.locale %} class="active"{% endif %}>
+                        <li{% if language == currentLocale %} class="active"{% endif %}>
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}">
                                 {% if not form.vars.valid %}
                                     <span class="label label-danger"><i class="fa fa-warning"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
@@ -96,11 +97,11 @@
                 </ul>
                 <div class="{{ form.vars.id|lower }}-translation-fields tab-content">
                     {% for language in supportedLanguages %}
-                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}" data-language="{{ language }}">
+                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == currentLocale %} active in{% endif %}" data-language="{{ language }}">
                             <fieldset>
                                 <legend>{{ language|language_name }}</legend>
                                 {% if currentStep == 1 %}
-                                    {% if language == app.request.locale %}
+                                    {% if language == currentLocale %}
                                         {% for fieldName in pageFields|filter(f => form[f] is defined) %}
                                             {{ form_row(form[fieldName]) }}
                                         {% endfor %}
@@ -108,7 +109,7 @@
                                         {{ form_row(form['translations' ~ language]) }}
                                     {% endif %}
                                 {% else %}
-                                    {% if language == app.request.locale %}
+                                    {% if language == currentLocale %}
                                         {% if form.contentData is defined %}
                                             {% for field in form.contentData %}
                                                 {{ form_row(form.contentData[field.vars.name]) }}
