@@ -183,7 +183,7 @@ class AbstractMenuBuilder
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
-                    $menu[$title]->setAttribute('icon', 'fa fa-pencil-square-o');
+                    $menu[$title]->setAttribute('icon', 'fa fa-pencil-alt');
                     $title = $this->__('Reuse', 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'edit',
