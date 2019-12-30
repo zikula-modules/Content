@@ -188,7 +188,7 @@
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', routeArgs) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ linkTitle }}</a>
         {% endif %}
         {% set linkTitle = __('Switch to hierarchy view') %}
-        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', {tpl: 'tree'}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-code-fork"></i> {{ linkTitle }}</a>
+        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', {tpl: 'tree'}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-code-branch"></i> {{ linkTitle }}</a>
         {% if not showOnlyOwn %}{% if own == 1 %}
             {% set linkTitle = __('Show also entries from other users') %}
             {% set routeArgs = all ? {all: 1} : {} %}
@@ -200,7 +200,7 @@
         {% endif %}{% endif %}
         {% if hasDeletedEntities %}
             {% set linkTitle = __('View deleted pages') %}
-            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', {deleted: 1}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-trash-o"></i> {{ linkTitle }}</a>
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view', {deleted: 1}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-trash-alt"></i> {{ linkTitle }}</a>
         {% endif %}
     </p>
 {% endblock %}
