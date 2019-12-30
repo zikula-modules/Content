@@ -3,7 +3,7 @@
 <div class="content-block content-menu{% if vars.navType == 3 %} navbar navbar-default{% endif %}">
 {% if items|length > 0 %}
     <ul{% if vars.navType > 0 %} class="nav {% if vars.navType in [1, 3] %}nav-tabs{% elseif vars.navType == 2 %}nav-pills{% endif %}"{% endif %}>
-        {% for page in items if zikulacontentmodule_hasReadAccess(page) %}
+        {% for page in items|filter(p => zikulacontentmodule_hasReadAccess(p)) %}
             {{ include('@ZikulaContentModule/Block/pageListIncludeEntry.html.twig', {page: page, context: 'menuBlock'}) }}
         {% endfor %}
     </ul>

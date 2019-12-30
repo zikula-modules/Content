@@ -109,12 +109,12 @@
             {% set processedItemIds = [] %}
             {% if page.layout is iterable and page.layout|length > 0 %}
                 var widgetData = {{ page.layout|json_encode|raw }};
-                {% for section in page.layout if section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
-                        {% for widget in section.widgets %}
-                            {% for item in page.contentItems if item.id == widget.id %}
-                                {% set processedItemIds = processedItemIds|merge([item.id]) %}
-                            {% endfor %}
+                {% for section in page.layout|filter(s => s.widgets|default and s.widgets is iterable and s.widgets|length > 0) %}
+                    {% for widget in section.widgets %}
+                        {% for item in page.contentItems|filter(i => i.id == widget.id) %}
+                            {% set processedItemIds = processedItemIds|merge([item.id]) %}
                         {% endfor %}
+                    {% endfor %}
                 {% endfor %}
             {% else %}
                 var widgetData = [
@@ -126,7 +126,7 @@
             var orphanData = [];
             {% if processedItemIds|length < page.contentItems|length %}
                 {# there are elements which are not included in page layout information yet, so we append them at the end #}
-                {% for contentItem in page.contentItems if contentItem.id not in processedItemIds %}
+                {% for contentItem in page.contentItems|filter(c => c.id not in processedItemIds) %}
                     orphanData.push({{ contentItem.id }});
                 {% endfor %}
             {% endif %}

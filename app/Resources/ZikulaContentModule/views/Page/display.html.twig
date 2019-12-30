@@ -86,12 +86,12 @@
         {% set showElement = list in ['extended', 'complete'] %}
     {% endif %}
     {% if page.layout|default and page.layout is iterable and page.layout|length > 0 %}
-        {% for section in page.layout if showElement == true and section.widgets|default and section.widgets is iterable and section.widgets|length > 0 %}
+        {% for section in page.layout|filter(s => showElement == true and s.widgets|default and s.widgets is iterable and s.widgets|length > 0) %}
             <div class="row section{% if section.stylingClasses is not empty %} {{ section.stylingClasses }}{% endif %}">
                 {% set lastWidget = null %}
-                {% for widget in section.widgets if showElement == true %}
+                {% for widget in section.widgets|filter(w => showElement == true) %}
                     {% set contentItem = null %}
-                    {% for item in page.contentItems if item.id == widget.id %}
+                    {% for item in page.contentItems|filter(i => i.id == widget.id) %}
                         {% set contentItem = item %}
                         {% set processedItemIds = processedItemIds|merge([item.id]) %}
                     {% endfor %}
@@ -110,7 +110,7 @@
     {% if showElement == true and processedItemIds|length < contentElements|length %}
         {# there are elements which are not included in page layout information yet, so we append them at the end #}
         <div class="row section">
-            {% for contentItem in page.contentItems if showElement == true and contentItem.id not in processedItemIds %}
+            {% for contentItem in page.contentItems|filter(c => showElement == true and c.id not in processedItemIds) %}
                 {% if zikulacontentmodule_maySeeElement(contentItem) %}
                     {{ _self.showWidget(contentItem, null, null, contentElements[contentItem.id]) }}
                     {% if inList is defined and list == 'extended' %}

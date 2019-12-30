@@ -2,7 +2,7 @@
     {% if includeHome %}
         <li><a href="{{ pagevars.homepath }}" title="{{ __('Home') }}">{{ __('Home') }}</a></li>
     {% endif %}
-    {% for page in pages if zikulacontentmodule_hasReadAccess(page) %}
+    {% for page in pages|filter(p => zikulacontentmodule_hasReadAccess(p)) %}
         <li{% if page.id == currentPageId %} class="active"{% endif %}>
             {% set pageTitle = page|zikulacontentmodule_formattedTitle %}
             <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>

@@ -15,7 +15,7 @@
         {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
         <div class="row">
             <div class="col-sm-6">
-                <h4>{{ __f('Step %step of %amount', {'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{{ __('General page data') }}{% else %}{% for item in translationInfo.items if item.entity.id == translationInfo.currentContentId %}{{ item.title }}{% endfor %}{% endif %}</h4>
+                <h4>{{ __f('Step %step of %amount', {'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{{ __('General page data') }}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
             </div>
             <div class="col-sm-6">
                 <div class="form-row">
@@ -46,7 +46,7 @@
             <fieldset id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
                 <legend>{{ __('Source content') }} ({{ language|languageName|safeHtml }})</legend>
                 {% if currentStep == 1 %}
-                    {% for fieldName in pageFields if form[fieldName] is defined %}
+                    {% for fieldName in pageFields|filter(f => form[f] is defined) %}
                         <div class="form-group field-{{ fieldName|e('html_attr') }}">
                             <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
                             <div class="col-sm-9">
@@ -101,7 +101,7 @@
                                 <legend>{{ language|languageName|safeHtml }}</legend>
                                 {% if currentStep == 1 %}
                                     {% if language == app.request.locale %}
-                                        {% for fieldName in pageFields if form[fieldName] is defined %}
+                                        {% for fieldName in pageFields|filter(f => form[f] is defined) %}
                                             {{ form_row(form[fieldName]) }}
                                         {% endfor %}
                                     {% else %}

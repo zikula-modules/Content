@@ -5,7 +5,7 @@
             <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ __('Overview', 'zikulacontentmodule') }}</a>
         </li>
     {% endif %}
-    {% for page in pages if page.active and zikulacontentmodule_hasReadAccess(page) %}
+    {% for page in pages|filter(p => p.active and zikulacontentmodule_hasReadAccess(p)) %}
         {{ include('@ZikulaContentModule/Block/pageListIncludeEntry.html.twig', {page: page, context: context|default}) }}
     {% endfor %}
 </ul>

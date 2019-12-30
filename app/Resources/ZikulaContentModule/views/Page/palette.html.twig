@@ -41,7 +41,7 @@
                 <h3><i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</h3>
                 <div class="container-fluid">
                     <div class="row">
-                    {% for contentType in activeContentTypes if contentType.category == category.name %}
+                    {% for contentType in activeContentTypes|filter(c => c.category == category.name) %}
                         <div class="col-sm-6 col-md-4">
                             <div class="grid-stack-item" data-title="{{ contentType.title|e('html_attr') }}" data-content="{{ contentType.description|e('html_attr') }}" data-minwidth="{{ contentType.minimumAmountOfGridColumns|e('html_attr') }}" data-typeclass="{{ contentType|php('get_class') }}">
                                 <div class="grid-stack-item-content"><i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}</div>
