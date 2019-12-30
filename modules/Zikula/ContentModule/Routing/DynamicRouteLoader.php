@@ -94,7 +94,7 @@ class DynamicRouteLoader extends Loader
             $path = $variantData['pathPrefix'] . $entityPathSegment . '/{slug}.{_format}';
 
             $defaults = [
-                '_controller' => 'ZikulaContentModule:Page:' . $variantData['controller'],
+                '_controller' => 'Zikula\\ContentModule\\Controller\\PageController::' . $variantData['controller'] . 'Action',
                 'ignoreFirstTreeLevelInRoutes' => $this->ignoreFirstTreeLevelInRoutes,
                 'permalinkSuffix' => $this->permalinkSuffix
             ];
