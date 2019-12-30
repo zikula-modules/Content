@@ -201,7 +201,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
                 action: function (node) {
                     document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_edit', nodeEntityRouteArgs, true);
                 },
-                icon: 'fa fa-fw fa-pencil-square-o'
+                icon: 'fa fa-fw fa-edit'
             };
         }
         actions.addChildNode = {
@@ -228,7 +228,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
                     zikulaContentPerformTreeOperation(objectType, rootId, 'deleteNode');
                 }
             },
-            icon: 'fa fa-fw fa-trash-o'
+            icon: 'fa fa-fw fa-trash-alt'
         };
     }
     

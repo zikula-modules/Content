@@ -121,7 +121,7 @@
                             </td>
                             <td headers="hActions" class="actions nowrap">
                                 {% set linkTitle = __f('Preview version %version%', {'%version%': logEntry.version}) %}
-                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window hidden" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ __('version') ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card-o"></i></a>
+                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window hidden" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ __('version') ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card"></i></a>
                                 {% if not loop.first %}
                                     {% set linkTitle = __f('Revert to version %version%', { '%version%': logEntry.version }) %}
                                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {'slug': page.slug, revert: logEntry.version}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
@@ -133,7 +133,7 @@
             </table>
         </div>
         <p>
-            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fa fa-arrows-h"></i> {{ __('Compare selected versions') }}</button>
+            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fa fa-arrows-alt-h"></i> {{ __('Compare selected versions') }}</button>
         </p>
     </form>
 {% endblock %}
