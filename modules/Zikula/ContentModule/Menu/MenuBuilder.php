@@ -100,7 +100,7 @@ class MenuBuilder extends AbstractMenuBuilder
             if ('display' === $context) {
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
             }
-            $menu[$title]->setAttribute('icon', 'fa fa-files-o');
+            $menu[$title]->setAttribute('icon', 'fa fa-copy');
         }
         if ($this->multilingual && $hasEditPermissions && $hasContentPermissions) {
             $title = $this->__('Translate', 'zikulacontentmodule');
