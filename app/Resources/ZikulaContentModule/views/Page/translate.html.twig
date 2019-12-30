@@ -34,7 +34,7 @@
                     <div class="col-sm-6">
                         <select id="sourceLanguage" class="form-control">
                             {% for language in localesWithExistingData %}
-                                <option value="{{ language }}"{{ language == app.request.locale ? ' selected="selected"' : '' }}>{{ language|languageName|safeHtml }}</option>
+                                <option value="{{ language }}"{{ language == app.request.locale ? ' selected="selected"' : '' }}>{{ language|language_name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -44,7 +44,7 @@
         <br />
         {% for language in localesWithExistingData %}
             <fieldset id="sourceContent{{ language }}" class="source-section{{ language == app.request.locale ? '' : ' hidden' }}">
-                <legend>{{ __('Source content') }} ({{ language|languageName|safeHtml }})</legend>
+                <legend>{{ __('Source content') }} ({{ language|language_name }})</legend>
                 {% if currentStep == 1 %}
                     {% for fieldName in pageFields|filter(f => form[f] is defined) %}
                         <div class="form-group field-{{ fieldName|e('html_attr') }}">
@@ -89,7 +89,7 @@
                                     <span class="label label-danger"><i class="fa fa-warning"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = currentStep == 1 and language in localesWithMandatoryFields %}
-                                {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|languageName|safeHtml }}{% if hasRequiredFields %}</span>{% endif %}
+                                {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}
                             </a>
                         </li>
                     {% endfor %}
@@ -98,7 +98,7 @@
                     {% for language in supportedLanguages %}
                         <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}" data-language="{{ language }}">
                             <fieldset>
-                                <legend>{{ language|languageName|safeHtml }}</legend>
+                                <legend>{{ language|language_name }}</legend>
                                 {% if currentStep == 1 %}
                                     {% if language == app.request.locale %}
                                         {% for fieldName in pageFields|filter(f => form[f] is defined) %}
