@@ -1,7 +1,7 @@
 {# purpose of this template: pages list view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
 {% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ __('My pages') }}{% elseif routeArea == 'admin' %}{{ __('Pages list') }}{% elseif list == 'complete' %}{{ __('Complete pages list') }}{% elseif list == 'extended' %}{{ __('Extended pages list') }}{% elseif list == 'categories' %}{{ __('Categories list') }}{% else %}{{ __('Pages list') }}{% endif %}{% endblock %}
-{% block admin_page_icon 'list-alt' %}
+{% block admin_page_icon 'list' %}
 {% block content %}
 {% if routeArea == 'admin' %}
 <div class="zikulacontentmodule-page zikulacontentmodule-view">
