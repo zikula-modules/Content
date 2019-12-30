@@ -183,7 +183,7 @@ function contentPageGetSectionActions(isFirstSection) {
         <div class="btn-group btn-group-sm pull-right" role="group">
             <button type="button" class="btn btn-default add-element" title="${Translator.__('Add element')}"><i class="fa fa-plus"></i> ${Translator.__('Add element')}</button>
             <button type="button" class="btn btn-default change-styles" title="${Translator.__('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.__('Styling classes')}</button>
-            <button type="button" class="btn btn-default delete-section" title="${Translator.__('Delete section')}"${deleteState}><i class="fa fa-trash-o"></i> ${Translator.__('Delete section')}</button>
+            <button type="button" class="btn btn-default delete-section" title="${Translator.__('Delete section')}"${deleteState}><i class="fa fa-trash-alt"></i> ${Translator.__('Delete section')}</button>
         </div>
     `;
 
@@ -323,7 +323,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
     body = modal.find('.modal-body').first();
 
     heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
-    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
+    body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
     jQuery('#btnDeleteContent').toggleClass('hidden', isCreation);
     jQuery('#btnCancelContent').removeClass('hidden');
@@ -408,7 +408,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             }
 
             jQuery('#btnCancelContent').addClass('hidden');
-            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
+            body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
                 type: form.attr('method'),
@@ -494,7 +494,7 @@ function contentPageInitWidgetMovingCopying(widget) {
     body = modal.find('.modal-body').first();
 
     heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
-    body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
+    body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
     jQuery('#btnDeleteContent').addClass('hidden');
     jQuery('#btnCancelContent').removeClass('hidden');
@@ -536,7 +536,7 @@ function contentPageInitWidgetMovingCopying(widget) {
             var operationType = jQuery('input[type=radio]:checked').first().val();
 
             jQuery('#btnCancelContent').addClass('hidden');
-            body.html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
+            body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
                 type: form.attr('method'),
@@ -589,14 +589,14 @@ function contentPageGetWidgetActions(widgetId) {
                 <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
-                <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil"></i> ${Translator.__('Edit')}</a></li>
-                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-o text-danger"></i> ${Translator.__('Delete')}</a></li>
+                <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil-alt"></i> ${Translator.__('Edit')}</a></li>
+                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-alt text-danger"></i> ${Translator.__('Delete')}</a></li>
                 <li><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
                 <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Advanced')}</li>
                 <li><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
-                <li><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-right"></i> ${Translator.__('Move/Copy')}</a></li>
+                <li><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-alt-right"></i> ${Translator.__('Move/Copy')}</a></li>
             </ul>
         </div>
     `;
@@ -794,7 +794,7 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
     widget = jQuery('#widget' + nodeId);
 
     widget.find('.panel-title .title').html(Translator.__('Loading...'));
-    widget.find('.panel-body').html('<p class="text-center"><i class="fa fa-refresh fa-spin fa-4x"></i></p>');
+    widget.find('.panel-body').html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
     jQuery.getJSON(Routing.generate('zikulacontentmodule_contentitem_displayediting', {contentItem: nodeId}), function (data) {
         var isActive;
         widget.find('.panel-title .title').html(data.title);

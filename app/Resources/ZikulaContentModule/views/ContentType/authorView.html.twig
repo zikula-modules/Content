@@ -11,7 +11,7 @@
     {% if showMessageLink|default and currentUser.loggedIn %}
         {% set sendMessageUrl = author.uid|messageSendLink(urlOnly=true) %}
         {% if sendMessageUrl != '#' %}
-            <a href="{{ sendMessageUrl }}" title="{{ __f('Send private message to %userName%', {'%userName%': author.uname}) }}"><i class="fa fa-envelope-o"></i></a>
+            <a href="{{ sendMessageUrl }}" title="{{ __f('Send private message to %userName%', {'%userName%': author.uname}) }}"><i class="fa fa-envelope"></i></a>
         {% endif %}
     {% endif %}
 </div>

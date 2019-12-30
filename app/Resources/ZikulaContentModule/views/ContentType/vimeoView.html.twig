@@ -14,7 +14,7 @@
                 </p>
             {% endif %}
             {% if text|default %}<p><small>{{ text|nl2br|safeHtml }}</small></p>{% endif %}
-            <p><a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} class="btn btn-default" data-toggle="modal" data-target="#content{{ contentId }}Modal"><i class="fa fa-play-circle-o fa-3x"></i><br />{{ __('Play video') }}</a></p>
+            <p><a href="{{ videoUrl|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} class="btn btn-default" data-toggle="modal" data-target="#content{{ contentId }}Modal"><i class="fa fa-play-circle fa-3x"></i><br />{{ __('Play video') }}</a></p>
         </div>
         <div class="modal fade" id="content{{ contentId }}Modal" tabindex="-1" role="dialog"{% if text|default %} aria-labelledby="content{{ contentId }}ModalLabel"{% endif %} data-backdrop="false">
             <div class="modal-dialog" role="document">
