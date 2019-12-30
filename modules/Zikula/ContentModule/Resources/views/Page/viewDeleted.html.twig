@@ -1,7 +1,7 @@
 {# purpose of this template: list view of deleted pages #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
 {% block title __('Deleted pages') %}
-{% block admin_page_icon 'trash-o' %}
+{% block admin_page_icon 'trash-alt' %}
 {% block content %}
 <div class="zikulacontentmodule-page zikulacontentmodule-viewdeleted">
     {{ block('page_nav_links') }}
