@@ -92,8 +92,7 @@ class MenuBlockType extends AbstractType
                 'title' => $helpText
             ],
             'help' => $helpText,
-            'empty_data' => 5,
-            'scale' => 0
+            'empty_data' => 5
         ]);
         $builder->add('inMenu', CheckboxType::class, [
             'label' => $this->__('Use only pages activated for the menu', 'zikulacontentmodule') . ':',
