@@ -76,7 +76,7 @@ class LinkContainer extends AbstractLinkContainer
                     'url' => $this->router->generate($routeName, ['tpl' => 'tree']),
                     'text' => $this->__('Hierarchy view', 'zikulacontentmodule'),
                     'title' => $this->__('Shows the pages tree', 'zikulacontentmodule'),
-                    'icon' => 'code-fork fa-fw'
+                    'icon' => 'code-branch fa-fw'
                 ];
             } else {
                 $pagesSubLinks[] = [
