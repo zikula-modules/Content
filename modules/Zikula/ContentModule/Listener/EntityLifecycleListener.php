@@ -54,7 +54,7 @@ class EntityLifecycleListener extends AbstractEntityLifecycleListener
             return;
         }
 
-        $entityManager = $this->container->get(EntityFactory::class)->getObjectManager();
+        $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
         $connection = $entityManager->getConnection();
         $dbName = $this->container->getParameter('database_name');
 
