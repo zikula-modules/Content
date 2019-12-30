@@ -169,7 +169,7 @@ abstract class AbstractControllerHelper
         $templateParameters['all'] = 'csv' === $request->getRequestFormat() ? 1 : $request->query->getInt('all');
         $showOnlyOwnEntriesSetting = (bool)$request->query->getInt(
             'own',
-            $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries')
+            (int) $this->variableApi->get('ZikulaContentModule', 'showOnlyOwnEntries')
         );
         $showOnlyOwnEntriesSetting = $showOnlyOwnEntriesSetting ? 1 : 0;
         $routeName = $request->get('_route');
