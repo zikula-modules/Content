@@ -18,8 +18,7 @@
     "require": {
         "dompdf/dompdf": "^0",
         "drmonty/leaflet": "^1",
-        "guzzlehttp/guzzle": "^6",
-        "php": ">=7.2.0",
+        "php": ">=7.2.5",
         "simplepie/simplepie": "^1"
     },
     "require-dev": {

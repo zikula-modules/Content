@@ -16,9 +16,9 @@ namespace Zikula\ContentModule\Helper;
 
 use DateInterval;
 use DateTime;
-use GuzzleHttp\Client;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * Helper class for caching external content.
@@ -87,11 +87,11 @@ class CacheHelper
         }
 
         // fetch from source
-        $client = new Client();
-        $response = $client->get($url);
+        $client = HttpClient::create();
+        $response = $client->request('GET', $url);
         $result = '';
         if (200 === $response->getStatusCode()) {
-            $result = (string) $response->getBody();
+            $result = $response->getContent();
         }
 
         if ($hasCache) {
