@@ -45,6 +45,29 @@ abstract class AbstractContentEvents
      * @var string
      */
     public const MENU_ITEMACTIONS_POST_CONFIGURE = 'zikulacontentmodule.itemactionsmenu_post_configure';
+    /**
+     * The zikulacontentmodule.viewactionsmenu_pre_configure event is thrown before the view actions
+     * menu is built in the menu builder.
+     *
+     * The event listener receives an
+     * Zikula\ContentModule\Event\ConfigureViewActionsMenuEvent instance.
+     *
+     * @see MenuBuilder::createViewActionsMenu()
+     * @var string
+     */
+    public const MENU_VIEWACTIONS_PRE_CONFIGURE = 'zikulacontentmodule.viewactionsmenu_pre_configure';
+    
+    /**
+     * The zikulacontentmodule.viewactionsmenu_post_configure event is thrown after the view actions
+     * menu has been built in the menu builder.
+     *
+     * The event listener receives an
+     * Zikula\ContentModule\Event\ConfigureViewActionsMenuEvent instance.
+     *
+     * @see MenuBuilder::createViewActionsMenu()
+     * @var string
+     */
+    public const MENU_VIEWACTIONS_POST_CONFIGURE = 'zikulacontentmodule.viewactionsmenu_post_configure';
     
     /**
      * The zikulacontentmodule.page_post_load event is thrown when pages

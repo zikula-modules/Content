@@ -162,12 +162,6 @@ abstract class AbstractPageController extends AbstractController
             $permLevel
         );
         
-        // check if there exist any deleted page
-        $templateParameters['hasDeletedEntities'] = false;
-        if ($permissionHelper->hasPermission(ACCESS_EDIT)) {
-            $templateParameters['hasDeletedEntities'] = $loggableHelper->hasDeletedEntities($objectType);
-        }
-        
         // fetch and return the appropriate template
         return $viewHelper->processTemplate($objectType, 'view', $templateParameters);
     }
