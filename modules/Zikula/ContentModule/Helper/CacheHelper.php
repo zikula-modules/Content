@@ -19,6 +19,7 @@ use DateTime;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
  * Helper class for caching external content.
@@ -87,15 +88,19 @@ class CacheHelper
         }
 
         // fetch from source
-        $client = HttpClient::create();
-        $response = $client->request('GET', $url);
         $result = '';
-        if (200 === $response->getStatusCode()) {
-            $result = $response->getContent();
-        }
+        try {
+            $client = HttpClient::create();
+            $response = $client->request('GET', $url);
+            if (200 === $response->getStatusCode()) {
+                $result = $response->getContent();
+            }
 
-        if ($hasCache) {
-            file_put_contents($cacheFile, $result);
+            if ($hasCache) {
+                file_put_contents($cacheFile, $result);
+            }
+        } catch (TransportExceptionInterface $exception) {
+            // nothing
         }
 
         return $result;
