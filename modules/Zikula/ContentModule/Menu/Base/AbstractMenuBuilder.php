@@ -20,6 +20,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
@@ -27,8 +29,8 @@ use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
+use Zikula\ContentModule\Helper\ModelHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
-use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 
 /**
  * Menu builder base class.
@@ -36,42 +38,52 @@ use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 class AbstractMenuBuilder
 {
     use TranslatorTrait;
-
+    
     /**
      * @var FactoryInterface
      */
     protected $factory;
-
+    
     /**
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
-
+    
     /**
      * @var RequestStack
      */
     protected $requestStack;
-
+    
     /**
      * @var PermissionHelper
      */
     protected $permissionHelper;
-
+    
     /**
      * @var EntityDisplayHelper
      */
     protected $entityDisplayHelper;
-
+    
     /**
      * @var LoggableHelper
      */
     protected $loggableHelper;
-
+    
     /**
      * @var CurrentUserApiInterface
      */
     protected $currentUserApi;
-
+    
+    /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+    
+    /**
+     * @var ModelHelper
+     */
+    protected $modelHelper;
+    
     public function __construct(
         TranslatorInterface $translator,
         FactoryInterface $factory,
@@ -80,7 +92,9 @@ class AbstractMenuBuilder
         PermissionHelper $permissionHelper,
         EntityDisplayHelper $entityDisplayHelper,
         LoggableHelper $loggableHelper,
-        CurrentUserApiInterface $currentUserApi
+        CurrentUserApiInterface $currentUserApi,
+        VariableApiInterface $variableApi,
+        ModelHelper $modelHelper
     ) {
         $this->setTranslator($translator);
         $this->factory = $factory;
@@ -90,13 +104,15 @@ class AbstractMenuBuilder
         $this->entityDisplayHelper = $entityDisplayHelper;
         $this->loggableHelper = $loggableHelper;
         $this->currentUserApi = $currentUserApi;
+        $this->variableApi = $variableApi;
+        $this->modelHelper = $modelHelper;
     }
-
+    
     public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
-
+    
     /**
      * Builds the item actions menu.
      */
@@ -106,23 +122,23 @@ class AbstractMenuBuilder
         if (!isset($options['entity'], $options['area'], $options['context'])) {
             return $menu;
         }
-
+    
         $entity = $options['entity'];
         $routeArea = $options['area'];
         $context = $options['context'];
-
+    
         // return empty menu for preview of deleted items
         $routeName = $this->requestStack->getMasterRequest()->get('_route');
         if (false !== stripos($routeName, 'displaydeleted')) {
             return $menu;
         }
         $menu->setChildrenAttribute('class', 'list-inline item-actions');
-
+    
         $this->eventDispatcher->dispatch(
             new ConfigureItemActionsMenuEvent($this->factory, $menu, $options),
             ContentEvents::MENU_ITEMACTIONS_PRE_CONFIGURE
         );
-
+    
         $currentUserId = $this->currentUserApi->isLoggedIn()
             ? $this->currentUserApi->get('uid')
             : UsersConstant::USER_ID_ANONYMOUS
@@ -133,7 +149,7 @@ class AbstractMenuBuilder
                 && null !== $entity->getCreatedBy()
                 && $currentUserId === $entity->getCreatedBy()->getUid()
             ;
-        
+            
             if ('admin' === $routeArea) {
                 $title = $this->__('Preview', 'zikulacontentmodule');
                 $previewRouteParameters = $entity->createUrlArgs();
@@ -250,12 +266,135 @@ class AbstractMenuBuilder
                 && $currentUserId === $entity->getCreatedBy()->getUid()
             ;
         }
-
+    
         $this->eventDispatcher->dispatch(
             new ConfigureItemActionsMenuEvent($this->factory, $menu, $options),
             ContentEvents::MENU_ITEMACTIONS_POST_CONFIGURE
         );
-
+    
+        return $menu;
+    }
+    /**
+     * Builds the view actions menu.
+     */
+    public function createViewActionsMenu(array $options = []): ItemInterface
+    {
+        $menu = $this->factory->createItem('viewActions');
+        if (!isset($options['objectType'], $options['area'])) {
+            return $menu;
+        }
+    
+        $objectType = $options['objectType'];
+        $routeArea = $options['area'];
+        $menu->setChildrenAttribute('class', 'list-inline view-actions');
+    
+        $this->eventDispatcher->dispatch(
+            new ConfigureViewActionsMenuEvent($this->factory, $menu, $options),
+            ContentEvents::MENU_VIEWACTIONS_PRE_CONFIGURE
+        );
+    
+        $query = $this->requestStack->getMasterRequest()->query;
+        $currentTemplate = $query->getAlnum('tpl', '');
+        if ('page' === $objectType) {
+            $routePrefix = 'zikulacontentmodule_page_';
+            $showOnlyOwn = 'admin' !== $routeArea && $this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
+            if ('tree' === $currentTemplate) {
+                if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
+                    $title = $this->__('Add root node', 'zikulacontentmodule');
+                    $menu->addChild($title, [
+                        'uri' => 'javascript:void(0)'
+                    ]);
+                    $menu[$title]->setLinkAttribute('id', 'treeAddRoot');
+                    $menu[$title]->setLinkAttribute('class', 'hidden');
+                    $menu[$title]->setLinkAttribute('data-object-type', $objectType);
+                    $menu[$title]->setLinkAttribute('title', $title);
+                    $menu[$title]->setAttribute('icon', 'fa fa-plus');
+                }
+                $title = __('Switch to table view', 'zikulacontentmodule');
+                $menu->addChild($title, [
+                    'route' => $routePrefix . $routeArea . 'view'
+                ]);
+                $menu[$title]->setLinkAttribute('title', $title);
+                $menu[$title]->setAttribute('icon', 'fa fa-table');
+            }
+            if (!in_array($currentTemplate, ['tree'])) {
+                $canBeCreated = $this->modelHelper->canBeCreated($objectType);
+                if ($canBeCreated) {
+                    if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
+                        $title = $this->__('Create page', 'zikulacontentmodule');
+                        $menu->addChild($title, [
+                            'route' => $routePrefix . $routeArea . 'edit'
+                        ]);
+                        $menu[$title]->setLinkAttribute('title', $title);
+                        $menu[$title]->setAttribute('icon', 'fa fa-plus');
+                    }
+                }
+                $routeParameters = $query->all();
+                if (1 === $query->getInt('own') && !$showOnlyOwn) {
+                    $routeParameters['own'] = 1;
+                } else {
+                    unset($routeParameters['own']);
+                }
+                if (1 === $query->getInt('all')) {
+                    unset($routeParameters['all']);
+                    $title = $this->__('Back to paginated view', 'zikulacontentmodule');
+                } else {
+                    $routeParameters['all'] = 1;
+                    $title = $this->__('Show all entries', 'zikulacontentmodule');
+                }
+                $menu->addChild($title, [
+                    'route' => $routePrefix . $routeArea . 'view',
+                    'routeParameters' => $routeParameters
+                ]);
+                $menu[$title]->setLinkAttribute('title', $title);
+                $menu[$title]->setAttribute('icon', 'fa fa-table');
+                $title = $this->__('Switch to hierarchy view', 'zikulacontentmodule');
+                $menu->addChild($title, [
+                    'route' => $routePrefix . $routeArea . 'view'
+                    'routeParameters' => ['tpl' => 'tree']
+                ]);
+                $menu[$title]->setLinkAttribute('title', $title);
+                $menu[$title]->setAttribute('icon', 'fa fa-code-branch');
+                if (!$showOnlyOwn && $this->permissionHelper.hasComponentPermission($objectType, ACCESS_EDIT)) {
+                    $routeParameters = $query->all();
+                    if (1 === $query->getInt('own')) {
+                        unset($routeParameters['own']);
+                        $title = $this->__('Show also entries from other users', 'zikulacontentmodule');
+                        $icon = 'users';
+                    } else {
+                        $routeParameters['own'] = 1;
+                        $title = $this->__('Show only own entries', 'zikulacontentmodule');
+                        $icon = 'user';
+                    }
+                    $menu->addChild($title, [
+                        'route' => $routePrefix . $routeArea . 'view',
+                        'routeParameters' => $routeParameters
+                    ]);
+                    $menu[$title]->setLinkAttribute('title', $title);
+                    $menu[$title]->setAttribute('icon', 'fa fa-' . $icon);
+                }
+                // check if there exist any deleted pages
+                $hasDeletedEntities = false;
+                if ($this->permissionHelper->hasPermission(ACCESS_EDIT)) {
+                    $hasDeletedEntities = $this->loggableHelper->hasDeletedEntities($objectType);
+                }
+                if ($hasDeletedEntities) {
+                    $title = $this->__('View deleted pages', 'zikulacontentmodule');
+                    $menu->addChild($title, [
+                        'route' => $routePrefix . $routeArea . 'view'
+                        'routeParameters' => ['deleted' => 1]
+                    ]);
+                    $menu[$title]->setLinkAttribute('title', $title);
+                    $menu[$title]->setAttribute('icon', 'fa fa-trash-alt');
+                }
+            }
+        }
+    
+        $this->eventDispatcher->dispatch(
+            new ConfigureViewActionsMenuEvent($this->factory, $menu, $options),
+            ContentEvents::MENU_VIEWACTIONS_POST_CONFIGURE
+        );
+    
         return $menu;
     }
 }

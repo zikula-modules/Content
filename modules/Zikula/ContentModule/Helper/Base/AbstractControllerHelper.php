@@ -25,7 +25,6 @@ use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
-use Zikula\ContentModule\Helper\ModelHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
@@ -66,11 +65,6 @@ abstract class AbstractControllerHelper
     protected $permissionHelper;
     
     /**
-     * @var ModelHelper
-     */
-    protected $modelHelper;
-    
-    /**
      * @var FeatureActivationHelper
      */
     protected $featureActivationHelper;
@@ -83,7 +77,6 @@ abstract class AbstractControllerHelper
         EntityFactory $entityFactory,
         CollectionFilterHelper $collectionFilterHelper,
         PermissionHelper $permissionHelper,
-        ModelHelper $modelHelper,
         FeatureActivationHelper $featureActivationHelper
     ) {
         $this->setTranslator($translator);
@@ -93,7 +86,6 @@ abstract class AbstractControllerHelper
         $this->entityFactory = $entityFactory;
         $this->collectionFilterHelper = $collectionFilterHelper;
         $this->permissionHelper = $permissionHelper;
-        $this->modelHelper = $modelHelper;
         $this->featureActivationHelper = $featureActivationHelper;
     }
     
@@ -175,7 +167,7 @@ abstract class AbstractControllerHelper
         $routeName = $request->get('_route');
         $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_' . strtolower($objectType) . '_admin');
         if (!$isAdminArea && in_array($objectType, ['page'], true)) {
-            $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', $objectType . 'PrivateMode');
+            $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', $objectType . 'PrivateMode', false);
             if (true === $showOnlyOwnEntries) {
                 $templateParameters['own'] = 1;
             } else {
@@ -285,8 +277,6 @@ abstract class AbstractControllerHelper
     
         $templateParameters['sort'] = $sortableColumns->generateSortableColumns();
         $templateParameters['quickNavForm'] = $quickNavForm->createView();
-    
-        $templateParameters['canBeCreated'] = $this->modelHelper->canBeCreated($objectType);
     
         $request->query->set('sort', $sort);
         $request->query->set('sortdir', $sortdir);

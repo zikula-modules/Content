@@ -4,16 +4,9 @@
 {% block admin_page_icon 'code-branch' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-viewhierarchy">
-
-        <p>
-            {% if permissionHelper.hasComponentPermission('page:', constant('ACCESS_EDIT')) %}
-                {% set addRootTitle = __('Add root node') %}
-                <a id="treeAddRoot" href="javascript:void(0)" title="{{ addRootTitle|e('html_attr') }}" class="hidden" data-object-type="page"><i class="fa fa-plus"></i> {{ addRootTitle }}</a>
-            {% endif %}
-            {% set switchTitle = __('Switch to table view') %}
-            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ switchTitle|e('html_attr') }}"><i class="fa fa-table"></i> {{ switchTitle }}</a>
-        </p>
-
+        {% set viewActions = knp_menu_get('zikulaContentMenuViewActions', [], {objectType: 'page', area: routeArea}) %}
+        {{ knp_menu_render(viewActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
+        
         {% for rootId, treeNodes in trees %}
             {{ include('@ZikulaContentModule/Page/viewTreeItems.html.twig', {rootId: rootId, items: treeNodes}) }}
         {% else %}
@@ -21,7 +14,20 @@
         {% endfor %}
 
         <br style="clear: left" />
+
+        {{ block('display_hooks') }}
     </div>
+{% endblock %}
+{% block display_hooks %}
+    {# here you can activate calling display hooks for the view page if you need it #}
+    {# % if routeArea != 'admin' %}
+        {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.pages.display_view', urlObject=currentUrlObject, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endif % #}
 {% endblock %}
 {% block footer %}
     {{ parent() }}
