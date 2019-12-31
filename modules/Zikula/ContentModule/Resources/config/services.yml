@@ -58,6 +58,7 @@ services:
     Zikula\ContentModule\Menu\MenuBuilder:
         tags:
             - { name: knp_menu.menu_builder, method: createItemActionsMenu, alias: zikulaContentMenuItemActions }
+            - { name: knp_menu.menu_builder, method: createViewActionsMenu, alias: zikulaContentMenuViewActions }
 
     Zikula\ContentModule\Routing\DynamicRouteLoader:
         tags: ['routing.loader']

@@ -27,6 +27,7 @@ use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\ContentEvents;
 use Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent;
+use Zikula\ContentModule\Event\ConfigureViewActionsMenuEvent;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
 use Zikula\ContentModule\Helper\ModelHelper;
@@ -310,7 +311,7 @@ class AbstractMenuBuilder
                     $menu[$title]->setLinkAttribute('title', $title);
                     $menu[$title]->setAttribute('icon', 'fa fa-plus');
                 }
-                $title = __('Switch to table view', 'zikulacontentmodule');
+                $title = $this->__('Switch to table view', 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view'
                 ]);
@@ -350,12 +351,12 @@ class AbstractMenuBuilder
                 $menu[$title]->setAttribute('icon', 'fa fa-table');
                 $title = $this->__('Switch to hierarchy view', 'zikulacontentmodule');
                 $menu->addChild($title, [
-                    'route' => $routePrefix . $routeArea . 'view'
+                    'route' => $routePrefix . $routeArea . 'view',
                     'routeParameters' => ['tpl' => 'tree']
                 ]);
                 $menu[$title]->setLinkAttribute('title', $title);
                 $menu[$title]->setAttribute('icon', 'fa fa-code-branch');
-                if (!$showOnlyOwn && $this->permissionHelper.hasComponentPermission($objectType, ACCESS_EDIT)) {
+                if (!$showOnlyOwn && $this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
                     $routeParameters = $query->all();
                     if (1 === $query->getInt('own')) {
                         unset($routeParameters['own']);
@@ -381,7 +382,7 @@ class AbstractMenuBuilder
                 if ($hasDeletedEntities) {
                     $title = $this->__('View deleted pages', 'zikulacontentmodule');
                     $menu->addChild($title, [
-                        'route' => $routePrefix . $routeArea . 'view'
+                        'route' => $routePrefix . $routeArea . 'view',
                         'routeParameters' => ['deleted' => 1]
                     ]);
                     $menu[$title]->setLinkAttribute('title', $title);
