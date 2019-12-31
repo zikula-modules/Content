@@ -275,6 +275,7 @@ class AbstractMenuBuilder
     
         return $menu;
     }
+    
     /**
      * Builds the view actions menu.
      */
