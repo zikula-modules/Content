@@ -27,22 +27,22 @@
 <div id="palette">
     {% set activeContentTypes = zikulacontentmodule_contentTypes() %}
     <div class="zikula-bootstrap-tab-container">
-        <ul id="paletteTabs" class="nav nav-tabs">
+        <ul id="paletteTabs" class="nav nav-tabs" role="tablist">
             {% for category in categories %}
-                <li role="presentation"{% if loop.first %} class="active"{% endif %}>
-                    <a id="category{{ loop.index }}Tab" href="#tabCategory{{ loop.index }}" title="{{ category.title|e('html_attr') }}" role="tab" data-toggle="tab" data-title="{{ category.title|e('html_attr') }}" data-content="{{ category.description|e('html_attr') }}"><i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</a>
+                <li class="nav-item">
+                    <a id="category{{ loop.index }}Tab" href="#tabCategory{{ loop.index }}" title="{{ category.title|e('html_attr') }}" role="tab" data-toggle="tab" data-title="{{ category.title|e('html_attr') }}" data-content="{{ category.description|e('html_attr') }}" class="nav-link{% if loop.first %} active{% endif %}"><i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</a>
                 </li>
             {% endfor %}
         </ul>
     </div>
     <div class="tab-content">
         {% for category in categories %}
-            <div role="tabpanel" class="tab-pane fade{% if loop.first %} in active{% endif %}" id="tabCategory{{ loop.index }}" aria-labelledby="category{{ loop.index }}Tab">
+            <div role="tabpanel" class="tab-pane fade{% if loop.first %} show active{% endif %}" id="tabCategory{{ loop.index }}" aria-labelledby="category{{ loop.index }}Tab">
                 <h3><i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</h3>
                 <div class="container-fluid">
                     <div class="row">
                     {% for contentType in activeContentTypes|filter(c => c.category == category.name) %}
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-md-6 col-lg-4">
                             <div class="grid-stack-item" data-title="{{ contentType.title|e('html_attr') }}" data-content="{{ contentType.description|e('html_attr') }}" data-minwidth="{{ contentType.minimumAmountOfGridColumns|e('html_attr') }}" data-typeclass="{{ contentType|php('get_class') }}">
                                 <div class="grid-stack-item-content"><i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}</div>
                             </div>

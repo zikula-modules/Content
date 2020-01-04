@@ -2,7 +2,7 @@
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
 {% block title mode == 'create' ? __('Create page') : __('Edit page') %}
-{% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
+{% block admin_page_icon mode == 'create' ? 'plus' : 'edit' %}
 {% block content %}
     {% set isCreate = mode == 'create' %}
     {% if not isCreate %}
@@ -10,7 +10,7 @@
     {% endif %}
     <div class="zikulacontentmodule-page zikulacontentmodule-edit">
         {% form_theme form with [
-            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(form, {attr: {id: 'pageEditForm', class: 'zikulacontent-edit-form'}}) }}
@@ -19,10 +19,10 @@
             <div class="zikula-bootstrap-tab-container">
                 <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs">
                     {% for language in supportedLanguages %}
-                        <li{% if language == app.request.locale %} class="active"{% endif %}>
-                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}">
+                        <li class="nav-item" role="presentation">
+                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == app.request.locale %} active{% endif %}">
                                 {% if not form.vars.valid %}
-                                    <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
+                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}
@@ -32,7 +32,7 @@
                 </ul>
                 <div class="{{ form.vars.id|lower }}-translation-fields tab-content">
                     {% for language in supportedLanguages %}
-                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}">
+                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} show active{% endif %}">
                             <fieldset>
                                 <legend>{{ language|language_name }}</legend>
                                 {% if language == app.request.locale %}
@@ -129,8 +129,8 @@
         
         
         {# include possible submit actions #}
-        <div class="form-group form-buttons">
-            <div class="col-sm-offset-3 col-sm-9">
+        <div class="form-group form-buttons row">
+            <div class="col-md-9 offset-md-3">
                 {% for action in actions %}
                     {{ form_widget(attribute(form, action.id)) }}
                     {% if mode == 'create' and action.id == 'submit' and form.submitrepeat is defined %}
@@ -177,8 +177,8 @@
                         var hideDates;
 
                         hideDates = !$('#zikulacontentmodule_page_active').prop('checked');
-                        $('#zikulacontentmodule_page_activeFrom_date').parents('.form-group').toggleClass('hidden', hideDates);
-                        $('#zikulacontentmodule_page_activeTo_date').parents('.form-group').toggleClass('hidden', hideDates);
+                        $('#zikulacontentmodule_page_activeFrom_date').parents('.form-group').toggleClass('d-none', hideDates);
+                        $('#zikulacontentmodule_page_activeTo_date').parents('.form-group').toggleClass('d-none', hideDates);
                     }
                 {% endif %}
                 $(document).ready(function() {
@@ -190,13 +190,13 @@
                     {% endif %}
                     {% if mode != 'create' %}
                         if ($('#furtherPropertiesSection').length > 0) {
-                            $('#furtherPropertiesContent').addClass('hidden');
+                            $('#furtherPropertiesContent').addClass('d-none');
                             $('#furtherPropertiesSection legend').addClass('pointer').click(function (event) {
-                                if ($('#furtherPropertiesContent').hasClass('hidden')) {
-                                    $('#furtherPropertiesContent').removeClass('hidden');
+                                if ($('#furtherPropertiesContent').hasClass('d-none')) {
+                                    $('#furtherPropertiesContent').removeClass('d-none');
                                     $(this).find('i').removeClass('fa-expand').addClass('fa-compress');
                                 } else {
-                                    $('#furtherPropertiesContent').addClass('hidden');
+                                    $('#furtherPropertiesContent').addClass('d-none');
                                     $(this).find('i').removeClass('fa-compress').addClass('fa-expand');
                                 }
                             });

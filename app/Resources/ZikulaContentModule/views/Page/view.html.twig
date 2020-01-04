@@ -11,7 +11,7 @@
         {{ include('@ZikulaContentModule/Page/viewQuickNav.html.twig', {workflowStateFilter: false}) }}{# see template file for available options #}
         {% set countPageViews = getModVar('ZikulaContentModule', 'countPageViews', false) %}
         {% if routeArea == 'admin' %}
-        <form action="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="pagesViewForm" class="form-horizontal" role="form">
+        <form action="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="pagesViewForm">
             <div>
         {% endif %}
             <div class="table-responsive">
@@ -41,11 +41,11 @@
                 <thead>
                 <tr>
                     {% if routeArea == 'admin' %}
-                        <th id="hSelect" scope="col" class="text-center z-w02">
+                        <th id="hSelect" scope="col" class="text-center">
                             <input type="checkbox" class="zikulacontent-mass-toggle" />
                         </th>
                     {% endif %}
-                    <th id="hItemActionsStart" scope="col" class="z-w02">{{ __('Actions') }}</th>
+                    <th id="hItemActionsStart" scope="col" class="">{{ __('Actions') }}</th>
                     {% if routeArea == 'admin' %}
                     <th id="hWorkflowState" scope="col" class="text-left">
                         <a href="{{ sort.workflowState.url }}" title="{{ __f('Sort by %s', {'%s': 'state'}) }}" class="{{ sort.workflowState.class }}">{{ __('State') }}</a>
@@ -89,14 +89,14 @@
             {% for page in items %}
                 <tr>
                     {% if routeArea == 'admin' %}
-                        <td headers="hSelect" class="text-center z-w02">
+                        <td headers="hSelect" class="text-center">
                             <input type="checkbox" name="items[]" value="{{ page.getKey() }}" class="zikulacontent-toggle-checkbox" />
                         </td>
                     {% endif %}
-                    <td id="itemActions{{ page.getKey() }}Start" headers="hItemActionsStart" class="actions nowrap z-w02">
+                    <td id="itemActions{{ page.getKey() }}Start" headers="hItemActionsStart" class="actions nowrap">
                         {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'view'}) %}
-                        <div class="dropdown">
-                            <a id="itemActions{{ page.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="hidden dropdown-toggle"><i class="fa fa-tasks"></i> <span class="caret"></span></a>
+                        <div class="dropdown item-actions">
+                            <a id="itemActions{{ page.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="d-none dropdown-toggle"><i class="fa fa-tasks"></i> <span class="caret"></span></a>
                             {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
                         </div>
                     </td>
@@ -113,9 +113,9 @@
                     {% endif %}
                     <td headers="hActive" class="text-center">
                         {% set itemId = page.getKey() %}
-                        <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
-                            <i class="fa fa-check text-success{% if not page.active %} hidden{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('Active') }}</i>
-                            <i class="fa fa-times text-danger{% if page.active %} hidden{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Inactive') }}</i>
+                        <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
+                            <i class="fa fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('Active') }}</i>
+                            <i class="fa fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Inactive') }}</i>
                         </a>
                         <noscript><div id="noscriptActive{{ itemId }}">
                             {% if page.active %}
@@ -145,9 +145,9 @@
                     #}
                     <td headers="hInMenu" class="text-center">
                         {% set itemId = page.getKey() %}
-                        <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle hidden" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
-                            <i class="fa fa-check text-success{% if not page.inMenu %} hidden{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('In') }}</i>
-                            <i class="fa fa-times text-danger{% if page.inMenu %} hidden{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Out') }}</i>
+                        <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
+                            <i class="fa fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('In') }}</i>
+                            <i class="fa fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Out') }}</i>
                         </a>
                         <noscript><div id="noscriptInMenu{{ itemId }}">
                             {% if page.inMenu %}
@@ -175,10 +175,10 @@
                     </td>
                 </tr>
             {% else %}
-                <tr class="z-{{ routeArea == 'admin' ? 'admin' : 'data' }}tableempty">
-                    <td class="text-left" colspan="{% if routeArea == 'admin' %}{{ countPageViews ? 10 : 9 }}{% else %}{{ countPageViews ? 8 : 7 }}{% endif %}">
+                <tr class="table-info">
+                    <td colspan="{% if routeArea == 'admin' %}{{ countPageViews ? 10 : 9 }}{% else %}{{ countPageViews ? 8 : 7 }}{% endif %}" class="text-center">
                 {{ __('No pages found.') }}
-                </td>
+                  </td>
                 </tr>
             {% endfor %}
             
@@ -190,16 +190,16 @@
                 {{ pager({rowcount: pager.amountOfItems, limit: pager.itemsPerPage, display: 'page', route: 'zikulacontentmodule_page_' ~ routeArea ~ 'view'}) }}
             {% endif %}
         {% if routeArea == 'admin' %}
-                <fieldset>
-                    <label for="zikulaContentModuleAction" class="col-sm-3 control-label">{{ __('With selected pages') }}</label>
-                    <div class="col-sm-6">
-                        <select id="zikulaContentModuleAction" name="action" class="form-control input-sm">
+                <fieldset class="form-group row mt-3>
+                    <label for="zikulaContentModuleAction" class="col-md-3 col-form-label">{{ __('With selected pages') }}</label>
+                    <div class="col-md-6">
+                        <select id="zikulaContentModuleAction" name="action" class="form-control form-control-sm">
                             <option value="">{{ __('Choose action') }}</option>
                             <option value="delete" title="{{ __('Delete content permanently.') }}">{{ __('Delete') }}</option>
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <input type="submit" value="{{ __('Submit') }}" class="btn btn-default btn-sm" />
+                        <input type="submit" value="{{ __('Submit') }}" class="btn btn-primary btn-sm" />
                     </div>
                 </fieldset>
             </div>

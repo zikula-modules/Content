@@ -8,20 +8,20 @@
     {{ zikulacontentmodule_getPagePath(page, false) }}
     <div class="zikulacontentmodule-page zikulacontentmodule-translate">
         {% form_theme form with [
-            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(form, {attr: {id: 'pageTranslateForm', class: 'zikulacontent-translate-form'}}) }}
         {{ form_errors(form) }}
         {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <h4>{{ __f('Step %step of %amount', {'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{{ __('General page data') }}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
             </div>
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <div class="form-row">
-                    <label for="translationStep" class="col-sm-6 control-label">{{ __('Jump to element:') }}</label>
-                    <div class="col-sm-6">
+                    <label for="translationStep" class="col-md-6 col-form-label">{{ __('Jump to element:') }}</label>
+                    <div class="col-md-6">
                         <select id="translationStep" class="form-control">
                             <option value="0">1. {{ __('General page data') }}</option>
                             {% for item in translationInfo.items %}
@@ -31,8 +31,8 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <label for="sourceLanguage" class="col-sm-6 control-label">{{ __('Switch source language:') }}</label>
-                    <div class="col-sm-6">
+                    <label for="sourceLanguage" class="col-md-6 col-form-label">{{ __('Switch source language:') }}</label>
+                    <div class="col-md-6">
                         <select id="sourceLanguage" class="form-control">
                             {% for language in localesWithExistingData %}
                                 <option value="{{ language }}"{{ language == currentLocale ? ' selected="selected"' : '' }}>{{ language|language_name }}</option>
@@ -48,10 +48,10 @@
                 <legend>{{ __('Source content') }} ({{ language|language_name }})</legend>
                 {% if currentStep == 1 %}
                     {% for fieldName in pageFields|filter(f => form[f] is defined) %}
-                        <div class="form-group field-{{ fieldName|e('html_attr') }}">
-                            <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
-                            <div class="col-sm-9">
-                                <div class="form-control-static">{{ (language == currentLocale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                        <div class="form-group row field-{{ fieldName|e('html_attr') }}">
+                            <label class="col-md-3 col-form-label">{{ form[fieldName].vars.label }}</label>
+                            <div class="col-md-9">
+                                <div class="form-control-plaintext">{{ (language == currentLocale ? page[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
                             </div>
                         </div>
                     {% endfor %}
@@ -60,20 +60,20 @@
                         {% for field in form.contentData %}
                             {% set fieldName = field.vars.name %}
                             {% if (language == currentLocale and contentItem.contentData[fieldName] is defined or language != currentLocale and form['translations' ~ language].contentData[fieldName].vars.value is defined) %}
-                            <div class="form-group field-{{ fieldName|e('html_attr') }}">
-                                <label class="col-sm-3 control-label">{{ form.contentData[fieldName].vars.label }}</label>
-                                <div class="col-sm-9">
-                                    <div class="form-control-static">{{ (language == currentLocale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
+                            <div class="form-group row field-{{ fieldName|e('html_attr') }}">
+                                <label class="col-md-3 col-form-label">{{ form.contentData[fieldName].vars.label }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-control-plaintext">{{ (language == currentLocale ? contentItem.contentData[fieldName] : form['translations' ~ language].contentData[fieldName].vars.value)|raw }}</div>
                                 </div>
                             </div>
                             {% endif %}
                         {% endfor %}
                     {% endif %}
                     {% set fieldName = 'additionalSearchText' %}
-                    <div class="form-group field-{{ fieldName|e('html_attr') }}">
-                        <label class="col-sm-3 control-label">{{ form[fieldName].vars.label }}</label>
-                        <div class="col-sm-9">
-                            <div class="form-control-static">{{ (language == currentLocale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
+                    <div class="form-group row field-{{ fieldName|e('html_attr') }}">
+                        <label class="col-md-3 control-label">{{ form[fieldName].vars.label }}</label>
+                        <div class="col-md-9">
+                            <div class="form-control-plaintext">{{ (language == currentLocale ? contentItem[fieldName] : form['translations' ~ language][fieldName].vars.value)|raw }}</div>
                         </div>
                     </div>
                 {% endif %}
@@ -82,12 +82,12 @@
         <fieldset id="contentTranslateTarget">
             <legend>{{ __('Target content') }}</legend>
             <div class="zikula-bootstrap-tab-container">
-                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs">
+                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs" role="tablist">
                     {% for language in supportedLanguages %}
-                        <li{% if language == currentLocale %} class="active"{% endif %}>
-                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}">
+                        <li class="nav-item">
+                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == currentLocale %} active{% endif %}">
                                 {% if not form.vars.valid %}
-                                    <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
+                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = currentStep == 1 and language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}
@@ -97,7 +97,7 @@
                 </ul>
                 <div class="{{ form.vars.id|lower }}-translation-fields tab-content">
                     {% for language in supportedLanguages %}
-                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == currentLocale %} active in{% endif %}" data-language="{{ language }}">
+                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == currentLocale %} show active{% endif %}" data-language="{{ language }}">
                             <fieldset>
                                 <legend>{{ language|language_name }}</legend>
                                 {% if currentStep == 1 %}
@@ -129,13 +129,15 @@
                         </div>
                     {% endfor %}
                     {% if yandexApiKey != '' %}
-                        <p style="padding-left: 15px">Powered by <a href="https://translate.yandex.com/" target="_blank">Yandex.Translate</a></p>
+                        <small class="form-text text-muted" style="padding-left: 15px">
+                            Powered by <a href="https://translate.yandex.com/" target="_blank">Yandex.Translate</a>
+                        </small>
                     {% endif %}
                 </div>
             </div>
         </fieldset>
-        <div class="form-group form-buttons">
-            <div class="col-sm-offset-3 col-sm-9">
+        <div class="form-group form-buttons row">
+            <div class="col-md-9 offset-md-3">
                 {% if currentStep > 1 %}
                     {{ form_widget(form.prev) }}
                 {% endif %}

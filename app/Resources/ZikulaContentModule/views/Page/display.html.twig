@@ -130,7 +130,7 @@
             {% set colOffset = widget.x %}
         {% endif %}
     {% endif %}
-    <div id="contentItem{{ contentItem.id }}" class="content-element {{ contentItem.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-sm-{{ widget.width|default(12) }}{% if colOffset > 0 %} col-sm-offset-{{ colOffset }}{% endif %}">
+    <div id="contentItem{{ contentItem.id }}" class="content-element {{ contentItem.owningType|humanize|lower|replace({' ': '-'})|replace({'\\': ''})|replace({'-content-type': ''}) }} col-md-{{ widget.width|default(12) }}{% if colOffset > 0 %} offset-md-{{ colOffset }}{% endif %}">
         {{ contentDetails|notifyFilters('zikulacontentmodule.filter_hooks.pages.filter')|raw }}
     </div>
 {% endmacro %}

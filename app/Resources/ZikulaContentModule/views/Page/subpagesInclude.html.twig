@@ -3,8 +3,8 @@
     {% for page in pages|filter(p => p.inMenu and zikulacontentmodule_hasReadAccess(p)) %}
         {% set pageTitle = page|zikulacontentmodule_formattedTitle %}
         {% set isActivePage = zikulacontentmodule_isCurrentPage(page) %}
-        <li{% if isActivePage %} class="active"{% endif %}>
-            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}">{{ pageTitle }}</a>
+        <li>
+            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}"{% if isActivePage %} class="active"{% endif %}>{{ pageTitle }}</a>
             {{ include('@ZikulaContentModule/Page/sitemapInclude.html.twig', {pages: page.children}) }}
         </li>
     {% endfor %}
