@@ -2,7 +2,7 @@
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
 {% block title mode == 'create' ? __('Create page') : __('Edit page') %}
-{% block admin_page_icon mode == 'create' ? 'plus' : 'pencil-square-o' %}
+{% block admin_page_icon mode == 'create' ? 'plus' : 'edit' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-edit">
         {% form_theme form with [
@@ -15,7 +15,7 @@
             <div class="zikula-bootstrap-tab-container">
                 <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs" role="tablist">
                     {% for language in supportedLanguages %}
-                        <li class="nav-item{% if language == app.request.locale %} active{% endif %}" role="presentation">
+                        <li class="nav-item" role="presentation">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == app.request.locale %} active{% endif %}">
                                 {% if not form.vars.valid %}
                                     <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
