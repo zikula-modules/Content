@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Controller\Base;
 
 use Exception;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,6 +79,7 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function viewInternal(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
@@ -114,8 +116,6 @@ abstract class AbstractPageController extends AbstractController
         $request->query->set('sortdir', $sortdir);
         $request->query->set('pos', $pos);
         
-        /** @var RouterInterface $router */
-        $router = $this->get('router');
         $routeName = 'zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'view';
         $sortableColumns = new SortableColumns($router, $routeName, 'sort', 'sortdir');
         
@@ -278,6 +278,7 @@ abstract class AbstractPageController extends AbstractController
      */
     protected function handleSelectedEntriesActionInternal(
         Request $request,
+        LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
         HookHelper $hookHelper,
@@ -296,7 +297,6 @@ abstract class AbstractPageController extends AbstractController
         $action = strtolower($action);
         
         $repository = $entityFactory->getRepository($objectType);
-        $logger = $this->get('logger');
         $userName = $currentUserApi->get('uname');
         
         // process each item

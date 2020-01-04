@@ -55,7 +55,7 @@ div.zikulacontentmodule-relation-rightside {
 }
 
 .ui-autocomplete-loading {
-    background: white url("../../../../../../web/bundles/core/images/ajax/indicator_arrows.gif") right center no-repeat;
+    background: white url("../../../../../../web/modules/zikulausers/images/ajax/indicator_arrows.gif") right center no-repeat;
 }
 
 .ui-autocomplete .suggestion {
@@ -140,7 +140,7 @@ div.zikulacontentmodule-history .table-responsive .table > tbody > tr > td.diff-
 div.zikulacontentmodule-history .table-responsive .table > tbody > tr > td.diff-new {
     background-color: #eaffea !important;
 }
-div.zikulacontentmodule-history .img-responsive {
+div.zikulacontentmodule-history .img-fluid {
     max-width: 20px;
 }
 

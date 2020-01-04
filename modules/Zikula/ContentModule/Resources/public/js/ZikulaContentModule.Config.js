@@ -6,8 +6,8 @@ function contentToggleRevisionSettings(objectTypeCapitalised) {
 
     idPrefix = 'zikulacontentmodule_config_';
     revisionHandling = jQuery('#' + idPrefix + 'revisionHandlingFor' + objectTypeCapitalised).val();
-    jQuery('#' + idPrefix + 'maximumAmountOf' + objectTypeCapitalised + 'Revisions').parents('.form-group').toggleClass('hidden', 'limitedByAmount' != revisionHandling);
-    jQuery('#' + idPrefix + 'periodFor' + objectTypeCapitalised + 'Revisions_years').parents('.form-group').toggleClass('hidden', 'limitedByDate' != revisionHandling);
+    jQuery('#' + idPrefix + 'maximumAmountOf' + objectTypeCapitalised + 'Revisions').parents('.form-group').toggleClass('d-none', 'limitedByAmount' != revisionHandling);
+    jQuery('#' + idPrefix + 'periodFor' + objectTypeCapitalised + 'Revisions_years').parents('.form-group').toggleClass('d-none', 'limitedByDate' != revisionHandling);
 }
 
 jQuery(document).ready(function () {

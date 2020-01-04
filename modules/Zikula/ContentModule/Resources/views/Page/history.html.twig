@@ -6,12 +6,12 @@
 {% macro outputArray(input, keysAreLanguages) %}
     <ul>
         {% for key, value in input %}
-            <li><span class="bold">{{ keysAreLanguages ? key|language_name : key|humanize }}:</span> {% if value is iterable %}{{ _self.outputArray(value, false) }}{% else %}<span class="italic">{{ value }}</span>{% endif %}</li>
+            <li><span class="font-weight-bold">{{ keysAreLanguages ? key|language_name : key|humanize }}:</span> {% if value is iterable %}{{ _self.outputArray(value, false) }}{% else %}<span class="font-italic">{{ value }}</span>{% endif %}</li>
         {% endfor %}
     </ul>
 {% endmacro %}
 {% block title isDiffView == true ? __f('Compare versions of %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) : __f('Page change history for %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) %}
-{% block admin_page_icon isDiffView == true ? 'arrows-h' : 'history' %}
+{% block admin_page_icon isDiffView == true ? 'arrows-alt-h' : 'history' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-history">
         {% if isDiffView != true %}
@@ -40,9 +40,9 @@
     </p>
 {% endblock %}
 {% block history_table %}
-    <form action="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" method="get" class="form-horizontal" role="form">
+    <form action="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" method="get">
         <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-condensed{% endif %}">
+            <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-sm{% endif %}">
                 <colgroup>
                     <col id="cSelect" />
                     <col id="cVersion" />
@@ -54,8 +54,8 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th id="hSelect" scope="col" class="unsorted z-w02">{{ __('Select') }}</th>
-                        <th id="hVersion" scope="col" class="unsorted z-w02">{{ __('Version') }}</th>
+                        <th id="hSelect" scope="col" class="unsorted">{{ __('Select') }}</th>
+                        <th id="hVersion" scope="col" class="unsorted">{{ __('Version') }}</th>
                         <th id="hDate" scope="col" class="unsorted">{{ __('Date') }}</th>
                         <th id="hUser" scope="col" class="unsorted">{{ __('User') }}</th>
                         <th id="hOperation" scope="col" class="unsorted" colspan="2">{{ __('Operation') }}</th>
@@ -121,7 +121,7 @@
                             </td>
                             <td headers="hActions" class="actions nowrap">
                                 {% set linkTitle = __f('Preview version %version%', {'%version%': logEntry.version}) %}
-                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window hidden" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ __('version') ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card"></i></a>
+                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ __('version') ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card"></i></a>
                                 {% if not loop.first %}
                                     {% set linkTitle = __f('Revert to version %version%', { '%version%': logEntry.version }) %}
                                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {'slug': page.slug, revert: logEntry.version}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
@@ -139,7 +139,7 @@
 {% endblock %}
 {% block diff_view %}
     <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-condensed{% endif %}">
+        <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-sm{% endif %}">
             <colgroup>
                 <col id="cFieldName" />
                 <col id="cMinVersion" />

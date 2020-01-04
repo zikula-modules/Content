@@ -113,9 +113,10 @@ abstract class AbstractItemBlockType extends AbstractType
                     'title' => $this->__('Example', 'zikulacontentmodule') . ': displaySpecial.html.twig'
                 ],
                 'help' => [
-                    $this->__('Example', 'zikulacontentmodule') . ': <em>displaySpecial.html.twig</em>',
+                    $this->__('Example', 'zikulacontentmodule') . ': <code>displaySpecial.html.twig</code>',
                     $this->__('Needs to be located in the "External/YourEntity/" directory.', 'zikulacontentmodule')
-                ]
+                ],
+                'help_html' => true
             ])
         ;
     }

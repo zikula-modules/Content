@@ -9,8 +9,8 @@
 
 <div class="btn-toolbar" role="toolbar" aria-label="{{ __('Tree button toolbar') }}">
     <div class="btn-group btn-group-sm" role="group" aria-label="page buttons">
-        <button type="button" id="{{ idPrefix }}Expand" class="btn btn-info" title="{{ __('Expand all nodes') }}"><i class="fa fa-expand"></i> {{ __('Expand all') }}</button>
-        <button type="button" id="{{ idPrefix }}Collapse" class="btn btn-info" title="{{ __('Collapse all nodes') }}"><i class="fa fa-compress"></i> {{ __('Collapse all') }}</button>
+        <button type="button" id="{{ idPrefix }}Expand" class="btn btn-secondary" title="{{ __('Expand all nodes') }}"><i class="fa fa-expand"></i> {{ __('Expand all') }}</button>
+        <button type="button" id="{{ idPrefix }}Collapse" class="btn btn-secondary" title="{{ __('Collapse all nodes') }}"><i class="fa fa-compress"></i> {{ __('Collapse all') }}</button>
     </div>
 </div>
 <div class="clearfix">
@@ -23,7 +23,7 @@
         {% endif %}
     </div>
     {% if treeData|default %}
-        <ul id="itemActionsForTree{{ rootId|e('html_attr') }}" class="hidden">
+        <ul id="itemActionsForTree{{ rootId|e('html_attr') }}" class="d-none">
             {{ treeData.actions|raw }}
         </ul>
     {% endif %}

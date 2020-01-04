@@ -8,13 +8,8 @@
     <meta name="description" content="Flexible hierachical page management.">
     <meta name="author" content="Axel Guckelsberger">
     <title>Content &ndash; Technical structure</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="icon" href="../../public/images/admin.png">
     <style>
         body {
@@ -42,7 +37,7 @@
           </h1>
           <p>Flexible hierachical page management.</p>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cBasicField" />
             <col id="cBasicValue" />
@@ -90,12 +85,12 @@
     </table>
 </div>
 <h2><i class="fa fa-sitemap"></i> Application model</h2>
-<p><img src="Content_Entities%20Diagram.jpg" alt="Content Model" class="img-thumbnail img-responsive" /></p>
+<p><img src="Content_Entities%20Diagram.jpg" alt="Content Model" class="img-thumbnail img-fluid" /></p>
 <h2><i class="fa fa-database"></i> Data tables</h2>
 <h3><i class="fa fa-address-chard"></i> Page / Pages</h3>
 <h4><i class="fa fa-cog"></i> Basic settings</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cPageSettingsName" />
             <col id="cPageSettingsValue" />
@@ -146,7 +141,7 @@
 </div>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cEntityPageFieldName" />
             <col id="cEntityPageFieldType" />
@@ -529,7 +524,7 @@
 </div>
 <h4><i class="fa fa-arrows-alt-h"></i> Relations</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cPageRelationName" />
             <col id="cPageRelationType" />
@@ -545,7 +540,7 @@
             </tr>
         </thead>
         <tbody>
-            <span class="hidden">1</span>
+            <span class="d-none">1</span>
             <tr>
                 <th id="hPageRelation1" scope="row" headers="hPageRelationName">1 page has n content items</th>
                 <td headers="hPageRelation1 hPageRelationType">1:n</td>
@@ -568,7 +563,7 @@
 </div>
 <h4><i class="fa fa-key"></i> Indexes</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cPageIndexName" />
             <col id="cPageIndexType" />
@@ -595,7 +590,7 @@
 </div>
 <h4><i class="fa fa-paw"></i> Actions</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cPageActionName" />
             <col id="cPageActionDescription" />
@@ -628,7 +623,7 @@
 </div>
 <h4><i class="fa fa-map-signs"></i> Workflow</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cPageWorkflowName" />
             <col id="cPageWorkflowDescription" />
@@ -673,7 +668,7 @@
 </div>
 <h4><i class="fa fa-magic"></i> Behaviour</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cPageBehaviourName1" />
             <col id="cPageBehaviourValue1" />
@@ -739,7 +734,7 @@
 <h3><i class="fa fa-address-chard"></i> Content item / Content items</h3>
 <h4><i class="fa fa-cog"></i> Basic settings</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cContentItemSettingsName" />
             <col id="cContentItemSettingsValue" />
@@ -790,7 +785,7 @@
 </div>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cEntityContentItemFieldName" />
             <col id="cEntityContentItemFieldType" />
@@ -1015,7 +1010,7 @@
 </div>
 <h4><i class="fa fa-arrows-alt-h"></i> Relations</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cContentItemRelationName" />
             <col id="cContentItemRelationType" />
@@ -1031,7 +1026,7 @@
             </tr>
         </thead>
         <tbody>
-            <span class="hidden">1</span>
+            <span class="d-none">1</span>
             <tr>
                 <th id="hContentItemRelation1" scope="row" headers="hContentItemRelationName">1 page has n content items</th>
                 <td headers="hContentItemRelation1 hContentItemRelationType">1:n</td>
@@ -1054,7 +1049,7 @@
 </div>
 <h4><i class="fa fa-key"></i> Indexes</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cContentItemIndexName" />
             <col id="cContentItemIndexType" />
@@ -1087,7 +1082,7 @@
 </div>
 <h4><i class="fa fa-paw"></i> Actions</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cContentItemActionName" />
             <col id="cContentItemActionDescription" />
@@ -1108,7 +1103,7 @@
 </div>
 <h4><i class="fa fa-map-signs"></i> Workflow</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cContentItemWorkflowName" />
             <col id="cContentItemWorkflowDescription" />
@@ -1152,7 +1147,7 @@
 </div>
 <h4><i class="fa fa-magic"></i> Behaviour</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cContentItemBehaviourName1" />
             <col id="cContentItemBehaviourValue1" />
@@ -1222,7 +1217,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesGeneralSettingsFieldName" />
             <col id="cVariablesGeneralSettingsFieldType" />
@@ -1377,7 +1372,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesCustomStylesFieldName" />
             <col id="cVariablesCustomStylesFieldType" />
@@ -1463,7 +1458,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesAdditionalFieldsFieldName" />
             <col id="cVariablesAdditionalFieldsFieldType" />
@@ -1546,7 +1541,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesPermalinksFieldName" />
             <col id="cVariablesPermalinksFieldType" />
@@ -1648,7 +1643,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesListViewsFieldName" />
             <col id="cVariablesListViewsFieldType" />
@@ -1749,7 +1744,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesModerationFieldName" />
             <col id="cVariablesModerationFieldType" />
@@ -1815,7 +1810,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesIntegrationFieldName" />
             <col id="cVariablesIntegrationFieldType" />
@@ -1867,7 +1862,7 @@
 </p>
 <h4><i class="fa fa-bars"></i> Fields</h4>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cVariablesVersioningFieldName" />
             <col id="cVariablesVersioningFieldType" />
@@ -1968,7 +1963,7 @@
 </div>
 <h2><i class="fa fa-puzzle-piece"></i> Integration settings</h2>
 <div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-condensed">
+    <table class="table-striped table-bordered table-hover table-sm">
         <colgroup>
             <col id="cSettingName1" />
             <col id="cSettingValue1" />
@@ -2097,8 +2092,7 @@
     </table>
 </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script src="https://code.jquery.com/jquery-migrate-3.0.1.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
     </body>
 </html>

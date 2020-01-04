@@ -96,7 +96,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
             'label' => $this->__('Category'),
             'empty_data' => null,
             'attr' => [
-                'class' => 'input-sm category-selector',
+                'class' => 'form-control-sm category-selector',
                 'title' => $this->__('This is an optional filter.')
             ],
             'required' => false,
@@ -123,7 +123,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
         $builder->add('workflowState', ChoiceType::class, [
             'label' => $this->__('State'),
             'attr' => [
-                'class' => 'input-sm'
+                'class' => 'form-control-sm'
             ],
             'required' => false,
             'placeholder' => $this->__('All'),
@@ -142,7 +142,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
         $builder->add('scope', MultiListType::class, [
             'label' => $this->__('Scope'),
             'attr' => [
-                'class' => 'input-sm'
+                'class' => 'form-control-sm'
             ],
             'required' => false,
             'placeholder' => $this->__('All'),
@@ -162,7 +162,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
             'label' => $this->__('Search'),
             'attr' => [
                 'maxlength' => 255,
-                'class' => 'input-sm'
+                'class' => 'form-control-sm'
             ],
             'required' => false
         ]);
@@ -178,7 +178,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
             ->add('sort', ChoiceType::class, [
                 'label' => $this->__('Sort by'),
                 'attr' => [
-                    'class' => 'input-sm'
+                    'class' => 'form-control-sm'
                 ],
                 'choices' =>             [
                     $this->__('Title') => 'title',
@@ -202,7 +202,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 'label' => $this->__('Sort direction'),
                 'empty_data' => 'asc',
                 'attr' => [
-                    'class' => 'input-sm'
+                    'class' => 'form-control-sm'
                 ],
                 'choices' => [
                     $this->__('Ascending') => 'asc',
@@ -223,7 +223,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
             'label' => $this->__('Page size'),
             'empty_data' => 20,
             'attr' => [
-                'class' => 'input-sm text-right'
+                'class' => 'form-control-sm text-right'
             ],
             'choices' => [
                 5 => 5,
@@ -247,7 +247,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
         $builder->add('showTitle', ChoiceType::class, [
             'label' => $this->__('Show title'),
             'attr' => [
-                'class' => 'input-sm'
+                'class' => 'form-control-sm'
             ],
             'required' => false,
             'placeholder' => $this->__('All'),
@@ -259,7 +259,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
         $builder->add('skipHookSubscribers', ChoiceType::class, [
             'label' => $this->__('Skip hook subscribers'),
             'attr' => [
-                'class' => 'input-sm'
+                'class' => 'form-control-sm'
             ],
             'required' => false,
             'placeholder' => $this->__('All'),
@@ -271,7 +271,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
         $builder->add('active', ChoiceType::class, [
             'label' => $this->__('Active'),
             'attr' => [
-                'class' => 'input-sm'
+                'class' => 'form-control-sm'
             ],
             'required' => false,
             'placeholder' => $this->__('All'),
@@ -283,7 +283,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
         $builder->add('inMenu', ChoiceType::class, [
             'label' => $this->__('In menu'),
             'attr' => [
-                'class' => 'input-sm'
+                'class' => 'form-control-sm'
             ],
             'required' => false,
             'placeholder' => $this->__('All'),

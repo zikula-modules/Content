@@ -5,53 +5,53 @@
 {% block content %}
     <div class="zikulacontentmodule-config">
         {% form_theme form with [
-            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(form) }}
         <div class="zikula-bootstrap-tab-container">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" role="tablist">
                 {% set tabTitle = __('General settings') %}
-                <li role="presentation" class="active">
-                    <a id="vars1Tab" href="#tab1" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars1Tab" href="#tab1" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link active">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Custom styles') %}
-                <li role="presentation">
-                    <a id="vars2Tab" href="#tab2" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars2Tab" href="#tab2" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Additional fields') %}
-                <li role="presentation">
-                    <a id="vars3Tab" href="#tab3" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars3Tab" href="#tab3" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Permalinks') %}
-                <li role="presentation">
-                    <a id="vars4Tab" href="#tab4" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars4Tab" href="#tab4" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('List views') %}
-                <li role="presentation">
-                    <a id="vars5Tab" href="#tab5" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars5Tab" href="#tab5" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Moderation') %}
-                <li role="presentation">
-                    <a id="vars6Tab" href="#tab6" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars6Tab" href="#tab6" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Integration') %}
-                <li role="presentation">
-                    <a id="vars7Tab" href="#tab7" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars7Tab" href="#tab7" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Versioning') %}
-                <li role="presentation">
-                    <a id="vars8Tab" href="#tab8" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
+                <li class="nav-item" role="presentation">
+                    <a id="vars8Tab" href="#tab8" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
                 {% set tabTitle = __('Workflows') %}
-                <li role="presentation">
+                <li class="nav-item" role="presentation">
                     <a id="workflowsTab" href="#tabWorkflows" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab">{{ tabTitle }}</a>
                 </li>
             </ul>
 
             {{ form_errors(form) }}
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="tab1" aria-labelledby="vars1Tab">
+                <div role="tabpanel" class="tab-pane fade show active" id="tab1" aria-labelledby="vars1Tab">
                     {% set tabTitle = __('General settings') %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
@@ -167,8 +167,8 @@
             </div>
         </div>
 
-        <div class="form-group form-buttons">
-            <div class="col-sm-offset-3 col-sm-9">
+        <div class="form-group form-buttons row">
+            <div class="col-md-9 offset-md-3">
                 {{ form_widget(form.save) }}
                 {{ form_widget(form.reset) }}
                 {{ form_widget(form.cancel) }}

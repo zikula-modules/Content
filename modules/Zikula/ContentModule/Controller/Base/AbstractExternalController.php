@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
+use Symfony\Component\Routing\RouterInterface;
 use Zikula\ThemeModule\Engine\Asset;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
@@ -101,6 +102,7 @@ abstract class AbstractExternalController extends AbstractController
      */
     public function finderAction(
         Request $request,
+        RouterInterface $router,
         ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
@@ -122,7 +124,7 @@ abstract class AbstractExternalController extends AbstractController
             }
         
             // redirect to first valid object type
-            $redirectUrl = $this->get('router')->generate(
+            $redirectUrl = $router->generate(
                 'zikulacontentmodule_external_finder',
                 ['objectType' => array_shift($activatedObjectTypes), 'editor' => $editor]
             );

@@ -6,17 +6,17 @@
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-edit">
         {% form_theme form with [
-            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(form, {attr: {id: 'pageEditForm', class: 'zikulacontent-edit-form'}}) }}
         {{ form_errors(form) }}
         {% if translationsEnabled == true %}
             <div class="zikula-bootstrap-tab-container">
-                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs">
+                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs" role="tablist">
                     {% for language in supportedLanguages %}
-                        <li{% if language == app.request.locale %} class="active"{% endif %}>
-                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}">
+                        <li class="nav-item{% if language == app.request.locale %} active{% endif %}" role="presentation">
+                            <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == app.request.locale %} active{% endif %}">
                                 {% if not form.vars.valid %}
                                     <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
                                 {% endif %}
@@ -28,7 +28,7 @@
                 </ul>
                 <div class="{{ form.vars.id|lower }}-translation-fields tab-content">
                     {% for language in supportedLanguages %}
-                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} active in{% endif %}">
+                        <div class="{{ form.vars.id|lower }}-translations-fields-{{ language }} tab-pane fade{% if language == app.request.locale %} show active{% endif %}">
                             <fieldset>
                                 <legend>{{ language|language_name }}</legend>
                                 {% if language == app.request.locale %}
@@ -65,10 +65,10 @@
             {% endif %}
             {{ form_row(form.showTitle) }}
             {{ form_row(form.skipHookSubscribers) }}
-            <div class="hidden">
+            <div class="d-none">
                 {{ form_row(form.layout) }}
             </div>
-            <div class="hidden">
+            <div class="d-none">
                 {{ form_row(form.views) }}
             </div>
             {{ form_row(form.active) }}
@@ -77,7 +77,7 @@
             {{ form_row(form.scope) }}
             {{ form_row(form.inMenu) }}
             {{ form_row(form.stylingClasses) }}
-            <div class="hidden">
+            <div class="d-none">
                 {{ form_row(form.contentData) }}
             </div>
         </fieldset>
@@ -113,8 +113,8 @@
         
         
         {# include possible submit actions #}
-        <div class="form-group form-buttons">
-            <div class="col-sm-offset-3 col-sm-9">
+        <div class="form-group form-buttons row">
+            <div class="col-md-9 offset-md-3">
                 {% for action in actions %}
                     {{ form_widget(attribute(form, action.id)) }}
                     {% if mode == 'create' and action.id == 'submit' and form.submitrepeat is defined %}

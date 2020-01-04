@@ -17,6 +17,7 @@ namespace Zikula\ContentModule\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Zikula\ThemeModule\Engine\Asset;
 use Zikula\ContentModule\Controller\Base\AbstractExternalController;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -74,6 +75,7 @@ class ExternalController extends AbstractExternalController
      */
     public function finderAction(
         Request $request,
+        RouterInterface $router,
         ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
@@ -90,6 +92,7 @@ class ExternalController extends AbstractExternalController
     ): Response {
         return parent::finderAction(
             $request,
+            $router,
             $controllerHelper,
             $permissionHelper,
             $entityFactory,

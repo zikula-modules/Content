@@ -17,6 +17,8 @@ namespace Zikula\ContentModule\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\ContentModule\Controller\Base\AbstractAjaxController;
@@ -74,11 +76,13 @@ class AjaxController extends AbstractAjaxController
      */
     public function toggleFlagAction(
         Request $request,
+        LoggerInterface $logger,
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi
     ): JsonResponse {
         return parent::toggleFlagAction(
             $request,
+            $logger,
             $entityFactory,
             $currentUserApi
         );
@@ -89,6 +93,8 @@ class AjaxController extends AbstractAjaxController
      */
     public function handleTreeOperationAction(
         Request $request,
+        RouterInterface $router,
+        LoggerInterface $logger,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper,
         CurrentUserApiInterface $currentUserApi,
@@ -97,6 +103,8 @@ class AjaxController extends AbstractAjaxController
     ): JsonResponse {
         return parent::handleTreeOperationAction(
             $request,
+            $router,
+            $logger,
             $entityFactory,
             $entityDisplayHelper,
             $currentUserApi,
