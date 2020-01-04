@@ -26,7 +26,7 @@ function contentInitGoogleMapDisplay() {
         var markerInfo;
         var infoWindow;
 
-        jQuery(this).removeClass('hidden');
+        jQuery(this).removeClass('d-none');
         mapId = jQuery(this).data('mapid');
         contentId = mapId.replace('map', '');
         latitude = jQuery(this).data('latitude');
@@ -69,11 +69,11 @@ function contentInitGoogleMapDisplay() {
             directionsService = new google.maps.DirectionsService();
             directionsDisplay = new google.maps.DirectionsRenderer();
 
-            jQuery('#calcRoute' + contentId).removeClass('hidden').click(function (event) {
+            jQuery('#calcRoute' + contentId).removeClass('d-none').click(function (event) {
                 event.preventDefault();
                 contentGoogleMapCalcRoute(contentId);
             });
-            jQuery('#clearRoute' + contentId).removeClass('hidden').click(function (event) {
+            jQuery('#clearRoute' + contentId).removeClass('d-none').click(function (event) {
                 event.preventDefault();
                 contentGoogleMapClearRoute(contentId);
             });

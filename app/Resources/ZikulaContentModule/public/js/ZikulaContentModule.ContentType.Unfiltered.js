@@ -10,11 +10,11 @@ function contentInitUnfilteredEdit() {
 
     var useIframe = jQuery('#' + fieldPrefix + 'useiframe').prop('checked');
 
-    jQuery('#contentUnfilteredTextDetails').toggleClass('hidden', useIframe);
-    jQuery('#contentUnfilteredIframeDetails').toggleClass('hidden', !useIframe);
+    jQuery('#contentUnfilteredTextDetails').toggleClass('d-none', useIframe);
+    jQuery('#contentUnfilteredIframeDetails').toggleClass('d-none', !useIframe);
 
     jQuery('#' + fieldPrefix + 'useiframe').change(function (event) {
-        jQuery('#contentUnfilteredTextDetails').toggleClass('hidden', jQuery(this).prop('checked'));
-        jQuery('#contentUnfilteredIframeDetails').toggleClass('hidden', !jQuery(this).prop('checked'));
+        jQuery('#contentUnfilteredTextDetails').toggleClass('d-none', jQuery(this).prop('checked'));
+        jQuery('#contentUnfilteredIframeDetails').toggleClass('d-none', !jQuery(this).prop('checked'));
     });
 }

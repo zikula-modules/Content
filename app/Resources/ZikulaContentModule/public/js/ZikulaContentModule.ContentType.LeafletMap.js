@@ -37,7 +37,7 @@ function contentInitLeafletDisplay() {
         var contentId;
         var parameters;
 
-        jQuery(this).removeClass('hidden');
+        jQuery(this).removeClass('d-none');
         mapId = jQuery(this).data('mapid');
         contentId = mapId.replace('map', '');
 

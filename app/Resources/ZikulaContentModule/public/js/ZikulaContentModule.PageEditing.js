@@ -154,7 +154,7 @@ function contentPageApplyDimensionConstraints(widget) {
 }
 
 /**
- * Returns transformed markup for turning a palette item into a panel.
+ * Returns transformed markup for turning a palette item into a card.
  */
 function contentPagePreparePaletteEntryForAddition(widget, widgetId) {
     // remove popover data attributes
@@ -167,11 +167,11 @@ function contentPagePreparePaletteEntryForAddition(widget, widgetId) {
 
     widget.attr('id', 'widget' + widgetId);
     var widgetContentDiv = widget.find('.grid-stack-item-content').first();
-    widgetContentDiv.addClass('panel panel-default');
+    widgetContentDiv.addClass('card');
     var widgetTitle = widgetContentDiv.html();
 
-    var panelMarkup = contentPageGetWidgetPanelMarkup(widgetId, widgetTitle);
-    widgetContentDiv.html(panelMarkup);
+    var cardMarkup = contentPageGetWidgetCardMarkup(widgetId, widgetTitle);
+    widgetContentDiv.html(cardMarkup);
 }
 
 /**
@@ -180,10 +180,10 @@ function contentPagePreparePaletteEntryForAddition(widget, widgetId) {
 function contentPageGetSectionActions(isFirstSection) {
     var deleteState = isFirstSection ? ' disabled="disabled"' : '';
     var actions = `
-        <div class="btn-group btn-group-sm pull-right" role="group">
-            <button type="button" class="btn btn-default add-element" title="${Translator.__('Add element')}"><i class="fa fa-plus"></i> ${Translator.__('Add element')}</button>
-            <button type="button" class="btn btn-default change-styles" title="${Translator.__('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.__('Styling classes')}</button>
-            <button type="button" class="btn btn-default delete-section" title="${Translator.__('Delete section')}"${deleteState}><i class="fa fa-trash-alt"></i> ${Translator.__('Delete section')}</button>
+        <div class="btn-group btn-group-sm float-right" role="group">
+            <button type="button" class="btn btn-secondary add-element" title="${Translator.__('Add element')}"><i class="fa fa-plus"></i> ${Translator.__('Add element')}</button>
+            <button type="button" class="btn btn-secondary change-styles" title="${Translator.__('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.__('Styling classes')}</button>
+            <button type="button" class="btn btn-secondary delete-section" title="${Translator.__('Delete section')}"${deleteState}><i class="fa fa-trash-alt"></i> ${Translator.__('Delete section')}</button>
         </div>
     `;
 
@@ -210,9 +210,9 @@ function contentPageInitSectionActions() {
 
         event.preventDefault();
         gridSection = jQuery(this).parents('.grid-section').first();
-        gridSection.find('.style-selector-container').toggleClass('hidden');
+        gridSection.find('.style-selector-container').toggleClass('d-none');
         gridSection.find('.style-selector-container button').unbind('click').click(function (btnEvent) {
-            jQuery(this).parents('.style-selector-container').addClass('hidden');
+            jQuery(this).parents('.style-selector-container').addClass('d-none');
             contentPageSave();
         });
     });
@@ -250,7 +250,7 @@ function contentPageInitSectionActions() {
  */
 function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
-    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container hidden">' + jQuery('#sectionStylesContainer').html() + '</div><div class="well"><div class="grid-stack"></div></div></div>');
+    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="well"><div class="grid-stack"></div></div></div>');
     if ('' !== stylingClasses) {
         jQuery('#' + sectionId + ' .style-selector-container select').first().val(stylingClasses.split(' '));
     }
@@ -295,8 +295,8 @@ function contentPageToggleContentActiveDates() {
     var hideDates;
 
     hideDates = !jQuery('#zikulacontentmodule_contentitem_active').prop('checked');
-    jQuery('#zikulacontentmodule_contentitem_activeFrom_date').parents('.form-group').toggleClass('hidden', hideDates);
-    jQuery('#zikulacontentmodule_contentitem_activeTo_date').parents('.form-group').toggleClass('hidden', hideDates);
+    jQuery('#zikulacontentmodule_contentitem_activeFrom_date').parents('.form-group').toggleClass('d-none', hideDates);
+    jQuery('#zikulacontentmodule_contentitem_activeTo_date').parents('.form-group').toggleClass('d-none', hideDates);
 }
 
 /**
@@ -312,21 +312,19 @@ function contentPageInitWidgetEditing(widget, isCreation) {
 
     // see https://stackoverflow.com/questions/19506672/
     if (
-        ((modal.data('bs.modal') || {})._isShown) /* Bootstrap 4 */
-    ||
-        ((modal.data('bs.modal') || {}).isShown) /* Bootstrap 3 */
+        (modal.data('bs.modal') || {})._isShown
     ) {
         return;
     }
 
-    heading = modal.find('.modal-header h4.modal-title').first();
+    heading = modal.find('.modal-header h5.modal-title').first();
     body = modal.find('.modal-body').first();
 
-    heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
+    heading.html(widget.find('.card-header h5.card-title span.title').html());
     body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
-    jQuery('#btnDeleteContent').toggleClass('hidden', isCreation);
-    jQuery('#btnCancelContent').removeClass('hidden');
+    jQuery('#btnDeleteContent').toggleClass('d-none', isCreation);
+    jQuery('#btnCancelContent').removeClass('d-none');
     modal.modal('show');
 
     if (isCreation) {
@@ -345,13 +343,13 @@ function contentPageInitWidgetEditing(widget, isCreation) {
         body.html(data.form);
 
         if (jQuery('#furtherPropertiesSection').length > 0) {
-            jQuery('#furtherPropertiesContent').addClass('hidden');
+            jQuery('#furtherPropertiesContent').addClass('d-none');
             jQuery('#furtherPropertiesSection legend').addClass('pointer').click(function (event) {
-                if (jQuery('#furtherPropertiesContent').hasClass('hidden')) {
-                    jQuery('#furtherPropertiesContent').removeClass('hidden');
+                if (jQuery('#furtherPropertiesContent').hasClass('d-none')) {
+                    jQuery('#furtherPropertiesContent').removeClass('d-none');
                     jQuery(this).find('i').removeClass('fa-expand').addClass('fa-compress');
                 } else {
-                    jQuery('#furtherPropertiesContent').addClass('hidden');
+                    jQuery('#furtherPropertiesContent').addClass('d-none');
                     jQuery(this).find('i').removeClass('fa-compress').addClass('fa-expand');
                 }
             });
@@ -407,7 +405,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 return;
             }
 
-            jQuery('#btnCancelContent').addClass('hidden');
+            jQuery('#btnCancelContent').addClass('d-none');
             body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
@@ -447,7 +445,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
         });
         jQuery('#btnCancelContent').unbind('click').click(function (event) {
             event.preventDefault();
-            jQuery(this).addClass('hidden');
+            jQuery(this).addClass('d-none');
             if (isCreation) {
                 // remove newly created widget
                 contentPageRemoveWidget(widget);
@@ -483,21 +481,19 @@ function contentPageInitWidgetMovingCopying(widget) {
 
     // see https://stackoverflow.com/questions/19506672/
     if (
-        ((modal.data('bs.modal') || {})._isShown) /* Bootstrap 4 */
-    ||
-        ((modal.data('bs.modal') || {}).isShown) /* Bootstrap 3 */
+        ((modal.data('bs.modal') || {})._isShown)
     ) {
         return;
     }
 
-    heading = modal.find('.modal-header h4.modal-title').first();
+    heading = modal.find('.modal-header h5.modal-title').first();
     body = modal.find('.modal-body').first();
 
-    heading.html(widget.find('.panel-heading h3.panel-title span.title').html());
+    heading.html(widget.find('.card-header h5.card-title span.title').html());
     body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
-    jQuery('#btnDeleteContent').addClass('hidden');
-    jQuery('#btnCancelContent').removeClass('hidden');
+    jQuery('#btnDeleteContent').addClass('d-none');
+    jQuery('#btnCancelContent').removeClass('d-none');
     modal.modal('show');
 
     jQuery.getJSON(
@@ -535,7 +531,7 @@ function contentPageInitWidgetMovingCopying(widget) {
 
             var operationType = jQuery('input[type=radio]:checked').first().val();
 
-            jQuery('#btnCancelContent').addClass('hidden');
+            jQuery('#btnCancelContent').addClass('d-none');
             body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
@@ -567,7 +563,7 @@ function contentPageInitWidgetMovingCopying(widget) {
         });
         jQuery('#btnCancelContent').unbind('click').click(function (event) {
             event.preventDefault();
-            jQuery(this).addClass('hidden');
+            jQuery(this).addClass('d-none');
         });
     }).fail(function(jqXHR, textStatus) {
         modal.modal('hide');
@@ -581,11 +577,10 @@ function contentPageInitWidgetMovingCopying(widget) {
 function contentPageGetWidgetActions(widgetId) {
     var actions = `
         <div class="dropdown">
-            <a class="dropdown-toggle pull-right" title="${Translator.__('Actions')}" id="dropdownMenu${widgetId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <a class="dropdown-toggle float-right" title="${Translator.__('Actions')}" id="dropdownMenu${widgetId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span class="sr-only">${Translator.__('Actions')}</span>
-                <span class="caret"></span>
             </a>
-            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu${widgetId}">
+            <ul class="dropdown-menu float-right" aria-labelledby="dropdownMenu${widgetId}">
                 <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
@@ -593,7 +588,7 @@ function contentPageGetWidgetActions(widgetId) {
                 <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-alt text-danger"></i> ${Translator.__('Delete')}</a></li>
                 <li><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
                 <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
-                <li role="separator" class="divider"></li>
+                <li role="separator" class="dropdown-divider"></li>
                 <li class="dropdown-header">${Translator.__('Advanced')}</li>
                 <li><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
                 <li><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-alt-right"></i> ${Translator.__('Move/Copy')}</a></li>
@@ -737,13 +732,13 @@ function contentPageClear() {
  */
 function contentPageCreateNewWidget(nodeId) {
     var widgetTitle;
-    var widgetPanelClass;
+    var widgetCardClass;
     var widgetMarkup;
     var widget;
 
     widgetTitle = Translator.__('Content item');
-    widgetPanelClass = 'default';
-    widgetMarkup = contentPageGetWidgetMarkup(nodeId, widgetTitle, widgetPanelClass);
+    widgetCardClass = 'default';
+    widgetMarkup = contentPageGetWidgetMarkup(nodeId, widgetTitle, widgetCardClass);
     widget = jQuery(widgetMarkup);
 
     return widget;
@@ -752,22 +747,22 @@ function contentPageCreateNewWidget(nodeId) {
 /**
  * Builds a widget.
  */
-function contentPageGetWidgetMarkup(nodeId, title, panelClass) {
-    var panelMarkup = contentPageGetWidgetPanelMarkup(nodeId, title);
+function contentPageGetWidgetMarkup(nodeId, title, cardClass) {
+    var cardMarkup = contentPageGetWidgetCardMarkup(nodeId, title);
 
-    return '<div id="widget' + nodeId + '"><div class="grid-stack-item-content panel panel-' + panelClass + '">' + panelMarkup + '</div></div>';
+    return '<div id="widget' + nodeId + '"><div class="grid-stack-item-content card card-' + cardClass + '">' + cardMarkup + '</div></div>';
 }
 
 /**
- * Builds a widget panel.
+ * Builds a widget card.
  */
-function contentPageGetWidgetPanelMarkup(nodeId, title) {
+function contentPageGetWidgetCardMarkup(nodeId, title) {
     var widgetActions = contentPageGetWidgetActions(nodeId);
-    var widgetTitle = '<h3 class="panel-title">' + widgetActions + '<span class="title">' + title + '</span></h3>';
+    var widgetTitle = '<h5 class="card-title">' + widgetActions + '<span class="title">' + title + '</span></h5>';
     var widgetContent = '<p></p>';
     widgetContent += '<p><small class="width-note" style="background-color: #ffe"></small></p>';
 
-    return '<div class="panel-heading">' + widgetTitle + '</div><div class="panel-body">' + widgetContent + '</div>';
+    return '<div class="card-header">' + widgetTitle + '</div><div class="card-body">' + widgetContent + '</div>';
 }
 
 /**
@@ -793,23 +788,23 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
 
     widget = jQuery('#widget' + nodeId);
 
-    widget.find('.panel-title .title').html(Translator.__('Loading...'));
-    widget.find('.panel-body').html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
+    widget.find('.card-title .title').html(Translator.__('Loading...'));
+    widget.find('.card-body').html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
     jQuery.getJSON(Routing.generate('zikulacontentmodule_contentitem_displayediting', {contentItem: nodeId}), function (data) {
         var isActive;
-        widget.find('.panel-title .title').html(data.title);
-        widget.find('.panel-body').html(data.content + '<p><small class="width-note" style="background-color: #ffe"></small></p>');
-        widget.find('.panel').removeClass(function (index, className) {
-            return (className.match (/(^|\s)panel-\S+/g) || []).join(' ');
-        }).addClass('panel-' + data.panelClass);
+        widget.find('.card-title .title').html(data.title);
+        widget.find('.card-body').html(data.content + '<p><small class="width-note" style="background-color: #ffe"></small></p>');
+        widget.find('.card').removeClass(function (index, className) {
+            return (className.match (/(^|\s)card-\S+/g) || []).join(' ');
+        }).addClass('card-' + data.cardClass);
 
-        isActive = data.panelClass !== 'danger';
-        widget.find('.panel-title .dropdown .dropdown-menu .activate-item').toggleClass('hidden', isActive);
-        widget.find('.panel-title .dropdown .dropdown-menu .deactivate-item').toggleClass('hidden', !isActive);
+        isActive = data.cardClass !== 'danger';
+        widget.find('.card-title .dropdown .dropdown-menu .activate-item').toggleClass('d-none', isActive);
+        widget.find('.card-title .dropdown .dropdown-menu .deactivate-item').toggleClass('d-none', !isActive);
 
         contentPageInitialiseAssetsAndEntrypoint(data);
         if (true === openEditForm) {
-            widget.find('.panel-title .dropdown .dropdown-menu .edit-item').click();
+            widget.find('.card-title .dropdown .dropdown-menu .edit-item').click();
         }
     }).fail(function (jqxhr, textStatus, error) {
         if ('error' === textStatus && 'Not Found' === error) {
@@ -1015,7 +1010,7 @@ var gridsHighlighted = false;
  * Initialises the grid highlighter.
  */
 function contentPageInitGridHiglighter() {
-    jQuery('body').prepend('<div id="grid-displayer" class="hidden"><div class="gd-container"><div class="gd-row"></div></div></div>');
+    jQuery('body').prepend('<div id="grid-displayer" class="d-none"><div class="gd-container"><div class="gd-row"></div></div></div>');
 }
 
 /**
@@ -1056,7 +1051,7 @@ function contentPageHighlightGrids() {
         left: ((firstGridStack.offset().left + options.outerLimit - 5) + 'px'),
         width: ((firstGridStack.width() - options.outerLimit - 10) + 'px')
     });
-    jQuery('#grid-displayer').removeClass('hidden');
+    jQuery('#grid-displayer').removeClass('d-none');
     gridsHighlighted = true;
 }
 
@@ -1064,7 +1059,7 @@ function contentPageHighlightGrids() {
  * Removes the grid columns display again.
  */
 function contentPageUnhighlightGrids() {
-    jQuery('#grid-displayer').addClass('hidden');
+    jQuery('#grid-displayer').addClass('d-none');
     gridsHighlighted = false;
 }
 

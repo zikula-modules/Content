@@ -26,7 +26,7 @@ function contentInitGoogleRouteDisplay() {
         var markerOptions;
         var infoWindow;
 
-        jQuery(this).removeClass('hidden');
+        jQuery(this).removeClass('d-none');
         mapId = jQuery(this).data('mapid');
         contentId = mapId.replace('map', '');
         latitude = jQuery(this).data('latitude');
@@ -148,10 +148,10 @@ function contentGoogleRouteUpdateDirections(contentId) {
     directionsService.route(request, function (result, status) {
         if (google.maps.DirectionsStatus.OK === status) {
             directionsDisplay.setDirections(result);
-            jQuery('#directions' + contentId).removeClass('hidden');
+            jQuery('#directions' + contentId).removeClass('d-none');
 
             if ('' !== result.routes[0].warnings) {
-                jQuery('#warningsPanel' + contentId).removeClass('hidden').html('<strong>' + result.routes[0].warnings + '</strong>');
+                jQuery('#warningsPanel' + contentId).removeClass('d-none').html('<strong>' + result.routes[0].warnings + '</strong>');
             }
             contentGoogleRouteShowSteps(contentId, result);
         }

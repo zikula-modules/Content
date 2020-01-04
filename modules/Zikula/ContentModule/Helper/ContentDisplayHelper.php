@@ -114,7 +114,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
             return [
                 'title' => $this->getWidgetTitle($item, $contentType),
                 'content' => $contentType->display(true),
-                'panelClass' => $this->getWidgetPanelClass($item),
+                'cardClass' => $this->getWidgetCardClass($item),
                 'assets' => $contentType->getAssets(ContentTypeInterface::CONTEXT_VIEW),
                 'jsEntryPoint' => $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_VIEW)
             ];
@@ -122,7 +122,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
             return [
                 'title' => '<i class="fa fa-exclamation-triangle"></i> ' . $this->__('Error'),
                 'content' => $exception->getMessage(),
-                'panelClass' => 'danger',
+                'cardClass' => 'danger',
                 'assets' => [],
                 'jsEntryPoint' => null
             ];
@@ -183,9 +183,9 @@ class ContentDisplayHelper implements ContainerAwareInterface
     }
 
     /**
-     * Returns the name of a bootstrap panel class for a given content item entity.
+     * Returns the name of a bootstrap card class for a given content item entity.
      */
-    public function getWidgetPanelClass(ContentItemEntity $item): string
+    public function getWidgetCardClass(ContentItemEntity $item): string
     {
         $result = 'default';
 

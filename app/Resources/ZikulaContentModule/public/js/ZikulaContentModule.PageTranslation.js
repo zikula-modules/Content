@@ -12,7 +12,7 @@ function contentPageInitYandexSupport(yandexApiKey) {
         field = jQuery(this).detach();
         parent.html('<div class="input-group"></div>');
         parent.find('.input-group').append(field);
-        parent.find('.input-group').append('<span class="input-group-btn"><button class="btn btn-default add-suggestion" type="button" title="' + Translator.__('Insert suggestion for translation') + '"><i class="fa fa-book"></i></button></span></div>');
+        parent.find('.input-group').append('<div class="input-group-append"><button class="btn btn-default add-suggestion" type="button" title="' + Translator.__('Insert suggestion for translation') + '"><i class="fa fa-book"></i></button></div></div>');
     });
     jQuery('.add-suggestion').click(function (event) {
         var thisIcon;
@@ -31,7 +31,7 @@ function contentPageInitYandexSupport(yandexApiKey) {
         fieldName = fieldIdParts[fieldIdParts.length - 1];
 
         sourceLanguage = jQuery('#sourceLanguage').val();
-        sourceContent = jQuery('#sourceContent' + sourceLanguage + ' .field-' + fieldName + ' .form-control-static').html();
+        sourceContent = jQuery('#sourceContent' + sourceLanguage + ' .field-' + fieldName + ' .form-control-plaintext').html();
         targetLanguage = jQuery(this).parents('.tab-pane').first().data('language');
 
         if (sourceLanguage === targetLanguage || !sourceContent) {
@@ -41,7 +41,7 @@ function contentPageInitYandexSupport(yandexApiKey) {
         }
 
         thisIcon = jQuery(this).find('i').first();
-        thisIcon.removeClass('fa-book').addClass('fa-refresh fa-spin');
+        thisIcon.removeClass('fa-book').addClass('fa-sync fa-spin');
 
         url = 'https://translate.yandex.net/api/v1.5/tr.json/translate';
         url += '?key=' + yandexApiKey;
@@ -68,7 +68,7 @@ function contentPageInitYandexSupport(yandexApiKey) {
             }
         })
         .always(function () {
-            thisIcon.removeClass('fa-refresh fa-spin').addClass('fa-book');
+            thisIcon.removeClass('fa-sync fa-spin').addClass('fa-book');
         });
     });
 }

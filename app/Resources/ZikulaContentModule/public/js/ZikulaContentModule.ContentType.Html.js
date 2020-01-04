@@ -20,7 +20,7 @@ function contentInitHtmlTranslation() {
         sourceCodeRow = jQuery(this).clone();
         sourceCodeRow.removeClass('field-text').addClass('field-source');
         sourceCodeRow.find('label').text(Translator.__('Markup source'));
-        sourceCodeSection = sourceCodeRow.find('.form-control-static').first();
+        sourceCodeSection = sourceCodeRow.find('.form-control-plaintext').first();
         sourceCodeHtml = sourceCodeSection.html();
         sourceCodeSection
             .html('<p><a href="javascript:void(0);" title="' + Translator.__('Toggle source code view') + '" class="toggle-source"><i class="fa fa-eye"></i> ' + Translator.__('Toggle source code view') + '</a>  <a href="javascript:void(0);" title="' + Translator.__('Copy source code into clipboard') + '" class="copy-source"><i class="fa fa-clipboard"></i> ' + Translator.__('Copy source code into clipboard') + '</a></p><xmp>' + sourceCodeHtml + '</xmp>')
@@ -31,11 +31,11 @@ function contentInitHtmlTranslation() {
             backgroundColor: '#eef',
             whiteSpace: 'normal',
             padding: '5px 10px'
-        }).addClass('hidden');
+        }).addClass('d-none');
         sourceCodeRow.insertAfter(jQuery(this));
     });
     jQuery('.source-section .field-source a.toggle-source').click(function (event) {
-        jQuery(this).parent().next('xmp').toggleClass('hidden');
+        jQuery(this).parent().next('xmp').toggleClass('d-none');
     });
     jQuery('.source-section .field-source a.copy-source').click(function (event) {
         var sourceMarkup;

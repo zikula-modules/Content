@@ -11,5 +11,5 @@ function contentInitAuthorEdit() {
 
     jQuery('#' + fieldPrefix + 'authorSelector').val(jQuery('#authorUserName').text());
 
-    jQuery('#' + fieldPrefix + 'authorAvatar').next('.help-block').addClass('hidden');
+    jQuery('#' + fieldPrefix + 'authorAvatar').next('.form-text').addClass('d-none');
 }
