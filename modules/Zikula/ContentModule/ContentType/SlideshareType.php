@@ -36,7 +36,7 @@ class SlideshareType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'slideshare';
+        return 'desktop';
     }
 
     public function getTitle(): string

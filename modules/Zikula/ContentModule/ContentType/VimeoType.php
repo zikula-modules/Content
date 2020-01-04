@@ -36,7 +36,7 @@ class VimeoType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'vimeo';
+        return 'video';
     }
 
     public function getTitle(): string

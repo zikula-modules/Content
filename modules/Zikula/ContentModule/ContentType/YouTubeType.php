@@ -36,7 +36,7 @@ class YouTubeType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'youtube';
+        return 'video';
     }
 
     public function getTitle(): string

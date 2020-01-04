@@ -1031,7 +1031,7 @@ function contentPageHighlightGrids() {
 
     $gdRow.addClass('row').empty();
     for (var i = 0; i < options.amountOfColumns; i++) {
-        $gdRow.append('<div class="gd-column col-xs-1">&nbsp;</div>');
+        $gdRow.append('<div class="gd-column col-sm-1">&nbsp;</div>');
     }
 
     jQuery('#grid-displayer .gd-column').css({

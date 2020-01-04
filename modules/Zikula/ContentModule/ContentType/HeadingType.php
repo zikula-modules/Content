@@ -30,7 +30,7 @@ class HeadingType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'header';
+        return 'heading';
     }
 
     public function getTitle(): string
