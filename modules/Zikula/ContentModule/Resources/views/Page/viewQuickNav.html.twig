@@ -9,98 +9,96 @@
         <i class="fa fa-filter" aria-hidden="true"></i> {{ __('Filter') }}
     </a>
     <div id="collapsePageQuickNav" class="collapse">
-        <fieldset>
-            <h3>{{ __('Quick navigation') }}</h3>
-            {% set categoriesEnabled = featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
-            {% if categoriesEnabled %}
-                {% if categoryFilter is defined and categoryFilter != true %}
-                    <div class="d-none">
-                {% else %}
-                    <div class="row">
-                        <div class="col-md-3">
-                {% endif %}
-                    {{ form_row(quickNavForm.categories) }}
-                {% if categoryFilter is defined and categoryFilter != true %}
+        <h3>{{ __('Quick navigation') }}</h3>
+        {% set categoriesEnabled = featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+        {% if categoriesEnabled %}
+            {% if categoryFilter is defined and categoryFilter != true %}
+                <div class="d-none">
+            {% else %}
+                <div class="row">
+                    <div class="col-md-3">
+            {% endif %}
+                {{ form_row(quickNavForm.categories) }}
+            {% if categoryFilter is defined and categoryFilter != true %}
+                </div>
+            {% else %}
                     </div>
-                {% else %}
-                        </div>
-                        <div class="col-md-9">
-                {% endif %}
+                    <div class="col-md-9">
             {% endif %}
-            {% if workflowStateFilter is defined and workflowStateFilter != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.workflowState) }}
-            {% if workflowStateFilter is defined and workflowStateFilter != true %}
-                </div>
-            {% endif %}
-            {% if scopeFilter is defined and scopeFilter != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.scope) }}
-            {% if scopeFilter is defined and scopeFilter != true %}
-                </div>
-            {% endif %}
-            {% if searchFilter is defined and searchFilter != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.q) }}
-            {% if searchFilter is defined and searchFilter != true %}
-                </div>
-            {% endif %}
-            {% if sorting is defined and sorting != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.sort) }}
-                {{ form_row(quickNavForm.sortdir) }}
-            {% if sorting is defined and sorting != true %}
-                </div>
-            {% endif %}
-            {% if pageSizeSelector is defined and pageSizeSelector != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.num) }}
-            {% if pageSizeSelector is defined and pageSizeSelector != true %}
-                </div>
-            {% endif %}
-            {% if showTitleFilter is defined and showTitleFilter != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.showTitle) }}
-            {% if showTitleFilter is defined and showTitleFilter != true %}
-                </div>
-            {% endif %}
-            {% if skipHookSubscribersFilter is defined and skipHookSubscribersFilter != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.skipHookSubscribers) }}
-            {% if skipHookSubscribersFilter is defined and skipHookSubscribersFilter != true %}
-                </div>
-            {% endif %}
-            {% if activeFilter is defined and activeFilter != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.active) }}
-            {% if activeFilter is defined and activeFilter != true %}
-                </div>
-            {% endif %}
-            {% if inMenuFilter is defined and inMenuFilter != true %}
-                <div class="d-none">
-            {% endif %}
-                {{ form_row(quickNavForm.inMenu) }}
-            {% if inMenuFilter is defined and inMenuFilter != true %}
-                </div>
-            {% endif %}
-            {{ form_widget(quickNavForm.updateview) }}
-            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea|default ~ 'view', {tpl: app.request.query.get('tpl', ''), all: app.request.query.get('all', '')}) }}" title="{{ __('Back to default view') }}" class="btn btn-default btn-sm">{{ __('Reset') }}</a>
-            {% if categoriesEnabled %}
-                {% if categoryFilter is defined and categoryFilter != true %}
-                {% else %}
-                        </div>
+        {% endif %}
+        {% if workflowStateFilter is defined and workflowStateFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.workflowState) }}
+        {% if workflowStateFilter is defined and workflowStateFilter != true %}
+            </div>
+        {% endif %}
+        {% if scopeFilter is defined and scopeFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.scope) }}
+        {% if scopeFilter is defined and scopeFilter != true %}
+            </div>
+        {% endif %}
+        {% if searchFilter is defined and searchFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.q) }}
+        {% if searchFilter is defined and searchFilter != true %}
+            </div>
+        {% endif %}
+        {% if sorting is defined and sorting != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.sort) }}
+            {{ form_row(quickNavForm.sortdir) }}
+        {% if sorting is defined and sorting != true %}
+            </div>
+        {% endif %}
+        {% if pageSizeSelector is defined and pageSizeSelector != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.num) }}
+        {% if pageSizeSelector is defined and pageSizeSelector != true %}
+            </div>
+        {% endif %}
+        {% if showTitleFilter is defined and showTitleFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.showTitle) }}
+        {% if showTitleFilter is defined and showTitleFilter != true %}
+            </div>
+        {% endif %}
+        {% if skipHookSubscribersFilter is defined and skipHookSubscribersFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.skipHookSubscribers) }}
+        {% if skipHookSubscribersFilter is defined and skipHookSubscribersFilter != true %}
+            </div>
+        {% endif %}
+        {% if activeFilter is defined and activeFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.active) }}
+        {% if activeFilter is defined and activeFilter != true %}
+            </div>
+        {% endif %}
+        {% if inMenuFilter is defined and inMenuFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.inMenu) }}
+        {% if inMenuFilter is defined and inMenuFilter != true %}
+            </div>
+        {% endif %}
+        {{ form_widget(quickNavForm.updateview) }}
+        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea|default ~ 'view', {tpl: app.request.query.get('tpl', ''), all: app.request.query.get('all', '')}) }}" title="{{ __('Back to default view') }}" class="btn btn-default btn-sm">{{ __('Reset') }}</a>
+        {% if categoriesEnabled %}
+            {% if categoryFilter is defined and categoryFilter != true %}
+            {% else %}
                     </div>
-                {% endif %}
+                </div>
             {% endif %}
-        </fieldset>
+        {% endif %}
     </div>
     {{ form_end(quickNavForm) }}
 {% endif %}

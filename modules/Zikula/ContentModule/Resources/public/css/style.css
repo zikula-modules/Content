@@ -108,18 +108,23 @@ div.zikulacontentmodule-view form.zikulacontentmodule-quicknav {
     border: 1px solid #ccc;
 }
 
-div.zikulacontentmodule-view form.zikulacontentmodule-quicknav fieldset {
-    padding: 3px 10px;
-    margin-bottom: 0;
-}
-
-div.zikulacontentmodule-view form.zikulacontentmodule-quicknav fieldset h3 {
-    margin-top: 0;
+div.zikulacontentmodule-view form.zikulacontentmodule-quicknav h3 {
     display: none;
 }
 
-div.zikulacontentmodule-view form.zikulacontentmodule-quicknav fieldset label {
-    margin-right: 5px;
+div.zikulacontentmodule-view form.zikulacontentmodule-quicknav .form-group {
+    display: inline-block;
+}
+
+div.zikulacontentmodule-view form.zikulacontentmodule-quicknav .col-md-3 fieldset {
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+div.zikulacontentmodule-view form.zikulacontentmodule-quicknav label {
+    margin: 0 5px;
+    display: inline;
 }
 
 div.zikulacontentmodule-view .avatar img {
