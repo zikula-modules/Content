@@ -5,7 +5,7 @@
 {% block content %}
     <div class="zikulacontentmodule-config">
         {% form_theme form with [
-            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(form) }}
@@ -221,7 +221,7 @@
                                         </td>
                                         <td headers="h{{ contentType.name }} hDescription">
                                             {{ contentType.description }}
-                                            {% if contentType.adminInfo|default %}<br /><span class="badge badge-default">{{ contentType.adminInfo }}</span>{% endif %}
+                                            {% if contentType.adminInfo|default %}<br /><span class="badge badge-info">{{ contentType.adminInfo }}</span>{% endif %}
                                         </td>
                                     </tr>
                                 {% endfor %}
