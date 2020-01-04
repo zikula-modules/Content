@@ -1,23 +1,23 @@
-<div class="content-googlemap hidden" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ text|striptags|truncate(200)|e('html_attr') }}" data-markerinfo="{{ infoText|striptags|e('html_attr') }}" data-trafficoverlay="{{ trafficOverlay ? 'true' : 'false' }}" data-bicycleoverlay="{{ bicycleOverlay ? 'true' : 'false' }}" data-streetviewcontrol="{{ streetViewControl ? 'true' : 'false' }}" data-inlinedirections="{{ directionsInline ? 'true' : 'false' }}">
+<div class="content-googlemap d-none" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ text|striptags|u.truncate(200)|e('html_attr') }}" data-markerinfo="{{ infoText|striptags|e('html_attr') }}" data-trafficoverlay="{{ trafficOverlay ? 'true' : 'false' }}" data-bicycleoverlay="{{ bicycleOverlay ? 'true' : 'false' }}" data-streetviewcontrol="{{ streetViewControl ? 'true' : 'false' }}" data-inlinedirections="{{ directionsInline ? 'true' : 'false' }}">
     {% if directionsInline %}
         <div class="form-group">
             <label for="routeStart{{ contentId }}" class="control-label">{{ __('Get directions from start address') }}</label>
             <input type="text" id="routeStart{{ contentId }}" maxlength="255" value="" class="form-control" />
-            <button type="button" id="calcRoute{{ contentId }}" class="btn btn-default hidden"><i class="fa fa-map-signs"></i> {{ __('Show directions') }}</button>
-            <button type="button" id="clearRoute{{ contentId }}" class="btn btn-default hidden"><i class="fa fa-undo"></i> {{ __('Clear directions') }}</button>
+            <button type="button" id="calcRoute{{ contentId }}" class="btn btn-default d-none"><i class="fa fa-map-signs"></i> {{ __('Show directions') }}</button>
+            <button type="button" id="clearRoute{{ contentId }}" class="btn btn-default d-none"><i class="fa fa-undo"></i> {{ __('Clear directions') }}</button>
         </div>
     {% endif %}
     {% if directionsLink %}
         {# See for maps parameters: http://mapki.com/wiki/Google_Map_Parameters #}
         <p><a href="https://maps.google.com/maps?f=d&amp;daddr={{ latitude }},{{ longitude }}&amp;mrsp=1&amp;hl={{ app.request.locale }}&amp;ie=UTF8&amp;z=10" title="{{ __('Get directions to this location') }}">{{ __('Get directions to this location') }}</a></p>
     {% endif %}
-    <div id="map{{ contentId }}" class="map{% if directionsInline %} pull-left{% endif %}" style="width: 100%; height: {{ height }}px"></div>
+    <div id="map{{ contentId }}" class="map{% if directionsInline %} float-left{% endif %}" style="width: 100%; height: {{ height }}px"></div>
     {% if directionsInline %}
-        <div id="directions{{ contentId }}" class="map-directions pull-right" style="width: 0; height: {{ height }}px"></div>
+        <div id="directions{{ contentId }}" class="map-directions float-right" style="width: 0; height: {{ height }}px"></div>
         <br style="clear: both" />
     {% endif %}
     <p class="content-description">{{ text }}</p>
 </div>
 <noscript>
-    <p><img src="https://maps.google.com/maps/api/staticmap?size=600x{{ height }}&amp;maptype={{ mapType }}&amp;center={{ latitude }},{{ longitude }}&amp;markers={{ latitude }},{{ longitude }}&amp;zoom={{ zoom }}&amp;key={{ getModVar('ZikulaContentModule', 'googleMapsApiKey', '') }}" alt="{{ text|e('html_attr') }}" title="{{ text|e('html_attr') }}" class="img-responsive" /></p>
+    <p><img src="https://maps.google.com/maps/api/staticmap?size=600x{{ height }}&amp;maptype={{ mapType }}&amp;center={{ latitude }},{{ longitude }}&amp;markers={{ latitude }},{{ longitude }}&amp;zoom={{ zoom }}&amp;key={{ getModVar('ZikulaContentModule', 'googleMapsApiKey', '') }}" alt="{{ text|e('html_attr') }}" title="{{ text|e('html_attr') }}" class="img-fluid" /></p>
 </noscript>

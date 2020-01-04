@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div{% if tabStyle|default %} class="{{ tabStyle|e('html_attr') }}"{% endif %} role="tabpanel">
             {% if tabType == 1 %}
             <ul class="nav nav-tabs" role="tablist">
@@ -11,7 +11,9 @@
             {% endif %}
             {# Nav tabs #}
             {% for itemToTab in itemsToTab %}
-                <li role="presentation"{% if loop.first %} class="active"{% endif %}><a href="#tab{{ contentId }}{{ itemToTab.link|e('html_attr') }}" aria-controls="{{ itemToTab.link|e('html_attr') }}" role="tab" data-toggle="tab">{{ itemToTab.title }}</a></li>
+                <li role="presentation" class="nav-item">
+                    <a href="#tab{{ contentId }}{{ itemToTab.link|e('html_attr') }}" aria-controls="{{ itemToTab.link|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link{% if loop.first %} active{% endif %}">{{ itemToTab.title }}</a>
+                </li>
             {% endfor %}
             </ul>
             {% if tabType == 3 %}
@@ -24,7 +26,7 @@
             {% endif %}
             <div class="tab-content">
             {% for itemToTab in itemsToTab %}
-                <div role="tabpanel" class="tab-pane fade{% if loop.first %} in active{% endif %}" id="tab{{ contentId }}{{ itemToTab.link|e('html_attr') }}">
+                <div role="tabpanel" class="tab-pane fade{% if loop.first %} show active{% endif %}" id="tab{{ contentId }}{{ itemToTab.link|e('html_attr') }}">
                     {{ itemToTab.display|raw }}
                 </div>
             {% endfor %}

@@ -1,8 +1,8 @@
-<div class="content-googleroute row hidden" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ __('Destination address') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
-    <div class="col-sm-7">
+<div class="content-googleroute row d-none" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ __('Destination address') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
+    <div class="col-md-7">
         <h3>{{ topText }}</h3>
         <div class="form-group">
-            <label for="fromAddress{{ contentId }}" class="control-label">Ihre Adresse:</label><br />
+            <label for="fromAddress{{ contentId }}" class="col-form-label">Ihre Adresse:</label><br />
             <div class="input-group">
                 <input type="text" id="fromAddress{{ contentId }}" name="from" value="" maxlength="255" class="form-control" />
                 <span class="input-group-btn">
@@ -14,11 +14,11 @@
         <br /><br />
         <div id="map{{ contentId }}" class="map" style="width: 100%; height: {{ height }}px"></div>
         <p class="content-description">{{ bottomText }}</p>
-        <div id="warningsPanel{{ contentId }}" class="alert alert-warning hidden"></div>
+        <div id="warningsPanel{{ contentId }}" class="alert alert-warning d-none"></div>
     </div>
-    <div id="directions{{ contentId }}" class="col-sm-5 hidden map-directions">
+    <div id="directions{{ contentId }}" class="col-md-5 d-none map-directions">
     </div>
 </div>
 <noscript>
-    <p><img src="https://maps.google.com/maps/api/staticmap?size=600x{{ height }}&amp;maptype={{ mapType }}&amp;center={{ latitude }},{{ longitude }}&amp;markers={{ latitude }},{{ longitude }}&amp;zoom={{ zoom }}&amp;key={{ getModVar('ZikulaContentModule', 'googleMapsApiKey', '') }}" alt="{{ topText|e('html_attr') }}" title="{{ topText|e('html_attr') }}" class="img-responsive" /></p>
+    <p><img src="https://maps.google.com/maps/api/staticmap?size=600x{{ height }}&amp;maptype={{ mapType }}&amp;center={{ latitude }},{{ longitude }}&amp;markers={{ latitude }},{{ longitude }}&amp;zoom={{ zoom }}&amp;key={{ getModVar('ZikulaContentModule', 'googleMapsApiKey', '') }}" alt="{{ topText|e('html_attr') }}" title="{{ topText|e('html_attr') }}" class="img-fluid" /></p>
 </noscript>

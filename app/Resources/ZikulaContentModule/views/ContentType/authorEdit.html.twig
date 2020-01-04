@@ -1,5 +1,5 @@
 {{ form_row(form.author) }}
-<div id="authorUserName" class="hidden">{{ form.vars.data.author|profileLinkByUserId|striptags }}</div>
+<div id="authorUserName" class="d-none">{{ form.vars.data.author|profileLinkByUserId|striptags }}</div>
 {{ form_row(form.showAvatar) }}
 {{ form_row(form.avatarWidth) }}
 {{ form_row(form.showMessageLink) }}

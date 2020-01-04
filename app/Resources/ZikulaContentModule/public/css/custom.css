@@ -101,20 +101,6 @@ div.green-important-box {
     border: none;
 }
 
-.content-quote blockquote {
-    font-size: 1.4em;
-    font-weight: 700;
-    margin: 0 2em;
-}
-.content-quote blockquote p {
-    margin: 0;
-    padding: 0;
-    text-align: left !important;
-}
-.content-quote p.source {
-    text-align: right !important;
-}
-
 .zikula-content-module-tab-navigation-type .tab-pane div {
     border: none;
 }
