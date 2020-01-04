@@ -64,7 +64,7 @@ class MoveCopyContentItemType extends AbstractType
         $builder->add('operationType', ChoiceType::class, [
             'label' => $this->__('Operation type') . ':',
             'label_attr' => [
-                'class' => 'radio-inline'
+                'class' => 'radio-custom'
             ],
             'empty_data' => 'copy',
             'choices' => [

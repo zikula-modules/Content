@@ -96,6 +96,7 @@ class MenuBlockType extends AbstractType
         ]);
         $builder->add('inMenu', CheckboxType::class, [
             'label' => $this->__('Use only pages activated for the menu', 'zikulacontentmodule') . ':',
+            'label_attr' => ['class' => 'switch-custom'],
             'required' => false
         ]);
         $builder->add('filter', TextType::class, [
@@ -105,7 +106,8 @@ class MenuBlockType extends AbstractType
                 'maxlength' => 255,
                 'title' => $this->__('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
             ],
-            'help' => $this->__('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
+            'help' => $this->__('Example', 'zikulacontentmodule') . ': <code>tbl.age >= 18</code>',
+            'help_html' => true
         ]);
     }
 

@@ -75,6 +75,7 @@ class ContentItemType extends AbstractType
         }
         $builder->add('active', CheckboxType::class, [
             'label' => $this->__('Active') . ':',
+            'label_attr' => ['class' => 'switch-custom'],
             'attr' => [
                 'title' => $this->__('active ?')
             ],

@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
@@ -195,6 +196,7 @@ class ContentItemController extends AbstractContentItemController
      */
     public function editAction(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
@@ -262,7 +264,7 @@ class ContentItemController extends AbstractContentItemController
                     'contentItem' => $contentItem->getId()
                 ];
             }
-            $route = $this->get('router')->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
+            $route = $router->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
 
             $form = $this->createForm(ContentItemType::class, $contentItem, [
                 'action' => $route,
@@ -462,6 +464,7 @@ class ContentItemController extends AbstractContentItemController
      */
     public function movecopyAction(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
@@ -487,7 +490,7 @@ class ContentItemController extends AbstractContentItemController
         $routeArgs = [
             'contentItem' => $contentItem->getId()
         ];
-        $route = $this->get('router')->generate('zikulacontentmodule_contentitem_movecopy', $routeArgs);
+        $route = $router->generate('zikulacontentmodule_contentitem_movecopy', $routeArgs);
 
         $formData = $isPost ? $request->request->get('zikulacontentmodule_movecopycontentitem') : [];
         $operationType = $isPost && isset($formData['operationType']) ? $formData['operationType'] : 'copy';

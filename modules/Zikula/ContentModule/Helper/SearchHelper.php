@@ -38,7 +38,7 @@ class SearchHelper extends AbstractSearchHelper
         ]);*/
     }
 
-    public function getResults(array $words, string $searchType = 'AND', array $modVars = null): array
+    public function getResults(array $words, string $searchType = 'AND', ?array $modVars = null): array
     {
         if (!$this->permissionHelper->hasPermission(ACCESS_READ)) {
             return [];

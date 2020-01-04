@@ -71,6 +71,7 @@ class ItemListBlockType extends AbstractItemListBlockType
         $this->addAmountField($builder, $options);
         $builder->add('inMenu', CheckboxType::class, [
             'label' => $this->__('Use only pages activated for the menu', 'zikulacontentmodule') . ':',
+            'label_attr' => ['class' => 'switch-custom'],
             'required' => false
         ]);
         $this->addFilterField($builder, $options);

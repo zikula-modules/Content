@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Controller;
 
 use Zikula\ContentModule\Controller\Base\AbstractPageController;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,7 +23,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
@@ -40,6 +43,7 @@ use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ContentModule\Helper\TranslatableHelper;
 use Zikula\ContentModule\Helper\ViewHelper;
 use Zikula\ContentModule\Helper\WorkflowHelper;
+use Zikula\PageLockModule\Api\LockingApi;
 
 /**
  * Page controller class providing navigation and interaction functionality.
@@ -91,6 +95,7 @@ class PageController extends AbstractPageController
      */
     public function adminViewAction(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
@@ -100,7 +105,7 @@ class PageController extends AbstractPageController
         int $pos,
         int $num
     ): Response {
-        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
+        return $this->viewInternal($request, $router, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
     }
     
     /**
@@ -255,11 +260,13 @@ class PageController extends AbstractPageController
      */
     public function adminManageContentAction(
         Request $request,
+        RouterInterface $router,
+        ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         string $slug = ''
     ): array {
-        return $this->manageContentInternal($request, $permissionHelper, $entityFactory, $slug, true);
+        return $this->manageContentInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $slug, true);
     }
 
     /**
@@ -276,11 +283,13 @@ class PageController extends AbstractPageController
      */
     public function manageContentAction(
         Request $request,
+        RouterInterface $router,
+        ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         string $slug = ''
     ): array {
-        return $this->manageContentInternal($request, $permissionHelper, $entityFactory, $slug, false);
+        return $this->manageContentInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $slug, false);
     }
 
     /**
@@ -291,6 +300,8 @@ class PageController extends AbstractPageController
      */
     protected function manageContentInternal(
         Request $request,
+        RouterInterface $router,
+        ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         string $slug = '',
@@ -310,7 +321,7 @@ class PageController extends AbstractPageController
 
         // detect return url
         $routePrefix = 'zikulacontentmodule_page_' . $routeArea;
-        $returnUrl = $this->get('router')->generate($routePrefix . 'display', $page->createUrlArgs());
+        $returnUrl = $router->generate($routePrefix . 'display', $page->createUrlArgs());
         if ($request->headers->has('referer')) {
             $currentReferer = $request->headers->get('referer');
             if ($currentReferer !== $request->getUri()) {
@@ -319,9 +330,9 @@ class PageController extends AbstractPageController
         }
 
         // try to guarantee that only one person at a time can be editing this entity
-        $hasPageLockModule = $this->get('kernel')->isBundle('ZikulaPageLockModule');
+        $hasPageLockModule = $kernel->isBundle('ZikulaPageLockModule');
         if (true === $hasPageLockModule) {
-            $lockingApi = $this->get('Zikula\PageLockModule\Api\LockingApi');
+            $lockingApi = $this->get(LockingApi::class);
             $lockName = 'ZikulaContentModulePageContent' . $page->getKey();
 
             $lockingApi->addLock($lockName, $returnUrl);
@@ -433,6 +444,7 @@ class PageController extends AbstractPageController
      */
     public function adminDuplicateAction(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
@@ -440,7 +452,7 @@ class PageController extends AbstractPageController
         HookHelper $hookHelper,
         string $slug = ''
     ): RedirectResponse {
-        return $this->duplicateInternal($request, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, true);
+        return $this->duplicateInternal($request, $router, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, true);
     }
 
     /**
@@ -451,6 +463,7 @@ class PageController extends AbstractPageController
      */
     public function duplicateAction(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
@@ -458,7 +471,7 @@ class PageController extends AbstractPageController
         HookHelper $hookHelper,
         string $slug = ''
     ): RedirectResponse {
-        return $this->duplicateInternal($request, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, false);
+        return $this->duplicateInternal($request, $router, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, false);
     }
 
     /**
@@ -469,6 +482,7 @@ class PageController extends AbstractPageController
      */
     protected function duplicateInternal(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
@@ -491,7 +505,7 @@ class PageController extends AbstractPageController
 
         // detect return url
         $routePrefix = 'zikulacontentmodule_page_' . $routeArea;
-        $returnUrl = $this->get('router')->generate($routePrefix . 'view');
+        $returnUrl = $router->generate($routePrefix . 'view');
         if ($request->headers->has('referer')) {
             $currentReferer = $request->headers->get('referer');
             if ($currentReferer !== $request->getUri()) {
@@ -601,6 +615,8 @@ class PageController extends AbstractPageController
      */
     public function adminTranslateAction(
         Request $request,
+        RouterInterface $router,
+        ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         LoggableHelper $loggableHelper,
@@ -609,7 +625,7 @@ class PageController extends AbstractPageController
         ContentDisplayHelper $contentDisplayHelper,
         string $slug = ''
     ) {
-        return $this->translateInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, true);
+        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, true);
     }
 
     /**
@@ -623,6 +639,8 @@ class PageController extends AbstractPageController
      */
     public function translateAction(
         Request $request,
+        RouterInterface $router,
+        ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         LoggableHelper $loggableHelper,
@@ -631,7 +649,7 @@ class PageController extends AbstractPageController
         ContentDisplayHelper $contentDisplayHelper,
         string $slug = ''
     ) {
-        return $this->translateInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, false);
+        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, false);
     }
 
     /**
@@ -643,6 +661,8 @@ class PageController extends AbstractPageController
      */
     protected function translateInternal(
         Request $request,
+        RouterInterface $router,
+        ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         LoggableHelper $loggableHelper,
@@ -684,14 +704,14 @@ class PageController extends AbstractPageController
 
         // detect return url
         $routePrefix = 'zikulacontentmodule_page_' . $routeArea;
-        $returnUrl = $this->get('router')->generate($routePrefix . 'display', $page->createUrlArgs());
+        $returnUrl = $router->generate($routePrefix . 'display', $page->createUrlArgs());
 
         // try to guarantee that only one person at a time can be editing this entity
-        $hasPageLockModule = $this->get('kernel')->isBundle('ZikulaPageLockModule');
+        $hasPageLockModule = $kernel->isBundle('ZikulaPageLockModule');
         $lockingApi = null;
         $lockName = '';
         if (true === $hasPageLockModule) {
-            $lockingApi = $this->get('Zikula\PageLockModule\Api\LockingApi');
+            $lockingApi = $this->get(LockingApi::class);
             $lockName = 'ZikulaContentModuleTranslatePage' . $page->getKey();
 
             $lockingApi->addLock($lockName, $returnUrl);
@@ -908,12 +928,13 @@ class PageController extends AbstractPageController
      */
     public function adminHandleSelectedEntriesAction(
         Request $request,
+        LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
         HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
-        return $this->handleSelectedEntriesActionInternal($request, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, true);
+        return $this->handleSelectedEntriesActionInternal($request, $logger, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, true);
     }
     
     /**
