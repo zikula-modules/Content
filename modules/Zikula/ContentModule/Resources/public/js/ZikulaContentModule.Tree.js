@@ -42,13 +42,13 @@ function zikulaContentPerformTreeOperation(objectType, rootId, op) {
         if (data.result == 'success') {
             /*zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Success'), data.message, 'treeAjaxDoneAlert', 'success');*/
 
-            if (typeof data.returnUrl != 'undefined') {
+            if (typeof data.returnUrl !== 'undefined') {
                 window.location = data.returnUrl;
             } else {
                 window.location.reload();
             }
         } else {
-            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), data.message != '' ? data.message : Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
+            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), data.message !== '' ? data.message : Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
         }
     }).fail(function (jqXHR, textStatus) {
         zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
@@ -240,7 +240,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
         return actions;
     }
     
-    if (!currentNodeDom.is(':first-child')) { // has previous sibling
+    if (!currentNodeDom.is(':first-child')) {
+        // has previous sibling
         actions.moveTop = {
             label: Translator.__('Move to top'),
             title: Translator.__('Move to top position'),
@@ -259,7 +260,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
             icon: 'fa fa-fw fa-angle-up'
         };
     }
-    if (!currentNodeDom.is(':last-child')) { // has next sibling
+    if (!currentNodeDom.is(':last-child')) {
+        // has next sibling
         actions.moveDown = {
             label: Translator.__('Move down'),
             title: Translator.__('Move one position down'),

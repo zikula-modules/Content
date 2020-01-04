@@ -28,8 +28,8 @@ function zikulaContentInitQuickNavigation() {
 
     var fieldPrefix = 'zikulacontentmodule_' + objectType.toLowerCase() + 'quicknav_';
     // we can hide the submit button if we have no visible quick search field
-    if (jQuery('#' + fieldPrefix + 'q').length < 1 || jQuery('#' + fieldPrefix + 'q').parent().parent().hasClass('hidden')) {
-        jQuery('#' + fieldPrefix + 'updateview').addClass('hidden');
+    if (jQuery('#' + fieldPrefix + 'q').length < 1 || jQuery('#' + fieldPrefix + 'q').parent().parent().hasClass('d-none')) {
+        jQuery('#' + fieldPrefix + 'updateview').addClass('d-none');
     }
 }
 
@@ -56,8 +56,8 @@ function zikulaContentToggleFlag(objectType, fieldName, itemId) {
             zikulaContentSimpleAlert(toggleLink, Translator.__('Success'), data.message, 'toggle' + idSuffix + 'DoneAlert', 'success');
         }*/
 
-        toggleLink.find('.fa-check').toggleClass('hidden', true !== data.state);
-        toggleLink.find('.fa-times').toggleClass('hidden', true === data.state);
+        toggleLink.find('.fa-check').toggleClass('d-none', true !== data.state);
+        toggleLink.find('.fa-times').toggleClass('d-none', true === data.state);
     });
 }
 
@@ -76,7 +76,7 @@ function zikulaContentInitAjaxToggles() {
         itemId = jQuery(this).data('item-id');
 
         zikulaContentToggleFlag(objectType, fieldName, itemId);
-    }).removeClass('hidden');
+    }).removeClass('d-none');
 }
 
 /**
@@ -145,7 +145,7 @@ function zikulaContentInitItemActions(context) {
         containers.find('.dropdown > ul').removeClass('list-inline').addClass('list-unstyled dropdown-menu');
         containers.find('.dropdown > ul a i').addClass('fa-fw');
         if (containers.find('.dropdown-toggle').length > 0) {
-            containers.find('.dropdown-toggle').removeClass('hidden').dropdown();
+            containers.find('.dropdown-toggle').removeClass('d-none').dropdown();
         }
     }
 }
@@ -160,7 +160,7 @@ function zikulaContentInitInlineWindow(containerElem) {
     var modalTitle;
 
     // show the container (hidden for users without JavaScript)
-    containerElem.removeClass('hidden');
+    containerElem.removeClass('d-none');
 
     // define name of window
     newWindowId = containerElem.attr('id') + 'Dialog';

@@ -232,6 +232,9 @@ abstract class AbstractPageType extends AbstractType
         
         $builder->add('showTitle', CheckboxType::class, [
             'label' => $this->__('Show title') . ':',
+            'label_attr' => [
+                'class' => 'switch-custom'
+            ],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('show title ?')
@@ -241,6 +244,9 @@ abstract class AbstractPageType extends AbstractType
         
         $builder->add('skipHookSubscribers', CheckboxType::class, [
             'label' => $this->__('Skip hook subscribers') . ':',
+            'label_attr' => [
+                'class' => 'switch-custom'
+            ],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('skip hook subscribers ?')
@@ -272,6 +278,9 @@ abstract class AbstractPageType extends AbstractType
         
         $builder->add('active', CheckboxType::class, [
             'label' => $this->__('Active') . ':',
+            'label_attr' => [
+                'class' => 'switch-custom'
+            ],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('active ?')
@@ -315,7 +324,7 @@ abstract class AbstractPageType extends AbstractType
         $builder->add('scope', MultiListType::class, [
             'label' => $this->__('Scope') . ':',
             'label_attr' => [
-                'class' => 'tooltips checkbox-inline',
+                'class' => 'tooltips checkbox-custom',
                 'title' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.')
             ],
             'help' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.'),
@@ -333,6 +342,9 @@ abstract class AbstractPageType extends AbstractType
         
         $builder->add('inMenu', CheckboxType::class, [
             'label' => $this->__('In menu') . ':',
+            'label_attr' => [
+                'class' => 'switch-custom'
+            ],
             'attr' => [
                 'class' => '',
                 'title' => $this->__('in menu ?')

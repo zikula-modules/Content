@@ -21,6 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Core\Controller\AbstractController;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -126,7 +128,7 @@ abstract class AbstractAjaxController extends AbstractController
             $contextArgs
         );
     
-        $previewInfo = $this->get('twig')->render(
+        $previewInfo = $this->renderView(
             '@ZikulaContentModule/External/' . ucfirst($objectType) . '/info.html.twig',
             $previewParameters
         );
@@ -211,6 +213,7 @@ abstract class AbstractAjaxController extends AbstractController
      */
     public function toggleFlagAction(
         Request $request,
+        LoggerInterface $logger,
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi
     ): JsonResponse {
@@ -248,7 +251,6 @@ abstract class AbstractAjaxController extends AbstractController
         // save entity back to database
         $entityFactory->getEntityManager()->flush();
         
-        $logger = $this->get('logger');
         $logArgs = [
             'app' => 'ZikulaContentModule',
             'user' => $currentUserApi->get('uname'),
@@ -273,6 +275,8 @@ abstract class AbstractAjaxController extends AbstractController
      */
     public function handleTreeOperationAction(
         Request $request,
+        RouterInterface $router,
+        LoggerInterface $logger,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper,
         CurrentUserApiInterface $currentUserApi,
@@ -338,7 +342,6 @@ abstract class AbstractAjaxController extends AbstractController
         $titleFieldName = $entityDisplayHelper->getTitleFieldName($objectType);
         $descriptionFieldName = $entityDisplayHelper->getDescriptionFieldName($objectType);
         
-        $logger = $this->get('logger');
         $logArgs = ['app' => 'ZikulaContentModule', 'user' => $currentUserApi->get('uname'), 'entity' => $objectType];
         
         $currentUserId = $currentUserApi->isLoggedIn() ? $currentUserApi->get('uid') : 1;
@@ -416,7 +419,7 @@ abstract class AbstractAjaxController extends AbstractController
                         $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_edit';
                         $needsArg = in_array($objectType, ['page'], true);
                         $urlArgs = $needsArg ? $childEntity->createUrlArgs(true) : $childEntity->createUrlArgs();
-                        $returnValue['returnUrl'] = $this->get('router')->generate(
+                        $returnValue['returnUrl'] = $router->generate(
                             $routeName,
                             $urlArgs,
                             UrlGeneratorInterface::ABSOLUTE_URL

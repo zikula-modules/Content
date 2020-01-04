@@ -5,14 +5,16 @@
 {% block content %}
     <div class="container">
         <div class="zikula-bootstrap-tab-container">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" role="tablist">
             {% if 'page' in activatedObjectTypes %}
-                <li{{ objectType == 'page' ? ' class="active"' : '' }}><a href="{{ path('zikulacontentmodule_external_finder', {objectType: 'page', editor: editorName}) }}" title="{{ __('Search and select page') }}">{{ __('Pages') }}</a></li>
+                <li class="nav-item">
+                    <a href="{{ path('zikulacontentmodule_external_finder', {objectType: 'page', editor: editorName}) }}" title="{{ __('Search and select page') }}" class="nav-link{{ objectType == 'page' ? ' active' : '' }}">{{ __('Pages') }}</a>
+                </li>
             {% endif %}
             </ul>
         </div>
         {% form_theme finderForm with [
-            '@ZikulaContentModule/Form/bootstrap_3.html.twig',
+            '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
         ] %}
         {{ form_start(finderForm, {attr: {id: 'zikulaContentModuleSelectorForm'}}) }}
@@ -24,9 +26,9 @@
             {% endif %}
             {{ form_row(finderForm.pasteAs) }}
             <br />
-            <div class="form-group">
-                <label class="col-sm-3 control-label">{{ __('Page') }}:</label>
-                <div class="col-sm-9">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">{{ __('Page') }}:</label>
+                <div class="col-md-9">
                     <div id="zikulacontentmoduleItemContainer">
                         <ul>
                             {% for page in items %}
@@ -56,8 +58,8 @@
             <div>
                 {{ pager({display: 'page', rowcount: pager.numitems, limit: pager.itemsperpage, posvar: 'pos', maxpages: 10, route: 'zikulacontentmodule_external_finder'}) }}
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
+            <div class="form-group row">
+                <div class="col-md-9 offset-md-3">
                     {{ form_widget(finderForm.update) }}
                     {{ form_widget(finderForm.cancel) }}
                 </div>

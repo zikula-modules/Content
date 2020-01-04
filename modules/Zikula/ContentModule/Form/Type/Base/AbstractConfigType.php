@@ -100,7 +100,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('countPageViews', CheckboxType::class, [
             'label' => $this->__('Count page views') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.')
             ],
             'help' => $this->__('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.'),
@@ -146,7 +146,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('enableRawPlugin', CheckboxType::class, [
             'label' => $this->__('Enable raw plugin') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.')
             ],
             'help' => $this->__('Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.'),
@@ -160,7 +160,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('inheritPermissions', CheckboxType::class, [
             'label' => $this->__('Inherit permissions') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether to inherit permissions from parent to child pages or not.')
             ],
             'help' => $this->__('Whether to inherit permissions from parent to child pages or not.'),
@@ -174,7 +174,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('enableAutomaticPageLinks', CheckboxType::class, [
             'label' => $this->__('Enable automatic page links') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether page titles should automatically be linked using MultiHook.')
             ],
             'help' => $this->__('Whether page titles should automatically be linked using MultiHook.'),
@@ -250,7 +250,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('enableOptionalString1', CheckboxType::class, [
             'label' => $this->__('Enable optional string 1') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('If you need an additional string for each page you can enable an optional field.')
             ],
             'help' => $this->__('If you need an additional string for each page you can enable an optional field.'),
@@ -264,7 +264,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('enableOptionalString2', CheckboxType::class, [
             'label' => $this->__('Enable optional string 2') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('If you need an additional string for each page you can enable an optional field.')
             ],
             'help' => $this->__('If you need an additional string for each page you can enable an optional field.'),
@@ -278,7 +278,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('enableOptionalText', CheckboxType::class, [
             'label' => $this->__('Enable optional text') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('If you need an additional text for each page you can enable an optional field.')
             ],
             'help' => $this->__('If you need an additional text for each page you can enable an optional field.'),
@@ -299,7 +299,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('ignoreBundleNameInRoutes', CheckboxType::class, [
             'label' => $this->__('Ignore bundle name in routes') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('This removes the module name (defaults to "content") from permalinks.')
             ],
             'help' => $this->__('This removes the module name (defaults to "content") from permalinks.'),
@@ -313,7 +313,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('ignoreEntityNameInRoutes', CheckboxType::class, [
             'label' => $this->__('Ignore entity name in routes') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('This removes the primary entity name ("page") from permalinks.')
             ],
             'help' => $this->__('This removes the primary entity name ("page") from permalinks.'),
@@ -327,7 +327,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('ignoreFirstTreeLevelInRoutes', CheckboxType::class, [
             'label' => $this->__('Ignore first tree level in routes') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.')
             ],
             'help' => $this->__('This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.'),
@@ -385,7 +385,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('linkOwnPagesOnAccountPage', CheckboxType::class, [
             'label' => $this->__('Link own pages on account page') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether to add a link to pages of the current user on his account page')
             ],
             'help' => $this->__('Whether to add a link to pages of the current user on his account page'),
@@ -399,7 +399,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('pagePrivateMode', CheckboxType::class, [
             'label' => $this->__('Page private mode') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether users may only see own pages')
             ],
             'help' => $this->__('Whether users may only see own pages'),
@@ -413,7 +413,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('showOnlyOwnEntries', CheckboxType::class, [
             'label' => $this->__('Show only own entries') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether only own entries should be shown on view pages by default or not')
             ],
             'help' => $this->__('Whether only own entries should be shown on view pages by default or not'),
@@ -434,7 +434,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('allowModerationSpecificCreatorForPage', CheckboxType::class, [
             'label' => $this->__('Allow moderation specific creator for page') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether to allow moderators choosing a user which will be set as creator.')
             ],
             'help' => $this->__('Whether to allow moderators choosing a user which will be set as creator.'),
@@ -448,7 +448,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('allowModerationSpecificCreationDateForPage', CheckboxType::class, [
             'label' => $this->__('Allow moderation specific creation date for page') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether to allow moderators choosing a custom creation date.')
             ],
             'help' => $this->__('Whether to allow moderators choosing a custom creation date.'),
@@ -587,7 +587,7 @@ abstract class AbstractConfigType extends AbstractType
         $builder->add('showPageHistory', CheckboxType::class, [
             'label' => $this->__('Show page history') . ':',
             'label_attr' => [
-                'class' => 'tooltips',
+                'class' => 'tooltips switch-custom',
                 'title' => $this->__('Whether to show the version history to editors or not.')
             ],
             'help' => $this->__('Whether to show the version history to editors or not.'),
