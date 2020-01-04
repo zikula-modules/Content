@@ -114,14 +114,14 @@
                     <td headers="hActive" class="text-center">
                         {% set itemId = page.getKey() %}
                         <a id="toggleActive{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="active" data-item-id="{{ itemId }}">
-                            <i class="fa fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('Active') }}</i>
-                            <i class="fa fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Inactive') }}</i>
+                            <i class="fa fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">&nbsp;<span class="font-weight-normal">{{ __('Active') }}</span></i>
+                            <i class="fa fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">&nbsp;<span class="font-weight-normal">{{ __('Inactive') }}</span></i>
                         </a>
                         <noscript><div id="noscriptActive{{ itemId }}">
                             {% if page.active %}
-                                <i class="fa fa-check text-success" title="{{ __('Yes') }}">{{ __('Active') }}</i>
+                                <i class="fa fa-check text-success" title="{{ __('Yes') }}">&nbsp;<span class="font-weight-normal">{{ __('Active') }}</span></i>
                             {% else %}
-                                <i class="fa fa-times text-danger" title="{{ __('No') }}"{{ __('Inactive') }}></i>
+                                <i class="fa fa-times text-danger" title="{{ __('No') }}">&nbsp;<span class="font-weight-normal">{{ __('Inactive') }}</span></i>
                             {% endif %}
                         </div></noscript>
                         {% if page.activeFrom is not empty %}
@@ -146,14 +146,14 @@
                     <td headers="hInMenu" class="text-center">
                         {% set itemId = page.getKey() %}
                         <a id="toggleInMenu{{ itemId }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId }}">
-                            <i class="fa fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">{{ __('In') }}</i>
-                            <i class="fa fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">{{ __('Out') }}</i>
+                            <i class="fa fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId }}" title="{{ __('This setting is enabled. Click here to disable it.') }}">&nbsp;<span class="font-weight-normal">{{ __('In') }}</span></i>
+                            <i class="fa fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId }}" title="{{ __('This setting is disabled. Click here to enable it.') }}">&nbsp;<span class="font-weight-normal">{{ __('Out') }}</span></i>
                         </a>
                         <noscript><div id="noscriptInMenu{{ itemId }}">
                             {% if page.inMenu %}
-                                <i class="fa fa-check text-success" title="{{ __('Yes') }}">{{ __('In') }}</i>
+                                <i class="fa fa-check text-success" title="{{ __('Yes') }}">&nbsp;<span class="font-weight-normal">{{ __('In') }}</span></i>
                             {% else %}
-                                <i class="fa fa-times text-danger" title="{{ __('No') }}">{{ __('Out') }}</i>
+                                <i class="fa fa-times text-danger" title="{{ __('No') }}">&nbsp;<span class="font-weight-normal">{{ __('Out') }}</span></i>
                             {% endif %}
                         </div></noscript>
                     </td>
