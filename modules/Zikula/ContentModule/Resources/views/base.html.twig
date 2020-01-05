@@ -20,9 +20,24 @@
 {% endblock %}
 
 {% block assets %}
-    <p class="text-center">
+    <p id="poweredByMost" class="text-center">
         Powered by <a href="https://modulestudio.de" title="Get the MOST out of Zikula!">ModuleStudio 1.4.0</a>
     </p>
+    {% set customScript %}
+        <script>
+        /* <![CDATA[ */
+            ( function($) {
+                $(document).ready(function() {
+                    if ($('#poweredBy').length > 0) {
+                        $('#poweredBy').html($('#poweredBy').html() + ' {{ __('and') }} ').append($('#poweredByMost a'));
+                        $('#poweredByMost').remove();
+                    }
+                });
+            })(jQuery);
+        /* ]]> */
+        </script>
+    {% endset %}
+    {{ pageAddAsset('footer', customScript) }}
     {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:css/custom.css'), 120) }}
     {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
     {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js')) }}
