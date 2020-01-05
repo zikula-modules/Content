@@ -119,6 +119,7 @@ class PageController extends AbstractPageController
      */
     public function viewAction(
         Request $request,
+        RouterInterface $router,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
         ViewHelper $viewHelper,
@@ -128,7 +129,7 @@ class PageController extends AbstractPageController
         int $pos,
         int $num
     ): Response {
-        return $this->viewInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, false);
+        return $this->viewInternal($request, $router, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, false);
     }
     
     /**
