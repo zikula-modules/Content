@@ -133,7 +133,7 @@ class AbstractMenuBuilder
         if (false !== stripos($routeName, 'displaydeleted')) {
             return $menu;
         }
-        $menu->setChildrenAttribute('class', 'list-inline item-actions');
+        $menu->setChildrenAttribute('class', 'nav item-actions');
     
         $this->eventDispatcher->dispatch(
             new ConfigureItemActionsMenuEvent($this->factory, $menu, $options),
@@ -288,7 +288,7 @@ class AbstractMenuBuilder
     
         $objectType = $options['objectType'];
         $routeArea = $options['area'];
-        $menu->setChildrenAttribute('class', 'list-inline view-actions');
+        $menu->setChildrenAttribute('class', 'nav view-actions');
     
         $this->eventDispatcher->dispatch(
             new ConfigureViewActionsMenuEvent($this->factory, $menu, $options),
@@ -307,7 +307,7 @@ class AbstractMenuBuilder
                         'uri' => 'javascript:void(0)'
                     ]);
                     $menu[$title]->setLinkAttribute('id', 'treeAddRoot');
-                    $menu[$title]->setLinkAttribute('class', 'hidden');
+                    $menu[$title]->setLinkAttribute('class', 'd-none');
                     $menu[$title]->setLinkAttribute('data-object-type', $objectType);
                     $menu[$title]->setLinkAttribute('title', $title);
                     $menu[$title]->setAttribute('icon', 'fa fa-plus');

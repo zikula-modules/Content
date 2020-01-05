@@ -118,7 +118,7 @@ function zikulaContentInitItemActions(context) {
     if ('display' === context) {
         jQuery('.btn-group-sm.item-actions').each(function (index) {
             var innerList;
-            innerList = jQuery(this).children('ul.list-inline').first().detach();
+            innerList = jQuery(this).children('ul.nav').first().detach();
             jQuery(this).append(innerList.find('a.btn'));
         });
     }
@@ -142,7 +142,7 @@ function zikulaContentInitItemActions(context) {
             return;
         }
         
-        containers.find('.dropdown > ul').removeClass('list-inline').addClass('list-unstyled dropdown-menu');
+        containers.find('.dropdown > ul').removeClass('nav').addClass('list-unstyled dropdown-menu');
         containers.find('.dropdown > ul > li').addClass('dropdown-item').css('padding', 0);
         containers.find('.dropdown > ul a').addClass('d-block').css('padding', '3px 5px');
         containers.find('.dropdown > ul a i').addClass('fa-fw mr-1');
