@@ -92,12 +92,6 @@ class SearchHelper extends AbstractSearchHelper
                 continue;
             }
 
-            if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $objectType)) {
-                if (!$this->categoryHelper->hasPermission($entity)) {
-                    continue;
-                }
-            }
-
             $formattedTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
             $urlArgs = $entity->createUrlArgs();
             $urlArgs['_locale'] = $request->getLocale();
