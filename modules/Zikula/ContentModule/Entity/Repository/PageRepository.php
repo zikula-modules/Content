@@ -29,7 +29,7 @@ class PageRepository extends AbstractPageRepository
         bool $useJoins = true,
         bool $slimMode = false,
         int $excludeId = 0
-    ): PageEntity {
+    ): ?PageEntity {
         $result = parent::selectBySlug($slugTitle, $useJoins, $slimMode, $excludeId);
         if (null !== $result) {
             return $result;

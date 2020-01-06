@@ -326,7 +326,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         bool $useJoins = true,
         bool $slimMode = false,
         int $excludeId = 0
-    ): PageEntity {
+    ): ?PageEntity {
         if ('' === $slugTitle) {
             throw new InvalidArgumentException('Invalid slug title received.');
         }
