@@ -1,6 +1,7 @@
 {# purpose of this template: list view of deleted pages #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
-{% block title __('Deleted pages') %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title 'Deleted pages'|trans %}
 {% block admin_page_icon 'trash-alt' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-viewdeleted">
@@ -15,26 +16,26 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th id="hId" scope="col" class="unsorted">{{ __('ID') }}</th>
-                        <th id="hTitle" scope="col" class="unsorted">{{ __('Title') }}</th>
-                        <th id="hDate" scope="col" class="unsorted">{{ __('Date') }}</th>
-                        <th id="hUser" scope="col" class="unsorted">{{ __('User') }}</th>
-                        <th id="hActions" scope="col" class="unsorted">{{ __('Actions') }}</th>
+                        <th id="hId" scope="col" class="unsorted">{% trans %}ID{% endtrans %}</th>
+                        <th id="hTitle" scope="col" class="unsorted">{% trans %}Title{% endtrans %}</th>
+                        <th id="hDate" scope="col" class="unsorted">{% trans %}Date{% endtrans %}</th>
+                        <th id="hUser" scope="col" class="unsorted">{% trans %}User{% endtrans %}</th>
+                        <th id="hActions" scope="col" class="unsorted">{% trans %}Action{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for logEntry in deletedEntities %}
                         <tr>
-                            <td headers="hVersion" class="text-center">{{ logEntry.objectId }}</td>
-                            <td headers="hTitle">
+                            <th id="hId{{ logEntry.objectId|e('html_attr') }}" headers="hId" scope="row" class="text-center">{{ logEntry.objectId }}</td>
+                            <td headers="hTitle hId{{ logEntry.objectId|e('html_attr') }}">
                                 {{ logEntry|zikulacontentmodule_logDescription }}
                             </td>
-                            <td headers="hDate">{{ logEntry.loggedAt|format_datetime('long', 'medium') }}</td>
-                            <td headers="hUser">{{ userAvatar(logEntry.username, {size: 20, rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}</td>
-                            <td headers="hActions" class="actions nowrap">
-                                {% set linkTitle = __f('Preview page %id%', {'%id%': logEntry.objectId}) %}
-                                <a id="pageItemDisplay{{ logEntry.objectId }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId, preview: 1, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ __f('Page %id%', {'%id%': logEntry.objectId}) }}"><i class="fa fa-id-card"></i></a>
-                                {% set linkTitle = __f('Undelete page %id%', {'%id%': logEntry.objectId}) %}
+                            <td headers="hDate hId{{ logEntry.objectId|e('html_attr') }}">{{ logEntry.loggedAt|format_datetime('long', 'medium') }}</td>
+                            <td headers="hUser hId{{ logEntry.objectId|e('html_attr') }}">{{ userAvatar(logEntry.username, {size: 20, rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}</td>
+                            <td headers="hActions hId{{ logEntry.objectId|e('html_attr') }}" class="actions">
+                                {% set linkTitle = 'Preview page %id%'|trans({'%id%': logEntry.objectId}) %}
+                                <a id="pageItemDisplay{{ logEntry.objectId }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId, preview: 1, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ 'Page %id%'|trans({'%id%': logEntry.objectId})|e('html_attr') }}"><i class="fa fa-id-card"></i></a>
+                                {% set linkTitle = 'Undelete page %id%'|trans({'%id%': logEntry.objectId}) %}
                                 <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
                             </td>
                         </tr>
@@ -47,7 +48,7 @@
 {% endblock %}
 {% block page_nav_links %}
     <p>
-        {% set linkTitle = __('Back to overview') %}
+        {% set linkTitle = 'Back to overview'|trans %}
         <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-reply"></i> {{ linkTitle }}</a>
     </p>
 {% endblock %}

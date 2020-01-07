@@ -1,2 +1,3 @@
 {# purpose of this template: pages display json view #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {{ page.toArray()|json_encode()|raw }}

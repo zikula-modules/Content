@@ -1,4 +1,5 @@
 {# Purpose of this template: Edit block for generic item list view #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {{ form_row(form.objectType) }}
 {% if form.categories is defined %}
     {{ form_row(form.categories) }}
