@@ -250,7 +250,7 @@ function contentPageInitSectionActions() {
  */
 function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
-    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="well"><div class="grid-stack"></div></div></div>');
+    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="grid-stack"></div></div>');
     if ('' !== stylingClasses) {
         jQuery('#' + sectionId + ' .style-selector-container select').first().val(stylingClasses.split(' '));
     }
@@ -584,14 +584,14 @@ function contentPageGetWidgetActions(widgetId) {
                 <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.__('Basic')}</li>
-                <li><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil-alt"></i> ${Translator.__('Edit')}</a></li>
-                <li><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-alt text-danger"></i> ${Translator.__('Delete')}</a></li>
-                <li><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
-                <li><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
+                <li class="dropdown-item"><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil-alt"></i> ${Translator.__('Edit')}</a></li>
+                <li class="dropdown-item"><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-alt text-danger"></i> ${Translator.__('Delete')}</a></li>
+                <li class="dropdown-item"><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
+                <li class="dropdown-item"><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
                 <li role="separator" class="dropdown-divider"></li>
                 <li class="dropdown-header">${Translator.__('Advanced')}</li>
-                <li><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
-                <li><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-alt-right"></i> ${Translator.__('Move/Copy')}</a></li>
+                <li class="dropdown-item"><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
+                <li class="dropdown-item"><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-alt-right"></i> ${Translator.__('Move/Copy')}</a></li>
             </ul>
         </div>
     `;
@@ -750,7 +750,7 @@ function contentPageCreateNewWidget(nodeId) {
 function contentPageGetWidgetMarkup(nodeId, title, cardClass) {
     var cardMarkup = contentPageGetWidgetCardMarkup(nodeId, title);
 
-    return '<div id="widget' + nodeId + '"><div class="grid-stack-item-content card card-' + cardClass + '">' + cardMarkup + '</div></div>';
+    return '<div id="widget' + nodeId + '"><div class="grid-stack-item-content card">' + cardMarkup + '</div></div>';
 }
 
 /**
@@ -794,9 +794,9 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
         var isActive;
         widget.find('.card-title .title').html(data.title);
         widget.find('.card-body').html(data.content + '<p><small class="width-note" style="background-color: #ffe"></small></p>');
-        widget.find('.card').removeClass(function (index, className) {
-            return (className.match (/(^|\s)card-\S+/g) || []).join(' ');
-        }).addClass('card-' + data.cardClass);
+        widget.find('.card-header').removeClass(function (index, className) {
+            return (className.match (/(^|\s)bg-\S+/g) || []).join(' ');
+        }).addClass('default' !== data.cardClass ? 'text-white bg-' + data.cardClass : 'bg-default');
 
         isActive = data.cardClass !== 'danger';
         widget.find('.card-title .dropdown .dropdown-menu .activate-item').toggleClass('d-none', isActive);
@@ -845,9 +845,9 @@ function contentPageUpdateGridAttributes(widget, colOffset) {
         return;
     }
     var node = widget.data(nodeDataAttribute);
-    var gridAttributes = 'col-sm-' + node.width;
+    var gridAttributes = 'col-md-' + node.width;
     if (colOffset > 0) {
-        gridAttributes += ' col-sm-offset-' + colOffset;
+        gridAttributes += ' offset-md-' + colOffset;
     }
     widget.find('small.width-note').text(gridAttributes);
 }
@@ -857,6 +857,9 @@ function contentPageUpdateGridAttributes(widget, colOffset) {
  */
 function contentPageUnserialiseWidgets(containerId, widgetList) {
     contentPageInitSectionGrid('#' + containerId + ' .grid-stack', gridOptions);
+    if ('undefined' == typeof widgetList) {
+        return;
+    }
     var grid = jQuery('#' + containerId + ' .grid-stack').data('gridstack');
     var lastNode = null;
     var widgets = GridStackUI.Utils.sort(widgetList);
@@ -947,21 +950,25 @@ function contentPageSortWidgetsForSave(nodes) {
  * Collects widget data for serialisation.
  */
 function contentPageSerialiseWidgets(elements) {
+    var result;
     elements = contentPageSortWidgetsForSave(elements);
 
-    return jQuery.map(elements, function (index, widget) {
-        widget = jQuery(widget);
+    result = [];
+    jQuery.each(elements, function (index, element) {
+        var widget = jQuery(element);
         var node = widget.data(nodeDataAttribute);
 
-        return {
+        result.push({
             id: contentPageGetWidgetId(widget),
             x: node.x,
             y: node.y,
             width: node.width,
             minWidth: node.minWidth/*,
             height: node.height*/
-        };
+        });
     });
+
+    return result;
 }
 
 /**
@@ -969,24 +976,26 @@ function contentPageSerialiseWidgets(elements) {
  */
 function contentPageSave() {
     var sectionCounter;
+    var layoutData;
     if (true === suspendAutoSave) {
         return;
     }
     sectionCounter = 0;
-    widgetData = jQuery.map(jQuery('#widgets .grid-section'), function (index, section) {
-        section = jQuery(section);
-        return {
+    layoutData = [];
+    jQuery('#widgets .grid-section').each(function (index) {
+        var section = jQuery(this);
+        layoutData.push({
             id: 'section' + ++sectionCounter,
             stylingClasses: (section.find('.style-selector-container select').first().val() || []).join(' '),
-            widgets: contentPageSerialiseWidgets(section.find('.well > .grid-stack > .grid-stack-item:visible').not('.grid-stack-placeholder'))
-        }
+            widgets: contentPageSerialiseWidgets(section.find('.grid-stack > .grid-stack-item:visible').not('.grid-stack-placeholder'))
+        });
     });
 
     jQuery.ajax({
         type: 'post',
         url: Routing.generate('zikulacontentmodule_page_updatelayout', { id: pageId }),
         data: {
-            layoutData: widgetData
+            layoutData: layoutData
         }
     }).done(function (data) {
         jQuery('#layoutUpdateDoneAlert').remove();

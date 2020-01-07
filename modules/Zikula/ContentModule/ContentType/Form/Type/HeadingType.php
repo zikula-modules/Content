@@ -64,7 +64,8 @@ class HeadingType extends AbstractContentFormType
         ]);
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder->add('displayPageTitle', CheckboxType::class, [
-                'label' => $this->__('Display the page title') . ':',
+                'label' => $this->__('Display the page title'),
+                'label_attr' => ['class' => 'switch-custom'],
                 'help' => $this->__('If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'),
                 'required' => false
             ]);

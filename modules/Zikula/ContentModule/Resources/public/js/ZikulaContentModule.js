@@ -86,7 +86,7 @@ function zikulaContentSimpleAlert(anchorElement, title, content, alertId, cssCla
     var alertBox;
 
     alertBox = ' \
-        <div id="' + alertId + '" class="alert alert-' + cssClass + ' fade"> \
+        <div id="' + alertId + '" class="alert alert-' + cssClass + ' fade show"> \
           <button type="button" class="close" data-dismiss="alert">&times;</button> \
           <h4>' + title + '</h4> \
           <p>' + content + '</p> \

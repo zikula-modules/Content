@@ -196,7 +196,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
             foreach ($scopes as $scope) {
                 if ('0' !== $scope) {
                     if ('-1' === $scope) {
-                        $result = 'primary';
+                        $result = 'secondary';
                     } elseif ('-2' === $scope) {
                         $result = 'success';
                     } elseif ('1' === $scope || '2' === $scope) {

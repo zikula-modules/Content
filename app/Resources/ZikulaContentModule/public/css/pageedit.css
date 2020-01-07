@@ -28,11 +28,10 @@
 }
 #z-maincontent #widgets h5.card-title {
     border-bottom: none;
-    color: #fff;
     cursor: move;
 }
-#z-maincontent #widgets .card-default h5.card-title,
-#z-maincontent #widgets .card-default h5.card-title > .dropdown > a {
+#z-maincontent #widgets .card-header.bg-default h5.card-title,
+#z-maincontent #widgets .card-header.bg-default h5.card-title > .dropdown > a {
     color: #000;
 }
 h5.card-title a.float-right {
