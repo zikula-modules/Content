@@ -1,6 +1,7 @@
-{# purpose of this template: gridstack playground #}
+{# purpose of this template: translation wizard #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
-{% block title %}{{ page|zikulacontentmodule_formattedTitle|default(__('Page')) }} - {{ __('Translate') }}{% endblock %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title %}{{ page|zikulacontentmodule_formattedTitle|default('Page'|trans) }} - {% trans %}Translate{% endtrans %}{% endblock %}
 {% block admin_page_icon 'language' %}
 {% block content %}
     {% set currentLocale = app.request.locale|default('en') %}
@@ -16,14 +17,14 @@
         {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
         <div class="row">
             <div class="col-md-6">
-                <h4>{{ __f('Step %step of %amount', {'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{{ __('General page data') }}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
+                <h4>{{ 'Step %step of %amount'|trans({'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{% trans %}General page data{% endtrans %}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
             </div>
             <div class="col-md-6">
                 <div class="form-row">
-                    <label for="translationStep" class="col-md-6 col-form-label">{{ __('Jump to element:') }}</label>
+                    <label for="translationStep" class="col-md-6 col-form-label">{% trans %}Jump to element:{% endtrans %}</label>
                     <div class="col-md-6">
                         <select id="translationStep" class="form-control">
-                            <option value="0">1. {{ __('General page data') }}</option>
+                            <option value="0">1. {% trans %}General page data{% endtrans %}</option>
                             {% for item in translationInfo.items %}
                                 <option value="{{ item.entity.id }}" title="{{ item.title|e('html_attr') }}"{{ item.entity.id == translationInfo.currentContentId ? ' selected="selected"' : '' }}>{{ loop.index + 1 }}. {{ item.title }}</option>
                             {% endfor %}
@@ -31,7 +32,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <label for="sourceLanguage" class="col-md-6 col-form-label">{{ __('Switch source language:') }}</label>
+                    <label for="sourceLanguage" class="col-md-6 col-form-label">{% trans %}Switch source language:{% endtrans %}</label>
                     <div class="col-md-6">
                         <select id="sourceLanguage" class="form-control">
                             {% for language in localesWithExistingData %}
@@ -45,7 +46,7 @@
         <br />
         {% for language in localesWithExistingData %}
             <fieldset id="sourceContent{{ language }}" class="source-section{{ language == currentLocale ? '' : ' hidden' }}">
-                <legend>{{ __('Source content') }} ({{ language|language_name }})</legend>
+                <legend>{% trans %}Source content{% endtrans %} ({{ language|language_name }})</legend>
                 {% if currentStep == 1 %}
                     {% for fieldName in pageFields|filter(f => form[f] is defined) %}
                         <div class="form-group row field-{{ fieldName|e('html_attr') }}">
@@ -80,14 +81,14 @@
             </fieldset>
         {% endfor %}
         <fieldset id="contentTranslateTarget">
-            <legend>{{ __('Target content') }}</legend>
+            <legend>{% trans %}Target content{% endtrans %}</legend>
             <div class="zikula-bootstrap-tab-container">
                 <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs" role="tablist">
                     {% for language in supportedLanguages %}
                         <li class="nav-item">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == currentLocale %} active{% endif %}">
                                 {% if not form.vars.valid %}
-                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
+                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = currentStep == 1 and language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}

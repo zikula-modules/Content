@@ -1,3 +1,5 @@
+{# purpose of this template: sitemap xml inclusion template #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% for page in pages|filter(p => p.inMenu and zikulacontentmodule_hasReadAccess(p)) %}
 <url>
     <loc>{{ url('zikulacontentmodule_page_display', {slug: page.slug}) }}</loc>

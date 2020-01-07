@@ -1,3 +1,5 @@
+{# purpose of this template: display a youtube element #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% if videoId|default %}
 {% set ytUrl = 'https://www.youtube.com/' %}
 {% set ncUrl = 'https://www.youtube-nocookie.com/' %}
@@ -13,10 +15,10 @@
     {% else %}
         <div class="text-center">
             <p>
-                <a href="{{ videoUrlLink|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} data-toggle="modal" data-target="#content{{ contentId }}Modal"><img src="https://img.youtube.com/vi/{{ videoId|e('html_attr') }}/hqdefault.jpg" alt="{% if text|default %}{{ text|striptags|e('html_attr') }}{% else %}{{ __('Video') }}{% endif %}" class="img-fluid mx-auto my-0" /></a>
+                <a href="{{ videoUrlLink|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} data-toggle="modal" data-target="#content{{ contentId }}Modal"><img src="https://img.youtube.com/vi/{{ videoId|e('html_attr') }}/hqdefault.jpg" alt="{% if text|default %}{{ text|striptags|e('html_attr') }}{% else %}{{ 'Video'|trans|e('html_attr') }}{% endif %}" class="img-fluid mx-auto my-0" /></a>
             </p>
             {% if text|default %}<p><small>{{ text|nl2br|safeHtml }}</small></p>{% endif %}
-            <p><a href="{{ videoUrlLink|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} class="btn btn-default" data-toggle="modal" data-target="#content{{ contentId }}Modal"><i class="fa fa-play-circle fa-3x"></i><br />{{ __('Play video') }}</a></p>
+            <p><a href="{{ videoUrlLink|e('html_attr') }}"{% if text|default %} title="{{ text|striptags|e('html_attr') }}"{% endif %} class="btn btn-default" data-toggle="modal" data-target="#content{{ contentId }}Modal"><i class="fa fa-play-circle fa-3x"></i><br />{% trans %}Play video{% endtrans %}</a></p>
         </div>
         <div class="modal fade" id="content{{ contentId }}Modal" tabindex="-1" role="dialog"{% if text|default %} aria-labelledby="content{{ contentId }}ModalLabel"{% endif %} data-backdrop="false">
             <div class="modal-dialog" role="document">
@@ -25,7 +27,7 @@
                         {% if text|default %}
                             <h5 class="modal-title" id="content{{ contentId }}ModalLabel">{{ text|striptags }}</h5>
                         {% endif %}
-                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'Close'|trans|e('html_attr') }}"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="embed-responsive embed-responsive-{#16by9#}4by3">
@@ -33,7 +35,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Close{% endtrans %}</button>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,11 @@
+{# purpose of this template: edit form body for a specific content item #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {{ form_errors(form) }}
 {#
 <fieldset>
-    <legend>{{ __('Meta') }}</legend>
+    <legend>{% trans %}Meta{% endtrans %}</legend>
     <div class="form-group">
-        <label class="col-md-3 col-form-label">{{ __('Content type') }}</label>
+        <label class="col-md-3 col-form-label">{% trans %}Content type{% endtrans %}</label>
         <div class="col-md-9">
             <p class="form-control-plaintext badge badge-info text-wrap" style="font-size: 130%">{{ contentType.bundleName }} / {{ contentType.title }}</p>
         </div>
@@ -11,16 +13,16 @@
 </fieldset>
 #}
 <fieldset>
-    <legend>{{ __('Content') }}</legend>
+    <legend>{% trans %}Content{% endtrans %}</legend>
     {% if form.contentData is defined and contentFormTemplate|default %}
         {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
     {% endif %}
     {{ form_row(form.additionalSearchText) }}
 </fieldset>
 <fieldset id="furtherPropertiesSection">
-    <legend>{{ __('Options') }} <i class="fa fa-expand"></i></legend>
+    <legend>{% trans %}Options{% endtrans %} <i class="fa fa-expand"></i></legend>
     <div id="furtherPropertiesContent">
-        {{ form_row(form.active, {help: __('You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.')}) }}
+        {{ form_row(form.active, {help: 'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.'|trans}) }}
         {{ form_row(form.activeFrom) }}
         {{ form_row(form.activeTo) }}
         {{ form_row(form.scope) }}
@@ -35,10 +37,3 @@
         {% endfor %}
     </fieldset>
 {% endif %}
-
-<style>
-    #furtherPropertiesContent .checkbox-inline {
-        display: block;
-        margin-left: 0;
-    }
-</style>

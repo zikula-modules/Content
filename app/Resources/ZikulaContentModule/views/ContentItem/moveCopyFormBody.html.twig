@@ -1,6 +1,8 @@
+{# purpose of this template: move/copy form body for a specific content item #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {{ form_errors(form) }}
 <fieldset>
-    <legend>{{ __('Content') }}</legend>
+    <legend>{% trans %}Content{% endtrans %}</legend>
     {{ form_row(form.destinationPage) }}
     {{ form_row(form.operationType) }}
 </fieldset>

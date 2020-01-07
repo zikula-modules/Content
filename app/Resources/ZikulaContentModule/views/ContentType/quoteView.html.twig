@@ -1,3 +1,5 @@
+{# purpose of this template: display a quote element #}
+{% trans_default_domain 'zikulacontentmodule' %}
 <div class="content-quote">
     <blockquote class="blockquote">
         <p class="mb-0">&raquo;{{ text|nl2br|notifyFilters('zikulacontentmodule.filter_hooks.contentitems')|safeHtml }}&laquo;</p>

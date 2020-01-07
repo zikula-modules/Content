@@ -1,14 +1,15 @@
 {# purpose of this template: sitemap view #}
 {% extends '@ZikulaContentModule/base.html.twig' %}
-{% block title __('Sitemap') %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title 'Sitemap'|trans %}
 {% block admin_page_icon 'sitemap' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-sitemap">
-        <h3>{{ __f('Welcome to the contents for %sitename%', {'%sitename%': getModVar('ZConfig', 'sitename')}) }}</h3>
+        <h3>{{ 'Welcome to the contents for %sitename%'|trans({'%sitename%': getModVar('ZConfig', 'sitename')}) }}</h3>
         {% if pages|length > 0 %}
             {{ include('@ZikulaContentModule/Page/sitemapInclude.html.twig') }}
         {% else %}
-            <p>{{ __('No pages found.') }}</p>
+            <p>{% trans %}No pages found.{% endtrans %}</p>
         {% endif %}
     </div>
 {% endblock %}

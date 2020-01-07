@@ -1,7 +1,8 @@
 {# purpose of this template: build the form to edit an instance of page #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
-{% block title mode == 'create' ? __('Create page') : __('Edit page') %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title mode == 'create' ? 'Create page'|trans : 'Edit page'|trans %}
 {% block admin_page_icon mode == 'create' ? 'plus' : 'edit' %}
 {% block content %}
     {% set isCreate = mode == 'create' %}
@@ -17,12 +18,12 @@
         {{ form_errors(form) }}
         {% if translationsEnabled == true %}
             <div class="zikula-bootstrap-tab-container">
-                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs">
+                <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs" role="tablist">
                     {% for language in supportedLanguages %}
                         <li class="nav-item" role="presentation">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == app.request.locale %} active{% endif %}">
                                 {% if not form.vars.valid %}
-                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
+                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}
@@ -79,19 +80,19 @@
             </fieldset>
         {% endif %}
         <fieldset{% if not isCreate %} id="furtherPropertiesSection"{% endif %}>
-            <legend>{{ __('Further properties') }}{% if not isCreate %} <i class="fa fa-expand"></i>{% endif %}</legend>
+            <legend>{% trans %}Further properties{% endtrans %}{% if not isCreate %} <i class="fa fa-expand"></i>{% endif %}</legend>
             {% if mode == 'create' and form.parent is defined %}
                 {{ form_row(form.parent) }}
             {% endif %}
             {% if not isCreate %}
                 <div id="furtherPropertiesContent">
-                    {{ form_row(form.showTitle, {label: __('Show title on page')}) }}
-                    {{ form_row(form.skipHookSubscribers, {label: __('Do not process hooks on this page')}) }}
-                    {{ form_row(form.active, {help: __('You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.')}) }}
+                    {{ form_row(form.showTitle, {label: 'Show title on page'|trans}) }}
+                    {{ form_row(form.skipHookSubscribers, {label: 'Do not process hooks on this page'|trans}) }}
+                    {{ form_row(form.active, {help: 'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.'|trans}) }}
                     {{ form_row(form.activeFrom) }}
                     {{ form_row(form.activeTo) }}
                     {{ form_row(form.scope) }}
-                    {{ form_row(form.inMenu, {label: __('Include page in menu'), help: __('You can include/exclude the page in the menu. The page is only shown when it is also active.')}) }}
+                    {{ form_row(form.inMenu, {label: 'Include page in menu'|trans, help: 'You can include/exclude the page in the menu. The page is only shown when it is also active.'|trans}) }}
                     {{ form_row(form.stylingClasses) }}
                 </div>
             {% endif %}
@@ -115,7 +116,7 @@
         
         {% if form.moderationSpecificCreator is defined or form.moderationSpecificCreationDate is defined %}
             <fieldset id="moderationFieldsSection">
-                <legend>{{ __('Moderation') }} <i class="fa fa-expand"></i></legend>
+                <legend>{% trans %}Moderation{% endtrans %} <i class="fa fa-expand"></i></legend>
                 <div id="moderationFieldsContent">
                     {% if form.moderationSpecificCreator is defined %}
                         {{ form_row(form.moderationSpecificCreator) }}
@@ -158,15 +159,6 @@
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
-    {% set customStyle %}
-        <style>
-            #furtherPropertiesContent .checkbox-inline {
-                display: block;
-                margin-left: 0;
-            }
-        </style>
-    {% endset %}
-    {{ pageAddAsset('header', customStyle) }}
     {% set formInitScript %}
         <script>
         /* <![CDATA[ */

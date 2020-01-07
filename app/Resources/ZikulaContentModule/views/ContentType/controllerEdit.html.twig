@@ -1,4 +1,6 @@
-<p class="alert alert-warning">{{ __('Use this feature carefully! Some extensions do not work when displayed together with other ones. DO NOT create circular references, e.g., adding a Content page that displays itself ...') }}</p>
+{# purpose of this template: edit a controller element #}
+{% trans_default_domain 'zikulacontentmodule' %}
+<p class="alert alert-warning">{% trans %}Use this feature carefully! Some extensions do not work when displayed together with other ones. DO NOT create circular references, e.g., adding a Content page that displays itself ...{% endtrans %}</p>
 {{ form_row(form.controller) }}
 {{ form_row(form.query) }}
 {{ form_row(form.request) }}

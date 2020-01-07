@@ -1,6 +1,8 @@
+{# purpose of this template: display a breadcrumb element #}
+{% trans_default_domain 'zikulacontentmodule' %}
 <ol class="breadcrumb">
     {% if includeHome %}
-        <li class="breadcrumb-item"><a href="{{ pagevars.homepath }}" title="{{ __('Home') }}">{{ __('Home') }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ pagevars.homepath }}" title="{{ 'Home'|trans|e('html_attr') }}">{% trans %}Home{% endtrans %}</a></li>
     {% endif %}
     {% for page in pages|filter(p => zikulacontentmodule_hasReadAccess(p)) %}
         <li class="breadcrumb-item{% if page.id == currentPageId %} active{% endif %}">

@@ -1,7 +1,8 @@
 {# purpose of this template: pages subpages view #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
-{% block title __f('Subpages of %page%', {'%page%': page|zikulacontentmodule_formattedTitle|default(__('Page'))}) %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title 'Subpages of %page%'|trans({'%page%': page|zikulacontentmodule_formattedTitle|default('Page'|trans)}) %}
 {% block admin_page_icon 'child' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-subpages">
@@ -10,7 +11,7 @@
                 {% if page.children|length > 0 %}
                     {{ include('@ZikulaContentModule/Page/subpagesInclude.html.twig', {pages: page.children}) }}
                 {% else %}
-                    <p>{{ __('No subpages found.') }}</p>
+                    <p>{% trans %}No subpages found.{% endtrans %}</p>
                 {% endif %}
             </div>
         </div>

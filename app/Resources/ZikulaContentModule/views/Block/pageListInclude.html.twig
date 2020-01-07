@@ -1,8 +1,10 @@
+{# purpose of this template: Display a list of pages #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% if pages|length > 0 %}
 <ul{% if isDropdown|default %} class="dropdown-menu"{% endif %}>
     {% if includeSelf|default(false) == true %}
         <li class="nav-item"{% if context|default == 'menuBlock' %} role="presentation"{% endif %}>
-            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}" class="nav-link{#% if isActivePage|default(false) %} active{% endif %#}">{{ __('Overview', 'zikulacontentmodule') }}</a>
+            <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}" class="nav-link{#% if isActivePage|default(false) %} active{% endif %#}">{% trans %}Overview{% endtrans %}</a>
         </li>
     {% endif %}
     {% for page in pages|filter(p => p.active and zikulacontentmodule_hasReadAccess(p)) %}

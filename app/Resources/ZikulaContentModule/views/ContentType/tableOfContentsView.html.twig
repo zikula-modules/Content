@@ -1,3 +1,5 @@
+{# purpose of this template: display a table of contents element #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% if toc.toc|default %}
     {% set hasDirectChildren = false %}
     {% for item in toc.toc|filter(i => not i.pageId|default or zikulacontentmodule_hasReadAccess(i.pageId)) %}

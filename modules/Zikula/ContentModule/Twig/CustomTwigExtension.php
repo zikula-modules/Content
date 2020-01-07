@@ -175,7 +175,7 @@ class CustomTwigExtension extends AbstractExtension
                 $titleAttribute = ' title="' . str_replace('"', '', $content) . '"';
                 $content = '<a href="' . $link . '"' . $titleAttribute . '>' . $content . '</a>';
             }
-            $output .= '<li' . ($aPage === $page ? ' class="active"' : '') . '>' . $content . '</li>';
+            $output .= '<li class="breadcrumb-item' . ($aPage === $page ? ' active' : '') . '">' . $content . '</li>';
         }
         $output .= '</ol>';
 

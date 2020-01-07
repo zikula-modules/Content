@@ -1,15 +1,17 @@
-<div class="content-googleroute row d-none" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ __('Destination address') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
+{# purpose of this template: display a google route element #}
+{% trans_default_domain 'zikulacontentmodule' %}
+<div class="content-googleroute row d-none" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ 'Destination address'|trans|e('html_attr') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
     <div class="col-md-7">
         <h3>{{ topText }}</h3>
         <div class="form-group">
             <label for="fromAddress{{ contentId }}" class="col-form-label">Ihre Adresse:</label><br />
             <div class="input-group">
                 <input type="text" id="fromAddress{{ contentId }}" name="from" value="" maxlength="255" class="form-control" />
-                <span class="input-group-btn">
-                    <button type="button" id="startCalc{{ contentId }}" class="btn btn-default"><i class="fa fa-map-signs"></i> {{ __('Calculate route!') }}</button>
+                <span class="input-group-append">
+                    <button type="button" id="startCalc{{ contentId }}" class="btn btn-default"><i class="fa fa-map-signs"></i> {% trans %}Calculate route!{% endtrans %}</button>
                 </span>
             </div>
-            <small class="help-block">{{ __('Street (optional), Location, Country (optional)') }}</small>
+            <small class="form-text text-muted">{% trans %}Street (optional), Location, Country (optional){% endtrans %}</small>
         </div>
         <br /><br />
         <div id="map{{ contentId }}" class="map" style="width: 100%; height: {{ height }}px"></div>

@@ -1,6 +1,8 @@
+{# purpose of this template: display an author element #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% set profileLink = author.uid|profileLinkByUserId %}
 <div class="content-author">
-    <h3>{{ __f('By %user', {'%user': profileLink})|raw }}</h3>
+    <h3>{% trans with {'%user%': profileLink|raw} %}By %user%{% endtrans %}</h3>
     {% if showAvatar|default %}
         {% if avatarWidth|default %}
             <p class="avatar">{{ userAvatar(author.uid, {width: avatarWidth, rating: 'g'}) }}</p>
@@ -11,7 +13,7 @@
     {% if showMessageLink|default and currentUser.loggedIn %}
         {% set sendMessageUrl = author.uid|messageSendLink(urlOnly=true) %}
         {% if sendMessageUrl != '#' %}
-            <a href="{{ sendMessageUrl }}" title="{{ __f('Send private message to %userName%', {'%userName%': author.uname}) }}"><i class="fa fa-envelope"></i></a>
+            <a href="{{ sendMessageUrl }}" title="{{ 'Send private message to %userName%'|trans({'%userName%': author.uname})|e('html_attr') }}"><i class="fa fa-envelope"></i></a>
         {% endif %}
     {% endif %}
 </div>

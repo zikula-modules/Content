@@ -1,3 +1,5 @@
+{# purpose of this template: display a specific content item #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {{ contentTypeOutput|default('')|raw }}
 {% if contentItem.supportsHookSubscribers %}
     {% set hooks = notifyDisplayHooks(eventName='zikulacontentmodule.ui_hooks.contentitems.display_view', id=contentItem.getKey(), urlObject=currentUrlObject, outputAsArray=true) %}

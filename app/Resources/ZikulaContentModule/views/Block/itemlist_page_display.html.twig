@@ -1,8 +1,9 @@
-{# Purpose of this template: Display pages within an external context #}
+{# purpose of this template: Display pages within an external context #}
+{% trans_default_domain 'zikulacontentmodule' %}
 <div class="content-block content-pages">
 {% if items|length > 0 %}
     {{ include('@ZikulaContentModule/Block/pageListInclude.html.twig', {pages: items, context: 'listBlock'}) }}
 {% else %}
-    <p>{{ __('No pages found.') }}</p>
+    <p>{% trans %}No pages found.{% endtrans %}</p>
 {% endif %}
 </div>
