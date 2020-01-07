@@ -19,7 +19,7 @@
                         <li class="nav-item" role="presentation">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == app.request.locale %} active{% endif %}">
                                 {% if not form.vars.valid %}
-                                    <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
+                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}
