@@ -62,8 +62,8 @@
                     <dt>{% trans %}Active{% endtrans %}</dt>
                     <dd>{% set itemId = page.getKey() %}
                     <a id="toggleActive{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="active" data-item-id="{{ itemId|e('html_attr') }}">
-                        <i class="fa fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}"></i>
-                        <i class="fa fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}"></i>
+                        <i class="fa fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}"></i>
+                        <i class="fa fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}"></i>
                     </a>
                     <noscript><div id="noscriptActive{{ itemId|e('html_attr') }}">
                         {% if page.active %}
@@ -92,8 +92,8 @@
                     <dt>{% trans %}In menu{% endtrans %}</dt>
                     <dd>{% set itemId = page.getKey() %}
                     <a id="toggleInMenu{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId|e('html_attr') }}">
-                        <i class="fa fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}"></i>
-                        <i class="fa fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}"></i>
+                        <i class="fa fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}"></i>
+                        <i class="fa fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}"></i>
                     </a>
                     <noscript><div id="noscriptInMenu{{ itemId|e('html_attr') }}">
                         {% if page.inMenu %}
