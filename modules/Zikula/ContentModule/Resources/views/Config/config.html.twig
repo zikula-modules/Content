@@ -1,6 +1,7 @@
 {# purpose of this template: module configuration page #}
 {% extends '@ZikulaContentModule/adminBase.html.twig' %}
-{% block title __('Settings') %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title 'Settings'|trans %}
 {% block admin_page_icon 'wrench' %}
 {% block content %}
     <div class="zikulacontentmodule-config">
@@ -11,39 +12,39 @@
         {{ form_start(form) }}
         <div class="zikula-bootstrap-tab-container">
             <ul class="nav nav-tabs" role="tablist">
-                {% set tabTitle = __('General settings') %}
+                {% set tabTitle = 'General settings'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars1Tab" href="#tab1" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link active">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('Custom styles') %}
+                {% set tabTitle = 'Custom styles'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars2Tab" href="#tab2" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('Additional fields') %}
+                {% set tabTitle = 'Additional fields'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars3Tab" href="#tab3" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('Permalinks') %}
+                {% set tabTitle = 'Permalinks'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars4Tab" href="#tab4" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('List views') %}
+                {% set tabTitle = 'List views'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars5Tab" href="#tab5" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('Moderation') %}
+                {% set tabTitle = 'Moderation'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars6Tab" href="#tab6" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('Integration') %}
+                {% set tabTitle = 'Integration'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars7Tab" href="#tab7" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('Versioning') %}
+                {% set tabTitle = 'Versioning'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="vars8Tab" href="#tab8" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
-                {% set tabTitle = __('Workflows') %}
+                {% set tabTitle = 'Workflows'|trans %}
                 <li class="nav-item" role="presentation">
                     <a id="workflowsTab" href="#tabWorkflows" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
                 </li>
@@ -52,11 +53,10 @@
             {{ form_errors(form) }}
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade show active" id="tab1" aria-labelledby="vars1Tab">
-                    {% set tabTitle = __('General settings') %}
+                    {% set tabTitle = 'General settings'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('Here you can manage all basic settings for this application.') }}</p>
+                        <p class="alert alert-info">{% trans %}Here you can manage all basic settings for this application.{% endtrans %}</p>
                     
                         {{ form_row(form.stateOfNewPages) }}
                         {{ form_row(form.countPageViews) }}
@@ -68,36 +68,33 @@
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="vars2Tab">
-                    {% set tabTitle = __('Custom styles') %}
+                    {% set tabTitle = 'Custom styles'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".')|nl2br }}</p>
-                    
+                        <p class="alert alert-info">{% trans %}With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".{% endtrans %}</p>
+                        
                         {{ form_row(form.pageStyles) }}
                         {{ form_row(form.sectionStyles) }}
                         {{ form_row(form.contentStyles) }}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="vars3Tab">
-                    {% set tabTitle = __('Additional fields') %}
+                    {% set tabTitle = 'Additional fields'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.')|nl2br }}</p>
-                    
+                        <p class="alert alert-info">{% trans %}Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.{% endtrans %}</p>
+                        
                         {{ form_row(form.enableOptionalString1) }}
                         {{ form_row(form.enableOptionalString2) }}
                         {{ form_row(form.enableOptionalText) }}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab4" aria-labelledby="vars4Tab">
-                    {% set tabTitle = __('Permalinks') %}
+                    {% set tabTitle = 'Permalinks'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.')|nl2br }}</p>
-                    
+                        <p class="alert alert-info">{% trans %}Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.{% endtrans %}</p>
+                        
                         {{ form_row(form.ignoreBundleNameInRoutes) }}
                         {{ form_row(form.ignoreEntityNameInRoutes) }}
                         {{ form_row(form.ignoreFirstTreeLevelInRoutes) }}
@@ -105,12 +102,11 @@
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab5" aria-labelledby="vars5Tab">
-                    {% set tabTitle = __('List views') %}
+                    {% set tabTitle = 'List views'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('Here you can configure parameters for list views.')|nl2br }}</p>
-                    
+                        <p class="alert alert-info">{% trans %}Here you can configure parameters for list views.{% endtrans %}</p>
+                        
                         {{ form_row(form.pageEntriesPerPage) }}
                         {{ form_row(form.linkOwnPagesOnAccountPage) }}
                         {{ form_row(form.pagePrivateMode) }}
@@ -118,33 +114,30 @@
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab6" aria-labelledby="vars6Tab">
-                    {% set tabTitle = __('Moderation') %}
+                    {% set tabTitle = 'Moderation'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('Here you can define moderation-related settings.')|nl2br }}</p>
-                    
+                        <p class="alert alert-info">{% trans %}Here you can define moderation-related settings.{% endtrans %}</p>
+                        
                         {{ form_row(form.allowModerationSpecificCreatorForPage) }}
                         {{ form_row(form.allowModerationSpecificCreationDateForPage) }}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab7" aria-labelledby="vars7Tab">
-                    {% set tabTitle = __('Integration') %}
+                    {% set tabTitle = 'Integration'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('These options allow you to configure integration aspects.')|nl2br }}</p>
-                    
+                        <p class="alert alert-info">{% trans %}These options allow you to configure integration aspects.{% endtrans %}</p>
+                        
                         {{ form_row(form.enabledFinderTypes) }}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab8" aria-labelledby="vars8Tab">
-                    {% set tabTitle = __('Versioning') %}
+                    {% set tabTitle = 'Versioning'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                    
-                        <p class="alert alert-info">{{ __('Here you can define settings related to version control.')|nl2br }}</p>
-                    
+                        <p class="alert alert-info">{% trans %}Here you can define settings related to version control.{% endtrans %}</p>
+                        
                         {{ form_row(form.revisionHandlingForPage) }}
                         {{ form_row(form.maximumAmountOfPageRevisions) }}
                         {{ form_row(form.periodForPageRevisions) }}
@@ -152,16 +145,16 @@
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tabWorkflows" aria-labelledby="workflowsTab">
-                    {% set tabTitle = __('Workflows') %}
+                    {% set tabTitle = 'Workflows'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
                 
-                        <p class="alert alert-info">{{ __('Here you can inspect and amend the existing workflows.') }}</p>
+                        <p class="alert alert-info">{% trans %}Here you can inspect and amend the existing workflows.{% endtrans %}</p>
                 
-                        <h4>{{ __('Pages') }}</h4>
-                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for pages') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit pages workflow') }}</a>
-                        <h4>{{ __('Content items') }}</h4>
-                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ __('Edit workflow for content items') }}" target="_blank"><i class="fa fa-cubes"></i> {{ __('Edit content items workflow') }}</a>
+                        <h4>{% trans %}Pages{% endtrans %}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ 'Edit workflow for pages'|trans|e('html_attr') }}" target="_blank"><i class="fa fa-cubes"></i> {% trans %}Edit pages workflow{% endtrans %}</a>
+                        <h4>{% trans %}Content items{% endtrans %}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ 'Edit workflow for content items'|trans|e('html_attr') }}" target="_blank"><i class="fa fa-cubes"></i> {% trans %}Edit content items workflow{% endtrans %}</a>
                     </fieldset>
                 </div>
             </div>

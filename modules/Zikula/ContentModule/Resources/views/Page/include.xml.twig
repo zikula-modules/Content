@@ -1,4 +1,5 @@
 {# purpose of this template: pages xml inclusion template #}
+{% trans_default_domain 'zikulacontentmodule' %}
 <page id="{{ page.getId() }}" createdon="{{ page.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ page.updatedDate|format_datetime('medium', 'short') }}">
     <id>{{ page.id }}</id>
     <title><![CDATA[{{ page.title }}]]></title>

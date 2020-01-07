@@ -1,4 +1,5 @@
 {# purpose of this template: general base layout #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% block header %}
 {% endblock %}
 
@@ -29,7 +30,7 @@
             ( function($) {
                 $(document).ready(function() {
                     if ($('#poweredBy').length > 0) {
-                        $('#poweredBy').html($('#poweredBy').html() + ' {{ __('and') }} ').append($('#poweredByMost a'));
+                        $('#poweredBy').html($('#poweredBy').html() + ' {% trans %}and{% endtrans %} ').append($('#poweredByMost a'));
                         $('#poweredByMost').remove();
                     }
                 });

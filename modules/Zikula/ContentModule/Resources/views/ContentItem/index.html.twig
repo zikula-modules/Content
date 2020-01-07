@@ -1,9 +1,10 @@
 {# purpose of this template: content items index view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
-{% block title __('Content items') %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title 'Content items'|trans %}
 {% block admin_page_icon 'home' %}
 {% block content %}
     <div class="zikulacontentmodule-contentitem zikulacontentmodule-index">
-        <p>{{ __('Welcome to the content item section of the Content application.') }}</p>
+        <p>{% trans %}Welcome to the content item section of the Content application.{% endtrans %}</p>
     </div>
 {% endblock %}

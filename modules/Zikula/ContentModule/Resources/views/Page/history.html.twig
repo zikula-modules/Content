@@ -1,7 +1,8 @@
 {# purpose of this template: pages change history view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% macro outputSimpleValue(input) %}
-    {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|format_datetime('long', 'medium') : input|default(__('an empty value')) }}
+    {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|format_datetime('long', 'medium') : input|default('an empty value'|trans) }}
 {% endmacro %}
 {% macro outputArray(input, keysAreLanguages) %}
     <ul>
@@ -10,7 +11,7 @@
         {% endfor %}
     </ul>
 {% endmacro %}
-{% block title isDiffView == true ? __f('Compare versions of %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) : __f('Page change history for %entityTitle%', {'%entityTitle%': page|zikulacontentmodule_formattedTitle}) %}
+{% block title isDiffView == true ? 'Compare versions of %entityTitle%'|trans({'%entityTitle%': page|zikulacontentmodule_formattedTitle}) : 'Page change history for %entityTitle%'|trans({'%entityTitle%': page|zikulacontentmodule_formattedTitle}) %}
 {% block admin_page_icon isDiffView == true ? 'arrows-alt-h' : 'history' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-history">
@@ -29,13 +30,13 @@
 {% block page_nav_links %}
     <p>
         {% if isDiffView == true %}
-            {% set linkTitle = __('Back to history') %}
+            {% set linkTitle = 'Back to history'|trans %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i> {{ linkTitle }}</a>
         {% else %}
-            {% set linkTitle = __('Pages list') %}
+            {% set linkTitle = 'Pages list'|trans %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-reply"></i> {{ linkTitle }}</a>
         {% endif %}
-        {% set linkTitle = __('Back to detail view') %}
+        {% set linkTitle = 'Back to detail view'|trans %}
         <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-eye"></i> {{ linkTitle }}</a>
     </p>
 {% endblock %}
@@ -54,41 +55,43 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th id="hSelect" scope="col" class="unsorted">{{ __('Select') }}</th>
-                        <th id="hVersion" scope="col" class="unsorted">{{ __('Version') }}</th>
-                        <th id="hDate" scope="col" class="unsorted">{{ __('Date') }}</th>
-                        <th id="hUser" scope="col" class="unsorted">{{ __('User') }}</th>
-                        <th id="hOperation" scope="col" class="unsorted" colspan="2">{{ __('Operation') }}</th>
-                        <th id="hChanges" scope="col" class="unsorted">{{ __('Changes') }}</th>
-                        <th id="hActions" scope="col" class="unsorted">{{ __('Actions') }}</th>
+                        <th id="hSelect" scope="col" class="unsorted">{% trans %}Select{% endtrans %}</th>
+                        <th id="hVersion" scope="col" class="unsorted">{% trans %}Version{% endtrans %}</th>
+                        <th id="hDate" scope="col" class="unsorted">{% trans %}Date{% endtrans %}</th>
+                        <th id="hUser" scope="col" class="unsorted">{% trans %}User{% endtrans %}</th>
+                        <th id="hOperation" scope="col" class="unsorted" colspan="2">{% trans %}Operation{% endtrans %}</th>
+                        <th id="hChanges" scope="col" class="unsorted">{% trans %}Changes{% endtrans %}</th>
+                        <th id="hActions" scope="col" class="unsorted">{% trans %}Actions{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for logEntry in logEntries %}
                         <tr>
-                            <td headers="hSelect" class="text-center">
+                            <td headers="hSelect hVersion{{ logEntry.version|e('html_attr') }}" class="text-center">
                                 <input type="checkbox" name="versions[]" value="{{ logEntry.version }}" class="zikulacontent-toggle-checkbox" />
                             </td>
-                            <td headers="hVersion" class="text-center">{{ logEntry.version }}{% if loop.first %} ({{ __('latest') }}){% endif %}</td>
-                            <td headers="hDate">{{ logEntry.loggedAt|format_datetime('long', 'medium') }}</td>
-                            <td headers="hUser">
+                            <th id="hVersion{{ logEntry.version|e('html_attr') }}" headers="hVersion" scope="row" class="text-center">{{ logEntry.version }}{% if loop.first %} ({% trans %}latest{% endtrans %}){% endif %}</td>
+                            <td headers="hDate hVersion{{ logEntry.version|e('html_attr') }}">
+                                {{ logEntry.loggedAt|format_datetime('long', 'medium') }}
+                            </td>
+                            <td headers="hUser hVersion{{ logEntry.version|e('html_attr') }}">
                                 {% if logEntry.username %}
                                     {{ userAvatar(logEntry.username, {rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}
                                 {% endif %}
                             </td>
-                            <td headers="hOperation">
+                            <td headers="hOperation hVersion{{ logEntry.version|e('html_attr') }}">
                                 {% if logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_CREATE') %}
-                                    {{ __('Created') }}
+                                    {% trans %}Created{% endtrans %}
                                 {% elseif logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_UPDATE') %}
-                                    {{ __('Updated') }}
+                                    {% trans %}Updated{% endtrans %}
                                 {% elseif logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_REMOVE') %}
-                                    {{ __('Removed') }}
+                                    {% trans %}Removed{% endtrans %}
                                 {% endif %}
                             </td>
-                            <td headers="hOperation">
+                            <td headers="hOperation hVersion{{ logEntry.version|e('html_attr') }}">
                                 {{ logEntry|zikulacontentmodule_logDescription }}
                             </td>
-                            <td headers="hChanges">
+                            <td headers="hChanges hVersion{{ logEntry.version|e('html_attr') }}">
                                 {% if logEntry.data is not empty %}
                                     <a role="button" data-toggle="collapse" href="#changes{{ logEntry.version }}" aria-expanded="false" aria-controls="changes{{ logEntry.version }}">
                                         {{ '{0} No fields updated|{1} One field updated|]1,Inf[ %count% fields updated'|trans({'%count%': logEntry.data|length}, 'zikulacontentmodule') }}
@@ -100,30 +103,30 @@
                                                     {% if value|length > 0 %}
                                                         <li>
                                                         {% if field in ['createdBy', 'updatedBy'] and value.uid is defined %}
-                                                            {{ __f('%field% set to <em>%value%</em>', {'%field%': field|humanize, '%value%': userAvatar(value.uid, {rating: 'g'}) ~ ' ' ~ value.uid|profileLinkByUserId()})|raw }}
+                                                            {{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': userAvatar(value.uid, {rating: 'g'}) ~ ' ' ~ value.uid|profileLinkByUserId()})|raw }}
                                                         {% else %}
-                                                            {{ __f('%field% set to:', {'%field%': field|humanize}) }}
+                                                            {{ '%field% set to:'|trans({'%field%': field|humanize}) }}
                                                             {{ _self.outputArray(value, (field == 'translationData')) }}
                                                         {% endif %}
                                                         </li>
                                                     {% else %}
-                                                        <li>{{ __f('%field% set to <em>%value%</em>', {'%field%': field|humanize, '%value%': __('an empty collection')})|raw }}</li>
+                                                        <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': __('an empty collection')})|raw }}</li>
                                                     {% endif %}
                                                 {% else %}
-                                                    <li>{{ __f('%field% set to <em>%value%</em>', {'%field%': field|humanize, '%value%': _self.outputSimpleValue(value)})|raw }}</li>
+                                                    <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': _self.outputSimpleValue(value)})|raw }}</li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
                                     </div>
                                 {% else %}
-                                    {{ __('None') }}
+                                    {% trans %}None{% endtrans %}
                                 {% endif %}
                             </td>
-                            <td headers="hActions" class="actions nowrap">
-                                {% set linkTitle = __f('Preview version %version%', {'%version%': logEntry.version}) %}
-                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ __('version') ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card"></i></a>
+                            <td headers="hActions hVersion{{ logEntry.version|e('html_attr') }}" class="actions">
+                                {% set linkTitle = 'Preview version %version%'|trans({'%version%': logEntry.version}) %}
+                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ 'version'|trans ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card"></i></a>
                                 {% if not loop.first %}
-                                    {% set linkTitle = __f('Revert to version %version%', { '%version%': logEntry.version }) %}
+                                    {% set linkTitle = 'Revert to version %version%'|trans({ '%version%': logEntry.version }) %}
                                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {'slug': page.slug, revert: logEntry.version}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
                                 {% endif %}
                             </td>
@@ -133,7 +136,7 @@
             </table>
         </div>
         <p>
-            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fa fa-arrows-alt-h"></i> {{ __('Compare selected versions') }}</button>
+            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fa fa-arrows-alt-h"></i> {% trans %}Compare selected versions{% endtrans %}</button>
         </p>
     </form>
 {% endblock %}
@@ -147,18 +150,18 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th id="hFieldName" scope="col" class="unsorted">{{ __('Field name') }}</th>
-                    <th id="hMinVersion" scope="col" class="unsorted">{{ __f('Version %version%', {'%version%': minVersion}) }}</th>
-                    <th id="hMaxVersion" scope="col" class="unsorted">{{ __f('Version %version%', {'%version%': maxVersion}) }}</th>
+                    <th id="hFieldName" scope="col" class="unsorted">{% trans %}Field name{% endtrans %}</th>
+                    <th id="hMinVersion" scope="col" class="unsorted">{% trans with {'%version%': minVersion} %}Version %version%{% endtrans %}</th>
+                    <th id="hMaxVersion" scope="col" class="unsorted">{% trans with {'%version%': maxVersion} %}Version %version%{% endtrans %}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for fieldName, values in diffValues %}
                     <tr>
-                        <th headers="hFieldName" id="h{{ fieldName|replace({' ': '', '"':''}) }}" scope="row">
+                        <th id="h{{ fieldName|e('html_attr') }}" headers="hFieldName" scope="row">
                             {{ fieldName|humanize }}
                         </th>
-                        <td headers="hMinVersion h{{ fieldName|replace({' ': '', '"':''}) }}"{% if values.changed %} class="diff-old"{% endif %}>
+                        <td headers="hMinVersion h{{ fieldName|e('html_attr') }}"{% if values.changed %} class="diff-old"{% endif %}>
                             {% if values.old is iterable %}
                                 {% if values.old|length > 0 %}
                                     {% if fieldName in ['createdBy', 'updatedBy'] and values.old.uid is defined %}
@@ -167,13 +170,13 @@
                                         {{ _self.outputArray(values.old, (fieldName == 'translationData')) }}
                                     {% endif %}
                                 {% else %}
-                                    {{ __('an empty collection') }}
+                                    {% trans %}an empty collection{% endtrans %}
                                 {% endif %}
                             {% else %}
                                 {{ _self.outputSimpleValue(values.old) }}
                             {% endif %}
                         </td>
-                        <td headers="hMaxVersion h{{ fieldName|replace({' ': '', '"':''}) }}"{% if values.changed %} class="diff-new"{% endif %}>
+                        <td headers="hMaxVersion h{{ fieldName|e('html_attr') }}"{% if values.changed %} class="diff-new"{% endif %}>
                             {% if values.new is iterable %}
                                 {% if values.new|length > 0 %}
                                     {% if fieldName in ['createdBy', 'updatedBy'] and values.new.uid is defined %}
@@ -182,7 +185,7 @@
                                         {{ _self.outputArray(values.new, (fieldName == 'translationData')) }}
                                     {% endif %}
                                 {% else %}
-                                    {{ __('an empty collection') }}
+                                    {% trans %}an empty collection{% endtrans %}
                                 {% endif %}
                             {% else %}
                                 {{ _self.outputSimpleValue(values.new) }}
