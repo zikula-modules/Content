@@ -3,14 +3,14 @@
 {% set idPrefix = 'pageTree' ~ rootId %}
 
 <p>
-    <label for="{{ idPrefix }}SearchTerm">{{ __('Quick search') }}:</label>
+    <label for="{{ idPrefix }}SearchTerm">{% trans %}Quick search{% endtrans %}:</label>
     <input type="search" id="{{ idPrefix }}SearchTerm" value="" />
 </p>
 
-<div class="btn-toolbar" role="toolbar" aria-label="{{ __('Tree button toolbar') }}">
+<div class="btn-toolbar" role="toolbar" aria-label="{{ 'Tree button toolbar'|trans|e('html_attr') }}">
     <div class="btn-group btn-group-sm" role="group" aria-label="page buttons">
-        <button type="button" id="{{ idPrefix }}Expand" class="btn btn-secondary" title="{{ __('Expand all nodes') }}"><i class="fa fa-expand"></i> {{ __('Expand all') }}</button>
-        <button type="button" id="{{ idPrefix }}Collapse" class="btn btn-secondary" title="{{ __('Collapse all nodes') }}"><i class="fa fa-compress"></i> {{ __('Collapse all') }}</button>
+        <button type="button" id="{{ idPrefix }}Expand" class="btn btn-secondary" title="{{ 'Expand all nodes'|trans|e('html_attr') }}"><i class="fa fa-expand"></i> {% trans %}Expand all{% endtrans %}</button>
+        <button type="button" id="{{ idPrefix }}Collapse" class="btn btn-secondary" title="{{ 'Collapse all nodes'|trans|e('html_attr') }}"><i class="fa fa-compress"></i> {% trans %}Collapse all{% endtrans %}</button>
     </div>
 </div>
 <div class="clearfix">

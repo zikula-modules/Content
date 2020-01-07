@@ -1,11 +1,12 @@
 {# purpose of this template: apply some general form extensions #}
 {% extends '@ZikulaFormExtension/Form/bootstrap_4_zikula_admin_layout.html.twig' %}
+{% trans_default_domain 'zikulacontentmodule' %}
 
 {%- block datetime_widget -%}
     {{- parent() -}}
     {%- if not required -%}
         <small class="form-text text-muted">
-            <a id="{{ id }}ResetVal" href="javascript:void(0);" class="d-none">{{ __('Reset to empty value') }}</a>
+            <a id="{{ id }}ResetVal" href="javascript:void(0);" class="d-none">{% trans %}Reset to empty value{% endtrans %}</a>
         </small>
     {%- endif -%}
 {%- endblock -%}

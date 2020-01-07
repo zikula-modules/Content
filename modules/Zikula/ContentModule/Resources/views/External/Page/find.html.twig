@@ -1,14 +1,15 @@
 {# Purpose of this template: Display a popup selector of pages for scribite integration #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% set useFinder = true %}
 {% extends '@ZikulaContentModule/raw.html.twig' %}
-{% block title __('Search and select page') %}
+{% block title 'Search and select page'|trans %}
 {% block content %}
     <div class="container">
         <div class="zikula-bootstrap-tab-container">
             <ul class="nav nav-tabs" role="tablist">
             {% if 'page' in activatedObjectTypes %}
                 <li class="nav-item">
-                    <a href="{{ path('zikulacontentmodule_external_finder', {objectType: 'page', editor: editorName}) }}" title="{{ __('Search and select page') }}" class="nav-link{{ objectType == 'page' ? ' active' : '' }}">{{ __('Pages') }}</a>
+                    <a href="{{ path('zikulacontentmodule_external_finder', {objectType: 'page', editor: editorName}) }}" title="{{ 'Search and select page'|trans|e('html_attr') }}" class="nav-link{{ objectType == 'page' ? ' active' : '' }}">{% trans %}Pages{% endtrans %}</a>
                 </li>
             {% endif %}
             </ul>
@@ -20,14 +21,14 @@
         {{ form_start(finderForm, {attr: {id: 'zikulaContentModuleSelectorForm'}}) }}
         {{ form_errors(finderForm) }}
         <fieldset>
-            <legend>{{ __('Search and select page') }}</legend>
+            <legend>{% trans %}Search and select page{% endtrans %}</legend>
             {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
                 {{ form_row(finderForm.categories) }}
             {% endif %}
             {{ form_row(finderForm.pasteAs) }}
             <br />
             <div class="form-group row">
-                <label class="col-md-3 col-form-label">{{ __('Page') }}:</label>
+                <label class="col-md-3 col-form-label">{% trans %}Page{% endtrans %}:</label>
                 <div class="col-md-9">
                     <div id="zikulacontentmoduleItemContainer">
                         <ul>
@@ -44,7 +45,7 @@
                                     {% endset %}{{ description|striptags|e('html_attr') }}" />
                                 </li>
                             {% else %}
-                                <li>{{ __('No pages found.') }}</li>
+                                <li>{% trans %}No pages found.{% endtrans %}</li>
                             {% endfor %}
                         </ul>
                     </div>

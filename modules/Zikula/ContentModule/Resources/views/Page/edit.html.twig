@@ -1,7 +1,8 @@
 {# purpose of this template: build the form to edit an instance of page #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
-{% block title mode == 'create' ? __('Create page') : __('Edit page') %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title mode == 'create' ? 'Create page'|trans : 'Edit page'|trans %}
 {% block admin_page_icon mode == 'create' ? 'plus' : 'edit' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-edit">
@@ -11,6 +12,40 @@
         ] %}
         {{ form_start(form, {attr: {id: 'pageEditForm', class: 'zikulacontent-edit-form'}}) }}
         {{ form_errors(form) }}
+        de.guite.modulestudio.metamodel.impl.ApplicationImpl@53ac845a (name: Content, documentation: Flexible hierachical page management.) (vendor: Zikula, author: Axel Guckelsberger, email: info@ziku.la, url: https://ziku.la, version: 5.2.0, prefix: content, license: http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, targetCoreVersion: ZK30, capabilities: null, isSystemModule: false, amountOfExampleRows: 1, generateAccountApi: true, generateSearchApi: true, generateMailzApi: false, generateListBlock: true, generateDetailBlock: true, generateModerationBlock: true, generateListContentType: false, generateDetailContentType: false, generateNewsletterPlugin: false, generateModerationPanel: true, generatePendingContentSupport: true, generateExternalControllerAndFinder: true, generateScribitePlugins: true, generateTagSupport: false, generateMultiHookNeedles: true, generateRssTemplates: false, generateAtomTemplates: false, generateCsvTemplates: true, generateXmlTemplates: true, generateJsonTemplates: true, generateKmlTemplates: false, generateIcsTemplates: false, generatePdfSupport: true, authenticationMethod: NONE, filterHookProvider: DISABLED, generateOnlyBaseClasses: false, skipFiles: 
+                AppSettings.php,
+                Block/Form/Type/ItemBlockType.php,
+                Block/Form/Type/ItemListBlockType.php,
+                Block/ItemListBlock.php,
+                Container/LinkContainer.php,
+                ContentModuleInstaller.php,
+                Controller/ContentItemController.php,
+                Controller/PageController.php,
+                DependencyInjection/ZikulaContentExtension.php,
+                Entity/ContentItemEntity.php,
+                Entity/Factory/EntityInitialiser.php,
+                Entity/PageEntity.php,
+                Entity/Repository/PageRepository.php,
+                Form/Type/PageType.php,
+                Helper/CollectionFilterHelper.php,
+                Helper/ExampleDataHelper.php,
+                Helper/ListEntriesHelper.php,
+                Helper/LoggableHelper.php,
+                Helper/ModelHelper.php,
+                Helper/PermissionHelper.php,
+                Helper/SearchHelper.php,
+                Helper/TranslatableHelper.php,
+                Helper/ViewHelper.php,
+                Listener/EntityLifecycleListener.php,
+                Menu/MenuBuilder.php,
+                Resources/config/routing.yml,
+                Resources/views/Block/itemlist_contentItem_display_description.html.twig,
+                Resources/views/Block/itemlist_contentItem_display.html.twig,
+                Resources/views/Block/itemlist_page_display_description.html.twig
+            , markFiles: 
+                composer.json,
+                Resources/config/services.yml
+            , timestampAllGeneratedFiles: false, versionAllGeneratedFiles: true, separateAdminTemplates: false, generatePoweredByBacklinksIntoFooterTemplates: true, generateTests: true, writeModelToDocs: true, generateTechnicalDocumentation: true, viewActionsPosition: START, viewActionsStyle: DROPDOWN, viewActionsWithIcons: true, displayActionsPosition: START, displayActionsStyle: BUTTON_GROUP, displayActionsWithIcons: true)
         {% if translationsEnabled == true %}
             <div class="zikula-bootstrap-tab-container">
                 <ul class="{{ form.vars.id|lower }}-translation-locales nav nav-tabs" role="tablist">
@@ -18,7 +53,7 @@
                         <li class="nav-item" role="presentation">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == app.request.locale %} active{% endif %}">
                                 {% if not form.vars.valid %}
-                                    <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{{ __('Errors') }}</span></span>
+                                    <span class="label label-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}
@@ -59,7 +94,7 @@
             </fieldset>
         {% endif %}
         <fieldset>
-            <legend>{{ __('Further properties') }}</legend>
+            <legend>{% trans %}Further properties{% endtrans %}</legend>
             {% if mode == 'create' and form.parent is defined %}
                 {{ form_row(form.parent) }}
             {% endif %}
@@ -99,7 +134,7 @@
         
         {% if form.moderationSpecificCreator is defined or form.moderationSpecificCreationDate is defined %}
             <fieldset id="moderationFieldsSection">
-                <legend>{{ __('Moderation') }} <i class="fa fa-expand"></i></legend>
+                <legend>{% trans %}Moderation{% endtrans %} <i class="fa fa-expand"></i></legend>
                 <div id="moderationFieldsContent">
                     {% if form.moderationSpecificCreator is defined %}
                         {{ form_row(form.moderationSpecificCreator) }}

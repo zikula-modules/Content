@@ -1,6 +1,7 @@
 {# purpose of this template: pages tree view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
-{% block title __('Page hierarchy') %}
+{% trans_default_domain 'zikulacontentmodule' %}
+{% block title 'Page hierarchy'|trans %}
 {% block admin_page_icon 'code-branch' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-viewhierarchy">

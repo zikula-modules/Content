@@ -1,11 +1,12 @@
 {# purpose of this template: reusable editing of entity categories #}
+{% trans_default_domain 'zikulacontentmodule' %}
 {% if tabs|default(false) == true %}
     <div role="tabpanel" class="tab-pane fade" id="tabCategories" aria-labelledby="categoriesTab">
-        <h3>{{ __('Categories') }}</h3>
+        <h3>{% trans %}Categories{% endtrans %}</h3>
 {% else %}
     <fieldset class="categories">
 {% endif %}
-    <legend>{{ __('Categories') }}</legend>
+    <legend>{% trans %}Categories{% endtrans %}</legend>
     {{ form_row(form.categories) }}
 {% if tabs|default(false) == true %}
     </div>
