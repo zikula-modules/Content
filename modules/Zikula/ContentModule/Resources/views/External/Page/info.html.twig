@@ -1,4 +1,4 @@
-{# Purpose of this template: Display item information for previewing from other modules #}
+{# purpose of this template: Display item information for previewing from other modules #}
 {% trans_default_domain 'zikulacontentmodule' %}
 <dl id="page{{ page.getKey() }}">
 <dt>{{ page|zikulacontentmodule_formattedTitle|notifyFilters('content.filter_hooks.pages.filter')|safeHtml }}</dt>
