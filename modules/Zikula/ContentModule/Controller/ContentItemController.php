@@ -446,10 +446,6 @@ class ContentItemController extends AbstractContentItemController
         ];
 
         if (!$isPost) {
-            if (true === $isCreation) {
-                // detach page entity to avoid saving it (because session handler calls flush)
-                $this->getDoctrine()->getManager()->detach($page);
-            }
             return $this->json($output);
         }
 
