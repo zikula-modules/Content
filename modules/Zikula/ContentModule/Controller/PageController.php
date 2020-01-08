@@ -38,12 +38,12 @@ use Zikula\ContentModule\Helper\ControllerHelper;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
 use Zikula\ContentModule\Helper\HookHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
+use Zikula\ContentModule\Helper\LockHelper;
 use Zikula\ContentModule\Helper\ModelHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ContentModule\Helper\TranslatableHelper;
 use Zikula\ContentModule\Helper\ViewHelper;
 use Zikula\ContentModule\Helper\WorkflowHelper;
-use Zikula\PageLockModule\Api\LockingApi;
 
 /**
  * Page controller class providing navigation and interaction functionality.
@@ -265,9 +265,10 @@ class PageController extends AbstractPageController
         ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
+        LockHelper $lockHelper,
         string $slug = ''
     ): array {
-        return $this->manageContentInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $slug, true);
+        return $this->manageContentInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $lockHelper, $slug, true);
     }
 
     /**
@@ -288,9 +289,10 @@ class PageController extends AbstractPageController
         ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
+        LockHelper $lockHelper,
         string $slug = ''
     ): array {
-        return $this->manageContentInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $slug, false);
+        return $this->manageContentInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $lockHelper, $slug, false);
     }
 
     /**
@@ -305,6 +307,7 @@ class PageController extends AbstractPageController
         ZikulaHttpKernelInterface $kernel,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
+        LockHelper $lockHelper,
         string $slug = '',
         bool $isAdmin = false
     ): array {
@@ -332,8 +335,8 @@ class PageController extends AbstractPageController
 
         // try to guarantee that only one person at a time can be editing this entity
         $hasPageLockModule = $kernel->isBundle('ZikulaPageLockModule');
-        if (true === $hasPageLockModule) {
-            $lockingApi = $this->get(LockingApi::class);
+        $lockingApi = true === $hasPageLockModule ? $lockHelper->getLockingApi() : null;
+        if (null !== $lockingApi) {
             $lockName = 'ZikulaContentModulePageContent' . $page->getKey();
 
             $lockingApi->addLock($lockName, $returnUrl);
@@ -624,9 +627,10 @@ class PageController extends AbstractPageController
         TranslatableHelper $translatableHelper,
         WorkflowHelper $workflowHelper,
         ContentDisplayHelper $contentDisplayHelper,
+        LockHelper $lockHelper,
         string $slug = ''
     ) {
-        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, true);
+        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $lockHelper, $contentDisplayHelper, $slug, true);
     }
 
     /**
@@ -648,9 +652,10 @@ class PageController extends AbstractPageController
         TranslatableHelper $translatableHelper,
         WorkflowHelper $workflowHelper,
         ContentDisplayHelper $contentDisplayHelper,
+        LockHelper $lockHelper,
         string $slug = ''
     ) {
-        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $slug, false);
+        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $lockHelper, $slug, false);
     }
 
     /**
@@ -670,6 +675,7 @@ class PageController extends AbstractPageController
         TranslatableHelper $translatableHelper,
         WorkflowHelper $workflowHelper,
         ContentDisplayHelper $contentDisplayHelper,
+        LockHelper $lockHelper,
         string $slug = '',
         $isAdmin = false
     ) {
@@ -709,10 +715,9 @@ class PageController extends AbstractPageController
 
         // try to guarantee that only one person at a time can be editing this entity
         $hasPageLockModule = $kernel->isBundle('ZikulaPageLockModule');
-        $lockingApi = null;
+        $lockingApi = true === $hasPageLockModule ? $lockHelper->getLockingApi() : null;
         $lockName = '';
-        if (true === $hasPageLockModule) {
-            $lockingApi = $this->get(LockingApi::class);
+        if (null !== $lockingApi) {
             $lockName = 'ZikulaContentModuleTranslatePage' . $page->getKey();
 
             $lockingApi->addLock($lockName, $returnUrl);

@@ -40,6 +40,10 @@ services:
         arguments:
             $cacheDirectory: '%kernel.cache_dir%/ZikulaContentModule/'
 
+    Zikula\ContentModule\Helper\LockHelper:
+        calls:
+            - setLockingApi: ['@?Zikula\PageLockModule\Api\LockingApi']
+
     # public because EntityLifecycleListener accesses this using container
     Zikula\ContentModule\Helper\TranslatableHelper:
         public: true
