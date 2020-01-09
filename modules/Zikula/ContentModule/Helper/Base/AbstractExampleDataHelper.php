@@ -17,8 +17,8 @@ namespace Zikula\ContentModule\Helper\Base;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\CategoriesModule\Entity\CategoryEntity;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageCategoryEntity;
@@ -148,7 +148,7 @@ abstract class AbstractExampleDataHelper
                 $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
                 $flashBag->add(
                     'error',
-                    $this->translator->__('Exception during example data creation')
+                    $this->translator->trans('Exception during example data creation')
                         . ': ' . $exception->getMessage()
                 );
             }

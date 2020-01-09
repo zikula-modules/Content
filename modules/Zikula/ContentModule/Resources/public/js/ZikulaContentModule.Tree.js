@@ -17,7 +17,7 @@ function zikulaContentPerformTreeOperation(objectType, rootId, op) {
 
     if (op !== 'addRootNode') {
         if (!nodeEntityId) {
-            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), Translator.__('Invalid node id'), 'treeInvalidNodeAlert', 'danger');
+            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.trans('Error'), Translator.trans('Invalid node id'), 'treeInvalidNodeAlert', 'danger');
             return;
         }
         params['root'] = rootId;
@@ -40,7 +40,7 @@ function zikulaContentPerformTreeOperation(objectType, rootId, op) {
         data: params
     }).done(function (data) {
         if (data.result == 'success') {
-            /*zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Success'), data.message, 'treeAjaxDoneAlert', 'success');*/
+            /*zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.trans('Success'), data.message, 'treeAjaxDoneAlert', 'success');*/
 
             if (typeof data.returnUrl !== 'undefined') {
                 window.location = data.returnUrl;
@@ -48,10 +48,10 @@ function zikulaContentPerformTreeOperation(objectType, rootId, op) {
                 window.location.reload();
             }
         } else {
-            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), data.message !== '' ? data.message : Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
+            zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.trans('Error'), data.message !== '' ? data.message : Translator.trans('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
         }
     }).fail(function (jqXHR, textStatus) {
-        zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
+        zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.trans('Error'), Translator.trans('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
     });
 }
 
@@ -186,8 +186,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
         });
         if (true === hasDisplayAction) {
             actions.display = {
-                label: Translator.__('Display'),
-                title: Translator.__('Show detail page'),
+                label: Translator.trans('Display'),
+                title: Translator.trans('Show detail page'),
                 action: function (node) {
                     document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_display', nodeEntityRouteArgs, true);
                 },
@@ -196,8 +196,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
         }
         if (true === hasEditAction) {
             actions.edit = {
-                label: Translator.__('Edit'),
-                title: Translator.__('Show edit form'),
+                label: Translator.trans('Edit'),
+                title: Translator.trans('Show edit form'),
                 action: function (node) {
                     document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_edit', nodeEntityRouteArgs, true);
                 },
@@ -205,24 +205,24 @@ function zikulaContentTreeContextMenuActions(theNode) {
             };
         }
         actions.addChildNode = {
-            label: Translator.__('Add child node'),
-            title: Translator.__('Add child node'),
+            label: Translator.trans('Add child node'),
+            title: Translator.trans('Add child node'),
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'addChildNode');
             },
             icon: 'fa fa-fw fa-plus'
         };
         actions.deleteNode = {
-            label: Translator.__('Delete'),
-            title: Translator.__('Delete this node'),
+            label: Translator.trans('Delete'),
+            title: Translator.trans('Delete this node'),
             action: function (node) {
                 var confirmQuestion;
                 var amountOfChildren;
     
-                confirmQuestion = Translator.__('Do you really want to remove this node?');
+                confirmQuestion = Translator.trans('Do you really want to remove this node?');
                 amountOfChildren = currentNode.children.length;
                 if (amountOfChildren > 0) {
-                    confirmQuestion = Translator.__('Do you really want to remove this node including all child nodes?');
+                    confirmQuestion = Translator.trans('Do you really want to remove this node including all child nodes?');
                 }
                 if (false !== window.confirm(confirmQuestion)) {
                     zikulaContentPerformTreeOperation(objectType, rootId, 'deleteNode');
@@ -243,8 +243,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
     if (!currentNodeDom.is(':first-child')) {
         // has previous sibling
         actions.moveTop = {
-            label: Translator.__('Move to top'),
-            title: Translator.__('Move to top position'),
+            label: Translator.trans('Move to top'),
+            title: Translator.trans('Move to top position'),
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeTop');
             },
@@ -252,8 +252,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
             separator_before: true
         };
         actions.moveUp = {
-            label: Translator.__('Move up'),
-            title: Translator.__('Move one position up'),
+            label: Translator.trans('Move up'),
+            title: Translator.trans('Move one position up'),
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeUp');
             },
@@ -263,8 +263,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
     if (!currentNodeDom.is(':last-child')) {
         // has next sibling
         actions.moveDown = {
-            label: Translator.__('Move down'),
-            title: Translator.__('Move one position down'),
+            label: Translator.trans('Move down'),
+            title: Translator.trans('Move one position down'),
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeDown');
             },
@@ -272,8 +272,8 @@ function zikulaContentTreeContextMenuActions(theNode) {
             separator_before: currentNodeDom.is(':first-child')
         };
         actions.moveBottom = {
-            label: Translator.__('Move to bottom'),
-            title: Translator.__('Move to bottom position'),
+            label: Translator.trans('Move to bottom'),
+            title: Translator.trans('Move to bottom position'),
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeBottom');
             },
@@ -369,7 +369,7 @@ function zikulaContentTreeMoveNode(node, refNode, position, doReload) {
 
         return true;
     }).fail(function (jqXHR, textStatus) {
-        zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.__('Error'), Translator.__('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
+        zikulaContentSimpleAlert(jQuery('.tree-container'), Translator.trans('Error'), Translator.trans('Could not persist your change.'), 'treeAjaxFailedAlert', 'danger');
 
         window.location.reload();
 

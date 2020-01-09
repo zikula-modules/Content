@@ -23,7 +23,7 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Gedmo\Translatable\Query\TreeWalker\TranslationWalker;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
@@ -129,7 +129,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         CurrentUserApiInterface $currentUserApi
     ): void {
         if (0 === $userId || 0 === $newUserId) {
-            throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
+            throw new InvalidArgumentException($translator->trans('Invalid user identifier received.'));
         }
     
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -162,7 +162,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         CurrentUserApiInterface $currentUserApi
     ): void {
         if (0 === $userId || 0 === $newUserId) {
-            throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
+            throw new InvalidArgumentException($translator->trans('Invalid user identifier received.'));
         }
     
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -194,7 +194,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         CurrentUserApiInterface $currentUserApi
     ): void {
         if (0 === $userId) {
-            throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
+            throw new InvalidArgumentException($translator->trans('Invalid user identifier received.'));
         }
     
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -225,7 +225,7 @@ abstract class AbstractPageRepository extends NestedTreeRepository
         CurrentUserApiInterface $currentUserApi
     ): void {
         if (0 === $userId) {
-            throw new InvalidArgumentException($translator->__('Invalid user identifier received.'));
+            throw new InvalidArgumentException($translator->trans('Invalid user identifier received.'));
         }
     
         $qb = $this->getEntityManager()->createQueryBuilder();

@@ -26,8 +26,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -120,9 +120,9 @@ abstract class AbstractPageType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
                 'use_joins' => false,
-                'label' => $this->__('Parent page'),
+                'label' => $this->trans('Parent page'),
                 'attr' => [
-                    'title' => $this->__('Choose the parent page.')
+                    'title' => $this->trans('Choose the parent page.')
                 ]
             ]);
         }
@@ -141,66 +141,66 @@ abstract class AbstractPageType extends AbstractType
     {
         
         $builder->add('title', TextType::class, [
-            'label' => $this->__('Title') . ':',
+            'label' => $this->trans('Title') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the title of the page.')
+                'title' => $this->trans('Enter the title of the page.')
             ],
             'required' => true,
         ]);
         
         $builder->add('metaDescription', TextType::class, [
-            'label' => $this->__('Meta description') . ':',
+            'label' => $this->trans('Meta description') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the meta description of the page.')
+                'title' => $this->trans('Enter the meta description of the page.')
             ],
             'required' => false,
         ]);
         
         $builder->add('optionalString1', TextType::class, [
-            'label' => $this->__('Optional string 1') . ':',
+            'label' => $this->trans('Optional string 1') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the optional string 1 of the page.')
+                'title' => $this->trans('Enter the optional string 1 of the page.')
             ],
             'required' => false,
         ]);
         
         $builder->add('optionalString2', TextType::class, [
-            'label' => $this->__('Optional string 2') . ':',
+            'label' => $this->trans('Optional string 2') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the optional string 2 of the page.')
+                'title' => $this->trans('Enter the optional string 2 of the page.')
             ],
             'required' => false,
         ]);
         
         $builder->add('optionalText', TextareaType::class, [
-            'label' => $this->__('Optional text') . ':',
-            'help' => $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 2000]),
+            'label' => $this->trans('Optional text') . ':',
+            'help' => $this->trans('Note: this value must not exceed %amount% characters.', ['%amount%' => 2000]),
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 2000,
                 'class' => '',
-                'title' => $this->__('Enter the optional text of the page.')
+                'title' => $this->trans('Enter the optional text of the page.')
             ],
             'required' => false,
         ]);
-        $helpText = $this->__('You can input a custom permalink for the page or let this field free to create one automatically.');
+        $helpText = $this->trans('You can input a custom permalink for the page or let this field free to create one automatically.');
         if ('create' !== $options['mode']) {
             $helpText = '';
         }
         $builder->add('slug', TextType::class, [
-            'label' => $this->__('Permalink') . ':',
+            'label' => $this->trans('Permalink') . ':',
             'required' => 'create' !== $options['mode'],
             'empty_data' => '',
             'attr' => [
@@ -231,68 +231,68 @@ abstract class AbstractPageType extends AbstractType
         }
         
         $builder->add('showTitle', CheckboxType::class, [
-            'label' => $this->__('Show title') . ':',
+            'label' => $this->trans('Show title') . ':',
             'label_attr' => [
                 'class' => 'switch-custom'
             ],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('show title ?')
+                'title' => $this->trans('show title ?')
             ],
             'required' => false,
         ]);
         
         $builder->add('skipHookSubscribers', CheckboxType::class, [
-            'label' => $this->__('Skip hook subscribers') . ':',
+            'label' => $this->trans('Skip hook subscribers') . ':',
             'label_attr' => [
                 'class' => 'switch-custom'
             ],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('skip hook subscribers ?')
+                'title' => $this->trans('skip hook subscribers ?')
             ],
             'required' => false,
         ]);
         
         $builder->add('layout', ArrayType::class, [
-            'label' => $this->__('Layout') . ':',
-            'help' => $this->__('Enter one entry per line.'),
+            'label' => $this->trans('Layout') . ':',
+            'help' => $this->trans('Enter one entry per line.'),
             'empty_data' => [],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Enter the layout of the page.')
+                'title' => $this->trans('Enter the layout of the page.')
             ],
             'required' => false,
         ]);
         
         $builder->add('views', IntegerType::class, [
-            'label' => $this->__('Views') . ':',
+            'label' => $this->trans('Views') . ':',
             'empty_data' => 0,
             'attr' => [
                 'maxlength' => 11,
                 'class' => '',
-                'title' => $this->__('Enter the views of the page.') . ' ' . $this->__('Only digits are allowed.')
+                'title' => $this->trans('Enter the views of the page.') . ' ' . $this->trans('Only digits are allowed.')
             ],
             'required' => false,
         ]);
         
         $builder->add('active', CheckboxType::class, [
-            'label' => $this->__('Active') . ':',
+            'label' => $this->trans('Active') . ':',
             'label_attr' => [
                 'class' => 'switch-custom'
             ],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('active ?')
+                'title' => $this->trans('active ?')
             ],
             'required' => false,
         ]);
         
         $builder->add('activeFrom', DateTimeType::class, [
-            'label' => $this->__('Active from') . ':',
+            'label' => $this->trans('Active from') . ':',
             'attr' => [
-                'class' => ' validate-daterange-page',
-                'title' => $this->__('Enter the active from of the page.')
+                'class' => ' validate-daterange-entity-page',
+                'title' => $this->trans('Enter the active from of the page.')
             ],
             'required' => false,
             'empty_data' => '',
@@ -302,10 +302,10 @@ abstract class AbstractPageType extends AbstractType
         ]);
         
         $builder->add('activeTo', DateTimeType::class, [
-            'label' => $this->__('Active to') . ':',
+            'label' => $this->trans('Active to') . ':',
             'attr' => [
-                'class' => ' validate-daterange-page',
-                'title' => $this->__('Enter the active to of the page.')
+                'class' => ' validate-daterange-entity-page',
+                'title' => $this->trans('Enter the active to of the page.')
             ],
             'required' => false,
             'empty_data' => '',
@@ -322,16 +322,16 @@ abstract class AbstractPageType extends AbstractType
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
         $builder->add('scope', MultiListType::class, [
-            'label' => $this->__('Scope') . ':',
+            'label' => $this->trans('Scope') . ':',
             'label_attr' => [
                 'class' => 'tooltips checkbox-custom',
-                'title' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.')
+                'title' => $this->trans('As soon as at least one selected entry applies for the current user the page becomes visible.')
             ],
-            'help' => $this->__('As soon as at least one selected entry applies for the current user the page becomes visible.'),
+            'help' => $this->trans('As soon as at least one selected entry applies for the current user the page becomes visible.'),
             'empty_data' => [],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Choose the scope.')
+                'title' => $this->trans('Choose the scope.')
             ],
             'required' => true,
             'choices' => $choices,
@@ -341,35 +341,35 @@ abstract class AbstractPageType extends AbstractType
         ]);
         
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->__('In menu') . ':',
+            'label' => $this->trans('In menu') . ':',
             'label_attr' => [
                 'class' => 'switch-custom'
             ],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('in menu ?')
+                'title' => $this->trans('in menu ?')
             ],
             'required' => false,
         ]);
         
         $builder->add('stylingClasses', ArrayType::class, [
-            'label' => $this->__('Styling classes') . ':',
-            'help' => $this->__('Enter one entry per line.'),
+            'label' => $this->trans('Styling classes') . ':',
+            'help' => $this->trans('Enter one entry per line.'),
             'empty_data' => [],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Enter the styling classes of the page.')
+                'title' => $this->trans('Enter the styling classes of the page.')
             ],
             'required' => false,
         ]);
         
         $builder->add('contentData', ArrayType::class, [
-            'label' => $this->__('Content data') . ':',
-            'help' => $this->__('Enter one entry per line.'),
+            'label' => $this->trans('Content data') . ':',
+            'help' => $this->trans('Enter one entry per line.'),
             'empty_data' => [],
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Enter the content data of the page.')
+                'title' => $this->trans('Enter the content data of the page.')
             ],
             'required' => false,
         ]);
@@ -381,7 +381,7 @@ abstract class AbstractPageType extends AbstractType
     public function addCategoriesField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('categories', CategoriesType::class, [
-            'label' => $this->__('Category') . ':',
+            'label' => $this->trans('Category') . ':',
             'empty_data' => null,
             'attr' => [
                 'class' => 'category-selector'
@@ -411,7 +411,7 @@ abstract class AbstractPageType extends AbstractType
             if ('create' === $options['mode'] && 'submit' === $action['id'] && !$options['inline_usage']) {
                 // add additional button to submit item and return to create form
                 $builder->add('submitrepeat', SubmitType::class, [
-                    'label' => $this->__('Submit and repeat'),
+                    'label' => $this->trans('Submit and repeat'),
                     'icon' => 'fa-repeat',
                     'attr' => [
                         'class' => $action['buttonClass']
@@ -420,7 +420,7 @@ abstract class AbstractPageType extends AbstractType
             }
         }
         $builder->add('reset', ResetType::class, [
-            'label' => $this->__('Reset'),
+            'label' => $this->trans('Reset'),
             'icon' => 'fa-sync',
             'attr' => [
                 'class' => 'btn btn-default',
@@ -428,7 +428,7 @@ abstract class AbstractPageType extends AbstractType
             ]
         ]);
         $builder->add('cancel', SubmitType::class, [
-            'label' => $this->__('Cancel'),
+            'label' => $this->trans('Cancel'),
             'validate' => false,
             'icon' => 'fa-times',
             'attr' => [

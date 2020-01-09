@@ -188,7 +188,7 @@ abstract class AbstractPageController extends AbstractController
             $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         }
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
         
         $objectType = 'page';
@@ -337,7 +337,7 @@ abstract class AbstractPageController extends AbstractController
             } catch (Exception $exception) {
                 $this->addFlash(
                     'error',
-                    $this->__f(
+                    $this->trans(
                         'Sorry, but an error occured during the %action% action.',
                         ['%action%' => $action]
                     ) . '  ' . $exception->getMessage()
@@ -361,7 +361,7 @@ abstract class AbstractPageController extends AbstractController
             }
         
             if ('delete' === $action) {
-                $this->addFlash('status', $this->__('Done! Item deleted.'));
+                $this->addFlash('status', $this->trans('Done! Item deleted.'));
                 $logger->notice(
                     '{app}: User {user} deleted the {entity} with id {id}.',
                     [
@@ -372,7 +372,7 @@ abstract class AbstractPageController extends AbstractController
                     ]
                 );
             } else {
-                $this->addFlash('status', $this->__('Done! Item updated.'));
+                $this->addFlash('status', $this->trans('Done! Item updated.'));
                 $logger->notice(
                     '{app}: User {user} executed the {action} workflow action for the {entity} with id {id}.',
                     [
@@ -426,7 +426,7 @@ abstract class AbstractPageController extends AbstractController
     ): Response {
         $page = $loggableHelper->restoreDeletedEntity('page', $id);
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
         
         $preview = $request->query->getInt('preview');
@@ -448,11 +448,11 @@ abstract class AbstractPageController extends AbstractController
         
         try {
             $loggableHelper->undelete($page);
-            $this->addFlash('status', $this->__('Done! Undeleted page.'));
+            $this->addFlash('status', $this->trans('Done! Undeleted page.'));
         } catch (Exception $exception) {
             $this->addFlash(
                 'error',
-                $this->__f(
+                $this->trans(
                     'Sorry, but an error occured during the %action% action. Please apply the changes again!',
                     ['%action%' => 'undelete']
                 ) . '  ' . $exception->getMessage()
@@ -484,12 +484,12 @@ abstract class AbstractPageController extends AbstractController
         bool $isAdmin = false
     ): Response {
         if (empty($slug)) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
         
         $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
         
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
@@ -517,7 +517,7 @@ abstract class AbstractPageController extends AbstractController
                 if ($success) {
                     $this->addFlash(
                         'status',
-                        $this->__f(
+                        $this->trans(
                             'Done! Reverted page to version %version%.',
                             ['%version%' => $revertToVersion]
                         )
@@ -525,7 +525,7 @@ abstract class AbstractPageController extends AbstractController
                 } else {
                     $this->addFlash(
                         'error',
-                        $this->__f(
+                        $this->trans(
                             'Error! Reverting page to version %version% failed.',
                             ['%version%' => $revertToVersion]
                         )
@@ -534,7 +534,7 @@ abstract class AbstractPageController extends AbstractController
             } catch (Exception $exception) {
                 $this->addFlash(
                     'error',
-                    $this->__f(
+                    $this->trans(
                         'Sorry, but an error occured during the %action% action. Please apply the changes again!',
                         ['%action%' => 'update']
                     ) . '  ' . $exception->getMessage()

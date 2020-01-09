@@ -24,10 +24,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\Core\RouteUrl;
@@ -393,7 +393,7 @@ abstract class AbstractEditHandler
     
         if (null === $entity) {
             if (null !== $session) {
-                $session->getFlashBag()->add('error', $this->__('No such item found.'));
+                $session->getFlashBag()->add('error', $this->trans('No such item found.'));
             }
     
             return new RedirectResponse($this->getRedirectUrl(['commandName' => 'cancel']), 302);
@@ -418,7 +418,7 @@ abstract class AbstractEditHandler
             if (null !== $session) {
                 $session->getFlashBag()->add(
                     'error',
-                    $this->__('Error! Could not determine workflow actions.')
+                    $this->trans('Error! Could not determine workflow actions.')
                 );
             }
             $logArgs = [
@@ -432,7 +432,7 @@ abstract class AbstractEditHandler
                     . ' but failed to determine available workflow actions.',
                 $logArgs
             );
-            throw new RuntimeException($this->__('Error! Could not determine workflow actions.'));
+            throw new RuntimeException($this->trans('Error! Could not determine workflow actions.'));
         }
     
         $this->templateParameters['actions'] = $actions;
@@ -776,23 +776,23 @@ abstract class AbstractEditHandler
         switch ($args['commandName']) {
             case 'create':
                 if (true === $success) {
-                    $message = $this->__('Done! Item created.');
+                    $message = $this->trans('Done! Item created.');
                 } else {
-                    $message = $this->__('Error! Creation attempt failed.');
+                    $message = $this->trans('Error! Creation attempt failed.');
                 }
                 break;
             case 'update':
                 if (true === $success) {
-                    $message = $this->__('Done! Item updated.');
+                    $message = $this->trans('Done! Item updated.');
                 } else {
-                    $message = $this->__('Error! Update attempt failed.');
+                    $message = $this->trans('Error! Update attempt failed.');
                 }
                 break;
             case 'delete':
                 if (true === $success) {
-                    $message = $this->__('Done! Item deleted.');
+                    $message = $this->trans('Done! Item deleted.');
                 } else {
-                    $message = $this->__('Error! Deletion attempt failed.');
+                    $message = $this->trans('Error! Deletion attempt failed.');
                 }
                 break;
         }

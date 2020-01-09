@@ -455,7 +455,7 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
         $currentUserApi = $this->container->get(CurrentUserApi::class);
         $userName = $currentUserApi->isLoggedIn()
             ? $currentUserApi->get('uname')
-            : $this->container->get(Translator::class)->__('Guest')
+            : $this->container->get(Translator::class)->trans('Guest')
         ;
 
         $customLoggableListener->setUsername($userName);

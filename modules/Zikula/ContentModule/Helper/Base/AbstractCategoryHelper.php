@@ -19,9 +19,9 @@ use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\CategoriesModule\Api\ApiInterface\CategoryPermissionApiInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 
@@ -84,7 +84,7 @@ abstract class AbstractCategoryHelper
     public function hasMultipleSelection(string $objectType = '', string $registry = ''): bool
     {
         if (empty($objectType)) {
-            throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
+            throw new InvalidArgumentException($this->translator->trans('Invalid object type received.'));
         }
         if (empty($args['registry'])) {
             // default to the primary registry
@@ -110,7 +110,7 @@ abstract class AbstractCategoryHelper
     public function retrieveCategoriesFromRequest(string $objectType = '', string $source = 'POST'): array
     {
         if (empty($objectType)) {
-            throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
+            throw new InvalidArgumentException($this->translator->trans('Invalid object type received.'));
         }
     
         $request = $this->requestStack->getCurrentRequest();
@@ -218,7 +218,7 @@ abstract class AbstractCategoryHelper
     public function getAllProperties(string $objectType = ''): array
     {
         if (empty($objectType)) {
-            throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
+            throw new InvalidArgumentException($this->translator->trans('Invalid object type received.'));
         }
     
         $moduleRegistries = $this->categoryRegistryRepository->findBy([
@@ -240,7 +240,7 @@ abstract class AbstractCategoryHelper
     public function getAllPropertiesWithMainCat(string $objectType = '', string $arrayKey = 'property'): array
     {
         if (empty($objectType)) {
-            throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
+            throw new InvalidArgumentException($this->translator->trans('Invalid object type received.'));
         }
     
         $moduleRegistries = $this->categoryRegistryRepository->findBy([
@@ -263,7 +263,7 @@ abstract class AbstractCategoryHelper
     public function getMainCatForProperty(string $objectType = '', string $property = ''): ?int
     {
         if (empty($objectType)) {
-            throw new InvalidArgumentException($this->translator->__('Invalid object type received.'));
+            throw new InvalidArgumentException($this->translator->trans('Invalid object type received.'));
         }
     
         $registries = $this->getAllPropertiesWithMainCat($objectType);

@@ -48,7 +48,7 @@ abstract class AbstractAjaxController extends AbstractController
         EntityDisplayHelper $entityDisplayHelper
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
         
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
@@ -156,7 +156,7 @@ abstract class AbstractAjaxController extends AbstractController
         EntityFactory $entityFactory
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
         
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
@@ -173,7 +173,7 @@ abstract class AbstractAjaxController extends AbstractController
         $value = $request->query->get('v');
         
         if (empty($fieldName) || empty($value)) {
-            return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
         }
         
         // check if the given field is existing and unique
@@ -184,7 +184,7 @@ abstract class AbstractAjaxController extends AbstractController
                 break;
         }
         if (!count($uniqueFields) || !in_array($fieldName, $uniqueFields, true)) {
-            return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
         }
         
         $exclude = $request->query->getInt('ex');
@@ -218,7 +218,7 @@ abstract class AbstractAjaxController extends AbstractController
         CurrentUserApiInterface $currentUserApi
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
         
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
@@ -235,14 +235,14 @@ abstract class AbstractAjaxController extends AbstractController
             || ('page' === $objectType && !in_array($field, ['active', 'inMenu'], true))
             || ('contentItem' === $objectType && !in_array($field, ['active'], true))
         ) {
-            return $this->json($this->__('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Error: invalid input.'), JsonResponse::HTTP_BAD_REQUEST);
         }
         
         // select data from data source
         $repository = $entityFactory->getRepository($objectType);
         $entity = $repository->selectById($id, false);
         if (null === $entity) {
-            return $this->json($this->__('No such item.'), JsonResponse::HTTP_NOT_FOUND);
+            return $this->json($this->trans('No such item.'), JsonResponse::HTTP_NOT_FOUND);
         }
         
         // toggle the flag
@@ -264,7 +264,7 @@ abstract class AbstractAjaxController extends AbstractController
         return $this->json([
             'id' => $id,
             'state' => $entity[$field],
-            'message' => $this->__('The setting has been successfully changed.')
+            'message' => $this->trans('The setting has been successfully changed.')
         ]);
     }
     
@@ -284,7 +284,7 @@ abstract class AbstractAjaxController extends AbstractController
         WorkflowHelper $workflowHelper
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
         
         if (!$this->hasPermission('ZikulaContentModule::Ajax', '::', ACCESS_EDIT)) {
@@ -307,7 +307,7 @@ abstract class AbstractAjaxController extends AbstractController
         $op = $request->request->getAlpha('op');
         if (!in_array($op, ['addRootNode', 'addChildNode', 'deleteNode', 'moveNode', 'moveNodeTo'], true)) {
             $returnValue['result'] = 'failure';
-            $returnValue['message'] = $this->__('Error: invalid operation.');
+            $returnValue['message'] = $this->trans('Error: invalid operation.');
         
             return $this->json($returnValue);
         }
@@ -318,7 +318,7 @@ abstract class AbstractAjaxController extends AbstractController
             $id = $request->request->getInt('id');
             if (!$id) {
                 $returnValue['result'] = 'failure';
-                $returnValue['message'] = $this->__('Error: invalid node.');
+                $returnValue['message'] = $this->trans('Error: invalid node.');
         
                 return $this->json($returnValue);
             }
@@ -332,7 +332,7 @@ abstract class AbstractAjaxController extends AbstractController
             $rootId = $request->request->getInt('root');
             if (!$rootId) {
                 $returnValue['result'] = 'failure';
-                $returnValue['message'] = $this->__('Error: invalid root node.');
+                $returnValue['message'] = $this->trans('Error: invalid root node.');
         
                 return $this->json($returnValue);
             }
@@ -351,10 +351,10 @@ abstract class AbstractAjaxController extends AbstractController
             case 'addRootNode':
                 $entity = $entityFactory->$createMethod();
                 if (!empty($titleFieldName)) {
-                    $entity[$titleFieldName] = $this->__('New root node');
+                    $entity[$titleFieldName] = $this->trans('New root node');
                 }
                 if (!empty($descriptionFieldName)) {
-                    $entity[$descriptionFieldName] = $this->__('This is a new root node');
+                    $entity[$descriptionFieldName] = $this->trans('This is a new root node');
                 }
                 if (method_exists($entity, 'setCreatedBy')) {
                     $entity->setCreatedBy($currentUser);
@@ -371,7 +371,7 @@ abstract class AbstractAjaxController extends AbstractController
                     }
                 } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__f(
+                    $returnValue['message'] = $this->trans(
                         'Sorry, but an error occured during the %action% action. Please apply the changes again!',
                         ['%action%' => $action]
                     ) . '  ' . $exception->getMessage();
@@ -385,15 +385,15 @@ abstract class AbstractAjaxController extends AbstractController
                 $parentId = $request->request->getInt('pid');
                 if (!$parentId) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('Error: invalid parent node.');
+                    $returnValue['message'] = $this->trans('Error: invalid parent node.');
                 
                     return $this->json($returnValue);
                 }
                 
                 $childEntity = $entityFactory->$createMethod();
-                $childEntity[$titleFieldName] = $this->__('New child node');
+                $childEntity[$titleFieldName] = $this->trans('New child node');
                 if (!empty($descriptionFieldName)) {
-                    $childEntity[$descriptionFieldName] = $this->__('This is a new child node');
+                    $childEntity[$descriptionFieldName] = $this->trans('This is a new child node');
                 }
                 if (method_exists($childEntity, 'setCreatedBy')) {
                     $childEntity->setCreatedBy($currentUser);
@@ -402,7 +402,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $parentEntity = $repository->selectById($parentId, false);
                 if (null === $parentEntity) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('No such item.');
+                    $returnValue['message'] = $this->trans('No such item.');
                 
                     return $this->json($returnValue);
                 }
@@ -427,7 +427,7 @@ abstract class AbstractAjaxController extends AbstractController
                     }
                 } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__f(
+                    $returnValue['message'] = $this->trans(
                         'Sorry, but an error occured during the %action% action. Please apply the changes again!',
                         ['%action%' => $action]
                     ) . '  ' . $exception->getMessage();
@@ -442,7 +442,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $entity = $repository->selectById($id, false);
                 if (null === $entity) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('No such item.');
+                    $returnValue['message'] = $this->trans('No such item.');
                 
                     return $this->json($returnValue);
                 }
@@ -457,7 +457,7 @@ abstract class AbstractAjaxController extends AbstractController
                     }
                 } catch (Exception $exception) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__f(
+                    $returnValue['message'] = $this->trans(
                         'Sorry, but an error occured during the %action% action. Please apply the changes again!',
                         ['%action%' => $action]
                     ) . '  ' . $exception->getMessage();
@@ -474,7 +474,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $moveDirection = $request->request->getAlpha('direction');
                 if (!in_array($moveDirection, ['top', 'up', 'down', 'bottom'], true)) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('Error: invalid direction.');
+                    $returnValue['message'] = $this->trans('Error: invalid direction.');
                 
                     return $this->json($returnValue);
                 }
@@ -482,7 +482,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $entity = $repository->selectById($id, false);
                 if (null === $entity) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('No such item.');
+                    $returnValue['message'] = $this->trans('No such item.');
                 
                     return $this->json($returnValue);
                 }
@@ -504,7 +504,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $moveDirection = $request->request->getAlpha('direction');
                 if (!in_array($moveDirection, ['after', 'before', 'bottom'], true)) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('Error: invalid direction.');
+                    $returnValue['message'] = $this->trans('Error: invalid direction.');
                 
                     return $this->json($returnValue);
                 }
@@ -512,7 +512,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $destId = $request->request->getInt('destid');
                 if (!$destId) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('Error: invalid destination node.');
+                    $returnValue['message'] = $this->trans('Error: invalid destination node.');
                 
                     return $this->json($returnValue);
                 }
@@ -521,7 +521,7 @@ abstract class AbstractAjaxController extends AbstractController
                 $destEntity = $repository->selectById($destId, false);
                 if (null === $entity || null === $destEntity) {
                     $returnValue['result'] = 'failure';
-                    $returnValue['message'] = $this->__('No such item.');
+                    $returnValue['message'] = $this->trans('No such item.');
                 
                     return $this->json($returnValue);
                 }
@@ -540,7 +540,7 @@ abstract class AbstractAjaxController extends AbstractController
                 break;
         }
         
-        $returnValue['message'] = $this->__('The operation was successful.');
+        $returnValue['message'] = $this->trans('The operation was successful.');
         
         // Renew tree
         /** postponed, for now we do a page reload

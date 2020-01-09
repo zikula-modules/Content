@@ -102,38 +102,38 @@ function zikulaContentValidateDateRangeContentItem(val) {
  * Runs special validation rules.
  */
 function zikulaContentExecuteCustomValidationConstraints(objectType, currentEntityId) {
-    jQuery('.validate-daterange-page').each(function () {
+    jQuery('.validate-daterange-entity-page').each(function () {
         if ('undefined' != typeof jQuery(this).attr('id')) {
             if ('DIV' == jQuery(this).prop('tagName')) {
                 if (!zikulaContentValidateDateRangePage()) {
-                    document.getElementById(jQuery(this).attr('id') + '_date').setCustomValidity(Translator.__('The start must be before the end.'));
-                    document.getElementById(jQuery(this).attr('id') + '_time').setCustomValidity(Translator.__('The start must be before the end.'));
+                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
+                    jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity(Translator.trans('The start must be before the end.'));
                 } else {
-                    document.getElementById(jQuery(this).attr('id') + '_date').setCustomValidity('');
-                    document.getElementById(jQuery(this).attr('id') + '_time').setCustomValidity('');
+                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity('');
+                    jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity('');
                 }
             } else {
                 if (!zikulaContentValidateDateRangePage()) {
-                    jQuery(this).get(0).setCustomValidity(Translator.__('The start must be before the end.'));
+                    jQuery(this).get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
                 } else {
                     jQuery(this).get(0).setCustomValidity('');
                 }
             }
         }
     });
-    jQuery('.validate-daterange-contentitem').each(function () {
+    jQuery('.validate-daterange-entity-contentitem').each(function () {
         if ('undefined' != typeof jQuery(this).attr('id')) {
             if ('DIV' == jQuery(this).prop('tagName')) {
                 if (!zikulaContentValidateDateRangeContentItem()) {
-                    document.getElementById(jQuery(this).attr('id') + '_date').setCustomValidity(Translator.__('The start must be before the end.'));
-                    document.getElementById(jQuery(this).attr('id') + '_time').setCustomValidity(Translator.__('The start must be before the end.'));
+                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
+                    jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity(Translator.trans('The start must be before the end.'));
                 } else {
-                    document.getElementById(jQuery(this).attr('id') + '_date').setCustomValidity('');
-                    document.getElementById(jQuery(this).attr('id') + '_time').setCustomValidity('');
+                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity('');
+                    jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity('');
                 }
             } else {
                 if (!zikulaContentValidateDateRangeContentItem()) {
-                    jQuery(this).get(0).setCustomValidity(Translator.__('The start must be before the end.'));
+                    jQuery(this).get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
                 } else {
                     jQuery(this).get(0).setCustomValidity('');
                 }

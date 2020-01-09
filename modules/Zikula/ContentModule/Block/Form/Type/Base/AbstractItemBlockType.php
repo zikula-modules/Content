@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
@@ -70,7 +70,7 @@ abstract class AbstractItemBlockType extends AbstractType
     public function addObjectTypeField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('objectType', HiddenType::class, [
-            'label' => $this->__('Object type', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Object type', 'zikulacontentmodule') . ':',
             'empty_data' => 'page'
         ]);
     }
@@ -95,7 +95,7 @@ abstract class AbstractItemBlockType extends AbstractType
             'expanded' => false,
             'choices' => $choices,
             'required' => true,
-            'label' => $this->__('Entry to display', 'zikulacontentmodule') . ':'
+            'label' => $this->trans('Entry to display', 'zikulacontentmodule') . ':'
         ]);
     }
 
@@ -106,15 +106,15 @@ abstract class AbstractItemBlockType extends AbstractType
     {
         $builder
             ->add('customTemplate', TextType::class, [
-                'label' => $this->__('Custom template', 'zikulacontentmodule') . ':',
+                'label' => $this->trans('Custom template', 'zikulacontentmodule') . ':',
                 'required' => false,
                 'attr' => [
                     'maxlength' => 80,
-                    'title' => $this->__('Example', 'zikulacontentmodule') . ': displaySpecial.html.twig'
+                    'title' => $this->trans('Example', 'zikulacontentmodule') . ': displaySpecial.html.twig'
                 ],
                 'help' => [
-                    $this->__('Example', 'zikulacontentmodule') . ': <code>displaySpecial.html.twig</code>',
-                    $this->__('Needs to be located in the "External/YourEntity/" directory.', 'zikulacontentmodule')
+                    $this->trans('Example', 'zikulacontentmodule') . ': <code>displaySpecial.html.twig</code>',
+                    $this->trans('Needs to be located in the "External/YourEntity/" directory.', 'zikulacontentmodule')
                 ],
                 'help_html' => true
             ])
