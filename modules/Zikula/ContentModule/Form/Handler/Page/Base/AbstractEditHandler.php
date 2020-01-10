@@ -271,7 +271,7 @@ abstract class AbstractEditHandler extends EditHandler
             if ($templateId > 0) {
                 $entityT = $this->entityFactory->getRepository($this->objectType)->selectById($templateId, false, true);
                 if (null !== $entityT) {
-                    $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CLONED|%page=' . $entityT->getKey());
+                    $entity->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CLONED|%page%=' . $entityT->getKey());
                 }
             }
             if (!$entity->get_actionDescriptionForLogEntry()) {

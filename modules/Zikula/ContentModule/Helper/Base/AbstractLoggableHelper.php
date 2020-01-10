@@ -241,7 +241,7 @@ abstract class AbstractLoggableHelper
     
         $entity->set_actionDescriptionForLogEntry(
             '_HISTORY_' . strtoupper($objectType) . '_RESTORED'
-            . '|%version=' . $lastVersionBeforeDeletion
+            . '|%version%=' . $lastVersionBeforeDeletion
         );
     
         return $this->revertPostProcess($entity);
@@ -336,16 +336,16 @@ abstract class AbstractLoggableHelper
                 $actionTranslated = $this->trans('Page updated');
                 break;
             case '_HISTORY_PAGE_CLONED':
-                if (isset($parameters['%page']) && is_numeric($parameters['%page'])) {
-                    $originalEntity = $this->entityFactory->getRepository('page')->selectById($parameters['%page']);
+                if (isset($parameters['%page%']) && is_numeric($parameters['%page%'])) {
+                    $originalEntity = $this->entityFactory->getRepository('page')->selectById($parameters['%page%']);
                     if (null !== $originalEntity) {
-                        $parameters['%page'] = $this->entityDisplayHelper->getFormattedTitle($originalEntity);
+                        $parameters['%page%'] = $this->entityDisplayHelper->getFormattedTitle($originalEntity);
                     }
                 }
-                $actionTranslated = $this->trans('Page cloned from page "%page"', $parameters);
+                $actionTranslated = $this->trans('Page cloned from page "%page%"', $parameters);
                 break;
             case '_HISTORY_PAGE_RESTORED':
-                $actionTranslated = $this->trans('Page restored from version "%version"', $parameters);
+                $actionTranslated = $this->trans('Page restored from version "%version%"', $parameters);
                 break;
             case '_HISTORY_PAGE_DELETED':
                 $actionTranslated = $this->trans('Page deleted');
