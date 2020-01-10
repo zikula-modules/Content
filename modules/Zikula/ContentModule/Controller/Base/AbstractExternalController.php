@@ -58,7 +58,7 @@ abstract class AbstractExternalController extends AbstractController
         // assign object data fetched from the database
         $entity = $repository->selectById($id);
         if (null === $entity) {
-            return new Response($this->__('No such item.'));
+            return new Response($this->trans('No such item.'));
         }
         
         if (!$permissionHelper->mayRead($entity)) {
@@ -137,7 +137,7 @@ abstract class AbstractExternalController extends AbstractController
         }
         
         if (empty($editor) || !in_array($editor, ['ckeditor', 'quill', 'summernote', 'tinymce'], true)) {
-            return new Response($this->__('Error: Invalid editor context given for external controller action.'));
+            return new Response($this->trans('Error: Invalid editor context given for external controller action.'));
         }
         
         $cssAssetBag = $this->get('zikula_core.common.theme.assets_css');

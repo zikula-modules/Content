@@ -18,7 +18,7 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\Workflow\Registry;
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -91,27 +91,27 @@ abstract class AbstractWorkflowHelper
         $states = [];
         $states[] = [
             'value' => 'initial',
-            'text' => $this->translator->__('Initial'),
+            'text' => $this->translator->trans('Initial'),
             'ui' => 'danger'
         ];
         $states[] = [
             'value' => 'deferred',
-            'text' => $this->translator->__('Deferred'),
+            'text' => $this->translator->trans('Deferred'),
             'ui' => 'danger'
         ];
         $states[] = [
             'value' => 'approved',
-            'text' => $this->translator->__('Approved'),
+            'text' => $this->translator->trans('Approved'),
             'ui' => 'success'
         ];
         $states[] = [
             'value' => 'trashed',
-            'text' => $this->translator->__('Trashed'),
+            'text' => $this->translator->trans('Trashed'),
             'ui' => 'danger'
         ];
         $states[] = [
             'value' => 'deleted',
-            'text' => $this->translator->__('Deleted'),
+            'text' => $this->translator->trans('Deleted'),
             'ui' => 'danger'
         ];
     
@@ -166,32 +166,32 @@ abstract class AbstractWorkflowHelper
         $title = '';
         switch ($actionId) {
             case 'defer':
-                $title = $this->translator->__('Defer');
+                $title = $this->translator->trans('Defer');
                 break;
             case 'submit':
-                $title = $this->translator->__('Submit');
+                $title = $this->translator->trans('Submit');
                 break;
             case 'reject':
-                $title = $this->translator->__('Reject');
+                $title = $this->translator->trans('Reject');
                 break;
             case 'trash':
-                $title = $this->translator->__('Trash');
+                $title = $this->translator->trans('Trash');
                 break;
             case 'recover':
-                $title = $this->translator->__('Recover');
+                $title = $this->translator->trans('Recover');
                 break;
             case 'delete':
-                $title = $this->translator->__('Delete');
+                $title = $this->translator->trans('Delete');
                 break;
         }
     
         if ('' === $title) {
             if ('update' === $actionId) {
-                $title = $this->translator->__('Update');
+                $title = $this->translator->trans('Update');
             } elseif ('trash' === $actionId) {
-                $title = $this->translator->__('Trash');
+                $title = $this->translator->trans('Trash');
             } elseif ('recover' === $actionId) {
-                $title = $this->translator->__('Recover');
+                $title = $this->translator->trans('Recover');
             }
         }
     

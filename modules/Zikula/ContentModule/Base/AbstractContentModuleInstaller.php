@@ -60,7 +60,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         try {
             $this->schemaTool->create($this->entities);
         } catch (Exception $exception) {
-            $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
+            $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
             $this->logger->error(
                 '{app}: Could not create the database tables during installation. Error details: {errorMessage}.',
                 ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
@@ -124,7 +124,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
             } catch (Exception $exception) {
                 $this->addFlash(
                     'warning',
-                    $this->__f(
+                    $this->trans(
                         'Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.',
                         ['%entity%' => 'page']
                     )
@@ -153,7 +153,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                 try {
                     $this->schemaTool->update($this->entities);
                 } catch (Exception $exception) {
-                    $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
+                    $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
                     $this->logger->error(
                         '{app}: Could not update the database tables during the upgrade.'
                             . ' Error details: {errorMessage}.',
@@ -174,7 +174,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         try {
             $this->schemaTool->drop($this->entities);
         } catch (Exception $exception) {
-            $this->addFlash('error', $this->__('Doctrine Exception') . ': ' . $exception->getMessage());
+            $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
             $this->logger->error(
                 '{app}: Could not remove the database tables during uninstallation. Error details: {errorMessage}.',
                 ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]

@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\Core\RouteUrl;
 use Zikula\SearchModule\Entity\SearchResultEntity;
@@ -76,11 +76,6 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $this->controllerHelper = $controllerHelper;
         $this->entityDisplayHelper = $entityDisplayHelper;
         $this->permissionHelper = $permissionHelper;
-    }
-    
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
     
     public function amendForm(FormBuilderInterface $builder): void
@@ -224,11 +219,11 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $searchTypes = [
             'zikulaContentModulePages' => [
                 'value' => 'page',
-                'label' => $this->__('Pages', 'zikulacontentmodule')
+                'label' => $this->trans('Pages', 'zikulacontentmodule')
             ],
             'zikulaContentModuleContentItems' => [
                 'value' => 'contentItem',
-                'label' => $this->__('Content items', 'zikulacontentmodule')
+                'label' => $this->trans('Content items', 'zikulacontentmodule')
             ]
         ];
     

@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\HookSubscriber\Base;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\HookSubscriberInterface;
-use Zikula\Common\Translator\TranslatorInterface;
 
 /**
  * Base class for form aware hook subscriber.
@@ -45,7 +45,7 @@ abstract class AbstractPageFormAwareHookSubscriber implements HookSubscriberInte
     
     public function getTitle(): string
     {
-        return $this->translator->__('Page form aware subscriber');
+        return $this->translator->trans('Page form aware subscriber');
     }
     
     public function getAreaName(): string

@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Helper\Base;
 
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
 /**
@@ -27,11 +27,6 @@ abstract class AbstractListEntriesHelper
     public function __construct(TranslatorInterface $translator)
     {
         $this->setTranslator($translator);
-    }
-    
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
     
     /**
@@ -217,43 +212,43 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'deferred',
-            'text'    => $this->__('Deferred'),
-            'title'   => $this->__('Content has not been submitted yet or has been waiting, but was rejected.'),
+            'text'    => $this->trans('Deferred'),
+            'title'   => $this->trans('Content has not been submitted yet or has been waiting, but was rejected.'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'approved',
-            'text'    => $this->__('Approved'),
-            'title'   => $this->__('Content has been approved and is available online.'),
+            'text'    => $this->trans('Approved'),
+            'title'   => $this->trans('Content has been approved and is available online.'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'trashed',
-            'text'    => $this->__('Trashed'),
-            'title'   => $this->__('Content has been marked as deleted, but is still persisted in the database.'),
+            'text'    => $this->trans('Trashed'),
+            'title'   => $this->trans('Content has been marked as deleted, but is still persisted in the database.'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '!deferred',
-            'text'    => $this->__('All except deferred'),
-            'title'   => $this->__('Shows all items except these which are deferred'),
+            'text'    => $this->trans('All except deferred'),
+            'title'   => $this->trans('Shows all items except these which are deferred'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '!approved',
-            'text'    => $this->__('All except approved'),
-            'title'   => $this->__('Shows all items except these which are approved'),
+            'text'    => $this->trans('All except approved'),
+            'title'   => $this->trans('Shows all items except these which are approved'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '!trashed',
-            'text'    => $this->__('All except trashed'),
-            'title'   => $this->__('Shows all items except these which are trashed'),
+            'text'    => $this->trans('All except trashed'),
+            'title'   => $this->trans('Shows all items except these which are trashed'),
             'image'   => '',
             'default' => false
         ];
@@ -269,21 +264,21 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '0',
-            'text'    => $this->__('Public (all)'),
+            'text'    => $this->trans('Public (all)'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '-1',
-            'text'    => $this->__('All logged in members'),
+            'text'    => $this->trans('All logged in members'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '-2',
-            'text'    => $this->__('All not logged in people'),
+            'text'    => $this->trans('All not logged in people'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -300,29 +295,29 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'approved',
-            'text'    => $this->__('Approved'),
-            'title'   => $this->__('Content has been approved and is available online.'),
+            'text'    => $this->trans('Approved'),
+            'title'   => $this->trans('Content has been approved and is available online.'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'trashed',
-            'text'    => $this->__('Trashed'),
-            'title'   => $this->__('Content has been marked as deleted, but is still persisted in the database.'),
+            'text'    => $this->trans('Trashed'),
+            'title'   => $this->trans('Content has been marked as deleted, but is still persisted in the database.'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '!approved',
-            'text'    => $this->__('All except approved'),
-            'title'   => $this->__('Shows all items except these which are approved'),
+            'text'    => $this->trans('All except approved'),
+            'title'   => $this->trans('Shows all items except these which are approved'),
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '!trashed',
-            'text'    => $this->__('All except trashed'),
-            'title'   => $this->__('Shows all items except these which are trashed'),
+            'text'    => $this->trans('All except trashed'),
+            'title'   => $this->trans('Shows all items except these which are trashed'),
             'image'   => '',
             'default' => false
         ];
@@ -338,21 +333,21 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '0',
-            'text'    => $this->__('Public (all)'),
+            'text'    => $this->trans('Public (all)'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '-1',
-            'text'    => $this->__('All logged in members'),
+            'text'    => $this->trans('All logged in members'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '-2',
-            'text'    => $this->__('All not logged in people'),
+            'text'    => $this->trans('All not logged in people'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -369,28 +364,28 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '1',
-            'text'    => $this->__('New pages will be active and available in the menu'),
+            'text'    => $this->trans('New pages will be active and available in the menu'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '2',
-            'text'    => $this->__('New pages will be inactive and available in the menu'),
+            'text'    => $this->trans('New pages will be inactive and available in the menu'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '3',
-            'text'    => $this->__('New pages will be active and not available in the menu'),
+            'text'    => $this->trans('New pages will be active and not available in the menu'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '4',
-            'text'    => $this->__('New pages will be inactive and not available in the menu'),
+            'text'    => $this->trans('New pages will be inactive and not available in the menu'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -407,35 +402,35 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'none',
-            'text'    => $this->__('No suffix'),
+            'text'    => $this->trans('No suffix'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => 'html',
-            'text'    => $this->__('Html'),
+            'text'    => $this->trans('Html'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'htm',
-            'text'    => $this->__('Htm'),
+            'text'    => $this->trans('Htm'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'phtml',
-            'text'    => $this->__('Phtml'),
+            'text'    => $this->trans('Phtml'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'shtml',
-            'text'    => $this->__('Shtml'),
+            'text'    => $this->trans('Shtml'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -452,7 +447,7 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'page',
-            'text'    => $this->__('Page'),
+            'text'    => $this->trans('Page'),
             'title'   => '',
             'image'   => '',
             'default' => true
@@ -469,21 +464,21 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'unlimited',
-            'text'    => $this->__('Unlimited revisions'),
+            'text'    => $this->trans('Unlimited revisions'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => 'limitedByAmount',
-            'text'    => $this->__('Limited revisions by amount of revisions'),
+            'text'    => $this->trans('Limited revisions by amount of revisions'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'limitedByDate',
-            'text'    => $this->__('Limited revisions by date interval'),
+            'text'    => $this->trans('Limited revisions by date interval'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -500,56 +495,56 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '1',
-            'text'    => $this->__('1'),
+            'text'    => $this->trans('1'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '5',
-            'text'    => $this->__('5'),
+            'text'    => $this->trans('5'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '10',
-            'text'    => $this->__('10'),
+            'text'    => $this->trans('10'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '25',
-            'text'    => $this->__('25'),
+            'text'    => $this->trans('25'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '50',
-            'text'    => $this->__('50'),
+            'text'    => $this->trans('50'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '100',
-            'text'    => $this->__('100'),
+            'text'    => $this->trans('100'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '250',
-            'text'    => $this->__('250'),
+            'text'    => $this->trans('250'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '500',
-            'text'    => $this->__('500'),
+            'text'    => $this->trans('500'),
             'title'   => '',
             'image'   => '',
             'default' => false

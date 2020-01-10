@@ -17,7 +17,7 @@ namespace Zikula\ContentModule\Helper\Base;
 use Exception;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\Component\SortableColumns\SortableColumns;
 use Zikula\Core\RouteUrl;
@@ -89,11 +89,6 @@ abstract class AbstractControllerHelper
         $this->featureActivationHelper = $featureActivationHelper;
     }
     
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-    
     /**
      * Returns an array of all allowed object types in ZikulaContentModule.
      *
@@ -138,12 +133,12 @@ abstract class AbstractControllerHelper
     ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'view'];
         if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
-            throw new Exception($this->__('Error! Invalid object type received.'));
+            throw new Exception($this->trans('Error! Invalid object type received.'));
         }
     
         $request = $this->requestStack->getCurrentRequest();
         if (null === $request) {
-            throw new Exception($this->__('Error! Controller helper needs a request.'));
+            throw new Exception($this->trans('Error! Controller helper needs a request.'));
         }
         $repository = $this->entityFactory->getRepository($objectType);
     
@@ -328,7 +323,7 @@ abstract class AbstractControllerHelper
     ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'display'];
         if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
-            throw new Exception($this->__('Error! Invalid object type received.'));
+            throw new Exception($this->trans('Error! Invalid object type received.'));
         }
     
         if (true === $hasHookSubscriber) {
@@ -352,7 +347,7 @@ abstract class AbstractControllerHelper
     ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'edit'];
         if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
-            throw new Exception($this->__('Error! Invalid object type received.'));
+            throw new Exception($this->trans('Error! Invalid object type received.'));
         }
     
         return $this->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);

@@ -21,7 +21,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Exception;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Gedmo\Loggable\LoggableListener;
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -68,11 +68,6 @@ abstract class AbstractLoggableHelper
         $this->entityDisplayHelper = $entityDisplayHelper;
         $this->entityLifecycleListener = $entityLifecycleListener;
         $this->translatableHelper = $translatableHelper;
-    }
-    
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
     
     /**
@@ -335,10 +330,10 @@ abstract class AbstractLoggableHelper
         $actionTranslated = '';
         switch ($text) {
             case '_HISTORY_PAGE_CREATED':
-                $actionTranslated = $this->__('Page created');
+                $actionTranslated = $this->trans('Page created');
                 break;
             case '_HISTORY_PAGE_UPDATED':
-                $actionTranslated = $this->__('Page updated');
+                $actionTranslated = $this->trans('Page updated');
                 break;
             case '_HISTORY_PAGE_CLONED':
                 if (isset($parameters['%page']) && is_numeric($parameters['%page'])) {
@@ -347,22 +342,22 @@ abstract class AbstractLoggableHelper
                         $parameters['%page'] = $this->entityDisplayHelper->getFormattedTitle($originalEntity);
                     }
                 }
-                $actionTranslated = $this->__f('Page cloned from page "%page"', $parameters);
+                $actionTranslated = $this->trans('Page cloned from page "%page"', $parameters);
                 break;
             case '_HISTORY_PAGE_RESTORED':
-                $actionTranslated = $this->__f('Page restored from version "%version"', $parameters);
+                $actionTranslated = $this->trans('Page restored from version "%version"', $parameters);
                 break;
             case '_HISTORY_PAGE_DELETED':
-                $actionTranslated = $this->__('Page deleted');
+                $actionTranslated = $this->trans('Page deleted');
                 break;
             case '_HISTORY_PAGE_TRANSLATION_CREATED':
-                $actionTranslated = $this->__('Page translation created');
+                $actionTranslated = $this->trans('Page translation created');
                 break;
             case '_HISTORY_PAGE_TRANSLATION_UPDATED':
-                $actionTranslated = $this->__('Page translation updated');
+                $actionTranslated = $this->trans('Page translation updated');
                 break;
             case '_HISTORY_PAGE_TRANSLATION_DELETED':
-                $actionTranslated = $this->__('Page translation deleted');
+                $actionTranslated = $this->trans('Page translation deleted');
                 break;
             default:
                 $actionTranslated = $text;

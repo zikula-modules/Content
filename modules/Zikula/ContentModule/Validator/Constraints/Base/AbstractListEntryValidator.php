@@ -16,7 +16,7 @@ namespace Zikula\ContentModule\Validator\Constraints\Base;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 
@@ -36,11 +36,6 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
     {
         $this->setTranslator($translator);
         $this->listEntriesHelper = $listEntriesHelper;
-    }
-
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
 
     public function validate($value, Constraint $constraint)
@@ -63,7 +58,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
             // single-valued list
             if ('' !== $value && !in_array($value, $allowedValues/*, true*/)) {
                 $this->context->buildViolation(
-                    $this->__f('The value "%value%" is not allowed for the "%property%" property.', [
+                    $this->trans('The value "%value%" is not allowed for the "%property%" property.', [
                         '%value%' => $value,
                         '%property%' => $constraint->propertyName
                     ])
@@ -81,7 +76,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
             }
             if (!in_array($singleValue, $allowedValues/*, true*/)) {
                 $this->context->buildViolation(
-                    $this->__f('The value "%value%" is not allowed for the "%property%" property.', [
+                    $this->trans('The value "%value%" is not allowed for the "%property%" property.', [
                         '%value%' => $singleValue,
                         '%property%' => $constraint->propertyName
                     ])

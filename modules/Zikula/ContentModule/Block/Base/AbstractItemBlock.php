@@ -37,7 +37,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     
     public function getType(): string
     {
-        return $this->__('Content detail', 'zikulacontentmodule');
+        return $this->trans('Content detail', 'zikulacontentmodule');
     }
     
     public function display(array $properties = []): string

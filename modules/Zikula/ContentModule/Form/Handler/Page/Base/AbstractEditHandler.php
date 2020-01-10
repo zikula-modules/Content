@@ -52,7 +52,7 @@ abstract class AbstractEditHandler extends EditHandler
             if ($request->hasSession() && ($session = $request->getSession())) {
                 $session->getFlashBag()->add(
                     'error',
-                    $this->__('Sorry, but you can not create the page yet as other items are required which must be created before!')
+                    $this->trans('Sorry, but you can not create the page yet as other items are required which must be created before!')
                 );
             }
             $logArgs = [
@@ -236,16 +236,16 @@ abstract class AbstractEditHandler extends EditHandler
             case 'defer':
             case 'submit':
                 if ('create' === $this->templateParameters['mode']) {
-                    $message = $this->__('Done! Page created.');
+                    $message = $this->trans('Done! Page created.');
                 } else {
-                    $message = $this->__('Done! Page updated.');
+                    $message = $this->trans('Done! Page updated.');
                 }
                 break;
             case 'delete':
-                $message = $this->__('Done! Page deleted.');
+                $message = $this->trans('Done! Page deleted.');
                 break;
             default:
-                $message = $this->__('Done! Page updated.');
+                $message = $this->trans('Done! Page updated.');
                 break;
         }
     
@@ -304,7 +304,7 @@ abstract class AbstractEditHandler extends EditHandler
             if ($request->hasSession() && ($session = $request->getSession())) {
                 $session->getFlashBag()->add(
                     'error',
-                    $this->__('Sorry, but someone else has already changed this record. Please apply the changes again!')
+                    $this->trans('Sorry, but someone else has already changed this record. Please apply the changes again!')
                 );
             }
             $logArgs = [
@@ -323,7 +323,7 @@ abstract class AbstractEditHandler extends EditHandler
             if ($request->hasSession() && ($session = $request->getSession())) {
                 $session->getFlashBag()->add(
                     'error',
-                    $this->__f(
+                    $this->trans(
                         'Sorry, but an error occured during the %action% action. Please apply the changes again!',
                         ['%action%' => $action]
                     ) . ' ' . $exception->getMessage()

@@ -18,11 +18,11 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Renderer\ListRenderer;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
@@ -100,11 +100,6 @@ abstract class AbstractTwigExtension extends AbstractExtension
         $this->listHelper = $listHelper;
         $this->loggableHelper = $loggableHelper;
         $this->menuBuilder = $menuBuilder;
-    }
-    
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
     
     public function getFunctions()

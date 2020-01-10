@@ -21,8 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
@@ -44,11 +44,6 @@ abstract class AbstractPageFinderType extends AbstractType
     ) {
         $this->setTranslator($translator);
         $this->featureActivationHelper = $featureActivationHelper;
-    }
-
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -73,14 +68,14 @@ abstract class AbstractPageFinderType extends AbstractType
 
         $builder
             ->add('update', SubmitType::class, [
-                'label' => $this->__('Change selection'),
+                'label' => $this->trans('Change selection'),
                 'icon' => 'fa-check',
                 'attr' => [
                     'class' => 'btn btn-success'
                 ]
             ])
             ->add('cancel', SubmitType::class, [
-                'label' => $this->__('Cancel'),
+                'label' => $this->trans('Cancel'),
                 'validate' => false,
                 'icon' => 'fa-times',
                 'attr' => [
@@ -97,13 +92,13 @@ abstract class AbstractPageFinderType extends AbstractType
     {
         $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($options['object_type']) . 'CategoryEntity';
         $builder->add('categories', CategoriesType::class, [
-            'label' => $this->__('Category') . ':',
+            'label' => $this->trans('Category') . ':',
             'empty_data' => null,
             'attr' => [
                 'class' => 'category-selector',
-                'title' => $this->__('This is an optional filter.')
+                'title' => $this->trans('This is an optional filter.')
             ],
-            'help' => $this->__('This is an optional filter.'),
+            'help' => $this->trans('This is an optional filter.'),
             'required' => false,
             'multiple' => false,
             'module' => 'ZikulaContentModule',
@@ -119,12 +114,12 @@ abstract class AbstractPageFinderType extends AbstractType
     public function addPasteAsField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('pasteAs', ChoiceType::class, [
-            'label' => $this->__('Paste as') . ':',
+            'label' => $this->trans('Paste as') . ':',
             'empty_data' => 1,
             'choices' => [
-                $this->__('Relative link to the page') => 1,
-                $this->__('Absolute url to the page') => 2,
-                $this->__('ID of page') => 3
+                $this->trans('Relative link to the page') => 1,
+                $this->trans('Absolute url to the page') => 2,
+                $this->trans('ID of page') => 3
             ],
             'multiple' => false,
             'expanded' => false
@@ -138,32 +133,32 @@ abstract class AbstractPageFinderType extends AbstractType
     {
         $builder
             ->add('sort', ChoiceType::class, [
-                'label' => $this->__('Sort by') . ':',
+                'label' => $this->trans('Sort by') . ':',
                 'empty_data' => '',
                 'choices' => [
-                    $this->__('Title') => 'title',
-                    $this->__('Views') => 'views',
-                    $this->__('Active') => 'active',
-                    $this->__('Active from') => 'activeFrom',
-                    $this->__('Active to') => 'activeTo',
-                    $this->__('In menu') => 'inMenu',
-                    $this->__('Optional string 1') => 'optionalString1',
-                    $this->__('Optional string 2') => 'optionalString2',
-                    $this->__('Current version') => 'currentVersion',
-                    $this->__('Creation date') => 'createdDate',
-                    $this->__('Creator') => 'createdBy',
-                    $this->__('Update date') => 'updatedDate',
-                    $this->__('Updater') => 'updatedBy'
+                    $this->trans('Title') => 'title',
+                    $this->trans('Views') => 'views',
+                    $this->trans('Active') => 'active',
+                    $this->trans('Active from') => 'activeFrom',
+                    $this->trans('Active to') => 'activeTo',
+                    $this->trans('In menu') => 'inMenu',
+                    $this->trans('Optional string 1') => 'optionalString1',
+                    $this->trans('Optional string 2') => 'optionalString2',
+                    $this->trans('Current version') => 'currentVersion',
+                    $this->trans('Creation date') => 'createdDate',
+                    $this->trans('Creator') => 'createdBy',
+                    $this->trans('Update date') => 'updatedDate',
+                    $this->trans('Updater') => 'updatedBy'
                 ],
                 'multiple' => false,
                 'expanded' => false
             ])
             ->add('sortdir', ChoiceType::class, [
-                'label' => $this->__('Sort direction') . ':',
+                'label' => $this->trans('Sort direction') . ':',
                 'empty_data' => 'asc',
                 'choices' => [
-                    $this->__('Ascending') => 'asc',
-                    $this->__('Descending') => 'desc'
+                    $this->trans('Ascending') => 'asc',
+                    $this->trans('Descending') => 'desc'
                 ],
                 'multiple' => false,
                 'expanded' => false
@@ -177,7 +172,7 @@ abstract class AbstractPageFinderType extends AbstractType
     public function addAmountField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('num', ChoiceType::class, [
-            'label' => $this->__('Page size') . ':',
+            'label' => $this->trans('Page size') . ':',
             'empty_data' => 20,
             'attr' => [
                 'class' => 'text-right'
@@ -202,7 +197,7 @@ abstract class AbstractPageFinderType extends AbstractType
     public function addSearchField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('q', SearchType::class, [
-            'label' => $this->__('Search for') . ':',
+            'label' => $this->trans('Search for') . ':',
             'required' => false,
             'attr' => [
                 'maxlength' => 255
