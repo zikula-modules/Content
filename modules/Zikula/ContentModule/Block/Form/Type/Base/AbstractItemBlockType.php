@@ -65,7 +65,7 @@ abstract class AbstractItemBlockType extends AbstractType
     public function addObjectTypeField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('objectType', HiddenType::class, [
-            'label' => $this->trans('Object type', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Object type', [], 'zikulacontentmodule') . ':',
             'empty_data' => 'page'
         ]);
     }
@@ -90,7 +90,7 @@ abstract class AbstractItemBlockType extends AbstractType
             'expanded' => false,
             'choices' => $choices,
             'required' => true,
-            'label' => $this->trans('Entry to display', 'zikulacontentmodule') . ':'
+            'label' => $this->trans('Entry to display', [], 'zikulacontentmodule') . ':'
         ]);
     }
 
@@ -101,15 +101,15 @@ abstract class AbstractItemBlockType extends AbstractType
     {
         $builder
             ->add('customTemplate', TextType::class, [
-                'label' => $this->trans('Custom template', 'zikulacontentmodule') . ':',
+                'label' => $this->trans('Custom template', [], 'zikulacontentmodule') . ':',
                 'required' => false,
                 'attr' => [
                     'maxlength' => 80,
-                    'title' => $this->trans('Example', 'zikulacontentmodule') . ': displaySpecial.html.twig'
+                    'title' => $this->trans('Example', [], 'zikulacontentmodule') . ': displaySpecial.html.twig'
                 ],
                 'help' => [
-                    $this->trans('Example', 'zikulacontentmodule') . ': <code>displaySpecial.html.twig</code>',
-                    $this->trans('Needs to be located in the "External/YourEntity/" directory.', 'zikulacontentmodule')
+                    $this->trans('Example', [], 'zikulacontentmodule') . ': <code>displaySpecial.html.twig</code>',
+                    $this->trans('Needs to be located in the "External/YourEntity/" directory.', [], 'zikulacontentmodule')
                 ],
                 'help_html' => true
             ])

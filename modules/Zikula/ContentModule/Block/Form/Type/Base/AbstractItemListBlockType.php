@@ -71,18 +71,19 @@ abstract class AbstractItemListBlockType extends AbstractType
     {
         $helpText = $this->trans(
             'If you change this please save the block once to reload the parameters below.',
+            [],
             'zikulacontentmodule'
         );
         $builder->add('objectType', ChoiceType::class, [
-            'label' => $this->trans('Object type', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Object type', [], 'zikulacontentmodule') . ':',
             'empty_data' => 'page',
             'attr' => [
                 'title' => $helpText
             ],
             'help' => $helpText,
             'choices' => [
-                $this->trans('Pages', 'zikulacontentmodule') => 'page',
-                $this->trans('Content items', 'zikulacontentmodule') => 'contentItem'
+                $this->trans('Pages', [], 'zikulacontentmodule') => 'page',
+                $this->trans('Content items', [], 'zikulacontentmodule') => 'contentItem'
             ],
             'multiple' => false,
             'expanded' => false
@@ -100,8 +101,8 @@ abstract class AbstractItemListBlockType extends AbstractType
     
         $objectType = $options['object_type'];
         $label = $hasMultiSelection
-            ? $this->trans('Categories', 'zikulacontentmodule')
-            : $this->trans('Category', 'zikulacontentmodule')
+            ? $this->trans('Categories', [], 'zikulacontentmodule')
+            : $this->trans('Category', [], 'zikulacontentmodule')
         ;
         $hasMultiSelection = $options['category_helper']->hasMultipleSelection($objectType);
         $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity';
@@ -110,9 +111,9 @@ abstract class AbstractItemListBlockType extends AbstractType
             'empty_data' => $hasMultiSelection ? [] : null,
             'attr' => [
                 'class' => 'category-selector',
-                'title' => $this->trans('This is an optional filter.', 'zikulacontentmodule')
+                'title' => $this->trans('This is an optional filter.', [], 'zikulacontentmodule')
             ],
-            'help' => $this->trans('This is an optional filter.', 'zikulacontentmodule'),
+            'help' => $this->trans('This is an optional filter.', [], 'zikulacontentmodule'),
             'required' => false,
             'multiple' => $hasMultiSelection,
             'module' => 'ZikulaContentModule',
@@ -161,16 +162,16 @@ abstract class AbstractItemListBlockType extends AbstractType
     public function addSortingField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('sorting', ChoiceType::class, [
-            'label' => $this->trans('Sorting', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Sorting', [], 'zikulacontentmodule') . ':',
             'label_attr' => [
                 'class' => 'radio-custom'
             ],
             'empty_data' => 'default',
             'choices' => [
-                $this->trans('Random', 'zikulacontentmodule') => 'random',
-                $this->trans('Newest', 'zikulacontentmodule') => 'newest',
-                $this->trans('Updated', 'zikulacontentmodule') => 'updated',
-                $this->trans('Default', 'zikulacontentmodule') => 'default'
+                $this->trans('Random', [], 'zikulacontentmodule') => 'random',
+                $this->trans('Newest', [], 'zikulacontentmodule') => 'newest',
+                $this->trans('Updated', [], 'zikulacontentmodule') => 'updated',
+                $this->trans('Default', [], 'zikulacontentmodule') => 'default'
             ],
             'multiple' => false,
             'expanded' => true
@@ -182,11 +183,11 @@ abstract class AbstractItemListBlockType extends AbstractType
      */
     public function addAmountField(FormBuilderInterface $builder, array $options = []): void
     {
-        $helpText = $this->trans('The maximum amount of items to be shown.', 'zikulacontentmodule')
-            . ' ' . $this->trans('Only digits are allowed.', 'zikulacontentmodule')
+        $helpText = $this->trans('The maximum amount of items to be shown.', [], 'zikulacontentmodule')
+            . ' ' . $this->trans('Only digits are allowed.', [], 'zikulacontentmodule')
         ;
         $builder->add('amount', IntegerType::class, [
-            'label' => $this->trans('Amount', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Amount', [], 'zikulacontentmodule') . ':',
             'attr' => [
                 'maxlength' => 2,
                 'title' => $helpText
@@ -202,25 +203,25 @@ abstract class AbstractItemListBlockType extends AbstractType
     public function addTemplateFields(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('template', ChoiceType::class, [
-            'label' => $this->trans('Template', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Template', [], 'zikulacontentmodule') . ':',
             'empty_data' => 'itemlist_display.html.twig',
             'choices' => [
-                $this->trans('Only item titles', 'zikulacontentmodule') => 'itemlist_display.html.twig',
-                $this->trans('With description', 'zikulacontentmodule') => 'itemlist_display_description.html.twig',
-                $this->trans('Custom template', 'zikulacontentmodule') => 'custom'
+                $this->trans('Only item titles', [], 'zikulacontentmodule') => 'itemlist_display.html.twig',
+                $this->trans('With description', [], 'zikulacontentmodule') => 'itemlist_display_description.html.twig',
+                $this->trans('Custom template', [], 'zikulacontentmodule') => 'custom'
             ],
             'multiple' => false,
             'expanded' => false
         ]);
         $exampleTemplate = 'itemlist_[objectType]_display.html.twig';
         $builder->add('customTemplate', TextType::class, [
-            'label' => $this->trans('Custom template', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Custom template', [], 'zikulacontentmodule') . ':',
             'required' => false,
             'attr' => [
                 'maxlength' => 80,
-                'title' => $this->trans('Example', 'zikulacontentmodule') . ': ' . $exampleTemplate
+                'title' => $this->trans('Example', [], 'zikulacontentmodule') . ': ' . $exampleTemplate
             ],
-            'help' => $this->trans('Example', 'zikulacontentmodule') . ': <code>' . $exampleTemplate . '</code>',
+            'help' => $this->trans('Example', [], 'zikulacontentmodule') . ': <code>' . $exampleTemplate . '</code>',
             'help_html' => true
         ]);
     }
@@ -231,13 +232,13 @@ abstract class AbstractItemListBlockType extends AbstractType
     public function addFilterField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('filter', TextType::class, [
-            'label' => $this->trans('Filter (expert option)', 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Filter (expert option)', [], 'zikulacontentmodule') . ':',
             'required' => false,
             'attr' => [
                 'maxlength' => 255,
-                'title' => $this->trans('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
+                'title' => $this->trans('Example', [], 'zikulacontentmodule') . ': tbl.age >= 18'
             ],
-            'help' => $this->trans('Example', 'zikulacontentmodule') . ': tbl.age >= 18'
+            'help' => $this->trans('Example', [], 'zikulacontentmodule') . ': tbl.age >= 18'
         ]);
     }
 
