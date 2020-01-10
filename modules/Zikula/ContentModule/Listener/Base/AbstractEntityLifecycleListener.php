@@ -32,6 +32,7 @@ use Zikula\Common\Translator\Translator;
 use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
+use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Listener\LoggableListener;
 
@@ -452,10 +453,11 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
             return;
         }
 
+        $variableApi = $this->container->get(VariableApi::class);
         $currentUserApi = $this->container->get(CurrentUserApi::class);
         $userName = $currentUserApi->isLoggedIn()
             ? $currentUserApi->get('uname')
-            : $this->container->get(Translator::class)->trans('Guest')
+            : $variableApi->get(UsersConstant::MODNAME, UsersConstant::MODVAR_ANONYMOUS_DISPLAY_NAME, 'Guest')
         ;
 
         $customLoggableListener->setUsername($userName);
