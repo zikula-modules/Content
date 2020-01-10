@@ -63,7 +63,7 @@ abstract class AbstractItemBlockType extends AbstractType
     public function addObjectTypeField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('objectType', HiddenType::class, [
-            'label' => $this->trans('Object type:',
+            'label' => 'Object type:',
             'empty_data' => 'page'
         ]);
     }
@@ -88,7 +88,7 @@ abstract class AbstractItemBlockType extends AbstractType
             'expanded' => false,
             'choices' => $choices,
             'required' => true,
-            'label' => $this->trans('Entry to display:'
+            'label' => 'Entry to display:'
         ]);
     }
 
@@ -99,15 +99,15 @@ abstract class AbstractItemBlockType extends AbstractType
     {
         $builder
             ->add('customTemplate', TextType::class, [
-                'label' => $this->trans('Custom template:',
+                'label' => 'Custom template:',
                 'required' => false,
                 'attr' => [
                     'maxlength' => 80,
-                    'title' => $this->trans('Example' . ': displaySpecial.html.twig'
+                    'title' => 'Example' . ': displaySpecial.html.twig'
                 ],
                 'help' => [
-                    $this->trans('Example' . ': <code>displaySpecial.html.twig</code>',
-                    $this->trans('Needs to be located in the "External/YourEntity/" directory.'
+                    'Example' . ': <code>displaySpecial.html.twig</code>',
+                    'Needs to be located in the "External/YourEntity/" directory.'
                 ],
                 'help_html' => true
             ])
