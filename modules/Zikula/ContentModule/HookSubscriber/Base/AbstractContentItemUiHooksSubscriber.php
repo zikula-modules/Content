@@ -45,7 +45,7 @@ abstract class AbstractContentItemUiHooksSubscriber implements HookSubscriberInt
     
     public function getTitle(): string
     {
-        return $this->translator->__('Content item ui hooks subscriber');
+        return $this->translator->trans('Content item ui hooks subscriber');
     }
 
     public function getAreaName(): string
