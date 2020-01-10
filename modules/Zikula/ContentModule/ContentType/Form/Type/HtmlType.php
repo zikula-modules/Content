@@ -16,8 +16,8 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
-use Zikula\Common\Translator\TranslatorInterface;
 
 /**
  * HTML form type class.

@@ -18,8 +18,8 @@ use Psr\Container\ContainerInterface;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\ContentTypeInterface;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\GroupsModule\Entity\RepositoryInterface\GroupRepositoryInterface;
@@ -53,11 +53,6 @@ class ContentDisplayHelper implements ContainerAwareInterface
         $this->setTranslator($translator);
         $this->pageAssetApi = $pageAssetApi;
         $this->groupRepository = $groupRepository;
-    }
-
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
 
     /**

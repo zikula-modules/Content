@@ -35,18 +35,18 @@ class HeadingType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Heading');
+        return $this->translator->trans('Heading');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Section heading (or page title) for structuring large amounts of text.');
+        return $this->translator->trans('Section heading (or page title) for structuring large amounts of text.');
     }
 
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->__('Heading'),
+            'text' => $this->translator->trans('Heading'),
             'headingType' => 'h3',
             'anchorName' => '',
             'displayPageTitle' => false

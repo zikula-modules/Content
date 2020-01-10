@@ -34,12 +34,12 @@ class PageNavigationType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Page navigation');
+        return $this->translator->trans('Page navigation');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Allows to navigate within pages on the same level.');
+        return $this->translator->trans('Allows to navigate within pages on the same level.');
     }
 
     public function displayView(): string

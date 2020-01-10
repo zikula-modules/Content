@@ -20,8 +20,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\ContentTypeInterface;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
@@ -52,11 +52,6 @@ class TranslateType extends AbstractType
         $this->setTranslator($translator);
         $this->variableApi = $variableApi;
         $this->translatableHelper = $translatableHelper;
-    }
-
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

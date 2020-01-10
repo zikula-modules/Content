@@ -48,12 +48,12 @@ class ContentItemType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Existing content');
+        return $this->translator->trans('Existing content');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Reference and display an already existing content item.');
+        return $this->translator->trans('Reference and display an already existing content item.');
     }
 
     public function getDefaultData(): array

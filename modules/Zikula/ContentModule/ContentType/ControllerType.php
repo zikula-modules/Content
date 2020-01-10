@@ -49,12 +49,12 @@ class ControllerType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Controller');
+        return $this->translator->trans('Controller');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display controller output from any installed module, theme or bundle.');
+        return $this->translator->trans('Display controller output from any installed module, theme or bundle.');
     }
 
     public function getDefaultData(): array
@@ -83,7 +83,7 @@ class ControllerType extends AbstractContentType
         }
 
         $quickAction = '<a href="javascript:void(0);" title="'
-            . $this->translator->__('Preview controller content')
+            . $this->translator->translator->trans('Preview controller content')
             . '" onclick="'
             . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
             . 'jQuery(this).remove();'
@@ -91,17 +91,17 @@ class ControllerType extends AbstractContentType
         ;
         $editOutput = '<h3>' . $this->data['controller'] . '</h3>';
         if ($this->data['query']) {
-            $editOutput .= '<p>' . $this->translator->__('GET parameters')
+            $editOutput .= '<p>' . $this->translator->translator->trans('GET parameters')
                 . ': <em>' . $this->data['query'] . '</em></p>'
             ;
         }
         if ($this->data['request']) {
-            $editOutput .= '<p>' . $this->translator->__('POST parameters')
+            $editOutput .= '<p>' . $this->translator->translator->trans('POST parameters')
                 . ': <em>' . $this->data['request'] . '</em></p>'
             ;
         }
         if ($this->data['attributes']) {
-            $editOutput .= '<p>' . $this->translator->__('Request attributes')
+            $editOutput .= '<p>' . $this->translator->translator->trans('Request attributes')
                 . ': <em>' . $this->data['attributes'] . '</em></p>'
             ;
         }
@@ -127,18 +127,18 @@ class ControllerType extends AbstractContentType
         list($vendor, $moduleName) = explode('\\', $controller);
         $moduleName = $vendor . $moduleName;
         if (!$this->kernel->isBundle($bundleName)) {
-            $this->data['noDisplayMessage'] = $this->translator->__f(
-                'Module %module is not available.',
-                ['%module' => $bundleName]
+            $this->data['noDisplayMessage'] = $this->translator->translator->trans(
+                'Module %module% is not available.',
+                ['%module%' => $bundleName]
             );
 
             return;
         }
         $moduleInstance = $this->kernel->getModule($bundleName);
         if (!isset($moduleInstance)) {
-            $this->data['noDisplayMessage'] = $this->translator->__f(
-                'Module %module is not available.',
-                ['%module' => $bundleName]
+            $this->data['noDisplayMessage'] = $this->translator->translator->trans(
+                'Module %module% is not available.',
+                ['%module%' => $bundleName]
             );
 
             return;
@@ -158,7 +158,7 @@ class ControllerType extends AbstractContentType
     {
         static $recursionLevel = 0;
         if (4 < $recursionLevel) {
-            return $this->translator->__('Maximum number of pages-in-pages reached! You probably included this page in itself.');
+            return $this->translator->translator->trans('Maximum number of pages-in-pages reached! You probably included this page in itself.');
         }
 
         $controller = $this->data['controller'];

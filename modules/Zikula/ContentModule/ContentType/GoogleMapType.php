@@ -47,17 +47,17 @@ class GoogleMapType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Google map');
+        return $this->translator->trans('Google map');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display a Google map position.');
+        return $this->translator->trans('Display a Google map position.');
     }
 
     public function getAdminInfo(): string
     {
-        return $this->__('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.');
+        return $this->translator->trans('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.');
     }
 
     public function isActive(): bool

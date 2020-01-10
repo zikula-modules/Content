@@ -43,12 +43,12 @@ class AuthorType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Author information');
+        return $this->translator->trans('Author information');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Various information about the author of the page.');
+        return $this->translator->trans('Various information about the author of the page.');
     }
 
     public function getDefaultData(): array
@@ -79,7 +79,7 @@ class AuthorType extends AbstractContentType
         /** @var UserEntity $user */
         $user = $this->userRepository->find($data['author']);
         $data['author'] = $user;
-        $data['authorName'] = null !== $user ? $user->getUname() : $this->__('Unknown author');
+        $data['authorName'] = null !== $user ? $user->getUname() : $this->translator->trans('Unknown author');
 
         $this->data = $data;
 

@@ -35,12 +35,12 @@ class LeafletMapType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Leaflet map');
+        return $this->translator->trans('Leaflet map');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display a Leaflet map position.');
+        return $this->translator->trans('Display a Leaflet map position.');
     }
 
     public function getDefaultData(): array

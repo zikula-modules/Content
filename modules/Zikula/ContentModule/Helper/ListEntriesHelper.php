@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Helper;
 
-use Zikula\Common\Translator\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\ContentModule\Helper\Base\AbstractListEntriesHelper;
 use Zikula\GroupsModule\Entity\RepositoryInterface\GroupRepositoryInterface;
 

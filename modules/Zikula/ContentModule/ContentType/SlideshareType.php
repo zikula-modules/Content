@@ -41,12 +41,12 @@ class SlideshareType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Slideshare');
+        return $this->translator->trans('Slideshare');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display slides from slideshare.com.');
+        return $this->translator->trans('Display slides from slideshare.com.');
     }
 
     public function getDefaultData(): array

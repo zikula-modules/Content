@@ -35,20 +35,20 @@ class QuoteType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Quote');
+        return $this->translator->trans('Quote');
     }
 
     public function getDescription(): string
     {
-        return $this->__('A highlighted quote with source.');
+        return $this->translator->trans('A highlighted quote with source.');
     }
 
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->__('Add quote text here...'),
+            'text' => $this->translator->trans('Add quote text here...'),
             'source' => 'https://',
-            'description' => $this->__('Name of the source')
+            'description' => $this->translator->trans('Name of the source')
         ];
     }
 

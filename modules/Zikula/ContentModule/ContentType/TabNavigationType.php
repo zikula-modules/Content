@@ -54,12 +54,12 @@ class TabNavigationType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Tab navigation');
+        return $this->translator->trans('Tab navigation');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Tab navigation with existing Content items.');
+        return $this->translator->trans('Tab navigation with existing Content items.');
     }
 
     public function getDefaultData(): array

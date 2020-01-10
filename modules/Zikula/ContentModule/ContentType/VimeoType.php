@@ -41,12 +41,12 @@ class VimeoType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Vimeo video');
+        return $this->translator->trans('Vimeo video');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display a Vimeo video clip.');
+        return $this->translator->trans('Display a Vimeo video clip.');
     }
 
     public function getDefaultData(): array

@@ -42,12 +42,12 @@ class FeedType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Feed');
+        return $this->translator->trans('Feed');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display list of items in an Atom or RSS feed.');
+        return $this->translator->trans('Display list of items in an Atom or RSS feed.');
     }
 
     public function getDefaultData(): array

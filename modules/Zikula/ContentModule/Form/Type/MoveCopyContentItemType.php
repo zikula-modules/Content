@@ -17,11 +17,11 @@ namespace Zikula\ContentModule\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 
 /**
@@ -42,11 +42,6 @@ class MoveCopyContentItemType extends AbstractType
     ) {
         $this->setTranslator($translator);
         $this->entityFactory = $entityFactory;
-    }
-
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

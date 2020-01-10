@@ -35,18 +35,18 @@ class HtmlType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('HTML text');
+        return $this->translator->trans('HTML text');
     }
 
     public function getDescription(): string
     {
-        return $this->__('HTML editor for adding markup text to your page.');
+        return $this->translator->trans('HTML editor for adding markup text to your page.');
     }
 
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->__('Add text here...')
+            'text' => $this->translator->trans('Add text here...')
         ];
     }
 

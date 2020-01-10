@@ -21,8 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\ContentTypeInterface;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
@@ -54,11 +54,6 @@ class ContentItemType extends AbstractType
         $this->setTranslator($translator);
         $this->listHelper = $listHelper;
         $this->stylingClasses = $variableApi->get('ZikulaContentModule', 'contentStyles', '');
-    }
-
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

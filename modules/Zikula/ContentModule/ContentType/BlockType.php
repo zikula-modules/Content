@@ -61,12 +61,12 @@ class BlockType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Block');
+        return $this->translator->trans('Block');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display Zikula blocks.');
+        return $this->translator->trans('Display Zikula blocks.');
     }
 
     public function getDefaultData(): array
@@ -95,7 +95,7 @@ class BlockType extends AbstractContentType
         $block = $this->data['block'];
         $quickActions = '';
         $quickActions .= '<a href="javascript:void(0);" title="'
-            . $this->translator->__('Preview block content')
+            . $this->translator->translator->trans('Preview block content')
             . '" onclick="'
             . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
             . 'jQuery(this).remove();'
@@ -106,7 +106,7 @@ class BlockType extends AbstractContentType
             ['blockEntity' => $this->data['blockId']]
         );
         $quickActions .= ' <a href="' . $editLink . '"'
-            . ' title="' . $this->translator->__('Edit this block') . '"'
+            . ' title="' . $this->translator->translator->trans('Edit this block') . '"'
             . ' target="_blank"><i class="fa fa-2x fa-pencil-square-o"></i></a>'
         ;
         $editOutput = '<h3>' . $block->getTitle() . '</h3>';
@@ -141,15 +141,15 @@ class BlockType extends AbstractContentType
         $bundleName = $block->getModule()->getName();
         $moduleInstance = $this->kernel->getModule($bundleName);
         if (!isset($moduleInstance)) {
-            $this->data['noDisplayMessage'] = $this->translator->__f(
-                'Module %module is not available.',
+            $this->data['noDisplayMessage'] = $this->translator->translator->trans(
+                'Module %module% is not available.',
                 ['%module' => $bundleName]
             );
 
             return;
         }
         if (!$block->getActive()) {
-            $this->data['noDisplayMessage'] = $this->translator->__('Block is inactive.');
+            $this->data['noDisplayMessage'] = $this->translator->translator->trans('Block is inactive.');
 
             return;
         }

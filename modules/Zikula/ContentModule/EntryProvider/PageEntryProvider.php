@@ -16,8 +16,8 @@ namespace Zikula\ContentModule\EntryProvider;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\MultiHook\EntryProviderInterface;
-use Zikula\Common\Translator\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 

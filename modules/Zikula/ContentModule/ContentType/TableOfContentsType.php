@@ -60,12 +60,12 @@ class TableOfContentsType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Table of contents');
+        return $this->translator->trans('Table of contents');
     }
 
     public function getDescription(): string
     {
-        return $this->__('A table of contents of headings and subpages (built from the available Content pages).');
+        return $this->translator->trans('A table of contents of headings and subpages (built from the available Content pages).');
     }
 
     public function getDefaultData(): array

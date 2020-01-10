@@ -47,17 +47,17 @@ class GoogleRouteType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Google map route');
+        return $this->translator->trans('Google map route');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display a Google map with route planning.');
+        return $this->translator->trans('Display a Google map with route planning.');
     }
 
     public function getAdminInfo(): string
     {
-        return $this->__('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.');
+        return $this->translator->trans('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.');
     }
 
     public function isActive(): bool

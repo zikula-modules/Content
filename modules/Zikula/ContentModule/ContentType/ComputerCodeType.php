@@ -41,12 +41,12 @@ class ComputerCodeType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Computer code');
+        return $this->translator->trans('Computer code');
     }
 
     public function getDescription(): string
     {
-        return $this->__('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.');
+        return $this->translator->trans('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.');
     }
 
     public function getDefaultData(): array

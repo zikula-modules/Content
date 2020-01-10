@@ -41,12 +41,12 @@ class YouTubeType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('YouTube video');
+        return $this->translator->trans('YouTube video');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Display a YouTube video clip.');
+        return $this->translator->trans('Display a YouTube video clip.');
     }
 
     public function getDefaultData(): array

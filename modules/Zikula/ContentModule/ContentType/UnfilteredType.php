@@ -41,17 +41,17 @@ class UnfilteredType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Unfiltered raw text');
+        return $this->translator->trans('Unfiltered raw text');
     }
 
     public function getDescription(): string
     {
-        return $this->__('A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).');
+        return $this->translator->trans('A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).');
     }
 
     public function getAdminInfo(): string
     {
-        return $this->__('You need to explicitly enable a checkbox in the configuration form to activate this plugin.');
+        return $this->translator->trans('You need to explicitly enable a checkbox in the configuration form to activate this plugin.');
     }
 
     public function isActive(): bool
@@ -63,7 +63,7 @@ class UnfilteredType extends AbstractContentType
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->__('Add unfiltered text here ...'),
+            'text' => $this->translator->trans('Add unfiltered text here ...'),
             'useiframe' => false,
             'iframeSrc' => '',
             'iframeName' => '',

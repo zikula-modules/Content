@@ -41,12 +41,12 @@ class BreadcrumbType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->__('Breadcrumb');
+        return $this->translator->trans('Breadcrumb');
     }
 
     public function getDescription(): string
     {
-        return $this->__('Show breadcrumbs for hierarchical pages.');
+        return $this->translator->trans('Show breadcrumbs for hierarchical pages.');
     }
 
     public function getDefaultData(): array
