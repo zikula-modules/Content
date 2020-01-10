@@ -28,8 +28,6 @@ use Zikula\ContentModule\Helper\EntityDisplayHelper;
  */
 abstract class AbstractItemBlockType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * @var EntityFactory
      */
@@ -41,11 +39,9 @@ abstract class AbstractItemBlockType extends AbstractType
     protected $entityDisplayHelper;
 
     public function __construct(
-        TranslatorInterface $translator,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper
     ) {
-        $this->setTranslator($translator);
         $this->entityFactory = $entityFactory;
         $this->entityDisplayHelper = $entityDisplayHelper;
     }
