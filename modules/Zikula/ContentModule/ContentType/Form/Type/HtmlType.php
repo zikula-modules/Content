@@ -33,7 +33,7 @@ class HtmlType extends AbstractContentFormType
     {
         $builder
             ->add('text', TextareaType::class, [
-                'label' => $this->__('Text') . ':'
+                'label' => $this->trans('Text') . ':'
             ])
         ;
     }

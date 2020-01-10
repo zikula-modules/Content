@@ -34,25 +34,25 @@ class ControllerType extends AbstractContentFormType
     {
         $builder
             ->add('controller', TextType::class, [
-                'label' => $this->__('Controller'),
-                'help' => $this->__('FQCN::method, for example Zikula\FooModule\Controller\BarController::mainAction'),
+                'label' => $this->trans('Controller'),
+                'help' => $this->trans('FQCN::method, for example Zikula\FooModule\Controller\BarController::mainAction'),
                 'constraints' => [
                     new ValidController()
                 ]
             ])
             ->add('query', TextType::class, [
-                'label' => $this->__('GET parameters'),
-                'help' => $this->__('Separate with &, for example:') . ' foo=2&bar=5',
+                'label' => $this->trans('GET parameters'),
+                'help' => $this->trans('Separate with &, for example:') . ' foo=2&bar=5',
                 'required' => false
             ])
             ->add('request', TextType::class, [
-                'label' => $this->__('POST parameters'),
-                'help' => $this->__('Separate with &, for example:') . ' foo=2&bar=5',
+                'label' => $this->trans('POST parameters'),
+                'help' => $this->trans('Separate with &, for example:') . ' foo=2&bar=5',
                 'required' => false
             ])
             ->add('attributes', TextType::class, [
-                'label' => $this->__('Request attributes'),
-                'help' => $this->__('Separate with &, for example:') . ' foo=2&bar=5',
+                'label' => $this->trans('Request attributes'),
+                'help' => $this->trans('Separate with &, for example:') . ' foo=2&bar=5',
                 'required' => false
             ])
         ;

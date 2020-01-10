@@ -35,18 +35,19 @@ class FeedType extends AbstractContentFormType
     {
         $builder
             ->add('url', UrlType::class, [
-                'label' => $this->__('URL of RSS or Atom feed') . ':'
+                'label' => $this->trans('URL of RSS or Atom feed') . ':'
             ])
             ->add('includeContent', CheckboxType::class, [
-                'label' => $this->__('Include feed text in addition to the title') . ':',
+                'label' => $this->trans('Include feed text in addition to the title') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('refreshTime', IntegerType::class, [
-                'label' => $this->__('Refresh time') . ':',
-                'input_group' => ['right' => $this->__('hours')]
+                'label' => $this->trans('Refresh time') . ':',
+                'input_group' => ['right' => $this->trans('hours')]
             ])
             ->add('maxNoOfItems', IntegerType::class, [
-                'label' => $this->__('Max. no. of items to display') . ':'
+                'label' => $this->trans('Max. no. of items to display') . ':'
             ])
         ;
     }

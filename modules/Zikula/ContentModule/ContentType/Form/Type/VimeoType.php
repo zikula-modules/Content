@@ -37,11 +37,11 @@ class VimeoType extends AbstractContentFormType
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('url', UrlType::class, [
-                'label' => $this->__('URL to the video clip') . ':',
-                'help' => $this->__('Something like "https://vimeo.com/7504225".')
+                'label' => $this->trans('URL to the video clip') . ':',
+                'help' => $this->trans('Something like "https://vimeo.com/7504225".')
             ])
             ->add('text', TextareaType::class, [
-                'label' => $this->__('Video description') . ':',
+                'label' => $this->trans('Video description') . ':',
                 'required' => false
             ])
         ;
@@ -50,13 +50,13 @@ class VimeoType extends AbstractContentFormType
         }
         $builder
             ->add('displayMode', ChoiceType::class, [
-                'label' => $this->__('Display mode') . ':',
+                'label' => $this->trans('Display mode') . ':',
                 'label_attr' => [
                     'class' => 'radio-inline'
                 ],
                 'choices' => [
-                    $this->__('Show video inline') => 'inline',
-                    $this->__('Show video in modal window') => 'modal'
+                    $this->trans('Show video inline') => 'inline',
+                    $this->trans('Show video in modal window') => 'modal'
                 ],
                 'expanded' => true
             ])

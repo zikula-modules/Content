@@ -38,11 +38,11 @@ class YouTubeType extends AbstractContentFormType
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('url', UrlType::class, [
-                'label' => $this->__('URL to the video clip') . ':',
-                'help' => $this->__('Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".')
+                'label' => $this->trans('URL to the video clip') . ':',
+                'help' => $this->trans('Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".')
             ])
             ->add('text', TextareaType::class, [
-                'label' => $this->__('Video description') . ':',
+                'label' => $this->trans('Video description') . ':',
                 'required' => false
             ])
         ;
@@ -51,26 +51,29 @@ class YouTubeType extends AbstractContentFormType
         }
         $builder
             ->add('displayMode', ChoiceType::class, [
-                'label' => $this->__('Display mode') . ':',
+                'label' => $this->trans('Display mode') . ':',
                 'label_attr' => [
                     'class' => 'radio-inline'
                 ],
                 'choices' => [
-                    $this->__('Show video inline') => 'inline',
-                    $this->__('Show video in modal window') => 'modal'
+                    $this->trans('Show video inline') => 'inline',
+                    $this->trans('Show video in modal window') => 'modal'
                 ],
                 'expanded' => true
             ])
             ->add('noCookie', CheckboxType::class, [
-                'label' => $this->__('Extended privacy mode') . ':',
+                'label' => $this->trans('Extended privacy mode') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('showRelated', CheckboxType::class, [
-                'label' => $this->__('Show related videos') . ':',
+                'label' => $this->trans('Show related videos') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('autoplay', CheckboxType::class, [
-                'label' => $this->__('Autoplay the video when displayed') . ':',
+                'label' => $this->trans('Autoplay the video when displayed') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
         ;

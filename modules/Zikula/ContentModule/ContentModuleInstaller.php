@@ -89,7 +89,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             $userMap = [];
 
             $mainPage = new PageEntity();
-            $mainPage->setTitle($this->__('Pages'));
+            $mainPage->setTitle($this->trans('Pages'));
             $mainPage->setLayout([]);
             $mainPage->setActive(true);
             $mainPage->setInMenu(true);
@@ -100,7 +100,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             $item = new ContentItemEntity();
             $item->setOwningType($contentTypeNamespace . 'HeadingType');
             $item->setContentData([
-                'text' => $this->__('This is only a dummy page containing the real pages'),
+                'text' => $this->trans('This is only a dummy page containing the real pages'),
                 'headingType' => 'h3'
             ]);
             $mainPage->addContentItems($item);
@@ -232,7 +232,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $item->setWorkflowState('approved');
                 if (!$isSupported) {
                     $item->setOwningType($contentTypeNamespace . 'HtmlType');
-                    $content = $this->__f(
+                    $content = $this->trans(
                         '<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>',
                         ['%module%' => $row['con_module'], '%type%' => $row['con_type']]
                     );
@@ -336,7 +336,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             $connection->executeQuery("DROP TABLE $dbName.`content_pagecategory`");
             $connection->executeQuery("DROP TABLE $dbName.`content_page`");
 
-            $this->addFlash('success', $this->__f('Done! Migrated %amount% pages.', ['%amount%' => count($pageMap)]));
+            $this->addFlash('success', $this->trans('Done! Migrated %amount% pages.', ['%amount%' => count($pageMap)]));
 
             return true;
         }

@@ -33,11 +33,13 @@ class BreadcrumbType extends AbstractContentFormType
     {
         $builder
             ->add('includeSelf', CheckboxType::class, [
-                'label' => $this->__('Include self as last breadcrumb') . ':',
+                'label' => $this->trans('Include self as last breadcrumb') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('includeHome', CheckboxType::class, [
-                'label' => $this->__('Include home as first breadcrumb') . ':',
+                'label' => $this->trans('Include home as first breadcrumb') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
         ;

@@ -19,11 +19,11 @@ function contentInitHtmlTranslation() {
 
         sourceCodeRow = jQuery(this).clone();
         sourceCodeRow.removeClass('field-text').addClass('field-source');
-        sourceCodeRow.find('label').text(Translator.__('Markup source'));
+        sourceCodeRow.find('label').text(Translator.trans('Markup source'));
         sourceCodeSection = sourceCodeRow.find('.form-control-plaintext').first();
         sourceCodeHtml = sourceCodeSection.html();
         sourceCodeSection
-            .html('<p><a href="javascript:void(0);" title="' + Translator.__('Toggle source code view') + '" class="toggle-source"><i class="fa fa-eye"></i> ' + Translator.__('Toggle source code view') + '</a>  <a href="javascript:void(0);" title="' + Translator.__('Copy source code into clipboard') + '" class="copy-source"><i class="fa fa-clipboard"></i> ' + Translator.__('Copy source code into clipboard') + '</a></p><xmp>' + sourceCodeHtml + '</xmp>')
+            .html('<p><a href="javascript:void(0);" title="' + Translator.trans('Toggle source code view') + '" class="toggle-source"><i class="fa fa-eye"></i> ' + Translator.trans('Toggle source code view') + '</a>  <a href="javascript:void(0);" title="' + Translator.trans('Copy source code into clipboard') + '" class="copy-source"><i class="fa fa-clipboard"></i> ' + Translator.trans('Copy source code into clipboard') + '</a></p><xmp>' + sourceCodeHtml + '</xmp>')
         ;
         sourceCodeSection.find('xmp').css({
             width: '95%',
@@ -49,7 +49,7 @@ function contentInitHtmlTranslation() {
         document.execCommand('copy');
         tempHolder.remove();
 
-        jQuery('<span class="text-success" style="display: inline-block; padding-left: 20px">' + Translator.__('Done!') + '</span>').insertAfter(jQuery(this));
+        jQuery('<span class="text-success d-inline-block" style="padding-left: 20px">' + Translator.trans('Done!') + '</span>').insertAfter(jQuery(this));
         window.setTimeout(function() {
             jQuery('.source-section .field-source .text-success').remove();
         }, 1500);

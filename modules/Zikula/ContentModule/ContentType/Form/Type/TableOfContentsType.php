@@ -44,9 +44,9 @@ class TableOfContentsType extends AbstractContentFormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $inclusionChoices = [
-            $this->__('No') => 0,
-            $this->__('Yes, unlimited') => 1,
-            $this->__('Yes, limited') => 2
+            $this->trans('No') => 0,
+            $this->trans('Yes, unlimited') => 1,
+            $this->trans('Yes, limited') => 2
         ];
         $builder
             ->add('page', EntityTreeType::class, [
@@ -54,44 +54,47 @@ class TableOfContentsType extends AbstractContentFormType
                 'multiple' => false,
                 'expanded' => false,
                 'use_joins' => false,
-                'placeholder' => $this->__('All pages'),
+                'placeholder' => $this->trans('All pages'),
                 'required' => false,
-                'label' => $this->__('Page'),
+                'label' => $this->trans('Page'),
                 'attr' => [
-                    'title' => $this->__('Choose the start page.')
+                    'title' => $this->trans('Choose the start page.')
                 ]
             ])
             ->add('includeSelf', CheckboxType::class, [
-                'label' => $this->__('Include self into the table of contents') . ':',
+                'label' => $this->trans('Include self into the table of contents') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('includeStart', CheckboxType::class, [
-                'label' => $this->__('Include start page into the table of contents') . ':',
+                'label' => $this->trans('Include start page into the table of contents') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('includeNotInMenu', CheckboxType::class, [
-                'label' => $this->__('Include subpages that are not in the menus') . ':',
+                'label' => $this->trans('Include subpages that are not in the menus') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('includeHeading', ChoiceType::class, [
-                'label' => $this->__('Include heading items on pages') . ':',
+                'label' => $this->trans('Include heading items on pages') . ':',
                 'choices' => $inclusionChoices
             ])
             ->add('includeHeadingLevel', IntegerType::class, [
-                'label' => $this->__('Include heading items up to page level') . ':',
-                'help' => $this->__('if heading items are included and not unlimited; select 0 to include the headings only for the selected page'),
+                'label' => $this->trans('Include heading items up to page level') . ':',
+                'help' => $this->trans('if heading items are included and not unlimited; select 0 to include the headings only for the selected page'),
                 'attr' => [
                     'maxlength' => 10
                 ],
                 'required' => false
             ])
             ->add('includeSubpage', ChoiceType::class, [
-                'label' => $this->__('Include subpages') . ':',
+                'label' => $this->trans('Include subpages') . ':',
                 'choices' => $inclusionChoices
             ])
             ->add('includeSubpageLevel', IntegerType::class, [
-                'label' => $this->__('Include subpages into table up to level') . ':',
-                'help' => $this->__('if subpages are included and not unlimited'),
+                'label' => $this->trans('Include subpages into table up to level') . ':',
+                'help' => $this->trans('if subpages are included and not unlimited'),
                 'attr' => [
                     'maxlength' => 10
                 ],

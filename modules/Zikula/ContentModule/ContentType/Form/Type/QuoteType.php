@@ -35,14 +35,14 @@ class QuoteType extends AbstractContentFormType
     {
         $builder
             ->add('text', TextareaType::class, [
-                'label' => $this->__('Quote text') . ':'
+                'label' => $this->trans('Quote text') . ':'
             ])
             ->add('source', UrlType::class, [
-                'label' => $this->__('Source') . ':',
+                'label' => $this->trans('Source') . ':',
                 'required' => false
             ])
             ->add('description', TextType::class, [
-                'label' => $this->__('Description') . ':',
+                'label' => $this->trans('Description') . ':',
                 'required' => false
             ])
         ;

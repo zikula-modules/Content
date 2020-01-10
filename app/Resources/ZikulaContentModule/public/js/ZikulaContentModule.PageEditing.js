@@ -181,9 +181,9 @@ function contentPageGetSectionActions(isFirstSection) {
     var deleteState = isFirstSection ? ' disabled="disabled"' : '';
     var actions = `
         <div class="btn-group btn-group-sm float-right" role="group">
-            <button type="button" class="btn btn-secondary add-element" title="${Translator.__('Add element')}"><i class="fa fa-plus"></i> ${Translator.__('Add element')}</button>
-            <button type="button" class="btn btn-secondary change-styles" title="${Translator.__('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.__('Styling classes')}</button>
-            <button type="button" class="btn btn-secondary delete-section" title="${Translator.__('Delete section')}"${deleteState}><i class="fa fa-trash-alt"></i> ${Translator.__('Delete section')}</button>
+            <button type="button" class="btn btn-secondary add-element" title="${Translator.trans('Add element')}"><i class="fa fa-plus"></i> ${Translator.trans('Add element')}</button>
+            <button type="button" class="btn btn-secondary change-styles" title="${Translator.trans('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.trans('Styling classes')}</button>
+            <button type="button" class="btn btn-secondary delete-section" title="${Translator.trans('Delete section')}"${deleteState}><i class="fa fa-trash-alt"></i> ${Translator.trans('Delete section')}</button>
         </div>
     `;
 
@@ -226,8 +226,8 @@ function contentPageInitSectionActions() {
         if (
             !confirm(
                 hasWidgets
-                    ? Translator.__('Do you really want to delete this section including all contained content?')
-                    : Translator.__('Do you really want to delete this section?')
+                    ? Translator.trans('Do you really want to delete this section including all contained content?')
+                    : Translator.trans('Do you really want to delete this section?')
             )
         ) {
             return;
@@ -250,7 +250,7 @@ function contentPageInitSectionActions() {
  */
 function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
-    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.__('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="grid-stack"></div></div>');
+    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.trans('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="grid-stack"></div></div>');
     if ('' !== stylingClasses) {
         jQuery('#' + sectionId + ' .style-selector-container select').first().val(stylingClasses.split(' '));
     }
@@ -401,7 +401,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 if (!form.get(0).checkValidity()) {
                     return;
                 }
-            } else if ('delete' === action && !confirm(Translator.__('Do you really want to delete this content?'))) {
+            } else if ('delete' === action && !confirm(Translator.trans('Do you really want to delete this content?'))) {
                 return;
             }
 
@@ -424,7 +424,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 }
                 if ('undefined' !== typeof data.message) {
                     jQuery('#widgetUpdateDoneAlert').remove();
-                    contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                    contentPageShowNotification(Translator.trans('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
                 if ('delete' !== action) {
                     suspendAutoSave = false;
@@ -439,7 +439,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                     }
                     formError.html(jqXHR.responseJSON.message);
                 } else {
-                    contentPageShowNotification(Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
+                    contentPageShowNotification(Translator.trans('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
                 }    
             });
         });
@@ -457,7 +457,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             // remove newly created widget
             contentPageRemoveWidget(widget);
         }
-        contentPageShowNotification(Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.trans('Error'), Translator.trans('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -525,7 +525,7 @@ function contentPageInitWidgetMovingCopying(widget) {
             }
 
             if (pageId === jQuery('#zikulacontentmodule_movecopycontentitem_destinationPage').val()) {
-                alert(Translator.__('Destination page must not be the current page.'));
+                alert(Translator.trans('Destination page must not be the current page.'));
                 return;
             }
 
@@ -543,7 +543,7 @@ function contentPageInitWidgetMovingCopying(widget) {
                 modal.modal('hide');
                 if ('undefined' !== typeof data.message) {
                     jQuery('#widgetUpdateDoneAlert').remove();
-                    contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+                    contentPageShowNotification(Translator.trans('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
                 }
                 if ('move' === operationType) {
                     contentPageRemoveWidget(widget);
@@ -557,7 +557,7 @@ function contentPageInitWidgetMovingCopying(widget) {
                     }
                     formError.html(jqXHR.responseJSON.message);
                 } else {
-                    contentPageShowNotification(Translator.__('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
+                    contentPageShowNotification(Translator.trans('Error'), errorThrown, 'widgetUpdateErrorAlert', 'danger');
                 }    
             });
         });
@@ -567,7 +567,7 @@ function contentPageInitWidgetMovingCopying(widget) {
         });
     }).fail(function(jqXHR, textStatus) {
         modal.modal('hide');
-        contentPageShowNotification(Translator.__('Error'), Translator.__('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.trans('Error'), Translator.trans('Failed loading the data.'), 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -577,21 +577,21 @@ function contentPageInitWidgetMovingCopying(widget) {
 function contentPageGetWidgetActions(widgetId) {
     var actions = `
         <div class="dropdown">
-            <a class="dropdown-toggle float-right" title="${Translator.__('Actions')}" id="dropdownMenu${widgetId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <span class="sr-only">${Translator.__('Actions')}</span>
+            <a class="dropdown-toggle float-right" title="${Translator.trans('Actions')}" id="dropdownMenu${widgetId}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="sr-only">${Translator.trans('Actions')}</span>
             </a>
             <ul class="dropdown-menu float-right" aria-labelledby="dropdownMenu${widgetId}">
-                <li class="dropdown-header">${Translator.__('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
+                <li class="dropdown-header">${Translator.trans('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">${Translator.__('Basic')}</li>
-                <li class="dropdown-item"><a class="edit-item" title="${Translator.__('Edit this element')}"><i class="fa fa-fw fa-pencil-alt"></i> ${Translator.__('Edit')}</a></li>
-                <li class="dropdown-item"><a class="delete-item" title="${Translator.__('Delete this element')}"><i class="fa fa-fw fa-trash-alt text-danger"></i> ${Translator.__('Delete')}</a></li>
-                <li class="dropdown-item"><a class="activate-item" title="${Translator.__('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.__('Activate')}</a></li>
-                <li class="dropdown-item"><a class="deactivate-item" title="${Translator.__('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.__('Deactivate')}</a></li>
+                <li class="dropdown-header">${Translator.trans('Basic')}</li>
+                <li class="dropdown-item"><a class="edit-item" title="${Translator.trans('Edit this element')}"><i class="fa fa-fw fa-pencil-alt"></i> ${Translator.trans('Edit')}</a></li>
+                <li class="dropdown-item"><a class="delete-item" title="${Translator.trans('Delete this element')}"><i class="fa fa-fw fa-trash-alt text-danger"></i> ${Translator.trans('Delete')}</a></li>
+                <li class="dropdown-item"><a class="activate-item" title="${Translator.trans('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.trans('Activate')}</a></li>
+                <li class="dropdown-item"><a class="deactivate-item" title="${Translator.trans('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.trans('Deactivate')}</a></li>
                 <li role="separator" class="dropdown-divider"></li>
-                <li class="dropdown-header">${Translator.__('Advanced')}</li>
-                <li class="dropdown-item"><a class="clone-item" title="${Translator.__('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.__('Duplicate')}</a></li>
-                <li class="dropdown-item"><a class="move-copy-item" title="${Translator.__('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-alt-right"></i> ${Translator.__('Move/Copy')}</a></li>
+                <li class="dropdown-header">${Translator.trans('Advanced')}</li>
+                <li class="dropdown-item"><a class="clone-item" title="${Translator.trans('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.trans('Duplicate')}</a></li>
+                <li class="dropdown-item"><a class="move-copy-item" title="${Translator.trans('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-alt-right"></i> ${Translator.trans('Move/Copy')}</a></li>
             </ul>
         </div>
     `;
@@ -612,7 +612,7 @@ function contentPageDeleteWidget(widget) {
         contentPageRemoveWidget(widget);
         if ('undefined' !== typeof data.message) {
             jQuery('#widgetUpdateDoneAlert').remove();
-            contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+            contentPageShowNotification(Translator.trans('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         var errorMessage;
@@ -623,7 +623,7 @@ function contentPageDeleteWidget(widget) {
             errorMessage = errorThrown;
         }
         jQuery('#widgetUpdateErrorAlert').remove();
-        contentPageShowNotification(Translator.__('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.trans('Error'), errorMessage, 'widgetUpdateErrorAlert', 'danger');
     });
 }
 
@@ -642,7 +642,7 @@ function contentPageInitWidgetActions() {
         var widget;
 
         event.preventDefault();
-        if (!confirm(Translator.__('Do you really want to delete this content?'))) {
+        if (!confirm(Translator.trans('Do you really want to delete this content?'))) {
             return;
         }
 
@@ -664,7 +664,7 @@ function contentPageInitWidgetActions() {
             }
         }).done(function (data) {
             jQuery('#widgetUpdateDoneAlert').remove();
-            contentPageShowNotification(Translator.__('Success'), Translator.__('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
+            contentPageShowNotification(Translator.trans('Success'), Translator.trans('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
             contentPageLoadWidgetData(contentPageGetWidgetId(widget), false);
         });
     });
@@ -683,7 +683,7 @@ function contentPageInitWidgetActions() {
             newWidget = contentPageCreateNewWidget(data.id);
 
             jQuery('#widgetUpdateDoneAlert').remove();
-            contentPageShowNotification(Translator.__('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
+            contentPageShowNotification(Translator.trans('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
 
             var grid = widget.parents('.grid-stack').first().data('gridstack');
             grid.addWidget(newWidget, {
@@ -736,7 +736,7 @@ function contentPageCreateNewWidget(nodeId) {
     var widgetMarkup;
     var widget;
 
-    widgetTitle = Translator.__('Content item');
+    widgetTitle = Translator.trans('Content item');
     widgetCardClass = 'default';
     widgetMarkup = contentPageGetWidgetMarkup(nodeId, widgetTitle, widgetCardClass);
     widget = jQuery(widgetMarkup);
@@ -788,7 +788,7 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
 
     widget = jQuery('#widget' + nodeId);
 
-    widget.find('.card-title .title').html(Translator.__('Loading...'));
+    widget.find('.card-title .title').html(Translator.trans('Loading...'));
     widget.find('.card-body').html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
     jQuery.getJSON(Routing.generate('zikulacontentmodule_contentitem_displayediting', {contentItem: nodeId}), function (data) {
         var isActive;
@@ -999,10 +999,10 @@ function contentPageSave() {
         }
     }).done(function (data) {
         jQuery('#layoutUpdateDoneAlert').remove();
-        contentPageShowNotification(Translator.__('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
+        contentPageShowNotification(Translator.trans('Success'), data.message, 'layoutUpdateDoneAlert', 'success');
     }).fail(function (jqXHR, textStatus, errorThrown) {
         jQuery('#layoutUpdateErrorAlert').remove();
-        contentPageShowNotification(Translator.__('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
+        contentPageShowNotification(Translator.trans('Error'), errorThrown, 'layoutUpdateErrorAlert', 'danger');
     });
 
     if (jQuery('#debugSavedData').length > 0) {

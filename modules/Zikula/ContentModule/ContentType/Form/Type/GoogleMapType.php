@@ -42,82 +42,87 @@ class GoogleMapType extends AbstractContentFormType
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('latitude', NumberType::class, [
-                    'label' => $this->__('Latitude') . ':',
-                    'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'label' => $this->trans('Latitude') . ':',
+                    'help' => $this->trans('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                     'attr' => [
                         'maxlength' => 30
                     ]
                 ])
                 ->add('longitude', NumberType::class, [
-                    'label' => $this->__('Longitude') . ':',
-                    'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'label' => $this->trans('Longitude') . ':',
+                    'help' => $this->trans('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                     'attr' => [
                         'maxlength' => 30
                     ]
                 ])
                 ->add('zoom', RangeType::class, [
-                    'label' => $this->__('Zoom level') . ':',
-                    'help' => $this->__('From 0 for the entire world to 21 for individual buildings.'),
+                    'label' => $this->trans('Zoom level') . ':',
+                    'help' => $this->trans('From 0 for the entire world to 21 for individual buildings.'),
                     'attr' => [
                         'min' => 0,
                         'max' => 21
                     ]
                 ])
                 ->add('mapType', ChoiceType::class, [
-                    'label' => $this->__('Map type') . ':',
+                    'label' => $this->trans('Map type') . ':',
                     'label_attr' => [
                         'class' => 'radio-inline'
                     ],
                     'choices' => [
-                        $this->__('Roadmap') => 'roadmap',
-                        $this->__('Satellite') => 'satellite',
-                        $this->__('Hybrid') => 'hybrid',
-                        $this->__('Terrain') => 'terrain'
+                        $this->trans('Roadmap') => 'roadmap',
+                        $this->trans('Satellite') => 'satellite',
+                        $this->trans('Hybrid') => 'hybrid',
+                        $this->trans('Terrain') => 'terrain'
                     ],
                     'expanded' => true
                 ])
                 ->add('height', IntegerType::class, [
-                    'label' => $this->__('Height of the displayed map') . ':',
+                    'label' => $this->trans('Height of the displayed map') . ':',
                     'attr' => [
                         'maxlength' => 4
                     ],
-                    'input_group' => ['right' => $this->__('pixels')]
+                    'input_group' => ['right' => $this->trans('pixels')]
                 ])
             ;
         }
         $builder
             ->add('text', TextType::class, [
-                'label' => $this->__('Description to be shown below the map') . ':',
+                'label' => $this->trans('Description to be shown below the map') . ':',
                 'attr' => [
                     'maxlength' => 255
                 ]
             ])
             ->add('infoText', TextareaType::class, [
-                'label' => $this->__('Text to be shown in the popup window of the marker') . ':',
-                'help' => $this->__('Can contain HTML markup. Leave this field empty for disabling the popup window.'),
+                'label' => $this->trans('Text to be shown in the popup window of the marker') . ':',
+                'help' => $this->trans('Can contain HTML markup. Leave this field empty for disabling the popup window.'),
                 'required' => false
             ])
         ;
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('trafficOverlay', CheckboxType::class, [
-                    'label' => $this->__('Display a traffic overlay') . ':',
+                    'label' => $this->trans('Display a traffic overlay') . ':',
+                    'label_attr' => ['class' => 'switch-custom'],
                     'required' => false
                 ])
                 ->add('bicycleOverlay', CheckboxType::class, [
-                    'label' => $this->__('Display a bicycle overlay') . ':',
+                    'label' => $this->trans('Display a bicycle overlay') . ':',
+                    'label_attr' => ['class' => 'switch-custom'],
                     'required' => false
                 ])
                 ->add('streetViewControl', CheckboxType::class, [
-                    'label' => $this->__('Display the streetview control') . ':',
+                    'label' => $this->trans('Display the streetview control') . ':',
+                    'label_attr' => ['class' => 'switch-custom'],
                     'required' => false
                 ])
                 ->add('directionsLink', CheckboxType::class, [
-                    'label' => $this->__('Display a link to directions to this location in Google Maps') . ':',
+                    'label' => $this->trans('Display a link to directions to this location in Google Maps') . ':',
+                    'label_attr' => ['class' => 'switch-custom'],
                     'required' => false
                 ])
                 ->add('directionsInline', CheckboxType::class, [
-                    'label' => $this->__('Display directions inline within the map') . ':',
+                    'label' => $this->trans('Display directions inline within the map') . ':',
+                    'label_attr' => ['class' => 'switch-custom'],
                     'required' => false
                 ])
             ;

@@ -33,7 +33,7 @@ class ContentItemType extends AbstractContentFormType
     {
         $builder
             ->add('contentItemId', IntegerType::class, [
-                'label' => $this->__('ID of content item to display') . ':'
+                'label' => $this->trans('ID of content item to display') . ':'
             ])
         ;
     }

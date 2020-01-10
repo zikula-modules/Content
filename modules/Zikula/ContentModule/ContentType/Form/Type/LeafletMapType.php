@@ -39,38 +39,38 @@ class LeafletMapType extends AbstractContentFormType
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('latitude', NumberType::class, [
-                    'label' => $this->__('Latitude') . ':',
-                    'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'label' => $this->trans('Latitude') . ':',
+                    'help' => $this->trans('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                     'attr' => [
                         'maxlength' => 30
                     ]
                 ])
                 ->add('longitude', NumberType::class, [
-                    'label' => $this->__('Longitude') . ':',
-                    'help' => $this->__('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'label' => $this->trans('Longitude') . ':',
+                    'help' => $this->trans('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
                     'attr' => [
                         'maxlength' => 30
                     ]
                 ])
                 ->add('zoom', RangeType::class, [
-                    'label' => $this->__('Zoom level') . ':',
-                    'help' => $this->__('From 0 for the entire world to 21 for individual buildings.'),
+                    'label' => $this->trans('Zoom level') . ':',
+                    'help' => $this->trans('From 0 for the entire world to 21 for individual buildings.'),
                     'attr' => [
                         'min' => 0,
                         'max' => 21
                     ]
                 ])
                 ->add('height', IntegerType::class, [
-                    'label' => $this->__('Height of the displayed map') . ':',
+                    'label' => $this->trans('Height of the displayed map') . ':',
                     'attr' => [
                         'maxlength' => 4
                     ],
-                    'input_group' => ['right' => $this->__('pixels')]
+                    'input_group' => ['right' => $this->trans('pixels')]
                 ])
             ;
         }
         $builder->add('text', TextType::class, [
-            'label' => $this->__('Description to be shown below the map') . ':',
+            'label' => $this->trans('Description to be shown below the map') . ':',
             'attr' => [
                 'maxlength' => 255
             ]
@@ -78,14 +78,14 @@ class LeafletMapType extends AbstractContentFormType
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('tileLayerUrl', TextType::class, [
-                    'label' => $this->__('URL of tile layer to use') . ':',
-                    'help' => $this->__('See https://leaflet-extras.github.io/leaflet-providers/preview/ for examples.'),
+                    'label' => $this->trans('URL of tile layer to use') . ':',
+                    'help' => $this->trans('See https://leaflet-extras.github.io/leaflet-providers/preview/ for examples.'),
                     'attr' => [
                         'maxlength' => 255
                     ]
                 ])
                 ->add('tileLayerAttribution', TextType::class, [
-                    'label' => $this->__('Attribution for tile layer to use') . ':',
+                    'label' => $this->trans('Attribution for tile layer to use') . ':',
                     'attr' => [
                         'maxlength' => 255
                     ]

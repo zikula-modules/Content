@@ -37,34 +37,34 @@ class TabNavigationType extends AbstractContentFormType
         if (ContentTypeInterface::CONTEXT_EDIT == $context) {
             $builder
                 ->add('contentItemIds', TextType::class, [
-                    'label' => $this->__('Content item IDs') . ':',
-                    'help' => $this->__('A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.')
+                    'label' => $this->trans('Content item IDs') . ':',
+                    'help' => $this->trans('A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.')
                 ])
             ;
         }
         $builder
             ->add('tabTitles', TextType::class, [
-                'label' => $this->__('Tab titles') . ':',
-                'help' => $this->__('Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".')
+                'label' => $this->trans('Tab titles') . ':',
+                'help' => $this->trans('Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".')
             ])
         ;
         if (ContentTypeInterface::CONTEXT_EDIT == $context) {
             $builder
                 ->add('tabLinks', TextType::class, [
-                    'label' => $this->__('Link names') . ':',
-                    'help' => $this->__('Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".')
+                    'label' => $this->trans('Link names') . ':',
+                    'help' => $this->trans('Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".')
                 ])
                 ->add('tabType', ChoiceType::class, [
-                    'label' => $this->__('Navigation type') . ':',
+                    'label' => $this->trans('Navigation type') . ':',
                     'choices' => [
-                        $this->__('Tabs') => 1,
-                        $this->__('Pills') => 2,
-                        $this->__('Stacked pills') . ' (col-sm3/col-sm-9)' => 3
+                        $this->trans('Tabs') => 1,
+                        $this->trans('Pills') => 2,
+                        $this->trans('Stacked pills') . ' (col-md-3/col-md-9)' => 3
                     ]
                 ])
                 ->add('tabStyle', TextType::class, [
-                    'label' => $this->__('Custom style class') . ':',
-                    'help' => $this->__('A CSS class name that will be used on the tab navigation.'),
+                    'label' => $this->trans('Custom style class') . ':',
+                    'help' => $this->trans('A CSS class name that will be used on the tab navigation.'),
                     'required' => false,
                     'attr' => [
                         'maxlength' => 50

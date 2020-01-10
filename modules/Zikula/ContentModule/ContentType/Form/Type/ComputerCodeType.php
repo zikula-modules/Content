@@ -40,22 +40,22 @@ class ComputerCodeType extends AbstractContentFormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $filterChoices = [
-            $this->__('Use native filter') => 'native'
+            $this->trans('Use native filter') => 'native'
         ];
         if ($this->kernel->isBundle('ZikulaBBCodeModule')) {
-            $filterChoices[$this->__('Use BBCode filter')] = 'bbcode';
+            $filterChoices[$this->trans('Use BBCode filter')] = 'bbcode';
         }
         if ($this->kernel->isBundle('PhaidonLuMicuLaModule')) {
-            $filterChoices[$this->__('Use LuMicuLa filter')] = 'lumicula';
+            $filterChoices[$this->trans('Use LuMicuLa filter')] = 'lumicula';
         }
 
         $builder
             ->add('text', TextareaType::class, [
-                'label' => $this->__('Computer code lines') . ':'
+                'label' => $this->trans('Computer code lines') . ':'
             ])
             ->add('codeFilter', ChoiceType::class, [
-                'label' => $this->__('Code filter') . ':',
-                'help' => $this->__('If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.'),
+                'label' => $this->trans('Code filter') . ':',
+                'help' => $this->trans('If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.'),
                 'choices' => $filterChoices,
                 'expanded' => true
             ])

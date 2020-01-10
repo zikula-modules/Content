@@ -8,7 +8,7 @@
             {% elseif tabType == 2 %}
             <ul class="nav nav-pills" role="tablist">
             {% elseif tabType == 3 %}
-            <div class="col-sm-3">
+            <div class="col-md-3">
             <ul class="nav nav-pills nav-stacked" role="tablist">
             {% endif %}
             {# Nav tabs #}
@@ -24,7 +24,7 @@
 
             {# Tab panes #}
             {% if tabType == 3 %}
-            <div class="col-sm-9">
+            <div class="col-md-9">
             {% endif %}
             <div class="tab-content">
             {% for itemToTab in itemsToTab %}

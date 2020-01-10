@@ -30,19 +30,19 @@ class LoggableHelper extends AbstractLoggableHelper
         $actionTranslated = parent::translateActionDescriptionInternal($text, $parameters);
         switch ($text) {
             case '_HISTORY_PAGE_CONTENT_CREATED':
-                $actionTranslated = $this->__('Content created');
+                $actionTranslated = $this->trans('Content created');
                 break;
             case '_HISTORY_PAGE_CONTENT_UPDATED':
-                $actionTranslated = $this->__('Content updated');
+                $actionTranslated = $this->trans('Content updated');
                 break;
             case '_HISTORY_PAGE_CONTENT_CLONED':
-                $actionTranslated = $this->__('Content cloned');
+                $actionTranslated = $this->trans('Content cloned');
                 break;
             case '_HISTORY_PAGE_CONTENT_DELETED':
-                $actionTranslated = $this->__('Content deleted');
+                $actionTranslated = $this->trans('Content deleted');
                 break;
             case '_HISTORY_PAGE_LAYOUT_CHANGED':
-                $actionTranslated = $this->__('Layout changed (e.g. content moved or resized)');
+                $actionTranslated = $this->trans('Layout changed (e.g. content moved or resized)');
                 break;
         }
 

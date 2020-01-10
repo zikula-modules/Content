@@ -50,7 +50,7 @@ class BlockType extends AbstractContentFormType
 
         $builder
             ->add('blockId', ChoiceType::class, [
-                'label' => $this->__('Block to display') . ':',
+                'label' => $this->trans('Block to display') . ':',
                 'choices' => $choices
             ])
         ;

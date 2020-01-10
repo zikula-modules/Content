@@ -115,7 +115,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
             ];
         } catch (RuntimeException $exception) {
             return [
-                'title' => '<i class="fa fa-exclamation-triangle"></i> ' . $this->__('Error'),
+                'title' => '<i class="fa fa-exclamation-triangle"></i> ' . $this->trans('Error'),
                 'content' => $exception->getMessage(),
                 'cardClass' => 'danger',
                 'assets' => [],
@@ -131,7 +131,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
     {
         $contentTypeClass = $item->getOwningType();
         if (!class_exists($contentTypeClass) || !$this->container->has($contentTypeClass)) {
-            throw new RuntimeException($this->__('Invalid content type received.') . ' ' . $contentTypeClass);
+            throw new RuntimeException($this->trans('Invalid content type received.') . ' ' . $contentTypeClass);
         }
 
         $contentType = $this->container->get($contentTypeClass);
@@ -150,22 +150,22 @@ class ContentDisplayHelper implements ContainerAwareInterface
         $titleSuffix = '';
 
         if (!$item->isCurrentlyActive()) {
-            $titleSuffix = ' (' . $this->__('inactive') . ')';
+            $titleSuffix = ' (' . $this->trans('inactive') . ')';
         } else {
             $scopes = $this->extractMultiList($item->getScope());
             foreach ($scopes as $scope) {
                 if ('0' !== $scope) {
                     if ('-1' === $scope) {
-                        $titleSuffix = ' (' . $this->__('only logged in members') . ')';
+                        $titleSuffix = ' (' . $this->trans('only logged in members') . ')';
                     } elseif ('-2' === $scope) {
-                        $titleSuffix = ' (' . $this->__('only not logged in people') . ')';
+                        $titleSuffix = ' (' . $this->trans('only not logged in people') . ')';
                     } else {
                         //$groupId = intval($scope);
                         //$group = $this->groupRepository->find($groupId);
                         //if (null !== $group) {
-                        //    $titleSuffix = ' (' . $this->__f('only %group', ['%group' => $group->getName()]) . ')';
+                        //    $titleSuffix = ' (' . $this->trans('only %group%', ['%group%' => $group->getName()]) . ')';
                         //} else {
-                        $titleSuffix = ' (' . $this->__('specific group') . ')';
+                        $titleSuffix = ' (' . $this->trans('specific group') . ')';
                         //}
                     }
                 }

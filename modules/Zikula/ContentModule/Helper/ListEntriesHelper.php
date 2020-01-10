@@ -57,7 +57,7 @@ class ListEntriesHelper extends AbstractListEntriesHelper
         foreach ($groups as $group) {
             $states[] = [
                 'value'   => $group->getGid(),
-                'text'    => $this->__f('Group %group', ['%group' => $group->getName()]),
+                'text'    => $this->trans('Group %group%', ['%group%' => $group->getName()]),
                 'title'   => '',
                 'image'   => '',
                 'default' => false

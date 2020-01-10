@@ -12,7 +12,7 @@ function contentPageInitYandexSupport(yandexApiKey) {
         field = jQuery(this).detach();
         parent.html('<div class="input-group"></div>');
         parent.find('.input-group').append(field);
-        parent.find('.input-group').append('<div class="input-group-append"><button class="btn btn-default add-suggestion" type="button" title="' + Translator.__('Insert suggestion for translation') + '"><i class="fa fa-book"></i></button></div></div>');
+        parent.find('.input-group').append('<div class="input-group-append"><button class="btn btn-default add-suggestion" type="button" title="' + Translator.trans('Insert suggestion for translation') + '"><i class="fa fa-book"></i></button></div></div>');
     });
     jQuery('.add-suggestion').click(function (event) {
         var thisIcon;

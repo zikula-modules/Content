@@ -91,11 +91,11 @@ class ContentItemController extends AbstractContentItemController
         ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
 
         if (null === $contentItem) {
-            throw new NotFoundHttpException($this->__('No such content found.'));
+            throw new NotFoundHttpException($this->trans('No such content found.'));
         }
 
         if (!$permissionHelper->mayEdit($contentItem)) {
@@ -126,11 +126,11 @@ class ContentItemController extends AbstractContentItemController
         ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
 
         if (null === $contentItem) {
-            throw new NotFoundHttpException($this->__('No such content found.'));
+            throw new NotFoundHttpException($this->trans('No such content found.'));
         }
 
         if (!$permissionHelper->mayEdit($contentItem)) {
@@ -139,13 +139,13 @@ class ContentItemController extends AbstractContentItemController
 
         $pageId = $request->request->getInt('pageId');
         if (1 > $pageId) {
-            throw new RuntimeException($this->__('Invalid input received.'));
+            throw new RuntimeException($this->trans('Invalid input received.'));
         }
 
         /** @var PageEntity $page */
         $page = $entityFactory->getRepository('page')->selectById($pageId);
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('Page not found.'));
+            throw new NotFoundHttpException($this->trans('Page not found.'));
         }
 
         $newItem = clone $contentItem;
@@ -163,7 +163,7 @@ class ContentItemController extends AbstractContentItemController
         $success = $workflowHelper->executeAction($newItem, 'submit');
         if (!$success) {
             return $this->json(
-                ['message' => $this->__('Error! An error occured during saving the content.')],
+                ['message' => $this->trans('Error! An error occured during saving the content.')],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -181,7 +181,7 @@ class ContentItemController extends AbstractContentItemController
 
         return $this->json([
             'id' => $newItem->getId(),
-            'message' => $this->__('Done! Content saved.')
+            'message' => $this->trans('Done! Content saved.')
         ]);
     }
 
@@ -207,7 +207,7 @@ class ContentItemController extends AbstractContentItemController
         ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
 
         $contentTypeClass = null;
@@ -225,13 +225,13 @@ class ContentItemController extends AbstractContentItemController
             $pageId = $dataSource->getInt('pageId');
             $contentTypeClass = $request->query->get('type', '');
             if ($pageId < 1 || empty($contentTypeClass) || !class_exists($contentTypeClass)) {
-                throw new RuntimeException($this->__('Invalid input received.'));
+                throw new RuntimeException($this->trans('Invalid input received.'));
             }
 
             /** @var PageEntity $page */
             $page = $entityFactory->getRepository('page')->selectById($pageId);
             if (null === $page) {
-                throw new NotFoundHttpException($this->__('Page not found.'));
+                throw new NotFoundHttpException($this->trans('Page not found.'));
             }
 
             $contentItem = $entityFactory->createContentItem();
@@ -294,7 +294,7 @@ class ContentItemController extends AbstractContentItemController
 
         if ($isPost) {
             if (!in_array($action, ['save', 'delete'])) {
-                throw new RuntimeException($this->__('Invalid action received.'));
+                throw new RuntimeException($this->trans('Invalid action received.'));
             }
 
             if (null !== $form) {
@@ -328,7 +328,7 @@ class ContentItemController extends AbstractContentItemController
                 $success = $workflowHelper->executeAction($contentItem, $workflowAction);
                 if (!$success) {
                     return $this->json(
-                        ['message' => $this->__('Error! An error occured during saving the content.')],
+                        ['message' => $this->trans('Error! An error occured during saving the content.')],
                         Response::HTTP_BAD_REQUEST
                     );
                 }
@@ -374,13 +374,13 @@ class ContentItemController extends AbstractContentItemController
                 $loggableHelper->updateContentData($page);
                 /*$success = */$workflowHelper->executeAction($page, 'update');
 
-                return $this->json(['id' => $contentItem->getId(), 'message' => $this->__('Done! Content saved.')]);
+                return $this->json(['id' => $contentItem->getId(), 'message' => $this->trans('Done! Content saved.')]);
             }
             if ('delete' === $action) {
                 // determine available workflow actions
                 $actions = $workflowHelper->getActionsForObject($contentItem);
                 if (false === $actions || !is_array($actions)) {
-                    throw new RuntimeException($this->__('Error! Could not determine workflow actions.'));
+                    throw new RuntimeException($this->trans('Error! Could not determine workflow actions.'));
                 }
 
                 // check whether deletion is allowed
@@ -395,7 +395,7 @@ class ContentItemController extends AbstractContentItemController
                 }
                 if (!$deleteAllowed) {
                     return $this->json(
-                        ['message' => $this->__('Error! It is not allowed to delete this content item.')],
+                        ['message' => $this->trans('Error! It is not allowed to delete this content item.')],
                         Response::HTTP_BAD_REQUEST
                     );
                 }
@@ -416,7 +416,7 @@ class ContentItemController extends AbstractContentItemController
 
                 if (!$success) {
                     return $this->json(
-                        ['message' => $this->__('Error! An error occured during content deletion.')],
+                        ['message' => $this->trans('Error! An error occured during content deletion.')],
                         Response::HTTP_BAD_REQUEST
                     );
                 }
@@ -433,7 +433,7 @@ class ContentItemController extends AbstractContentItemController
                 $loggableHelper->updateContentData($page);
                 /*$success = */$workflowHelper->executeAction($page, 'update');
 
-                return $this->json(['message' => $this->__('Done! Content deleted.')]);
+                return $this->json(['message' => $this->trans('Done! Content deleted.')]);
             }
         }
 
@@ -449,7 +449,7 @@ class ContentItemController extends AbstractContentItemController
             return $this->json($output);
         }
 
-        $output['message'] = $this->__('Error! Please check your input.');
+        $output['message'] = $this->trans('Error! Please check your input.');
 
         return $this->json($output, Response::HTTP_BAD_REQUEST);
     }
@@ -474,14 +474,14 @@ class ContentItemController extends AbstractContentItemController
         ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
 
         $isPost = $request->isMethod('POST');
 
         // permission check
         if (null === $contentItem) {
-            throw new NotFoundHttpException($this->__('Content item not found.'));
+            throw new NotFoundHttpException($this->trans('Content item not found.'));
         }
         if (!$permissionHelper->mayEdit($contentItem)) {
             throw new AccessDeniedException();
@@ -516,23 +516,23 @@ class ContentItemController extends AbstractContentItemController
             $sourcePageId = $contentItem->getPage()->getId();
             $destinationPageId = $formData['destinationPage'];
             if (!$sourcePageId) {
-                throw new NotFoundHttpException($this->__('Source page not found.'));
+                throw new NotFoundHttpException($this->trans('Source page not found.'));
             }
             if (!$destinationPageId) {
-                throw new NotFoundHttpException($this->__('Destination page not found.'));
+                throw new NotFoundHttpException($this->trans('Destination page not found.'));
             }
             if ($sourcePageId === $destinationPageId) {
-                throw new RuntimeException($this->__('Destination page must not be the current page.'));
+                throw new RuntimeException($this->trans('Destination page must not be the current page.'));
             }
             /** @var PageEntity $sourcePage */
             $sourcePage = $entityFactory->getRepository('page')->selectById($sourcePageId);
             if (null === $sourcePage) {
-                throw new NotFoundHttpException($this->__('Source page not found.'));
+                throw new NotFoundHttpException($this->trans('Source page not found.'));
             }
             /** @var PageEntity $destinationPage */
             $destinationPage = $entityFactory->getRepository('page')->selectById($destinationPageId);
             if (null === $destinationPage) {
-                throw new NotFoundHttpException($this->__('Destination page not found.'));
+                throw new NotFoundHttpException($this->trans('Destination page not found.'));
             }
 
             if ('move' === $operationType) {
@@ -541,7 +541,7 @@ class ContentItemController extends AbstractContentItemController
                 $success = $workflowHelper->executeAction($contentItem, 'update');
                 if (!$success) {
                     return $this->json(
-                        ['message' => $this->__('Error! An error occured during saving the content.')],
+                        ['message' => $this->trans('Error! An error occured during saving the content.')],
                         Response::HTTP_BAD_REQUEST
                     );
                 }
@@ -575,7 +575,7 @@ class ContentItemController extends AbstractContentItemController
                 $success = $workflowHelper->executeAction($newItem, 'submit');
                 if (!$success) {
                     return $this->json(
-                        ['message' => $this->__('Error! An error occured during saving the content.')],
+                        ['message' => $this->trans('Error! An error occured during saving the content.')],
                         Response::HTTP_BAD_REQUEST
                     );
                 }
@@ -598,8 +598,8 @@ class ContentItemController extends AbstractContentItemController
             return $this->json([
                 'id' => $contentItem->getId(),
                 'message' => 'move' === $operationType
-                    ? $this->__('Done! Content moved.')
-                    : $this->__('Done! Content copied.')
+                    ? $this->trans('Done! Content moved.')
+                    : $this->trans('Done! Content copied.')
             ]);
         }
 
@@ -613,7 +613,7 @@ class ContentItemController extends AbstractContentItemController
             return $this->json($output);
         }
 
-        $output['message'] = $this->__('Error! Please check your input.');
+        $output['message'] = $this->trans('Error! Please check your input.');
 
         return $this->json($output, Response::HTTP_BAD_REQUEST);
     }

@@ -314,7 +314,7 @@ class PageController extends AbstractPageController
         /** @var PageEntity $page */
         $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
 
         if (!$permissionHelper->mayManagePageContent($page)) {
@@ -383,13 +383,13 @@ class PageController extends AbstractPageController
         int $id = 0
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
-            return $this->json($this->__('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
+            return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
         }
 
         /** @var PageEntity $page */
         $page = $entityFactory->getRepository('page')->selectById($id);
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
 
         if (!$permissionHelper->mayManagePageContent($page)) {
@@ -405,10 +405,10 @@ class PageController extends AbstractPageController
 
         $success = $workflowHelper->executeAction($page, 'update');
         if (!$success) {
-            return $this->json(['message' => $this->__('Error! An error occured during layout persistence.')], Response::HTTP_BAD_REQUEST);
+            return $this->json(['message' => $this->trans('Error! An error occured during layout persistence.')], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json(['message' => $this->__('Done! Layout saved.')]);
+        return $this->json(['message' => $this->trans('Done! Layout saved.')]);
     }
 
     /**
@@ -498,7 +498,7 @@ class PageController extends AbstractPageController
         /** @var PageEntity $oldPage */
         $oldPage = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $oldPage) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
 
         if (!$permissionHelper->mayEdit($oldPage)) {
@@ -517,7 +517,7 @@ class PageController extends AbstractPageController
             }
         }
 
-        $titleSuffix = ' - ' . $this->__('new copy');
+        $titleSuffix = ' - ' . $this->trans('new copy');
         $newPage = clone $oldPage;
         $newPage->setTitle($newPage->getTitle() . $titleSuffix);
         $slugParts = explode('/', $newPage->getSlug());
@@ -537,7 +537,7 @@ class PageController extends AbstractPageController
 
         $success = $workflowHelper->executeAction($newPage, 'submit');
         if (!$success) {
-            $this->addFlash('error', $this->__('Error! An error occured during duplicating the page.'));
+            $this->addFlash('error', $this->trans('Error! An error occured during duplicating the page.'));
 
             return $this->redirect($returnUrl);
         }
@@ -560,7 +560,7 @@ class PageController extends AbstractPageController
             }
             $success = $workflowHelper->executeAction($newItem, 'submit');
             if (!$success) {
-                $this->addFlash('error', $this->__('Error! An error occured during duplicating the page.'));
+                $this->addFlash('error', $this->trans('Error! An error occured during duplicating the page.'));
 
                 continue;
             }
@@ -593,12 +593,12 @@ class PageController extends AbstractPageController
 
         $success = $workflowHelper->executeAction($newPage, 'update');
         if (!$success) {
-            $this->addFlash('error', $this->__('Error! An error occurred during duplicating the page.'));
+            $this->addFlash('error', $this->trans('Error! An error occurred during duplicating the page.'));
 
             return $this->redirect($returnUrl);
         }
 
-        $this->addFlash('success', $this->__('Done! Page duplicated.'));
+        $this->addFlash('success', $this->trans('Done! Page duplicated.'));
 
         if ($newPage->supportsHookSubscribers()) {
             // Let any ui hooks know that we have updated the page
@@ -682,7 +682,7 @@ class PageController extends AbstractPageController
         /** @var PageEntity $page */
         $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
 
         if (!$permissionHelper->mayEdit($page)) {
@@ -703,7 +703,7 @@ class PageController extends AbstractPageController
                 break;
             }
             if (null === $contentItem) {
-                throw new NotFoundHttpException($this->__('No such content found.'));
+                throw new NotFoundHttpException($this->trans('No such content found.'));
             }
         }
 
@@ -878,7 +878,7 @@ class PageController extends AbstractPageController
         /** @var PageEntity $page */
         $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
-            throw new NotFoundHttpException($this->__('No such page found.'));
+            throw new NotFoundHttpException($this->trans('No such page found.'));
         }
 
         if (!$permissionHelper->hasEntityPermission($page, ACCESS_READ)) {

@@ -43,28 +43,30 @@ class AuthorType extends AbstractContentFormType
     {
         $builder
             ->add('author', UserLiveSearchType::class, [
-                'label' => $this->__('Author') . ':',
+                'label' => $this->trans('Author') . ':',
                 'attr' => [
                     'maxlength' => 11,
-                    'title' => $this->__('Here you can choose a user which will be used as author.')
+                    'title' => $this->trans('Here you can choose a user which will be used as author.')
                 ],
-                'help' => $this->__('Here you can choose a user which will be used as author.')
+                'help' => $this->trans('Here you can choose a user which will be used as author.')
             ])
             ->add('showAvatar', CheckboxType::class, [
-                'label' => $this->__('Display avatar') . ':',
+                'label' => $this->trans('Display avatar') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('avatarWidth', IntegerType::class, [
-                'label' => $this->__('Custom avatar with') . ':',
-                'help' => $this->__('An empty value or 0 will use the default size.'),
+                'label' => $this->trans('Custom avatar with') . ':',
+                'help' => $this->trans('An empty value or 0 will use the default size.'),
                 'attr' => [
                     'maxlength' => 4
                 ],
-                'input_group' => ['right' => 'px'],
+                'input_group' => ['right' => $this->trans('pixels')],
                 'required' => false
             ])
             ->add('showMessageLink', CheckboxType::class, [
-                'label' => $this->__('Display link for messaging') . ':',
+                'label' => $this->trans('Display link for messaging') . ':',
+                'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
         ;

@@ -35,20 +35,20 @@ class SlideshareType extends AbstractContentFormType
     {
         $builder
             ->add('url', TextType::class, [
-                'label' => $this->__('URL to the slide') . ':',
-                'help' => $this->__('Something like "https://www.slideshare.net/1Marc/jquery-essentials".')
+                'label' => $this->trans('URL to the slide') . ':',
+                'help' => $this->trans('Something like "https://www.slideshare.net/1Marc/jquery-essentials".')
             ])
             ->add('text', TextareaType::class, [
-                'label' => $this->__('Slide description') . ':',
+                'label' => $this->trans('Slide description') . ':',
                 'required' => false
             ])
             ->add('width', IntegerType::class, [
-                'label' => $this->__('Slideshare\'s embedded player width') . ':',
-                'input_group' => ['right' => $this->__('pixels')]
+                'label' => $this->trans('Slideshare\'s embedded player width') . ':',
+                'input_group' => ['right' => $this->trans('pixels')]
             ])
             ->add('height', IntegerType::class, [
-                'label' => $this->__('Slideshare\'s embedded player height') . ':',
-                'input_group' => ['right' => $this->__('pixels')]
+                'label' => $this->trans('Slideshare\'s embedded player height') . ':',
+                'input_group' => ['right' => $this->trans('pixels')]
             ])
         ;
     }

@@ -37,12 +37,12 @@ class HeadingType extends AbstractContentFormType
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('text', TextType::class, [
-                'label' => $this->__('Heading') . ':'
+                'label' => $this->trans('Heading') . ':'
             ])
         ;
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder->add('headingType', ChoiceType::class, [
-                'label' => $this->__('Heading type') . ':',
+                'label' => $this->trans('Heading type') . ':',
                 'label_attr' => [
                     'class' => 'radio-inline'
                 ],
@@ -55,18 +55,18 @@ class HeadingType extends AbstractContentFormType
             ]);
         }
         $builder->add('anchorName', TextType::class, [
-            'label' => $this->__('Internal anchor link name') . ':',
-            'help' => $this->__('Leave empty for no internal anchor link.'),
+            'label' => $this->trans('Internal anchor link name') . ':',
+            'help' => $this->trans('Leave empty for no internal anchor link.'),
             'required' => false,
             'attr' => [
-                'title' => $this->__('Leave empty for no internal anchor link.')
+                'title' => $this->trans('Leave empty for no internal anchor link.')
             ]
         ]);
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder->add('displayPageTitle', CheckboxType::class, [
-                'label' => $this->__('Display the page title'),
+                'label' => $this->trans('Display the page title'),
                 'label_attr' => ['class' => 'switch-custom'],
-                'help' => $this->__('If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'),
+                'help' => $this->trans('If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'),
                 'required' => false
             ]);
         }

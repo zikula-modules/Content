@@ -34,7 +34,8 @@ class SearchHelper extends AbstractSearchHelper
     {
         /*$builder->add('active', CheckboxType::class, [
             'data' => true,
-            'label' => $this->__('Content pages')
+            'label' => $this->trans('Content pages'),
+            'label_attr' => ['class' => 'checkbox-inline'],
         ]);*/
     }
 
