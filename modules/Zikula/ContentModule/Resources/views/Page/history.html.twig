@@ -110,7 +110,7 @@
                                                         {% endif %}
                                                         </li>
                                                     {% else %}
-                                                        <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': __('an empty collection')})|raw }}</li>
+                                                        <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': 'an empty collection'|trans})|raw }}</li>
                                                     {% endif %}
                                                 {% else %}
                                                     <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': _self.outputSimpleValue(value)})|raw }}</li>

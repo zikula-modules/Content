@@ -99,12 +99,12 @@ abstract class AbstractPageNeedle implements NeedleInterface
     
     public function getTitle(): string
     {
-        return $this->translator->__('Pages', [], 'zikulacontentmodule');
+        return $this->translator->trans('Pages', [], 'zikulacontentmodule');
     }
     
     public function getDescription(): string
     {
-        return $this->translator->__('Links to the list of pages and specific pages.', [], 'zikulacontentmodule');
+        return $this->translator->trans('Links to the list of pages and specific pages.', [], 'zikulacontentmodule');
     }
     
     public function getUsageInfo(): string
