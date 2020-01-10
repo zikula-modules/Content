@@ -109,11 +109,6 @@ class AbstractMenuBuilder
         $this->modelHelper = $modelHelper;
     }
     
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-    
     /**
      * Builds the item actions menu.
      */

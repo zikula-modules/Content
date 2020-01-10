@@ -89,11 +89,6 @@ abstract class AbstractControllerHelper
         $this->featureActivationHelper = $featureActivationHelper;
     }
     
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-    
     /**
      * Returns an array of all allowed object types in ZikulaContentModule.
      *

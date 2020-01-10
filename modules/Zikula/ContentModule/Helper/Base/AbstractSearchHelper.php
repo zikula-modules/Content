@@ -78,11 +78,6 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $this->permissionHelper = $permissionHelper;
     }
     
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-    
     public function amendForm(FormBuilderInterface $builder): void
     {
         if (!$this->permissionHelper->hasPermission(ACCESS_READ)) {

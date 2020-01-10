@@ -70,11 +70,6 @@ abstract class AbstractLoggableHelper
         $this->translatableHelper = $translatableHelper;
     }
     
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-    
     /**
      * Determines template parameters for diff view.
      */

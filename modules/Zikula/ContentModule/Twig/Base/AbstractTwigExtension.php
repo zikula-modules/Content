@@ -102,11 +102,6 @@ abstract class AbstractTwigExtension extends AbstractExtension
         $this->menuBuilder = $menuBuilder;
     }
     
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-    
     public function getFunctions()
     {
         return [

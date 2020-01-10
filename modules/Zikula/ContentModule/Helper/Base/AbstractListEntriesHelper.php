@@ -29,11 +29,6 @@ abstract class AbstractListEntriesHelper
         $this->setTranslator($translator);
     }
     
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-    
     /**
      * Return the name or names for a given list item.
      */

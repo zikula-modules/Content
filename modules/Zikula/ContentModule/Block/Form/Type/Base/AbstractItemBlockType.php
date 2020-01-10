@@ -52,11 +52,6 @@ abstract class AbstractItemBlockType extends AbstractType
         $this->entityDisplayHelper = $entityDisplayHelper;
     }
 
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $this->addObjectTypeField($builder, $options);
