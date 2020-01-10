@@ -533,7 +533,7 @@ class PageController extends AbstractPageController
             }
         }
 
-        $newPage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CLONED|%page=' . $oldPage->getKey());
+        $newPage->set_actionDescriptionForLogEntry('_HISTORY_PAGE_CLONED|%page%=' . $oldPage->getKey());
 
         $success = $workflowHelper->executeAction($newPage, 'submit');
         if (!$success) {
