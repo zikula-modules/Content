@@ -99,12 +99,12 @@ abstract class AbstractPageNeedle implements NeedleInterface
     
     public function getTitle(): string
     {
-        return $this->translator->__('Pages', 'zikulacontentmodule');
+        return $this->translator->__('Pages', [], 'zikulacontentmodule');
     }
     
     public function getDescription(): string
     {
-        return $this->translator->__('Links to the list of pages and specific pages.', 'zikulacontentmodule');
+        return $this->translator->__('Links to the list of pages and specific pages.', [], 'zikulacontentmodule');
     }
     
     public function getUsageInfo(): string
@@ -155,8 +155,8 @@ abstract class AbstractPageNeedle implements NeedleInterface
                     [],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
-                $linkTitle = $this->translator->__('View pages', 'zikulacontentmodule');
-                $linkText = $this->translator->__('Pages', 'zikulacontentmodule');
+                $linkTitle = $this->translator->trans('View pages', [], 'zikulacontentmodule');
+                $linkText = $this->translator->trans('Pages', [], 'zikulacontentmodule');
                 $cache[$needleId] = '<a href="' . $route . '" title="' . $linkTitle . '">' . $linkText . '</a>';
             }
     
@@ -173,7 +173,7 @@ abstract class AbstractPageNeedle implements NeedleInterface
         $repository = $this->entityFactory->getRepository('page');
         $entity = $repository->selectById($entityId, false);
         if (null === $entity) {
-            $notFoundMessage = $this->translator->__f(
+            $notFoundMessage = $this->translator->trans(
                 'Page with id %id% could not be found',
                 ['%id%' => $entityId],
                 'zikulacontentmodule'

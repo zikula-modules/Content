@@ -219,11 +219,11 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $searchTypes = [
             'zikulaContentModulePages' => [
                 'value' => 'page',
-                'label' => $this->trans('Pages', 'zikulacontentmodule')
+                'label' => $this->trans('Pages', [], 'zikulacontentmodule')
             ],
             'zikulaContentModuleContentItems' => [
                 'value' => 'contentItem',
-                'label' => $this->trans('Content items', 'zikulacontentmodule')
+                'label' => $this->trans('Content items', [], 'zikulacontentmodule')
             ]
         ];
     

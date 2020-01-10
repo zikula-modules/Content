@@ -147,7 +147,7 @@ class AbstractMenuBuilder
             ;
             
             if ('admin' === $routeArea) {
-                $title = $this->trans('Preview', 'zikulacontentmodule');
+                $title = $this->trans('Preview', [], 'zikulacontentmodule');
                 $previewRouteParameters = $entity->createUrlArgs();
                 $previewRouteParameters['preview'] = 1;
                 $menu->addChild($title, [
@@ -157,7 +157,7 @@ class AbstractMenuBuilder
                 $menu[$title]->setLinkAttribute('target', '_blank');
                 $menu[$title]->setLinkAttribute(
                     'title',
-                    $this->trans('Open preview page', 'zikulacontentmodule')
+                    $this->trans('Open preview page', [], 'zikulacontentmodule')
                 );
                 if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
@@ -165,7 +165,7 @@ class AbstractMenuBuilder
                 $menu[$title]->setAttribute('icon', 'fa fa-search-plus');
             }
             if ('display' !== $context) {
-                $title = $this->trans('Details', 'zikulacontentmodule');
+                $title = $this->trans('Details', [], 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'display',
                     'routeParameters' => $entity->createUrlArgs()
@@ -183,41 +183,41 @@ class AbstractMenuBuilder
             if ($this->permissionHelper->mayEdit($entity)) {
                 // only allow editing for the owner or people with higher permissions
                 if ($isOwner || $this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
-                    $title = $this->trans('Edit', 'zikulacontentmodule');
+                    $title = $this->trans('Edit', [], 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => $entity->createUrlArgs(true)
                     ]);
                     $menu[$title]->setLinkAttribute(
                         'title',
-                        $this->trans('Edit this page', 'zikulacontentmodule')
+                        $this->trans('Edit this page', [], 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-edit');
-                    $title = $this->trans('Reuse', 'zikulacontentmodule');
+                    $title = $this->trans('Reuse', [], 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => ['astemplate' => $entity->getKey()]
                     ]);
                     $menu[$title]->setLinkAttribute(
                         'title',
-                        $this->trans('Reuse for new page', 'zikulacontentmodule')
+                        $this->trans('Reuse for new page', [], 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-files-o');
                     if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
-                        $title = $this->trans('Add sub page', 'zikulacontentmodule');
+                        $title = $this->trans('Add sub page', [], 'zikulacontentmodule');
                         $menu->addChild($title, [
                             'route' => $routePrefix . $routeArea . 'edit',
                             'routeParameters' => ['parent' => $entity->getKey()]
                         ]);
                         $menu[$title]->setLinkAttribute(
                             'title',
-                            $this->trans('Add a sub page to this page', 'zikulacontentmodule')
+                            $this->trans('Add a sub page to this page', [], 'zikulacontentmodule')
                         );
                         if ('display' === $context) {
                             $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
@@ -228,14 +228,14 @@ class AbstractMenuBuilder
             }
             if ($this->permissionHelper->mayAccessHistory($entity)) {
                 if (in_array($context, ['view', 'display']) && $this->loggableHelper->hasHistoryItems($entity)) {
-                    $title = $this->trans('History', 'zikulacontentmodule');
+                    $title = $this->trans('History', [], 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'loggablehistory',
                         'routeParameters' => $entity->createUrlArgs()
                     ]);
                     $menu[$title]->setLinkAttribute(
                         'title',
-                        $this->trans('Watch version history', 'zikulacontentmodule')
+                        $this->trans('Watch version history', [], 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
@@ -244,7 +244,7 @@ class AbstractMenuBuilder
                 }
             }
             if ('display' === $context) {
-                $title = $this->trans('Pages list', 'zikulacontentmodule');
+                $title = $this->trans('Pages list', [], 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view'
                 ]);
@@ -297,7 +297,7 @@ class AbstractMenuBuilder
             $showOnlyOwn = 'admin' !== $routeArea && $this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
             if ('tree' === $currentTemplate) {
                 if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
-                    $title = $this->trans('Add root node', 'zikulacontentmodule');
+                    $title = $this->trans('Add root node', [], 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'uri' => 'javascript:void(0)'
                     ]);
@@ -307,7 +307,7 @@ class AbstractMenuBuilder
                     $menu[$title]->setLinkAttribute('title', $title);
                     $menu[$title]->setAttribute('icon', 'fa fa-plus');
                 }
-                $title = $this->trans('Switch to table view', 'zikulacontentmodule');
+                $title = $this->trans('Switch to table view', [], 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view'
                 ]);
@@ -318,7 +318,7 @@ class AbstractMenuBuilder
                 $canBeCreated = $this->modelHelper->canBeCreated($objectType);
                 if ($canBeCreated) {
                     if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
-                        $title = $this->trans('Create page', 'zikulacontentmodule');
+                        $title = $this->trans('Create page', [], 'zikulacontentmodule');
                         $menu->addChild($title, [
                             'route' => $routePrefix . $routeArea . 'edit'
                         ]);
@@ -334,10 +334,10 @@ class AbstractMenuBuilder
                 }
                 if (1 === $query->getInt('all')) {
                     unset($routeParameters['all']);
-                    $title = $this->trans('Back to paginated view', 'zikulacontentmodule');
+                    $title = $this->trans('Back to paginated view', [], 'zikulacontentmodule');
                 } else {
                     $routeParameters['all'] = 1;
-                    $title = $this->trans('Show all entries', 'zikulacontentmodule');
+                    $title = $this->trans('Show all entries', [], 'zikulacontentmodule');
                 }
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view',
@@ -345,7 +345,7 @@ class AbstractMenuBuilder
                 ]);
                 $menu[$title]->setLinkAttribute('title', $title);
                 $menu[$title]->setAttribute('icon', 'fa fa-table');
-                $title = $this->trans('Switch to hierarchy view', 'zikulacontentmodule');
+                $title = $this->trans('Switch to hierarchy view', [], 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view',
                     'routeParameters' => ['tpl' => 'tree']
@@ -356,11 +356,11 @@ class AbstractMenuBuilder
                     $routeParameters = $query->all();
                     if (1 === $query->getInt('own')) {
                         unset($routeParameters['own']);
-                        $title = $this->trans('Show also entries from other users', 'zikulacontentmodule');
+                        $title = $this->trans('Show also entries from other users', [], 'zikulacontentmodule');
                         $icon = 'users';
                     } else {
                         $routeParameters['own'] = 1;
-                        $title = $this->trans('Show only own entries', 'zikulacontentmodule');
+                        $title = $this->trans('Show only own entries', [], 'zikulacontentmodule');
                         $icon = 'user';
                     }
                     $menu->addChild($title, [
@@ -376,7 +376,7 @@ class AbstractMenuBuilder
                     $hasDeletedEntities = $this->loggableHelper->hasDeletedEntities($objectType);
                 }
                 if ($hasDeletedEntities) {
-                    $title = $this->trans('View deleted pages', 'zikulacontentmodule');
+                    $title = $this->trans('View deleted pages', [], 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'view',
                         'routeParameters' => ['deleted' => 1]
