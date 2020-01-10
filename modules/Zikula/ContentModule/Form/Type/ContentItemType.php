@@ -21,9 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\ContentTypeInterface;
-use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
@@ -34,8 +32,6 @@ use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
  */
 class ContentItemType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * @var ListEntriesHelper
      */
@@ -47,11 +43,9 @@ class ContentItemType extends AbstractType
     private $stylingClasses;
 
     public function __construct(
-        TranslatorInterface $translator,
         ListEntriesHelper $listHelper,
         VariableApiInterface $variableApi
     ) {
-        $this->setTranslator($translator);
         $this->listHelper = $listHelper;
         $this->stylingClasses = $variableApi->get('ZikulaContentModule', 'contentStyles', '');
     }
@@ -69,16 +63,16 @@ class ContentItemType extends AbstractType
             }
         }
         $builder->add('active', CheckboxType::class, [
-            'label' => $this->trans('Active') . ':',
+            'label' => 'Active:',
             'label_attr' => ['class' => 'switch-custom'],
             'attr' => [
-                'title' => $this->trans('active ?')
+                'title' => 'active ?'
             ],
             'required' => false,
         ]);
 
         $builder->add('activeFrom', DateTimeType::class, [
-            'label' => $this->trans('Active from') . ':',
+            'label' => 'Active from:',
             'attr' => [
                 'class' => 'validate-daterange-entity-page'
             ],
@@ -90,7 +84,7 @@ class ContentItemType extends AbstractType
         ]);
 
         $builder->add('activeTo', DateTimeType::class, [
-            'label' => $this->trans('Active to') . ':',
+            'label' => 'Active to:',
             'attr' => [
                 'class' => 'validate-daterange-entity-page'
             ],
@@ -108,9 +102,9 @@ class ContentItemType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $helpText = $this->trans('As soon as at least one selected entry applies for the current user the content becomes visible.');
+        $helpText = 'As soon as at least one selected entry applies for the current user the content becomes visible.';
         $builder->add('scope', MultiListType::class, [
-            'label' => $this->trans('Scope') . ':',
+            'label' => 'Scope:',
             'label_attr' => [
                 'class' => 'tooltips checkbox-inline',
                 'title' => $helpText
@@ -119,7 +113,7 @@ class ContentItemType extends AbstractType
             'empty_data' => '0',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('Choose the scope.')
+                'title' => 'Choose the scope.'
             ],
             'required' => true,
             'choices' => $choices,
@@ -140,19 +134,19 @@ class ContentItemType extends AbstractType
         }
 
         $builder->add('stylingClasses', ChoiceType::class, [
-            'label' => $this->trans('Styling classes') . ':',
+            'label' => 'Styling classes:',
             'empty_data' => [],
             'attr' => [
-                'title' => $this->trans('Choose any additional styling classes.')
+                'title' => 'Choose any additional styling classes.'
             ],
             'required' => false,
             'choices' => $choices,
             'multiple' => true
         ]);
 
-        $helpText = $this->trans('You may enter any text which will be used during the site search to find this element.');
+        $helpText = 'You may enter any text which will be used during the site search to find this element.';
         $builder->add('additionalSearchText', TextType::class, [
-            'label' => $this->trans('Additional search text') . ':',
+            'label' => 'Additional search text:',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,

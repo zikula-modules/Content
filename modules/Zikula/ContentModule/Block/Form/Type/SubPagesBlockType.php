@@ -19,29 +19,20 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
 
 /**
  * Sub pages block form type implementation class.
  */
 class SubPagesBlockType extends AbstractType
 {
-    use TranslatorTrait;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $helpText = $this->trans('The maximum amount of items to be shown.', [], 'zikulacontentmodule')
+        $helpText = 'The maximum amount of items to be shown.'
             . ' '
-            . $this->trans('Only digits are allowed.', [], 'zikulacontentmodule')
+            . 'Only digits are allowed.'
         ;
         $builder->add('amount', IntegerType::class, [
-            'label' => $this->trans('Amount', [], 'zikulacontentmodule') . ':',
+            'label' => 'Amount:',
             'attr' => [
                 'maxlength' => 2,
                 'title' => $helpText
@@ -50,18 +41,18 @@ class SubPagesBlockType extends AbstractType
             'empty_data' => 5
         ]);
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->trans('Use only pages activated for the menu', [], 'zikulacontentmodule') . ':',
+            'label' => 'Use only pages activated for the menu:',
             'label_attr' => ['class' => 'switch-custom'],
             'required' => false
         ]);
         $builder->add('filter', TextType::class, [
-            'label' => $this->trans('Filter (expert option)', [], 'zikulacontentmodule') . ':',
+            'label' => 'Filter (expert option):',
             'required' => false,
             'attr' => [
                 'maxlength' => 255,
-                'title' => $this->trans('Example', [], 'zikulacontentmodule') . ': tbl.age >= 18'
+                'title' => 'Example: tbl.age >= 18'
             ],
-            'help' => $this->trans('Example', [], 'zikulacontentmodule') . ': <code>tbl.age >= 18</code>',
+            'help' => 'Example: <code>tbl.age >= 18</code>',
             'help_html' => true
         ]);
     }

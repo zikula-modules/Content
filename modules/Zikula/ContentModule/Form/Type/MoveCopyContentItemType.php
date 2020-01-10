@@ -17,30 +17,23 @@ namespace Zikula\ContentModule\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
-use Zikula\Common\Translator\TranslatorTrait;
 
 /**
  * Content item moving and copying form type implementation class.
  */
 class MoveCopyContentItemType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * @var EntityFactory
      */
     private $entityFactory;
 
-    public function __construct(
-        TranslatorInterface $translator,
-        EntityFactory $entityFactory
-    ) {
-        $this->setTranslator($translator);
+    public function __construct(EntityFactory $entityFactory)
+    {
         $this->entityFactory = $entityFactory;
     }
 
@@ -51,20 +44,20 @@ class MoveCopyContentItemType extends AbstractType
             'multiple' => false,
             'expanded' => false,
             'use_joins' => false,
-            'label' => $this->trans('Destination page') . ':'
+            'label' => 'Destination page:'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('destinationPage')->addModelTransformer($transformer);
 
         $builder->add('operationType', ChoiceType::class, [
-            'label' => $this->trans('Operation type') . ':',
+            'label' => 'Operation type:',
             'label_attr' => [
                 'class' => 'radio-custom'
             ],
             'empty_data' => 'copy',
             'choices' => [
-                $this->trans('Move') => 'move',
-                $this->trans('Copy') => 'copy'
+                'Move' => 'move',
+                'Copy' => 'copy'
             ],
             'multiple' => false,
             'expanded' => true

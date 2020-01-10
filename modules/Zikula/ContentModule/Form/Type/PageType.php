@@ -59,10 +59,10 @@ class PageType extends AbstractPageType
             }
 
             $builder->add('stylingClasses', ChoiceType::class, [
-                'label' => $this->trans('Styling classes') . ':',
+                'label' => 'Styling classes:',
                 'empty_data' => [],
                 'attr' => [
-                    'title' => $this->trans('Choose any additional styling classes.')
+                    'title' => 'Choose any additional styling classes.'
                 ],
                 'required' => false,
                 'choices' => $choices,

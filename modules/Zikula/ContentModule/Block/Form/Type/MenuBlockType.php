@@ -20,8 +20,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
@@ -32,37 +30,32 @@ use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
  */
 class MenuBlockType extends AbstractType
 {
-    use TranslatorTrait;
-
     /**
      * @var EntityFactory
      */
     protected $entityFactory;
 
-    public function __construct(
-        TranslatorInterface $translator,
-        EntityFactory $entityFactory
-    ) {
-        $this->setTranslator($translator);
+    public function __construct(EntityFactory $entityFactory)
+    {
         $this->entityFactory = $entityFactory;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('navType', ChoiceType::class, [
-            'label' => $this->trans('Navigation type', [], 'zikulacontentmodule') . ':',
+            'label' => 'Navigation type:',
             'choices' => [
-                $this->trans('None', [], 'zikulacontentmodule') => '0',
-                $this->trans('Tabs', [], 'zikulacontentmodule') => '1',
-                $this->trans('Pills', [], 'zikulacontentmodule') => '2',
-                $this->trans('Navbar', [], 'zikulacontentmodule') => '3'
+                'None' => '0',
+                'Tabs' => '1',
+                'Pills' => '2',
+                'Navbar' => '3'
             ]
         ]);
         $builder->add('subPagesHandling', ChoiceType::class, [
-            'label' => $this->trans('Sub pages handling', [], 'zikulacontentmodule') . ':',
+            'label' => 'Sub pages handling:',
             'choices' => [
-                $this->trans('Hide them', [], 'zikulacontentmodule') => 'hide',
-                $this->trans('Use dropdowns', [], 'zikulacontentmodule') => 'dropdown'
+                'Hide them' => 'hide',
+                'Use dropdowns' => 'dropdown'
             ]
         ]);
         $builder->add('root', EntityTreeType::class, [
@@ -70,18 +63,18 @@ class MenuBlockType extends AbstractType
             'multiple' => false,
             'expanded' => false,
             'use_joins' => false,
-            'placeholder' => $this->trans('All pages', [], 'zikulacontentmodule'),
+            'placeholder' => 'All pages',
             'required' => false,
-            'label' => $this->trans('Include the following subpages', [], 'zikulacontentmodule') . ':'
+            'label' => 'Include the following subpages:'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);
-        $helpText = $this->trans('The maximum amount of items to be shown.', [], 'zikulacontentmodule')
+        $helpText = 'The maximum amount of items to be shown.'
             . ' '
-            . $this->trans('Only digits are allowed.', [], 'zikulacontentmodule')
+            . 'Only digits are allowed.'
         ;
         $builder->add('amount', IntegerType::class, [
-            'label' => $this->trans('Amount', [], 'zikulacontentmodule') . ':',
+            'label' => 'Amount:',
             'attr' => [
                 'maxlength' => 2,
                 'title' => $helpText
@@ -90,18 +83,18 @@ class MenuBlockType extends AbstractType
             'empty_data' => 5
         ]);
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->trans('Use only pages activated for the menu', [], 'zikulacontentmodule') . ':',
+            'label' => 'Use only pages activated for the menu:',
             'label_attr' => ['class' => 'switch-custom'],
             'required' => false
         ]);
         $builder->add('filter', TextType::class, [
-            'label' => $this->trans('Filter (expert option)', [], 'zikulacontentmodule') . ':',
+            'label' => 'Filter (expert option):',
             'required' => false,
             'attr' => [
                 'maxlength' => 255,
-                'title' => $this->trans('Example', [], 'zikulacontentmodule') . ': tbl.age >= 18'
+                'title' => 'Example: tbl.age >= 18'
             ],
-            'help' => $this->trans('Example', [], 'zikulacontentmodule') . ': <code>tbl.age >= 18</code>',
+            'help' => 'Example: <code>tbl.age >= 18</code>',
             'help_html' => true
         ]);
     }
