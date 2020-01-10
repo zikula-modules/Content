@@ -74,7 +74,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
     public function getType(): string
     {
-        return $this->trans('Content list', 'zikulacontentmodule');
+        return $this->trans('Content list', [], 'zikulacontentmodule');
     }
     
     public function display(array $properties = []): string
@@ -140,7 +140,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
     
         // set a block title
         if (empty($properties['title'])) {
-            $properties['title'] = $this->trans('Content list', 'zikulacontentmodule');
+            $properties['title'] = $this->trans('Content list', [], 'zikulacontentmodule');
         }
     
         $template = $this->getDisplayTemplate($properties);

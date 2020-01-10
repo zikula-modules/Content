@@ -51,20 +51,20 @@ class MoveCopyContentItemType extends AbstractType
             'multiple' => false,
             'expanded' => false,
             'use_joins' => false,
-            'label' => $this->__('Destination page') . ':'
+            'label' => $this->trans('Destination page') . ':'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('destinationPage')->addModelTransformer($transformer);
 
         $builder->add('operationType', ChoiceType::class, [
-            'label' => $this->__('Operation type') . ':',
+            'label' => $this->trans('Operation type') . ':',
             'label_attr' => [
                 'class' => 'radio-custom'
             ],
             'empty_data' => 'copy',
             'choices' => [
-                $this->__('Move') => 'move',
-                $this->__('Copy') => 'copy'
+                $this->trans('Move') => 'move',
+                $this->trans('Copy') => 'copy'
             ],
             'multiple' => false,
             'expanded' => true

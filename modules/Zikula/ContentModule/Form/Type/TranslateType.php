@@ -111,64 +111,64 @@ class TranslateType extends AbstractType
     public function addPageFields(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('title', TextType::class, [
-            'label' => $this->__('Title') . ':',
+            'label' => $this->trans('Title') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the title of the page.')
+                'title' => $this->trans('Enter the title of the page.')
             ],
             'required' => true,
         ]);
         $builder->add('metaDescription', TextType::class, [
-            'label' => $this->__('Meta description') . ':',
+            'label' => $this->trans('Meta description') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->__('Enter the meta description of the page.')
+                'title' => $this->trans('Enter the meta description of the page.')
             ],
             'required' => false,
         ]);
         if ($this->variableApi->get('ZikulaContentModule', 'enableOptionalString1')) {
             $builder->add('optionalString1', TextType::class, [
-                'label' => $this->__('Optional string 1') . ':',
+                'label' => $this->trans('Optional string 1') . ':',
                 'empty_data' => '',
                 'attr' => [
                     'maxlength' => 255,
                     'class' => '',
-                    'title' => $this->__('Enter the optional string 1 of the page.')
+                    'title' => $this->trans('Enter the optional string 1 of the page.')
                 ],
                 'required' => false,
             ]);
         }
         if ($this->variableApi->get('ZikulaContentModule', 'enableOptionalString2')) {
             $builder->add('optionalString2', TextType::class, [
-                'label' => $this->__('Optional string 2') . ':',
+                'label' => $this->trans('Optional string 2') . ':',
                 'empty_data' => '',
                 'attr' => [
                     'maxlength' => 255,
                     'class' => '',
-                    'title' => $this->__('Enter the optional string 2 of the page.')
+                    'title' => $this->trans('Enter the optional string 2 of the page.')
                 ],
                 'required' => false,
             ]);
         }
         if ($this->variableApi->get('ZikulaContentModule', 'enableOptionalText')) {
             $builder->add('optionalText', TextareaType::class, [
-                'label' => $this->__('Optional text') . ':',
-                'help' => $this->__f('Note: this value must not exceed %amount% characters.', ['%amount%' => 2000]),
+                'label' => $this->trans('Optional text') . ':',
+                'help' => $this->trans('Note: this value must not exceed %amount% characters.', ['%amount%' => 2000]),
                 'empty_data' => '',
                 'attr' => [
                     'maxlength' => 2000,
                     'class' => '',
-                    'title' => $this->__('Enter the optional text of the page.')
+                    'title' => $this->trans('Enter the optional text of the page.')
                 ],
                 'required' => false,
             ]);
         }
         $builder->add('slug', TextType::class, [
-            'label' => $this->__('Permalink') . ':',
+            'label' => $this->trans('Permalink') . ':',
             'required' => true,
             'empty_data' => '',
             'attr' => [
@@ -183,9 +183,9 @@ class TranslateType extends AbstractType
      */
     public function addItemFields(FormBuilderInterface $builder, array $options = []): void
     {
-        $helpText = $this->__('You may enter any text which will be used during the site search to find this element.');
+        $helpText = $this->trans('You may enter any text which will be used during the site search to find this element.');
         $builder->add('additionalSearchText', TextType::class, [
-            'label' => $this->__('Additional search text') . ':',
+            'label' => $this->trans('Additional search text') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
@@ -203,7 +203,7 @@ class TranslateType extends AbstractType
     {
         if ('page' !== $options['mode']) {
             $builder->add('prev', SubmitType::class, [
-                'label' => $this->__('Previous'),
+                'label' => $this->trans('Previous'),
                 'icon' => 'fa-arrow-left',
                 'attr' => [
                     'class' => 'btn btn-default'
@@ -211,28 +211,28 @@ class TranslateType extends AbstractType
             ]);
         }
         $builder->add('next', SubmitType::class, [
-            'label' => $this->__('Next'),
+            'label' => $this->trans('Next'),
             'icon' => 'fa-arrow-right',
             'attr' => [
                 'class' => 'btn btn-primary'
             ]
         ]);
         $builder->add('skip', SubmitType::class, [
-            'label' => $this->__('Skip'),
+            'label' => $this->trans('Skip'),
             'icon' => 'fa-exchange',
             'attr' => [
                 'class' => 'btn btn-default'
             ]
         ]);
         $builder->add('saveandquit', SubmitType::class, [
-            'label' => $this->__('Save and quit'),
+            'label' => $this->trans('Save and quit'),
             'icon' => 'fa-floppy-o',
             'attr' => [
                 'class' => 'btn btn-default'
             ]
         ]);
         $builder->add('cancel', SubmitType::class, [
-            'label' => $this->__('Cancel'),
+            'label' => $this->trans('Cancel'),
             'validate' => false,
             'icon' => 'fa-times',
             'attr' => [

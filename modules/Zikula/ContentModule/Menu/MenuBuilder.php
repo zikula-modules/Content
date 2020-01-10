@@ -47,8 +47,8 @@ class MenuBuilder extends AbstractMenuBuilder
             return $menu;
         }
 
-        $searchTitle = $this->__('Details', 'zikulacontentmodule');
-        $reuseTitle = $this->__('Reuse', 'zikulacontentmodule');
+        $searchTitle = $this->trans('Details', [], 'zikulacontentmodule');
+        $reuseTitle = $this->trans('Reuse', [], 'zikulacontentmodule');
         if ($hasEditPermissions) {
             $searchTitle = $reuseTitle;
         }
@@ -73,14 +73,14 @@ class MenuBuilder extends AbstractMenuBuilder
         $context = $options['context'];
 
         if ($hasContentPermissions) {
-            $title = $this->__('Manage content', 'zikulacontentmodule');
+            $title = $this->trans('Manage content', [], 'zikulacontentmodule');
             $menu->addChild($title, [
                 'route' => $routePrefix . $routeArea . 'managecontent',
                 'routeParameters' => $entity->createUrlArgs()
             ]);
             $menu[$title]->setLinkAttribute(
                 'title',
-                $this->__('Manage content elements of page', 'zikulacontentmodule')
+                $this->trans('Manage content elements of page', [], 'zikulacontentmodule')
             );
             if ('display' === $context) {
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
@@ -88,14 +88,14 @@ class MenuBuilder extends AbstractMenuBuilder
             $menu[$title]->setAttribute('icon', 'fa fa-cubes');
         }
         if ($hasEditPermissions) {
-            $title = $this->__('Duplicate', 'zikulacontentmodule');
+            $title = $this->trans('Duplicate', [], 'zikulacontentmodule');
             $menu->addChild($title, [
                 'route' => $routePrefix . $routeArea . 'duplicate',
                 'routeParameters' => $entity->createUrlArgs()
             ]);
             $menu[$title]->setLinkAttribute(
                 'title',
-                $this->__('Duplicate this page', 'zikulacontentmodule')
+                $this->trans('Duplicate this page', [], 'zikulacontentmodule')
             );
             if ('display' === $context) {
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
@@ -103,14 +103,14 @@ class MenuBuilder extends AbstractMenuBuilder
             $menu[$title]->setAttribute('icon', 'fa fa-copy');
         }
         if ($this->multilingual && $hasEditPermissions && $hasContentPermissions) {
-            $title = $this->__('Translate', 'zikulacontentmodule');
+            $title = $this->trans('Translate', [], 'zikulacontentmodule');
             $menu->addChild($title, [
                 'route' => $routePrefix . $routeArea . 'translate',
                 'routeParameters' => $entity->createUrlArgs()
             ]);
             $menu[$title]->setLinkAttribute(
                 'title',
-                $this->__('Translate this page', 'zikulacontentmodule')
+                $this->trans('Translate this page', [], 'zikulacontentmodule')
             );
             if ('display' === $context) {
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');

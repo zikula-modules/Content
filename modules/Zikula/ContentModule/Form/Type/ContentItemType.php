@@ -69,18 +69,18 @@ class ContentItemType extends AbstractType
             }
         }
         $builder->add('active', CheckboxType::class, [
-            'label' => $this->__('Active') . ':',
+            'label' => $this->trans('Active') . ':',
             'label_attr' => ['class' => 'switch-custom'],
             'attr' => [
-                'title' => $this->__('active ?')
+                'title' => $this->trans('active ?')
             ],
             'required' => false,
         ]);
 
         $builder->add('activeFrom', DateTimeType::class, [
-            'label' => $this->__('Active from') . ':',
+            'label' => $this->trans('Active from') . ':',
             'attr' => [
-                'class' => 'validate-daterange-page'
+                'class' => 'validate-daterange-entity-page'
             ],
             'required' => false,
             'empty_data' => '',
@@ -90,9 +90,9 @@ class ContentItemType extends AbstractType
         ]);
 
         $builder->add('activeTo', DateTimeType::class, [
-            'label' => $this->__('Active to') . ':',
+            'label' => $this->trans('Active to') . ':',
             'attr' => [
-                'class' => 'validate-daterange-page'
+                'class' => 'validate-daterange-entity-page'
             ],
             'required' => false,
             'empty_data' => '',
@@ -108,9 +108,9 @@ class ContentItemType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $helpText = $this->__('As soon as at least one selected entry applies for the current user the content becomes visible.');
+        $helpText = $this->trans('As soon as at least one selected entry applies for the current user the content becomes visible.');
         $builder->add('scope', MultiListType::class, [
-            'label' => $this->__('Scope') . ':',
+            'label' => $this->trans('Scope') . ':',
             'label_attr' => [
                 'class' => 'tooltips checkbox-inline',
                 'title' => $helpText
@@ -119,7 +119,7 @@ class ContentItemType extends AbstractType
             'empty_data' => '0',
             'attr' => [
                 'class' => '',
-                'title' => $this->__('Choose the scope.')
+                'title' => $this->trans('Choose the scope.')
             ],
             'required' => true,
             'choices' => $choices,
@@ -140,19 +140,19 @@ class ContentItemType extends AbstractType
         }
 
         $builder->add('stylingClasses', ChoiceType::class, [
-            'label' => $this->__('Styling classes') . ':',
+            'label' => $this->trans('Styling classes') . ':',
             'empty_data' => [],
             'attr' => [
-                'title' => $this->__('Choose any additional styling classes.')
+                'title' => $this->trans('Choose any additional styling classes.')
             ],
             'required' => false,
             'choices' => $choices,
             'multiple' => true
         ]);
 
-        $helpText = $this->__('You may enter any text which will be used during the site search to find this element.');
+        $helpText = $this->trans('You may enter any text which will be used during the site search to find this element.');
         $builder->add('additionalSearchText', TextType::class, [
-            'label' => $this->__('Additional search text') . ':',
+            'label' => $this->trans('Additional search text') . ':',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,

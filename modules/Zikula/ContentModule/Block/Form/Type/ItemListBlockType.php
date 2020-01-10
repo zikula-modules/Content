@@ -52,9 +52,9 @@ class ItemListBlockType extends AbstractItemListBlockType
             'multiple' => false,
             'expanded' => false,
             'use_joins' => false,
-            'placeholder' => $this->__('All pages', 'zikulacontentmodule'),
+            'placeholder' => $this->__('All pages', [], 'zikulacontentmodule'),
             'required' => false,
-            'label' => $this->__('Include the following subpages', 'zikulacontentmodule') . ':'
+            'label' => $this->__('Include the following subpages', [], 'zikulacontentmodule') . ':'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);
@@ -70,7 +70,7 @@ class ItemListBlockType extends AbstractItemListBlockType
         $this->addSortingField($builder, $options);
         $this->addAmountField($builder, $options);
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->__('Use only pages activated for the menu', 'zikulacontentmodule') . ':',
+            'label' => $this->__('Use only pages activated for the menu', [], 'zikulacontentmodule') . ':',
             'label_attr' => ['class' => 'switch-custom'],
             'required' => false
         ]);
@@ -80,14 +80,14 @@ class ItemListBlockType extends AbstractItemListBlockType
     public function addSortingField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('sorting', ChoiceType::class, [
-            'label' => $this->__('Sorting', 'zikulacontentmodule') . ':',
+            'label' => $this->__('Sorting', [], 'zikulacontentmodule') . ':',
             'empty_data' => 'default',
             'choices' => [
-                $this->__('Random', 'zikulacontentmodule') => 'random',
-                $this->__('Newest', 'zikulacontentmodule') => 'newest',
-                $this->__('Updated', 'zikulacontentmodule') => 'updated',
-                $this->__('Views', 'zikulacontentmodule') => 'views',
-                $this->__('Default', 'zikulacontentmodule') => 'default'
+                $this->__('Random', [], 'zikulacontentmodule') => 'random',
+                $this->__('Newest', [], 'zikulacontentmodule') => 'newest',
+                $this->__('Updated', [], 'zikulacontentmodule') => 'updated',
+                $this->__('Views', [], 'zikulacontentmodule') => 'views',
+                $this->__('Default', [], 'zikulacontentmodule') => 'default'
             ],
             'multiple' => false,
             'expanded' => false
