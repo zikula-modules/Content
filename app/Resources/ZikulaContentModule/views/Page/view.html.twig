@@ -47,34 +47,34 @@
                     <th id="hItemActionsStart" scope="col" class="">{% trans %}Actions{% endtrans %}</th>
                     {% if routeArea == 'admin' %}
                     <th id="hWorkflowState" scope="col" class="text-left">
-                        <a href="{{ sort.workflowState.url }}" title="{{ 'Sort by %s'|trans({'%s': 'state'})|e('html_attr') }}" class="{{ sort.workflowState.class }}">{% trans %}State{% endtrans %}</a>
+                        <a href="{{ sort.workflowState.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'state'})|e('html_attr') }}" class="{{ sort.workflowState.class }}">{% trans %}State{% endtrans %}</a>
                     </th>
                     {% endif %}
                     <th id="hTitle" scope="col" class="text-left">
-                        <a href="{{ sort.title.url }}" title="{{ 'Sort by %s'|trans({'%s': 'title'})|e('html_attr') }}" class="{{ sort.title.class }}">{% trans %}Title{% endtrans %}</a>
+                        <a href="{{ sort.title.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'title'})|e('html_attr') }}" class="{{ sort.title.class }}">{% trans %}Title{% endtrans %}</a>
                     </th>
                     {% if countPageViews %}
                         <th id="hViews" scope="col" class="text-right">
-                            <a href="{{ sort.views.url }}" title="{{ 'Sort by %s'|trans({'%s': 'views'})|e('html_attr') }}" class="{{ sort.views.class }}">{% trans %}Views{% endtrans %}</a>
+                            <a href="{{ sort.views.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'views'})|e('html_attr') }}" class="{{ sort.views.class }}">{% trans %}Views{% endtrans %}</a>
                         </th>
                     {% endif %}
                     <th id="hActive" scope="col" class="text-center">
-                        <a href="{{ sort.active.url }}" title="{{ 'Sort by %s'|trans({'%s': 'active'})|e('html_attr') }}" class="{{ sort.active.class }}">{% trans %}Active{% endtrans %}</a>
+                        <a href="{{ sort.active.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active'})|e('html_attr') }}" class="{{ sort.active.class }}">{% trans %}Active{% endtrans %}</a>
                     </th>
                     {#<th id="hActiveFrom" scope="col" class="text-left">
-                        <a href="{{ sort.activeFrom.url }}" title="{{ 'Sort by %s'|trans({'%s': 'active from'})|e('html_attr') }}" class="{{ sort.activeFrom.class }}">{% trans %}Active from{% endtrans %}</a>
+                        <a href="{{ sort.activeFrom.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active from'})|e('html_attr') }}" class="{{ sort.activeFrom.class }}">{% trans %}Active from{% endtrans %}</a>
                     </th>
                     <th id="hActiveTo" scope="col" class="text-left">
-                        <a href="{{ sort.activeTo.url }}" title="{{ 'Sort by %s'|trans({'%s': 'active to'})|e('html_attr') }}" class="{{ sort.activeTo.class }}">{% trans %}Active to{% endtrans %}</a>
+                        <a href="{{ sort.activeTo.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active to'})|e('html_attr') }}" class="{{ sort.activeTo.class }}">{% trans %}Active to{% endtrans %}</a>
                     </th>#}
                     <th id="hInMenu" scope="col" class="text-center">
-                        <a href="{{ sort.inMenu.url }}" title="{{ 'Sort by %s'|trans({'%s': 'in menu'})|e('html_attr') }}" class="{{ sort.inMenu.class }}">{% trans %}In menu{% endtrans %}</a>
+                        <a href="{{ sort.inMenu.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'in menu'})|e('html_attr') }}" class="{{ sort.inMenu.class }}">{% trans %}In menu{% endtrans %}</a>
                     </th>
                     <th id="hUpdatedDate" scope="col" class="text-left">
-                        <a href="{{ sort.updatedDate.url }}" title="{{ 'Sort by %s'|trans({'%s': 'updated date'})|e('html_attr') }}" class="{{ sort.updatedDate.class }}">{% trans %}Updated date{% endtrans %}</a>
+                        <a href="{{ sort.updatedDate.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'updated date'})|e('html_attr') }}" class="{{ sort.updatedDate.class }}">{% trans %}Updated date{% endtrans %}</a>
                     </th>
                     <th id="hCurrentVersion" scope="col" class="text-right">
-                        <a href="{{ sort.currentVersion.url }}" title="{{ 'Sort by %s'|trans({'%s': 'current version'})|e('html_attr') }}" class="{{ sort.currentVersion.class }}">{% trans %}Current version{% endtrans %}</a>
+                        <a href="{{ sort.currentVersion.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'current version'})|e('html_attr') }}" class="{{ sort.currentVersion.class }}">{% trans %}Current version{% endtrans %}</a>
                     </th>
                     <th id="hCategory" scope="col" class="text-left">
                         {% trans %}Category{% endtrans %}
