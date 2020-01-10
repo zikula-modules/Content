@@ -89,7 +89,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
                     $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_view';
                     $links[] = [
                         'url' => $this->router->generate($routeName, $routeArgs),
-                        'text' => $this->trans('My pages', 'zikulacontentmodule'),
+                        'text' => $this->trans('My pages', [], 'zikulacontentmodule'),
                         'icon' => 'list-alt'
                     ];
                 }
@@ -98,7 +98,7 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             if ($this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
                 $links[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_adminindex'),
-                    'text' => $this->trans('Content Backend', 'zikulacontentmodule'),
+                    'text' => $this->trans('Content Backend', [], 'zikulacontentmodule'),
                     'icon' => 'wrench'
                 ];
             }
@@ -111,8 +111,8 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             if ($this->permissionHelper->hasPermission(ACCESS_READ)) {
                 $links[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_index'),
-                    'text' => $this->trans('Frontend', 'zikulacontentmodule'),
-                    'title' => $this->trans('Switch to user area.', 'zikulacontentmodule'),
+                    'text' => $this->trans('Frontend', [], 'zikulacontentmodule'),
+                    'title' => $this->trans('Switch to user area.', [], 'zikulacontentmodule'),
                     'icon' => 'home'
                 ];
             }
@@ -120,8 +120,8 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
             if ($this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
                 $links[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_adminindex'),
-                    'text' => $this->trans('Backend', 'zikulacontentmodule'),
-                    'title' => $this->trans('Switch to administration area.', 'zikulacontentmodule'),
+                    'text' => $this->trans('Backend', [], 'zikulacontentmodule'),
+                    'title' => $this->trans('Switch to administration area.', [], 'zikulacontentmodule'),
                     'icon' => 'wrench'
                 ];
             }
@@ -133,15 +133,15 @@ abstract class AbstractLinkContainer implements LinkContainerInterface
         ) {
             $links[] = [
                 'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'view'),
-                'text' => $this->trans('Pages', 'zikulacontentmodule'),
-                'title' => $this->trans('Pages list', 'zikulacontentmodule')
+                'text' => $this->trans('Pages', [], 'zikulacontentmodule'),
+                'title' => $this->trans('Pages list', [], 'zikulacontentmodule')
             ];
         }
         if ('admin' === $routeArea && $this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
             $links[] = [
                 'url' => $this->router->generate('zikulacontentmodule_config_config'),
-                'text' => $this->trans('Settings', 'zikulacontentmodule'),
-                'title' => $this->trans('Manage settings for this application', 'zikulacontentmodule'),
+                'text' => $this->trans('Settings', [], 'zikulacontentmodule'),
+                'title' => $this->trans('Manage settings for this application', [], 'zikulacontentmodule'),
                 'icon' => 'wrench'
             ];
         }
