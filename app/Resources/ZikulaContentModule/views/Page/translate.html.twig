@@ -17,7 +17,7 @@
         {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
         <div class="row">
             <div class="col-md-6">
-                <h4>{{ 'Step %step of %amount'|trans({'%step': currentStep, '%amount': amountOfSteps}) }} - {% if currentStep == 1 %}{% trans %}General page data{% endtrans %}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
+                <h4>{{ 'Step %step% of %amount%'|trans({'%step%': currentStep, '%amount%': amountOfSteps}) }} - {% if currentStep == 1 %}{% trans %}General page data{% endtrans %}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
             </div>
             <div class="col-md-6">
                 <div class="form-row">
