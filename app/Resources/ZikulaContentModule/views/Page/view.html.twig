@@ -165,7 +165,7 @@
                     </td>
                     <td headers="hCategory" class="text-left">
                         {% for catMapping in page.categories %}
-                            {{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}
+                            {% if catMapping.category.icon %}<i class="fa-fw {{ catMapping.category.icon|e('html_attr') }}"></i> {% endif %}{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}
                         {% endfor %}
                     </td>
                 </tr>
