@@ -251,7 +251,7 @@
                             {% for category in categories %}
                                 {% set categoryName = category.display_name[app.request.locale]|default(category.name) %}
                                 {% set amountOfPages = pageCounts[category.id]|default(0) %}
-                                <li><a href="{{ path('zikulacontentmodule_page_view', {catId: category.id}) }}" title="{{ categoryName|e('html_attr') }}">{{ categoryName }}</a> ('{0} No pages|{1} One page|]1,Inf[ %amount% pages'|trans({'%amount%': amountOfPages, '%count%': amountOfPages}))</li>
+                                <li><a href="{{ path('zikulacontentmodule_page_view', {catId: category.id}) }}" title="{{ categoryName|e('html_attr') }}">{% if category.icon %}<i class="fa-fw {{ category.icon|e('html_attr') }}"></i> {% endif %}{{ categoryName }}</a> ('{0} No pages|{1} One page|]1,Inf[ %amount% pages'|trans({'%amount%': amountOfPages, '%count%': amountOfPages}))</li>
                             {% endfor %}
                         </ul>
                     {% else %}
