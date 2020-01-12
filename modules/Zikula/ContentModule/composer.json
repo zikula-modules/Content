@@ -34,8 +34,13 @@
             "url": "content",
             "oldnames": ["Content"],
             "capabilities": {
-                "user": {"route": "zikulacontentmodule_page_index"},
-                "admin": {"route": "zikulacontentmodule_page_adminindex"},
+                "user": {
+                    "route": "zikulacontentmodule_page_index"
+                },
+                "admin": {
+                    "route": "zikulacontentmodule_page_adminindex",
+                    "icon": "fas fa-file-contract"
+                },
                 "categorizable": {
                     "entities": [
                         "Zikula\\ContentModule\\Entity\\PageEntity"
