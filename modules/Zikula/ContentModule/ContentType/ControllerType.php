@@ -83,7 +83,7 @@ class ControllerType extends AbstractContentType
         }
 
         $quickAction = '<a href="javascript:void(0);" title="'
-            . $this->translator->translator->trans('Preview controller content')
+            . $this->translator->trans('Preview controller content')
             . '" onclick="'
             . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
             . 'jQuery(this).remove();'
@@ -91,17 +91,17 @@ class ControllerType extends AbstractContentType
         ;
         $editOutput = '<h3>' . $this->data['controller'] . '</h3>';
         if ($this->data['query']) {
-            $editOutput .= '<p>' . $this->translator->translator->trans('GET parameters')
+            $editOutput .= '<p>' . $this->translator->trans('GET parameters')
                 . ': <em>' . $this->data['query'] . '</em></p>'
             ;
         }
         if ($this->data['request']) {
-            $editOutput .= '<p>' . $this->translator->translator->trans('POST parameters')
+            $editOutput .= '<p>' . $this->translator->trans('POST parameters')
                 . ': <em>' . $this->data['request'] . '</em></p>'
             ;
         }
         if ($this->data['attributes']) {
-            $editOutput .= '<p>' . $this->translator->translator->trans('Request attributes')
+            $editOutput .= '<p>' . $this->translator->trans('Request attributes')
                 . ': <em>' . $this->data['attributes'] . '</em></p>'
             ;
         }
@@ -124,10 +124,10 @@ class ControllerType extends AbstractContentType
             return;
         }
 
-        list($vendor, $moduleName) = explode('\\', $controller);
-        $moduleName = $vendor . $moduleName;
+        list($vendor, $bundleName) = explode('\\', $controller);
+        $bundleName = $vendor . $bundleName;
         if (!$this->kernel->isBundle($bundleName)) {
-            $this->data['noDisplayMessage'] = $this->translator->translator->trans(
+            $this->data['noDisplayMessage'] = $this->translator->trans(
                 'Module %module% is not available.',
                 ['%module%' => $bundleName]
             );
@@ -136,7 +136,7 @@ class ControllerType extends AbstractContentType
         }
         $moduleInstance = $this->kernel->getModule($bundleName);
         if (!isset($moduleInstance)) {
-            $this->data['noDisplayMessage'] = $this->translator->translator->trans(
+            $this->data['noDisplayMessage'] = $this->translator->trans(
                 'Module %module% is not available.',
                 ['%module%' => $bundleName]
             );
@@ -158,15 +158,22 @@ class ControllerType extends AbstractContentType
     {
         static $recursionLevel = 0;
         if (4 < $recursionLevel) {
-            return $this->translator->translator->trans('Maximum number of pages-in-pages reached! You probably included this page in itself.');
+            return $this->translator->trans('Maximum number of pages-in-pages reached! You probably included this page in itself.');
         }
 
         $controller = $this->data['controller'];
         list($bundleName) = explode(':', $controller);
 
-        parse_str($this->data['query'], $query);
-        parse_str($this->data['request'], $request);
-        parse_str($this->data['attributes'], $attributes);
+        $query = $request = $attributes = [];
+        if (null !== $this->data['query']) {
+            parse_str($this->data['query'], $query);
+        }
+        if (null !== $this->data['request']) {
+            parse_str($this->data['request'], $request);
+        }
+        if (null !== $this->data['attributes']) {
+            parse_str($this->data['attributes'], $attributes);
+        }
         $attributes['_controller'] = $controller;
         $subRequest = $this->requestStack->getMasterRequest()->duplicate($query, $request, $attributes);
         $subRequest->attributes->set('_zkModule', $bundleName);

@@ -110,7 +110,7 @@ function zikulaContentExecuteCustomValidationConstraints(objectType, currentEnti
                     jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity(Translator.trans('The start must be before the end.'));
                 } else {
                     jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity('');
-                    jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity('');
+                    jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity('');
                 }
             } else {
                 if (!zikulaContentValidateDateRangePage()) {
@@ -129,7 +129,7 @@ function zikulaContentExecuteCustomValidationConstraints(objectType, currentEnti
                     jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity(Translator.trans('The start must be before the end.'));
                 } else {
                     jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity('');
-                    jQuery('#' + jQuery(this).attr('id') + '_time').setCustomValidity('');
+                    jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity('');
                 }
             } else {
                 if (!zikulaContentValidateDateRangeContentItem()) {
