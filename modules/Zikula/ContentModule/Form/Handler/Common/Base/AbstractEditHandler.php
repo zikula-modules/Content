@@ -336,6 +336,9 @@ abstract class AbstractEditHandler
                     && null !== $this->lockingApi
                     && $this->kernel->isBundle('ZikulaPageLockModule')
                 ) {
+                    // save entity reference for later reuse
+                    $this->entityRef = $entity;
+                
                     // try to guarantee that only one person at a time can be editing this entity
                     $lockName = 'ZikulaContentModule' . $this->objectTypeCapital . $entity->getKey();
                     $this->lockingApi->addLock($lockName, $this->getRedirectUrl(['commandName' => '']));
