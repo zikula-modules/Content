@@ -15,13 +15,11 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Base;
 
 use Exception;
-use Psr\Log\LoggerInterface;
 use Zikula\Core\AbstractExtensionInstaller;
 use Zikula\CategoriesModule\Api\CategoryPermissionApi;
 use Zikula\CategoriesModule\Entity\CategoryRegistryEntity;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
-use Zikula\Common\Translator\Translator;
 use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageLogEntryEntity;
@@ -35,11 +33,6 @@ use Zikula\ContentModule\Entity\ContentItemTranslationEntity;
  */
 abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
     /**
      * @var string[]
      */
@@ -61,10 +54,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
             $this->schemaTool->create($this->entities);
         } catch (Exception $exception) {
             $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
-            $this->logger->error(
-                '{app}: Could not create the database tables during installation. Error details: {errorMessage}.',
-                ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
-            );
     
             return false;
         }
@@ -101,9 +90,9 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     
         // add default entry for category registry (property named Main)
         $categoryHelper = new \Zikula\ContentModule\Helper\CategoryHelper(
-            $this->container->get(Translator::class),
+            $this->container->get('translator'),
             $this->container->get('request_stack'),
-            $this->logger,
+            null,
             $this->container->get(CurrentUserApi::class),
             $this->container->get(CategoryRegistryRepositoryInterface::class),
             $this->container->get(CategoryPermissionApi::class)
@@ -129,10 +118,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                         ['%entity%' => 'page']
                     )
                 );
-                $this->logger->error(
-                    '{app}: User {user} could not create a category registry for {entities} during installation. Error details: {errorMessage}.',
-                    ['app' => 'ZikulaContentModule', 'user' => $userName, 'entities' => 'pages', 'errorMessage' => $exception->getMessage()]
-                );
             }
             $categoryRegistryIdsPerEntity['page'] = $registry->getId();
         }
@@ -154,11 +139,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                     $this->schemaTool->update($this->entities);
                 } catch (Exception $exception) {
                     $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
-                    $this->logger->error(
-                        '{app}: Could not update the database tables during the upgrade.'
-                            . ' Error details: {errorMessage}.',
-                        ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
-                    );
     
                     return false;
                 }
@@ -175,10 +155,6 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
             $this->schemaTool->drop($this->entities);
         } catch (Exception $exception) {
             $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
-            $this->logger->error(
-                '{app}: Could not remove the database tables during uninstallation. Error details: {errorMessage}.',
-                ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
-            );
     
             return false;
         }
@@ -196,13 +172,5 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     
         // uninstallation successful
         return true;
-    }
-    
-    /**
-     * @required
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 }
