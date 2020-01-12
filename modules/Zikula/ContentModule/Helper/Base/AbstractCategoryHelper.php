@@ -63,7 +63,7 @@ abstract class AbstractCategoryHelper
     public function __construct(
         TranslatorInterface $translator,
         RequestStack $requestStack,
-        LoggerInterface $logger,
+        LoggerInterface $logger = null,
         CurrentUserApiInterface $currentUserApi,
         CategoryRegistryRepositoryInterface $categoryRegistryRepository,
         CategoryPermissionApiInterface $categoryPermissionApi
