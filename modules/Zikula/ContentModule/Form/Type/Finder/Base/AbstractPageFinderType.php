@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Translation\Extractor\Annotation\Ignore;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
@@ -171,6 +172,7 @@ abstract class AbstractPageFinderType extends AbstractType
             'attr' => [
                 'class' => 'text-right'
             ],
+            /** @Ignore */
             'choices' => [
                 5 => 5,
                 10 => 10,

@@ -25,8 +25,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
+use Translation\Extractor\Annotation\Ignore;
+use Translation\Extractor\Annotation\Translate;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\AppSettings;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
@@ -36,7 +36,6 @@ use Zikula\ContentModule\Helper\ListEntriesHelper;
  */
 abstract class AbstractConfigType extends AbstractType
 {
-    use TranslatorTrait;
 
     /**
      * @var ListEntriesHelper
@@ -44,10 +43,9 @@ abstract class AbstractConfigType extends AbstractType
     protected $listHelper;
 
     public function __construct(
-        TranslatorInterface $translator,
+        ,
         ListEntriesHelper $listHelper
     ) {
-        $this->setTranslator($translator);
         $this->listHelper = $listHelper;
     }
 
@@ -79,103 +77,103 @@ abstract class AbstractConfigType extends AbstractType
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
         $builder->add('stateOfNewPages', ChoiceType::class, [
-            'label' => $this->trans('State of new pages') . ':',
+            'label' => 'State of new pages:',
             'empty_data' => '1',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('Choose the state of new pages.')
+                'title' => 'Choose the state of new pages.'
             ],
             'required' => true,
-            'choices' => $choices,
+            'choices' => /** @Ignore */$choices,
             'choice_attr' => $choiceAttributes,
             'multiple' => false,
             'expanded' => false
         ]);
         
         $builder->add('countPageViews', CheckboxType::class, [
-            'label' => $this->trans('Count page views') . ':',
+            'label' => 'Count page views:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.')
+                'title' => 'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.'
             ],
-            'help' => $this->trans('Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.'),
+            'help' => 'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The count page views option')
+                'title' => 'The count page views option'
             ],
             'required' => false,
         ]);
         
         $builder->add('googleMapsApiKey', TextType::class, [
-            'label' => $this->trans('Google maps api key') . ':',
+            'label' => 'Google maps api key:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".')
+                'title' => 'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".'
             ],
-            'help' => $this->trans('If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".'),
+            'help' => 'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->trans('Enter the google maps api key.')
+                'title' => 'Enter the google maps api key.'
             ],
             'required' => false,
         ]);
         
         $builder->add('yandexTranslateApiKey', TextType::class, [
-            'label' => $this->trans('Yandex translate api key') . ':',
+            'label' => 'Yandex translate api key:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('If you want to get translation support by Yandex which can provide suggestions you need an API key for it.')
+                'title' => 'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.'
             ],
-            'help' => $this->trans('If you want to get translation support by Yandex which can provide suggestions you need an API key for it.'),
+            'help' => 'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.',
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->trans('Enter the yandex translate api key.')
+                'title' => 'Enter the yandex translate api key.'
             ],
             'required' => false,
         ]);
         
         $builder->add('enableRawPlugin', CheckboxType::class, [
-            'label' => $this->trans('Enable raw plugin') . ':',
+            'label' => 'Enable raw plugin:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.')
+                'title' => 'Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.'
             ],
-            'help' => $this->trans('Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.'),
+            'help' => 'Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The enable raw plugin option')
+                'title' => 'The enable raw plugin option'
             ],
             'required' => false,
         ]);
         
         $builder->add('inheritPermissions', CheckboxType::class, [
-            'label' => $this->trans('Inherit permissions') . ':',
+            'label' => 'Inherit permissions:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether to inherit permissions from parent to child pages or not.')
+                'title' => 'Whether to inherit permissions from parent to child pages or not.'
             ],
-            'help' => $this->trans('Whether to inherit permissions from parent to child pages or not.'),
+            'help' => 'Whether to inherit permissions from parent to child pages or not.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The inherit permissions option')
+                'title' => 'The inherit permissions option'
             ],
             'required' => false,
         ]);
         
         $builder->add('enableAutomaticPageLinks', CheckboxType::class, [
-            'label' => $this->trans('Enable automatic page links') . ':',
+            'label' => 'Enable automatic page links:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether page titles should automatically be linked using MultiHook.')
+                'title' => 'Whether page titles should automatically be linked using MultiHook.'
             ],
-            'help' => $this->trans('Whether page titles should automatically be linked using MultiHook.'),
+            'help' => 'Whether page titles should automatically be linked using MultiHook.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The enable automatic page links option')
+                'title' => 'The enable automatic page links option'
             ],
             'required' => false,
         ]);
@@ -188,49 +186,64 @@ abstract class AbstractConfigType extends AbstractType
     {
         
         $builder->add('pageStyles', TextareaType::class, [
-            'label' => $this->trans('Page styles') . ':',
+            'label' => 'Page styles:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('A list of CSS class names available for styling pages - for example "product" or "legal".')
+                'title' => 'A list of CSS class names available for styling pages - for example "product" or "legal".'
             ],
-            'help' => [$this->trans('A list of CSS class names available for styling pages - for example "product" or "legal".'), $this->trans('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
+            /** @Ignore */
+            'help' => [
+                /** @Translate */'A list of CSS class names available for styling pages - for example "product" or "legal".',
+                /** @Translate */'Note: this value must not exceed %length% characters.',
+            ],
+            'help_translation_parameters' => ['%length%' => 5000],
             'empty_data' => 'dummy|Dummy',
             'attr' => [
                 'maxlength' => 5000,
                 'class' => '',
-                'title' => $this->trans('Enter the page styles.')
+                'title' => 'Enter the page styles.'
             ],
             'required' => true,
         ]);
         
         $builder->add('sectionStyles', TextareaType::class, [
-            'label' => $this->trans('Section styles') . ':',
+            'label' => 'Section styles:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('A list of CSS class names available for styling page sections - for example "header" or "reference-row".')
+                'title' => 'A list of CSS class names available for styling page sections - for example "header" or "reference-row".'
             ],
-            'help' => [$this->trans('A list of CSS class names available for styling page sections - for example "header" or "reference-row".'), $this->trans('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
+            /** @Ignore */
+            'help' => [
+                /** @Translate */'A list of CSS class names available for styling page sections - for example "header" or "reference-row".',
+                /** @Translate */'Note: this value must not exceed %length% characters.',
+            ],
+            'help_translation_parameters' => ['%length%' => 5000],
             'empty_data' => 'dummy|Dummy',
             'attr' => [
                 'maxlength' => 5000,
                 'class' => '',
-                'title' => $this->trans('Enter the section styles.')
+                'title' => 'Enter the section styles.'
             ],
             'required' => true,
         ]);
         
         $builder->add('contentStyles', TextareaType::class, [
-            'label' => $this->trans('Content styles') . ':',
+            'label' => 'Content styles:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('A list of CSS class names available for styling single content elements - for instance "note" or "shadow".')
+                'title' => 'A list of CSS class names available for styling single content elements - for instance "note" or "shadow".'
             ],
-            'help' => [$this->trans('A list of CSS class names available for styling single content elements - for instance "note" or "shadow".'), $this->trans('Note: this value must not exceed %amount% characters.', ['%amount%' => 5000])],
+            /** @Ignore */
+            'help' => [
+                /** @Translate */'A list of CSS class names available for styling single content elements - for instance "note" or "shadow".',
+                /** @Translate */'Note: this value must not exceed %length% characters.',
+            ],
+            'help_translation_parameters' => ['%length%' => 5000],
             'empty_data' => 'dummy|Dummy',
             'attr' => [
                 'maxlength' => 5000,
                 'class' => '',
-                'title' => $this->trans('Enter the content styles.')
+                'title' => 'Enter the content styles.'
             ],
             'required' => true,
         ]);
@@ -243,43 +256,43 @@ abstract class AbstractConfigType extends AbstractType
     {
         
         $builder->add('enableOptionalString1', CheckboxType::class, [
-            'label' => $this->trans('Enable optional string 1') . ':',
+            'label' => 'Enable optional string 1:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('If you need an additional string for each page you can enable an optional field.')
+                'title' => 'If you need an additional string for each page you can enable an optional field.'
             ],
-            'help' => $this->trans('If you need an additional string for each page you can enable an optional field.'),
+            'help' => 'If you need an additional string for each page you can enable an optional field.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The enable optional string 1 option')
+                'title' => 'The enable optional string 1 option'
             ],
             'required' => false,
         ]);
         
         $builder->add('enableOptionalString2', CheckboxType::class, [
-            'label' => $this->trans('Enable optional string 2') . ':',
+            'label' => 'Enable optional string 2:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('If you need an additional string for each page you can enable an optional field.')
+                'title' => 'If you need an additional string for each page you can enable an optional field.'
             ],
-            'help' => $this->trans('If you need an additional string for each page you can enable an optional field.'),
+            'help' => 'If you need an additional string for each page you can enable an optional field.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The enable optional string 2 option')
+                'title' => 'The enable optional string 2 option'
             ],
             'required' => false,
         ]);
         
         $builder->add('enableOptionalText', CheckboxType::class, [
-            'label' => $this->trans('Enable optional text') . ':',
+            'label' => 'Enable optional text:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('If you need an additional text for each page you can enable an optional field.')
+                'title' => 'If you need an additional text for each page you can enable an optional field.'
             ],
-            'help' => $this->trans('If you need an additional text for each page you can enable an optional field.'),
+            'help' => 'If you need an additional text for each page you can enable an optional field.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The enable optional text option')
+                'title' => 'The enable optional text option'
             ],
             'required' => false,
         ]);
@@ -292,43 +305,43 @@ abstract class AbstractConfigType extends AbstractType
     {
         
         $builder->add('ignoreBundleNameInRoutes', CheckboxType::class, [
-            'label' => $this->trans('Ignore bundle name in routes') . ':',
+            'label' => 'Ignore bundle name in routes:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('This removes the module name (defaults to "content") from permalinks.')
+                'title' => 'This removes the module name (defaults to "content") from permalinks.'
             ],
-            'help' => $this->trans('This removes the module name (defaults to "content") from permalinks.'),
+            'help' => 'This removes the module name (defaults to "content") from permalinks.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The ignore bundle name in routes option')
+                'title' => 'The ignore bundle name in routes option'
             ],
             'required' => false,
         ]);
         
         $builder->add('ignoreEntityNameInRoutes', CheckboxType::class, [
-            'label' => $this->trans('Ignore entity name in routes') . ':',
+            'label' => 'Ignore entity name in routes:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('This removes the primary entity name ("page") from permalinks.')
+                'title' => 'This removes the primary entity name ("page") from permalinks.'
             ],
-            'help' => $this->trans('This removes the primary entity name ("page") from permalinks.'),
+            'help' => 'This removes the primary entity name ("page") from permalinks.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The ignore entity name in routes option')
+                'title' => 'The ignore entity name in routes option'
             ],
             'required' => false,
         ]);
         
         $builder->add('ignoreFirstTreeLevelInRoutes', CheckboxType::class, [
-            'label' => $this->trans('Ignore first tree level in routes') . ':',
+            'label' => 'Ignore first tree level in routes:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.')
+                'title' => 'This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.'
             ],
-            'help' => $this->trans('This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.'),
+            'help' => 'This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The ignore first tree level in routes option')
+                'title' => 'The ignore first tree level in routes option'
             ],
             'required' => false,
         ]);
@@ -341,14 +354,14 @@ abstract class AbstractConfigType extends AbstractType
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
         $builder->add('permalinkSuffix', ChoiceType::class, [
-            'label' => $this->trans('Permalink suffix') . ':',
+            'label' => 'Permalink suffix:',
             'empty_data' => 'none',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('Choose the permalink suffix.')
+                'title' => 'Choose the permalink suffix.'
             ],
             'required' => true,
-            'choices' => $choices,
+            'choices' => /** @Ignore */$choices,
             'choice_attr' => $choiceAttributes,
             'multiple' => false,
             'expanded' => false
@@ -362,59 +375,59 @@ abstract class AbstractConfigType extends AbstractType
     {
         
         $builder->add('pageEntriesPerPage', IntegerType::class, [
-            'label' => $this->trans('Page entries per page') . ':',
+            'label' => 'Page entries per page:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('The amount of pages shown per page')
+                'title' => 'The amount of pages shown per page'
             ],
-            'help' => $this->trans('The amount of pages shown per page'),
+            'help' => 'The amount of pages shown per page',
             'empty_data' => 10,
             'attr' => [
                 'maxlength' => 11,
                 'class' => '',
-                'title' => $this->trans('Enter the page entries per page.') . ' ' . $this->trans('Only digits are allowed.')
+                'title' => 'Enter the page entries per page. Only digits are allowed.'
             ],
             'required' => true,
         ]);
         
         $builder->add('linkOwnPagesOnAccountPage', CheckboxType::class, [
-            'label' => $this->trans('Link own pages on account page') . ':',
+            'label' => 'Link own pages on account page:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether to add a link to pages of the current user on his account page')
+                'title' => 'Whether to add a link to pages of the current user on his account page'
             ],
-            'help' => $this->trans('Whether to add a link to pages of the current user on his account page'),
+            'help' => 'Whether to add a link to pages of the current user on his account page',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The link own pages on account page option')
+                'title' => 'The link own pages on account page option'
             ],
             'required' => false,
         ]);
         
         $builder->add('pagePrivateMode', CheckboxType::class, [
-            'label' => $this->trans('Page private mode') . ':',
+            'label' => 'Page private mode:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether users may only see own pages')
+                'title' => 'Whether users may only see own pages'
             ],
-            'help' => $this->trans('Whether users may only see own pages'),
+            'help' => 'Whether users may only see own pages',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The page private mode option')
+                'title' => 'The page private mode option'
             ],
             'required' => false,
         ]);
         
         $builder->add('showOnlyOwnEntries', CheckboxType::class, [
-            'label' => $this->trans('Show only own entries') . ':',
+            'label' => 'Show only own entries:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether only own entries should be shown on view pages by default or not')
+                'title' => 'Whether only own entries should be shown on view pages by default or not'
             ],
-            'help' => $this->trans('Whether only own entries should be shown on view pages by default or not'),
+            'help' => 'Whether only own entries should be shown on view pages by default or not',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The show only own entries option')
+                'title' => 'The show only own entries option'
             ],
             'required' => false,
         ]);
@@ -427,29 +440,29 @@ abstract class AbstractConfigType extends AbstractType
     {
         
         $builder->add('allowModerationSpecificCreatorForPage', CheckboxType::class, [
-            'label' => $this->trans('Allow moderation specific creator for page') . ':',
+            'label' => 'Allow moderation specific creator for page:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether to allow moderators choosing a user which will be set as creator.')
+                'title' => 'Whether to allow moderators choosing a user which will be set as creator.'
             ],
-            'help' => $this->trans('Whether to allow moderators choosing a user which will be set as creator.'),
+            'help' => 'Whether to allow moderators choosing a user which will be set as creator.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The allow moderation specific creator for page option')
+                'title' => 'The allow moderation specific creator for page option'
             ],
             'required' => false,
         ]);
         
         $builder->add('allowModerationSpecificCreationDateForPage', CheckboxType::class, [
-            'label' => $this->trans('Allow moderation specific creation date for page') . ':',
+            'label' => 'Allow moderation specific creation date for page:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether to allow moderators choosing a custom creation date.')
+                'title' => 'Whether to allow moderators choosing a custom creation date.'
             ],
-            'help' => $this->trans('Whether to allow moderators choosing a custom creation date.'),
+            'help' => 'Whether to allow moderators choosing a custom creation date.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The allow moderation specific creation date for page option')
+                'title' => 'The allow moderation specific creation date for page option'
             ],
             'required' => false,
         ]);
@@ -469,20 +482,20 @@ abstract class AbstractConfigType extends AbstractType
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
         $builder->add('enabledFinderTypes', MultiListType::class, [
-            'label' => $this->trans('Enabled finder types') . ':',
+            'label' => 'Enabled finder types:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('Which sections are supported in the Finder component (used by Scribite plug-ins).')
+                'title' => 'Which sections are supported in the Finder component (used by Scribite plug-ins).'
             ],
-            'help' => $this->trans('Which sections are supported in the Finder component (used by Scribite plug-ins).'),
+            'help' => 'Which sections are supported in the Finder component (used by Scribite plug-ins).',
             'empty_data' => [],
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('Choose the enabled finder types.')
+                'title' => 'Choose the enabled finder types.'
             ],
             'required' => false,
-            'placeholder' => $this->trans('Choose an option'),
-            'choices' => $choices,
+            'placeholder' => 'Choose an option',
+            'choices' => /** @Ignore */$choices,
             'choice_attr' => $choiceAttributes,
             'multiple' => true,
             'expanded' => false
@@ -503,19 +516,19 @@ abstract class AbstractConfigType extends AbstractType
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
         $builder->add('revisionHandlingForPage', ChoiceType::class, [
-            'label' => $this->trans('Revision handling for page') . ':',
+            'label' => 'Revision handling for page:',
             'label_attr' => [
                 'class' => 'tooltips',
-                'title' => $this->trans('Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.')
+                'title' => 'Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.'
             ],
-            'help' => $this->trans('Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.'),
+            'help' => 'Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.',
             'empty_data' => 'unlimited',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('Choose the revision handling for page.')
+                'title' => 'Choose the revision handling for page.'
             ],
             'required' => true,
-            'choices' => $choices,
+            'choices' => /** @Ignore */$choices,
             'choice_attr' => $choiceAttributes,
             'multiple' => false,
             'expanded' => false
@@ -529,44 +542,46 @@ abstract class AbstractConfigType extends AbstractType
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
         $builder->add('maximumAmountOfPageRevisions', ChoiceType::class, [
-            'label' => $this->trans('Maximum amount of page revisions') . ':',
+            'label' => 'Maximum amount of page revisions:',
             'empty_data' => '25',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('Choose the maximum amount of page revisions.')
+                'title' => 'Choose the maximum amount of page revisions.'
             ],
             'required' => false,
-            'placeholder' => $this->trans('Choose an option'),
-            'choices' => $choices,
+            'placeholder' => 'Choose an option',
+            'choices' => /** @Ignore */$choices,
             'choice_attr' => $choiceAttributes,
             'multiple' => false,
             'expanded' => false
         ]);
         
         $builder->add('periodForPageRevisions', DateIntervalType::class, [
-            'label' => $this->trans('Period for page revisions') . ':',
+            'label' => 'Period for page revisions:',
             'empty_data' => 'P1Y0M0DT0H0M0S',
             'attr' => [
                 'maxlength' => 255,
                 'class' => '',
-                'title' => $this->trans('Choose the period for page revisions.')
+                'title' => 'Choose the period for page revisions.'
             ],
             'required' => false,
+            /** @Ignore */
             'labels' => [
-                'years' => $this->trans('Years'),
-                'months' => $this->trans('Months'),
-                'days' => $this->trans('Days'),
-                'hours' => $this->trans('Hours'),
-                'minutes' => $this->trans('Minutes'),
-                'seconds' => $this->trans('Seconds')
+                'years' => /** @Translate */'Years',
+                'months' => /** @Translate */'Months',
+                'days' => /** @Translate */'Days',
+                'hours' => /** @Translate */'Hours',
+                'minutes' => /** @Translate */'Minutes',
+                'seconds' => /** @Translate */'Seconds'
             ],
+            /** @Ignore */
             'placeholder' => [
-                'years' => $this->trans('Years'),
-                'months' => $this->trans('Months'),
-                'days' => $this->trans('Days'),
-                'hours' => $this->trans('Hours'),
-                'minutes' => $this->trans('Minutes'),
-                'seconds' => $this->trans('Seconds')
+                'years' => /** @Translate */'Years',
+                'months' => /** @Translate */'Months',
+                'days' => /** @Translate */'Days',
+                'hours' => /** @Translate */'Hours',
+                'minutes' => /** @Translate */'Minutes',
+                'seconds' => /** @Translate */'Seconds'
             ],
             'input' => 'string',
             'widget' => 'choice',
@@ -580,15 +595,15 @@ abstract class AbstractConfigType extends AbstractType
         ]);
         
         $builder->add('showPageHistory', CheckboxType::class, [
-            'label' => $this->trans('Show page history') . ':',
+            'label' => 'Show page history:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
-                'title' => $this->trans('Whether to show the version history to editors or not.')
+                'title' => 'Whether to show the version history to editors or not.'
             ],
-            'help' => $this->trans('Whether to show the version history to editors or not.'),
+            'help' => 'Whether to show the version history to editors or not.',
             'attr' => [
                 'class' => '',
-                'title' => $this->trans('The show page history option')
+                'title' => 'The show page history option'
             ],
             'required' => false,
         ]);
@@ -600,14 +615,14 @@ abstract class AbstractConfigType extends AbstractType
     public function addSubmitButtons(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('save', SubmitType::class, [
-            'label' => $this->trans('Update configuration'),
+            'label' => 'Update configuration',
             'icon' => 'fa-check',
             'attr' => [
                 'class' => 'btn btn-success'
             ]
         ]);
         $builder->add('reset', ResetType::class, [
-            'label' => $this->trans('Reset'),
+            'label' => 'Reset',
             'icon' => 'fa-sync',
             'attr' => [
                 'class' => 'btn btn-default',
@@ -615,7 +630,7 @@ abstract class AbstractConfigType extends AbstractType
             ]
         ]);
         $builder->add('cancel', SubmitType::class, [
-            'label' => $this->trans('Cancel'),
+            'label' => 'Cancel',
             'validate' => false,
             'icon' => 'fa-times',
             'attr' => [
@@ -631,10 +646,9 @@ abstract class AbstractConfigType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefaults([
-                // define class for underlying data
-                'data_class' => AppSettings::class,
-            ]);
+        $resolver->setDefaults([
+            // define class for underlying data
+            'data_class' => AppSettings::class,
+        ]);
     }
 }
