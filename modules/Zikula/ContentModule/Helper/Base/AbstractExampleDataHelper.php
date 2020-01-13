@@ -145,11 +145,13 @@ abstract class AbstractExampleDataHelper
             $success = $this->workflowHelper->executeAction($contentItem1, $action);
         } catch (Exception $exception) {
             if ($this->requestStack->getCurrentRequest()->hasSession()) {
-                $flashBag = $this->requestStack->getCurrentRequest()->getSession()->getFlashBag();
-                $flashBag->add(
+                $session = $this->requestStack->getCurrentRequest()->getSession();
+                $session->getFlashBag()->add(
                     'error',
-                    $this->translator->trans('Exception during example data creation')
-                        . ': ' . $exception->getMessage()
+                    $this->translator->trans(
+                        'Exception during example data creation: %message%',
+                        ['%message%' => $exception->getMessage()]
+                    )
                 );
             }
             $this->logger->error(
