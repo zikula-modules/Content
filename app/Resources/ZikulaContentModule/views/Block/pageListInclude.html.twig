@@ -1,5 +1,4 @@
 {# purpose of this template: Display a list of pages #}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% if pages|length > 0 %}
 <ul{% if isDropdown|default %} class="dropdown-menu"{% endif %}>
     {% if includeSelf|default(false) == true %}

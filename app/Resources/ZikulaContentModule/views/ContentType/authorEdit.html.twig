@@ -1,5 +1,4 @@
 {# purpose of this template: edit an author element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 {{ form_row(form.author) }}
 <div id="authorUserName" class="d-none">{{ form.vars.data.author|profileLinkByUserId|striptags }}</div>
 {{ form_row(form.showAvatar) }}

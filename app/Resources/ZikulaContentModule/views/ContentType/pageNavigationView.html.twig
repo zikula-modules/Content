@@ -1,5 +1,4 @@
 {# purpose of this template: display a page navigation element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% if page.lvl > 0 %}
     {% set displayRoute = 'zikulacontentmodule_page_display' %}
     {% set predecessors = zikulacontentmodule_treeSelection('page', node=page, target='predecessors') %}

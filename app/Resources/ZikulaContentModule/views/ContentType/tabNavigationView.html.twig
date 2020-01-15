@@ -1,5 +1,4 @@
 {# purpose of this template: display a tab navigation element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 <div class="row">
     <div class="col-md-12">
         <div{% if tabStyle|default %} class="{{ tabStyle|e('html_attr') }}"{% endif %} role="tabpanel">

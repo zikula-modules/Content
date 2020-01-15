@@ -1,5 +1,4 @@
 {# purpose of this template: Display an entry in a list of pages #}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% set pageTitle = page|zikulacontentmodule_formattedTitle %}
 {% set isActivePage = zikulacontentmodule_isCurrentPage(page) %}
 <li role="presentation" class="nav-item{% if isDropdown|default %} dropdown{% endif %}">

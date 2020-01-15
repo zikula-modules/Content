@@ -1,5 +1,4 @@
 {# purpose of this template: display a heading element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% if anchorName|default %}<a id="{{ anchorName|e('html_attr') }}" name="{{ anchorName|e('html_attr') }}"></a>{% endif %}
 <{{ headingType }} id="heading_{{ contentId }}" class="content-heading">
     {{ text }}

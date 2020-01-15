@@ -1,5 +1,4 @@
 {# purpose of this template: display a feed element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 <div class="content-feed">
     <h3><a href="{{ feed.permalink|e('html_attr') }}" title="{{ feed.title|e('html_attr') }}">{{ feed.title }}</a></h3>
     {#% if feed.description %}

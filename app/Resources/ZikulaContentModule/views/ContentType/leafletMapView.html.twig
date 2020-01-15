@@ -1,5 +1,4 @@
 {# purpose of this template: display a leaflet element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 <div class="content-leaflet d-none" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-descriptionid="text{{ contentId }}" data-tile-layer-url="{{ tileLayerUrl|e('html_attr') }}" data-tile-layer-attribution="{{ tileLayerAttribution|e('html_attr') }}">
     <div id="map{{ contentId }}" class="map" style="width: 100%; height: {{ height }}px"></div>
     <div id="text{{ contentId }}">{{ text|safeHtml }}</div>

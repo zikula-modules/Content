@@ -1,7 +1,6 @@
 {# purpose of this template: pages display view #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% block appTitle %}
     {% if inList is not defined %}
         {{ parent() }}

@@ -1,5 +1,4 @@
 {# purpose of this template: display a google route element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 <div class="content-googleroute row d-none" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ 'Destination address'|trans|e('html_attr') }}" data-destinationaddress="{{ addressText|e('html_attr') }}">
     <div class="col-md-7">
         <h3>{{ topText }}</h3>

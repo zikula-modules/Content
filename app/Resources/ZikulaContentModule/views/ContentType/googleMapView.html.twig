@@ -1,5 +1,4 @@
 {# purpose of this template: display a google map element #}
-{% trans_default_domain 'zikulacontentmodule' %}
 <div class="content-googlemap d-none" data-mapid="map{{ contentId }}" data-latitude="{{ latitude }}" data-longitude="{{ longitude }}" data-zoom="{{ zoom }}" data-maptype="{{ mapType }}" data-markertitle="{{ text|striptags|u.truncate(200)|e('html_attr') }}" data-markerinfo="{{ infoText|striptags|e('html_attr') }}" data-trafficoverlay="{{ trafficOverlay ? 'true' : 'false' }}" data-bicycleoverlay="{{ bicycleOverlay ? 'true' : 'false' }}" data-streetviewcontrol="{{ streetViewControl ? 'true' : 'false' }}" data-inlinedirections="{{ directionsInline ? 'true' : 'false' }}">
     {% if directionsInline %}
         <div class="form-group">
