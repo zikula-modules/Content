@@ -1,6 +1,5 @@
 {# purpose of this template: admin area base layout #}
 {% extends '@ZikulaContentModule/base.html.twig' %}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% block header %}
     {% if not app.request.query.getBoolean('raw', false) %}
         {{ adminHeader() }}

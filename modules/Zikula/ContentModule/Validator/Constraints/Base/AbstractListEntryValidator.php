@@ -58,10 +58,14 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
             // single-valued list
             if ('' !== $value && !in_array($value, $allowedValues/*, true*/)) {
                 $this->context->buildViolation(
-                    $this->trans('The value "%value%" is not allowed for the "%property%" property.', [
-                        '%value%' => $value,
-                        '%property%' => $constraint->propertyName
-                    ])
+                    $this->trans(
+                        'The value "%value%" is not allowed for the "%property%" property.',
+                        [
+                            '%value%' => $value,
+                            '%property%' => $constraint->propertyName
+                        ],
+                        'validators'
+                    )
                 )->addViolation();
             }
 
@@ -76,10 +80,14 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
             }
             if (!in_array($singleValue, $allowedValues/*, true*/)) {
                 $this->context->buildViolation(
-                    $this->trans('The value "%value%" is not allowed for the "%property%" property.', [
-                        '%value%' => $singleValue,
-                        '%property%' => $constraint->propertyName
-                    ])
+                    $this->trans(
+                        'The value "%value%" is not allowed for the "%property%" property.',
+                        [
+                            '%value%' => $singleValue,
+                            '%property%' => $constraint->propertyName
+                        ],
+                        'validators'
+                    )
                 )->addViolation();
             }
         }
@@ -94,7 +102,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
                         '%count%' => $count,
                         '%limit%' => $constraint->min
                     ],
-                    'zikulacontentmodule'
+                    'validators'
                 )
             )->addViolation();
         }
@@ -106,7 +114,7 @@ abstract class AbstractListEntryValidator extends ConstraintValidator
                         '%count%' => $count,
                         '%limit%' => $constraint->max
                     ],
-                    'zikulacontentmodule'
+                    'validators'
                 )
             )->addViolation();
         }

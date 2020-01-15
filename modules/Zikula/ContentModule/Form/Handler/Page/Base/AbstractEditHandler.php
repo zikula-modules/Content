@@ -52,7 +52,7 @@ abstract class AbstractEditHandler extends EditHandler
             if ($request->hasSession() && ($session = $request->getSession())) {
                 $session->getFlashBag()->add(
                     'error',
-                    $this->trans('Sorry, but you can not create the page yet as other items are required which must be created before!')
+                    'Sorry, but you can not create the page yet as other items are required which must be created before!'
                 );
             }
             $logArgs = [
@@ -302,7 +302,7 @@ abstract class AbstractEditHandler extends EditHandler
             if ($request->hasSession() && ($session = $request->getSession())) {
                 $session->getFlashBag()->add(
                     'error',
-                    $this->trans('Sorry, but someone else has already changed this record. Please apply the changes again!')
+                    'Sorry, but someone else has already changed this record. Please apply the changes again!'
                 );
             }
             $logArgs = [

@@ -1,5 +1,4 @@
 {# purpose of this template: inclusion template for display of related content items #}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% set hasAdminPermission = permissionHelper.hasComponentPermission('contentItem', constant('ACCESS_EDIT')) %}
 <h5>
     {{ item|zikulacontentmodule_formattedTitle }}

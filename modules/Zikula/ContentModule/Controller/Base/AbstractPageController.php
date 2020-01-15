@@ -361,7 +361,7 @@ abstract class AbstractPageController extends AbstractController
             }
         
             if ('delete' === $action) {
-                $this->addFlash('status', $this->trans('Done! Item deleted.'));
+                $this->addFlash('status', 'Done! Item deleted.');
                 $logger->notice(
                     '{app}: User {user} deleted the {entity} with id {id}.',
                     [
@@ -372,7 +372,7 @@ abstract class AbstractPageController extends AbstractController
                     ]
                 );
             } else {
-                $this->addFlash('status', $this->trans('Done! Item updated.'));
+                $this->addFlash('status', 'Done! Item updated.');
                 $logger->notice(
                     '{app}: User {user} executed the {action} workflow action for the {entity} with id {id}.',
                     [
@@ -448,7 +448,7 @@ abstract class AbstractPageController extends AbstractController
         
         try {
             $loggableHelper->undelete($page);
-            $this->addFlash('status', $this->trans('Done! Undeleted page.'));
+            $this->addFlash('status', 'Done! Undeleted page.');
         } catch (Exception $exception) {
             $this->addFlash(
                 'error',

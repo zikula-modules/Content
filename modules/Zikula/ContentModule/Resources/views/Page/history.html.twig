@@ -1,6 +1,5 @@
 {# purpose of this template: pages change history view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% macro outputSimpleValue(input) %}
     {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|format_datetime('long', 'medium') : input|default('an empty value'|trans) }}
 {% endmacro %}
