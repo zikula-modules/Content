@@ -43,7 +43,6 @@ abstract class AbstractConfigType extends AbstractType
     protected $listHelper;
 
     public function __construct(
-        ,
         ListEntriesHelper $listHelper
     ) {
         $this->listHelper = $listHelper;
