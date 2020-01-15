@@ -1,5 +1,4 @@
 {# purpose of this template: reusable display of entity categories #}
-{% trans_default_domain 'zikulacontentmodule' %}
 {% if obj.categories is defined %}
     {% if tabs|default(false) == true %}
         <div role="tabpanel" class="tab-pane fade" id="tabCategories" aria-labelledby="categoriesTab">
