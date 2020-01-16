@@ -201,40 +201,28 @@ class TranslateType extends AbstractType
         if ('page' !== $options['mode']) {
             $builder->add('prev', SubmitType::class, [
                 'label' => 'Previous',
-                'icon' => 'fa-arrow-left',
-                'attr' => [
-                    'class' => 'btn btn-default'
-                ]
+                'icon' => 'fa-arrow-left'
             ]);
         }
         $builder->add('next', SubmitType::class, [
             'label' => 'Next',
             'icon' => 'fa-arrow-right',
             'attr' => [
-                'class' => 'btn btn-primary'
+                'class' => 'btn-primary'
             ]
         ]);
         $builder->add('skip', SubmitType::class, [
             'label' => 'Skip',
-            'icon' => 'fa-exchange',
-            'attr' => [
-                'class' => 'btn btn-default'
-            ]
+            'icon' => 'fa-exchange'
         ]);
         $builder->add('saveandquit', SubmitType::class, [
             'label' => 'Save and quit',
-            'icon' => 'fa-floppy-o',
-            'attr' => [
-                'class' => 'btn btn-default'
-            ]
+            'icon' => 'fa-floppy-o'
         ]);
         $builder->add('cancel', SubmitType::class, [
             'label' => 'Cancel',
             'validate' => false,
-            'icon' => 'fa-times',
-            'attr' => [
-                'class' => 'btn btn-default'
-            ]
+            'icon' => 'fa-times'
         ]);
     }
 
