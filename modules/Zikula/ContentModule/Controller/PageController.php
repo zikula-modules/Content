@@ -630,7 +630,7 @@ class PageController extends AbstractPageController
         LockHelper $lockHelper,
         string $slug = ''
     ) {
-        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $lockHelper, $contentDisplayHelper, $slug, true);
+        return $this->translateInternal($request, $router, $kernel, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $contentDisplayHelper, $lockHelper, $slug, true);
     }
 
     /**
