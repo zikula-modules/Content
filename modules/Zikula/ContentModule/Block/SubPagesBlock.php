@@ -38,7 +38,7 @@ class SubPagesBlock extends AbstractBlockHandler
 
     public function getType(): string
     {
-        return $this->trans('Sub pages of current page', [], 'zikulacontentmodule');
+        return $this->trans('Sub pages of current page');
     }
     
     public function display(array $properties = []): string
@@ -103,7 +103,7 @@ class SubPagesBlock extends AbstractBlockHandler
 
         // set a block title
         if (empty($properties['title'])) {
-            $properties['title'] = $this->trans('Content subpages', [], 'zikulacontentmodule');
+            $properties['title'] = $this->trans('Content subpages');
         }
 
         $template = $this->getDisplayTemplate($properties);

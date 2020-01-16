@@ -52,9 +52,9 @@ class ItemListBlockType extends AbstractItemListBlockType
             'multiple' => false,
             'expanded' => false,
             'use_joins' => false,
-            'placeholder' => $this->trans('All pages', [], 'zikulacontentmodule'),
+            'placeholder' => $this->trans('All pages'),
             'required' => false,
-            'label' => $this->trans('Include the following subpages', [], 'zikulacontentmodule') . ':'
+            'label' => $this->trans('Include the following subpages') . ':'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);
@@ -70,7 +70,7 @@ class ItemListBlockType extends AbstractItemListBlockType
         $this->addSortingField($builder, $options);
         $this->addAmountField($builder, $options);
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->trans('Use only pages activated for the menu', [], 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Use only pages activated for the menu') . ':',
             'label_attr' => ['class' => 'switch-custom'],
             'required' => false
         ]);
@@ -80,14 +80,14 @@ class ItemListBlockType extends AbstractItemListBlockType
     public function addSortingField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('sorting', ChoiceType::class, [
-            'label' => $this->trans('Sorting', [], 'zikulacontentmodule') . ':',
+            'label' => $this->trans('Sorting') . ':',
             'empty_data' => 'default',
             'choices' => [
-                $this->trans('Random', [], 'zikulacontentmodule') => 'random',
-                $this->trans('Newest', [], 'zikulacontentmodule') => 'newest',
-                $this->trans('Updated', [], 'zikulacontentmodule') => 'updated',
-                $this->trans('Views', [], 'zikulacontentmodule') => 'views',
-                $this->trans('Default', [], 'zikulacontentmodule') => 'default'
+                $this->trans('Random') => 'random',
+                $this->trans('Newest') => 'newest',
+                $this->trans('Updated') => 'updated',
+                $this->trans('Views') => 'views',
+                $this->trans('Default') => 'default'
             ],
             'multiple' => false,
             'expanded' => false

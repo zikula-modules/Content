@@ -31,8 +31,8 @@ class LinkContainer extends AbstractLinkContainer
 
         $addNewPageLink = [
             'url' => $this->router->generate('zikulacontentmodule_page_' . $routeArea . 'edit'),
-            'text' => $this->trans('Add a new page', [], 'zikulacontentmodule'),
-            'title' => $this->trans('Add a new page', [], 'zikulacontentmodule'),
+            'text' => $this->trans('Add a new page'),
+            'title' => $this->trans('Add a new page'),
             'icon' => 'plus-square fa-fw'
         ];
 
@@ -68,21 +68,21 @@ class LinkContainer extends AbstractLinkContainer
                 $routeName = 'zikulacontentmodule_page_' . $routeArea . 'view';
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate($routeName),
-                    'text' => $this->trans('Tabular view', [], 'zikulacontentmodule'),
-                    'title' => $this->trans('Shows the pages table', [], 'zikulacontentmodule'),
+                    'text' => $this->trans('Tabular view'),
+                    'title' => $this->trans('Shows the pages table'),
                     'icon' => 'table fa-fw'
                 ];
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate($routeName, ['tpl' => 'tree']),
-                    'text' => $this->trans('Hierarchy view', [], 'zikulacontentmodule'),
-                    'title' => $this->trans('Shows the pages tree', [], 'zikulacontentmodule'),
+                    'text' => $this->trans('Hierarchy view'),
+                    'title' => $this->trans('Shows the pages tree'),
                     'icon' => 'code-branch fa-fw'
                 ];
             } else {
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_sitemap'),
-                    'text' => $this->trans('Sitemap', [], 'zikulacontentmodule'),
-                    'title' => $this->trans('Sitemap', [], 'zikulacontentmodule'),
+                    'text' => $this->trans('Sitemap'),
+                    'title' => $this->trans('Sitemap'),
                     'icon' => 'sitemap fa-fw'
                 ];
                 if ($hasAddPermissions) {
@@ -90,40 +90,32 @@ class LinkContainer extends AbstractLinkContainer
                 }
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_view'),
-                    'text' => $this->trans('Simple list', [], 'zikulacontentmodule'),
-                    'title' => $this->trans('Shows a simple list of pages', [], 'zikulacontentmodule'),
+                    'text' => $this->trans('Simple list'),
+                    'title' => $this->trans('Shows a simple list of pages'),
                     'icon' => 'table fa-fw'
                 ];
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'extended']),
-                    'text' => $this->trans('Extended list', [], 'zikulacontentmodule'),
-                    'title' => $this->trans(
-                        'Shows an extended list of pages with first content elements',
-                        [],
-                        'zikulacontentmodule'
-                    ),
+                    'text' => $this->trans('Extended list'),
+                    'title' => $this->trans('Shows an extended list of pages with first content elements'),
                     'icon' => 'list fa-fw'
                 ];
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'complete']),
-                    'text' => $this->trans('Complete list', [], 'zikulacontentmodule'),
-                    'title' => $this->trans(
-                        'Shows a complete list of pages with complete content',
-                        [],
-                        'zikulacontentmodule'
-                    ),
+                    'text' => $this->trans('Complete list'),
+                    'title' => $this->trans('Shows a complete list of pages with complete content'),
                     'icon' => 'th-large fa-fw'
                 ];
                 $pagesSubLinks[] = [
                     'url' => $this->router->generate('zikulacontentmodule_page_view', ['list' => 'categories']),
-                    'text' => $this->trans('Categories list', [], 'zikulacontentmodule'),
-                    'title' => $this->trans('Shows content grouped by categories', [], 'zikulacontentmodule'),
+                    'text' => $this->trans('Categories list'),
+                    'title' => $this->trans('Shows content grouped by categories'),
                     'icon' => 'archive fa-fw'
                 ];
             }
 
             foreach ($links as $k => $v) {
-                if ($this->trans('Pages', [], 'zikulacontentmodule') === $v['text']) {
+                if ($this->trans('Pages') === $v['text']) {
                     $links[$k]['icon'] = 'book';
                     $links[$k]['links'] = $pagesSubLinks;
                 }

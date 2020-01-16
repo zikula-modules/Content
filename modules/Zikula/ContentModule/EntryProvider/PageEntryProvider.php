@@ -93,12 +93,12 @@ class PageEntryProvider implements EntryProviderInterface
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Pages', [], 'zikulacontentmodule');
+        return $this->translator->trans('Pages');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Links page titles to corresponding pages.', [], 'zikulacontentmodule');
+        return $this->translator->trans('Links page titles to corresponding pages.');
     }
 
     public function getAdminInfo(): string
