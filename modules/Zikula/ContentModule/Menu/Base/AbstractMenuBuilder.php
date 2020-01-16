@@ -160,7 +160,7 @@ class AbstractMenuBuilder
                     $this->trans('Open preview page', [], 'zikulacontentmodule')
                 );
                 if ('display' === $context) {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-search-plus');
             }
@@ -176,7 +176,7 @@ class AbstractMenuBuilder
                     str_replace('"', '', $entityTitle)
                 );
                 if ('display' === $context) {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-eye');
             }
@@ -193,7 +193,7 @@ class AbstractMenuBuilder
                         $this->trans('Edit this page', [], 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
-                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-edit');
                     $title = $this->trans('Reuse', [], 'zikulacontentmodule');
@@ -206,7 +206,7 @@ class AbstractMenuBuilder
                         $this->trans('Reuse for new page', [], 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
-                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-files-o');
                     if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
@@ -220,7 +220,7 @@ class AbstractMenuBuilder
                             $this->trans('Add a sub page to this page', [], 'zikulacontentmodule')
                         );
                         if ('display' === $context) {
-                            $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                            $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                         }
                         $menu[$title]->setAttribute('icon', 'fa fa-child');
                     }
@@ -238,7 +238,7 @@ class AbstractMenuBuilder
                         $this->trans('Watch version history', [], 'zikulacontentmodule')
                     );
                     if ('display' === $context) {
-                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                     }
                     $menu[$title]->setAttribute('icon', 'fa fa-history');
                 }
@@ -250,7 +250,7 @@ class AbstractMenuBuilder
                 ]);
                 $menu[$title]->setLinkAttribute('title', $title);
                 if ('display' === $context) {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                 }
                 $menu[$title]->setAttribute('icon', 'fa fa-reply');
             }
