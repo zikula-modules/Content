@@ -7,7 +7,7 @@
     <skipHookSubscribers>{% if not page.skipHookSubscribers %}0{% else %}1{% endif %}</skipHookSubscribers>
     <layout>{% if page.layout is iterable and page.layout|length > 0 %}
         {% set firstItem = true %}
-        {% for entry in page.layout if entry is not iterable %}
+        {% for entry in page.layout|filter(e => e is not iterable) %}
             {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
     {% endif %}
@@ -27,7 +27,7 @@
     <optionalText><![CDATA[{{ page.optionalText|safeHtml }}]]></optionalText>
     <stylingClasses>{% if page.stylingClasses is iterable and page.stylingClasses|length > 0 %}
         {% set firstItem = true %}
-        {% for entry in page.stylingClasses if entry is not iterable %}
+        {% for entry in page.stylingClasses|filter(e => e is not iterable) %}
             {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
     {% endif %}
@@ -35,14 +35,14 @@
     <currentVersion>{{ page.currentVersion }}</currentVersion>
     <contentData>{% if page.contentData is iterable and page.contentData|length > 0 %}
         {% set firstItem = true %}
-        {% for entry in page.contentData if entry is not iterable %}
+        {% for entry in page.contentData|filter(e => e is not iterable) %}
             {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
     {% endif %}
     </contentData>
     <translationData>{% if page.translationData is iterable and page.translationData|length > 0 %}
         {% set firstItem = true %}
-        {% for entry in page.translationData if entry is not iterable %}
+        {% for entry in page.translationData|filter(e => e is not iterable) %}
             {% if true == firstItem %}{% set firstItem = false %}{% else %}, {% endif %}{{ entry }}
         {% endfor %}
     {% endif %}
