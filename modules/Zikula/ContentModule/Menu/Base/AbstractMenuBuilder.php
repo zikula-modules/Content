@@ -162,7 +162,7 @@ class AbstractMenuBuilder
                 if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                 }
-                $menu[$title]->setAttribute('icon', 'fa fa-search-plus');
+                $menu[$title]->setAttribute('icon', 'fas fa-search-plus');
             }
             if ('display' !== $context) {
                 $title = $this->trans('Details', [], 'zikulacontentmodule');
@@ -178,7 +178,7 @@ class AbstractMenuBuilder
                 if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                 }
-                $menu[$title]->setAttribute('icon', 'fa fa-eye');
+                $menu[$title]->setAttribute('icon', 'fas fa-eye');
             }
             if ($this->permissionHelper->mayEdit($entity)) {
                 // only allow editing for the owner or people with higher permissions
@@ -195,7 +195,7 @@ class AbstractMenuBuilder
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                     }
-                    $menu[$title]->setAttribute('icon', 'fa fa-edit');
+                    $menu[$title]->setAttribute('icon', 'fas fa-edit');
                     $title = $this->trans('Reuse', [], 'zikulacontentmodule');
                     $menu->addChild($title, [
                         'route' => $routePrefix . $routeArea . 'edit',
@@ -208,7 +208,7 @@ class AbstractMenuBuilder
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                     }
-                    $menu[$title]->setAttribute('icon', 'fa fa-files-o');
+                    $menu[$title]->setAttribute('icon', 'fas fa-files-o');
                     if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
                         $title = $this->trans('Add sub page', [], 'zikulacontentmodule');
                         $menu->addChild($title, [
@@ -222,7 +222,7 @@ class AbstractMenuBuilder
                         if ('display' === $context) {
                             $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                         }
-                        $menu[$title]->setAttribute('icon', 'fa fa-child');
+                        $menu[$title]->setAttribute('icon', 'fas fa-child');
                     }
                 }
             }
@@ -240,7 +240,7 @@ class AbstractMenuBuilder
                     if ('display' === $context) {
                         $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                     }
-                    $menu[$title]->setAttribute('icon', 'fa fa-history');
+                    $menu[$title]->setAttribute('icon', 'fas fa-history');
                 }
             }
             if ('display' === $context) {
@@ -252,7 +252,7 @@ class AbstractMenuBuilder
                 if ('display' === $context) {
                     $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
                 }
-                $menu[$title]->setAttribute('icon', 'fa fa-reply');
+                $menu[$title]->setAttribute('icon', 'fas fa-reply');
             }
         }
         if ($entity instanceof ContentItemEntity) {
@@ -305,14 +305,14 @@ class AbstractMenuBuilder
                     $menu[$title]->setLinkAttribute('class', 'd-none');
                     $menu[$title]->setLinkAttribute('data-object-type', $objectType);
                     $menu[$title]->setLinkAttribute('title', $title);
-                    $menu[$title]->setAttribute('icon', 'fa fa-plus');
+                    $menu[$title]->setAttribute('icon', 'fas fa-plus');
                 }
                 $title = $this->trans('Switch to table view', [], 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view'
                 ]);
                 $menu[$title]->setLinkAttribute('title', $title);
-                $menu[$title]->setAttribute('icon', 'fa fa-table');
+                $menu[$title]->setAttribute('icon', 'fas fa-table');
             }
             if (!in_array($currentTemplate, ['tree'])) {
                 $canBeCreated = $this->modelHelper->canBeCreated($objectType);
@@ -323,7 +323,7 @@ class AbstractMenuBuilder
                             'route' => $routePrefix . $routeArea . 'edit'
                         ]);
                         $menu[$title]->setLinkAttribute('title', $title);
-                        $menu[$title]->setAttribute('icon', 'fa fa-plus');
+                        $menu[$title]->setAttribute('icon', 'fas fa-plus');
                     }
                 }
                 $routeParameters = $query->all();
@@ -344,14 +344,14 @@ class AbstractMenuBuilder
                     'routeParameters' => $routeParameters
                 ]);
                 $menu[$title]->setLinkAttribute('title', $title);
-                $menu[$title]->setAttribute('icon', 'fa fa-table');
+                $menu[$title]->setAttribute('icon', 'fas fa-table');
                 $title = $this->trans('Switch to hierarchy view', [], 'zikulacontentmodule');
                 $menu->addChild($title, [
                     'route' => $routePrefix . $routeArea . 'view',
                     'routeParameters' => ['tpl' => 'tree']
                 ]);
                 $menu[$title]->setLinkAttribute('title', $title);
-                $menu[$title]->setAttribute('icon', 'fa fa-code-branch');
+                $menu[$title]->setAttribute('icon', 'fas fa-code-branch');
                 if (!$showOnlyOwn && $this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
                     $routeParameters = $query->all();
                     if (1 === $query->getInt('own')) {
@@ -368,7 +368,7 @@ class AbstractMenuBuilder
                         'routeParameters' => $routeParameters
                     ]);
                     $menu[$title]->setLinkAttribute('title', $title);
-                    $menu[$title]->setAttribute('icon', 'fa fa-' . $icon);
+                    $menu[$title]->setAttribute('icon', 'fas fa-' . $icon);
                 }
                 // check if there exist any deleted pages
                 $hasDeletedEntities = false;
@@ -382,7 +382,7 @@ class AbstractMenuBuilder
                         'routeParameters' => ['deleted' => 1]
                     ]);
                     $menu[$title]->setLinkAttribute('title', $title);
-                    $menu[$title]->setAttribute('icon', 'fa fa-trash-alt');
+                    $menu[$title]->setAttribute('icon', 'fas fa-trash-alt');
                 }
             }
         }

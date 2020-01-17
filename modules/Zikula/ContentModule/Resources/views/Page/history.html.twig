@@ -30,13 +30,13 @@
     <p>
         {% if isDiffView == true %}
             {% set linkTitle = 'Back to history'|trans %}
-            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i> {{ linkTitle }}</a>
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-history"></i> {{ linkTitle }}</a>
         {% else %}
             {% set linkTitle = 'Pages list'|trans %}
-            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-reply"></i> {{ linkTitle }}</a>
+            <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-reply"></i> {{ linkTitle }}</a>
         {% endif %}
         {% set linkTitle = 'Back to detail view'|trans %}
-        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-eye"></i> {{ linkTitle }}</a>
+        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-eye"></i> {{ linkTitle }}</a>
     </p>
 {% endblock %}
 {% block history_table %}
@@ -123,10 +123,10 @@
                             </td>
                             <td headers="hActions hVersion{{ logEntry.version|e('html_attr') }}" class="actions">
                                 {% set linkTitle = 'Preview version %version%'|trans({'%version%': logEntry.version}) %}
-                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ 'version'|trans ~ ' ' ~ logEntry.version }}"><i class="fa fa-id-card"></i></a>
+                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ 'version'|trans ~ ' ' ~ logEntry.version }}"><i class="fas fa-id-card"></i></a>
                                 {% if not loop.first %}
                                     {% set linkTitle = 'Revert to version %version%'|trans({ '%version%': logEntry.version }) %}
-                                    <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {'slug': page.slug, revert: logEntry.version}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
+                                    <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {'slug': page.slug, revert: logEntry.version}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-history"></i></a>
                                 {% endif %}
                             </td>
                         </tr>
@@ -135,7 +135,7 @@
             </table>
         </div>
         <p>
-            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fa fa-arrows-alt-h"></i> {% trans %}Compare selected versions{% endtrans %}</button>
+            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fas fa-arrows-alt-h"></i> {% trans %}Compare selected versions{% endtrans %}</button>
         </p>
     </form>
 {% endblock %}

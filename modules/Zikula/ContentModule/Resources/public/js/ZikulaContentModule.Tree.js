@@ -191,7 +191,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
                 action: function (node) {
                     document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_display', nodeEntityRouteArgs, true);
                 },
-                icon: 'fa fa-fw fa-eye'
+                icon: 'fas fa-fw fa-eye'
             };
         }
         if (true === hasEditAction) {
@@ -201,7 +201,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
                 action: function (node) {
                     document.location.href = Routing.generate('zikulacontentmodule_' + objectType.toLowerCase() + '_edit', nodeEntityRouteArgs, true);
                 },
-                icon: 'fa fa-fw fa-edit'
+                icon: 'fas fa-fw fa-edit'
             };
         }
         actions.addChildNode = {
@@ -210,7 +210,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'addChildNode');
             },
-            icon: 'fa fa-fw fa-plus'
+            icon: 'fas fa-fw fa-plus'
         };
         actions.deleteNode = {
             label: Translator.trans('Delete'),
@@ -228,7 +228,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
                     zikulaContentPerformTreeOperation(objectType, rootId, 'deleteNode');
                 }
             },
-            icon: 'fa fa-fw fa-trash-alt'
+            icon: 'fas fa-fw fa-trash-alt'
         };
     }
     
@@ -248,7 +248,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeTop');
             },
-            icon: 'fa fa-fw fa-angle-double-up',
+            icon: 'fas fa-fw fa-angle-double-up',
             separator_before: true
         };
         actions.moveUp = {
@@ -257,7 +257,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeUp');
             },
-            icon: 'fa fa-fw fa-angle-up'
+            icon: 'fas fa-fw fa-angle-up'
         };
     }
     if (!currentNodeDom.is(':last-child')) {
@@ -268,7 +268,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeDown');
             },
-            icon: 'fa fa-fw fa-angle-down',
+            icon: 'fas fa-fw fa-angle-down',
             separator_before: currentNodeDom.is(':first-child')
         };
         actions.moveBottom = {
@@ -277,7 +277,7 @@ function zikulaContentTreeContextMenuActions(theNode) {
             action: function (node) {
                 zikulaContentPerformTreeOperation(objectType, rootId, 'moveNodeBottom');
             },
-            icon: 'fa fa-fw fa-angle-double-down'
+            icon: 'fas fa-fw fa-angle-double-down'
         };
     }
     
