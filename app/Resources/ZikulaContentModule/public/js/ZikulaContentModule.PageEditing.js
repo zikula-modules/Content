@@ -99,9 +99,12 @@ function contentPageInitPalette() {
     jQuery('#palette #paletteTabs > li > a, #palette .grid-stack-item').popover({
         container: 'body',
         placement: function (pop, dom_el) {
-            return 'bottom';//window.innerWidth < 768 ? 'bottom' : 'right';
+            return 'top';//window.innerWidth < 768 ? 'bottom' : 'right';
         },
         trigger: 'hover focus'
+    });
+    jQuery('#palette #paletteTabs > li > a').on('click hover', function (event) {
+        jQuery('#palette #paletteTabs > li > a, #palette .grid-stack-item').popover('hide');
     });
     jQuery('#palette .grid-stack-item').click(function (event) {
         var gridSection, newId, widget;
