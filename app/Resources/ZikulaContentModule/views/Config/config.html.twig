@@ -65,12 +65,12 @@
                         {{ form_row(form.countPageViews) }}
                         {{ form_row(form.googleMapsApiKey, {
                             'input_group': {
-                                'right': '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key" title="' ~ 'Get API key'|trans ~ '" target="_blank"><i class="fa fa-key"></i></a>'
+                                'right': '<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#key" title="' ~ 'Get API key'|trans ~ '" target="_blank"><i class="fas fa-key"></i></a>'
                             }
                         }) }}
                         {{ form_row(form.yandexTranslateApiKey, {
                             'input_group': {
-                                'right': '<a href="https://tech.yandex.com/translate/" title="' ~ 'Get API key'|trans ~ '" target="_blank"><i class="fa fa-key"></i></a>'
+                                'right': '<a href="https://tech.yandex.com/translate/" title="' ~ 'Get API key'|trans ~ '" target="_blank"><i class="fas fa-key"></i></a>'
                             }
                         }) }}
                         {{ form_row(form.enableRawPlugin) }}
@@ -163,9 +163,9 @@
                         <p class="alert alert-info">{% trans %}Here you can inspect and amend the existing workflows.{% endtrans %}</p>
                 
                         <h4>{% trans %}Pages{% endtrans %}</h4>
-                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ 'Edit workflow for pages'|trans|e('html_attr') }}" target="_blank"><i class="fa fa-cubes"></i> {% trans %}Edit pages workflow{% endtrans %}</a>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ 'Edit workflow for pages'|trans|e('html_attr') }}" target="_blank"><i class="fas fa-cubes"></i> {% trans %}Edit pages workflow{% endtrans %}</a>
                         <h4>{% trans %}Content items{% endtrans %}</h4>
-                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ 'Edit workflow for content items'|trans|e('html_attr') }}" target="_blank"><i class="fa fa-cubes"></i> {% trans %}Edit content items workflow{% endtrans %}</a>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'zikulacontentmodule_none'}) }}" title="{{ 'Edit workflow for content items'|trans|e('html_attr') }}" target="_blank"><i class="fas fa-cubes"></i> {% trans %}Edit content items workflow{% endtrans %}</a>
                     </fieldset>
                 </div>#}
                 <div role="tabpanel" class="tab-pane fade" id="tabPlugins" aria-labelledby="pluginsTab">
@@ -197,13 +197,13 @@
                                     <tr>
                                         <td headers="h{{ contentType.name }} hBundle">{{ contentType.bundleName }}</td>
                                         <th id="h{{ contentType.name }}" scope="row" headers="hPlugin" class="nowrap">
-                                            <i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}
+                                            <i class="fas fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}
                                         </th>
                                         <td headers="h{{ contentType.name }} hActive" class="text-center text-{% if contentType.active %}success{% else %}danger{% endif %}">
                                             {% if contentType.active %}
-                                                <i class="fa fa-check" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                                                <i class="fas fa-check" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
                                             {% else %}
-                                                <i class="fa fa-times" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                                                <i class="fas fa-times" title="{{ 'No'|trans|e('html_attr') }}"></i>
                                             {% endif %}
                                         </td>
                                         <td headers="h{{ contentType.name }} hCategory">

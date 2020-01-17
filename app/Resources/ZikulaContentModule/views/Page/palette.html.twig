@@ -31,7 +31,7 @@
         <ul id="paletteTabs" class="nav nav-tabs" role="tablist">
             {% for category in categories %}
                 <li class="nav-item">
-                    <a id="category{{ loop.index }}Tab" href="#tabCategory{{ loop.index }}" title="{{ category.title|e('html_attr') }}" role="tab" data-toggle="tab" data-title="{{ category.title|e('html_attr') }}" data-content="{{ category.description|e('html_attr') }}" class="nav-link{% if loop.first %} active{% endif %}"><i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</a>
+                    <a id="category{{ loop.index }}Tab" href="#tabCategory{{ loop.index }}" title="{{ category.title|e('html_attr') }}" role="tab" data-toggle="tab" data-title="{{ category.title|e('html_attr') }}" data-content="{{ category.description|e('html_attr') }}" class="nav-link{% if loop.first %} active{% endif %}"><i class="fas fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</a>
                 </li>
             {% endfor %}
         </ul>
@@ -39,13 +39,13 @@
     <div class="tab-content">
         {% for category in categories %}
             <div role="tabpanel" class="tab-pane fade{% if loop.first %} show active{% endif %}" id="tabCategory{{ loop.index }}" aria-labelledby="category{{ loop.index }}Tab">
-                <h3><i class="fa fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</h3>
+                <h3><i class="fas fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</h3>
                 <div class="container-fluid">
                     <div class="row">
                     {% for contentType in activeContentTypes|filter(c => c.category == category.name) %}
                         <div class="col-md-6 col-lg-4">
                             <div class="grid-stack-item" data-title="{{ contentType.title|e('html_attr') }}" data-content="{{ contentType.description|e('html_attr') }}" data-minwidth="{{ contentType.minimumAmountOfGridColumns|e('html_attr') }}" data-typeclass="{{ contentType|php('get_class') }}">
-                                <div class="grid-stack-item-content"><i class="fa fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}</div>
+                                <div class="grid-stack-item-content"><i class="fas fa-fw fa-{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}</div>
                             </div>
                         </div>
                     {% endfor %}

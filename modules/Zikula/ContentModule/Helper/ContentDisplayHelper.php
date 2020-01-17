@@ -115,7 +115,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
             ];
         } catch (RuntimeException $exception) {
             return [
-                'title' => '<i class="fa fa-exclamation-triangle"></i> ' . $this->trans('Error'),
+                'title' => '<i class="fas fa-exclamation-triangle"></i> ' . $this->trans('Error'),
                 'content' => $exception->getMessage(),
                 'cardClass' => 'danger',
                 'assets' => [],
@@ -145,7 +145,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
      */
     public function getWidgetTitle(ContentItemEntity $item, ContentTypeInterface $contentType): string
     {
-        $icon = '<i class="fa fa-' . $contentType->getIcon() . '"></i>';
+        $icon = '<i class="fas fa-' . $contentType->getIcon() . '"></i>';
         $title = $contentType->getTitle();
         $titleSuffix = '';
 

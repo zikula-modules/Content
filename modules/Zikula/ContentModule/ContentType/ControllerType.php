@@ -87,7 +87,7 @@ class ControllerType extends AbstractContentType
             . '" onclick="'
             . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
             . 'jQuery(this).remove();'
-            . '"><i class="fa fa-2x fa-eye"></i></a>'
+            . '"><i class="fas fa-2x fa-eye"></i></a>'
         ;
         $editOutput = '<h3>' . $this->data['controller'] . '</h3>';
         if ($this->data['query']) {

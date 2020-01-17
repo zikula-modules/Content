@@ -181,9 +181,9 @@ function contentPageGetSectionActions(isFirstSection) {
     var deleteState = isFirstSection ? ' disabled="disabled"' : '';
     var actions = `
         <div class="btn-group btn-group-sm float-right" role="group">
-            <button type="button" class="btn btn-secondary add-element" title="${Translator.trans('Add element')}"><i class="fa fa-plus"></i> ${Translator.trans('Add element')}</button>
-            <button type="button" class="btn btn-secondary change-styles" title="${Translator.trans('Styling classes')}"><i class="fa fa-paint-brush"></i> ${Translator.trans('Styling classes')}</button>
-            <button type="button" class="btn btn-secondary delete-section" title="${Translator.trans('Delete section')}"${deleteState}><i class="fa fa-trash-alt"></i> ${Translator.trans('Delete section')}</button>
+            <button type="button" class="btn btn-secondary add-element" title="${Translator.trans('Add element')}"><i class="fas fa-plus"></i> ${Translator.trans('Add element')}</button>
+            <button type="button" class="btn btn-secondary change-styles" title="${Translator.trans('Styling classes')}"><i class="fas fa-paint-brush"></i> ${Translator.trans('Styling classes')}</button>
+            <button type="button" class="btn btn-secondary delete-section" title="${Translator.trans('Delete section')}"${deleteState}><i class="fas fa-trash-alt"></i> ${Translator.trans('Delete section')}</button>
         </div>
     `;
 
@@ -250,7 +250,7 @@ function contentPageInitSectionActions() {
  */
 function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
-    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fa fa-fw fa-th"></i> ' + Translator.trans('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="grid-stack"></div></div>');
+    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fas fa-fw fa-th"></i> ' + Translator.trans('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="grid-stack"></div></div>');
     if ('' !== stylingClasses) {
         jQuery('#' + sectionId + ' .style-selector-container select').first().val(stylingClasses.split(' '));
     }
@@ -321,7 +321,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
     body = modal.find('.modal-body').first();
 
     heading.html(widget.find('.card-header h5.card-title span.title').html());
-    body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
+    body.html('<p class="text-center"><i class="fas fa-sync fa-spin fa-4x"></i></p>');
 
     jQuery('#btnDeleteContent').toggleClass('d-none', isCreation);
     jQuery('#btnCancelContent').removeClass('d-none');
@@ -406,7 +406,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
             }
 
             jQuery('#btnCancelContent').addClass('d-none');
-            body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
+            body.html('<p class="text-center"><i class="fas fa-sync fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
                 type: form.attr('method'),
@@ -490,7 +490,7 @@ function contentPageInitWidgetMovingCopying(widget) {
     body = modal.find('.modal-body').first();
 
     heading.html(widget.find('.card-header h5.card-title span.title').html());
-    body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
+    body.html('<p class="text-center"><i class="fas fa-sync fa-spin fa-4x"></i></p>');
 
     jQuery('#btnDeleteContent').addClass('d-none');
     jQuery('#btnCancelContent').removeClass('d-none');
@@ -532,7 +532,7 @@ function contentPageInitWidgetMovingCopying(widget) {
             var operationType = jQuery('input[type=radio]:checked').first().val();
 
             jQuery('#btnCancelContent').addClass('d-none');
-            body.html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
+            body.html('<p class="text-center"><i class="fas fa-sync fa-spin fa-4x"></i></p>');
 
             jQuery.ajax({
                 type: form.attr('method'),
@@ -584,14 +584,14 @@ function contentPageGetWidgetActions(widgetId) {
                 <li class="dropdown-header">${Translator.trans('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.trans('Basic')}</li>
-                <li class="dropdown-item"><a class="edit-item" title="${Translator.trans('Edit this element')}"><i class="fa fa-fw fa-pencil-alt"></i> ${Translator.trans('Edit')}</a></li>
-                <li class="dropdown-item"><a class="delete-item" title="${Translator.trans('Delete this element')}"><i class="fa fa-fw fa-trash-alt text-danger"></i> ${Translator.trans('Delete')}</a></li>
-                <li class="dropdown-item"><a class="activate-item" title="${Translator.trans('Activate this element')}"><i class="fa fa-fw fa-circle text-danger"></i> ${Translator.trans('Activate')}</a></li>
-                <li class="dropdown-item"><a class="deactivate-item" title="${Translator.trans('Deactivate this element')}"><i class="fa fa-fw fa-circle text-success"></i> ${Translator.trans('Deactivate')}</a></li>
+                <li class="dropdown-item"><a class="edit-item" title="${Translator.trans('Edit this element')}"><i class="fas fa-fw fa-pencil-alt"></i> ${Translator.trans('Edit')}</a></li>
+                <li class="dropdown-item"><a class="delete-item" title="${Translator.trans('Delete this element')}"><i class="fas fa-fw fa-trash-alt text-danger"></i> ${Translator.trans('Delete')}</a></li>
+                <li class="dropdown-item"><a class="activate-item" title="${Translator.trans('Activate this element')}"><i class="fas fa-fw fa-circle text-danger"></i> ${Translator.trans('Activate')}</a></li>
+                <li class="dropdown-item"><a class="deactivate-item" title="${Translator.trans('Deactivate this element')}"><i class="fas fa-fw fa-circle text-success"></i> ${Translator.trans('Deactivate')}</a></li>
                 <li role="separator" class="dropdown-divider"></li>
                 <li class="dropdown-header">${Translator.trans('Advanced')}</li>
-                <li class="dropdown-item"><a class="clone-item" title="${Translator.trans('Duplicate this element')}"><i class="fa fa-fw fa-clone"></i> ${Translator.trans('Duplicate')}</a></li>
-                <li class="dropdown-item"><a class="move-copy-item" title="${Translator.trans('Move or copy this element to another page')}"><i class="fa fa-fw fa-long-arrow-alt-right"></i> ${Translator.trans('Move/Copy')}</a></li>
+                <li class="dropdown-item"><a class="clone-item" title="${Translator.trans('Duplicate this element')}"><i class="fas fa-fw fa-clone"></i> ${Translator.trans('Duplicate')}</a></li>
+                <li class="dropdown-item"><a class="move-copy-item" title="${Translator.trans('Move or copy this element to another page')}"><i class="fas fa-fw fa-long-arrow-alt-right"></i> ${Translator.trans('Move/Copy')}</a></li>
             </ul>
         </div>
     `;
@@ -789,7 +789,7 @@ function contentPageLoadWidgetData(nodeId, openEditForm) {
     widget = jQuery('#widget' + nodeId);
 
     widget.find('.card-title .title').html(Translator.trans('Loading...'));
-    widget.find('.card-body').html('<p class="text-center"><i class="fa fa-sync fa-spin fa-4x"></i></p>');
+    widget.find('.card-body').html('<p class="text-center"><i class="fas fa-sync fa-spin fa-4x"></i></p>');
     jQuery.getJSON(Routing.generate('zikulacontentmodule_contentitem_displayediting', {contentItem: nodeId}), function (data) {
         var isActive;
         widget.find('.card-title .title').html(data.title);

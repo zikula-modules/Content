@@ -92,7 +92,7 @@
                     <td id="itemActions{{ page.getKey() }}Start" headers="hItemActionsStart" class="actions">
                         {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'view'}) %}
                         <div class="dropdown item-actions">
-                            <a id="itemActions{{ page.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="d-none dropdown-toggle"><i class="fa fa-tasks"></i></a>
+                            <a id="itemActions{{ page.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="d-none dropdown-toggle"><i class="fas fa-tasks"></i></a>
                             {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
                         </div>
                     </td>
@@ -110,14 +110,14 @@
                     <td headers="hActive" class="text-center">
                         {% set itemId = page.getKey() %}
                         <a id="toggleActive{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="active" data-item-id="{{ itemId|e('html_attr') }}">
-                            <i class="fa fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Active{% endtrans %}</span></i>
-                            <i class="fa fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Inactive{% endtrans %}</span></i>
+                            <i class="fas fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Active{% endtrans %}</span></i>
+                            <i class="fas fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Inactive{% endtrans %}</span></i>
                         </a>
                         <noscript><div id="noscriptActive{{ itemId|e('html_attr') }}">
                             {% if page.active %}
-                                <i class="fa fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
                             {% else %}
-                                <i class="fa fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
                             {% endif %}
                         </div></noscript>
                         {% if page.activeFrom is not empty %}
@@ -140,14 +140,14 @@
                     <td headers="hInMenu" class="text-center">
                         {% set itemId = page.getKey() %}
                         <a id="toggleInMenu{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId|e('html_attr') }}">
-                            <i class="fa fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}In{% endtrans %}</span></i>
-                            <i class="fa fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Out{% endtrans %}</span></i>
+                            <i class="fas fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}In{% endtrans %}</span></i>
+                            <i class="fas fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Out{% endtrans %}</span></i>
                         </a>
                         <noscript><div id="noscriptInMenu{{ itemId|e('html_attr') }}">
                             {% if page.inMenu %}
-                                <i class="fa fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
                             {% else %}
-                                <i class="fa fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
                             {% endif %}
                         </div></noscript>
                     </td>
@@ -219,12 +219,12 @@
                     {% for page in items %}
                         <h3><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}">{{ page.title }}</a></h3>
                         {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
-                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-alt-right"></i> {% trans %}View full page{% endtrans %}</a></p>
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fas fa-long-arrow-alt-right"></i> {% trans %}View full page{% endtrans %}</a></p>
                     {% endfor %}
                 {% elseif list == 'complete' %}
                     {% for page in items %}
                         {{ include('@ZikulaContentModule/Page/display.html.twig', {inList: true, list: list}) }}
-                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fa fa-long-arrow-alt-right"></i> {% trans %}View full page{% endtrans %}</a></p>
+                        <p class="content-readmore"><a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ page.title|e('html_attr') }}"><i class="fas fa-long-arrow-alt-right"></i> {% trans %}View full page{% endtrans %}</a></p>
                         {% if not loop.last %}
                             <hr />
                         {% endif %}

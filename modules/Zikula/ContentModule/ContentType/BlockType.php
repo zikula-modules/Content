@@ -99,7 +99,7 @@ class BlockType extends AbstractContentType
             . '" onclick="'
             . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
             . 'jQuery(this).remove();'
-            . '"><i class="fa fa-2x fa-eye"></i></a>'
+            . '"><i class="fas fa-2x fa-eye"></i></a>'
         ;
         $editLink = $this->router->generate(
             'zikulablocksmodule_block_edit',
@@ -107,7 +107,7 @@ class BlockType extends AbstractContentType
         );
         $quickActions .= ' <a href="' . $editLink . '"'
             . ' title="' . $this->translator->trans('Edit this block') . '"'
-            . ' target="_blank"><i class="fa fa-2x fa-pencil-square-o"></i></a>'
+            . ' target="_blank"><i class="fas fa-2x fa-pencil-square-o"></i></a>'
         ;
         $editOutput = '<h3>' . $block->getTitle() . '</h3>';
         if ($block->getDescription()) {

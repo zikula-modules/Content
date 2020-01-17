@@ -85,7 +85,7 @@ class MenuBuilder extends AbstractMenuBuilder
             if ('display' === $context) {
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
             }
-            $menu[$title]->setAttribute('icon', 'fa fa-cubes');
+            $menu[$title]->setAttribute('icon', 'fas fa-cubes');
         }
         if ($hasEditPermissions) {
             $title = $this->trans('Duplicate');
@@ -100,7 +100,7 @@ class MenuBuilder extends AbstractMenuBuilder
             if ('display' === $context) {
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
             }
-            $menu[$title]->setAttribute('icon', 'fa fa-copy');
+            $menu[$title]->setAttribute('icon', 'fas fa-copy');
         }
         if ($this->multilingual && $hasEditPermissions && $hasContentPermissions) {
             $title = $this->trans('Translate');
@@ -115,7 +115,7 @@ class MenuBuilder extends AbstractMenuBuilder
             if ('display' === $context) {
                 $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
             }
-            $menu[$title]->setAttribute('icon', 'fa fa-language');
+            $menu[$title]->setAttribute('icon', 'fas fa-language');
         }
 
         foreach ($reappendChildren as $item) {
