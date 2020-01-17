@@ -98,9 +98,7 @@ function contentPageLoadDynamicAssets(type, pathes, jsEntryPoint) {
 function contentPageInitPalette() {
     jQuery('#palette #paletteTabs > li > a, #palette .grid-stack-item').popover({
         container: 'body',
-        placement: function (pop, dom_el) {
-            return 'top';//window.innerWidth < 768 ? 'bottom' : 'right';
-        },
+        placement: 'top',
         trigger: 'hover focus'
     });
     jQuery('#palette #paletteTabs > li > a').on('click hover', function (event) {
