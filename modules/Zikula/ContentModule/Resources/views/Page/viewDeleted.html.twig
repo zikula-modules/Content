@@ -33,9 +33,9 @@
                             <td headers="hUser hId{{ logEntry.objectId|e('html_attr') }}">{{ userAvatar(logEntry.username, {size: 20, rating: 'g'}) }} {{ logEntry.username|profileLinkByUserName() }}</td>
                             <td headers="hActions hId{{ logEntry.objectId|e('html_attr') }}" class="actions">
                                 {% set linkTitle = 'Preview page %id%'|trans({'%id%': logEntry.objectId}) %}
-                                <a id="pageItemDisplay{{ logEntry.objectId }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId, preview: 1, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ 'Page %id%'|trans({'%id%': logEntry.objectId})|e('html_attr') }}"><i class="fa fa-id-card"></i></a>
+                                <a id="pageItemDisplay{{ logEntry.objectId }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId, preview: 1, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ 'Page %id%'|trans({'%id%': logEntry.objectId})|e('html_attr') }}"><i class="fas fa-id-card"></i></a>
                                 {% set linkTitle = 'Undelete page %id%'|trans({'%id%': logEntry.objectId}) %}
-                                <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-history"></i></a>
+                                <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'undelete', {id: logEntry.objectId}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-history"></i></a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -48,6 +48,6 @@
 {% block page_nav_links %}
     <p>
         {% set linkTitle = 'Back to overview'|trans %}
-        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fa fa-reply"></i> {{ linkTitle }}</a>
+        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-reply"></i> {{ linkTitle }}</a>
     </p>
 {% endblock %}

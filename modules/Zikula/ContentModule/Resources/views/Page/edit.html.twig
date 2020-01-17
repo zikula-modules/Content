@@ -18,7 +18,7 @@
                         <li class="nav-item" role="presentation">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == app.request.locale %} active{% endif %}">
                                 {% if not form.vars.valid %}
-                                    <span class="badge badge-danger"><i class="fa fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
+                                    <span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}
@@ -99,7 +99,7 @@
         
         {% if form.moderationSpecificCreator is defined or form.moderationSpecificCreationDate is defined %}
             <fieldset id="moderationFieldsSection">
-                <legend>{% trans %}Moderation{% endtrans %} <i class="fa fa-expand"></i></legend>
+                <legend>{% trans %}Moderation{% endtrans %} <i class="fas fa-expand"></i></legend>
                 <div id="moderationFieldsContent">
                     {% if form.moderationSpecificCreator is defined %}
                         {{ form_row(form.moderationSpecificCreator) }}
