@@ -86,7 +86,7 @@
                     {% for language in supportedLanguages %}
                         <li class="nav-item">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == currentLocale %} active{% endif %}">
-                                {% if not form.vars.valid %}
+                                {% if language != app.request.locale and not form[language].vars.valid %}
                                     <span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = currentStep == 1 and language in localesWithMandatoryFields %}
