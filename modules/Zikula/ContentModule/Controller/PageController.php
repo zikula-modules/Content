@@ -255,6 +255,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      * @Template("@ZikulaContentModule/Page/manageContent.html.twig")
+     * @Theme("admin")
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
@@ -615,6 +616,7 @@ class PageController extends AbstractPageController
      *        options={"expose"=true}
      * )
      * @Template("@ZikulaContentModule/Page/translate.html.twig")
+     * @Theme("admin")
      * @return array|RedirectResponse
      */
     public function adminTranslateAction(

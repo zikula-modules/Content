@@ -107,7 +107,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="json_array")
      * @Assert\NotNull
      * @Assert\Type(type="array")
-     * @Assert\Json
      * @var array $layout
      */
     protected $layout = [];
@@ -218,7 +217,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="json_array")
      * @Assert\NotNull
      * @Assert\Type(type="array")
-     * @Assert\Json
      * @var array $contentData
      */
     protected $contentData = [];
@@ -228,7 +226,6 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      * @ORM\Column(type="json_array")
      * @Assert\NotNull
      * @Assert\Type(type="array")
-     * @Assert\Json
      * @var array $translationData
      */
     protected $translationData = [];
