@@ -83,7 +83,7 @@ class MenuBuilder extends AbstractMenuBuilder
                 $this->trans('Manage content elements of page')
             );
             if ('display' === $context) {
-                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
             }
             $menu[$title]->setAttribute('icon', 'fas fa-cubes');
         }
@@ -98,7 +98,7 @@ class MenuBuilder extends AbstractMenuBuilder
                 $this->trans('Duplicate this page')
             );
             if ('display' === $context) {
-                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
             }
             $menu[$title]->setAttribute('icon', 'fas fa-copy');
         }
@@ -113,7 +113,7 @@ class MenuBuilder extends AbstractMenuBuilder
                 $this->trans('Translate this page')
             );
             if ('display' === $context) {
-                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-default');
+                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
             }
             $menu[$title]->setAttribute('icon', 'fas fa-language');
         }
