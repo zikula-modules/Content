@@ -141,112 +141,98 @@ class AbstractMenuBuilder
             ;
             
             if ('admin' === $routeArea) {
-                $title = 'Preview';
                 $previewRouteParameters = $entity->createUrlArgs();
                 $previewRouteParameters['preview'] = 1;
-                $menu->addChild($title, [
+                $menu->addChild('Preview', [
                     'route' => $routePrefix . 'display',
                     'routeParameters' => $previewRouteParameters
-                ]);
-                $menu[$title]->setLinkAttribute('target', '_blank');
-                $menu[$title]->setLinkAttribute(
-                    'title',
-                    'Open preview page'
-                );
-                if ('display' === $context) {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-                }
-                $menu[$title]->setAttribute('icon', 'fas fa-search-plus');
+                ])
+                    ->setLinkAttribute('target', '_blank')
+                    ->setLinkAttribute(
+                        'title',
+                        'Open preview page'
+                    )
+                    ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                    ->setAttribute('icon', 'fas fa-search-plus')
+                ;
             }
             if ('display' !== $context) {
-                $title = 'Details';
-                $menu->addChild($title, [
+                $entityTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
+                $menu->addChild('Details', [
                     'route' => $routePrefix . $routeArea . 'display',
                     'routeParameters' => $entity->createUrlArgs()
-                ]);
-                $entityTitle = $this->entityDisplayHelper->getFormattedTitle($entity);
-                $menu[$title]->setLinkAttribute(
-                    'title',
-                    str_replace('"', '', $entityTitle)
-                );
-                if ('display' === $context) {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-                }
-                $menu[$title]->setAttribute('icon', 'fas fa-eye');
+                ])
+                    ->setLinkAttribute(
+                        'title',
+                        str_replace('"', '', $entityTitle)
+                    )
+                    ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                    ->setAttribute('icon', 'fas fa-eye')
+                ;
             }
             if ($this->permissionHelper->mayEdit($entity)) {
                 // only allow editing for the owner or people with higher permissions
                 if ($isOwner || $this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
-                    $title = 'Edit';
-                    $menu->addChild($title, [
+                    $menu->addChild('Edit', [
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => $entity->createUrlArgs(true)
-                    ]);
-                    $menu[$title]->setLinkAttribute(
-                        'title',
-                        'Edit this page'
-                    );
-                    if ('display' === $context) {
-                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-                    }
-                    $menu[$title]->setAttribute('icon', 'fas fa-edit');
-                    $title = 'Reuse';
-                    $menu->addChild($title, [
+                    ])
+                        ->setLinkAttribute(
+                            'title',
+                            'Edit this page'
+                        )
+                        ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                        ->setAttribute('icon', 'fas fa-edit')
+                    ;
+                    $menu->addChild('Reuse', [
                         'route' => $routePrefix . $routeArea . 'edit',
                         'routeParameters' => ['astemplate' => $entity->getKey()]
-                    ]);
-                    $menu[$title]->setLinkAttribute(
-                        'title',
-                        'Reuse for new page'
-                    );
-                    if ('display' === $context) {
-                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-                    }
-                    $menu[$title]->setAttribute('icon', 'fas fa-files-o');
+                    ])
+                        ->setLinkAttribute(
+                            'title',
+                            'Reuse for new page'
+                        )
+                        ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                        ->setAttribute('icon', 'fas fa-files-o')
+                    ;
                     if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
-                        $title = 'Add sub page';
-                        $menu->addChild($title, [
+                        $menu->addChild('Add sub page', [
                             'route' => $routePrefix . $routeArea . 'edit',
                             'routeParameters' => ['parent' => $entity->getKey()]
-                        ]);
-                        $menu[$title]->setLinkAttribute(
-                            'title',
-                            'Add a sub page to this page'
-                        );
-                        if ('display' === $context) {
-                            $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-                        }
-                        $menu[$title]->setAttribute('icon', 'fas fa-child');
+                        ])
+                            ->setLinkAttribute(
+                                'title',
+                                'Add a sub page to this page'
+                            )
+                            ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                            ->setAttribute('icon', 'fas fa-child')
+                        ;
                     }
                 }
             }
             if ($this->permissionHelper->mayAccessHistory($entity)) {
                 if (in_array($context, ['view', 'display']) && $this->loggableHelper->hasHistoryItems($entity)) {
-                    $title = 'History';
-                    $menu->addChild($title, [
+                    $menu->addChild('History', [
                         'route' => $routePrefix . $routeArea . 'loggablehistory',
                         'routeParameters' => $entity->createUrlArgs()
-                    ]);
-                    $menu[$title]->setLinkAttribute(
-                        'title',
-                        'Watch version history'
-                    );
-                    if ('display' === $context) {
-                        $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-                    }
-                    $menu[$title]->setAttribute('icon', 'fas fa-history');
+                    ])
+                        ->setLinkAttribute(
+                            'title',
+                            'Watch version history'
+                        )
+                        ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                        ->setAttribute('icon', 'fas fa-history')
+                    ;
                 }
             }
             if ('display' === $context) {
-                $title = 'Pages list';
-                $menu->addChild($title, [
+                $menu->addChild('Pages list', [
                     'route' => $routePrefix . $routeArea . 'view'
-                ]);
-                $menu[$title]->setLinkAttribute('title', $title);
-                if ('display' === $context) {
-                    $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-                }
-                $menu[$title]->setAttribute('icon', 'fas fa-reply');
+                ])
+                    ->setLinkAttribute('title', $title)
+                    ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                    ->setAttribute('icon', 'fas fa-reply')
+                ;
             }
         }
         if ($entity instanceof ContentItemEntity) {
@@ -291,33 +277,30 @@ class AbstractMenuBuilder
             $showOnlyOwn = 'admin' !== $routeArea && $this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
             if ('tree' === $currentTemplate) {
                 if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
-                    $title = 'Add root node';
-                    $menu->addChild($title, [
+                    $menu->addChild('Add root node', [
                         'uri' => 'javascript:void(0)'
-                    ]);
-                    $menu[$title]->setLinkAttribute('id', 'treeAddRoot');
-                    $menu[$title]->setLinkAttribute('class', 'd-none');
-                    $menu[$title]->setLinkAttribute('data-object-type', $objectType);
-                    $menu[$title]->setLinkAttribute('title', $title);
-                    $menu[$title]->setAttribute('icon', 'fas fa-plus');
+                    ])
+                        ->setLinkAttribute('id', 'treeAddRoot')
+                        ->setLinkAttribute('class', 'd-none')
+                        ->setLinkAttribute('data-object-type', $objectType)
+                        ->setAttribute('icon', 'fas fa-plus')
+                    ;
                 }
-                $title = 'Switch to table view';
-                $menu->addChild($title, [
+                $menu->addChild('Switch to table view', [
                     'route' => $routePrefix . $routeArea . 'view'
-                ]);
-                $menu[$title]->setLinkAttribute('title', $title);
-                $menu[$title]->setAttribute('icon', 'fas fa-table');
+                ])
+                    ->setAttribute('icon', 'fas fa-table')
+                ;
             }
             if (!in_array($currentTemplate, ['tree'])) {
                 $canBeCreated = $this->modelHelper->canBeCreated($objectType);
                 if ($canBeCreated) {
                     if ($this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
-                        $title = 'Create page';
-                        $menu->addChild($title, [
+                        $menu->addChild('Create page', [
                             'route' => $routePrefix . $routeArea . 'edit'
-                        ]);
-                        $menu[$title]->setLinkAttribute('title', $title);
-                        $menu[$title]->setAttribute('icon', 'fas fa-plus');
+                        ])
+                            ->setAttribute('icon', 'fas fa-plus')
+                        ;
                     }
                 }
                 $routeParameters = $query->all();
@@ -328,41 +311,46 @@ class AbstractMenuBuilder
                 }
                 if (1 === $query->getInt('all')) {
                     unset($routeParameters['all']);
-                    $title = 'Back to paginated view';
+                    $menu->addChild('Back to paginated view', [
+                        'route' => $routePrefix . $routeArea . 'view',
+                        'routeParameters' => $routeParameters
+                    ])
+                        ->setAttribute('icon', 'fas fa-table')
+                    ;
                 } else {
                     $routeParameters['all'] = 1;
-                    $title = 'Show all entries';
+                    $menu->addChild('Show all entries', [
+                        'route' => $routePrefix . $routeArea . 'view',
+                        'routeParameters' => $routeParameters
+                    ])
+                        ->setAttribute('icon', 'fas fa-table')
+                    ;
                 }
-                $menu->addChild($title, [
-                    'route' => $routePrefix . $routeArea . 'view',
-                    'routeParameters' => $routeParameters
-                ]);
-                $menu[$title]->setLinkAttribute('title', $title);
-                $menu[$title]->setAttribute('icon', 'fas fa-table');
-                $title = 'Switch to hierarchy view';
-                $menu->addChild($title, [
+                $menu->addChild('Switch to hierarchy view', [
                     'route' => $routePrefix . $routeArea . 'view',
                     'routeParameters' => ['tpl' => 'tree']
-                ]);
-                $menu[$title]->setLinkAttribute('title', $title);
-                $menu[$title]->setAttribute('icon', 'fas fa-code-branch');
+                ])
+                    ->setAttribute('icon', 'fas fa-code-branch')
+                ;
                 if (!$showOnlyOwn && $this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
                     $routeParameters = $query->all();
                     if (1 === $query->getInt('own')) {
                         unset($routeParameters['own']);
-                        $title = 'Show also entries from other users';
-                        $icon = 'users';
+                        $menu->addChild('Show also entries from other users', [
+                            'route' => $routePrefix . $routeArea . 'view',
+                            'routeParameters' => $routeParameters
+                        ])
+                            ->setAttribute('icon', 'fas fa-users')
+                        ;
                     } else {
                         $routeParameters['own'] = 1;
-                        $title = 'Show only own entries';
-                        $icon = 'user';
+                        $menu->addChild('Show only own entries', [
+                            'route' => $routePrefix . $routeArea . 'view',
+                            'routeParameters' => $routeParameters
+                        ])
+                            ->setAttribute('icon', 'fas fa-user')
+                        ;
                     }
-                    $menu->addChild($title, [
-                        'route' => $routePrefix . $routeArea . 'view',
-                        'routeParameters' => $routeParameters
-                    ]);
-                    $menu[$title]->setLinkAttribute('title', $title);
-                    $menu[$title]->setAttribute('icon', 'fas fa-' . $icon);
                 }
                 // check if there exist any deleted pages
                 $hasDeletedEntities = false;
@@ -370,13 +358,12 @@ class AbstractMenuBuilder
                     $hasDeletedEntities = $this->loggableHelper->hasDeletedEntities($objectType);
                 }
                 if ($hasDeletedEntities) {
-                    $title = 'View deleted pages';
-                    $menu->addChild($title, [
+                    $menu->addChild('View deleted pages', [
                         'route' => $routePrefix . $routeArea . 'view',
                         'routeParameters' => ['deleted' => 1]
-                    ]);
-                    $menu[$title]->setLinkAttribute('title', $title);
-                    $menu[$title]->setAttribute('icon', 'fas fa-trash-alt');
+                    ])
+                        ->setAttribute('icon', 'fas fa-trash-alt')
+                    ;
                 }
             }
         }
