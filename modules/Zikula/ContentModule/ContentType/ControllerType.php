@@ -162,7 +162,8 @@ class ControllerType extends AbstractContentType
         }
 
         $controller = $this->data['controller'];
-        list($bundleName) = explode(':', $controller);
+        $controllerParts = explode('\\', $controller);
+        $bundleName = $controllerParts[0] . $controllerParts[1];
 
         $query = $request = $attributes = [];
         if (null !== $this->data['query']) {
