@@ -229,7 +229,6 @@ class AbstractMenuBuilder
                 $menu->addChild('Pages list', [
                     'route' => $routePrefix . $routeArea . 'view'
                 ])
-                    ->setLinkAttribute('title', $title)
                     ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
                     ->setAttribute('icon', 'fas fa-reply')
                 ;
