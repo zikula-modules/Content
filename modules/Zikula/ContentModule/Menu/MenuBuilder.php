@@ -47,8 +47,8 @@ class MenuBuilder extends AbstractMenuBuilder
             return $menu;
         }
 
-        $searchTitle = $this->trans('Details');
-        $reuseTitle = $this->trans('Reuse');
+        $searchTitle = 'Details';//$this->trans('Details');
+        $reuseTitle = 'Reuse';//$this->trans('Reuse');
         if ($hasEditPermissions) {
             $searchTitle = $reuseTitle;
         }
@@ -73,49 +73,43 @@ class MenuBuilder extends AbstractMenuBuilder
         $context = $options['context'];
 
         if ($hasContentPermissions) {
-            $title = $this->trans('Manage content');
-            $menu->addChild($title, [
+            $menu->addChild('Manage content', [
                 'route' => $routePrefix . $routeArea . 'managecontent',
                 'routeParameters' => $entity->createUrlArgs()
-            ]);
-            $menu[$title]->setLinkAttribute(
-                'title',
-                $this->trans('Manage content elements of page')
-            );
-            if ('display' === $context) {
-                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-            }
-            $menu[$title]->setAttribute('icon', 'fas fa-cubes');
+            ])
+                ->setLinkAttribute(
+                    'title',
+                    'Manage content elements of page'
+                )
+                ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                ->setAttribute('icon', 'fas fa-cubes')
+            ;
         }
         if ($hasEditPermissions) {
-            $title = $this->trans('Duplicate');
-            $menu->addChild($title, [
+            $menu->addChild('Duplicate', [
                 'route' => $routePrefix . $routeArea . 'duplicate',
                 'routeParameters' => $entity->createUrlArgs()
-            ]);
-            $menu[$title]->setLinkAttribute(
-                'title',
-                $this->trans('Duplicate this page')
-            );
-            if ('display' === $context) {
-                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-            }
-            $menu[$title]->setAttribute('icon', 'fas fa-copy');
+            ])
+                ->setLinkAttribute(
+                    'title',
+                    'Duplicate this page'
+                )
+                ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                ->setAttribute('icon', 'fas fa-copy')
+            ;
         }
         if ($this->multilingual && $hasEditPermissions && $hasContentPermissions) {
-            $title = $this->trans('Translate');
-            $menu->addChild($title, [
+            $menu->addChild('Translate', [
                 'route' => $routePrefix . $routeArea . 'translate',
                 'routeParameters' => $entity->createUrlArgs()
-            ]);
-            $menu[$title]->setLinkAttribute(
-                'title',
-                $this->trans('Translate this page')
-            );
-            if ('display' === $context) {
-                $menu[$title]->setLinkAttribute('class', 'btn btn-sm btn-secondary');
-            }
-            $menu[$title]->setAttribute('icon', 'fas fa-language');
+            ])
+                ->setLinkAttribute(
+                    'title',
+                    'Translate this page'
+                )
+                ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
+                ->setAttribute('icon', 'fas fa-language')
+            ;
         }
 
         foreach ($reappendChildren as $item) {
