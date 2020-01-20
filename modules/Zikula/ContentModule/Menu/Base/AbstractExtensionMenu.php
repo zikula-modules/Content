@@ -83,21 +83,25 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
                     $menu->addChild('My pages', [
                         'route' => 'zikulacontentmodule_' . strtolower($objectType) . '_view',
                         'routeParameters' => $routeParameters
-                    ])->setAttribute('icon', 'fas fa-list-alt');
+                    ])
+                        ->setAttribute('icon', 'fas fa-list-alt')
+                    ;
                 }
             }
 
             if ($this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
                 $menu->addChild('Content Backend', [
                     'route' => 'zikulacontentmodule_page_adminindex'
-                ])->setAttribute('icon', 'fas fa-wrench');
+                ])
+                    ->setAttribute('icon', 'fas fa-wrench')
+                ;
             }
 
             return 0 === $menu->count() ? null : $menu;
         }
 
         $routeArea = self::TYPE_ADMIN === $type ? 'admin' : '';
-        if (LinkContainerInterface::TYPE_ADMIN === $type) {
+        if (self::TYPE_ADMIN === $type) {
             if ($this->permissionHelper->hasPermission(ACCESS_READ)) {
                 $menu->addChild('Frontend', [
                     'route' => 'zikulacontentmodule_page_index',
