@@ -275,7 +275,7 @@ class CustomTwigExtension extends AbstractExtension
                 $qb = $pageRepository->getCountQuery('', false);
                 $qb = $this->collectionFilterHelper->applyDefaultFilters('page', $qb);
                 $qb->leftJoin('tbl.categories', 'tblCategories')
-                   ->andWhere('tblCategories.category = :category')
+                    ->andWhere('tblCategories.category = :category')
                     ->setParameter('category', $category->getId());
                 $pageCount = $qb->getQuery()->getSingleScalarResult();
                 $pageCounts[$category->getId()] = $pageCount;

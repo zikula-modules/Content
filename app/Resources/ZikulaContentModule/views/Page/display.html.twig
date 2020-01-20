@@ -135,3 +135,8 @@
         {{ parent() }}
     {% endif %}
 {% endblock %}
+{% block assets %}
+    {% if inList is not defined %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
