@@ -162,8 +162,8 @@ class ControllerType extends AbstractContentType
         }
 
         $controller = $this->data['controller'];
-        $controllerParts = explode('\\', $controller);
-        $bundleName = $controllerParts[0] . $controllerParts[1];
+        list($vendor, $bundleName) = explode('\\', $controller);
+        $bundleName = $vendor . $bundleName;
 
         $query = $request = $attributes = [];
         if (null !== $this->data['query']) {
@@ -176,8 +176,10 @@ class ControllerType extends AbstractContentType
             parse_str($this->data['attributes'], $attributes);
         }
         $attributes['_controller'] = $controller;
-        $subRequest = $this->requestStack->getMasterRequest()->duplicate($query, $request, $attributes);
-        $subRequest->attributes->set('_zkModule', $bundleName);
+
+        $masterRequest = $this->requestStack->getMasterRequest();
+        $masterRequest->attributes->set('_zkModule', $bundleName);
+        $subRequest = $masterRequest->duplicate($query, $request, $attributes);
 
         ++$recursionLevel;
 
