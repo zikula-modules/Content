@@ -20,6 +20,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Translation\Extractor\Annotation\Ignore;
+use Translation\Extractor\Annotation\Translate;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 
@@ -82,7 +84,7 @@ abstract class AbstractItemBlockType extends AbstractType
         $builder->add('id', ChoiceType::class, [
             'multiple' => false,
             'expanded' => false,
-            'choices' => $choices,
+            'choices' => /** @Ignore */$choices,
             'required' => true,
             'label' => 'Entry to display:'
         ]);
@@ -101,9 +103,10 @@ abstract class AbstractItemBlockType extends AbstractType
                     'maxlength' => 80,
                     'title' => 'Example' . ': displaySpecial.html.twig'
                 ],
+                /** @Ignore */
                 'help' => [
-                    'Example' . ': <code>displaySpecial.html.twig</code>',
-                    'Needs to be located in the "External/YourEntity/" directory.'
+                    /** @Translate */'Example' . ': <code>displaySpecial.html.twig</code>',
+                    /** @Translate */'Needs to be located in the "External/YourEntity/" directory.'
                 ],
                 'help_html' => true
             ])
