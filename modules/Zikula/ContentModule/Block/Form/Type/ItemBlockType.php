@@ -33,7 +33,7 @@ class ItemBlockType extends AbstractItemBlockType
             'expanded' => false,
             'use_joins' => false,
             'required' => true,
-            'label' => $this->trans('Include the following page') . ':'
+            'label' => 'Include the following page:'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('id')->addModelTransformer($transformer);

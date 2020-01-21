@@ -20,6 +20,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Translation\Extractor\Annotation\Ignore;
+use Translation\Extractor\Annotation\Translate;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
@@ -69,9 +71,9 @@ class MenuBlockType extends AbstractType
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);
-        $helpText = 'The maximum amount of items to be shown.'
+        $helpText = /** @Translate */'The maximum amount of items to be shown.'
             . ' '
-            . 'Only digits are allowed.'
+            . /** @Translate */'Only digits are allowed.'
         ;
         $builder->add('amount', IntegerType::class, [
             'label' => 'Amount:',
@@ -79,6 +81,7 @@ class MenuBlockType extends AbstractType
                 'maxlength' => 2,
                 'title' => $helpText
             ],
+            /** @Ignore */
             'help' => $helpText,
             'empty_data' => 5
         ]);

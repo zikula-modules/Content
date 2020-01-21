@@ -1,0 +1,680 @@
+'Google map route': null
+'Display a Google map with route planning.': null
+'You need to specify a Google Maps API key in the configuration form in order to activate this plugin.': null
+'Author information': null
+'Various information about the author of the page.': null
+'Unknown author': null
+Heading: null
+'Section heading (or page title) for structuring large amounts of text.': null
+Breadcrumb: null
+'Show breadcrumbs for hierarchical pages.': null
+'Vimeo video': null
+'Display a Vimeo video clip.': null
+'Existing content': null
+'Reference and display an already existing content item.': null
+'YouTube video': null
+'Display a YouTube video clip.': null
+'HTML text': null
+'HTML editor for adding markup text to your page.': null
+'Add text here...': null
+'Tab navigation': null
+'Tab navigation with existing Content items.': null
+Controller: null
+'Display controller output from any installed module, theme or bundle.': null
+'Preview controller content': null
+'GET parameters': null
+'POST parameters': null
+'Request attributes': null
+'Module %module% is not available.': null
+'Maximum number of pages-in-pages reached! You probably included this page in itself.': null
+'Unfiltered raw text': null
+'A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).': null
+'You need to explicitly enable a checkbox in the configuration form to activate this plugin.': null
+'Add unfiltered text here ...': null
+Block: null
+'Display Zikula blocks.': null
+'Preview block content': null
+'Edit this block': null
+'Block is inactive.': null
+pixels: null
+Roadmap: null
+Satellite: null
+Hybrid: null
+Terrain: null
+'A numeral that has a precision to 6 decimal places. For example, 40.714728.': null
+'From 0 for the entire world to 21 for individual buildings.': null
+'Latitude:': null
+'Longitude:': null
+'Zoom level:': null
+'Map type:': null
+'Height of the displayed map:': null
+'The target address:': null
+'Header to be shown above the map:': null
+'Text to be shown below the map:': null
+'Here you can choose a user which will be used as author.': null
+'An empty value or 0 will use the default size.': null
+'Author:': null
+'Display avatar:': null
+'Custom avatar with:': null
+'Display link for messaging:': null
+'Leave empty for no internal anchor link.': null
+'If this setting is enabled the text field above will be ignored and the page title will be displayed instead.': null
+'Heading:': null
+'Heading type:': null
+'Internal anchor link name:': null
+'Display the page title': null
+'Include self as last breadcrumb:': null
+'Include home as first breadcrumb:': null
+'Show video inline': null
+'Show video in modal window': null
+'Something like "https://vimeo.com/7504225".': null
+'URL to the video clip:': null
+'Video description:': null
+'Display mode:': null
+'ID of content item to display:': null
+'Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".': null
+'Extended privacy mode:': null
+'Show related videos:': null
+'Autoplay the video when displayed:': null
+'Text:': null
+Tabs: null
+Pills: null
+'Stacked pills (col-md-3/col-md-9)': null
+'A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.': null
+'Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".': null
+'Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".': null
+'A CSS class name that will be used on the tab navigation.': null
+'Content item IDs:': null
+'Tab titles:': null
+'Link names:': null
+'Navigation type:': null
+'Custom style class:': null
+'FQCN::method, for example <code>Zikula\FooModule\Controller\BarController::mainAction</code>': null
+'Separate with &, for example: <code>foo=2&bar=5</code>': null
+'If this setting is enabled the text field above will be ignored and iframe parameters will be used.': null
+'the src parameter of the iframe': null
+'the style parameter of the iframe, e.g. <code>border: 0</code>': null
+'the scrolling parameter of the iframe, e.g. "no"': null
+'Unfiltered text:': null
+'Use an iframe instead of the text field:': null
+'iframe src:': null
+'iframe name parameter:': null
+'iframe title parameter:': null
+'iframe style:': null
+'iframe width:': null
+'iframe height:': null
+'iframe border:': null
+'iframe scrolling:': null
+'Allow transparancy on the iframe:': null
+'Block to display:': null
+'No': null
+'Yes, unlimited': null
+'Yes, limited': null
+'if heading items are included and not unlimited; select 0 to include the headings only for the selected page': null
+'if subpages are included and not unlimited': null
+'Page:': null
+'Include self into the table of contents:': null
+'Include start page into the table of contents:': null
+'Include subpages that are not in the menus:': null
+'Include heading items on pages:': null
+'Include heading items up to page level:': null
+'Include subpages:': null
+'Include subpages into table up to level:': null
+'All pages': null
+'Can contain HTML markup. Leave this field empty for disabling the popup window.': null
+'Description to be shown below the map:': null
+'Text to be shown in the popup window of the marker:': null
+'Display a traffic overlay:': null
+'Display a bicycle overlay:': null
+'Display the streetview control:': null
+'Display a link to directions to this location in Google Maps:': null
+'Display directions inline within the map:': null
+'See <a href=''%url%'' target="_blank">this page</a> for examples.': null
+'URL of tile layer to use:': null
+'Attribution for tile layer to use:': null
+'Quote text:': null
+'Source:': null
+'Description:': null
+hours: null
+'URL of RSS or Atom feed:': null
+'Include feed text in addition to the title:': null
+'Refresh time:': null
+'Max. no. of items to display:': null
+'If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.': null
+'Computer code lines:': null
+'Code filter:': null
+'Something like "https://www.slideshare.net/1Marc/jquery-essentials".': null
+'URL to the slide:': null
+'Slide description:': null
+'Slideshare''s embedded player width:': null
+'Slideshare''s embedded player height:': null
+'Page navigation': null
+'Allows to navigate within pages on the same level.': null
+'Table of contents': null
+'A table of contents of headings and subpages (built from the available Content pages).': null
+'Google map': null
+'Display a Google map position.': null
+'Leaflet map': null
+'Display a Leaflet map position.': null
+Quote: null
+'A highlighted quote with source.': null
+'Add quote text here...': null
+'Name of the source': null
+Feed: null
+'Display list of items in an Atom or RSS feed.': null
+'Computer code': null
+'A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.': null
+Slideshare: null
+'Display slides from slideshare.com.': null
+Video: null
+'Play video': null
+Close: null
+'Get directions from start address': null
+'Show directions': null
+'Clear directions': null
+'Get directions to this location': null
+'Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.': null
+'Use this feature carefully! Some extensions do not work when displayed together with other ones. DO NOT create circular references, e.g., adding a Content page that displays itself ...': null
+'Destination address': null
+'Calculate route!': null
+'Street (optional), Location, Country (optional)': null
+Back: null
+Overview: null
+Forward: null
+'By %user%': null
+'Send private message to %userName%': null
+Home: null
+Settings: null
+'General settings': null
+'Custom styles': null
+'Additional fields': null
+Permalinks: null
+'List views': null
+Moderation: null
+Integration: null
+Versioning: null
+'Available plugins': null
+'Here you can manage all basic settings for this application.': null
+'Get API key': null
+'With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".': null
+'Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.': null
+'Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.': null
+'Here you can configure parameters for list views.': null
+'Here you can define moderation-related settings.': null
+'These options allow you to configure integration aspects.': null
+'Here you can define settings related to version control.': null
+'Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.': null
+Bundle: null
+Plugin: null
+Active: null
+Category: null
+Description: null
+'Yes': null
+and: null
+'Reset to empty value': null
+Content: null
+Options: null
+'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.': null
+'Content items': null
+'Welcome to the content item section of the Content application.': null
+'Creation and update': null
+Creation: null
+'Created by %user% on %date%': null
+'Last update': null
+'Updated by %user% on %date%': null
+Categories: null
+'Created by %user%': null
+'Created on %date%': null
+'Updated by %user%': null
+'Updated on %date%': null
+'Current version': null
+'Compare versions of %entityTitle%': null
+'Page change history for %entityTitle%': null
+'Back to history': null
+'Pages list': null
+'Back to detail view': null
+Select: null
+Version: null
+Date: null
+User: null
+Operation: null
+Changes: null
+Actions: null
+latest: null
+Created: null
+Updated: null
+Removed: null
+'%field% set to <em>%value%</em>': null
+'%field% set to:': null
+'an empty collection': null
+None: null
+'Preview version %version%': null
+version: null
+'Revert to version %version%': null
+'Compare selected versions': null
+'Field name': null
+'Version %version%': null
+'an empty value': null
+'Page hierarchy': null
+Pages: null
+'Welcome to the page section of the Content application.': null
+Page: null
+'Manage content': null
+'Add another section': null
+'Add section': null
+'Back to last page': null
+'Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.': null
+'Styling classes': null
+OK: null
+Save: null
+Delete: null
+Cancel: null
+'Add element': null
+'My pages': null
+'Complete pages list': null
+'Extended pages list': null
+'Categories list': null
+'Sort by %fieldName%': null
+State: null
+Title: null
+Views: null
+'In menu': null
+'Updated date': null
+'View detail page': null
+'This setting is enabled. Click here to disable it.': null
+'This setting is disabled. Click here to enable it.': null
+Inactive: null
+'only from %date': null
+'only until %date': null
+In: null
+Out: null
+'on %date% by %user%': null
+'on %date%': null
+'No pages found.': null
+'With selected pages': null
+'Choose action': null
+'Delete content permanently.': null
+Submit: null
+'View full page': null
+'Welcome to the contents for %sitename%': null
+'The available categories:': null
+plural_n.pages: "{count, plural,\n  =0    {No pages}\n  one   {One page}\n  other {# pages}\n}"
+'No categories found.': null
+'Create page': null
+'Edit page': null
+Errors: null
+'Further properties': null
+'Show title on page': null
+'Do not process hooks on this page': null
+'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.': null
+'Include page in menu': null
+'You can include/exclude the page in the menu. The page is only shown when it is also active.': null
+Basic: null
+'Fundamental elements like text, image, heading, quote': null
+External: null
+'External content, like Vimeo or YouTube videos, Slideshare, etc.': null
+'Zikula blocks and content from third party modules like appointments, etc.': null
+Expert: null
+'Advanced elements for special and complex purposes': null
+Filter: null
+'Quick navigation': null
+'Back to default view': null
+Reset: null
+'Related pages': null
+'All parents': null
+'Direct parent': null
+'All children': null
+'Direct children': null
+Predecessors: null
+Successors: null
+Siblings: null
+'Subpages of %page%': null
+'No subpages found.': null
+'Deleted pages': null
+ID: null
+Action: null
+'Preview page %id%': null
+'Page %id%': null
+'Undelete page %id%': null
+'Back to overview': null
+'Quick search': null
+'Tree button toolbar': null
+'Expand all nodes': null
+'Expand all': null
+'Collapse all nodes': null
+'Collapse all': null
+'Show title': null
+'Meta description': null
+'Skip hook subscribers': null
+Layout: null
+'Active from': null
+'Active to': null
+Scope: null
+'Optional string 1': null
+'Optional string 2': null
+'Optional text': null
+'Content data': null
+'Translation data': null
+'Workflow state': null
+Translate: null
+'Step %step% of %amount%': null
+'General page data': null
+'Jump to element:': null
+'Switch source language:': null
+'Source content': null
+'Target content': null
+Sitemap: null
+'This block will only show the subpages of a Content page when that Content page is being displayed.': null
+'Search and select page': null
+'Doctrine Exception': null
+'Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.': null
+'Active:': null
+'Active from:': null
+'Active to:': null
+'Scope:': null
+'Styling classes:': null
+'Additional search text:': null
+contentData: null
+'Note: this value must not exceed %length% characters.': null
+'Enter one entry per line.': null
+'As soon as at least one selected entry applies for the current user the page becomes visible.': null
+'Parent page': null
+'Title:': null
+'Meta description:': null
+'Optional string 1:': null
+'Optional string 2:': null
+'Optional text:': null
+'Permalink:': null
+'Show title:': null
+'Skip hook subscribers:': null
+'Layout:': null
+'Views:': null
+'In menu:': null
+'Content data:': null
+'Category:': null
+'Submit and repeat': null
+'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.': null
+'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".': null
+'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.': null
+'Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.': null
+'Whether to inherit permissions from parent to child pages or not.': null
+'Whether page titles should automatically be linked using MultiHook.': null
+'If you need an additional string for each page you can enable an optional field.': null
+'If you need an additional text for each page you can enable an optional field.': null
+'This removes the module name (defaults to "content") from permalinks.': null
+'This removes the primary entity name ("page") from permalinks.': null
+'This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.': null
+'The amount of pages shown per page': null
+'Whether to add a link to pages of the current user on his account page': null
+'Whether users may only see own pages': null
+'Whether only own entries should be shown on view pages by default or not': null
+'Whether to allow moderators choosing a user which will be set as creator.': null
+'Whether to allow moderators choosing a custom creation date.': null
+'Which sections are supported in the Finder component (used by Scribite plug-ins).': null
+'Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.': null
+'Whether to show the version history to editors or not.': null
+'State of new pages:': null
+'Count page views:': null
+'Google maps api key:': null
+'Yandex translate api key:': null
+'Enable raw plugin:': null
+'Inherit permissions:': null
+'Enable automatic page links:': null
+'Page styles:': null
+'Section styles:': null
+'Content styles:': null
+'Enable optional string 1:': null
+'Enable optional string 2:': null
+'Enable optional text:': null
+'Ignore bundle name in routes:': null
+'Ignore entity name in routes:': null
+'Ignore first tree level in routes:': null
+'Permalink suffix:': null
+'Page entries per page:': null
+'Link own pages on account page:': null
+'Page private mode:': null
+'Show only own entries:': null
+'Allow moderation specific creator for page:': null
+'Allow moderation specific creation date for page:': null
+'Enabled finder types:': null
+'Revision handling for page:': null
+'Maximum amount of page revisions:': null
+'Period for page revisions:': null
+'Show page history:': null
+'Update configuration': null
+'Choose an option': null
+'Note: this value must not exceed %amount% characters.': null
+Previous: null
+Next: null
+Skip: null
+'Save and quit': null
+'Relative link to the page': null
+'Absolute url to the page': null
+'ID of page': null
+'Creation date': null
+Creator: null
+'Update date': null
+Updater: null
+Ascending: null
+Descending: null
+'This is an optional filter.': null
+'Change selection': null
+'Paste as:': null
+'Sort by:': null
+'Sort direction:': null
+'Page size:': null
+'Search for:': null
+Search: null
+'Sort by': null
+'Sort direction': null
+'Page size': null
+All: null
+Move: null
+Copy: null
+'Destination page:': null
+'Operation type:': null
+'No such item found.': null
+'Error! Could not determine workflow actions.': null
+'Done! Item created.': null
+'Error! Creation attempt failed.': null
+'Done! Item updated.': null
+'Error! Update attempt failed.': null
+'Done! Item deleted.': null
+'Error! Deletion attempt failed.': null
+'Sorry, but you can not create the page yet as other items are required which must be created before!': null
+'Done! Page created.': null
+'Done! Page updated.': null
+'Done! Page deleted.': null
+'Sorry, but someone else has already changed this record. Please apply the changes again!': null
+'Sorry, but an error occured during the %action% action. Please apply the changes again!': null
+'Links page titles to corresponding pages.': null
+'This is only a dummy page containing the real pages': null
+'<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>': null
+'Done! Migrated %amount% pages.': null
+'Content item form aware subscriber': null
+'Content item filter hooks subscriber': null
+'Page filter hooks subscriber': null
+'Page form aware subscriber': null
+'Page ui hooks subscriber': null
+'Content item ui hooks subscriber': null
+'Content created': null
+'Content updated': null
+'Content cloned': null
+'Content deleted': null
+'Layout changed (e.g. content moved or resized)': null
+'Error! Invalid object type received.': null
+'Error! Controller helper needs a request.': null
+'Page created': null
+'Page updated': null
+'Page cloned from page "%page%"': null
+'Page restored from version "%version%"': null
+'Page deleted': null
+'Page translation created': null
+'Page translation updated': null
+'Page translation deleted': null
+Initial: null
+Deferred: null
+Approved: null
+Trashed: null
+Deleted: null
+Defer: null
+Reject: null
+Trash: null
+Recover: null
+Update: null
+'Exception during example data creation: %message%': null
+'Content has not been submitted yet or has been waiting, but was rejected.': null
+'Content has been approved and is available online.': null
+'Content has been marked as deleted, but is still persisted in the database.': null
+'All except deferred': null
+'Shows all items except these which are deferred': null
+'All except approved': null
+'Shows all items except these which are approved': null
+'All except trashed': null
+'Shows all items except these which are trashed': null
+'Public (all)': null
+'All logged in members': null
+'All not logged in people': null
+'New pages will be active and available in the menu': null
+'New pages will be inactive and available in the menu': null
+'New pages will be active and not available in the menu': null
+'New pages will be inactive and not available in the menu': null
+'No suffix': null
+Html: null
+Htm: null
+Phtml: null
+Shtml: null
+'Unlimited revisions': null
+'Limited revisions by amount of revisions': null
+'Limited revisions by date interval': null
+1: null
+5: null
+10: null
+25: null
+50: null
+100: null
+250: null
+500: null
+'%title%': null
+'%owningType%': null
+'Invalid object type received.': null
+'Exception during example data creation': null
+Error: null
+'Invalid content type received.': null
+inactive: null
+'only logged in members': null
+'only not logged in people': null
+'specific group': null
+'Group %group%': null
+'Content menu block': null
+'Content menu': null
+Navbar: null
+'Hide them': null
+'Use dropdowns': null
+'Example: <code>tbl.age >= 18</code>': null
+'Sub pages handling:': null
+'Include the following subpages:': null
+'Amount:': null
+'Use only pages activated for the menu:': null
+'Filter (expert option):': null
+'Object type:': null
+'Entry to display:': null
+'Custom template:': null
+Random: null
+Newest: null
+Default: null
+'Only item titles': null
+'With description': null
+'Custom template': null
+'Sorting:': null
+'Template:': null
+'Include the following page:': null
+'Sub pages of current page': null
+'Content subpages': null
+'Done! Configuration updated.': null
+'Operation cancelled.': null
+'No such item.': null
+'Error: Invalid editor context given for external controller action.': null
+'No such page found.': null
+'Sorry, but an error occured during the %action% action.': null
+'Done! Undeleted page.': null
+'Done! Reverted page to version %version%.': null
+'Error! Reverting page to version %version% failed.': null
+'Only ajax access is allowed!': null
+'Error: invalid input.': null
+'The setting has been successfully changed.': null
+'Error: invalid operation.': null
+'Error: invalid node.': null
+'Error: invalid root node.': null
+'New root node': null
+'This is a new root node': null
+'Error: invalid parent node.': null
+'New child node': null
+'This is a new child node': null
+'Error: invalid direction.': null
+'Error: invalid destination node.': null
+'The operation was successful.': null
+'Error! An error occured during layout persistence.': null
+'Done! Layout saved.': null
+'new copy': null
+'Error! An error occured during duplicating the page.': null
+'Error! An error occurred during duplicating the page.': null
+'Done! Page duplicated.': null
+'No such content found.': null
+'Invalid input received.': null
+'Page not found.': null
+'Error! An error occured during saving the content.': null
+'Done! Content saved.': null
+'Invalid action received.': null
+'Error! It is not allowed to delete this content item.': null
+'Error! An error occured during content deletion.': null
+'Done! Content deleted.': null
+'Error! Please check your input.': null
+'Content item not found.': null
+'Source page not found.': null
+'Destination page not found.': null
+'Destination page must not be the current page.': null
+'Done! Content moved.': null
+'Done! Content copied.': null
+'Invalid user identifier received.': null
+'Add a new page': null
+'Content Backend': null
+'Tabular view': null
+'Hierarchy view': null
+'Simple list': null
+'Extended list': null
+'Complete list': null
+'Shows the pages table': null
+'Shows the pages tree': null
+'Shows a simple list of pages': null
+'Shows an extended list of pages with first content elements': null
+'Shows a complete list of pages with complete content': null
+'Shows content grouped by categories': null
+Duplicate: null
+'Manage content elements of page': null
+'Duplicate this page': null
+'Translate this page': null
+Preview: null
+Details: null
+Edit: null
+Reuse: null
+'Add sub page': null
+History: null
+'Add root node': null
+'Switch to table view': null
+'Back to paginated view': null
+'Show all entries': null
+'Switch to hierarchy view': null
+'Show also entries from other users': null
+'Show only own entries': null
+'View deleted pages': null
+'Open preview page': null
+'Edit this page': null
+'Reuse for new page': null
+'Add a sub page to this page': null
+'Watch version history': null
+Frontend: null
+Backend: null
+'Switch to user area.': null
+'Switch to administration area.': null
+'Manage settings for this application': null

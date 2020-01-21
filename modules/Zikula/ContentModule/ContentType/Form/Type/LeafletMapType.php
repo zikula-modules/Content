@@ -19,7 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Content\ContentTypeInterface;
 
@@ -28,49 +27,44 @@ use Zikula\Common\Content\ContentTypeInterface;
  */
 class LeafletMapType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('latitude', NumberType::class, [
-                    'label' => $this->trans('Latitude') . ':',
-                    'help' => $this->trans('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'label' => 'Latitude:',
+                    'help' => 'A numeral that has a precision to 6 decimal places. For example, 40.714728.',
                     'attr' => [
                         'maxlength' => 30
                     ]
                 ])
                 ->add('longitude', NumberType::class, [
-                    'label' => $this->trans('Longitude') . ':',
-                    'help' => $this->trans('A numeral that has a precision to 6 decimal places. For example, 40.714728.'),
+                    'label' => 'Longitude:',
+                    'help' => 'A numeral that has a precision to 6 decimal places. For example, 40.714728.',
                     'attr' => [
                         'maxlength' => 30
                     ]
                 ])
                 ->add('zoom', RangeType::class, [
-                    'label' => $this->trans('Zoom level') . ':',
-                    'help' => $this->trans('From 0 for the entire world to 21 for individual buildings.'),
+                    'label' => 'Zoom level:',
+                    'help' => 'From 0 for the entire world to 21 for individual buildings.',
                     'attr' => [
                         'min' => 0,
                         'max' => 21
                     ]
                 ])
                 ->add('height', IntegerType::class, [
-                    'label' => $this->trans('Height of the displayed map') . ':',
+                    'label' => 'Height of the displayed map:',
                     'attr' => [
                         'maxlength' => 4
                     ],
-                    'input_group' => ['right' => $this->trans('pixels')]
+                    'input_group' => ['right' => 'pixels']
                 ])
             ;
         }
         $builder->add('text', TextType::class, [
-            'label' => $this->trans('Description to be shown below the map') . ':',
+            'label' => 'Description to be shown below the map:',
             'attr' => [
                 'maxlength' => 255
             ]
@@ -78,14 +72,18 @@ class LeafletMapType extends AbstractContentFormType
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('tileLayerUrl', TextType::class, [
-                    'label' => $this->trans('URL of tile layer to use') . ':',
-                    'help' => $this->trans('See https://leaflet-extras.github.io/leaflet-providers/preview/ for examples.'),
+                    'label' => 'URL of tile layer to use:',
+                    'help' => 'See <a href=\'%url%\' target="_blank">this page</a> for examples.',
+                    'help_translation_parameters' => [
+                        '%url%' => 'https://leaflet-extras.github.io/leaflet-providers/preview/'
+                    ],
+                    'help_html' => true,
                     'attr' => [
                         'maxlength' => 255
                     ]
                 ])
                 ->add('tileLayerAttribution', TextType::class, [
-                    'label' => $this->trans('Attribution for tile layer to use') . ':',
+                    'label' => 'Attribution for tile layer to use:',
                     'attr' => [
                         'maxlength' => 255
                     ]

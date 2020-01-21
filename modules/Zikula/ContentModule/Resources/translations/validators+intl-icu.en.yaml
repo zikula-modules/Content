@@ -1,0 +1,4 @@
+'The value "%value%" is not allowed for the "%property%" property.': null
+'You must select at least "%limit%" choice.|You must select at least "%limit%" choices.': null
+'You must select at most "%limit%" choice.|You must select at most "%limit%" choices.': null
+'The start must be before the end.': null

@@ -16,7 +16,7 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Translation\Extractor\Annotation\Ignore;
 use Zikula\BlocksModule\Entity\BlockEntity;
 use Zikula\BlocksModule\Entity\RepositoryInterface\BlockRepositoryInterface;
 use Zikula\Common\Content\AbstractContentFormType;
@@ -31,9 +31,8 @@ class BlockType extends AbstractContentFormType
      */
     protected $blockRepository;
 
-    public function __construct(TranslatorInterface $translator, BlockRepositoryInterface $blockRepository)
+    public function __construct(BlockRepositoryInterface $blockRepository)
     {
-        $this->setTranslator($translator);
         $this->blockRepository = $blockRepository;
     }
 
@@ -50,8 +49,8 @@ class BlockType extends AbstractContentFormType
 
         $builder
             ->add('blockId', ChoiceType::class, [
-                'label' => $this->trans('Block to display') . ':',
-                'choices' => $choices
+                'label' => 'Block to display:',
+                'choices' => /** @Ignore */$choices
             ])
         ;
     }

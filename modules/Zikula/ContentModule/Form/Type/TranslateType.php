@@ -20,6 +20,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Translation\Extractor\Annotation\Ignore;
+use Translation\Extractor\Annotation\Translate;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
@@ -180,7 +182,7 @@ class TranslateType extends AbstractType
      */
     public function addItemFields(FormBuilderInterface $builder, array $options = []): void
     {
-        $helpText = 'You may enter any text which will be used during the site search to find this element.';
+        $helpText = /** @Translate */'You may enter any text which will be used during the site search to find this element.';
         $builder->add('additionalSearchText', TextType::class, [
             'label' => 'Additional search text:',
             'empty_data' => '',
@@ -189,6 +191,7 @@ class TranslateType extends AbstractType
                 'title' => $helpText
             ],
             'required' => false,
+            /** @Ignore */
             'help' => $helpText
         ]);
     }

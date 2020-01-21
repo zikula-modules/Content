@@ -20,7 +20,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Content\ContentTypeInterface;
 
@@ -29,29 +28,24 @@ use Zikula\Common\Content\ContentTypeInterface;
  */
 class UnfilteredType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         $builder->add('text', TextareaType::class, [
-            'label' => $this->trans('Unfiltered text') . ':',
+            'label' => 'Unfiltered text:',
             'required' => false
         ]);
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('useiframe', CheckboxType::class, [
-                    'label' => $this->trans('Use an iframe instead of the text field') . ':',
+                    'label' => 'Use an iframe instead of the text field:',
                     'label_attr' => ['class' => 'switch-custom'],
-                    'help' => $this->trans('If this setting is enabled the text field above will be ignored and iframe parameters will be used.'),
+                    'help' => 'If this setting is enabled the text field above will be ignored and iframe parameters will be used.',
                     'required' => false
                 ])
                 ->add('iframeSrc', UrlType::class, [
-                    'label' => $this->trans('iframe src') . ':',
-                    'help' => $this->trans('the src parameter of the iframe'),
+                    'label' => 'iframe src:',
+                    'help' => 'the src parameter of the iframe',
                     'required' => false,
                     'attr' => [
                         'maxlength' => 150
@@ -61,14 +55,14 @@ class UnfilteredType extends AbstractContentFormType
         }
         $builder
             ->add('iframeName', TextType::class, [
-                'label' => $this->trans('iframe name parameter') . ':',
+                'label' => 'iframe name parameter:',
                 'required' => false,
                 'attr' => [
                     'maxlength' => 150
                 ]
             ])
             ->add('iframeTitle', TextType::class, [
-                'label' => $this->trans('iframe title parameter') . ':',
+                'label' => 'iframe title parameter:',
                 'required' => false,
                 'attr' => [
                     'maxlength' => 150
@@ -78,37 +72,38 @@ class UnfilteredType extends AbstractContentFormType
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder
                 ->add('iframeStyle', TextType::class, [
-                    'label' => $this->trans('iframe style') . ':',
-                    'help' => $this->trans('the style parameter of the iframe, e.g. "border:0"'),
+                    'label' => 'iframe style:',
+                    'help' => 'the style parameter of the iframe, e.g. <code>border: 0</code>',
+                    'help_html' => true,
                     'required' => false,
                     'attr' => [
                         'maxlength' => 150
                     ]
                 ])
                 ->add('iframeWidth', IntegerType::class, [
-                    'label' => $this->trans('iframe width') . ':',
-                    'input_group' => ['right' => $this->trans('pixels')],
+                    'label' => 'iframe width:',
+                    'input_group' => ['right' => 'pixels'],
                     'required' => false
                 ])
                 ->add('iframeHeight', IntegerType::class, [
-                    'label' => $this->trans('iframe height') . ':',
-                    'input_group' => ['right' => $this->trans('pixels')],
+                    'label' => 'iframe height:',
+                    'input_group' => ['right' => 'pixels'],
                     'required' => false
                 ])
                 ->add('iframeBorder', IntegerType::class, [
-                    'label' => $this->trans('iframe border') . ':',
+                    'label' => 'iframe border:',
                     'required' => false
                 ])
                 ->add('iframeScrolling', TextType::class, [
-                    'label' => $this->trans('iframe scrolling') . ':',
-                    'help' => $this->trans('the scrolling parameter of the iframe, e.g. "no"'),
+                    'label' => 'iframe scrolling:',
+                    'help' => 'the scrolling parameter of the iframe, e.g. "no"',
                     'required' => false,
                     'attr' => [
                         'maxlength' => 20
                     ]
                 ])
                 ->add('iframeAllowTransparancy', CheckboxType::class, [
-                    'label' => $this->trans('Allow transparancy on the iframe') . ':',
+                    'label' => 'Allow transparancy on the iframe:',
                     'label_attr' => ['class' => 'switch-custom'],
                     'required' => false
                 ])

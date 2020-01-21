@@ -17,7 +17,8 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Translation\Extractor\Annotation\Ignore;
+use Translation\Extractor\Annotation\Translate;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 
@@ -31,31 +32,31 @@ class ComputerCodeType extends AbstractContentFormType
      */
     protected $kernel;
 
-    public function __construct(TranslatorInterface $translator, ZikulaHttpKernelInterface $kernel)
+    public function __construct(ZikulaHttpKernelInterface $kernel)
     {
-        $this->setTranslator($translator);
         $this->kernel = $kernel;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $filterChoices = [
-            $this->trans('Use native filter') => 'native'
+            /** @Translate */'Use native filter' => 'native'
         ];
         if ($this->kernel->isBundle('ZikulaBBCodeModule')) {
-            $filterChoices[$this->trans('Use BBCode filter')] = 'bbcode';
+            $filterChoices[/** @Translate */'Use BBCode filter'] = 'bbcode';
         }
         if ($this->kernel->isBundle('PhaidonLuMicuLaModule')) {
-            $filterChoices[$this->trans('Use LuMicuLa filter')] = 'lumicula';
+            $filterChoices[/** @Translate */'Use LuMicuLa filter'] = 'lumicula';
         }
 
         $builder
             ->add('text', TextareaType::class, [
-                'label' => $this->trans('Computer code lines') . ':'
+                'label' => 'Computer code lines:'
             ])
             ->add('codeFilter', ChoiceType::class, [
-                'label' => $this->trans('Code filter') . ':',
-                'help' => $this->trans('If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.'),
+                'label' => 'Code filter:',
+                'help' => 'If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.',
+                /** @Ignore */
                 'choices' => $filterChoices,
                 'expanded' => true
             ])

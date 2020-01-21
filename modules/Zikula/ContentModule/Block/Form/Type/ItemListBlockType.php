@@ -17,7 +17,6 @@ namespace Zikula\ContentModule\Block\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\ContentModule\Block\Form\Type\Base\AbstractItemListBlockType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -37,11 +36,10 @@ class ItemListBlockType extends AbstractItemListBlockType
     protected $entityFactory;
 
     public function __construct(
-        TranslatorInterface $translator,
         EntityFactory $entityFactory,
         CategoryRepositoryInterface $categoryRepository
     ) {
-        parent::__construct($translator, $categoryRepository);
+        parent::__construct($categoryRepository);
         $this->entityFactory = $entityFactory;
     }
 
@@ -52,9 +50,9 @@ class ItemListBlockType extends AbstractItemListBlockType
             'multiple' => false,
             'expanded' => false,
             'use_joins' => false,
-            'placeholder' => $this->trans('All pages'),
+            'placeholder' => 'All pages',
             'required' => false,
-            'label' => $this->trans('Include the following subpages') . ':'
+            'label' => 'Include the following subpages:'
         ]);
         $transformer = new PageTransformer($this->entityFactory);
         $builder->get('root')->addModelTransformer($transformer);
@@ -70,7 +68,7 @@ class ItemListBlockType extends AbstractItemListBlockType
         $this->addSortingField($builder, $options);
         $this->addAmountField($builder, $options);
         $builder->add('inMenu', CheckboxType::class, [
-            'label' => $this->trans('Use only pages activated for the menu') . ':',
+            'label' => 'Use only pages activated for the menu:',
             'label_attr' => ['class' => 'switch-custom'],
             'required' => false
         ]);
@@ -80,14 +78,14 @@ class ItemListBlockType extends AbstractItemListBlockType
     public function addSortingField(FormBuilderInterface $builder, array $options = []): void
     {
         $builder->add('sorting', ChoiceType::class, [
-            'label' => $this->trans('Sorting') . ':',
+            'label' => 'Sorting:',
             'empty_data' => 'default',
             'choices' => [
-                $this->trans('Random') => 'random',
-                $this->trans('Newest') => 'newest',
-                $this->trans('Updated') => 'updated',
-                $this->trans('Views') => 'views',
-                $this->trans('Default') => 'default'
+                'Random' => 'random',
+                'Newest' => 'newest',
+                'Updated' => 'updated',
+                'Views' => 'views',
+                'Default' => 'default'
             ],
             'multiple' => false,
             'expanded' => false

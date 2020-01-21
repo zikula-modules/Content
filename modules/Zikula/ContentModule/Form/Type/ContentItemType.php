@@ -21,6 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Translation\Extractor\Annotation\Ignore;
+use Translation\Extractor\Annotation\Translate;
 use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
@@ -102,13 +104,14 @@ class ContentItemType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $helpText = 'As soon as at least one selected entry applies for the current user the content becomes visible.';
+        $helpText = /** @Translate */'As soon as at least one selected entry applies for the current user the content becomes visible.';
         $builder->add('scope', MultiListType::class, [
             'label' => 'Scope:',
             'label_attr' => [
                 'class' => 'tooltips checkbox-inline',
                 'title' => $helpText
             ],
+            /** @Ignore */
             'help' => $helpText,
             'empty_data' => '0',
             'attr' => [
@@ -144,7 +147,7 @@ class ContentItemType extends AbstractType
             'multiple' => true
         ]);
 
-        $helpText = 'You may enter any text which will be used during the site search to find this element.';
+        $helpText = /** @Translate */'You may enter any text which will be used during the site search to find this element.';
         $builder->add('additionalSearchText', TextType::class, [
             'label' => 'Additional search text:',
             'empty_data' => '',
@@ -153,6 +156,7 @@ class ContentItemType extends AbstractType
                 'title' => $helpText
             ],
             'required' => false,
+            /** @Ignore */
             'help' => $helpText
         ]);
     }

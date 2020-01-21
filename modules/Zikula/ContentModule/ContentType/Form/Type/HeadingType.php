@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Translation\Extractor\Annotation\Ignore;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Content\ContentTypeInterface;
 
@@ -27,25 +27,21 @@ use Zikula\Common\Content\ContentTypeInterface;
  */
 class HeadingType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('text', TextType::class, [
-                'label' => $this->trans('Heading') . ':'
+                'label' => 'Heading:'
             ])
         ;
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder->add('headingType', ChoiceType::class, [
-                'label' => $this->trans('Heading type') . ':',
+                'label' => 'Heading type:',
                 'label_attr' => [
                     'class' => 'radio-inline'
                 ],
+                /** @Ignore */
                 'choices' => [
                     'h2' => 'h2',
                     'h3' => 'h3',
@@ -55,18 +51,18 @@ class HeadingType extends AbstractContentFormType
             ]);
         }
         $builder->add('anchorName', TextType::class, [
-            'label' => $this->trans('Internal anchor link name') . ':',
-            'help' => $this->trans('Leave empty for no internal anchor link.'),
+            'label' => 'Internal anchor link name:',
+            'help' => 'Leave empty for no internal anchor link.',
             'required' => false,
             'attr' => [
-                'title' => $this->trans('Leave empty for no internal anchor link.')
+                'title' => 'Leave empty for no internal anchor link.'
             ]
         ]);
         if (ContentTypeInterface::CONTEXT_EDIT === $context) {
             $builder->add('displayPageTitle', CheckboxType::class, [
-                'label' => $this->trans('Display the page title'),
+                'label' => 'Display the page title',
                 'label_attr' => ['class' => 'switch-custom'],
-                'help' => $this->trans('If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'),
+                'help' => 'If this setting is enabled the text field above will be ignored and the page title will be displayed instead.',
                 'required' => false
             ]);
         }

@@ -17,7 +17,6 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\ContentModule\ContentType\Form\DataTransformer\AuthorTransformer;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
@@ -33,9 +32,8 @@ class AuthorType extends AbstractContentFormType
      */
     protected $userRepository;
 
-    public function __construct(TranslatorInterface $translator, UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->setTranslator($translator);
         $this->userRepository = $userRepository;
     }
 
@@ -43,29 +41,29 @@ class AuthorType extends AbstractContentFormType
     {
         $builder
             ->add('author', UserLiveSearchType::class, [
-                'label' => $this->trans('Author') . ':',
+                'label' => 'Author:',
                 'attr' => [
                     'maxlength' => 11,
-                    'title' => $this->trans('Here you can choose a user which will be used as author.')
+                    'title' => 'Here you can choose a user which will be used as author.'
                 ],
-                'help' => $this->trans('Here you can choose a user which will be used as author.')
+                'help' => 'Here you can choose a user which will be used as author.'
             ])
             ->add('showAvatar', CheckboxType::class, [
-                'label' => $this->trans('Display avatar') . ':',
+                'label' => 'Display avatar:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('avatarWidth', IntegerType::class, [
-                'label' => $this->trans('Custom avatar with') . ':',
-                'help' => $this->trans('An empty value or 0 will use the default size.'),
+                'label' => 'Custom avatar with:',
+                'help' => 'An empty value or 0 will use the default size.',
                 'attr' => [
                     'maxlength' => 4
                 ],
-                'input_group' => ['right' => $this->trans('pixels')],
+                'input_group' => ['right' => 'pixels'],
                 'required' => false
             ])
             ->add('showMessageLink', CheckboxType::class, [
-                'label' => $this->trans('Display link for messaging') . ':',
+                'label' => 'Display link for messaging:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])

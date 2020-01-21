@@ -19,7 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Content\ContentTypeInterface;
 
@@ -28,21 +27,16 @@ use Zikula\Common\Content\ContentTypeInterface;
  */
 class YouTubeType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('url', UrlType::class, [
-                'label' => $this->trans('URL to the video clip') . ':',
-                'help' => $this->trans('Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".')
+                'label' => 'URL to the video clip:',
+                'help' => 'Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".'
             ])
             ->add('text', TextareaType::class, [
-                'label' => $this->trans('Video description') . ':',
+                'label' => 'Video description:',
                 'required' => false
             ])
         ;
@@ -51,28 +45,28 @@ class YouTubeType extends AbstractContentFormType
         }
         $builder
             ->add('displayMode', ChoiceType::class, [
-                'label' => $this->trans('Display mode') . ':',
+                'label' => 'Display mode:',
                 'label_attr' => [
                     'class' => 'radio-inline'
                 ],
                 'choices' => [
-                    $this->trans('Show video inline') => 'inline',
-                    $this->trans('Show video in modal window') => 'modal'
+                    'Show video inline' => 'inline',
+                    'Show video in modal window' => 'modal'
                 ],
                 'expanded' => true
             ])
             ->add('noCookie', CheckboxType::class, [
-                'label' => $this->trans('Extended privacy mode') . ':',
+                'label' => 'Extended privacy mode:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('showRelated', CheckboxType::class, [
-                'label' => $this->trans('Show related videos') . ':',
+                'label' => 'Show related videos:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('autoplay', CheckboxType::class, [
-                'label' => $this->trans('Autoplay the video when displayed') . ':',
+                'label' => 'Autoplay the video when displayed:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])

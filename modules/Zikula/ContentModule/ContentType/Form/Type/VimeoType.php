@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Content\ContentTypeInterface;
 
@@ -27,21 +26,16 @@ use Zikula\Common\Content\ContentTypeInterface;
  */
 class VimeoType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $context = $options['context'] ?? ContentTypeInterface::CONTEXT_EDIT;
         $builder
             ->add('url', UrlType::class, [
-                'label' => $this->trans('URL to the video clip') . ':',
-                'help' => $this->trans('Something like "https://vimeo.com/7504225".')
+                'label' => 'URL to the video clip:',
+                'help' => 'Something like "https://vimeo.com/7504225".'
             ])
             ->add('text', TextareaType::class, [
-                'label' => $this->trans('Video description') . ':',
+                'label' => 'Video description:',
                 'required' => false
             ])
         ;
@@ -50,13 +44,13 @@ class VimeoType extends AbstractContentFormType
         }
         $builder
             ->add('displayMode', ChoiceType::class, [
-                'label' => $this->trans('Display mode') . ':',
+                'label' => 'Display mode:',
                 'label_attr' => [
                     'class' => 'radio-inline'
                 ],
                 'choices' => [
-                    $this->trans('Show video inline') => 'inline',
-                    $this->trans('Show video in modal window') => 'modal'
+                    'Show video inline' => 'inline',
+                    'Show video in modal window' => 'modal'
                 ],
                 'expanded' => true
             ])

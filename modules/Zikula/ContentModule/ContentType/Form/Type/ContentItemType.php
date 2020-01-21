@@ -16,7 +16,6 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 
 /**
@@ -24,16 +23,11 @@ use Zikula\Common\Content\AbstractContentFormType;
  */
 class ContentItemType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('contentItemId', IntegerType::class, [
-                'label' => $this->trans('ID of content item to display') . ':'
+                'label' => 'ID of content item to display:'
             ])
         ;
     }

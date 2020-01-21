@@ -17,7 +17,6 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\Common\Content\ContentTypeInterface;
 
@@ -26,45 +25,40 @@ use Zikula\Common\Content\ContentTypeInterface;
  */
 class TabNavigationType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $context = isset($options['context']) ? $options['context'] : ContentTypeInterface::CONTEXT_EDIT;
         if (ContentTypeInterface::CONTEXT_EDIT == $context) {
             $builder
                 ->add('contentItemIds', TextType::class, [
-                    'label' => $this->trans('Content item IDs') . ':',
-                    'help' => $this->trans('A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.')
+                    'label' => 'Content item IDs:',
+                    'help' => 'A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.'
                 ])
             ;
         }
         $builder
             ->add('tabTitles', TextType::class, [
-                'label' => $this->trans('Tab titles') . ':',
-                'help' => $this->trans('Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".')
+                'label' => 'Tab titles:',
+                'help' => 'Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".'
             ])
         ;
         if (ContentTypeInterface::CONTEXT_EDIT == $context) {
             $builder
                 ->add('tabLinks', TextType::class, [
-                    'label' => $this->trans('Link names') . ':',
-                    'help' => $this->trans('Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".')
+                    'label' => 'Link names:',
+                    'help' => 'Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".'
                 ])
                 ->add('tabType', ChoiceType::class, [
-                    'label' => $this->trans('Navigation type') . ':',
+                    'label' => 'Navigation type:',
                     'choices' => [
-                        $this->trans('Tabs') => 1,
-                        $this->trans('Pills') => 2,
-                        $this->trans('Stacked pills') . ' (col-md-3/col-md-9)' => 3
+                        'Tabs' => 1,
+                        'Pills' => 2,
+                        'Stacked pills (col-md-3/col-md-9)' => 3
                     ]
                 ])
                 ->add('tabStyle', TextType::class, [
-                    'label' => $this->trans('Custom style class') . ':',
-                    'help' => $this->trans('A CSS class name that will be used on the tab navigation.'),
+                    'label' => 'Custom style class:',
+                    'help' => 'A CSS class name that will be used on the tab navigation.',
                     'required' => false,
                     'attr' => [
                         'maxlength' => 50

@@ -17,8 +17,8 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 
 /**
@@ -26,29 +26,24 @@ use Zikula\Common\Content\AbstractContentFormType;
  */
 class SlideshareType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', TextType::class, [
-                'label' => $this->trans('URL to the slide') . ':',
-                'help' => $this->trans('Something like "https://www.slideshare.net/1Marc/jquery-essentials".')
+            ->add('url', UrlType::class, [
+                'label' => 'URL to the slide:',
+                'help' => 'Something like "https://www.slideshare.net/1Marc/jquery-essentials".'
             ])
             ->add('text', TextareaType::class, [
-                'label' => $this->trans('Slide description') . ':',
+                'label' => 'Slide description:',
                 'required' => false
             ])
             ->add('width', IntegerType::class, [
-                'label' => $this->trans('Slideshare\'s embedded player width') . ':',
-                'input_group' => ['right' => $this->trans('pixels')]
+                'label' => 'Slideshare\'s embedded player width:',
+                'input_group' => ['right' => 'pixels']
             ])
             ->add('height', IntegerType::class, [
-                'label' => $this->trans('Slideshare\'s embedded player height') . ':',
-                'input_group' => ['right' => $this->trans('pixels')]
+                'label' => 'Slideshare\'s embedded player height:',
+                'input_group' => ['right' => 'pixels']
             ])
         ;
     }

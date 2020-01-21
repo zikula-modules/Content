@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 
 /**
@@ -26,28 +25,23 @@ use Zikula\Common\Content\AbstractContentFormType;
  */
 class FeedType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('url', UrlType::class, [
-                'label' => $this->trans('URL of RSS or Atom feed') . ':'
+                'label' => 'URL of RSS or Atom feed:'
             ])
             ->add('includeContent', CheckboxType::class, [
-                'label' => $this->trans('Include feed text in addition to the title') . ':',
+                'label' => 'Include feed text in addition to the title:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('refreshTime', IntegerType::class, [
-                'label' => $this->trans('Refresh time') . ':',
-                'input_group' => ['right' => $this->trans('hours')]
+                'label' => 'Refresh time:',
+                'input_group' => ['right' => 'hours']
             ])
             ->add('maxNoOfItems', IntegerType::class, [
-                'label' => $this->trans('Max. no. of items to display') . ':'
+                'label' => 'Max. no. of items to display:'
             ])
         ;
     }

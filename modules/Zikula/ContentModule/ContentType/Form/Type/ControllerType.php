@@ -16,7 +16,6 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\SettingsModule\Validator\Constraints\ValidController;
 
@@ -25,34 +24,33 @@ use Zikula\SettingsModule\Validator\Constraints\ValidController;
  */
 class ControllerType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('controller', TextType::class, [
-                'label' => $this->trans('Controller'),
-                'help' => $this->trans('FQCN::method, for example Zikula\FooModule\Controller\BarController::mainAction'),
+                'label' => 'Controller',
+                'help' => 'FQCN::method, for example <code>Zikula\FooModule\Controller\BarController::mainAction</code>',
+                'help_html' => true,
                 'constraints' => [
                     new ValidController()
                 ]
             ])
             ->add('query', TextType::class, [
-                'label' => $this->trans('GET parameters'),
-                'help' => $this->trans('Separate with &, for example:') . ' foo=2&bar=5',
+                'label' => 'GET parameters',
+                'help' => 'Separate with &, for example: <code>foo=2&bar=5</code>',
+                'help_html' => true,
                 'required' => false
             ])
             ->add('request', TextType::class, [
-                'label' => $this->trans('POST parameters'),
-                'help' => $this->trans('Separate with &, for example:') . ' foo=2&bar=5',
+                'label' => 'POST parameters',
+                'help' => 'Separate with &, for example: <code>foo=2&bar=5</code>',
+                'help_html' => true,
                 'required' => false
             ])
             ->add('attributes', TextType::class, [
-                'label' => $this->trans('Request attributes'),
-                'help' => $this->trans('Separate with &, for example:') . ' foo=2&bar=5',
+                'label' => 'Request attributes',
+                'help' => 'Separate with &, for example: <code>foo=2&bar=5</code>',
+                'help_html' => true,
                 'required' => false
             ])
         ;

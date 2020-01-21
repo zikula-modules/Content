@@ -27,9 +27,9 @@ class SubPagesBlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $helpText = 'The maximum amount of items to be shown.'
+        $helpText = /** @Translate */'The maximum amount of items to be shown.'
             . ' '
-            . 'Only digits are allowed.'
+            . /** @Translate */'Only digits are allowed.'
         ;
         $builder->add('amount', IntegerType::class, [
             'label' => 'Amount:',
@@ -37,6 +37,7 @@ class SubPagesBlockType extends AbstractType
                 'maxlength' => 2,
                 'title' => $helpText
             ],
+            /** @Ignore */
             'help' => $helpText,
             'empty_data' => 5
         ]);

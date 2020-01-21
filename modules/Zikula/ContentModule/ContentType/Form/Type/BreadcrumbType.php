@@ -16,7 +16,6 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Common\Content\AbstractContentFormType;
 
 /**
@@ -24,21 +23,16 @@ use Zikula\Common\Content\AbstractContentFormType;
  */
 class BreadcrumbType extends AbstractContentFormType
 {
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->setTranslator($translator);
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('includeSelf', CheckboxType::class, [
-                'label' => $this->trans('Include self as last breadcrumb') . ':',
+                'label' => 'Include self as last breadcrumb:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
             ->add('includeHome', CheckboxType::class, [
-                'label' => $this->trans('Include home as first breadcrumb') . ':',
+                'label' => 'Include home as first breadcrumb:',
                 'label_attr' => ['class' => 'switch-custom'],
                 'required' => false
             ])
