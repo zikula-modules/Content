@@ -199,9 +199,10 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => 'validate-unique',
-                'title' => /** @Ignore */$helpText
+                'title' => $helpText
             ],
-            'help' => /** @Ignore */$helpText
+            /** @Ignore */
+            'help' => $helpText
         ]);
         
         if ($this->variableApi->getSystemVar('multilingual') && $this->featureActivationHelper->isEnabled(FeatureActivationHelper::TRANSLATIONS, 'page')) {

@@ -21,6 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Translation\Extractor\Annotation\Ignore;
+use Translation\Extractor\Annotation\Translate;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
@@ -63,13 +65,14 @@ abstract class AbstractItemListBlockType extends AbstractType
      */
     public function addObjectTypeField(FormBuilderInterface $builder, array $options = []): void
     {
-        $helpText = 'If you change this please save the block once to reload the parameters below.';
+        $helpText = /** @Translate */'If you change this please save the block once to reload the parameters below.';
         $builder->add('objectType', ChoiceType::class, [
             'label' => 'Object type:',
             'empty_data' => 'page',
             'attr' => [
                 'title' => $helpText
             ],
+            /** @Ignore */
             'help' => $helpText,
             'choices' => [
                 'Pages' => 'page',
@@ -91,12 +94,13 @@ abstract class AbstractItemListBlockType extends AbstractType
     
         $objectType = $options['object_type'];
         $label = $hasMultiSelection
-            ? 'Categories'
-            : 'Category'
+            ? /** @Translate */'Categories'
+            : /** @Translate */'Category'
         ;
         $hasMultiSelection = $options['category_helper']->hasMultipleSelection($objectType);
         $entityCategoryClass = 'Zikula\ContentModule\Entity\\' . ucfirst($objectType) . 'CategoryEntity';
         $builder->add('categories', CategoriesType::class, [
+            /** @Ignore */
             'label' => $label . ':',
             'empty_data' => $hasMultiSelection ? [] : null,
             'attr' => [
@@ -173,8 +177,8 @@ abstract class AbstractItemListBlockType extends AbstractType
      */
     public function addAmountField(FormBuilderInterface $builder, array $options = []): void
     {
-        $helpText = 'The maximum amount of items to be shown.'
-            . ' ' . 'Only digits are allowed.'
+        $helpText = /** @Translate */'The maximum amount of items to be shown.'
+            . ' ' . /** @Translate */'Only digits are allowed.'
         ;
         $builder->add('amount', IntegerType::class, [
             'label' => 'Amount:',
@@ -182,6 +186,7 @@ abstract class AbstractItemListBlockType extends AbstractType
                 'maxlength' => 2,
                 'title' => $helpText
             ],
+            /** @Ignore */
             'help' => $helpText,
             'empty_data' => 5
         ]);
@@ -211,7 +216,8 @@ abstract class AbstractItemListBlockType extends AbstractType
                 'maxlength' => 80,
                 'title' => 'Example' . ': ' . $exampleTemplate
             ],
-            'help' => 'Example' . ': <code>' . $exampleTemplate . '</code>',
+            /** @Ignore */
+            'help' => /** @Translate */'Example' . ': <code>' . $exampleTemplate . '</code>',
             'help_html' => true
         ]);
     }
@@ -228,7 +234,8 @@ abstract class AbstractItemListBlockType extends AbstractType
                 'maxlength' => 255,
                 'title' => 'Example' . ': tbl.age >= 18'
             ],
-            'help' => 'Example' . ': tbl.age >= 18'
+            /** @Ignore */
+            'help' => /** @Translate */'Example' . ': tbl.age >= 18'
         ]);
     }
 
