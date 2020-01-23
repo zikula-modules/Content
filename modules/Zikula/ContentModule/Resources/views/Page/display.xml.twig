@@ -1,3 +1,4 @@
 {# purpose of this template: pages display xml view #}
+{% trans_default_domain 'page' %}
 <?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
 {{ include('@ZikulaContentModule/Page/include.xml.twig') }}

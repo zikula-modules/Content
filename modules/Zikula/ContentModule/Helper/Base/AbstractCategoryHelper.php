@@ -20,9 +20,9 @@ use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\CategoriesModule\Api\ApiInterface\CategoryPermissionApiInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
-use Zikula\Core\Doctrine\EntityAccess;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 
 /**

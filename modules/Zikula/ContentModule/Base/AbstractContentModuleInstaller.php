@@ -15,11 +15,11 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Base;
 
 use Exception;
-use Zikula\Core\AbstractExtensionInstaller;
 use Zikula\CategoriesModule\Api\CategoryPermissionApi;
 use Zikula\CategoriesModule\Entity\CategoryRegistryEntity;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
+use Zikula\ExtensionsModule\Installer\AbstractExtensionInstaller;
 use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageLogEntryEntity;

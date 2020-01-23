@@ -1,4 +1,5 @@
 {# purpose of this template: inclusion template for display of related content items #}
+{% trans_default_domain 'contentItem' %}
 {% set hasAdminPermission = permissionHelper.hasComponentPermission('contentItem', constant('ACCESS_EDIT')) %}
 {% if items|default and items|length > 0 %}
 <ul class="list-group zikulacontentmodule-related-item-list contentitem">

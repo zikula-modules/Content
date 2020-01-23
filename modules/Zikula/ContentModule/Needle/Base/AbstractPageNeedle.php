@@ -17,7 +17,7 @@ namespace Zikula\ContentModule\Needle\Base;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\MultiHook\NeedleInterface;
+use Zikula\ExtensionsModule\ModuleInterface\MultiHook\NeedleInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;

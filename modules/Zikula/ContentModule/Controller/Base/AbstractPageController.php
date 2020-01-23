@@ -26,8 +26,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Component\SortableColumns\Column;
 use Zikula\Component\SortableColumns\SortableColumns;
-use Zikula\Core\Controller\AbstractController;
-use Zikula\Core\RouteUrl;
+use Zikula\Bundle\CoreBundle\Controller\AbstractController;
+use Zikula\Bundle\CoreBundle\RouteUrl;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -188,7 +188,13 @@ abstract class AbstractPageController extends AbstractController
             $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         }
         if (null === $page) {
-            throw new NotFoundHttpException($this->trans('No such page found.'));
+            throw new NotFoundHttpException(
+                $this->trans(
+                    'No such page found.',
+                    [],
+                    'page'
+                )
+            );
         }
         
         $objectType = 'page';
@@ -361,7 +367,14 @@ abstract class AbstractPageController extends AbstractController
             }
         
             if ('delete' === $action) {
-                $this->addFlash('status', 'Done! Item deleted.');
+                $this->addFlash(
+                    'status',
+                    $this->trans(
+                        'Done! Page deleted.',
+                        [],
+                        'page'
+                    )
+                );
                 $logger->notice(
                     '{app}: User {user} deleted the {entity} with id {id}.',
                     [
@@ -372,7 +385,14 @@ abstract class AbstractPageController extends AbstractController
                     ]
                 );
             } else {
-                $this->addFlash('status', 'Done! Item updated.');
+                $this->addFlash(
+                    'status',
+                    $this->trans(
+                        'Done! Page updated.',
+                        [],
+                        'page'
+                    )
+                );
                 $logger->notice(
                     '{app}: User {user} executed the {action} workflow action for the {entity} with id {id}.',
                     [
@@ -426,7 +446,13 @@ abstract class AbstractPageController extends AbstractController
     ): Response {
         $page = $loggableHelper->restoreDeletedEntity('page', $id);
         if (null === $page) {
-            throw new NotFoundHttpException($this->trans('No such page found.'));
+            throw new NotFoundHttpException(
+                $this->trans(
+                    'No such page found.',
+                    [],
+                    'page'
+                )
+            );
         }
         
         $preview = $request->query->getInt('preview');
@@ -448,7 +474,14 @@ abstract class AbstractPageController extends AbstractController
         
         try {
             $loggableHelper->undelete($page);
-            $this->addFlash('status', 'Done! Undeleted page.');
+            $this->addFlash(
+                'status',
+                $this->trans(
+                    'Done! Page undeleted.',
+                    [],
+                    'page'
+                )
+            );
         } catch (Exception $exception) {
             $this->addFlash(
                 'error',
@@ -484,12 +517,24 @@ abstract class AbstractPageController extends AbstractController
         bool $isAdmin = false
     ): Response {
         if (empty($slug)) {
-            throw new NotFoundHttpException($this->trans('No such page found.'));
+            throw new NotFoundHttpException(
+                $this->trans(
+                    'No such page found.',
+                    [],
+                    'page'
+                )
+            );
         }
         
         $page = $entityFactory->getRepository('page')->selectBySlug($slug);
         if (null === $page) {
-            throw new NotFoundHttpException($this->trans('No such page found.'));
+            throw new NotFoundHttpException(
+                $this->trans(
+                    'No such page found.',
+                    [],
+                    'page'
+                )
+            );
         }
         
         $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
@@ -519,7 +564,8 @@ abstract class AbstractPageController extends AbstractController
                         'status',
                         $this->trans(
                             'Done! Reverted page to version %version%.',
-                            ['%version%' => $revertToVersion]
+                            ['%version%' => $revertToVersion],
+                            'page'
                         )
                     );
                 } else {
@@ -527,7 +573,8 @@ abstract class AbstractPageController extends AbstractController
                         'error',
                         $this->trans(
                             'Error! Reverting page to version %version% failed.',
-                            ['%version%' => $revertToVersion]
+                            ['%version%' => $revertToVersion],
+                            'page'
                         )
                     );
                 }

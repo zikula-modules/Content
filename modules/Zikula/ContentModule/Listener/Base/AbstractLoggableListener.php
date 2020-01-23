@@ -16,7 +16,7 @@ namespace Zikula\ContentModule\Listener\Base;
 
 use Gedmo\Loggable\LoggableListener as BaseListener;
 use Gedmo\Loggable\Mapping\Event\LoggableAdapter;
-use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
 

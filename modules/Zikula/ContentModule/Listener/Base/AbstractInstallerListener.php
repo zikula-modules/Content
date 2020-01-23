@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Listener\Base;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Zikula\Core\CoreEvents;
-use Zikula\Core\Event\ModuleStateEvent;
+use Zikula\ExtensionsModule\Event\ModuleStateEvent;
+use Zikula\ExtensionsModule\ExtensionEvents;
 use Zikula\ContentModule\Helper\ExampleDataHelper;
 
 /**
@@ -38,12 +38,12 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            CoreEvents::MODULE_INSTALL     => ['moduleInstalled', 5],
-            CoreEvents::MODULE_POSTINSTALL => ['modulePostInstalled', 5],
-            CoreEvents::MODULE_UPGRADE     => ['moduleUpgraded', 5],
-            CoreEvents::MODULE_ENABLE      => ['moduleEnabled', 5],
-            CoreEvents::MODULE_DISABLE     => ['moduleDisabled', 5],
-            CoreEvents::MODULE_REMOVE      => ['moduleRemoved', 5]
+            ExtensionEvents::MODULE_INSTALL     => ['moduleInstalled', 5],
+            ExtensionEvents::MODULE_POSTINSTALL => ['modulePostInstalled', 5],
+            ExtensionEvents::MODULE_UPGRADE     => ['moduleUpgraded', 5],
+            ExtensionEvents::MODULE_ENABLE      => ['moduleEnabled', 5],
+            ExtensionEvents::MODULE_DISABLE     => ['moduleDisabled', 5],
+            ExtensionEvents::MODULE_REMOVE      => ['moduleRemoved', 5]
         ];
     }
     

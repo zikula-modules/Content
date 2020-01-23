@@ -45,7 +45,7 @@ abstract class AbstractPageFilterHooksSubscriber implements HookSubscriberInterf
     
     public function getTitle(): string
     {
-        return $this->translator->trans('Page filter hooks subscriber');
+        return $this->translator->trans('Page filter hooks subscriber', [], 'hooks');
     }
     
     public function getAreaName(): string

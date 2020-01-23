@@ -1,7 +1,8 @@
 {# purpose of this template: pages change history view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
+{% trans_default_domain 'page' %}
 {% macro outputSimpleValue(input) %}
-    {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|format_datetime('long', 'medium') : input|default('an empty value'|trans) }}
+    {{ input is zikulacontentmodule_instanceOf('DateTimeInterface') ? input|format_datetime('long', 'medium') : input|default('an empty value'|trans({}, 'messages')) }}
 {% endmacro %}
 {% macro outputArray(input, keysAreLanguages) %}
     <ul>
@@ -10,7 +11,7 @@
         {% endfor %}
     </ul>
 {% endmacro %}
-{% block title isDiffView == true ? 'Compare versions of %entityTitle%'|trans({'%entityTitle%': page|zikulacontentmodule_formattedTitle}) : 'Page change history for %entityTitle%'|trans({'%entityTitle%': page|zikulacontentmodule_formattedTitle}) %}
+{% block title isDiffView == true ? 'Compare versions of %entityTitle%'|trans({'%entityTitle%': page|zikulacontentmodule_formattedTitle}, 'messages') : 'Page change history for %entityTitle%'|trans({'%entityTitle%': page|zikulacontentmodule_formattedTitle}) %}
 {% block admin_page_icon isDiffView == true ? 'arrows-alt-h' : 'history' %}
 {% block content %}
     <div class="zikulacontentmodule-page zikulacontentmodule-history">
@@ -29,13 +30,13 @@
 {% block page_nav_links %}
     <p>
         {% if isDiffView == true %}
-            {% set linkTitle = 'Back to history'|trans %}
+            {% set linkTitle = 'Back to history'|trans({}, 'messages') %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {slug: page.getSlug()}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-history"></i> {{ linkTitle }}</a>
         {% else %}
             {% set linkTitle = 'Pages list'|trans %}
             <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'view') }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-reply"></i> {{ linkTitle }}</a>
         {% endif %}
-        {% set linkTitle = 'Back to detail view'|trans %}
+        {% set linkTitle = 'Back to detail view'|trans({}, 'messages') %}
         <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-eye"></i> {{ linkTitle }}</a>
     </p>
 {% endblock %}
@@ -54,13 +55,13 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th id="hSelect" scope="col" class="unsorted">{% trans %}Select{% endtrans %}</th>
-                        <th id="hVersion" scope="col" class="unsorted">{% trans %}Version{% endtrans %}</th>
-                        <th id="hDate" scope="col" class="unsorted">{% trans %}Date{% endtrans %}</th>
-                        <th id="hUser" scope="col" class="unsorted">{% trans %}User{% endtrans %}</th>
-                        <th id="hOperation" scope="col" class="unsorted" colspan="2">{% trans %}Operation{% endtrans %}</th>
-                        <th id="hChanges" scope="col" class="unsorted">{% trans %}Changes{% endtrans %}</th>
-                        <th id="hActions" scope="col" class="unsorted">{% trans %}Actions{% endtrans %}</th>
+                        <th id="hSelect" scope="col" class="unsorted">{% trans from 'messages' %}Select{% endtrans %}</th>
+                        <th id="hVersion" scope="col" class="unsorted">{% trans from 'messages' %}Version{% endtrans %}</th>
+                        <th id="hDate" scope="col" class="unsorted">{% trans from 'messages' %}Date{% endtrans %}</th>
+                        <th id="hUser" scope="col" class="unsorted">{% trans from 'messages' %}User{% endtrans %}</th>
+                        <th id="hOperation" scope="col" class="unsorted" colspan="2">{% trans from 'messages' %}Operation{% endtrans %}</th>
+                        <th id="hChanges" scope="col" class="unsorted">{% trans from 'messages' %}Changes{% endtrans %}</th>
+                        <th id="hActions" scope="col" class="unsorted">{% trans from 'messages' %}Actions{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,7 +70,7 @@
                             <td headers="hSelect hVersion{{ logEntry.version|e('html_attr') }}" class="text-center">
                                 <input type="checkbox" name="versions[]" value="{{ logEntry.version }}" class="zikulacontent-toggle-checkbox" />
                             </td>
-                            <th id="hVersion{{ logEntry.version|e('html_attr') }}" headers="hVersion" scope="row" class="text-center">{{ logEntry.version }}{% if loop.first %} ({% trans %}latest{% endtrans %}){% endif %}</td>
+                            <th id="hVersion{{ logEntry.version|e('html_attr') }}" headers="hVersion" scope="row" class="text-center">{{ logEntry.version }}{% if loop.first %} ({% trans from 'messages' %}latest{% endtrans %}){% endif %}</td>
                             <td headers="hDate hVersion{{ logEntry.version|e('html_attr') }}">
                                 {{ logEntry.loggedAt|format_datetime('long', 'medium') }}
                             </td>
@@ -80,11 +81,11 @@
                             </td>
                             <td headers="hOperation hVersion{{ logEntry.version|e('html_attr') }}">
                                 {% if logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_CREATE') %}
-                                    {% trans %}Created{% endtrans %}
+                                    {% trans from 'messages' %}Created{% endtrans %}
                                 {% elseif logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_UPDATE') %}
-                                    {% trans %}Updated{% endtrans %}
+                                    {% trans from 'messages' %}Updated{% endtrans %}
                                 {% elseif logEntry.action == constant('Gedmo\\Loggable\\LoggableListener::ACTION_REMOVE') %}
-                                    {% trans %}Removed{% endtrans %}
+                                    {% trans from 'messages' %}Removed{% endtrans %}
                                 {% endif %}
                             </td>
                             <td headers="hOperation hVersion{{ logEntry.version|e('html_attr') }}">
@@ -93,7 +94,7 @@
                             <td headers="hChanges hVersion{{ logEntry.version|e('html_attr') }}">
                                 {% if logEntry.data is not empty %}
                                     <a role="button" data-toggle="collapse" href="#changes{{ logEntry.version }}" aria-expanded="false" aria-controls="changes{{ logEntry.version }}">
-                                        {{ '{0} No fields updated|{1} One field updated|]1,Inf[ %count% fields updated'|trans({'%count%': logEntry.data|length}, 'zikulacontentmodule') }}
+                                        {{ '{0} No fields updated|{1} One field updated|]1,Inf[ %count% fields updated'|trans({'%count%': logEntry.data|length}, 'messages') }}
                                     </a>
                                     <div id="changes{{ logEntry.version }}" class="collapse">
                                         <ul>
@@ -102,30 +103,30 @@
                                                     {% if value|length > 0 %}
                                                         <li>
                                                         {% if field in ['createdBy', 'updatedBy'] and value.uid is defined %}
-                                                            {{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': userAvatar(value.uid, {rating: 'g'}) ~ ' ' ~ value.uid|profileLinkByUserId()})|raw }}
+                                                            {{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': userAvatar(value.uid, {rating: 'g'}) ~ ' ' ~ value.uid|profileLinkByUserId()}, 'messages')|raw }}
                                                         {% else %}
-                                                            {{ '%field% set to:'|trans({'%field%': field|humanize}) }}
+                                                            {{ '%field% set to:'|trans({'%field%': field|humanize}, 'messages') }}
                                                             {{ _self.outputArray(value, (field == 'translationData')) }}
                                                         {% endif %}
                                                         </li>
                                                     {% else %}
-                                                        <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': 'an empty collection'|trans})|raw }}</li>
+                                                        <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': 'an empty collection'|trans({}, 'messages')}, 'messages')|raw }}</li>
                                                     {% endif %}
                                                 {% else %}
-                                                    <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': _self.outputSimpleValue(value)})|raw }}</li>
+                                                    <li>{{ '%field% set to <em>%value%</em>'|trans({'%field%': field|humanize, '%value%': _self.outputSimpleValue(value)}, 'messages')|raw }}</li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
                                     </div>
                                 {% else %}
-                                    {% trans %}None{% endtrans %}
+                                    {% trans from 'messages' %}None{% endtrans %}
                                 {% endif %}
                             </td>
                             <td headers="hActions hVersion{{ logEntry.version|e('html_attr') }}" class="actions">
-                                {% set linkTitle = 'Preview version %version%'|trans({'%version%': logEntry.version}) %}
-                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ 'version'|trans ~ ' ' ~ logEntry.version }}"><i class="fas fa-id-card"></i></a>
+                                {% set linkTitle = 'Preview version %version%'|trans({'%version%': logEntry.version}, 'messages') %}
+                                <a id="pageItem{{ page.getKey() }}Display{{ logEntry.version }}" href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug, version: logEntry.version, raw: 1}) }}" title="{{ linkTitle|e('html_attr') }}" class="zikulacontent-inline-window d-none" data-modal-title="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') ~ ' ' ~ 'version'|trans({}, 'messages') ~ ' ' ~ logEntry.version }}"><i class="fas fa-id-card"></i></a>
                                 {% if not loop.first %}
-                                    {% set linkTitle = 'Revert to version %version%'|trans({ '%version%': logEntry.version }) %}
+                                    {% set linkTitle = 'Revert to version %version%'|trans({'%version%': logEntry.version}, 'messages') %}
                                     <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'loggablehistory', {'slug': page.slug, revert: logEntry.version}) }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-history"></i></a>
                                 {% endif %}
                             </td>
@@ -135,7 +136,7 @@
             </table>
         </div>
         <p>
-            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fas fa-arrows-alt-h"></i> {% trans %}Compare selected versions{% endtrans %}</button>
+            <button id="compareButton" type="submit" value="compare" class="btn btn-primary" disabled="disabled"><i class="fas fa-arrows-alt-h"></i> {% trans from 'messages' %}Compare selected versions{% endtrans %}</button>
         </p>
     </form>
 {% endblock %}
@@ -149,9 +150,9 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th id="hFieldName" scope="col" class="unsorted">{% trans %}Field name{% endtrans %}</th>
-                    <th id="hMinVersion" scope="col" class="unsorted">{% trans with {'%version%': minVersion} %}Version %version%{% endtrans %}</th>
-                    <th id="hMaxVersion" scope="col" class="unsorted">{% trans with {'%version%': maxVersion} %}Version %version%{% endtrans %}</th>
+                    <th id="hFieldName" scope="col" class="unsorted">{% trans from 'messages' %}Field name{% endtrans %}</th>
+                    <th id="hMinVersion" scope="col" class="unsorted">{% trans with {'%version%': minVersion} from 'messages' %}Version %version%{% endtrans %}</th>
+                    <th id="hMaxVersion" scope="col" class="unsorted">{% trans with {'%version%': maxVersion} from 'messages' %}Version %version%{% endtrans %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -169,7 +170,7 @@
                                         {{ _self.outputArray(values.old, (fieldName == 'translationData')) }}
                                     {% endif %}
                                 {% else %}
-                                    {% trans %}an empty collection{% endtrans %}
+                                    {% trans from 'messages' %}an empty collection{% endtrans %}
                                 {% endif %}
                             {% else %}
                                 {{ _self.outputSimpleValue(values.old) }}
@@ -184,7 +185,7 @@
                                         {{ _self.outputArray(values.new, (fieldName == 'translationData')) }}
                                     {% endif %}
                                 {% else %}
-                                    {% trans %}an empty collection{% endtrans %}
+                                    {% trans from 'messages' %}an empty collection{% endtrans %}
                                 {% endif %}
                             {% else %}
                                 {{ _self.outputSimpleValue(values.new) }}

@@ -16,6 +16,8 @@ namespace Zikula\ContentModule\Helper\Base;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Contracts\EventDispatcher\Event;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\UrlInterface;
 use Zikula\Bundle\HookBundle\Dispatcher\HookDispatcherInterface;
 use Zikula\Bundle\HookBundle\FormAwareHook\FormAwareHook;
 use Zikula\Bundle\HookBundle\FormAwareHook\FormAwareResponse;
@@ -23,8 +25,6 @@ use Zikula\Bundle\HookBundle\Hook\Hook;
 use Zikula\Bundle\HookBundle\Hook\ProcessHook;
 use Zikula\Bundle\HookBundle\Hook\ValidationHook;
 use Zikula\Bundle\HookBundle\Hook\ValidationProviders;
-use Zikula\Core\Doctrine\EntityAccess;
-use Zikula\Core\UrlInterface;
 
 /**
  * Helper base class for hook related methods.

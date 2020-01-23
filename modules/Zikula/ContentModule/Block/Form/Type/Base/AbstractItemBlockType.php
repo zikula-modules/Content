@@ -101,7 +101,8 @@ abstract class AbstractItemBlockType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'maxlength' => 80,
-                    'title' => 'Example' . ': displaySpecial.html.twig'
+                    /** @Ignore */
+                    'title' => /** @Translate */'Example' . ': displaySpecial.html.twig'
                 ],
                 /** @Ignore */
                 'help' => [

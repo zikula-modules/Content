@@ -1,5 +1,6 @@
 {# purpose of this template: content items index view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
+{% trans_default_domain 'contentItem' %}
 {% block title 'Content items'|trans %}
 {% block admin_page_icon 'home' %}
 {% block content %}

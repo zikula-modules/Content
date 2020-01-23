@@ -106,15 +106,15 @@ function zikulaContentExecuteCustomValidationConstraints(objectType, currentEnti
         if ('undefined' != typeof jQuery(this).attr('id')) {
             if ('DIV' == jQuery(this).prop('tagName')) {
                 if (!zikulaContentValidateDateRangePage()) {
-                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
-                    jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
+                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity(Translator.trans('The start must be before the end.', {}, 'validators'));
+                    jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity(Translator.trans('The start must be before the end.', {}, 'validators'));
                 } else {
                     jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity('');
                     jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity('');
                 }
             } else {
                 if (!zikulaContentValidateDateRangePage()) {
-                    jQuery(this).get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
+                    jQuery(this).get(0).setCustomValidity(Translator.trans('The start must be before the end.', {}, 'validators'));
                 } else {
                     jQuery(this).get(0).setCustomValidity('');
                 }
@@ -125,15 +125,15 @@ function zikulaContentExecuteCustomValidationConstraints(objectType, currentEnti
         if ('undefined' != typeof jQuery(this).attr('id')) {
             if ('DIV' == jQuery(this).prop('tagName')) {
                 if (!zikulaContentValidateDateRangeContentItem()) {
-                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
-                    jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
+                    jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity(Translator.trans('The start must be before the end.', {}, 'validators'));
+                    jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity(Translator.trans('The start must be before the end.', {}, 'validators'));
                 } else {
                     jQuery('#' + jQuery(this).attr('id') + '_date').get(0).setCustomValidity('');
                     jQuery('#' + jQuery(this).attr('id') + '_time').get(0).setCustomValidity('');
                 }
             } else {
                 if (!zikulaContentValidateDateRangeContentItem()) {
-                    jQuery(this).get(0).setCustomValidity(Translator.trans('The start must be before the end.'));
+                    jQuery(this).get(0).setCustomValidity(Translator.trans('The start must be before the end.', {}, 'validators'));
                 } else {
                     jQuery(this).get(0).setCustomValidity('');
                 }

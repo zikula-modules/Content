@@ -18,7 +18,7 @@ use Gedmo\Loggable\LoggableListener;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\SettingsModule\Api\ApiInterface\LocaleApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;

@@ -85,6 +85,7 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
                         'routeParameters' => $routeParameters
                     ])
                         ->setAttribute('icon', 'fas fa-list-alt')
+                        ->setExtra('translation_domain', 'page')
                     ;
                 }
             }
@@ -129,6 +130,7 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
                 'route' => 'zikulacontentmodule_page_' . $routeArea . 'view'
             ])
                 ->setLinkAttribute('title', 'Pages list')
+                ->setExtra('translation_domain', 'page')
             ;
         }
         if ('admin' === $routeArea && $this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
@@ -137,6 +139,7 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
             ])
                 ->setAttribute('icon', 'fas fa-wrench')
                 ->setLinkAttribute('title', 'Manage settings for this application')
+                ->setExtra('translation_domain', 'config')
             ;
         }
 

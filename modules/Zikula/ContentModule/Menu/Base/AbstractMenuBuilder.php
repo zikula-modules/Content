@@ -183,6 +183,7 @@ class AbstractMenuBuilder
                         )
                         ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
                         ->setAttribute('icon', 'fas fa-edit')
+                        ->setExtra('translation_domain', 'page')
                     ;
                     $menu->addChild('Reuse', [
                         'route' => $routePrefix . $routeArea . 'edit',
@@ -193,7 +194,8 @@ class AbstractMenuBuilder
                             'Reuse for new page'
                         )
                         ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
-                        ->setAttribute('icon', 'fas fa-files-o')
+                        ->setAttribute('icon', 'fas fa-copy')
+                        ->setExtra('translation_domain', 'page')
                     ;
                     if ($this->permissionHelper->hasEntityPermission($entity, ACCESS_ADD)) {
                         $menu->addChild('Add sub page', [
@@ -206,6 +208,7 @@ class AbstractMenuBuilder
                             )
                             ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
                             ->setAttribute('icon', 'fas fa-child')
+                            ->setExtra('translation_domain', 'page')
                         ;
                     }
                 }
@@ -231,6 +234,7 @@ class AbstractMenuBuilder
                 ])
                     ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
                     ->setAttribute('icon', 'fas fa-reply')
+                    ->setExtra('translation_domain', 'page')
                 ;
             }
         }
@@ -299,6 +303,7 @@ class AbstractMenuBuilder
                             'route' => $routePrefix . $routeArea . 'edit'
                         ])
                             ->setAttribute('icon', 'fas fa-plus')
+                            ->setExtra('translation_domain', 'page')
                         ;
                     }
                 }
@@ -362,6 +367,7 @@ class AbstractMenuBuilder
                         'routeParameters' => ['deleted' => 1]
                     ])
                         ->setAttribute('icon', 'fas fa-trash-alt')
+                        ->setExtra('translation_domain', 'page')
                     ;
                 }
             }
