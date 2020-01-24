@@ -1,8 +1,0 @@
-zikulacontentmodule:
-    # define routing support for these controllers
-    resource: "@ZikulaContentModule/Controller"
-    # enable support for defining routes by annotations
-    type: annotation
-zikulacontentmodule_dynamic:
-    resource: "@ZikulaContentModule/Controller/PageController"
-    type: content_dynamic
