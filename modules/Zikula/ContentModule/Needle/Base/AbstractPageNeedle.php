@@ -104,7 +104,7 @@ abstract class AbstractPageNeedle implements NeedleInterface
     
     public function getDescription(): string
     {
-        return $this->translator->trans('Links to the list of pages and specific pages.', [], '');
+        return $this->translator->trans('Links to the list of pages and specific pages.', [], 'page');
     }
     
     public function getUsageInfo(): string
