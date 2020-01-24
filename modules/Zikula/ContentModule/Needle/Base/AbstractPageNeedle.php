@@ -99,12 +99,12 @@ abstract class AbstractPageNeedle implements NeedleInterface
     
     public function getTitle(): string
     {
-        return $this->translator->trans('Pages', [], 'zikulacontentmodule');
+        return $this->translator->trans('Pages', [], 'page');
     }
     
     public function getDescription(): string
     {
-        return $this->translator->trans('Links to the list of pages and specific pages.', [], 'zikulacontentmodule');
+        return $this->translator->trans('Links to the list of pages and specific pages.', [], 'page');
     }
     
     public function getUsageInfo(): string
@@ -155,8 +155,8 @@ abstract class AbstractPageNeedle implements NeedleInterface
                     [],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
-                $linkTitle = $this->translator->trans('View pages', [], 'zikulacontentmodule');
-                $linkText = $this->translator->trans('Pages', [], 'zikulacontentmodule');
+                $linkTitle = $this->translator->trans('View pages', [], 'page');
+                $linkText = $this->translator->trans('Pages', [], 'page');
                 $cache[$needleId] = '<a href="' . $route . '" title="' . $linkTitle . '">' . $linkText . '</a>';
             }
     
@@ -176,7 +176,7 @@ abstract class AbstractPageNeedle implements NeedleInterface
             $notFoundMessage = $this->translator->trans(
                 'Page with id %id% could not be found',
                 ['%id%' => $entityId],
-                'zikulacontentmodule'
+                'page'
             );
             $cache[$needleId] = '<em>' . $notFoundMessage . '</em>';
     
