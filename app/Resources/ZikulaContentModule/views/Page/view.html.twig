@@ -1,5 +1,6 @@
 {# purpose of this template: pages list view #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
+{% trans_default_domain 'page' %}
 {% block title %}{% set list = app.request.query.get('list', '') %}{% if own %}{{ 'My pages'|trans }}{% elseif routeArea == 'admin' %}{{ 'Pages list'|trans }}{% elseif list == 'complete' %}{{ 'Complete pages list'|trans }}{% elseif list == 'extended' %}{{ 'Extended pages list'|trans }}{% elseif list == 'categories' %}{{ 'Categories list'|trans }}{% else %}{{ 'Pages list'|trans }}{% endif %}{% endblock %}
 {% block admin_page_icon 'list-alt' %}
 {% block content %}
@@ -43,40 +44,40 @@
                             <input type="checkbox" class="zikulacontent-mass-toggle" />
                         </th>
                     {% endif %}
-                    <th id="hItemActionsStart" scope="col" class="">{% trans %}Actions{% endtrans %}</th>
+                    <th id="hItemActionsStart" scope="col" class="">{% trans from 'messages' %}Actions{% endtrans %}</th>
                     {% if routeArea == 'admin' %}
                     <th id="hWorkflowState" scope="col" class="text-left">
-                        <a href="{{ sort.workflowState.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'state'})|e('html_attr') }}" class="{{ sort.workflowState.class }}">{% trans %}State{% endtrans %}</a>
+                        <a href="{{ sort.workflowState.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'state'}, 'messages')|e('html_attr') }}" class="{{ sort.workflowState.class }}">{% trans %}State{% endtrans %}</a>
                     </th>
                     {% endif %}
                     <th id="hTitle" scope="col" class="text-left">
-                        <a href="{{ sort.title.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'title'})|e('html_attr') }}" class="{{ sort.title.class }}">{% trans %}Title{% endtrans %}</a>
+                        <a href="{{ sort.title.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'title'}, 'messages')|e('html_attr') }}" class="{{ sort.title.class }}">{% trans %}Title{% endtrans %}</a>
                     </th>
                     {% if countPageViews %}
                         <th id="hViews" scope="col" class="text-right">
-                            <a href="{{ sort.views.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'views'})|e('html_attr') }}" class="{{ sort.views.class }}">{% trans %}Views{% endtrans %}</a>
+                            <a href="{{ sort.views.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'views'}, 'messages')|e('html_attr') }}" class="{{ sort.views.class }}">{% trans %}Views{% endtrans %}</a>
                         </th>
                     {% endif %}
                     <th id="hActive" scope="col" class="text-center">
-                        <a href="{{ sort.active.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active'})|e('html_attr') }}" class="{{ sort.active.class }}">{% trans %}Active{% endtrans %}</a>
+                        <a href="{{ sort.active.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active'}, 'messages')|e('html_attr') }}" class="{{ sort.active.class }}">{% trans %}Active{% endtrans %}</a>
                     </th>
                     {#<th id="hActiveFrom" scope="col" class="text-left">
-                        <a href="{{ sort.activeFrom.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active from'})|e('html_attr') }}" class="{{ sort.activeFrom.class }}">{% trans %}Active from{% endtrans %}</a>
+                        <a href="{{ sort.activeFrom.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active from'}, 'messages')|e('html_attr') }}" class="{{ sort.activeFrom.class }}">{% trans %}Active from{% endtrans %}</a>
                     </th>
                     <th id="hActiveTo" scope="col" class="text-left">
-                        <a href="{{ sort.activeTo.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active to'})|e('html_attr') }}" class="{{ sort.activeTo.class }}">{% trans %}Active to{% endtrans %}</a>
+                        <a href="{{ sort.activeTo.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'active to'}, 'messages')|e('html_attr') }}" class="{{ sort.activeTo.class }}">{% trans %}Active to{% endtrans %}</a>
                     </th>#}
                     <th id="hInMenu" scope="col" class="text-center">
-                        <a href="{{ sort.inMenu.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'in menu'})|e('html_attr') }}" class="{{ sort.inMenu.class }}">{% trans %}In menu{% endtrans %}</a>
+                        <a href="{{ sort.inMenu.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'in menu'}, 'messages')|e('html_attr') }}" class="{{ sort.inMenu.class }}">{% trans %}In menu{% endtrans %}</a>
                     </th>
                     <th id="hUpdatedDate" scope="col" class="text-left">
-                        <a href="{{ sort.updatedDate.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'updated date'})|e('html_attr') }}" class="{{ sort.updatedDate.class }}">{% trans %}Updated date{% endtrans %}</a>
+                        <a href="{{ sort.updatedDate.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'updated date'}, 'messages')|e('html_attr') }}" class="{{ sort.updatedDate.class }}">{% trans %}Updated date{% endtrans %}</a>
                     </th>
                     <th id="hCurrentVersion" scope="col" class="text-right">
-                        <a href="{{ sort.currentVersion.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'current version'})|e('html_attr') }}" class="{{ sort.currentVersion.class }}">{% trans %}Current version{% endtrans %}</a>
+                        <a href="{{ sort.currentVersion.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'current version'}, 'messages')|e('html_attr') }}" class="{{ sort.currentVersion.class }}">{% trans %}Current version{% endtrans %}</a>
                     </th>
                     <th id="hCategory" scope="col" class="text-left">
-                        {% trans %}Category{% endtrans %}
+                        {% trans from 'messages' %}Category{% endtrans %}
                     </th>
                 </tr>
                 </thead>
@@ -100,7 +101,7 @@
                         {{ page.workflowState|zikulacontentmodule_objectState }}
                     </td>
                     {% endif %}<td headers="hTitle" class="text-left">
-                        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ 'View detail page'|trans|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</a>
+                        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ 'View detail page'|trans({}, 'messages')|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</a>
                     </td>
                     {% if countPageViews %}
                         <td headers="hViews" class="text-right">
@@ -110,14 +111,14 @@
                     <td headers="hActive" class="text-center">
                         {% set itemId = page.getKey() %}
                         <a id="toggleActive{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="active" data-item-id="{{ itemId|e('html_attr') }}">
-                            <i class="fas fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Active{% endtrans %}</span></i>
-                            <i class="fas fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Inactive{% endtrans %}</span></i>
+                            <i class="fas fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans({}, 'messages')|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans from 'messages' %}Active{% endtrans %}</span></i>
+                            <i class="fas fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans({}, 'messages')|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans from 'messages' %}Inactive{% endtrans %}</span></i>
                         </a>
                         <noscript><div id="noscriptActive{{ itemId|e('html_attr') }}">
                             {% if page.active %}
-                                <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-check text-success" title="{{ 'Yes'|trans({}, 'messages')|e('html_attr') }}"></i>
                             {% else %}
-                                <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-times text-danger" title="{{ 'No'|trans({}, 'messages')|e('html_attr') }}"></i>
                             {% endif %}
                         </div></noscript>
                         {% if page.activeFrom is not empty %}
@@ -140,23 +141,23 @@
                     <td headers="hInMenu" class="text-center">
                         {% set itemId = page.getKey() %}
                         <a id="toggleInMenu{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId|e('html_attr') }}">
-                            <i class="fas fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}In{% endtrans %}</span></i>
-                            <i class="fas fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans %}Out{% endtrans %}</span></i>
+                            <i class="fas fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans({}, 'messages')|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans from 'messages' %}In{% endtrans %}</span></i>
+                            <i class="fas fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans({}, 'messages')|e('html_attr') }}">&nbsp;<span class="font-weight-normal">{% trans from 'messages' %}Out{% endtrans %}</span></i>
                         </a>
                         <noscript><div id="noscriptInMenu{{ itemId|e('html_attr') }}">
                             {% if page.inMenu %}
-                                <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-check text-success" title="{{ 'Yes'|trans({}, 'messages')|e('html_attr') }}"></i>
                             {% else %}
-                                <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                                <i class="fas fa-times text-danger" title="{{ 'No'|trans({}, 'messages')|e('html_attr') }}"></i>
                             {% endif %}
                         </div></noscript>
                     </td>
                     <td headers="hCurrentVersion" class="text-left">
                         {% if page.updatedBy|default and page.updatedBy.uid > 0 %}
                             {% set profileLink = page.updatedBy.uid|profileLinkByUserId %}
-                            {{ 'on %date% by %user%'|trans({'%date%': page.updatedDate|format_date('short'), '%user%': profileLink})|raw }}
+                            {{ 'on %date% by %user%'|trans({'%date%': page.updatedDate|format_date('short'), '%user%': profileLink}, 'messages')|raw }}
                         {% else %}
-                            {{ 'on %date%'|trans({'%date%': page.updatedDate|format_date('short')}) }}
+                            {{ 'on %date%'|trans({'%date%': page.updatedDate|format_date('short')}, 'messages') }}
                         {% endif %}
                     </td>
                     <td headers="hCurrentVersion" class="text-right">
@@ -189,12 +190,12 @@
                         <label for="zikulaContentModuleAction" class="col-md-3 col-form-label">{% trans %}With selected pages{% endtrans %}</label>
                         <div class="col-md-6">
                             <select id="zikulaContentModuleAction" name="action" class="form-control form-control-sm">
-                                <option value="">{% trans %}Choose action{% endtrans %}</option>
-                                <option value="delete" title="{{ 'Delete content permanently.'|trans|e('html_attr') }}">{% trans %}Delete{% endtrans %}</option>
+                                <option value="">{% trans from 'messages' %}Choose action{% endtrans %}</option>
+                                <option value="delete" title="{{ 'Delete content permanently.'|trans({}, 'messages')|e('html_attr') }}">{% trans from 'messages' %}Delete{% endtrans %}</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <input type="submit" value="{{ 'Submit'|trans|e('html_attr') }}" class="btn btn-secondary btn-sm" />
+                            <input type="submit" value="{{ 'Submit'|trans({}, 'messages')|e('html_attr') }}" class="btn btn-secondary btn-sm" />
                         </div>
                     </div>
                 </fieldset>
@@ -237,7 +238,7 @@
                 <p>{% trans %}No pages found.{% endtrans %}</p>
             {% endif %}
         {% elseif list == 'categories' %}
-            <h3>{{ 'Welcome to the contents for %sitename%'|trans({'%sitename%': getModVar('ZConfig', 'sitename')}) }}</h3>
+            <h3>{{ 'Welcome to the contents for %sitename%'|trans({'%sitename%': getModVar('ZConfig', 'sitename')}, 'messages') }}</h3>
             {% set categoryInfoPerRegistry = zikulacontentmodule_categoryInfo() %}
             {% if categoryInfoPerRegistry|length > 0 %}
                 {% for registryLabel, categoryInfo in categoryInfoPerRegistry %}

@@ -23,7 +23,6 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Zikula\CategoriesModule\Entity\CategoryEntity;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\Collector\ContentTypeCollector;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -33,6 +32,7 @@ use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Twig extension implementation class.

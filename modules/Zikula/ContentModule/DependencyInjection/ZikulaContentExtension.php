@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\DependencyInjection\Base\AbstractZikulaContentExtension;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Implementation class for service definition loader using the DependencyInjection extension.

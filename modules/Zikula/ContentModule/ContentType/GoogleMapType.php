@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\ContentType;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\GoogleMapType as FormType;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Google map content type.
@@ -47,17 +47,17 @@ class GoogleMapType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Google map');
+        return $this->translator->trans('Google map', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Display a Google map position.');
+        return $this->translator->trans('Display a Google map position.', [], 'contentTypes');
     }
 
     public function getAdminInfo(): string
     {
-        return $this->translator->trans('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.');
+        return $this->translator->trans('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.', [], 'config');
     }
 
     public function isActive(): bool

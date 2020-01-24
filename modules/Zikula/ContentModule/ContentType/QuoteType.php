@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\QuoteType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Quote content type.
@@ -35,20 +35,20 @@ class QuoteType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Quote');
+        return $this->translator->trans('Quote', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('A highlighted quote with source.');
+        return $this->translator->trans('A highlighted quote with source.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->translator->trans('Add quote text here...'),
+            'text' => $this->translator->trans('Add quote text here...', [], 'contentTypes'),
             'source' => 'https://',
-            'description' => $this->translator->trans('Name of the source')
+            'description' => $this->translator->trans('Name of the source', [], 'contentTypes')
         ];
     }
 

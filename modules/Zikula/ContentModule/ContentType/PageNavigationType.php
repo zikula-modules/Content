@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Page navigation content type.
@@ -34,12 +34,12 @@ class PageNavigationType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Page navigation');
+        return $this->translator->trans('Page navigation', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Allows to navigate within pages on the same level.');
+        return $this->translator->trans('Allows to navigate within pages on the same level.', [], 'contentTypes');
     }
 
     public function displayView(): string

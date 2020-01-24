@@ -83,6 +83,7 @@ class MenuBuilder extends AbstractMenuBuilder
                 )
                 ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
                 ->setAttribute('icon', 'fas fa-cubes')
+                ->setExtra('translation_domain', 'page')
             ;
         }
         if ($hasEditPermissions) {
@@ -96,6 +97,7 @@ class MenuBuilder extends AbstractMenuBuilder
                 )
                 ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
                 ->setAttribute('icon', 'fas fa-copy')
+                ->setExtra('translation_domain', 'page')
             ;
         }
         if ($this->multilingual && $hasEditPermissions && $hasContentPermissions) {
@@ -109,6 +111,7 @@ class MenuBuilder extends AbstractMenuBuilder
                 )
                 ->setLinkAttribute('class', 'display' === $context ? 'btn btn-sm btn-secondary' : '')
                 ->setAttribute('icon', 'fas fa-language')
+                ->setExtra('translation_domain', 'page')
             ;
         }
 

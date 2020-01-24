@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\SlideshareType as FormType;
 use Zikula\ContentModule\Helper\CacheHelper;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Slideshare content type.
@@ -41,12 +41,12 @@ class SlideshareType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Slideshare');
+        return $this->translator->trans('Slideshare', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Display slides from slideshare.com.');
+        return $this->translator->trans('Display slides from slideshare.com.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

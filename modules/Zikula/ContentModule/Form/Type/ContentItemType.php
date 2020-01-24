@@ -23,11 +23,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Content item editing form type implementation class.
@@ -170,6 +170,7 @@ class ContentItemType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ContentItemEntity::class,
+            'translation_domain' => 'contentItem',
             'content_type' => null
         ]);
     }

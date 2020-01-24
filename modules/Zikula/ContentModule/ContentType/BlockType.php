@@ -20,8 +20,8 @@ use Zikula\BlocksModule\Api\ApiInterface\BlockApiInterface;
 use Zikula\BlocksModule\Entity\BlockEntity;
 use Zikula\BlocksModule\Entity\RepositoryInterface\BlockRepositoryInterface;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\Common\Content\AbstractContentType;
 use Zikula\ContentModule\ContentType\Form\Type\BlockType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
 use Zikula\ThemeModule\Engine\Engine;
 
 /**
@@ -61,12 +61,12 @@ class BlockType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Block');
+        return $this->translator->trans('Block', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Display Zikula blocks.');
+        return $this->translator->trans('Display Zikula blocks.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array
@@ -95,7 +95,7 @@ class BlockType extends AbstractContentType
         $block = $this->data['block'];
         $quickActions = '';
         $quickActions .= '<a href="javascript:void(0);" title="'
-            . $this->translator->trans('Preview block content')
+            . $this->translator->trans('Preview block content', [], 'contentTypes')
             . '" onclick="'
             . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
             . 'jQuery(this).remove();'
@@ -106,7 +106,7 @@ class BlockType extends AbstractContentType
             ['blockEntity' => $this->data['blockId']]
         );
         $quickActions .= ' <a href="' . $editLink . '"'
-            . ' title="' . $this->translator->trans('Edit this block') . '"'
+            . ' title="' . $this->translator->trans('Edit this block', [], 'contentTypes') . '"'
             . ' target="_blank"><i class="fas fa-2x fa-pencil-square-o"></i></a>'
         ;
         $editOutput = '<h3>' . $block->getTitle() . '</h3>';
@@ -149,7 +149,7 @@ class BlockType extends AbstractContentType
             return;
         }
         if (!$block->getActive()) {
-            $this->data['noDisplayMessage'] = $this->translator->trans('Block is inactive.');
+            $this->data['noDisplayMessage'] = $this->translator->trans('Block is inactive.', [], 'contentTypes');
 
             return;
         }

@@ -1,4 +1,5 @@
 {# purpose of this template: pages subpages list view #}
+{% trans_default_domain 'page' %}
 {% if pages|length > 0 %}
 <ul>
     {% for page in pages|filter(p => p.inMenu and zikulacontentmodule_hasReadAccess(p)) %}
@@ -6,7 +7,7 @@
         {% set isActivePage = zikulacontentmodule_isCurrentPage(page) %}
         <li>
             <a href="{{ path('zikulacontentmodule_page_display', {slug: page.slug}) }}" title="{{ pageTitle|e('html_attr') }}"{% if isActivePage %} class="active"{% endif %}>{{ pageTitle }}</a>
-            {{ include('@ZikulaContentModule/Page/sitemapInclude.html.twig', {pages: page.children}) }}
+            {{ include('@ZikulaContentModule/Page/subpagesInclude.html.twig', {pages: page.children}) }}
         </li>
     {% endfor %}
 </ul>

@@ -19,7 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Zikula\Common\Content\AbstractContentFormType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 
 /**
  * Slideshare form type class.
@@ -51,5 +52,12 @@ class SlideshareType extends AbstractContentFormType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_contenttype_slideshare';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentTypes'
+        ]);
     }
 }

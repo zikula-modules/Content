@@ -1,4 +1,5 @@
 {# purpose of this template: display an author element #}
+{% trans_default_domain 'contentTypes' %}
 {% set profileLink = author.uid|profileLinkByUserId %}
 <div class="content-author">
     <h3>{% trans with {'%user%': profileLink|raw} %}By %user%{% endtrans %}</h3>

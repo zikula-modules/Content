@@ -22,10 +22,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
-use Zikula\Common\Content\ContentTypeInterface;
-use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Form\Type\Field\TranslationType;
 use Zikula\ContentModule\Helper\TranslatableHelper;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Translation form type implementation class.
@@ -238,6 +238,7 @@ class TranslateType extends AbstractType
     {
         $resolver
             ->setDefaults([
+                'translation_domain' => 'page',
                 'mode' => 'page',
                 'content_type' => null,
                 'translations' => []

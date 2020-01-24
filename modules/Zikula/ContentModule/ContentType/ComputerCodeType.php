@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\ContentType;
 
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ComputerCodeType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Computer code content type.
@@ -41,12 +41,12 @@ class ComputerCodeType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Computer code');
+        return $this->translator->trans('Computer code', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.');
+        return $this->translator->trans('A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

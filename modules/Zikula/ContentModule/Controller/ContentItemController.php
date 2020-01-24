@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Controller;
 
-use Zikula\Common\Content\AbstractContentType;
 use Zikula\ContentModule\Controller\Base\AbstractContentItemController;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +25,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
@@ -39,6 +37,8 @@ use Zikula\ContentModule\Helper\ModelHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 use Zikula\ContentModule\Helper\TranslatableHelper;
 use Zikula\ContentModule\Helper\WorkflowHelper;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 
 /**

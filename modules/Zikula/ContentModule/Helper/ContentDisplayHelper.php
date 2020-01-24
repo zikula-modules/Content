@@ -19,9 +19,9 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\Content\ContentTypeInterface;
-use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 use Zikula\ContentModule\Entity\ContentItemEntity;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 use Zikula\GroupsModule\Entity\RepositoryInterface\GroupRepositoryInterface;
 use Zikula\ThemeModule\Api\ApiInterface\PageAssetApiInterface;
 
@@ -131,7 +131,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
     {
         $contentTypeClass = $item->getOwningType();
         if (!class_exists($contentTypeClass) || !$this->container->has($contentTypeClass)) {
-            throw new RuntimeException($this->trans('Invalid content type received.') . ' ' . $contentTypeClass);
+            throw new RuntimeException($this->trans('Invalid content type received.', [], 'contentItem') . ' ' . $contentTypeClass);
         }
 
         $contentType = $this->container->get($contentTypeClass);
@@ -150,22 +150,22 @@ class ContentDisplayHelper implements ContainerAwareInterface
         $titleSuffix = '';
 
         if (!$item->isCurrentlyActive()) {
-            $titleSuffix = ' (' . $this->trans('inactive') . ')';
+            $titleSuffix = ' (' . $this->trans('inactive', [], 'contentItem') . ')';
         } else {
             $scopes = $this->extractMultiList($item->getScope());
             foreach ($scopes as $scope) {
                 if ('0' !== $scope) {
                     if ('-1' === $scope) {
-                        $titleSuffix = ' (' . $this->trans('only logged in members') . ')';
+                        $titleSuffix = ' (' . $this->trans('only logged in members', [], 'contentItem') . ')';
                     } elseif ('-2' === $scope) {
-                        $titleSuffix = ' (' . $this->trans('only not logged in people') . ')';
+                        $titleSuffix = ' (' . $this->trans('only not logged in people', [], 'contentItem') . ')';
                     } else {
                         //$groupId = intval($scope);
                         //$group = $this->groupRepository->find($groupId);
                         //if (null !== $group) {
-                        //    $titleSuffix = ' (' . $this->trans('only %group%', ['%group%' => $group->getName()]) . ')';
+                        //    $titleSuffix = ' (' . $this->trans('only %group%', ['%group%' => $group->getName()], 'contentItem') . ')';
                         //} else {
-                        $titleSuffix = ' (' . $this->trans('specific group') . ')';
+                        $titleSuffix = ' (' . $this->trans('specific group', [], 'contentItem') . ')';
                         //}
                     }
                 }

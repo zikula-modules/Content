@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Helper;
 
 use RuntimeException;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\Base\AbstractTranslatableHelper;
-use Zikula\Core\Doctrine\EntityAccess;
 
 /**
  * Helper implementation class for translatable methods.

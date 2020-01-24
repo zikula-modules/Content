@@ -18,9 +18,9 @@ use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ControllerType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Controller content type.
@@ -49,12 +49,12 @@ class ControllerType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Controller');
+        return $this->translator->trans('Controller', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Display controller output from any installed module, theme or bundle.');
+        return $this->translator->trans('Display controller output from any installed module, theme or bundle.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array
@@ -83,7 +83,7 @@ class ControllerType extends AbstractContentType
         }
 
         $quickAction = '<a href="javascript:void(0);" title="'
-            . $this->translator->trans('Preview controller content')
+            . $this->translator->trans('Preview controller content', [], 'contentTypes')
             . '" onclick="'
             . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
             . 'jQuery(this).remove();'
@@ -91,17 +91,17 @@ class ControllerType extends AbstractContentType
         ;
         $editOutput = '<h3>' . $this->data['controller'] . '</h3>';
         if ($this->data['query']) {
-            $editOutput .= '<p>' . $this->translator->trans('GET parameters')
+            $editOutput .= '<p>' . $this->translator->trans('GET parameters', [], 'contentTypes')
                 . ': <em>' . $this->data['query'] . '</em></p>'
             ;
         }
         if ($this->data['request']) {
-            $editOutput .= '<p>' . $this->translator->trans('POST parameters')
+            $editOutput .= '<p>' . $this->translator->trans('POST parameters', [], 'contentTypes')
                 . ': <em>' . $this->data['request'] . '</em></p>'
             ;
         }
         if ($this->data['attributes']) {
-            $editOutput .= '<p>' . $this->translator->trans('Request attributes')
+            $editOutput .= '<p>' . $this->translator->trans('Request attributes', [], 'contentTypes')
                 . ': <em>' . $this->data['attributes'] . '</em></p>'
             ;
         }
@@ -158,7 +158,7 @@ class ControllerType extends AbstractContentType
     {
         static $recursionLevel = 0;
         if (4 < $recursionLevel) {
-            return $this->translator->trans('Maximum number of pages-in-pages reached! You probably included this page in itself.');
+            return $this->translator->trans('Maximum number of pages-in-pages reached! You probably included this page in itself.', [], 'contentTypes');
         }
 
         $controller = $this->data['controller'];

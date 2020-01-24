@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\HtmlType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * HTML content type.
@@ -35,18 +35,18 @@ class HtmlType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('HTML text');
+        return $this->translator->trans('HTML text', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('HTML editor for adding markup text to your page.');
+        return $this->translator->trans('HTML editor for adding markup text to your page.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->translator->trans('Add text here...')
+            'text' => $this->translator->trans('Add text here...', [], 'contentTypes')
         ];
     }
 

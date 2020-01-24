@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\YouTubeType as FormType;
 use Zikula\ContentModule\Helper\CacheHelper;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * YouTube content type.
@@ -41,12 +41,12 @@ class YouTubeType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('YouTube video');
+        return $this->translator->trans('YouTube video', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Display a YouTube video clip.');
+        return $this->translator->trans('Display a YouTube video clip.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

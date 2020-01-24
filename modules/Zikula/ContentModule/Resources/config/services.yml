@@ -23,7 +23,7 @@ services:
             $contentTypes: !tagged_iterator zikula.content_type
 
     _instanceof:
-        Zikula\Common\Content\ContentTypeInterface:
+        Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface:
             bind:
                 $permissionHelper: '@Zikula\ContentModule\Helper\PermissionHelper'
 

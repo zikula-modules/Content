@@ -17,6 +17,7 @@ namespace Zikula\ContentModule\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
@@ -67,5 +68,12 @@ class MoveCopyContentItemType extends AbstractType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_movecopycontentitem';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentItem'
+        ]);
     }
 }

@@ -1,12 +1,13 @@
 {# purpose of this template: page content management #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
+{% trans_default_domain 'page' %}
 {% block title %}{{ page|zikulacontentmodule_formattedTitle|default('Page'|trans) }} - {% trans %}Manage content{% endtrans %}{% endblock %}
 {% block admin_page_icon 'cubes' %}
 {% block content %}
     {% set pageLevelActions %}
         <div class="btn-group d-flex mb-3" role="group">
             <button type="button" class="btn btn-secondary add-section" title="{{ 'Add another section'|trans|e('html_attr') }}"><i class="fas fa-plus-circle"></i> {% trans %}Add section{% endtrans %}</button>
-            <button type="button" class="btn btn-secondary exit-page" data-url="{{ returnUrl|e('html_attr') }}" title="{{ 'Back to last page'|trans|e('html_attr') }}"><i class="fas fa-undo"></i> {% trans %}Back{% endtrans %}</button>
+            <button type="button" class="btn btn-secondary exit-page" data-url="{{ returnUrl|e('html_attr') }}" title="{{ 'Back to last page'|trans|e('html_attr') }}"><i class="fas fa-undo"></i> {% trans from 'messages' %}Back{% endtrans %}</button>
         </div>
     {% endset %}
     {{ zikulacontentmodule_getPagePath(page, false) }}
@@ -31,7 +32,7 @@
             <div class="form">
                 <fieldset>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">{% trans %}Styling classes{% endtrans %}</label>
+                        <label class="col-md-3 col-form-label">{% trans from 'messages' %}Styling classes{% endtrans %}</label>
                         <div class="col-md-9">
                             <select multiple="multiple" class="form-control">
                                 {% for label, className in sectionStyles %}
@@ -42,7 +43,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-9 offset-md-3">
-                            <button class="btn btn-primary">{% trans %}OK{% endtrans %}</button>
+                            <button class="btn btn-primary">{% trans from 'messages' %}OK{% endtrans %}</button>
                         </div>
                     </div>
                 </fieldset>
@@ -58,9 +59,9 @@
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btnSaveContent" class="btn btn-success"><i class="fas fa-save"></i> {% trans %}Save{% endtrans %}</button>
-                    <button type="button" id="btnDeleteContent" class="btn btn-danger"><i class="fas fa-trash-alt"></i> {% trans %}Delete{% endtrans %}</button>
-                    <button type="button" id="btnCancelContent" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> {% trans %}Cancel{% endtrans %}</button>
+                    <button type="button" id="btnSaveContent" class="btn btn-success"><i class="fas fa-save"></i> {% trans from 'messages' %}Save{% endtrans %}</button>
+                    <button type="button" id="btnDeleteContent" class="btn btn-danger"><i class="fas fa-trash-alt"></i> {% trans from 'messages' %}Delete{% endtrans %}</button>
+                    <button type="button" id="btnCancelContent" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> {% trans from 'messages' %}Cancel{% endtrans %}</button>
                 </div>
             </div>
         </div>
@@ -72,7 +73,7 @@
                     <h5 class="modal-title">
                         <i class="fas fa-plus"></i> {% trans %}Add element{% endtrans %}
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'Close'|trans|e('html_attr') }}"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'Close'|trans({}, 'messages')|e('html_attr') }}"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     {{ include('@ZikulaContentModule/Page/palette.html.twig') }}

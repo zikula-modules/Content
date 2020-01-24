@@ -15,3 +15,4 @@
 'Content also offers functionality for versioning and managing translations.': null
 'An example page for introduction with several content items has been created.': null
 'Warning! Could not create the example page for introduction.': null
+'Exception during example data creation: %message%': null

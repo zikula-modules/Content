@@ -27,7 +27,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
-use Zikula\Common\Content\ContentTypeInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;

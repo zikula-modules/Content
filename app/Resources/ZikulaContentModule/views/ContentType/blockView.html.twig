@@ -1,4 +1,5 @@
 {# purpose of this template: display a block element #}
+{% trans_default_domain 'contentTypes' %}
 {% if content|default %}
     <div class="content-block">
         {{ content|raw }}

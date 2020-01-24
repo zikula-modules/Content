@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Collector;
 
-use Zikula\Common\Content\ContentTypeInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Content type collector implementation class.

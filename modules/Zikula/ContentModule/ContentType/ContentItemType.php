@@ -15,11 +15,11 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\ContentType;
 
 use RuntimeException;
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\ContentItemType as FormType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Content item content type.
@@ -48,12 +48,12 @@ class ContentItemType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Existing content');
+        return $this->translator->trans('Existing content', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Reference and display an already existing content item.');
+        return $this->translator->trans('Reference and display an already existing content item.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

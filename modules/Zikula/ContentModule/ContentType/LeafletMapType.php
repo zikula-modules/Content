@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\LeafletMapType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Leaflet map content type.
@@ -35,12 +35,12 @@ class LeafletMapType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Leaflet map');
+        return $this->translator->trans('Leaflet map', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Display a Leaflet map position.');
+        return $this->translator->trans('Display a Leaflet map position.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

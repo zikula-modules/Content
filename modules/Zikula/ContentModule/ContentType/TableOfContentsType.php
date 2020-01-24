@@ -15,13 +15,13 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\ContentType;
 
 use Symfony\Component\Routing\RouterInterface;
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\TableOfContentsType as FormType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Table of contents content type.
@@ -60,12 +60,12 @@ class TableOfContentsType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Table of contents');
+        return $this->translator->trans('Table of contents', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('A table of contents of headings and subpages (built from the available Content pages).');
+        return $this->translator->trans('A table of contents of headings and subpages (built from the available Content pages).', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

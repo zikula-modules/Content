@@ -1,4 +1,5 @@
 {# purpose of this template: sitemap inclusion template #}
+{% trans_default_domain 'page' %}
 {% if pages|length > 0 %}
 <ul>
     {% for page in pages|filter(p => p.inMenu and zikulacontentmodule_hasReadAccess(p)) %}

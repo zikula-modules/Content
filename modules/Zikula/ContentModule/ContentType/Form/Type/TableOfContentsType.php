@@ -18,13 +18,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
-use Zikula\Common\Content\AbstractContentFormType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 
 /**
  * Table of contents form type class.
@@ -108,5 +109,12 @@ class TableOfContentsType extends AbstractContentFormType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_contenttype_tableofcontents';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentTypes'
+        ]);
     }
 }

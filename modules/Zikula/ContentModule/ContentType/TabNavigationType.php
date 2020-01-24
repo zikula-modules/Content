@@ -16,11 +16,11 @@ namespace Zikula\ContentModule\ContentType;
 
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\TabNavigationType as FormType;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Tab navigation content type.
@@ -54,12 +54,12 @@ class TabNavigationType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Tab navigation');
+        return $this->translator->trans('Tab navigation', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Tab navigation with existing Content items.');
+        return $this->translator->trans('Tab navigation with existing Content items.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

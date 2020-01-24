@@ -1,6 +1,7 @@
 {# purpose of this template: pages subpages view #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
+{% trans_default_domain 'page' %}
 {% block title 'Subpages of %page%'|trans({'%page%': page|zikulacontentmodule_formattedTitle|default('Page'|trans)}) %}
 {% block admin_page_icon 'child' %}
 {% block content %}

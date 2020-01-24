@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Helper;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Zikula\Bundle\CoreBundle\RouteUrl;
 use Zikula\ContentModule\Helper\Base\AbstractSearchHelper;
-use Zikula\Core\RouteUrl;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\SearchModule\Entity\SearchResultEntity;
 
@@ -34,7 +34,7 @@ class SearchHelper extends AbstractSearchHelper
     {
         /*$builder->add('active', CheckboxType::class, [
             'data' => true,
-            'label' => $this->trans('Content pages'),
+            'label' => $this->trans('Content pages', [], 'page'),
             'label_attr' => ['class' => 'checkbox-inline'],
         ]);*/
     }

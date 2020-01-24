@@ -45,7 +45,7 @@ abstract class AbstractContentItemFormAwareHookSubscriber implements HookSubscri
     
     public function getTitle(): string
     {
-        return $this->translator->trans('Content item form aware subscriber');
+        return $this->translator->trans('Content item form aware subscriber', [], 'hooks');
     }
 
     public function getAreaName(): string

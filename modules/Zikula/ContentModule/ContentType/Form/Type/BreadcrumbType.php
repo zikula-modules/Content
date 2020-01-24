@@ -16,7 +16,8 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Zikula\Common\Content\AbstractContentFormType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 
 /**
  * Breadcrumb form type class.
@@ -42,5 +43,12 @@ class BreadcrumbType extends AbstractContentFormType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_contenttype_breadcrumb';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentTypes'
+        ]);
     }
 }

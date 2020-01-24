@@ -182,9 +182,9 @@ function contentPageGetSectionActions(isFirstSection) {
     var deleteState = isFirstSection ? ' disabled="disabled"' : '';
     var actions = `
         <div class="btn-group btn-group-sm float-right" role="group">
-            <button type="button" class="btn btn-secondary add-element" title="${Translator.trans('Add element')}"><i class="fas fa-plus"></i> ${Translator.trans('Add element')}</button>
+            <button type="button" class="btn btn-secondary add-element" title="${Translator.trans('Add element', {}, 'page')}"><i class="fas fa-plus"></i> ${Translator.trans('Add element', {}, 'page')}</button>
             <button type="button" class="btn btn-secondary change-styles" title="${Translator.trans('Styling classes')}"><i class="fas fa-paint-brush"></i> ${Translator.trans('Styling classes')}</button>
-            <button type="button" class="btn btn-secondary delete-section" title="${Translator.trans('Delete section')}"${deleteState}><i class="fas fa-trash-alt"></i> ${Translator.trans('Delete section')}</button>
+            <button type="button" class="btn btn-secondary delete-section" title="${Translator.trans('Delete section', {}, 'page')}"${deleteState}><i class="fas fa-trash-alt"></i> ${Translator.trans('Delete section', {}, 'page')}</button>
         </div>
     `;
 
@@ -227,8 +227,8 @@ function contentPageInitSectionActions() {
         if (
             !confirm(
                 hasWidgets
-                    ? Translator.trans('Do you really want to delete this section including all contained content?')
-                    : Translator.trans('Do you really want to delete this section?')
+                    ? Translator.trans('Do you really want to delete this section including all contained content?', {}, 'page')
+                    : Translator.trans('Do you really want to delete this section?', {}, 'page')
             )
         ) {
             return;
@@ -251,7 +251,7 @@ function contentPageInitSectionActions() {
  */
 function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollToSection) {
     var isFirstSection = jQuery('#widgets .grid-section').length < 1;
-    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fas fa-fw fa-th"></i> ' + Translator.trans('Section') + ' ' + sectionNumber + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="grid-stack"></div></div>');
+    jQuery('#widgets').append('<div id="' + sectionId + '" class="grid-section"><h4>' + contentPageGetSectionActions(isFirstSection) + '<i class="fas fa-fw fa-th"></i> ' + Translator.trans('Section %number%', {'number': sectionNumber}, 'page') + '</h4><div class="style-selector-container d-none">' + jQuery('#sectionStylesContainer').html() + '</div><div class="grid-stack"></div></div>');
     if ('' !== stylingClasses) {
         jQuery('#' + sectionId + ' .style-selector-container select').first().val(stylingClasses.split(' '));
     }
@@ -402,7 +402,7 @@ function contentPageInitWidgetEditing(widget, isCreation) {
                 if (!form.get(0).checkValidity()) {
                     return;
                 }
-            } else if ('delete' === action && !confirm(Translator.trans('Do you really want to delete this content?'))) {
+            } else if ('delete' === action && !confirm(Translator.trans('Do you really want to delete this content?', {}, 'contentItem'))) {
                 return;
             }
 
@@ -526,7 +526,7 @@ function contentPageInitWidgetMovingCopying(widget) {
             }
 
             if (pageId === jQuery('#zikulacontentmodule_movecopycontentitem_destinationPage').val()) {
-                alert(Translator.trans('Destination page must not be the current page.'));
+                alert(Translator.trans('Destination page must not be the current page.', {}, 'page'));
                 return;
             }
 
@@ -582,17 +582,17 @@ function contentPageGetWidgetActions(widgetId) {
                 <span class="sr-only">${Translator.trans('Actions')}</span>
             </a>
             <ul class="dropdown-menu float-right" aria-labelledby="dropdownMenu${widgetId}">
-                <li class="dropdown-header">${Translator.trans('Content item')} ID: <span class="widget-id">${widgetId}</span></li>
+                <li class="dropdown-header">${Translator.trans('Content item', {}, 'contentItem')} ID: <span class="widget-id">${widgetId}</span></li>
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">${Translator.trans('Basic')}</li>
-                <li class="dropdown-item"><a class="edit-item" title="${Translator.trans('Edit this element')}"><i class="fas fa-fw fa-pencil-alt"></i> ${Translator.trans('Edit')}</a></li>
-                <li class="dropdown-item"><a class="delete-item" title="${Translator.trans('Delete this element')}"><i class="fas fa-fw fa-trash-alt text-danger"></i> ${Translator.trans('Delete')}</a></li>
-                <li class="dropdown-item"><a class="activate-item" title="${Translator.trans('Activate this element')}"><i class="fas fa-fw fa-circle text-danger"></i> ${Translator.trans('Activate')}</a></li>
-                <li class="dropdown-item"><a class="deactivate-item" title="${Translator.trans('Deactivate this element')}"><i class="fas fa-fw fa-circle text-success"></i> ${Translator.trans('Deactivate')}</a></li>
+                <li class="dropdown-item"><a class="edit-item" title="${Translator.trans('Edit this element', {}, 'contentItem')}"><i class="fas fa-fw fa-pencil-alt"></i> ${Translator.trans('Edit')}</a></li>
+                <li class="dropdown-item"><a class="delete-item" title="${Translator.trans('Delete this element', {}, 'contentItem')}"><i class="fas fa-fw fa-trash-alt text-danger"></i> ${Translator.trans('Delete')}</a></li>
+                <li class="dropdown-item"><a class="activate-item" title="${Translator.trans('Activate this element', {}, 'contentItem')}"><i class="fas fa-fw fa-circle text-danger"></i> ${Translator.trans('Activate', {}, 'contentItem')}</a></li>
+                <li class="dropdown-item"><a class="deactivate-item" title="${Translator.trans('Deactivate this element', {}, 'contentItem')}"><i class="fas fa-fw fa-circle text-success"></i> ${Translator.trans('Deactivate', {}, 'contentItem')}</a></li>
                 <li role="separator" class="dropdown-divider"></li>
                 <li class="dropdown-header">${Translator.trans('Advanced')}</li>
-                <li class="dropdown-item"><a class="clone-item" title="${Translator.trans('Duplicate this element')}"><i class="fas fa-fw fa-clone"></i> ${Translator.trans('Duplicate')}</a></li>
-                <li class="dropdown-item"><a class="move-copy-item" title="${Translator.trans('Move or copy this element to another page')}"><i class="fas fa-fw fa-long-arrow-alt-right"></i> ${Translator.trans('Move/Copy')}</a></li>
+                <li class="dropdown-item"><a class="clone-item" title="${Translator.trans('Duplicate this element', {}, 'contentItem')}"><i class="fas fa-fw fa-clone"></i> ${Translator.trans('Duplicate')}</a></li>
+                <li class="dropdown-item"><a class="move-copy-item" title="${Translator.trans('Move or copy this element to another page', {}, 'contentItem')}"><i class="fas fa-fw fa-long-arrow-alt-right"></i> ${Translator.trans('Move/Copy')}</a></li>
             </ul>
         </div>
     `;
@@ -643,7 +643,7 @@ function contentPageInitWidgetActions() {
         var widget;
 
         event.preventDefault();
-        if (!confirm(Translator.trans('Do you really want to delete this content?'))) {
+        if (!confirm(Translator.trans('Do you really want to delete this content?', {}, 'contentItem'))) {
             return;
         }
 
@@ -665,7 +665,7 @@ function contentPageInitWidgetActions() {
             }
         }).done(function (data) {
             jQuery('#widgetUpdateDoneAlert').remove();
-            contentPageShowNotification(Translator.trans('Success'), Translator.trans('Done! Content saved!'), 'widgetUpdateDoneAlert', 'success');
+            contentPageShowNotification(Translator.trans('Success'), Translator.trans('Done! Content saved!', {}, 'contentItem'), 'widgetUpdateDoneAlert', 'success');
             contentPageLoadWidgetData(contentPageGetWidgetId(widget), false);
         });
     });
@@ -737,7 +737,7 @@ function contentPageCreateNewWidget(nodeId) {
     var widgetMarkup;
     var widget;
 
-    widgetTitle = Translator.trans('Content item');
+    widgetTitle = Translator.trans('Content item', {}, 'contentItem');
     widgetCardClass = 'default';
     widgetMarkup = contentPageGetWidgetMarkup(nodeId, widgetTitle, widgetCardClass);
     widget = jQuery(widgetMarkup);

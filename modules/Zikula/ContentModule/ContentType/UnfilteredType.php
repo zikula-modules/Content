@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\UnfilteredType as FormType;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Unfiltered raw content type.
@@ -41,17 +41,17 @@ class UnfilteredType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Unfiltered raw text');
+        return $this->translator->trans('Unfiltered raw text', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).');
+        return $this->translator->trans('A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).', [], 'contentTypes');
     }
 
     public function getAdminInfo(): string
     {
-        return $this->translator->trans('You need to explicitly enable a checkbox in the configuration form to activate this plugin.');
+        return $this->translator->trans('You need to explicitly enable a checkbox in the configuration form to activate this plugin.', [], 'config');
     }
 
     public function isActive(): bool
@@ -63,12 +63,12 @@ class UnfilteredType extends AbstractContentType
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->translator->trans('Add unfiltered text here ...'),
+            'text' => $this->translator->trans('Add unfiltered text here ...', [], 'contentTypes'),
             'useiframe' => false,
             'iframeSrc' => '',
             'iframeName' => '',
             'iframeTitle' => '',
-            'iframeStyle' => 'border:0',
+            'iframeStyle' => 'border: 0',
             'iframeWidth' => 800,
             'iframeHeight' => 600,
             'iframeBorder' => 0,

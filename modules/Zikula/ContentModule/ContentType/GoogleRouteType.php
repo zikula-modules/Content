@@ -15,9 +15,9 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\ContentType;
 
 use Symfony\Component\HttpFoundation\RequestStack;
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\GoogleRouteType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 
 /**
@@ -47,17 +47,17 @@ class GoogleRouteType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Google map route');
+        return $this->translator->trans('Google map route', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Display a Google map with route planning.');
+        return $this->translator->trans('Display a Google map with route planning.', [], 'contentTypes');
     }
 
     public function getAdminInfo(): string
     {
-        return $this->translator->trans('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.');
+        return $this->translator->trans('You need to specify a Google Maps API key in the configuration form in order to activate this plugin.', [], 'config');
     }
 
     public function isActive(): bool

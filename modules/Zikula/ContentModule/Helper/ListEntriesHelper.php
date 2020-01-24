@@ -28,8 +28,10 @@ class ListEntriesHelper extends AbstractListEntriesHelper
      */
     protected $groupRepository;
 
-    public function __construct(TranslatorInterface $translator, GroupRepositoryInterface $groupRepository)
-    {
+    public function __construct(
+        TranslatorInterface $translator,
+        GroupRepositoryInterface $groupRepository
+    ) {
         parent::__construct($translator);
         $this->groupRepository = $groupRepository;
     }

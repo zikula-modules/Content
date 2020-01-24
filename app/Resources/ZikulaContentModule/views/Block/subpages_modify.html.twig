@@ -1,4 +1,5 @@
 {# purpose of this template: Edit block for sub pages of current page #}
+{% trans_default_domain 'page' %}
 <p class="alert alert-info">{% trans %}This block will only show the subpages of a Content page when that Content page is being displayed.{% endtrans %}</p>
 {{ form_row(form.amount) }}
 {{ form_row(form.inMenu) }}

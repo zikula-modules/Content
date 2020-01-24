@@ -18,9 +18,10 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
-use Zikula\Common\Content\AbstractContentFormType;
-use Zikula\Common\Content\ContentTypeInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Heading form type class.
@@ -71,5 +72,12 @@ class HeadingType extends AbstractContentFormType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_contenttype_heading';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentTypes'
+        ]);
     }
 }

@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\AuthorType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\UsersModule\Entity\UserEntity;
@@ -43,12 +43,12 @@ class AuthorType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Author information');
+        return $this->translator->trans('Author information', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Various information about the author of the page.');
+        return $this->translator->trans('Various information about the author of the page.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array
@@ -79,7 +79,7 @@ class AuthorType extends AbstractContentType
         /** @var UserEntity $user */
         $user = $this->userRepository->find($data['author']);
         $data['author'] = $user;
-        $data['authorName'] = null !== $user ? $user->getUname() : $this->translator->trans('Unknown author');
+        $data['authorName'] = null !== $user ? $user->getUname() : $this->translator->trans('Unknown author', [], 'contentTypes');
 
         $this->data = $data;
 

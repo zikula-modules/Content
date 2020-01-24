@@ -1,8 +1,9 @@
 {# purpose of this template: edit form body for a specific content item #}
+{% trans_default_domain 'contentItem' %}
 {{ form_errors(form) }}
 {#
 <fieldset>
-    <legend>{% trans %}Meta{% endtrans %}</legend>
+    <legend>{% trans from 'messages' %}Meta{% endtrans %}</legend>
     <div class="form-group">
         <label class="col-md-3 col-form-label">{% trans %}Content type{% endtrans %}</label>
         <div class="col-md-9">
@@ -12,14 +13,14 @@
 </fieldset>
 #}
 <fieldset>
-    <legend>{% trans %}Content{% endtrans %}</legend>
+    <legend>{% trans from 'messages' %}Content{% endtrans %}</legend>
     {% if form.contentData is defined and contentFormTemplate|default %}
         {{ include(contentFormTemplate, {form: form.contentData|default()}, with_context = false, ignore_missing = true) }}
     {% endif %}
     {{ form_row(form.additionalSearchText) }}
 </fieldset>
 <fieldset id="furtherPropertiesSection">
-    <legend>{% trans %}Options{% endtrans %} <i class="fas fa-expand"></i></legend>
+    <legend>{% trans from 'messages' %}Options{% endtrans %} <i class="fas fa-expand"></i></legend>
     <div id="furtherPropertiesContent">
         {{ form_row(form.active, {help: 'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.'|trans}) }}
         {{ form_row(form.activeFrom) }}

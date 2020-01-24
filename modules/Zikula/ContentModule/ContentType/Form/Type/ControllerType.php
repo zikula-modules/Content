@@ -16,7 +16,8 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Zikula\Common\Content\AbstractContentFormType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 use Zikula\SettingsModule\Validator\Constraints\ValidController;
 
 /**
@@ -59,5 +60,12 @@ class ControllerType extends AbstractContentFormType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_contenttype_controller';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentTypes'
+        ]);
     }
 }

@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\BreadcrumbType as FormType;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Breadcrumb content type.
@@ -41,12 +41,12 @@ class BreadcrumbType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Breadcrumb');
+        return $this->translator->trans('Breadcrumb', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Show breadcrumbs for hierarchical pages.');
+        return $this->translator->trans('Show breadcrumbs for hierarchical pages.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array

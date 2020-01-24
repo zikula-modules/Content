@@ -1,5 +1,6 @@
 {# purpose of this template: translation wizard #}
 {% extends routeArea == 'admin' ? '@ZikulaContentModule/adminBase.html.twig' : '@ZikulaContentModule/base.html.twig' %}
+{% trans_default_domain 'page' %}
 {% block title %}{{ page|zikulacontentmodule_formattedTitle|default('Page'|trans) }} - {% trans %}Translate{% endtrans %}{% endblock %}
 {% block admin_page_icon 'language' %}
 {% block content %}
@@ -16,11 +17,11 @@
         {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
         <div class="row">
             <div class="col-md-6">
-                <h4>{{ 'Step %step% of %amount%'|trans({'%step%': currentStep, '%amount%': amountOfSteps}) }} - {% if currentStep == 1 %}{% trans %}General page data{% endtrans %}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
+                <h4>{{ 'Step %step% of %amount%'|trans({'%step%': currentStep, '%amount%': amountOfSteps}, 'messages') }} - {% if currentStep == 1 %}{% trans %}General page data{% endtrans %}{% else %}{% for item in translationInfo.items|filter(i => i.entity.id == translationInfo.currentContentId) %}{{ item.title }}{% endfor %}{% endif %}</h4>
             </div>
             <div class="col-md-6">
                 <div class="form-row">
-                    <label for="translationStep" class="col-md-6 col-form-label">{% trans %}Jump to element:{% endtrans %}</label>
+                    <label for="translationStep" class="col-md-6 col-form-label">{% trans from 'messages' %}Jump to element:{% endtrans %}</label>
                     <div class="col-md-6">
                         <select id="translationStep" class="form-control">
                             <option value="0">1. {% trans %}General page data{% endtrans %}</option>
@@ -87,7 +88,7 @@
                         <li class="nav-item">
                             <a href="#" data-toggle="tab" data-target=".{{ form.vars.id|lower }}-translations-fields-{{ language }}" class="nav-link{% if language == currentLocale %} active{% endif %}">
                                 {% if language != app.request.locale and not form[language].vars.valid %}
-                                    <span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> <span class="sr-only">{% trans %}Errors{% endtrans %}</span></span>
+                                    <span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> <span class="sr-only">{% trans from 'messages' %}Errors{% endtrans %}</span></span>
                                 {% endif %}
                                 {% set hasRequiredFields = currentStep == 1 and language in localesWithMandatoryFields %}
                                 {% if hasRequiredFields %}<span class="required">{% endif %}{{ language|language_name }}{% if hasRequiredFields %}</span>{% endif %}

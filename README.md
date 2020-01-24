@@ -118,9 +118,9 @@ By default there are unlimited levels added to a menu. You can limit this by add
 In content each page consists of several content items. Each content item uses a certain content type. Interestingly, other modules can provide additional content types, so for example a calendar module can offer a content type for displaying a list of events for a specific category or the details of a single event. For each content type a corresponding class needs to be implemented which cares about displaying, editing and translating the managed data.
 
 - A content type class names should be suffixed by `Type` and located in the `ModuleRoot/ContentType/` directory. This is not mandatory but a recommended convention.
-- Content type classes must implement `Zikula\Common\Content\ContentTypeInterface`.
-- Content type classes may extend `Zikula\Common\Content\AbstractContentType` for convenience.
-- Content type classes must define a Symfony form type class to allow editing of their data fields if this is needed. This form type class should extend `Zikula\Common\Content\AbstractContentFormType` for convenience.
+- Content type classes must implement `Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface`.
+- Content type classes may extend `Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType` for convenience.
+- Content type classes must define a Symfony form type class to allow editing of their data fields if this is needed. This form type class should extend `Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType` for convenience.
    Otherwise the `getEditFormClass` method must return `null`.
 - The convention for template files of a content type with name `foo` is as follows:
   - Display: `@AcmeFooModule/ContentType/FooView.html.twig`

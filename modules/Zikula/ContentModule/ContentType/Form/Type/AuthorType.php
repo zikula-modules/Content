@@ -17,8 +17,9 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Zikula\Common\Content\AbstractContentFormType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zikula\ContentModule\ContentType\Form\DataTransformer\AuthorTransformer;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 
@@ -75,5 +76,12 @@ class AuthorType extends AbstractContentFormType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_contenttype_author';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentTypes'
+        ]);
     }
 }

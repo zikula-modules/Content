@@ -1,4 +1,5 @@
 {# purpose of this template: display a youtube element #}
+{% trans_default_domain 'contentTypes' %}
 {% if videoId|default %}
 {% set ytUrl = 'https://www.youtube.com/' %}
 {% set ncUrl = 'https://www.youtube-nocookie.com/' %}

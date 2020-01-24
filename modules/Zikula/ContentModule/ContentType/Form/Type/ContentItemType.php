@@ -16,7 +16,8 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Zikula\Common\Content\AbstractContentFormType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 
 /**
  * Content item form type class.
@@ -35,5 +36,12 @@ class ContentItemType extends AbstractContentFormType
     public function getBlockPrefix()
     {
         return 'zikulacontentmodule_contenttype_contentitem';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'translation_domain' => 'contentTypes'
+        ]);
     }
 }

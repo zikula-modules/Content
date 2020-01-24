@@ -1,0 +1,112 @@
+'You need to specify a Google Maps API key in the configuration form in order to activate this plugin.': null
+'You need to explicitly enable a checkbox in the configuration form to activate this plugin.': null
+Settings: null
+'General settings': null
+'Custom styles': null
+'Additional fields': null
+Permalinks: null
+'List views': null
+Moderation: null
+Integration: null
+Versioning: null
+'Available plugins': null
+'Here you can manage all basic settings for this application.': null
+'Get API key': null
+'With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".': null
+'Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.': null
+'Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.': null
+'Here you can configure parameters for list views.': null
+'Here you can define moderation-related settings.': null
+'These options allow you to configure integration aspects.': null
+'Here you can define settings related to version control.': null
+'Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.': null
+Bundle: null
+Plugin: null
+Active: null
+Category: null
+Description: null
+'Yes': null
+'No': null
+'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.': null
+'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".': null
+'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.': null
+'Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.': null
+'Whether to inherit permissions from parent to child pages or not.': null
+'Whether page titles should automatically be linked using MultiHook.': null
+'If you need an additional string for each page you can enable an optional field.': null
+'If you need an additional text for each page you can enable an optional field.': null
+'This removes the module name (defaults to "content") from permalinks.': null
+'This removes the primary entity name ("page") from permalinks.': null
+'This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.': null
+'The amount of pages shown per page': null
+'Whether to add a link to pages of the current user on his account page': null
+'Whether users may only see own pages': null
+'Whether only own entries should be shown on view pages by default or not': null
+'Whether to allow moderators choosing a user which will be set as creator.': null
+'Whether to allow moderators choosing a custom creation date.': null
+'Which sections are supported in the Finder component (used by Scribite plug-ins).': null
+'Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.': null
+'Whether to show the version history to editors or not.': null
+'State of new pages:': null
+'Count page views:': null
+'Google maps api key:': null
+'Yandex translate api key:': null
+'Enable raw plugin:': null
+'Inherit permissions:': null
+'Enable automatic page links:': null
+'Page styles:': null
+'Section styles:': null
+'Content styles:': null
+'Enable optional string 1:': null
+'Enable optional string 2:': null
+'Enable optional text:': null
+'Ignore bundle name in routes:': null
+'Ignore entity name in routes:': null
+'Ignore first tree level in routes:': null
+'Permalink suffix:': null
+'Page entries per page:': null
+'Link own pages on account page:': null
+'Page private mode:': null
+'Show only own entries:': null
+'Allow moderation specific creator for page:': null
+'Allow moderation specific creation date for page:': null
+'Enabled finder types:': null
+'Revision handling for page:': null
+'Maximum amount of page revisions:': null
+'Period for page revisions:': null
+'Show page history:': null
+'Update configuration': null
+Reset: null
+Cancel: null
+'Choose an option': null
+'New pages will be active and available in the menu': null
+'New pages will be inactive and available in the menu': null
+'New pages will be active and not available in the menu': null
+'New pages will be inactive and not available in the menu': null
+'No suffix': null
+Html: null
+Htm: null
+Phtml: null
+Shtml: null
+Page: null
+'Unlimited revisions': null
+'Limited revisions by amount of revisions': null
+'Limited revisions by date interval': null
+1: null
+5: null
+10: null
+25: null
+50: null
+100: null
+250: null
+500: null
+'Done! Configuration updated.': null
+'My pages': null
+'Content Backend': null
+Frontend: null
+Backend: null
+Pages: null
+'Switch to user area.': null
+'Switch to administration area.': null
+'Pages list': null
+'Manage settings for this application': null

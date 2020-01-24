@@ -1,0 +1,179 @@
+'Page change history for %entityTitle%': null
+'Pages list': null
+'Page hierarchy': null
+Pages: null
+'Welcome to the page section of the Content application.': null
+Page: null
+'Manage content': null
+'Add another section': null
+'Add section': null
+'Back to last page': null
+'Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.': null
+'Add element': null
+'My pages': null
+'Complete pages list': null
+'Extended pages list': null
+'Categories list': null
+State: null
+Title: null
+Views: null
+Active: null
+'In menu': null
+'Updated date': null
+'Current version': null
+'only from %date': null
+'only until %date': null
+'No pages found.': null
+'With selected pages': null
+'View full page': null
+'The available categories:': null
+plural_n.pages: "{count, plural,\n  =0    {No pages}\n  one   {One page}\n  other {# pages}\n}"
+'No categories found.': null
+'Create page': null
+'Edit page': null
+'Show title on page': null
+'Do not process hooks on this page': null
+'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.': null
+'Include page in menu': null
+'You can include/exclude the page in the menu. The page is only shown when it is also active.': null
+Filter: null
+'Quick navigation': null
+'Back to default view': null
+Reset: null
+'Related pages': null
+'Subpages of %page%': null
+'No subpages found.': null
+'Deleted pages': null
+'Preview page %id%': null
+'Page %id%': null
+'Undelete page %id%': null
+'Show title': null
+'Meta description': null
+'Skip hook subscribers': null
+Layout: null
+'Active from': null
+'Active to': null
+Scope: null
+'Optional string 1': null
+'Optional string 2': null
+'Optional text': null
+'Styling classes': null
+'Content data': null
+'Translation data': null
+'Workflow state': null
+'Content items': null
+Translate: null
+'General page data': null
+'Switch source language:': null
+'Source content': null
+'Target content': null
+Sitemap: null
+'Welcome to the contents for %sitename%': null
+Overview: null
+'This block will only show the subpages of a Content page when that Content page is being displayed.': null
+'Search and select page': null
+'Note: this value must not exceed %length% characters.': null
+'Enter one entry per line.': null
+'As soon as at least one selected entry applies for the current user the page becomes visible.': null
+'Parent page': null
+'Title:': null
+'Meta description:': null
+'Optional string 1:': null
+'Optional string 2:': null
+'Optional text:': null
+'Permalink:': null
+'Show title:': null
+'Skip hook subscribers:': null
+'Layout:': null
+'Views:': null
+'Active:': null
+'Active from:': null
+'Active to:': null
+'Scope:': null
+'In menu:': null
+'Styling classes:': null
+'Content data:': null
+'Category:': null
+'Submit and repeat': null
+Cancel: null
+'Note: this value must not exceed %amount% characters.': null
+'Additional search text:': null
+Previous: null
+Next: null
+Skip: null
+'Save and quit': null
+contentData: null
+'Relative link to the page': null
+'Absolute url to the page': null
+'ID of page': null
+'Creation date': null
+Creator: null
+'Update date': null
+Updater: null
+Ascending: null
+Descending: null
+'This is an optional filter.': null
+'Change selection': null
+'Paste as:': null
+'Sort by:': null
+'Sort direction:': null
+'Page size:': null
+'Search for:': null
+'No': null
+'Yes': null
+OK: null
+Category: null
+Search: null
+'Sort by': null
+'Sort direction': null
+'Page size': null
+All: null
+'Sorry, but you can not create the page yet as other items are required which must be created before!': null
+'Done! Page created.': null
+'Done! Page updated.': null
+'Done! Page deleted.': null
+'Links page titles to corresponding pages.': null
+'View pages': null
+'Page with id %id% could not be found': null
+'Content created': null
+'Content updated': null
+'Content cloned': null
+'Content deleted': null
+'Layout changed (e.g. content moved or resized)': null
+'Page created': null
+'Page updated': null
+'Page deleted': null
+'Page translation created': null
+'Page translation updated': null
+'Page translation deleted': null
+'Public (all)': null
+'All logged in members': null
+'All not logged in people': null
+'%title%': null
+'No such page found.': null
+'Done! Page undeleted.': null
+'Done! Reverted page to version %version%.': null
+'Error! Reverting page to version %version% failed.': null
+Duplicate: null
+'Manage content elements of page': null
+'Duplicate this page': null
+'Translate this page': null
+Preview: null
+Details: null
+Edit: null
+Reuse: null
+'Add sub page': null
+History: null
+'Add root node': null
+'Switch to table view': null
+'Back to paginated view': null
+'Show all entries': null
+'Switch to hierarchy view': null
+'Show also entries from other users': null
+'Show only own entries': null
+'View deleted pages': null
+'Open preview page': null
+'Edit this page': null
+'Reuse for new page': null
+'Add a sub page to this page': null
+'Watch version history': null

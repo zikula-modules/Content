@@ -1,0 +1,212 @@
+'Module %module% is not available.': null
+Back: null
+Overview: null
+Forward: null
+and: null
+'Reset to empty value': null
+Content: null
+Options: null
+'Creation and update': null
+Creation: null
+'Created by %user% on %date%': null
+'Send private message to %userName%': null
+'Last update': null
+'Updated by %user% on %date%': null
+Categories: null
+'Created by %user%': null
+'Created on %date%': null
+'Updated by %user%': null
+'Updated on %date%': null
+'Current version': null
+'Compare versions of %entityTitle%': null
+'Back to history': null
+'Back to detail view': null
+Select: null
+Version: null
+Date: null
+User: null
+Operation: null
+Changes: null
+Actions: null
+latest: null
+Created: null
+Updated: null
+Removed: null
+'{0} No fields updated|{1} One field updated|]1,Inf[ %count% fields updated': null
+'%field% set to <em>%value%</em>': null
+'%field% set to:': null
+'an empty collection': null
+None: null
+'Preview version %version%': null
+version: null
+'Revert to version %version%': null
+'Compare selected versions': null
+'Field name': null
+'Version %version%': null
+'an empty value': null
+'Styling classes': null
+OK: null
+Save: null
+Delete: null
+Cancel: null
+Close: null
+'Sort by %fieldName%': null
+Category: null
+'View detail page': null
+'This setting is enabled. Click here to disable it.': null
+Active: null
+'This setting is disabled. Click here to enable it.': null
+Inactive: null
+'Yes': null
+'No': null
+In: null
+Out: null
+'on %date% by %user%': null
+'on %date%': null
+'Choose action': null
+'Delete content permanently.': null
+Submit: null
+'Welcome to the contents for %sitename%': null
+Errors: null
+'Further properties': null
+Moderation: null
+'All parents': null
+'Direct parent': null
+'All children': null
+'Direct children': null
+Predecessors: null
+Successors: null
+Siblings: null
+ID: null
+Title: null
+Action: null
+'Back to overview': null
+'Quick search': null
+'Tree button toolbar': null
+'Expand all nodes': null
+'Expand all': null
+'Collapse all nodes': null
+'Collapse all': null
+'Step %step% of %amount%': null
+'Jump to element:': null
+'Doctrine Exception': null
+'Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.': null
+'Styling classes:': null
+'No such item found.': null
+'Error! Could not determine workflow actions.': null
+'Done! Item created.': null
+'Error! Creation attempt failed.': null
+'Done! Item updated.': null
+'Error! Update attempt failed.': null
+'Done! Item deleted.': null
+'Error! Deletion attempt failed.': null
+'Sorry, but someone else has already changed this record. Please apply the changes again!': null
+'Sorry, but an error occured during the %action% action. Please apply the changes again!': null
+'Links to the list of pages and specific pages.': null
+Pages: null
+'This is only a dummy page containing the real pages': null
+'<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>': null
+'Done! Migrated %amount% pages.': null
+'Error! Invalid object type received.': null
+'Error! Controller helper needs a request.': null
+'Page cloned from page "%page%"': null
+'Page restored from version "%version%"': null
+Initial: null
+Deferred: null
+Approved: null
+Trashed: null
+Deleted: null
+Defer: null
+Reject: null
+Trash: null
+Recover: null
+Update: null
+'Exception during example data creation: %message%': null
+'Content has not been submitted yet or has been waiting, but was rejected.': null
+'Content has been approved and is available online.': null
+'Content has been marked as deleted, but is still persisted in the database.': null
+'All except deferred': null
+'Shows all items except these which are deferred': null
+'All except approved': null
+'Shows all items except these which are approved': null
+'All except trashed': null
+'Shows all items except these which are trashed': null
+'Invalid object type received.': null
+Error: null
+'Group %group%': null
+'Content menu block': null
+'Content menu': null
+'Content list': null
+'Content detail': null
+Tabs: null
+Pills: null
+Navbar: null
+'Hide them': null
+'Use dropdowns': null
+'Example: <code>tbl.age >= 18</code>': null
+'Navigation type:': null
+'Sub pages handling:': null
+'Include the following subpages:': null
+'Amount:': null
+'Use only pages activated for the menu:': null
+'Filter (expert option):': null
+'All pages': null
+'Object type:': null
+'Entry to display:': null
+'Custom template:': null
+'Content items': null
+Random: null
+Newest: null
+Default: null
+'Only item titles': null
+'With description': null
+'Custom template': null
+'This is an optional filter.': null
+'Sorting:': null
+'Template:': null
+'Include the following page:': null
+Views: null
+'Sub pages of current page': null
+'Content subpages': null
+'Operation cancelled.': null
+'No such item.': null
+'Error: Invalid editor context given for external controller action.': null
+'Sorry, but an error occured during the %action% action.': null
+'Only ajax access is allowed!': null
+'Error: invalid input.': null
+'The setting has been successfully changed.': null
+'Error: invalid operation.': null
+'Error: invalid node.': null
+'Error: invalid root node.': null
+'New root node': null
+'This is a new root node': null
+'Error: invalid parent node.': null
+'New child node': null
+'This is a new child node': null
+'Error: invalid direction.': null
+'Error: invalid destination node.': null
+'The operation was successful.': null
+'No such page found.': null
+'Error! An error occured during layout persistence.': null
+'Done! Layout saved.': null
+'new copy': null
+'Error! An error occured during duplicating the page.': null
+'Error! An error occurred during duplicating the page.': null
+'Done! Page duplicated.': null
+'No such content found.': null
+'Invalid input received.': null
+'Page not found.': null
+'Error! An error occured during saving the content.': null
+'Done! Content saved.': null
+'Invalid action received.': null
+'Error! It is not allowed to delete this content item.': null
+'Error! An error occured during content deletion.': null
+'Done! Content deleted.': null
+'Error! Please check your input.': null
+'Content item not found.': null
+'Source page not found.': null
+'Destination page not found.': null
+'Destination page must not be the current page.': null
+'Done! Content moved.': null
+'Done! Content copied.': null
+'Invalid user identifier received.': null

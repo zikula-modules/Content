@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Helper;
 
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ContentModule\Entity\Repository\ContentItemTranslationRepository;
 use Zikula\ContentModule\Helper\Base\AbstractLoggableHelper;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemTranslationEntity;
-use Zikula\Core\Doctrine\EntityAccess;
 
 /**
  * Helper implementation class for loggable behaviour.
@@ -30,19 +30,19 @@ class LoggableHelper extends AbstractLoggableHelper
         $actionTranslated = parent::translateActionDescriptionInternal($text, $parameters);
         switch ($text) {
             case '_HISTORY_PAGE_CONTENT_CREATED':
-                $actionTranslated = $this->trans('Content created');
+                $actionTranslated = $this->trans('Content created', [], 'page');
                 break;
             case '_HISTORY_PAGE_CONTENT_UPDATED':
-                $actionTranslated = $this->trans('Content updated');
+                $actionTranslated = $this->trans('Content updated', [], 'page');
                 break;
             case '_HISTORY_PAGE_CONTENT_CLONED':
-                $actionTranslated = $this->trans('Content cloned');
+                $actionTranslated = $this->trans('Content cloned', [], 'page');
                 break;
             case '_HISTORY_PAGE_CONTENT_DELETED':
-                $actionTranslated = $this->trans('Content deleted');
+                $actionTranslated = $this->trans('Content deleted', [], 'page');
                 break;
             case '_HISTORY_PAGE_LAYOUT_CHANGED':
-                $actionTranslated = $this->trans('Layout changed (e.g. content moved or resized)');
+                $actionTranslated = $this->trans('Layout changed (e.g. content moved or resized)', [], 'page');
                 break;
         }
 

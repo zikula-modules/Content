@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
-use Zikula\Common\Content\AbstractContentType;
-use Zikula\Common\Content\ContentTypeInterface;
 use Zikula\ContentModule\ContentType\Form\Type\HeadingType as FormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
 
 /**
  * Heading content type.
@@ -35,18 +35,18 @@ class HeadingType extends AbstractContentType
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Heading');
+        return $this->translator->trans('Heading', [], 'contentTypes');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Section heading (or page title) for structuring large amounts of text.');
+        return $this->translator->trans('Section heading (or page title) for structuring large amounts of text.', [], 'contentTypes');
     }
 
     public function getDefaultData(): array
     {
         return [
-            'text' => $this->translator->trans('Heading'),
+            'text' => $this->translator->trans('Heading', [], 'contentTypes'),
             'headingType' => 'h3',
             'anchorName' => '',
             'displayPageTitle' => false

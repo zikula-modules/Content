@@ -19,11 +19,11 @@ function contentInitHtmlTranslation() {
 
         sourceCodeRow = jQuery(this).clone();
         sourceCodeRow.removeClass('field-text').addClass('field-source');
-        sourceCodeRow.find('label').text(Translator.trans('Markup source'));
+        sourceCodeRow.find('label').text(Translator.trans('Markup source', {}, 'contentTypes'));
         sourceCodeSection = sourceCodeRow.find('.form-control-plaintext').first();
         sourceCodeHtml = sourceCodeSection.html();
         sourceCodeSection
-            .html('<p><a href="javascript:void(0);" title="' + Translator.trans('Toggle source code view') + '" class="toggle-source"><i class="fas fa-eye"></i> ' + Translator.trans('Toggle source code view') + '</a>  <a href="javascript:void(0);" title="' + Translator.trans('Copy source code into clipboard') + '" class="copy-source"><i class="fas fa-clipboard"></i> ' + Translator.trans('Copy source code into clipboard') + '</a></p><xmp>' + sourceCodeHtml + '</xmp>')
+            .html('<p><a href="javascript:void(0);" title="' + Translator.trans('Toggle source code view', {}, 'contentTypes') + '" class="toggle-source"><i class="fas fa-eye"></i> ' + Translator.trans('Toggle source code view', {}, 'contentTypes') + '</a>  <a href="javascript:void(0);" title="' + Translator.trans('Copy source code into clipboard', {}, 'contentTypes') + '" class="copy-source"><i class="fas fa-clipboard"></i> ' + Translator.trans('Copy source code into clipboard', {}, 'contentTypes') + '</a></p><xmp>' + sourceCodeHtml + '</xmp>')
         ;
         sourceCodeSection.find('xmp').css({
             width: '95%',

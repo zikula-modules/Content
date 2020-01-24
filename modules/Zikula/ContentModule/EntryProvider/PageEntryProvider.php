@@ -17,9 +17,9 @@ namespace Zikula\ContentModule\EntryProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\MultiHook\EntryProviderInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
+use Zikula\ExtensionsModule\ModuleInterface\MultiHook\EntryProviderInterface;
 
 /**
  * Page entry provider.
@@ -93,12 +93,12 @@ class PageEntryProvider implements EntryProviderInterface
 
     public function getTitle(): string
     {
-        return $this->translator->trans('Pages');
+        return $this->translator->trans('Pages', [], 'page');
     }
 
     public function getDescription(): string
     {
-        return $this->translator->trans('Links page titles to corresponding pages.');
+        return $this->translator->trans('Links page titles to corresponding pages.', [], 'page');
     }
 
     public function getAdminInfo(): string
