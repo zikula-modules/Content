@@ -17,7 +17,7 @@ namespace Zikula\ContentModule\Helper\Base;
 use IntlDateFormatter;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
@@ -73,9 +73,13 @@ abstract class AbstractEntityDisplayHelper
      */
     protected function formatPage(PageEntity $entity): string
     {
-        return $this->translator->trans('%title%', [
-            '%title%' => $entity->getTitle()
-        ]);
+        return $this->translator->trans(
+            '%title%',
+            [
+                '%title%' => $entity->getTitle()
+            ],
+            'page'
+        );
     }
     
     /**
@@ -83,9 +87,13 @@ abstract class AbstractEntityDisplayHelper
      */
     protected function formatContentItem(ContentItemEntity $entity): string
     {
-        return $this->translator->trans('%owningType%', [
-            '%owningType%' => $entity->getOwningType()
-        ]);
+        return $this->translator->trans(
+            '%owningType%',
+            [
+                '%owningType%' => $entity->getOwningType()
+            ],
+            'contentItem'
+        );
     }
     
     /**

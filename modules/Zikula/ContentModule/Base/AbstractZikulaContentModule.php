@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Base;
 
-use Zikula\Core\AbstractModule;
+use Zikula\ExtensionsModule\AbstractModule;
 
 /**
  * Module base class.

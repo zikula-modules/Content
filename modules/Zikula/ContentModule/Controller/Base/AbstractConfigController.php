@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Zikula\Core\Controller\AbstractController;
+use Zikula\Bundle\CoreBundle\Controller\AbstractController;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\AppSettings;
 use Zikula\ContentModule\Form\Type\ConfigType;
@@ -52,7 +52,7 @@ abstract class AbstractConfigController extends AbstractController
                 $appSettings = $form->getData();
                 $appSettings->save();
         
-                $this->addFlash('status', 'Done! Configuration updated.');
+                $this->addFlash('status', $this->trans('Done! Configuration updated.', [], 'config'));
                 $userName = $currentUserApi->get('uname');
                 $logger->notice(
                     '{app}: User {user} updated the configuration.',

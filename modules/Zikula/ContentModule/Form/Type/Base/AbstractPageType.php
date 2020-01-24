@@ -199,6 +199,7 @@ abstract class AbstractPageType extends AbstractType
             'attr' => [
                 'maxlength' => 255,
                 'class' => 'validate-unique',
+                /** @Ignore */
                 'title' => $helpText
             ],
             /** @Ignore */
@@ -439,6 +440,7 @@ abstract class AbstractPageType extends AbstractType
             ->setDefaults([
                 // define class for underlying data (required for embedding forms)
                 'data_class' => PageEntity::class,
+                'translation_domain' => 'page',
                 'empty_data' => function (FormInterface $form) {
                     return $this->entityFactory->createPage();
                 },

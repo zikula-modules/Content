@@ -1,4 +1,5 @@
 {# purpose of this template: Display item information for previewing from other modules #}
+{% trans_default_domain 'page' %}
 <dl id="page{{ page.getKey() }}">
 <dt>{{ page|zikulacontentmodule_formattedTitle|notifyFilters('content.filter_hooks.pages.filter')|safeHtml }}</dt>
 {% if page.optionalText is not empty %}<dd>{{ page.optionalText }}</dd>{% endif %}

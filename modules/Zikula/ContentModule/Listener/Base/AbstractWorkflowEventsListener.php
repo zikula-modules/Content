@@ -17,7 +17,7 @@ namespace Zikula\ContentModule\Listener\Base;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
 use Symfony\Component\Workflow\Event\GuardEvent;
-use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\PermissionHelper;
 
@@ -123,7 +123,7 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
                 $permissionLevel = ACCESS_ADD;
                 break;
             case 'delete':
-                $permissionLevel = in_array($objectType, ['page']) ? ACCESS_EDIT : ACCESS_DELETE;
+                $permissionLevel = in_array($objectType, ['page'], true) ? ACCESS_EDIT : ACCESS_DELETE;
                 break;
         }
         

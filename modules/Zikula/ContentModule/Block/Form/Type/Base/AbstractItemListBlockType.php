@@ -70,6 +70,7 @@ abstract class AbstractItemListBlockType extends AbstractType
             'label' => 'Object type:',
             'empty_data' => 'page',
             'attr' => [
+                /** @Ignore */
                 'title' => $helpText
             ],
             /** @Ignore */
@@ -184,6 +185,7 @@ abstract class AbstractItemListBlockType extends AbstractType
             'label' => 'Amount:',
             'attr' => [
                 'maxlength' => 2,
+                /** @Ignore */
                 'title' => $helpText
             ],
             /** @Ignore */
@@ -214,7 +216,8 @@ abstract class AbstractItemListBlockType extends AbstractType
             'required' => false,
             'attr' => [
                 'maxlength' => 80,
-                'title' => 'Example' . ': ' . $exampleTemplate
+                /** @Ignore */
+                'title' => /** @Translate */'Example' . ': ' . $exampleTemplate
             ],
             /** @Ignore */
             'help' => /** @Translate */'Example' . ': <code>' . $exampleTemplate . '</code>',
@@ -232,7 +235,8 @@ abstract class AbstractItemListBlockType extends AbstractType
             'required' => false,
             'attr' => [
                 'maxlength' => 255,
-                'title' => 'Example' . ': tbl.age >= 18'
+                /** @Ignore */
+                'title' => /** @Translate */'Example' . ': tbl.age >= 18'
             ],
             /** @Ignore */
             'help' => /** @Translate */'Example' . ': tbl.age >= 18'

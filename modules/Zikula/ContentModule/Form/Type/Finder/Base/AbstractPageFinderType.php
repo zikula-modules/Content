@@ -208,7 +208,8 @@ abstract class AbstractPageFinderType extends AbstractType
         $resolver
             ->setDefaults([
                 'object_type' => 'page',
-                'editor_name' => 'ckeditor'
+                'editor_name' => 'ckeditor',
+                'translation_domain' => 'page'
             ])
             ->setRequired(['object_type', 'editor_name'])
             ->setAllowedTypes('object_type', 'string')

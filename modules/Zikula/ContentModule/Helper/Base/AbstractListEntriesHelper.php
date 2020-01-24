@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Helper\Base;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
+use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 
 /**
  * Helper base class for list field entries related methods.
@@ -264,21 +264,21 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '0',
-            'text'    => $this->trans('Public (all)'),
+            'text'    => $this->trans('Public (all)', [], 'page'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '-1',
-            'text'    => $this->trans('All logged in members'),
+            'text'    => $this->trans('All logged in members', [], 'page'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '-2',
-            'text'    => $this->trans('All not logged in people'),
+            'text'    => $this->trans('All not logged in people', [], 'page'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -333,21 +333,21 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '0',
-            'text'    => $this->trans('Public (all)'),
+            'text'    => $this->trans('Public (all)', [], 'contentItem'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '-1',
-            'text'    => $this->trans('All logged in members'),
+            'text'    => $this->trans('All logged in members', [], 'contentItem'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '-2',
-            'text'    => $this->trans('All not logged in people'),
+            'text'    => $this->trans('All not logged in people', [], 'contentItem'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -364,28 +364,28 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '1',
-            'text'    => $this->trans('New pages will be active and available in the menu'),
+            'text'    => $this->trans('New pages will be active and available in the menu', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '2',
-            'text'    => $this->trans('New pages will be inactive and available in the menu'),
+            'text'    => $this->trans('New pages will be inactive and available in the menu', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '3',
-            'text'    => $this->trans('New pages will be active and not available in the menu'),
+            'text'    => $this->trans('New pages will be active and not available in the menu', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '4',
-            'text'    => $this->trans('New pages will be inactive and not available in the menu'),
+            'text'    => $this->trans('New pages will be inactive and not available in the menu', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -402,35 +402,35 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'none',
-            'text'    => $this->trans('No suffix'),
+            'text'    => $this->trans('No suffix', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => 'html',
-            'text'    => $this->trans('Html'),
+            'text'    => $this->trans('Html', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'htm',
-            'text'    => $this->trans('Htm'),
+            'text'    => $this->trans('Htm', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'phtml',
-            'text'    => $this->trans('Phtml'),
+            'text'    => $this->trans('Phtml', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'shtml',
-            'text'    => $this->trans('Shtml'),
+            'text'    => $this->trans('Shtml', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -447,7 +447,7 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'page',
-            'text'    => $this->trans('Page'),
+            'text'    => $this->trans('Page', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => true
@@ -464,21 +464,21 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => 'unlimited',
-            'text'    => $this->trans('Unlimited revisions'),
+            'text'    => $this->trans('Unlimited revisions', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => 'limitedByAmount',
-            'text'    => $this->trans('Limited revisions by amount of revisions'),
+            'text'    => $this->trans('Limited revisions by amount of revisions', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => 'limitedByDate',
-            'text'    => $this->trans('Limited revisions by date interval'),
+            'text'    => $this->trans('Limited revisions by date interval', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
@@ -495,56 +495,56 @@ abstract class AbstractListEntriesHelper
         $states = [];
         $states[] = [
             'value'   => '1',
-            'text'    => $this->trans('1'),
+            'text'    => $this->trans('1', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '5',
-            'text'    => $this->trans('5'),
+            'text'    => $this->trans('5', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '10',
-            'text'    => $this->trans('10'),
+            'text'    => $this->trans('10', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '25',
-            'text'    => $this->trans('25'),
+            'text'    => $this->trans('25', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => true
         ];
         $states[] = [
             'value'   => '50',
-            'text'    => $this->trans('50'),
+            'text'    => $this->trans('50', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '100',
-            'text'    => $this->trans('100'),
+            'text'    => $this->trans('100', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '250',
-            'text'    => $this->trans('250'),
+            'text'    => $this->trans('250', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false
         ];
         $states[] = [
             'value'   => '500',
-            'text'    => $this->trans('500'),
+            'text'    => $this->trans('500', [], 'config'),
             'title'   => '',
             'image'   => '',
             'default' => false

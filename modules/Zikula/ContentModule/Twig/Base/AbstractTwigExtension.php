@@ -23,8 +23,8 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
-use Zikula\Common\Translator\TranslatorTrait;
-use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
@@ -165,8 +165,6 @@ abstract class AbstractTwigExtension extends AbstractExtension
         if ((empty($value) && '0' !== $value) || empty($objectType) || empty($fieldName)) {
             return $value;
         }
-    
-        $this->translator->setDomain('zikulacontentmodule');
     
         return $this->listHelper->resolve($value, $objectType, $fieldName, $delimiter);
     }

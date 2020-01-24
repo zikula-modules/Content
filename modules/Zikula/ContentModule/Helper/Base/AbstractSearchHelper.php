@@ -21,8 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zikula\Common\Translator\TranslatorTrait;
-use Zikula\Core\RouteUrl;
+use Zikula\Bundle\CoreBundle\RouteUrl;
+use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 use Zikula\SearchModule\Entity\SearchResultEntity;
 use Zikula\SearchModule\SearchableInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -219,11 +219,11 @@ abstract class AbstractSearchHelper implements SearchableInterface
         $searchTypes = [
             'zikulaContentModulePages' => [
                 'value' => 'page',
-                'label' => $this->trans('Pages', [], 'zikulacontentmodule')
+                'label' => $this->trans('Pages', [], 'page')
             ],
             'zikulaContentModuleContentItems' => [
                 'value' => 'contentItem',
-                'label' => $this->trans('Content items', [], 'zikulacontentmodule')
+                'label' => $this->trans('Content items', [], 'contentItem')
             ]
         ];
     

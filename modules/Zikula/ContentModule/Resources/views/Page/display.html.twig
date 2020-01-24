@@ -1,6 +1,7 @@
 {# purpose of this template: pages display view #}
 {% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
 {% extends '@ZikulaContentModule/' ~ baseTemplate ~ '.html.twig' %}
+{% trans_default_domain 'page' %}
 {% block pageTitle %}{{ page|zikulacontentmodule_formattedTitle|default('Page'|trans) }}{% endblock %}
 {% block title %}
     {% set templateTitle = page|zikulacontentmodule_formattedTitle|default('Page'|trans) %}
@@ -13,7 +14,7 @@
         <div class="row">
             <div class="col-md-9">
                 {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'display'}) %}
-                <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{% trans %}Actions{% endtrans %}">
+                <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{% trans from 'messages' %}Actions{% endtrans %}">
                     {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
                 </div>
                 <dl>
@@ -27,9 +28,9 @@
                     {% endif %}
                     <dt>{% trans %}Show title{% endtrans %}</dt>
                     <dd>{% if page.showTitle %}
-                        <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                        <i class="fas fa-check text-success" title="{{ 'Yes'|trans({}, 'messages')|e('html_attr') }}"></i>
                     {% else %}
-                        <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                        <i class="fas fa-times text-danger" title="{{ 'No'|trans({}, 'messages')|e('html_attr') }}"></i>
                     {% endif %}
                     </dd>
                     {% if page.metaDescription is not empty %}
@@ -38,9 +39,9 @@
                     {% endif %}
                     <dt>{% trans %}Skip hook subscribers{% endtrans %}</dt>
                     <dd>{% if page.skipHookSubscribers %}
-                        <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                        <i class="fas fa-check text-success" title="{{ 'Yes'|trans({}, 'messages')|e('html_attr') }}"></i>
                     {% else %}
-                        <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                        <i class="fas fa-times text-danger" title="{{ 'No'|trans({}, 'messages')|e('html_attr') }}"></i>
                     {% endif %}
                     </dd>
                     {% if page.layout is not empty %}
@@ -61,14 +62,14 @@
                     <dt>{% trans %}Active{% endtrans %}</dt>
                     <dd>{% set itemId = page.getKey() %}
                     <a id="toggleActive{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="active" data-item-id="{{ itemId|e('html_attr') }}">
-                        <i class="fas fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}"></i>
-                        <i class="fas fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}"></i>
+                        <i class="fas fa-check text-success{% if not page.active %} d-none{% endif %}" id="yesActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans({}, 'messages')|e('html_attr') }}"></i>
+                        <i class="fas fa-times text-danger{% if page.active %} d-none{% endif %}" id="noActive{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans({}, 'messages')|e('html_attr') }}"></i>
                     </a>
                     <noscript><div id="noscriptActive{{ itemId|e('html_attr') }}">
                         {% if page.active %}
-                            <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                            <i class="fas fa-check text-success" title="{{ 'Yes'|trans({}, 'messages')|e('html_attr') }}"></i>
                         {% else %}
-                            <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                            <i class="fas fa-times text-danger" title="{{ 'No'|trans({}, 'messages')|e('html_attr') }}"></i>
                         {% endif %}
                     </div></noscript>
                     </dd>
@@ -91,14 +92,14 @@
                     <dt>{% trans %}In menu{% endtrans %}</dt>
                     <dd>{% set itemId = page.getKey() %}
                     <a id="toggleInMenu{{ itemId|e('html_attr') }}" href="javascript:void(0);" class="zikulacontent-ajax-toggle d-none" data-object-type="page" data-field-name="inMenu" data-item-id="{{ itemId|e('html_attr') }}">
-                        <i class="fas fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans|e('html_attr') }}"></i>
-                        <i class="fas fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans|e('html_attr') }}"></i>
+                        <i class="fas fa-check text-success{% if not page.inMenu %} d-none{% endif %}" id="yesInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is enabled. Click here to disable it.'|trans({}, 'messages')|e('html_attr') }}"></i>
+                        <i class="fas fa-times text-danger{% if page.inMenu %} d-none{% endif %}" id="noInMenu{{ itemId|e('html_attr') }}" title="{{ 'This setting is disabled. Click here to enable it.'|trans({}, 'messages')|e('html_attr') }}"></i>
                     </a>
                     <noscript><div id="noscriptInMenu{{ itemId|e('html_attr') }}">
                         {% if page.inMenu %}
-                            <i class="fas fa-check text-success" title="{{ 'Yes'|trans|e('html_attr') }}"></i>
+                            <i class="fas fa-check text-success" title="{{ 'Yes'|trans({}, 'messages')|e('html_attr') }}"></i>
                         {% else %}
-                            <i class="fas fa-times text-danger" title="{{ 'No'|trans|e('html_attr') }}"></i>
+                            <i class="fas fa-times text-danger" title="{{ 'No'|trans({}, 'messages')|e('html_attr') }}"></i>
                         {% endif %}
                     </div></noscript>
                     </dd>
@@ -124,7 +125,7 @@
                     {{ include('@ZikulaContentModule/Helper/includeCategoriesDisplay.html.twig', {obj: page}) }}
                 {% endif %}
                 {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::TREE_RELATIVES'), 'page') %}
-                    <h3 class="relatives">{% trans %}Relatives{% endtrans %}</h3>
+                    <h3 class="relatives">{% trans from 'messages' %}Relatives{% endtrans %}</h3>
                         {{ include(
                             '@ZikulaContentModule/Page/displayTreeRelatives.html.twig',
                             {allParents: true, directParent: true, allChildren: true, directChildren: true, predecessors: true, successors: true, preandsuccessors: true}
@@ -142,9 +143,9 @@
 {% block related_items %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}
     {% if routeArea == 'admin' %}
-        <h4>{% trans %}Content items{% endtrans %}</h4>
+        <h4>{% trans from 'contentItem' %}Content items{% endtrans %}</h4>
     {% else %}
-        <h3>{% trans %}Content items{% endtrans %}</h3>
+        <h3>{% trans from 'contentItem' %}Content items{% endtrans %}</h3>
     {% endif %}
     
     {% if page.contentItems|default %}

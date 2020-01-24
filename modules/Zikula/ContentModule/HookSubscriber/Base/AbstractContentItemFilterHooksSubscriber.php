@@ -45,7 +45,7 @@ abstract class AbstractContentItemFilterHooksSubscriber implements HookSubscribe
     
     public function getTitle(): string
     {
-        return $this->translator->trans('Content item filter hooks subscriber');
+        return $this->translator->trans('Content item filter hooks subscriber', [], 'hooks');
     }
     
     public function getAreaName(): string

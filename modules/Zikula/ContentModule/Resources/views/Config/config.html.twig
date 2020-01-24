@@ -1,5 +1,6 @@
 {# purpose of this template: module configuration page #}
 {% extends '@ZikulaContentModule/adminBase.html.twig' %}
+{% trans_default_domain 'config' %}
 {% block title 'Settings'|trans %}
 {% block admin_page_icon 'wrench' %}
 {% block content %}
@@ -70,7 +71,7 @@
                     {% set tabTitle = 'Custom styles'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{% trans %}With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".{% endtrans %}</p>
+                        <p class="alert alert-info">{% trans from 'config' %}With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".{% endtrans %}</p>
                         
                         {{ form_row(form.pageStyles) }}
                         {{ form_row(form.sectionStyles) }}
@@ -81,7 +82,7 @@
                     {% set tabTitle = 'Additional fields'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{% trans %}Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.{% endtrans %}</p>
+                        <p class="alert alert-info">{% trans from 'config' %}Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.{% endtrans %}</p>
                         
                         {{ form_row(form.enableOptionalString1) }}
                         {{ form_row(form.enableOptionalString2) }}
@@ -92,7 +93,7 @@
                     {% set tabTitle = 'Permalinks'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{% trans %}Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.{% endtrans %}</p>
+                        <p class="alert alert-info">{% trans from 'config' %}Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.{% endtrans %}</p>
                         
                         {{ form_row(form.ignoreBundleNameInRoutes) }}
                         {{ form_row(form.ignoreEntityNameInRoutes) }}
@@ -104,7 +105,7 @@
                     {% set tabTitle = 'List views'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{% trans %}Here you can configure parameters for list views.{% endtrans %}</p>
+                        <p class="alert alert-info">{% trans from 'config' %}Here you can configure parameters for list views.{% endtrans %}</p>
                         
                         {{ form_row(form.pageEntriesPerPage) }}
                         {{ form_row(form.linkOwnPagesOnAccountPage) }}
@@ -116,7 +117,7 @@
                     {% set tabTitle = 'Moderation'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{% trans %}Here you can define moderation-related settings.{% endtrans %}</p>
+                        <p class="alert alert-info">{% trans from 'config' %}Here you can define moderation-related settings.{% endtrans %}</p>
                         
                         {{ form_row(form.allowModerationSpecificCreatorForPage) }}
                         {{ form_row(form.allowModerationSpecificCreationDateForPage) }}
@@ -126,7 +127,7 @@
                     {% set tabTitle = 'Integration'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{% trans %}These options allow you to configure integration aspects.{% endtrans %}</p>
+                        <p class="alert alert-info">{% trans from 'config' %}These options allow you to configure integration aspects.{% endtrans %}</p>
                         
                         {{ form_row(form.enabledFinderTypes) }}
                     </fieldset>
@@ -135,7 +136,7 @@
                     {% set tabTitle = 'Versioning'|trans %}
                     <fieldset>
                         <legend>{{ tabTitle }}</legend>
-                        <p class="alert alert-info">{% trans %}Here you can define settings related to version control.{% endtrans %}</p>
+                        <p class="alert alert-info">{% trans from 'config' %}Here you can define settings related to version control.{% endtrans %}</p>
                         
                         {{ form_row(form.revisionHandlingForPage) }}
                         {{ form_row(form.maximumAmountOfPageRevisions) }}

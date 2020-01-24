@@ -23,7 +23,7 @@ use RuntimeException;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Zikula\Core\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
 
@@ -52,7 +52,11 @@ abstract class AbstractEditHandler extends EditHandler
             if ($request->hasSession() && ($session = $request->getSession())) {
                 $session->getFlashBag()->add(
                     'error',
-                    'Sorry, but you can not create the page yet as other items are required which must be created before!'
+                    $this->trans(
+                        'Sorry, but you can not create the page yet as other items are required which must be created before!',
+                        [],
+                        'page'
+                    )
                 );
             }
             $logArgs = [
@@ -234,16 +238,16 @@ abstract class AbstractEditHandler extends EditHandler
             case 'defer':
             case 'submit':
                 if ('create' === $this->templateParameters['mode']) {
-                    $message = $this->trans('Done! Page created.');
+                    $message = $this->trans('Done! Page created.', [], 'page');
                 } else {
-                    $message = $this->trans('Done! Page updated.');
+                    $message = $this->trans('Done! Page updated.', [], 'page');
                 }
                 break;
             case 'delete':
-                $message = $this->trans('Done! Page deleted.');
+                $message = $this->trans('Done! Page deleted.', [], 'page');
                 break;
             default:
-                $message = $this->trans('Done! Page updated.');
+                $message = $this->trans('Done! Page updated.', [], 'page');
                 break;
         }
     
