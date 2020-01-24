@@ -1,0 +1,41 @@
+framework:
+    workflows:
+        zikulacontentmodule_none:
+            type: state_machine
+            marking_store:
+                type: method
+                property: workflowState
+            supports:
+                - Zikula\ContentModule\Entity\PageEntity
+                - Zikula\ContentModule\Entity\ContentItemEntity
+            places:
+                - initial
+                - deferred
+                - approved
+                - trashed
+                - deleted
+            transitions:
+                - name: defer
+                  from: initial
+                  to: deferred
+                - name: submit
+                  from: [initial, deferred]
+                  to: approved
+                - name: update
+                  from: approved
+                  to: approved
+                - name: update
+                  from: deferred
+                  to: deferred
+                - name: recover
+                  from: trashed
+                  to: deferred
+                - name: trash
+                  from: deferred
+                  to: trashed
+                - name: delete
+                  from: [deferred, approved, trashed]
+                  to: deleted
+                - name: trash
+                  from: approved
+                  to: trashed
