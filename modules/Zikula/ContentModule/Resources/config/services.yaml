@@ -1,3 +1,6 @@
+parameters:
+    router.options.generator_base_class: Zikula\ContentModule\Routing\Generator\CustomUrlGenerator
+
 services:
     _defaults:
         autowire: true
@@ -15,31 +18,55 @@ services:
         resource: '../../Helper/*'
         lazy: true
 
+    Zikula\ContentModule\Collector\ContentTypeCollector:
+        arguments:
+            $contentTypes: !tagged_iterator zikula.content_type
+
+    _instanceof:
+        Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface:
+            bind:
+                $permissionHelper: '@Zikula\ContentModule\Helper\PermissionHelper'
+
     # public because EntityLifecycleListener accesses this using container
     Zikula\ContentModule\Entity\Factory\EntityFactory:
         public: true
-    
+
     Zikula\ContentModule\Form\Handler\:
         resource: '../../Form/Handler'
         calls:
             - setLockingApi: ['@?Zikula\PageLockModule\Api\LockingApi']
-    
+
+    Zikula\ContentModule\Helper\CacheHelper:
+        arguments:
+            $cacheDirectory: '%kernel.cache_dir%/ZikulaContentModule/'
+
+    Zikula\ContentModule\Helper\LockHelper:
+        calls:
+            - setLockingApi: ['@?Zikula\PageLockModule\Api\LockingApi']
+
+    # public because EntityLifecycleListener accesses this using container
+    Zikula\ContentModule\Helper\TranslatableHelper:
+        public: true
+
     Zikula\ContentModule\Helper\ViewHelper:
         arguments:
             $pageVars: '@zikula_core.common.theme.pagevars'
-    
+
     Zikula\ContentModule\Listener\EntityLifecycleListener:
         tags: ['doctrine.event_subscriber']
-    
+
     # public because EntityLifecycleListener accesses this using container
     Zikula\ContentModule\Listener\LoggableListener:
         public: true
-    
+
     Zikula\ContentModule\Menu\MenuBuilder:
         tags:
             - { name: knp_menu.menu_builder, method: createItemActionsMenu, alias: zikulaContentMenuItemActions }
             - { name: knp_menu.menu_builder, method: createViewActionsMenu, alias: zikulaContentMenuViewActions }
-    
+
+    Zikula\ContentModule\Routing\DynamicRouteLoader:
+        tags: ['routing.loader']
+
     stof_doctrine_extensions.listener.sluggable:
         class: '%stof_doctrine_extensions.listener.sluggable.class%'
         calls:

@@ -42,14 +42,14 @@ application "Content" targets ZK30 {
         Listener/EntityLifecycleListener.php,
         Menu/ExtensionMenu.php,
         Menu/MenuBuilder.php,
-        Resources/config/routing.yml,
+        Resources/config/routing.yaml,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
         Resources/views/Block/itemlist_contentItem_display.html.twig,
         Resources/views/Block/itemlist_page_display_description.html.twig
     "
     markFiles "
         composer.json,
-        Resources/config/services.yml
+        Resources/config/services.yaml
     "
     entities {
         entity "page" leading loggable categorisable {
