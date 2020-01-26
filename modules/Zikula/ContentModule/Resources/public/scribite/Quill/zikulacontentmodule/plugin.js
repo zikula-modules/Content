@@ -5,7 +5,7 @@ var zikulacontentmodule = function(quill, options) {
         button = jQuery('button[value=zikulacontentmodule]');
 
         button
-            .css('background', 'url(' + Zikula.Config.baseURL + Zikula.Config.baseURI + '/web/modules/zikulacontent/images/admin.png) no-repeat center center transparent')
+            .css('background', 'url(' + Zikula.Config.baseURL + Zikula.Config.baseURI + '/public/modules/zikulacontent/images/admin.png) no-repeat center center transparent')
             .css('background-size', '16px 16px')
             .attr('title', 'Content')
         ;

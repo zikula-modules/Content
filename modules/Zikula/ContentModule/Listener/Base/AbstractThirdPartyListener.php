@@ -68,7 +68,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     public function getEditorHelpers(EditorHelperEvent $event): void
     {
         // install assets for Scribite plugins
-        $targetDir = 'web/modules/zikulacontent';
+        $targetDir = 'public/modules/zikulacontent';
         if (!$this->filesystem->exists($targetDir)) {
             $moduleDirectory = str_replace('Listener/Base', '', __DIR__);
             if (is_dir($originDir = $moduleDirectory . 'Resources/public')) {
@@ -168,6 +168,6 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      */
     protected function getPathToModuleWebAssets(): string
     {
-        return $this->requestStack->getCurrentRequest()->getBasePath() . '/web/modules/zikulacontent/';
+        return $this->requestStack->getCurrentRequest()->getBasePath() . '/modules/zikulacontent/';
     }
 }

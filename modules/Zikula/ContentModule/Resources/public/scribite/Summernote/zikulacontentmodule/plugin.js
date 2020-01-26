@@ -13,7 +13,7 @@
             context.memo('button.zikulacontentmodule', function () {
                 // create button
                 var button = ui.button({
-                    contents: '<img src="' + Zikula.Config.baseURL + Zikula.Config.baseURI + '/web/modules/zikulacontent/images/admin.png' + '" alt="Content" width="16" height="16" />',
+                    contents: '<img src="' + Zikula.Config.baseURL + Zikula.Config.baseURI + '/public/modules/zikulacontent/images/admin.png' + '" alt="Content" width="16" height="16" />',
                     tooltip: 'Content',
                     click: function () {
                         ZikulaContentModuleFinderOpenPopup(context, 'summernote');

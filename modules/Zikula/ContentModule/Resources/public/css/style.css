@@ -55,7 +55,7 @@ div.zikulacontentmodule-relation-rightside {
 }
 
 .ui-autocomplete-loading {
-    background: white url("../../../../../../web/modules/zikulausers/images/ajax/indicator_arrows.gif") right center no-repeat;
+    background: white url("../../../../../../public/modules/zikulausers/images/ajax/indicator_arrows.gif") right center no-repeat;
 }
 
 .ui-autocomplete .suggestion {
