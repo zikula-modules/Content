@@ -9,7 +9,7 @@
 tinymce.PluginManager.add('zikulacontentmodule', function(editor, url) {
     var icon;
 
-    icon = Zikula.Config.baseURL + Zikula.Config.baseURI + '/web/modules/zikulacontent/images/admin.png';
+    icon = Zikula.Config.baseURL + Zikula.Config.baseURI + '/public/modules/zikulacontent/images/admin.png';
 
     editor.addButton('zikulacontentmodule', {
         //text: 'Content',
