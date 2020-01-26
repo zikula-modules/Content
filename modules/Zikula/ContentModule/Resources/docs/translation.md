@@ -1,4 +1,4 @@
-# TRANSLATION INSTRUCTIONS
+# Translation instructions
 
 To create a new translation follow the steps below:
 
@@ -10,7 +10,7 @@ To create a new translation follow the steps below:
 
 4. Translate the resulting `.yaml` files in `modules/Zikula/ContentModule/Resources/translations/`.
 
-For questions and other remarks visit our homepage https://ziku.la.
+For questions and other remarks visit our homepage <https://ziku.la>.
 
 Axel Guckelsberger (info@ziku.la)
-https://ziku.la
+<https://ziku.la>
