@@ -2,25 +2,25 @@
 {% trans_default_domain 'contentTypes' %}
 {% set categories = [
     {
-        name: constant('Zikula\\Common\\Content\\ContentTypeInterface::CATEGORY_BASIC'),
+        name: constant('Zikula\\ExtensionsModule\\ModuleInterface\\Content\\ContentTypeInterface::CATEGORY_BASIC'),
         title: 'Basic'|trans,
         description: 'Fundamental elements like text, image, heading, quote'|trans,
         icon: 'star'
     },
     {
-        name: constant('Zikula\\Common\\Content\\ContentTypeInterface::CATEGORY_EXTERNAL'),
+        name: constant('Zikula\\ExtensionsModule\\ModuleInterface\\Content\\ContentTypeInterface::CATEGORY_EXTERNAL'),
         title: 'External'|trans,
         description: 'External content, like Vimeo or YouTube videos, Slideshare, etc.'|trans,
         icon: 'globe'
     },
     {
-        name: constant('Zikula\\Common\\Content\\ContentTypeInterface::CATEGORY_INTEGRATION'),
+        name: constant('Zikula\\ExtensionsModule\\ModuleInterface\\Content\\ContentTypeInterface::CATEGORY_INTEGRATION'),
         title: 'Integration'|trans,
         description: 'Zikula blocks and content from third party modules like appointments, etc.'|trans,
         icon: 'cogs'
     },
     {
-        name: constant('Zikula\\Common\\Content\\ContentTypeInterface::CATEGORY_EXPERT'),
+        name: constant('Zikula\\ExtensionsModule\\ModuleInterface\\Content\\ContentTypeInterface::CATEGORY_EXPERT'),
         title: 'Expert'|trans,
         description: 'Advanced elements for special and complex purposes'|trans,
         icon: 'wrench'
