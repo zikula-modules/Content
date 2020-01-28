@@ -29,6 +29,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
 use Zikula\UsersModule\Constant as UsersConstant;
@@ -42,6 +43,11 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
 {
     use ContainerAwareTrait;
 
+/**
+ * @var ZikulaHttpKernelInterface
+ */
+protected $kernel;
+
     /**
      * @var EventDispatcherInterface
      */
@@ -53,10 +59,12 @@ abstract class AbstractEntityLifecycleListener implements EventSubscriber, Conta
     protected $logger;
 
     public function __construct(
+    ZikulaHttpKernelInterface $kernel,
         ContainerInterface $container,
         EventDispatcherInterface $eventDispatcher,
         LoggerInterface $logger
     ) {
+    $this->kernel = $kernel;
         $this->setContainer($container);
         $this->eventDispatcher = $eventDispatcher;
         $this->logger = $logger;
