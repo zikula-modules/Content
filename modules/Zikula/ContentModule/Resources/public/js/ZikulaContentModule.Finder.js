@@ -45,7 +45,7 @@ zikulaContentModule.finder.onLoad = function (baseId, selectedId) {
     }
     jQuery('select').not("[id$='pasteAs']").change(zikulaContentModule.finder.onParamChanged);
     
-    jQuery('.btn-default').click(zikulaContentModule.finder.handleCancel);
+    jQuery('.btn-secondary').click(zikulaContentModule.finder.handleCancel);
 
     var selectedItems = jQuery('#zikulacontentmoduleItemContainer a');
     selectedItems.bind('click keypress', function (event) {
