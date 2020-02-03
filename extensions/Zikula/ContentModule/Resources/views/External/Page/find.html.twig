@@ -22,6 +22,9 @@
         {{ form_errors(finderForm) }}
         <fieldset>
             <legend>{% trans %}Search and select page{% endtrans %}</legend>
+            {% if getModVar('ZConfig', 'multilingual') %}
+                {{ form_row(finderForm.language) }}
+            {% endif %}
             {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
                 {{ form_row(finderForm.categories) }}
             {% endif %}
@@ -38,8 +41,9 @@
                                     <a href="#" data-itemid="{{ itemId }}">
                                         {{ page|zikulacontentmodule_formattedTitle }}
                                     </a>
-                                    <input type="hidden" id="path{{ itemId }}" value="{{ path('zikulacontentmodule_page_display', {'slug': page.slug}) }}" />
-                                    <input type="hidden" id="url{{ itemId }}" value="{{ url('zikulacontentmodule_page_display', {'slug': page.slug}) }}" />
+                                    {% set displayParameters = {'slug': page.slug}|merge({'_locale': language|default(app.locale)}) %}
+                                    <input type="hidden" id="path{{ itemId }}" value="{{ path('zikulacontentmodule_page_display', displayParameters) }}" />
+                                    <input type="hidden" id="url{{ itemId }}" value="{{ url('zikulacontentmodule_page_display', displayParameters) }}" />
                                     <input type="hidden" id="title{{ itemId }}" value="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') }}" />
                                     <input type="hidden" id="desc{{ itemId }}" value="{% set description %}{% if page.optionalText is not empty %}{{ page.optionalText }}{% endif %}
                                     {% endset %}{{ description|striptags|e('html_attr') }}" />

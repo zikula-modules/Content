@@ -20,9 +20,12 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
+use Zikula\Bundle\FormExtensionBundle\Form\Type\LocaleType;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 
 /**
@@ -31,13 +34,28 @@ use Zikula\ContentModule\Helper\FeatureActivationHelper;
 abstract class AbstractPageFinderType extends AbstractType
 {
     /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var VariableApiInterface
+     */
+    protected $variableApi;
+
+    /**
      * @var FeatureActivationHelper
      */
     protected $featureActivationHelper;
 
     public function __construct(
+        
+        RequestStack $requestStack,
+        VariableApiInterface $variableApi,
         FeatureActivationHelper $featureActivationHelper
     ) {
+        $this->requestStack = $requestStack;
+        $this->variableApi = $variableApi;
         $this->featureActivationHelper = $featureActivationHelper;
     }
 
@@ -53,6 +71,9 @@ abstract class AbstractPageFinderType extends AbstractType
             ])
         ;
 
+        if ($this->variableApi->getSystemVar('multilingual')) {
+            $this->addLanguageField($builder, $options);
+        }
         if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, $options['object_type'])) {
             $this->addCategoriesField($builder, $options);
         }
@@ -75,6 +96,20 @@ abstract class AbstractPageFinderType extends AbstractType
                 'icon' => 'fa-times'
             ])
         ;
+    }
+
+    /**
+     * Adds a language field.
+     */
+    public function addLanguageField(FormBuilderInterface $builder, array $options = [])
+    {
+        $builder->add('language', LocaleType::class, [
+            'label' => 'Language':',
+            'data' => $this->requestStack->getCurrentRequest()->getLocale(),
+            'empty_data' => null,
+            'multiple' => false,
+            'expanded' => false
+        ]);
     }
 
     /**
