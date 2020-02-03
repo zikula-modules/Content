@@ -132,6 +132,11 @@ abstract class AbstractExternalController extends AbstractController
             return new RedirectResponse($redirectUrl);
         }
         
+        $formData = $request->query->get('zikulacontentmodule_' . strtolower($objectType) . 'finder', []);
+        if (isset($formData['language'])) {
+            $this->get('stof_doctrine_extensions.listener.translatable')->setTranslatableLocale($formData['language']);
+        }
+        
         if (!$permissionHelper->hasComponentPermission($objectType, ACCESS_COMMENT)) {
             throw new AccessDeniedException();
         }
@@ -168,7 +173,8 @@ abstract class AbstractExternalController extends AbstractController
             'objectType' => $objectType,
             'sort' => $sort,
             'sortdir' => $sdir,
-            'currentPage' => $currentPage
+            'currentPage' => $currentPage,
+            'language' => isset($formData['language']) ? $formData['language'] : $request->getLocale()
         ];
         $searchTerm = '';
         
