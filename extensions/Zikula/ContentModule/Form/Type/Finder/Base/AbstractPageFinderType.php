@@ -104,7 +104,7 @@ abstract class AbstractPageFinderType extends AbstractType
     public function addLanguageField(FormBuilderInterface $builder, array $options = [])
     {
         $builder->add('language', LocaleType::class, [
-            'label' => 'Language':',
+            'label' => 'Language:',
             'data' => $this->requestStack->getCurrentRequest()->getLocale(),
             'empty_data' => null,
             'multiple' => false,
