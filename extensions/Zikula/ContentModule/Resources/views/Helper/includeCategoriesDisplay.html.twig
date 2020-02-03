@@ -8,7 +8,7 @@
     {% endif %}
     <ul class="category-list">
     {% for catMapping in obj.categories %}
-        <li>{% if catMapping.category.icon %}<i class="fa-fw {{ catMapping.category.icon|e('html_attr') }}"></i> {% endif %}{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}</li>
+        <li>{% if catMapping.category.icon %}<i class="fa-fw {{ catMapping.category.icon|e('html_attr') }}"></i> {% endif %}{{ catMapping.category.displayName[app.request.locale]|default(catMapping.category.name) }}</li>
     {% endfor %}
     </ul>
     {% if tabs|default(false) == true %}
