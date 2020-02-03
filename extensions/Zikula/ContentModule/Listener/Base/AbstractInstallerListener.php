@@ -15,12 +15,12 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Listener\Base;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Zikula\ExtensionsModule\Event\ModuleStateEvent;
+use Zikula\ExtensionsModule\Event\ExtensionStateEvent;
 use Zikula\ExtensionsModule\ExtensionEvents;
 use Zikula\ContentModule\Helper\ExampleDataHelper;
 
 /**
- * Event handler base class for module installer events.
+ * Event handler base class for extension installer events.
  */
 abstract class AbstractInstallerListener implements EventSubscriberInterface
 {
@@ -38,21 +38,21 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ExtensionEvents::MODULE_INSTALL     => ['moduleInstalled', 5],
-            ExtensionEvents::MODULE_POSTINSTALL => ['modulePostInstalled', 5],
-            ExtensionEvents::MODULE_UPGRADE     => ['moduleUpgraded', 5],
-            ExtensionEvents::MODULE_ENABLE      => ['moduleEnabled', 5],
-            ExtensionEvents::MODULE_DISABLE     => ['moduleDisabled', 5],
-            ExtensionEvents::MODULE_REMOVE      => ['moduleRemoved', 5]
+            ExtensionEvents::EXTENSION_INSTALL     => ['extensionInstalled', 5],
+            ExtensionEvents::EXTENSION_POSTINSTALL => ['extensionPostInstalled', 5],
+            ExtensionEvents::EXTENSION_UPGRADE     => ['extensionUpgraded', 5],
+            ExtensionEvents::EXTENSION_ENABLE      => ['extensionEnabled', 5],
+            ExtensionEvents::EXTENSION_DISABLE     => ['extensionDisabled', 5],
+            ExtensionEvents::EXTENSION_REMOVE      => ['extensionRemoved', 5]
         ];
     }
     
     /**
-     * Listener for the `module.install` event.
+     * Listener for the `extension.install` event.
      *
-     * Called after a module has been successfully installed.
-     * The event allows accessing the module bundle and the extension
-     * information array using `$event->getModule()` and `$event->getModInfo()`.
+     * Called after an extension has been successfully installed.
+     * The event allows accessing the extension bundle and the extension
+     * information array using `$event->getExtension()` and `$event->getInfo()`.
      *
      * You can access general data available in the event.
      *
@@ -60,16 +60,16 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      *     `echo 'Event: ' . $event->getName();`
      *
      */
-    public function moduleInstalled(ModuleStateEvent $event): void
+    public function extensionInstalled(ExtensionStateEvent $event): void
     {
     }
     
     /**
-     * Listener for the `module.postinstall` event.
+     * Listener for the `extension.postinstall` event.
      *
-     * Called after a module has been installed (on reload of the extensions view).
-     * The event allows accessing the module bundle and the extension
-     * information array using `$event->getModule()` and `$event->getModInfo()`.
+     * Called after an extension has been installed (on reload of the extensions view).
+     * The event allows accessing the extension bundle and the extension
+     * information array using `$event->getExtension()` and `$event->getInfo()`.
      *
      * You can access general data available in the event.
      *
@@ -77,24 +77,24 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      *     `echo 'Event: ' . $event->getName();`
      *
      */
-    public function modulePostInstalled(ModuleStateEvent $event): void
+    public function extensionPostInstalled(ExtensionStateEvent $event): void
     {
-        $module = $event->getModule();
-        if (null === $module) {
+        $extension = $event->getExtension();
+        if (null === $extension) {
             return;
         }
     
-        if ('ZikulaContentModule' === $module->getName()) {
+        if ('ZikulaContentModule' === $extension->getName()) {
             $this->exampleDataHelper->createDefaultData();
         }
     }
     
     /**
-     * Listener for the `module.upgrade` event.
+     * Listener for the `extension.upgrade` event.
      *
-     * Called after a module has been successfully upgraded.
-     * The event allows accessing the module bundle and the extension
-     * information array using `$event->getModule()` and `$event->getModInfo()`.
+     * Called after an extension has been successfully upgraded.
+     * The event allows accessing the extension bundle and the extension
+     * information array using `$event->getExtension()` and `$event->getInfo()`.
      *
      * You can access general data available in the event.
      *
@@ -102,16 +102,16 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      *     `echo 'Event: ' . $event->getName();`
      *
      */
-    public function moduleUpgraded(ModuleStateEvent $event): void
+    public function extensionUpgraded(ExtensionStateEvent $event): void
     {
     }
     
     /**
-     * Listener for the `module.enable` event.
+     * Listener for the `extension.enable` event.
      *
-     * Called after a module has been successfully enabled.
-     * The event allows accessing the module bundle and the extension
-     * information array using `$event->getModule()` and `$event->getModInfo()`.
+     * Called after an extension has been successfully enabled.
+     * The event allows accessing the extension bundle and the extension
+     * information array using `$event->getExtension()` and `$event->getInfo()`.
      *
      * You can access general data available in the event.
      *
@@ -119,16 +119,16 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      *     `echo 'Event: ' . $event->getName();`
      *
      */
-    public function moduleEnabled(ModuleStateEvent $event): void
+    public function extensionEnabled(ExtensionStateEvent $event): void
     {
     }
     
     /**
-     * Listener for the `module.disable` event.
+     * Listener for the `extension.disable` event.
      *
-     * Called after a module has been successfully disabled.
+     * Called after an extension has been successfully disabled.
      * The event allows accessing the module bundle and the extension
-     * information array using `$event->getModule()` and `$event->getModInfo()`.
+     * information array using `$event->getExtension()` and `$event->getInfo()`.
      *
      * You can access general data available in the event.
      *
@@ -136,16 +136,16 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      *     `echo 'Event: ' . $event->getName();`
      *
      */
-    public function moduleDisabled(ModuleStateEvent $event): void
+    public function extensionDisabled(ExtensionStateEvent $event): void
     {
     }
     
     /**
-     * Listener for the `module.remove` event.
+     * Listener for the `extension.remove` event.
      *
-     * Called after a module has been successfully removed.
+     * Called after an extension has been successfully removed.
      * The event allows accessing the module bundle and the extension
-     * information array using `$event->getModule()` and `$event->getModInfo()`.
+     * information array using `$event->getExtension()` and `$event->getInfo()`.
      *
      * You can access general data available in the event.
      *
@@ -153,7 +153,7 @@ abstract class AbstractInstallerListener implements EventSubscriberInterface
      *     `echo 'Event: ' . $event->getName();`
      *
      */
-    public function moduleRemoved(ModuleStateEvent $event): void
+    public function extensionRemoved(ExtensionStateEvent $event): void
     {
     }
 }
