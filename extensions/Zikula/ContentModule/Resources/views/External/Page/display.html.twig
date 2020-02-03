@@ -47,7 +47,7 @@
                 <dl class="category-list">
                 {% for propName, catMapping in page.categories %}
                     <dt>{{ propName }}</dt>
-                    <dd>{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}</dd>
+                    <dd>{{ catMapping.category.displayName[app.request.locale]|default(catMapping.category.name) }}</dd>
                 {% endfor %}
                 </dl>
             {% endif %}
