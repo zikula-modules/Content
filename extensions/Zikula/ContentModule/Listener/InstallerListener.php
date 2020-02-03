@@ -17,7 +17,7 @@ namespace Zikula\ContentModule\Listener;
 use Zikula\ContentModule\Listener\Base\AbstractInstallerListener;
 
 /**
- * Event handler implementation class for module installer events.
+ * Event handler implementation class for extension installer events.
  */
 class InstallerListener extends AbstractInstallerListener
 {
