@@ -165,7 +165,7 @@
                     </td>
                     <td headers="hCategory" class="text-left">
                         {% for catMapping in page.categories %}
-                            {% if catMapping.category.icon %}<i class="fa-fw {{ catMapping.category.icon|e('html_attr') }}"></i> {% endif %}{{ catMapping.category.display_name[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}
+                            {% if catMapping.category.icon %}<i class="fa-fw {{ catMapping.category.icon|e('html_attr') }}"></i> {% endif %}{{ catMapping.category.displayName[app.request.locale]|default(catMapping.category.name) }}{% if not loop.last %}, {% endif %}
                         {% endfor %}
                     </td>
                 </tr>
@@ -249,7 +249,7 @@
                         <p>{% trans %}The available categories:{% endtrans %}</p>
                         <ul>
                             {% for category in categories %}
-                                {% set categoryName = category.display_name[app.request.locale]|default(category.name) %}
+                                {% set categoryName = category.displayName[app.request.locale]|default(category.name) %}
                                 {% set amountOfPages = pageCounts[category.id]|default(0) %}
                                 <li><a href="{{ path('zikulacontentmodule_page_view', {catId: category.id}) }}" title="{{ categoryName|e('html_attr') }}">{% if category.icon %}<i class="fa-fw {{ category.icon|e('html_attr') }}"></i> {% endif %}{{ categoryName }}</a> ({{ 'plural_n.pages'|trans({'%count%': amountOfPages})|desc('{count, plural,\n  =0    {No pages}\n  one   {One page}\n  other {# pages}\n}') }}
                             {% endfor %}
