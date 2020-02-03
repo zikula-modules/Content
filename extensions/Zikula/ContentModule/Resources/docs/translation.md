@@ -8,7 +8,7 @@ To create a new translation follow the steps below:
 
 `php -dmemory_limit=2G bin/console translation:extract --bundle=ZikulaContentModule extension en`
 
-4. Translate the resulting `.yaml` files in `modules/Zikula/ContentModule/Resources/translations/`.
+4. Translate the resulting `.yaml` files in `extensions/Zikula/ContentModule/Resources/translations/`.
 
 For questions and other remarks visit our homepage <https://ziku.la>.
 
