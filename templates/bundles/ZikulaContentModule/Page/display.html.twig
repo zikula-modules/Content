@@ -62,7 +62,7 @@
         #}
         {{ block('display_hooks') }}
     </div>
-    {{ zikulacontentmodule_increaseAmountOfPageViews(page) }}
+    {{ zikulacontentmodule_increaseCounter(page, 'views') }}
 {% endblock %}
 {% block display_hooks %}
     {% if page.supportsHookSubscribers() %}

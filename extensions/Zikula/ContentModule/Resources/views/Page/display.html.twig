@@ -139,6 +139,7 @@
             </div>
         </div>
     </div>
+    {{ zikulacontentmodule_increaseCounter(page, 'views') }}
 {% endblock %}
 {% block related_items %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}

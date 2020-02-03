@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Twig;
 
+use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ContentModule\Twig\Base\AbstractTwigExtension;
 
 /**
@@ -21,5 +22,13 @@ use Zikula\ContentModule\Twig\Base\AbstractTwigExtension;
  */
 class TwigExtension extends AbstractTwigExtension
 {
-    // feel free to add your own Twig extension methods here
+    public function increaseCounter(EntityAccess $entity, string $fieldName = ''): void
+    {
+        $countPageViews = (bool)$this->variableApi->get('ZikulaContentModule', 'countPageViews', false);
+        if (!$countPageViews) {
+            return;
+        }
+
+        parent::increaseCounter($entity, $fieldName);
+    }
 }

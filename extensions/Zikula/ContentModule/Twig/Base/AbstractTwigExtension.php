@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Twig\Base;
 
+use Doctrine\DBAL\Driver\Connection;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Knp\Menu\Matcher\Matcher;
 use Knp\Menu\Renderer\ListRenderer;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
@@ -41,9 +43,19 @@ abstract class AbstractTwigExtension extends AbstractExtension
     use TranslatorTrait;
     
     /**
+     * @var Connection
+     */
+    protected $databaseConnection;
+    
+    /**
      * @var RouterInterface
      */
     protected $router;
+    
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
     
     /**
      * @var VariableApiInterface
@@ -82,7 +94,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
     
     public function __construct(
         TranslatorInterface $translator,
+        Connection $connection,
         RouterInterface $router,
+        RequestStack $requestStack,
         VariableApiInterface $variableApi,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper,
@@ -92,7 +106,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
         MenuBuilder $menuBuilder
     ) {
         $this->setTranslator($translator);
+        $this->databaseConnection = $connection;
         $this->router = $router;
+        $this->requestStack = $requestStack;
         $this->variableApi = $variableApi;
         $this->entityFactory = $entityFactory;
         $this->entityDisplayHelper = $entityDisplayHelper;
@@ -107,6 +123,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
         return [
             new TwigFunction('zikulacontentmodule_treeData', [$this, 'getTreeData'], ['is_safe' => ['html']]),
             new TwigFunction('zikulacontentmodule_treeSelection', [$this, 'getTreeSelection']),
+            new TwigFunction('zikulacontentmodule_increaseCounter', [$this, 'increaseCounter']),
             new TwigFunction('zikulacontentmodule_objectTypeSelector', [$this, 'getObjectTypeSelector']),
             new TwigFunction('zikulacontentmodule_templateSelector', [$this, 'getTemplateSelector'])
         ];
@@ -329,6 +346,41 @@ abstract class AbstractTwigExtension extends AbstractExtension
         }
     
         return $result;
+    }
+    
+    
+    /**
+     * The zikulacontentmodule_increaseCounter function increases a counter field of a specific entity.
+     * It uses Doctrine DBAL to avoid creating a new loggable version, sending workflow notification or executing other unwanted actions.
+     * Example:
+     *     {{ zikulacontentmodule_increaseCounter(page, 'views') }}
+     */
+    public function increaseCounter(EntityAccess $entity, string $fieldName = ''): void
+    {
+        $entityId = $entity->getId();
+        $objectType = $entity->get_objectType();
+    
+        // check against session to see if user was already counted
+        $request = $this->requestStack->getCurrentRequest();
+        $doCount = true;
+        if (null !== $request && $request->hasSession() && $session = $request->getSession()) {
+            if ($session->has('ZikulaContentModuleRead' . $objectType . $entityId)) {
+                $doCount = false;
+            } else {
+                $session->set('ZikulaContentModuleRead' . $objectType . $entityId, 1);
+            }
+        }
+        if (!$doCount) {
+            return;
+        }
+    
+        $counterValue = $entity[$fieldName] + 1;
+    
+        $this->databaseConnection->update(
+            'zikula_content_' . mb_strtolower($objectType),
+            [$fieldName => $counterValue],
+            ['id' => $entityId]
+        );
     }
     
     

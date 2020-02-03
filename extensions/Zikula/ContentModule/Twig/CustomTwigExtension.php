@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Twig;
 
 use DateTime;
-use Doctrine\DBAL\Driver\Connection;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -39,11 +38,6 @@ use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
  */
 class CustomTwigExtension extends AbstractExtension
 {
-    /**
-     * @var Connection
-     */
-    protected $databaseConnection;
-
     /**
      * @var RequestStack
      */
@@ -92,15 +86,9 @@ class CustomTwigExtension extends AbstractExtension
     /**
      * @var bool
      */
-    protected $countPageViews;
-
-    /**
-     * @var bool
-     */
     protected $ignoreFirstTreeLevel;
 
     public function __construct(
-        Connection $connection,
         RequestStack $requestStack,
         RouterInterface $router,
         ContentTypeCollector $collector,
@@ -112,7 +100,6 @@ class CustomTwigExtension extends AbstractExtension
         CollectionFilterHelper $collectionFilterHelper,
         VariableApiInterface $variableApi
     ) {
-        $this->databaseConnection = $connection;
         $this->requestStack = $requestStack;
         $this->router = $router;
         $this->collector = $collector;
@@ -122,7 +109,6 @@ class CustomTwigExtension extends AbstractExtension
         $this->categoryRepository = $categoryRepository;
         $this->entityFactory = $entityFactory;
         $this->collectionFilterHelper = $collectionFilterHelper;
-        $this->countPageViews = (bool)$variableApi->get('ZikulaContentModule', 'countPageViews');
         $this->ignoreFirstTreeLevel = (bool)$variableApi->get(
             'ZikulaContentModule',
             'ignoreFirstTreeLevelInRoutes',
@@ -138,7 +124,6 @@ class CustomTwigExtension extends AbstractExtension
             new TwigFunction('zikulacontentmodule_contentDetails', [$this, 'getContentDetails']),
             new TwigFunction('zikulacontentmodule_maySeeElement', [$this, 'isElementVisible']),
             new TwigFunction('zikulacontentmodule_categoryInfo', [$this, 'getCategoryInfo']),
-            new TwigFunction('zikulacontentmodule_increaseAmountOfPageViews', [$this, 'increaseAmountOfPageViews']),
             new TwigFunction('zikulacontentmodule_hasReadAccess', [$this, 'hasReadAccess']),
             new TwigFunction('zikulacontentmodule_isCurrentPage', [$this, 'isCurrentPage']),
             new TwigFunction('zikulacontentmodule_getSlug', [$this, 'getPageSlug']),
@@ -288,39 +273,6 @@ class CustomTwigExtension extends AbstractExtension
         }
 
         return $categoryInfoPerRegistry;
-    }
-
-    /**
-     * The zikulacontentmodule_increaseAmountOfPageViews function increases the view counter of a specific page.
-     * It uses Doctrine DBAL to avoid creating a new page version.
-     * Examples:
-     *    {{ zikulacontentmodule_increaseAmountOfPageViews(page) }}
-     */
-    public function increaseAmountOfPageViews(PageEntity $page): void
-    {
-        if (!$this->countPageViews) {
-            return;
-        }
-
-        $pageId = $page->getId();
-
-        // check against session to see if user was already counted
-        $request = $this->requestStack->getCurrentRequest();
-        $doCount = true;
-        if (null !== $request) {
-            if ($request->getSession()->has('ContentReadPage' . $pageId)) {
-                $doCount = false;
-            } else {
-                $request->getSession()->set('ContentReadPage' . $pageId, 1);
-            }
-        }
-        if (!$doCount) {
-            return;
-        }
-
-        $views = $page->getViews() + 1;
-
-        $this->databaseConnection->update('zikula_content_page', ['views' => $views], ['id' => $pageId]);
     }
 
     /**

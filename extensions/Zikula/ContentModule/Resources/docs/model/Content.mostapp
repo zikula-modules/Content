@@ -45,7 +45,8 @@ application "Content" targets ZK30 {
         Resources/config/routing.yaml,
         Resources/views/Block/itemlist_contentItem_display_description.html.twig,
         Resources/views/Block/itemlist_contentItem_display.html.twig,
-        Resources/views/Block/itemlist_page_display_description.html.twig
+        Resources/views/Block/itemlist_page_display_description.html.twig,
+        Twig/TwigExtension.php
     "
     markFiles "
         composer.json,
@@ -84,7 +85,7 @@ application "Content" targets ZK30 {
                     visible false
                     arrayType JSON_ARRAY
                 },
-                integer "views" {
+                integer "views" counter {
                     defaultValue "0"
                     mandatory false
                     visible false
