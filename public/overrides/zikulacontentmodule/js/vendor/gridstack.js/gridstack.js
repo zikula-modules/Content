@@ -1,5 +1,5 @@
 /**
- * gridstack.js 0.6.1
+ * gridstack.js0.6.2
  * https://gridstackjs.com/
  * (c) 2014-2019 Dylan Weiss, Alain Dumesny, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
@@ -56,16 +56,16 @@
       return !(a.x + a.width <= b.x || b.x + b.width <= a.x || a.y + a.height <= b.y || b.y + b.height <= a.y);
     },
 
-    sort: function(nodes, dir, width) {
-      if (!width) {
+    sort: function(nodes, dir, column) {
+      if (!column) {
         var widths = nodes.map(function(node) { return node.x + node.width; });
-        width = Math.max.apply(Math, widths);
+        column = Math.max.apply(Math, widths);
       }
 
       if (dir === -1)
-        return Utils.sortBy(nodes, function(n) { return -(n.x + n.y * width); });
+        return Utils.sortBy(nodes, function(n) { return -(n.x + n.y * column); });
       else
-        return Utils.sortBy(nodes, function(n) { return (n.x + n.y * width); });
+        return Utils.sortBy(nodes, function(n) { return (n.x + n.y * column); });
     },
 
     createStylesheet: function(id) {
@@ -355,12 +355,12 @@
 
     if (this.float) {
       this.nodes.forEach(function(n, i) {
-        if (n._updating || n._origY === undefined || n.y === n._origY) {
+        if (n._updating || n._packY === undefined || n.y === n._packY) {
           return;
         }
 
         var newY = n.y;
-        while (newY >= n._origY) {
+        while (newY >= n._packY) {
           var collisionNode = this.nodes
             .slice(0, i)
             .find(Utils._didCollide, {n: n, newY: newY});
@@ -653,20 +653,20 @@
   GridStackEngine.prototype.beginUpdate = function(node) {
     if (node._updating) return;
     node._updating = true;
-    this.nodes.forEach(function(n) { n._origY = n.y; });
+    this.nodes.forEach(function(n) { n._packY = n.y; });
   };
 
   GridStackEngine.prototype.endUpdate = function() {
     var n = this.nodes.find(function(n) { return n._updating; });
     if (n) {
       n._updating = false;
-      this.nodes.forEach(function(n) { delete n._origY; });
+      this.nodes.forEach(function(n) { delete n._packY; });
     }
   };
 
   var GridStack = function(el, opts) {
     var self = this;
-    var _prevColumn, isAutoCellHeight;
+    var oneColumnMode, _prevColumn, isAutoCellHeight;
 
     opts = opts || {};
 
@@ -721,6 +721,7 @@
       cellHeightUnit: 'px',
       disableOneColumnMode: opts.disableOneColumnMode || false,
       oneColumnModeClass: opts.oneColumnModeClass || 'grid-stack-one-column-mode',
+      oneColumnModeDomSort: opts.oneColumnModeDomSort,
       ddPlugin: null
     });
 
@@ -823,17 +824,19 @@
         self._updateHeightsOnResize();
       }
 
-      var oneColumnWidth = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) <= self.opts.minWidth;
+      if (self.opts.staticGrid) { return; }
 
-      if (oneColumnWidth && !self.opts.disableOneColumnMode) {
-        if (self._prevColumn || self.opts.staticGrid) {  return; }
+      if (!self.opts.disableOneColumnMode && (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) <= self.opts.minWidth) {
+        if (self.oneColumnMode) {  return; }
 
         self.container.addClass(self.opts.oneColumnModeClass); // TODO: legacy do people still depend on style being there ?
+        self.oneColumnMode = true;
         self.setColumn(1);
       } else {
-        if (!self._prevColumn || self.opts.staticGrid) { return; }
+        if (!self.oneColumnMode) { return; }
 
         self.container.removeClass(self.opts.oneColumnModeClass);
+        self.oneColumnMode = false;
         self.setColumn(self._prevColumn);
       }
     };
@@ -1798,43 +1801,74 @@
   GridStackEngine.prototype._layoutsNodesChange = function(nodes) {
     if (!this._layouts || this._ignoreLayoutsNodeChange) return;
     // remove smaller layouts - we will re-generate those on the fly... larger ones need to update
-    this._layouts.forEach(function(layout, i) {
-      if (!layout || i === this.column) return;
-      if (i < this.column) {
-        this._layouts[i] = undefined;
+    this._layouts.forEach(function(layout, column) {
+      if (!layout || column === this.column) return;
+      if (column < this.column) {
+        this._layouts[column] = undefined;
       }
       else {
-        // TODO: save the original x,y,w (h isn't cached) and see what actually changed to propagate correctly ?
+        // we save the original x,y,w (h isn't cached) to see what actually changed to propagate better.
+        // Note: we don't need to check against out of bound scaling/moving as that will be done when using those cache values.
         nodes.forEach(function(node) {
           var n = layout.find(function(l) { return l._id === node._id });
-          if (!n) return;
-          var ratio = i / this.column;
-          n.y = node.y;
-          n.x = Math.round(node.x * ratio);
-          // width ???
+          if (!n) return; // no cache for new nodes. Will use those values.
+          var ratio = column / this.column;
+          // Y changed, push down same amount
+          // TODO: detect doing item 'swaps' will help instead of move (especially in 1 column mode)
+          if (node.y !== node._origY) {
+            n.y += (node.y - node._origY);
+          }
+          // X changed, scale from new position
+          if (node.x !== node._origX) {
+            n.x = Math.round(node.x * ratio);
+          }
+          // width changed, scale from new width
+          if (node.width !== node._origW) {
+            n.width = Math.round(node.width * ratio);
+          }
+          // ...height always carries over from cache
         }, this);
       }
     }, this);
+
+    this._saveInitial(); // reset current value now that we diffed.
   }
 
   /**
    * Called to scale the widget width & position up/down based on the column change.
    * Note we store previous layouts (especially original ones) to make it possible to go
    * from say 12 -> 1 -> 12 and get back to where we were.
+   *
+   * oldColumn: previous number of columns
+   * column:    new column number
+   * nodes?:    different sorted list (ex: DOM order) instead of current list
    */
-  GridStackEngine.prototype._updateNodeWidths = function(oldColumn, column) {
-    if (this.nodes.length === 0 || oldColumn === column) { return; }
-    var nodes = Utils.sort(this.nodes, -1, oldColumn); // current column reverse sorting so we can insert last to front (limit collision)
+  GridStackEngine.prototype._updateNodeWidths = function(oldColumn, column, nodes) {
+    if (!this.nodes.length || oldColumn === column) { return; }
 
     // cache the current layout in case they want to go back (like 12 -> 1 -> 12) as it requires original data
-    var copy = [nodes.length];
-    nodes.forEach(function(n, i) {copy[i] = {x: n.x, y: n.y, width: n.width, _id: n._id}}); // only thing we change is x,y,w and id to find it back
+    var copy = [this.nodes.length];
+    this.nodes.forEach(function(n, i) {copy[i] = {x: n.x, y: n.y, width: n.width, _id: n._id}}); // only thing we change is x,y,w and id to find it back
     this._layouts = this._layouts || []; // use array to find larger quick
     this._layouts[oldColumn] = copy;
 
-    // see if we have cached previous layout. if NOT and we are going up in size start with the largest layout as down-scaling is more accurate
-    var lastIndex = this._layouts.length - 1;
+    // if we're going to 1 column and using DOM order rather than default sorting, then generate that layout
+    if (column === 1 && nodes && nodes.length) {
+      var top = 0;
+      nodes.forEach(function(n) {
+        n.x = 0;
+        n.width = 1;
+        n.y = Math.max(n.y, top);
+        top = n.y + n.height;
+      });
+    } else {
+      nodes = Utils.sort(this.nodes, -1, oldColumn); // current column reverse sorting so we can insert last to front (limit collision)
+    }
+
+    // see if we have cached previous layout.
     var cacheNodes = this._layouts[column] || [];
+    // if not AND we are going up in size start with the largest layout as down-scaling is more accurate
+    var lastIndex = this._layouts.length - 1;
     if (cacheNodes.length === 0 && column > oldColumn && column < lastIndex) {
       cacheNodes = this._layouts[lastIndex] || [];
       if (cacheNodes.length) {
@@ -1870,13 +1904,13 @@
     var ratio = column / oldColumn;
     nodes.forEach(function(node) {
       if (!node) return;
-      node.x = Math.round(node.x * ratio);
-      node.width = (oldColumn === 1 ? 1 : (Math.round(node.width * ratio) || 1));
+      node.x = (column === 1 ? 0 : Math.round(node.x * ratio));
+      node.width = ((column === 1 || oldColumn === 1) ? 1 : (Math.round(node.width * ratio) || 1));
       newNodes.push(node);
     });
-    newNodes = Utils.sort(newNodes, -1, column);
 
     // finally relayout them in reverse order (to get correct placement)
+    newNodes = Utils.sort(newNodes, -1, column);
     this._ignoreLayoutsNodeChange = true;
     this.batchUpdate();
     this.nodes = []; // pretend we have no nodes to start with (we use same structures) to simplify layout
@@ -1886,6 +1920,19 @@
     }, this);
     this.commit();
     delete this._ignoreLayoutsNodeChange;
+
+    // save this initial layout so we can see what changed and apply changes to other layouts better (diff)
+    this._saveInitial();
+  }
+
+  /** called to save initial position/size */
+  GridStackEngine.prototype._saveInitial = function() {
+    this.nodes.forEach(function(n) {
+      n._origX = n.x;
+      n._origY = n.y;
+      n._origW = n.width;
+      n._origH = n.height;
+    });
   }
 
   /**
@@ -1911,9 +1958,19 @@
     this.container.addClass('grid-stack-' + column);
     this.opts.column = this.grid.column = column;
 
-    // update the items now
     if (doNotPropagate === true) { return; }
-    this.grid._updateNodeWidths(oldColumn, column);
+
+    // update the items now - see if the dom order nodes should be passed instead (else default to current list)
+    var domNodes;
+    if (this.opts.oneColumnModeDomSort && column === 1) {
+      domNodes = [];
+      this.container.children('.' + this.opts.itemClass).each(function(index, el) {
+        var node = $(el).data('_gridstack_node');
+        if (node) { domNodes.push(node); }
+      });
+      if (!domNodes.length) { domNodes = undefined; }
+    }
+    this.grid._updateNodeWidths(oldColumn, column, domNodes);
 
     // and trigger our event last...
     this.grid._ignoreLayoutsNodeChange = true;

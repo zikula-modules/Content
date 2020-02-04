@@ -1,4 +1,4 @@
-// Type definitions for Gridstack 0.6.1
+// Type definitions for Gridstack0.6.2
 // Project: https://gridstackjs.com/
 // Definitions by: Pascal Senn <https://github.com/PascalSenn>
 //                 Ricky Blankenaufulland <https://github.com/ZoolWay>
@@ -495,6 +495,12 @@ interface GridstackOptions {
    * class set on grid when in one column mode (default?: 'grid-stack-one-column-mode')
    */
   oneColumnModeClass ? : string;
+
+  /**
+   * set to true if you want oneColumnMode to use the DOM order and ignore x,y from normal multi column 
+   * layouts during sorting. This enables you to have custom 1 column layout that differ from the rest. (default?: false)
+   */
+  oneColumnModeDomSort?: boolean;
 
   /**
    * class for placeholder (default?: 'grid-stack-placeholder')
