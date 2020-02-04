@@ -68,6 +68,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
             'activeTo',
             'scope',
             'additionalSearchText',
+            'page',
             'createdBy',
             'createdDate',
             'updatedBy',
@@ -533,6 +534,18 @@ abstract class AbstractContentItemRepository extends EntityRepository
             $useJoins = false;
         }
     
+        if (true !== $useJoins) {
+            $orderByField = $orderBy;
+            if (false !== mb_strpos($orderByField, ' ')) {
+                [$orderByField, $direction] = explode(' ', $orderByField, 2);
+            }
+            if (
+                in_array($orderByField, ['page'], true)
+            ) {
+                $useJoins = true;
+            }
+        }
+    
         if (true === $useJoins) {
             $selection .= $this->addJoinsToSelection();
         }
@@ -575,6 +588,8 @@ abstract class AbstractContentItemRepository extends EntityRepository
             return $qb;
         }
     
+        $orderBy = $this->resolveOrderByForRelation($orderBy);
+    
         // add order by clause
         if (false === strpos($orderBy, '.')) {
             $orderBy = 'tbl.' . $orderBy;
@@ -592,6 +607,26 @@ abstract class AbstractContentItemRepository extends EntityRepository
         $qb->add('orderBy', $orderBy);
     
         return $qb;
+    }
+    
+    /**
+     * Resolves a given order by field to the corresponding relationship expression.
+     */
+    protected function resolveOrderByForRelation(string $orderBy): string
+    {
+        if (false !== mb_strpos($orderBy, ' ')) {
+            [$orderBy, $direction] = explode(' ', $orderBy, 2);
+        } else {
+            $direction = 'ASC';
+        }
+    
+        switch ($orderBy) {
+            case 'page':
+                $orderBy = 'tblPage.title';
+                break;
+        }
+    
+        return $orderBy . ' ' . $direction;
     }
 
     /**

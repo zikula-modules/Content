@@ -170,7 +170,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
                 'attr' => [
                     'class' => 'form-control-sm'
                 ],
-                'choices' =>             [
+                'choices' => [
                     'Title' => 'title',
                     'Views' => 'views',
                     'Active' => 'active',
