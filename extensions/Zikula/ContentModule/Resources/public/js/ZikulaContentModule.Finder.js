@@ -96,17 +96,17 @@ function zikulaContentGetPasteSnippet(mode, itemId) {
     pasteMode = jQuery("[id$='pasteAs']").first().val();
 
     // item ID
-    if (pasteMode === '3') {
+    if ('3' === pasteMode) {
         return '' + itemId;
     }
 
     // relative link to detail page
-    if (pasteMode === '1') {
-        return mode === 'url' ? itemPath : '<a href="' + itemPath + '" title="' + itemDescription + '">' + itemTitle + '</a>';
+    if ('1' === pasteMode) {
+        return 'url' === mode ? itemPath : '<a href="' + itemPath + '" title="' + itemDescription + '">' + itemTitle + '</a>';
     }
     // absolute url to detail page
-    if (pasteMode === '2') {
-        return mode === 'url' ? itemUrl : '<a href="' + itemUrl + '" title="' + itemDescription + '">' + itemTitle + '</a>';
+    if ('2' === pasteMode) {
+        return 'url' === mode ? itemUrl : '<a href="' + itemUrl + '" title="' + itemDescription + '">' + itemTitle + '</a>';
     }
 
     return '';
@@ -129,8 +129,12 @@ zikulaContentModule.finder.selectItem = function (itemId) {
         }
     } else if ('summernote' === editor) {
         if (null !== window.opener.currentZikulaContentModuleEditor) {
-            html = jQuery(html).get(0);
-            window.opener.currentZikulaContentModuleEditor.invoke('insertNode', html);
+            if ('3' === jQuery("[id$='pasteAs']").first().val()) {
+                window.opener.currentZikulaContentModuleEditor.invoke('insertText', html);
+            } else {
+                html = jQuery(html).get(0);
+                window.opener.currentZikulaContentModuleEditor.invoke('insertNode', html);
+            }
         }
     } else if ('tinymce' === editor) {
         window.opener.currentZikulaContentModuleEditor.insertContent(html);
