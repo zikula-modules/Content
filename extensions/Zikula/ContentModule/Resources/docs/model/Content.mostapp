@@ -30,6 +30,7 @@ application "Content" targets ZK30 {
         Entity/PageEntity.php,
         Entity/Repository/PageRepository.php,
         Form/Type/PageType.php,
+        Form/Type/QuickNavigation/PageQuickNavType.php,
         Helper/CollectionFilterHelper.php,
         Helper/ExampleDataHelper.php,
         Helper/ListEntriesHelper.php,

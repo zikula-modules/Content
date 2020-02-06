@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Form\Type\QuickNavigation;
 
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Zikula\ContentModule\Form\Type\QuickNavigation\Base\AbstractPageQuickNavType;
 
 /**
@@ -21,5 +23,8 @@ use Zikula\ContentModule\Form\Type\QuickNavigation\Base\AbstractPageQuickNavType
  */
 class PageQuickNavType extends AbstractPageQuickNavType
 {
-    // feel free to extend the base form type class here
+    public function addOutgoingRelationshipFields(FormBuilderInterface $builder, array $options = []): void
+    {
+        $builder->add('contentItems', HiddenType::class);
+    }
 }
