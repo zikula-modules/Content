@@ -20,18 +20,42 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
+use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
+use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\FeatureActivationHelper;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
+use Zikula\ContentModule\Helper\PermissionHelper;
 
 /**
  * Page quick navigation form type base class.
  */
 abstract class AbstractPageQuickNavType extends AbstractType
 {
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var EntityFactory
+     */
+    protected $entityFactory;
+
+    /**
+     * @var PermissionHelper
+     */
+    protected $permissionHelper;
+
+    /**
+     * @var EntityDisplayHelper
+     */
+    protected $entityDisplayHelper;
+
     /**
      * @var ListEntriesHelper
      */
@@ -43,9 +67,17 @@ abstract class AbstractPageQuickNavType extends AbstractType
     protected $featureActivationHelper;
 
     public function __construct(
+        RequestStack $requestStack,
+        EntityFactory $entityFactory,
+        PermissionHelper $permissionHelper,
+        EntityDisplayHelper $entityDisplayHelper,
         ListEntriesHelper $listHelper,
         FeatureActivationHelper $featureActivationHelper
     ) {
+        $this->requestStack = $requestStack;
+        $this->entityFactory = $entityFactory;
+        $this->permissionHelper = $permissionHelper;
+        $this->entityDisplayHelper = $entityDisplayHelper;
         $this->listHelper = $listHelper;
         $this->featureActivationHelper = $featureActivationHelper;
     }
@@ -62,6 +94,7 @@ abstract class AbstractPageQuickNavType extends AbstractType
         if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::CATEGORIES, 'page')) {
             $this->addCategoriesField($builder, $options);
         }
+        $this->addOutgoingRelationshipFields($builder, $options);
         $this->addListFields($builder, $options);
         $this->addSearchField($builder, $options);
         $this->addSortingFields($builder, $options);
@@ -96,6 +129,53 @@ abstract class AbstractPageQuickNavType extends AbstractType
             'entityCategoryClass' => $entityCategoryClass,
             'showRegistryLabels' => true
         ]);
+    }
+
+    /**
+     * Adds fields for outgoing relationships.
+     */
+    public function addOutgoingRelationshipFields(FormBuilderInterface $builder, array $options = []): void
+    {
+        $mainSearchTerm = '';
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request->query->has('q')) {
+            // remove current search argument from request to avoid filtering related items
+            $mainSearchTerm = $request->query->get('q');
+            $request->query->remove('q');
+        }
+        $entityDisplayHelper = $this->entityDisplayHelper;
+        $objectType = 'contentItem';
+        // select without joins
+        $entities = $this->entityFactory->getRepository($objectType)->selectWhere('', '', false);
+        $permLevel = ACCESS_READ;
+        
+        $entities = $this->permissionHelper->filterCollection(
+            $objectType,
+            $entities,
+            $permLevel
+        );
+        $choices = [];
+        foreach ($entities as $entity) {
+            $choices[$entity->getId()] = $entity;
+        }
+        
+        $builder->add('contentItems', ChoiceType::class, [
+            'choices' => /** @Ignore */$choices,
+            'choice_label' => function ($entity) use ($entityDisplayHelper) {
+                return $entityDisplayHelper->getFormattedTitle($entity);
+            },
+            'placeholder' => 'All',
+            'required' => false,
+            'label' => 'Content items',
+            'attr' => [
+                'class' => 'form-control-sm'
+            ]
+        ]);
+    
+        if ('' !== $mainSearchTerm) {
+            // readd current search argument
+            $request->query->set('q', $mainSearchTerm);
+        }
     }
 
     /**

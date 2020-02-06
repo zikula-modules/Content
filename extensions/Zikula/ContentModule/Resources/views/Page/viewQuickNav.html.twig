@@ -27,6 +27,13 @@
                     <div class="col-md-9">
             {% endif %}
         {% endif %}
+        {% if contentItemsFilter is defined and contentItemsFilter != true %}
+            <div class="d-none">
+        {% endif %}
+            {{ form_row(quickNavForm.contentItems) }}
+        {% if contentItemsFilter is defined and contentItemsFilter != true %}
+            </div>
+        {% endif %}
         {% if workflowStateFilter is defined and workflowStateFilter != true %}
             <div class="d-none">
         {% endif %}

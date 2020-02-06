@@ -134,6 +134,7 @@ abstract class AbstractCollectionFilterHelper
     
         $parameters['catId'] = $request->query->get('catId', '');
         $parameters['catIdList'] = $this->categoryHelper->retrieveCategoriesFromRequest('page', 'GET');
+        $parameters['contentItems'] = $request->query->get('contentItems', 0);
         $parameters['workflowState'] = $request->query->get('workflowState', '');
         $parameters['scope'] = $request->query->get('scope', '');
         $parameters['q'] = $request->query->get('q', '');
@@ -211,6 +212,15 @@ abstract class AbstractCollectionFilterHelper
                 } elseif ('yes' === $v || '1' === $v) {
                     $qb->andWhere('tbl.' . $k . ' = 1');
                 }
+                continue;
+            }
+            if (in_array($k, ['contentItems']) && !empty($v)) {
+                // multi-valued target of outgoing relation (one2many or many2many)
+                $qb->andWhere(
+                    $qb->expr()->isMemberOf(':' . $k, 'tbl.' . $k)
+                )
+                    ->setParameter($k, $v)
+                ;
                 continue;
             }
     
