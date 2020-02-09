@@ -7,7 +7,7 @@ services:
         autoconfigure: true
         public: false
         bind:
-            $bundle: '@Zikula\ContentModule\ZikulaContentModule'
+            $extension: '@Zikula\ContentModule\ZikulaContentModule'
             $twigLoader: '@twig.loader'
 
     Zikula\ContentModule\:
