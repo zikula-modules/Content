@@ -14,13 +14,20 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Base;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Zikula\Bundle\CoreBundle\Doctrine\Helper\SchemaHelper;
 use Zikula\CategoriesModule\Api\CategoryPermissionApi;
 use Zikula\CategoriesModule\Entity\CategoryRegistryEntity;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRegistryRepositoryInterface;
 use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
+use Zikula\ExtensionsModule\AbstractExtension;
+use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ExtensionsModule\Installer\AbstractExtensionInstaller;
-use Zikula\UsersModule\Api\CurrentUserApi;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageLogEntryEntity;
 use Zikula\ContentModule\Entity\PageTranslationEntity;
@@ -44,16 +51,65 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         ContentItemEntity::class,
         ContentItemTranslationEntity::class,
     ];
+    
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+    
+    /**
+     * @var CurrentUserApiInterface
+     */
+    protected $currentUserApi;
+    
+    /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+    
+    /**
+     * @var CategoryRegistryRepositoryInterface
+     */
+    protected $categoryRegistryRepository;
+    
+    /**
+     * @var CategoryPermissionApi
+     */
+    protected $categoryPermissionApi;
 
+    public function __construct(
+        AbstractExtension $extension,
+        ManagerRegistry $managerRegistry,
+        SchemaHelper $schemaTool,
+        RequestStack $requestStack,
+        TranslatorInterface $translator,
+        VariableApiInterface $variableApi,
+        LoggerInterface $logger,
+        CurrentUserApiInterface $currentUserApi,
+        CategoryRepositoryInterface $categoryRepository,
+        CategoryRegistryRepositoryInterface $categoryRegistryRepository,
+        CategoryPermissionApi $categoryPermissionApi) {
+        parent::__construct($extension, $managerRegistry, $schemaTool, $requestStack, $translator, $variableApi);
+        $this->logger = $logger;
+        $this->currentUserApi = $currentUserApi;
+        $this->categoryRepository = $categoryRepository;
+        $this->categoryRegistryRepository = $categoryRegistryRepository;
+        $this->categoryPermissionApi = $categoryPermissionApi;
+    }
+    
     public function install(): bool
     {
-        $userName = $this->container->get(CurrentUserApi::class)->get('uname');
+        $userName = $this->currentUserApi->get('uname');
     
         // create all tables from according entity definitions
         try {
             $this->schemaTool->create($this->entities);
         } catch (Exception $exception) {
             $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
+            $this->logger->error(
+                '{app}: Could not create the database tables during installation. Error details: {errorMessage}.',
+                ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
+            );
     
             return false;
         }
@@ -90,14 +146,14 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     
         // add default entry for category registry (property named Main)
         $categoryHelper = new \Zikula\ContentModule\Helper\CategoryHelper(
-            $this->container->get('translator'),
-            $this->container->get('request_stack'),
-            null,
-            $this->container->get(CurrentUserApi::class),
-            $this->container->get(CategoryRegistryRepositoryInterface::class),
-            $this->container->get(CategoryPermissionApi::class)
+            $this->translator,
+            $this->requestStack,
+            $this->logger,
+            $this->currentUserApi,
+            $this->categoryRegistryRepository,
+            $this->categoryPermissionApi
         );
-        $categoryGlobal = $this->container->get(CategoryRepositoryInterface::class)->findOneBy(['name' => 'Global']);
+        $categoryGlobal = $this->categoryRepository->findOneBy(['name' => 'Global']);
         if ($categoryGlobal) {
             $categoryRegistryIdsPerEntity = [];
     
@@ -139,6 +195,11 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                     $this->schemaTool->update($this->entities);
                 } catch (Exception $exception) {
                     $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
+                    $this->logger->error(
+                        '{app}: Could not update the database tables during the upgrade.'
+                            . ' Error details: {errorMessage}.',
+                        ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
+                    );
     
                     return false;
                 }
@@ -155,6 +216,10 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
             $this->schemaTool->drop($this->entities);
         } catch (Exception $exception) {
             $this->addFlash('error', $this->trans('Doctrine Exception') . ': ' . $exception->getMessage());
+            $this->logger->error(
+                '{app}: Could not remove the database tables during uninstallation. Error details: {errorMessage}.',
+                ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
+            );
     
             return false;
         }
@@ -163,8 +228,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
         $this->delVars();
     
         // remove category registry entries
-        $registryRepository = $this->container->get(CategoryRegistryRepositoryInterface::class);
-        $registries = $registryRepository->findBy(['modname' => 'ZikulaContentModule']);
+        $registries = $this->registryRepository->findBy(['modname' => 'ZikulaContentModule']);
         foreach ($registries as $registry) {
             $this->entityManager->remove($registry);
         }
