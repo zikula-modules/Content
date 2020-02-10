@@ -16,13 +16,11 @@ namespace Zikula\ContentModule;
 
 use DateTime;
 use Zikula\CategoriesModule\Entity\CategoryRegistryEntity;
-use Zikula\CategoriesModule\Entity\RepositoryInterface\CategoryRepositoryInterface;
 use Zikula\ContentModule\Base\AbstractContentModuleInstaller;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\PageCategoryEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\Helper\ContentDisplayHelper;
-use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 
 /**
@@ -30,6 +28,16 @@ use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
  */
 class ContentModuleInstaller extends AbstractContentModuleInstaller
 {
+    /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    /**
+     * @var ContentDisplayHelper
+     */
+    private $contentDisplayHelper;
+
     public function install(): bool
     {
         $result = parent::install();
@@ -59,16 +67,14 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             ini_set('max_execution_time', 300); // 300 seconds = 5 minutes
 
             // delete all old data
-            $variableApi = $this->container->get(VariableApi::class);
-            $variableApi->delAll('content');
-            $variableApi->delAll('Content');
+            $this->variableApi->delAll('content');
+            $this->variableApi->delAll('Content');
 
             // reinstall
             $this->install();
 
             // determine category registry identifier
-            $registryRepository = $this->container->get(CategoryRepositoryInterface::class);
-            $categoryRegistries = $registryRepository->findBy(['modname' => 'ZikulaContentModule']);
+            $categoryRegistries = $this->categoryRegistryRepository->findBy(['modname' => 'ZikulaContentModule']);
             $categoryRegistry = null;
             /** @var CategoryRegistryEntity $registry */
             foreach ($categoryRegistries as $registry) {
@@ -79,8 +85,6 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             }
 
             $connection = $this->entityManager->getConnection();
-            $dbName = $this->getDbName();
-            $userRepository = $this->container->get(UserRepositoryInterface::class);
             $contentTypeNamespace = 'Zikula\\ContentModule\\ContentType\\';
 
             $pageMap = [];
@@ -110,7 +114,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             // migrate pages, primary category assignments, page translations
             $stmt = $connection->executeQuery("
                 SELECT *
-                FROM $dbName.`content_page`
+                FROM `content_page`
                 ORDER BY `page_ppid`, `page_id`
             ");
             while ($row = $stmt->fetch()) {
@@ -150,13 +154,13 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 }
                 $uid = $row['page_cr_uid'];
                 if (!isset($userMap[$uid])) {
-                    $userMap[$uid] = $userRepository->find($uid);
+                    $userMap[$uid] = $this->userRepository->find($uid);
                 }
                 $page->setCreatedBy($userMap[$uid]);
                 $page->setCreatedDate(new DateTime($row['page_cr_date']));
                 $uid = $row['page_lu_uid'];
                 if (!isset($userMap[$uid])) {
-                    $userMap[$uid] = $userRepository->find($uid);
+                    $userMap[$uid] = $this->userRepository->find($uid);
                 }
                 $page->setUpdatedBy($userMap[$uid]);
                 $page->setUpdatedDate(new DateTime($row['page_lu_date']));
@@ -192,7 +196,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
                 $transStmt = $connection->executeQuery("
                     SELECT `transp_lang`, `transp_title`, `transp_metadescription`
-                    FROM $dbName.`content_translatedpage`
+                    FROM `content_translatedpage`
                     WHERE `transp_pid` = " . (int)$oldPageId . '
                 ');
                 while ($transRow = $transStmt->fetch()) {
@@ -205,11 +209,9 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             }
 
             // migrate content and content translations
-            /** @var ContentDisplayHelper $contentDisplayHelper */
-            $contentDisplayHelper = $this->container->get(ContentDisplayHelper::class);
             $stmt = $connection->executeQuery("
                 SELECT *
-                FROM $dbName.`content_content`
+                FROM `content_content`
                 ORDER BY `con_pageid`, `con_areaindex`, `con_position`
             ");
             while ($row = $stmt->fetch()) {
@@ -283,18 +285,18 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                     $item->setStylingClasses([$row['con_styleclass']]);
                 }
 
-                $contentType = $contentDisplayHelper->initContentType($item);
+                $contentType = $this->contentDisplayHelper->initContentType($item);
                 $item->setSearchText($contentType->getSearchableText());
 
                 $uid = $row['con_cr_uid'];
                 if (!isset($userMap[$uid])) {
-                    $userMap[$uid] = $userRepository->find($uid);
+                    $userMap[$uid] = $this->userRepository->find($uid);
                 }
                 $item->setCreatedBy($userMap[$uid]);
                 $item->setCreatedDate(new DateTime($row['con_cr_date']));
                 $uid = $row['con_lu_uid'];
                 if (!isset($userMap[$uid])) {
-                    $userMap[$uid] = $userRepository->find($uid);
+                    $userMap[$uid] = $this->userRepository->find($uid);
                 }
                 $item->setUpdatedBy($userMap[$uid]);
                 $item->setUpdatedDate(new DateTime($row['con_lu_date']));
@@ -310,7 +312,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
                 $transStmt = $connection->executeQuery("
                     SELECT `transc_lang`, `transc_data`
-                    FROM $dbName.`content_translatedcontent`
+                    FROM `content_translatedcontent`
                     WHERE `transc_cid` = " . (int)$oldContentItemId . '
                 ');
                 while ($transRow = $transStmt->fetch()) {
@@ -318,7 +320,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                     if ($contentData) {
                         $contentData += $item->getContentData();
                         $item->setContentData($contentData);
-                        $contentType = $contentDisplayHelper->initContentType($item);
+                        $contentType = $this->contentDisplayHelper->initContentType($item);
                         $item->setSearchText($contentType->getSearchableText());
                     }
 
@@ -328,13 +330,13 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             }
 
             // remove old tables
-            $connection->executeQuery("DROP TABLE $dbName.`content_history`");
-            $connection->executeQuery("DROP TABLE $dbName.`content_searchable`");
-            $connection->executeQuery("DROP TABLE $dbName.`content_translatedcontent`");
-            $connection->executeQuery("DROP TABLE $dbName.`content_content`");
-            $connection->executeQuery("DROP TABLE $dbName.`content_translatedpage`");
-            $connection->executeQuery("DROP TABLE $dbName.`content_pagecategory`");
-            $connection->executeQuery("DROP TABLE $dbName.`content_page`");
+            $connection->executeQuery("DROP TABLE `content_history`");
+            $connection->executeQuery("DROP TABLE `content_searchable`");
+            $connection->executeQuery("DROP TABLE `content_translatedcontent`");
+            $connection->executeQuery("DROP TABLE `content_content`");
+            $connection->executeQuery("DROP TABLE `content_translatedpage`");
+            $connection->executeQuery("DROP TABLE `content_pagecategory`");
+            $connection->executeQuery("DROP TABLE `content_page`");
 
             $this->addFlash('success', $this->trans('Done! Migrated %amount% pages.', ['%amount%' => count($pageMap)]));
 
@@ -347,11 +349,10 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             case '5.0.2':
             case '5.0.3':
                 $connection = $this->entityManager->getConnection();
-                $dbName = $this->getDbName();
 
                 // add scope field to pages
                 $sql = '
-                    ALTER TABLE ' . $dbName . '.`zikula_content_page`
+                    ALTER TABLE `zikula_content_page`
                     ADD `scope` VARCHAR(100) NOT NULL
                     AFTER `activeTo`
                 ';
@@ -359,7 +360,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
                 $stmt->execute();
 
                 $sql = '
-                    UPDATE ' . $dbName . '.`zikula_content_page`
+                    UPDATE `zikula_content_page`
                     SET scope = \'0\'
                 ';
                 $stmt = $connection->prepare($sql);
@@ -367,7 +368,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
 
                 // extend length of scope field of content items
                 $sql = '
-                    ALTER TABLE ' . $dbName . '.`zikula_content_contentitem`
+                    ALTER TABLE `zikula_content_contentitem`
                     MODIFY `scope` VARCHAR(100) NOT NULL
                 ';
                 $stmt = $connection->prepare($sql);
@@ -384,10 +385,12 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
     }
 
     /**
-     * Returns the name of the default system database.
+     * @required
      */
-    private function getDbName(): string
-    {
-        return $this->container->getParameter('database_name');
+    public function setAdditionalDependencies(
+        UserRepositoryInterface $userRepository,
+        ContentDisplayHelper $contentDisplayHelper
+    ) {
+        $this->userRepository = $userRepository;
     }
 }
