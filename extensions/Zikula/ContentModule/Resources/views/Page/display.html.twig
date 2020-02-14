@@ -13,10 +13,12 @@
     <div class="zikulacontentmodule-page zikulacontentmodule-display">
         <div class="row">
             <div class="col-md-9">
-                {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'display'}) %}
-                <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{% trans from 'messages' %}Actions{% endtrans %}">
-                    {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
-                </div>
+                {% if not isQuickView %}
+                    {% set itemActions = knp_menu_get('zikulaContentMenuItemActions', [], {entity: page, area: routeArea, context: 'display'}) %}
+                    <div class="btn-group btn-group-sm item-actions" role="group" aria-label="{% trans from 'messages' %}Actions{% endtrans %}">
+                        {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
+                    </div>
+                {% endif %}
                 <dl>
                     {% if page.workflowState is not empty and routeArea == 'admin' %}
                         <dt>{% trans %}State{% endtrans %}</dt>
