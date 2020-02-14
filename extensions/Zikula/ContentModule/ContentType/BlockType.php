@@ -97,7 +97,7 @@ class BlockType extends AbstractContentType
         $quickActions .= '<a href="javascript:void(0);" title="'
             . $this->translator->trans('Preview block content', [], 'contentTypes')
             . '" onclick="'
-            . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
+            . 'jQuery(this).parent().next(\'.d-none\').removeClass(\'d-none\'); '
             . 'jQuery(this).remove();'
             . '"><i class="fas fa-2x fa-eye"></i></a>'
         ;
@@ -114,7 +114,7 @@ class BlockType extends AbstractContentType
             $editOutput .= '<p><em>' . $block->getDescription() . '</em></p>';
         }
         $editOutput .= '<p>' . $quickActions . '</p>';
-        $editOutput .= '<div class="hidden">' . $output . '</div>';
+        $editOutput .= '<div class="d-none">' . $output . '</div>';
 
         return $editOutput;
     }
@@ -138,12 +138,11 @@ class BlockType extends AbstractContentType
         }
 
         // Check if providing module is available and if block is active.
-        $bundleName = $block->getModule()->getName();
-        $moduleInstance = $this->kernel->getModule($bundleName);
-        if (!isset($moduleInstance)) {
+        $extensionName = $block->getModule()->getName();
+        if (!$this->kernel->isBundle($extensionName)) {
             $this->data['noDisplayMessage'] = $this->translator->trans(
-                'Module %module% is not available.',
-                ['%module' => $bundleName]
+                'Extension %extension% is not available.',
+                ['%extension%' => $extensionName]
             );
 
             return;
@@ -162,12 +161,12 @@ class BlockType extends AbstractContentType
         // but because blockHandlers don't call (and are not considered) a controller, that listener doesn't get called.
         $theme = $this->themeEngine->getTheme();
         if ($theme) {
-            $overridePath = $theme->getPath() . '/Resources/' . $bundleName . '/views';
+            $overridePath = $theme->getPath() . '/Resources/' . $extensionName . '/views';
             if (is_readable($overridePath)) {
-                $paths = $this->twigLoader->getPaths($bundleName);
+                $paths = $this->twigLoader->getPaths($extensionName);
                 // inject themeOverridePath before the original path in the array
                 array_splice($paths, count($paths) - 1, 0, [$overridePath]);
-                $this->twigLoader->setPaths($paths, $bundleName);
+                $this->twigLoader->setPaths($paths, $extensionName);
             }
         }
 
@@ -183,9 +182,10 @@ class BlockType extends AbstractContentType
         $blockProperties['title'] = $block->getTitle();
         $blockProperties['position'] = $positionName;
         $content = $blockInstance->display($blockProperties);
-        if (isset($moduleInstance)) {
+        $extensionInstance = $this->kernel->getModule($extensionName);
+        if (isset($extensionInstance)) {
             // add module stylesheet to page
-            $moduleInstance->addStylesheet();
+            $extensionInstance->addStylesheet();
         }
 
         $this->data['content'] = $this->themeEngine->wrapBlockContentInTheme(

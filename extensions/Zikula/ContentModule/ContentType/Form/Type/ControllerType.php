@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zikula\Bundle\FormExtensionBundle\Form\Type\ControllerType as ControllerFormType;
 use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 use Zikula\SettingsModule\Validator\Constraints\ValidController;
 
@@ -28,31 +28,9 @@ class ControllerType extends AbstractContentFormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('controller', TextType::class, [
-                'label' => 'Controller',
-                'help' => 'FQCN::method, for example <code>Zikula\FooModule\Controller\BarController::mainAction</code>',
-                'help_html' => true,
-                'constraints' => [
-                    new ValidController()
-                ]
-            ])
-            ->add('query', TextType::class, [
-                'label' => 'GET parameters',
-                'help' => 'Separate with &, for example: <code>foo=2&bar=5</code>',
-                'help_html' => true,
-                'required' => false
-            ])
-            ->add('request', TextType::class, [
-                'label' => 'POST parameters',
-                'help' => 'Separate with &, for example: <code>foo=2&bar=5</code>',
-                'help_html' => true,
-                'required' => false
-            ])
-            ->add('attributes', TextType::class, [
-                'label' => 'Request attributes',
-                'help' => 'Separate with &, for example: <code>foo=2&bar=5</code>',
-                'help_html' => true,
-                'required' => false
+            ->add('controller', ControllerFormType::class, [
+                'label' => false,
+                'parameterTypes' => ['query', 'request', 'attributes']
             ])
         ;
     }
@@ -64,6 +42,8 @@ class ControllerType extends AbstractContentFormType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
             'translation_domain' => 'contentTypes'
         ]);

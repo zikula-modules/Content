@@ -56,7 +56,6 @@ class EntityLifecycleListener extends AbstractEntityLifecycleListener
 
         $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
         $connection = $entityManager->getConnection();
-        $dbName = $this->container->getParameter('database_name');
 
         $translatableHelper = $this->container->get(TranslatableHelper::class);
         $currentLocale = $translatableHelper->getCurrentLanguage();
@@ -74,7 +73,7 @@ class EntityLifecycleListener extends AbstractEntityLifecycleListener
             $slugForLocale = str_replace($parentSlugForCurrentLocale, $parentSlugForLocale, $slugForLocale);
 
             $sql = '
-                UPDATE ' . $dbName . '.`zikula_content_page_translation`
+                UPDATE .`zikula_content_page_translation`
                 SET `content` = "' . $slugForLocale . '"
                 WHERE `foreign_key` = ' . $page->getId() . '
                 AND `field` = "slug"
@@ -89,12 +88,11 @@ class EntityLifecycleListener extends AbstractEntityLifecycleListener
     {
         $entityManager = $this->container->get(EntityFactory::class)->getEntityManager();
         $connection = $entityManager->getConnection();
-        $dbName = $this->container->getParameter('database_name');
 
         $slug = '';
         $stmt = $connection->executeQuery("
             SELECT `content`
-            FROM $dbName.`zikula_content_page_translation`
+            FROM `zikula_content_page_translation`
             WHERE `foreign_key` = " . $pageId . "
             AND `field` = \"slug\"
             AND `locale` = \"" . $locale . "\"

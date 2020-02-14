@@ -60,10 +60,12 @@ class ControllerType extends AbstractContentType
     public function getDefaultData(): array
     {
         return [
-            'controller' => '',
-            'query' => '',
-            'request' => '',
-            'attributes' => ''
+            'controller' => [
+                'controller' => '',
+                'query' => '',
+                'request' => '',
+                'attributes' => ''
+            ]
         ];
     }
 
@@ -85,28 +87,31 @@ class ControllerType extends AbstractContentType
         $quickAction = '<a href="javascript:void(0);" title="'
             . $this->translator->trans('Preview controller content', [], 'contentTypes')
             . '" onclick="'
-            . 'jQuery(this).parent().next(\'.hidden\').removeClass(\'hidden\'); '
+            . 'jQuery(this).parent().next(\'.d-none\').removeClass(\'d-none\'); '
             . 'jQuery(this).remove();'
             . '"><i class="fas fa-2x fa-eye"></i></a>'
         ;
-        $editOutput = '<h3>' . $this->data['controller'] . '</h3>';
-        if ($this->data['query']) {
+        $pageInfo = $this->data['controller'];
+        [$route, $controller] = explode('###', $pageInfo['controller']);
+        $editOutput = '<h3>' . $route . '</h3>';
+        $editOutput .= '<p>' . $controller . '</p>';
+        if ($pageInfo['query']) {
             $editOutput .= '<p>' . $this->translator->trans('GET parameters', [], 'contentTypes')
-                . ': <em>' . $this->data['query'] . '</em></p>'
+                . ': <em>' . $pageInfo['query'] . '</em></p>'
             ;
         }
-        if ($this->data['request']) {
+        if ($pageInfo['request']) {
             $editOutput .= '<p>' . $this->translator->trans('POST parameters', [], 'contentTypes')
-                . ': <em>' . $this->data['request'] . '</em></p>'
+                . ': <em>' . $pageInfo['request'] . '</em></p>'
             ;
         }
-        if ($this->data['attributes']) {
+        if ($pageInfo['attributes']) {
             $editOutput .= '<p>' . $this->translator->trans('Request attributes', [], 'contentTypes')
-                . ': <em>' . $this->data['attributes'] . '</em></p>'
+                . ': <em>' . $pageInfo['attributes'] . '</em></p>'
             ;
         }
         $editOutput .= '<p>' . $quickAction . '</p>';
-        $editOutput .= '<div class="hidden">' . $output . '</div>';
+        $editOutput .= '<div class="d-none">' . $output . '</div>';
 
         return $editOutput;
     }
@@ -119,26 +124,23 @@ class ControllerType extends AbstractContentType
         $this->data['content'] = '';
         $this->data['noDisplayMessage'] = '';
 
-        $controller = trim($this->data['controller'], '\\');
-        if (!$controller) {
+        $pageInfo = $this->data['controller'];
+        if (!is_array($pageInfo) || !isset($pageInfo['controller']) || empty($pageInfo['controller'])) {
             return;
         }
 
-        list($vendor, $bundleName) = explode('\\', $controller);
-        $bundleName = $vendor . $bundleName;
-        if (!$this->kernel->isBundle($bundleName)) {
-            $this->data['noDisplayMessage'] = $this->translator->trans(
-                'Module %module% is not available.',
-                ['%module%' => $bundleName]
-            );
-
+        [$route, $controller] = explode('###', $pageInfo['controller']);
+        if (false === mb_strpos($controller, '\\') || false === mb_strpos($controller, '::')) {
             return;
         }
-        $moduleInstance = $this->kernel->getModule($bundleName);
-        if (!isset($moduleInstance)) {
+
+        [$vendor, $extensionName] = explode('\\', $controller);
+        $extensionName = $vendor . $extensionName;
+        [$fqcn, $method] = explode('::', $controller);
+        if (!$this->kernel->isBundle($extensionName) || !class_exists($fqcn) || !is_callable([$fqcn, $method])) {
             $this->data['noDisplayMessage'] = $this->translator->trans(
-                'Module %module% is not available.',
-                ['%module%' => $bundleName]
+                'Extension %extension% is not available.',
+                ['%extension%' => $extensionName]
             );
 
             return;
@@ -161,25 +163,27 @@ class ControllerType extends AbstractContentType
             return $this->translator->trans('Maximum number of pages-in-pages reached! You probably included this page in itself.', [], 'contentTypes');
         }
 
-        $controller = $this->data['controller'];
-        list($vendor, $bundleName) = explode('\\', $controller);
-        $bundleName = $vendor . $bundleName;
+        $pageInfo = $this->data['controller'];
+        [$route, $controller] = explode('###', $pageInfo['controller']);
+        [$vendor, $extensionName] = explode('\\', $controller);
+        $extensionName = $vendor . $extensionName;
 
-        $query = $request = $attributes = [];
-        if (null !== $this->data['query']) {
-            parse_str($this->data['query'], $query);
+        $queryParams = $requestParams = $attributes = [];
+        if (null !== $pageInfo['query']) {
+            parse_str($pageInfo['query'], $queryParams);
         }
-        if (null !== $this->data['request']) {
-            parse_str($this->data['request'], $request);
+        if (null !== $pageInfo['request']) {
+            parse_str($pageInfo['request'], $requestParams);
         }
-        if (null !== $this->data['attributes']) {
-            parse_str($this->data['attributes'], $attributes);
+        if (null !== $pageInfo['attributes']) {
+            parse_str($pageInfo['attributes'], $attributes);
         }
         $attributes['_controller'] = $controller;
+        $attributes['_route'] = $route;
 
         $masterRequest = $this->requestStack->getMasterRequest();
-        $masterRequest->attributes->set('_zkModule', $bundleName);
-        $subRequest = $masterRequest->duplicate($query, $request, $attributes);
+        $masterRequest->attributes->set('_zkModule', $extensionName);
+        $subRequest = $masterRequest->duplicate($queryParams, $requestParams, $attributes);
 
         ++$recursionLevel;
 

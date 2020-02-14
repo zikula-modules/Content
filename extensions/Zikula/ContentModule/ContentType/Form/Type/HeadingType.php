@@ -76,6 +76,8 @@ class HeadingType extends AbstractContentFormType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
             'translation_domain' => 'contentTypes'
         ]);
