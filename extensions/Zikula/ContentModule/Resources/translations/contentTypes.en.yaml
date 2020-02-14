@@ -18,12 +18,8 @@ Breadcrumb: null
 'Add text here...': null
 'Tab navigation': null
 'Tab navigation with existing Content items.': null
-Controller: null
 'Display controller output from any installed module, theme or bundle.': null
 'Preview controller content': null
-'GET parameters': null
-'POST parameters': null
-'Request attributes': null
 'Maximum number of pages-in-pages reached! You probably included this page in itself.': null
 'Unfiltered raw text': null
 'A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).': null
@@ -86,8 +82,6 @@ Pills: null
 'Link names:': null
 'Navigation type:': null
 'Custom style class:': null
-'FQCN::method, for example <code>Zikula\FooModule\Controller\BarController::mainAction</code>': null
-'Separate with &, for example: <code>foo=2&bar=5</code>': null
 'If this setting is enabled the text field above will be ignored and iframe parameters will be used.': null
 'the src parameter of the iframe': null
 'the style parameter of the iframe, e.g. <code>border: 0</code>': null
