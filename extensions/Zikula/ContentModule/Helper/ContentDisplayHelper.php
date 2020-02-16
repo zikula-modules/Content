@@ -71,8 +71,9 @@ class ContentDisplayHelper implements ContainerAwareInterface
             }
         }
         if (isset($assets['js']) && is_array($assets['js'])) {
+            $weight = 100;
             foreach ($assets['js'] as $path) {
-                $this->pageAssetApi->add('javascript', $path);
+                $this->pageAssetApi->add('javascript', $path, ++$weight);
             }
         }
         $jsEntryPoint = $contentType->getJsEntrypoint($context);

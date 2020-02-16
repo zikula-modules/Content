@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\ContentType;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\ContentModule\ContentType\Form\Type\LeafletMapType as FormType;
 use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentType;
 use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
@@ -23,6 +25,16 @@ use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
  */
 class LeafletMapType extends AbstractContentType
 {
+    /**
+     * @var ZikulaHttpKernelInterface
+     */
+    private $kernel;
+
+    /**
+     * @var Filesystem
+     */
+    private $fileSystem;
+
     public function getCategory(): string
     {
         return ContentTypeInterface::CATEGORY_EXTERNAL;
@@ -77,14 +89,23 @@ class LeafletMapType extends AbstractContentType
         $assets = parent::getAssets($context);
 
         if (in_array($context, [ContentTypeInterface::CONTEXT_VIEW, ContentTypeInterface::CONTEXT_EDIT], true)) {
-            $pathToStyle = $this->assetHelper->resolve(
-                '@ZikulaContentModule:css/style.css'
-            );
-            $pathToLeaflet = str_replace('Resources/public/css/style.css', '', $pathToStyle)
-                . 'vendor/drmonty/leaflet/'
-            ;
-            $assets['css'][] = $pathToLeaflet . 'css/leaflet.css';
-            $assets['js'][] = $pathToLeaflet . 'js/leaflet.min.js';
+            $leafletSrcPath = $this->kernel->getProjectDir() . '/src/extensions/Zikula/ContentModule/vendor/drmonty/leaflet/';
+            $leafletPublicPath = $this->kernel->getProjectDir() . '/public/modules/zikulacontent/';
+
+            $leafletFiles = [
+                ['type' => 'css', 'file' => 'leaflet.css'],
+                ['type' => 'js', 'file' => 'leaflet.min.js']
+            ];
+            foreach ($leafletFiles as $fileDef) {
+                $relativeFilePath = $fileDef['type'] . '/' . $fileDef['file'];
+                if (!$this->fileSystem->exists($leafletPublicPath . $relativeFilePath)) {
+                    $this->fileSystem->copy($leafletSrcPath . $relativeFilePath, $leafletPublicPath . $relativeFilePath);
+                }
+                $assets[$fileDef['type']][] = $this->assetHelper->resolve(
+                    '@ZikulaContentModule:' . $relativeFilePath
+                );
+            }
+
             $assets['js'][] = $this->assetHelper->resolve(
                 '@ZikulaContentModule:js/ZikulaContentModule.ContentType.LeafletMap.js'
             );
@@ -103,5 +124,16 @@ class LeafletMapType extends AbstractContentType
         }
 
         return null;
+    }
+
+    /**
+     * @required
+     */
+    public function setAdditionalDepencies(
+        ZikulaHttpKernelInterface $kernel,
+        Filesystem $fileSystem
+    ): void {
+        $this->kernel = $kernel;
+        $this->fileSystem = $fileSystem;
     }
 }
