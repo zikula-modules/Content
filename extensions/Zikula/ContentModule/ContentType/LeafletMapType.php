@@ -94,6 +94,11 @@ class LeafletMapType extends AbstractContentType
 
             $leafletFiles = [
                 ['type' => 'css', 'file' => 'leaflet.css'],
+                ['type' => 'images', 'file' => 'layers-2x.png'],
+                ['type' => 'images', 'file' => 'layers.png'],
+                ['type' => 'images', 'file' => 'marker-icon-2x.png'],
+                ['type' => 'images', 'file' => 'marker-icon.png'],
+                ['type' => 'images', 'file' => 'marker-shadow.png'],
                 ['type' => 'js', 'file' => 'leaflet.min.js']
             ];
             foreach ($leafletFiles as $fileDef) {
