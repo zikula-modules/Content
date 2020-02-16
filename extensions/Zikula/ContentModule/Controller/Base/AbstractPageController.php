@@ -189,7 +189,7 @@ abstract class AbstractPageController extends AbstractController
         }
         if (null === $page) {
             throw new NotFoundHttpException(
-                $this->__(
+                $this->trans(
                     'No such page found.',
                     [],
                     'page'
