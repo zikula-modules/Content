@@ -35,6 +35,7 @@ class SubPagesBlockType extends AbstractType
             'label' => 'Amount:',
             'attr' => [
                 'maxlength' => 2,
+                /** @Ignore */
                 'title' => $helpText
             ],
             /** @Ignore */

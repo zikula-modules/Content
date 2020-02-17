@@ -1,4 +1,3 @@
-'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.': null
 'Content items': null
 'Welcome to the content item section of the Content application.': null
 'Active:': null
@@ -8,6 +7,9 @@
 'Styling classes:': null
 'Additional search text:': null
 contentData: null
+'active ?': null
+'Choose the scope.': null
+'Choose any additional styling classes.': null
 Move: null
 Copy: null
 'Destination page:': null
@@ -21,3 +23,4 @@ inactive: null
 'only logged in members': null
 'only not logged in people': null
 'specific group': null
+'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.': null

@@ -9,9 +9,8 @@ Permalinks: null
 Moderation: null
 Integration: null
 Versioning: null
-'Available plugins': null
+Workflows: null
 'Here you can manage all basic settings for this application.': null
-'Get API key': null
 'With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".': null
 'Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.': null
 'Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.': null
@@ -19,14 +18,13 @@ Versioning: null
 'Here you can define moderation-related settings.': null
 'These options allow you to configure integration aspects.': null
 'Here you can define settings related to version control.': null
-'Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.': null
-Bundle: null
-Plugin: null
-Active: null
-Category: null
-Description: null
-'Yes': null
-'No': null
+'Here you can inspect and amend the existing workflows.': null
+Pages: null
+'Edit workflow for pages': null
+'Edit pages workflow': null
+'Content items': null
+'Edit workflow for content items': null
+'Edit content items workflow': null
 'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.': null
 'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".': null
 'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.': null
@@ -79,6 +77,34 @@ Description: null
 Reset: null
 Cancel: null
 'Choose an option': null
+'Choose the state of new pages.': null
+'The count page views option': null
+'Enter the google maps api key.': null
+'Enter the yandex translate api key.': null
+'The enable raw plugin option': null
+'The inherit permissions option': null
+'The enable automatic page links option': null
+'Enter the page styles.': null
+'Enter the section styles.': null
+'Enter the content styles.': null
+'The enable optional string 1 option': null
+'The enable optional string 2 option': null
+'The enable optional text option': null
+'The ignore bundle name in routes option': null
+'The ignore entity name in routes option': null
+'The ignore first tree level in routes option': null
+'Choose the permalink suffix.': null
+'Enter the page entries per page. Only digits are allowed.': null
+'The link own pages on account page option': null
+'The page private mode option': null
+'The show only own entries option': null
+'The allow moderation specific creator for page option': null
+'The allow moderation specific creation date for page option': null
+'Choose the enabled finder types.': null
+'Choose the revision handling for page.': null
+'Choose the maximum amount of page revisions.': null
+'Choose the period for page revisions.': null
+'The show page history option': null
 'New pages will be active and available in the menu': null
 'New pages will be inactive and available in the menu': null
 'New pages will be active and not available in the menu': null
@@ -105,8 +131,17 @@ Page: null
 'Content Backend': null
 Frontend: null
 Backend: null
-Pages: null
 'Switch to user area.': null
 'Switch to administration area.': null
 'Pages list': null
 'Manage settings for this application': null
+'Available plugins': null
+'Get API key': null
+'Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.': null
+Bundle: null
+Plugin: null
+Active: null
+Category: null
+Description: null
+'Yes': null
+'No': null

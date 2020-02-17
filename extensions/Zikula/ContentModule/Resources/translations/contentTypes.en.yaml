@@ -18,8 +18,12 @@ Breadcrumb: null
 'Add text here...': null
 'Tab navigation': null
 'Tab navigation with existing Content items.': null
+Controller: null
 'Display controller output from any installed module, theme or bundle.': null
 'Preview controller content': null
+'GET parameters': null
+'POST parameters': null
+'Request attributes': null
 'Maximum number of pages-in-pages reached! You probably included this page in itself.': null
 'Unfiltered raw text': null
 'A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).': null
@@ -112,6 +116,7 @@ Pills: null
 'Include subpages:': null
 'Include subpages into table up to level:': null
 'All pages': null
+'Choose the start page.': null
 'Can contain HTML markup. Leave this field empty for disabling the popup window.': null
 'Description to be shown below the map:': null
 'Text to be shown in the popup window of the marker:': null

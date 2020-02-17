@@ -1,11 +1,6 @@
 'Extension %extension% is not available.': null
-Back: null
-Overview: null
-Forward: null
 and: null
 'Reset to empty value': null
-Content: null
-Options: null
 'Creation and update': null
 Creation: null
 'Created by %user% on %date%': null
@@ -44,32 +39,20 @@ version: null
 'Field name': null
 'Version %version%': null
 'an empty value': null
-'Styling classes': null
-OK: null
-Save: null
-Delete: null
-Cancel: null
-Close: null
 'Sort by %fieldName%': null
-Category: null
 'View detail page': null
 'This setting is enabled. Click here to disable it.': null
-Active: null
 'This setting is disabled. Click here to enable it.': null
-Inactive: null
 'Yes': null
 'No': null
-In: null
-Out: null
-'on %date% by %user%': null
-'on %date%': null
 'Choose action': null
 'Delete content permanently.': null
+Delete: null
 Submit: null
-'Welcome to the contents for %sitename%': null
 Errors: null
 'Further properties': null
 Moderation: null
+Relatives: null
 'All parents': null
 'Direct parent': null
 'All children': null
@@ -87,11 +70,10 @@ Action: null
 'Expand all': null
 'Collapse all nodes': null
 'Collapse all': null
-'Step %step% of %amount%': null
-'Jump to element:': null
 'Doctrine Exception': null
 'Error! Could not create a category registry for the %entity% entity. If you want to use categorisation, register at least one registry in the Categories administration.': null
 'Styling classes:': null
+'Choose any additional styling classes.': null
 'No such item found.': null
 'Error! Could not determine workflow actions.': null
 'Done! Item created.': null
@@ -102,7 +84,6 @@ Action: null
 'Error! Deletion attempt failed.': null
 'Sorry, but someone else has already changed this record. Please apply the changes again!': null
 'Sorry, but an error occured during the %action% action. Please apply the changes again!': null
-'Links to the list of pages and specific pages.': null
 Pages: null
 'This is only a dummy page containing the real pages': null
 '<p>There has been a <strong>%module%</strong> element with type <strong>%type%</strong> which could not be migrated during the Content module upgrade.</p>': null
@@ -151,6 +132,7 @@ Navbar: null
 'Use only pages activated for the menu:': null
 'Filter (expert option):': null
 'All pages': null
+'Example: tbl.age >= 18': null
 'Object type:': null
 'Entry to display:': null
 'Custom template:': null
@@ -210,3 +192,39 @@ Views: null
 'Done! Content moved.': null
 'Done! Content copied.': null
 'Invalid user identifier received.': null
+'Add a new page': null
+'Content Backend': null
+'Tabular view': null
+'Hierarchy view': null
+Sitemap: null
+'Simple list': null
+'Extended list': null
+'Complete list': null
+'Categories list': null
+'Shows the pages table': null
+'Shows the pages tree': null
+'Shows a simple list of pages': null
+'Shows an extended list of pages with first content elements': null
+'Shows a complete list of pages with complete content': null
+'Shows content grouped by categories': null
+Back: null
+Overview: null
+Forward: null
+Content: null
+Options: null
+'Styling classes': null
+OK: null
+Save: null
+Cancel: null
+Close: null
+Category: null
+Active: null
+Inactive: null
+In: null
+Out: null
+'on %date% by %user%': null
+'on %date%': null
+'Welcome to the contents for %sitename%': null
+'Step %step% of %amount%': null
+'Jump to element:': null
+'Links to the list of pages and specific pages.': null

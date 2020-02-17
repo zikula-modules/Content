@@ -153,6 +153,7 @@ class ContentItemType extends AbstractType
             'empty_data' => '',
             'attr' => [
                 'maxlength' => 255,
+                /** @Ignore */
                 'title' => $helpText
             ],
             'required' => false,
