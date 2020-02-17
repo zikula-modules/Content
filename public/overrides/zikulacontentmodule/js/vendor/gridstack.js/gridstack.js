@@ -1,5 +1,5 @@
 /**
- * gridstack.js 0.6.3
+ * gridstack.js 0.6.4
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
@@ -75,7 +75,7 @@
         return Utils.sortBy(nodes, function(n) { return (n.x + n.y * column); });
     },
 
-    createStylesheet: function(id) {
+    createStylesheet: function(id, parent) {
       var style = document.createElement('style');
       style.setAttribute('type', 'text/css');
       style.setAttribute('data-gs-style-id', id);
@@ -84,7 +84,8 @@
       } else {
         style.appendChild(document.createTextNode(''));
       }
-      document.getElementsByTagName('head')[0].appendChild(style);
+      if (!parent) { parent = document.getElementsByTagName('head')[0]; } // default to head
+      parent.insertBefore(style, parent.firstChild);
       return style.sheet;
     },
 
@@ -473,13 +474,26 @@
     this.nodes.forEach(function(n) { delete n._dirty; });
   };
 
-  GridStackEngine.prototype.getDirtyNodes = function() {
+  GridStackEngine.prototype.getDirtyNodes = function(verify) {
+    // compare original X,Y,W,H (or entire node?) instead as _dirty can be a temporary state
+    if (verify) {
+      var dirtNodes = [];
+      this.nodes.forEach(function (n) {
+        if (n._dirty) {
+          if (n.y === n._origY && n.x === n._origX && n.width === n._origW && n.height === n._origH) {
+            delete n._dirty;
+          } else {
+            dirtNodes.push(n);
+          }
+        }
+      });
+      return dirtNodes;
+    }
+
     return this.nodes.filter(function(n) { return n._dirty; });
   };
 
   GridStackEngine.prototype.addNode = function(node, triggerAddEvent) {
-    var prev = {x: node.x, y: node.y, width: node.width, height: node.height};
-
     node = this._prepareNode(node);
 
     if (node.maxWidth !== undefined) { node.width = Math.min(node.width, node.maxWidth); }
@@ -510,10 +524,6 @@
     this.nodes.push(node);
     if (triggerAddEvent) {
       this._addedNodes.push(node);
-    }
-    // use single equal as they come as string/undefined but end as number....
-    if (!node._dirty && (prev.x != node.x || prev.y != node.y || prev.width != node.width || prev.height != node.height)) {
-      node._dirty = true;
     }
 
     this._fixCollisions(node);
@@ -671,6 +681,11 @@
     }
   };
 
+  /**
+   * Construct a grid from the given element and options
+   * @param {GridStackElement} el
+   * @param {GridstackOptions} opts
+   */
   var GridStack = function(el, opts) {
     var self = this;
     var oneColumnMode, _prevColumn, isAutoCellHeight;
@@ -809,6 +824,7 @@
         this._prepareElement(item.el);
       }, this);
     }
+    this.grid._saveInitial(); // initial start of items
 
     this.setAnimation(this.opts.animate);
 
@@ -953,6 +969,7 @@
           el.data('_gridstack_node_orig', origNode);
 
           el.on('drag', onDrag);
+          return false; // prevent parent from receiving msg (which may be grid as well)
         })
         .on(self.container, 'dropout', function(event, ui) {
           // jquery-ui bug. Must verify widget is being dropped out
@@ -971,6 +988,7 @@
           self.placeholder.detach();
           self._updateContainerHeight();
           el.data('_gridstack_node', el.data('_gridstack_node_orig'));
+          return false; // prevent parent from receiving msg (which may be grid as well)
         })
         .on(self.container, 'drop', function(event, ui) {
           self.placeholder.detach();
@@ -1012,25 +1030,27 @@
           $(ui.draggable).removeData('_gridstack_node');
           $(ui.draggable).removeData('_gridstack_node_orig');
           self.container.trigger('dropped', [originalNode, node]);
+          return false; // prevent parent from receiving msg (which may be grid as well)
         });
     }
   };
 
   GridStack.prototype._triggerChangeEvent = function(/*forceTrigger*/) {
     if (this.grid._batchMode) { return; }
-    // TODO: compare original X,Y,W,H (or entire node?) instead as _dirty can be a temporary state
-    var elements = this.grid.getDirtyNodes();
+    var elements = this.grid.getDirtyNodes(true); // verify they really changed
     if (elements && elements.length) {
       this.grid._layoutsNodesChange(elements);
       this.container.trigger('change', [elements]);
-      this.grid.cleanNodes(); // clear dirty flags now that we called
     }
+    this.grid._saveInitial(); // we called, now reset initial values & dirty flags
   };
 
   GridStack.prototype._triggerAddEvent = function() {
     if (this.grid._batchMode) { return; }
     if (this.grid._addedNodes && this.grid._addedNodes.length > 0) {
       this.grid._layoutsNodesChange(this.grid._addedNodes);
+      // prevent added nodes from also triggering 'change' event (which is called next)
+      this.grid._addedNodes.forEach(function (n) { delete n._dirty; });
       this.container.trigger('added', [this.grid._addedNodes]);
       this.grid._addedNodes = [];
     }
@@ -1049,7 +1069,8 @@
       Utils.removeStylesheet(this._stylesId);
     }
     this._stylesId = 'gridstack-style-' + (Math.random() * 100000).toFixed();
-    this._styles = Utils.createStylesheet(this._stylesId);
+    // insert style to parent (instead of 'head') to support WebComponent
+    this._styles = Utils.createStylesheet(this._stylesId, this.container.get(0).parentNode);
     if (this._styles !== null) {
       this._styles._max = 0;
     }
@@ -1450,12 +1471,7 @@
     el = $(el);
     this._writeAttr(el, node);
     this.container.append(el);
-    this._prepareElement(el, true);
-    this._updateContainerHeight();
-    this._triggerAddEvent();
-    // this._triggerChangeEvent(true); already have AddEvent
-
-    return el;
+    return this.makeWidget(el);
   };
 
   GridStack.prototype.makeWidget = function(el) {
@@ -1463,7 +1479,7 @@
     this._prepareElement(el, true);
     this._updateContainerHeight();
     this._triggerAddEvent();
-    // this._triggerChangeEvent(true); already have AddEvent
+    this._triggerChangeEvent(true); // trigger any other changes
 
     return el;
   };
@@ -1485,7 +1501,7 @@
     el.removeData('_gridstack_node');
     this.grid.removeNode(node, detachNode);
     this._triggerRemoveEvent();
-    // this._triggerChangeEvent(true); already have removeEvent
+    this._triggerChangeEvent(true); // trigger any other changes
   };
 
   GridStack.prototype.removeAll = function(detachNode) {
@@ -1697,11 +1713,12 @@
     this.grid._sortNodes();
     var nodes = this.grid.nodes;
     this.grid.nodes = []; // pretend we have no nodes to conflict layout to start with...
-    nodes.forEach(function(n) {
-      if (!n.noMove && !n.locked) {
-        n.autoPosition = true;
+    nodes.forEach(function(node) {
+      if (!node.noMove && !node.locked) {
+        node.autoPosition = true;
       }
-      this.grid.addNode(n, false); // 'false' for add event trigger
+      this.grid.addNode(node, false); // 'false' for add event trigger...
+      node._dirty = true; // force attr update
     }, this);
     this.commit();
   };
@@ -1833,8 +1850,6 @@
         }, this);
       }
     }, this);
-
-    this._saveInitial(); // reset current value now that we diffed.
   }
 
   /**
@@ -1923,9 +1938,6 @@
     }, this);
     this.commit();
     delete this._ignoreLayoutsNodeChange;
-
-    // save this initial layout so we can see what changed and apply changes to other layouts better (diff)
-    this._saveInitial();
   }
 
   /** called to save initial position/size */
@@ -1935,6 +1947,7 @@
       n._origY = n.y;
       n._origW = n.width;
       n._origH = n.height;
+      delete n._dirty;
     });
   }
 
@@ -1992,6 +2005,7 @@
     if (!val) {
       this.grid._packNodes();
       this.grid._notify();
+      this._triggerChangeEvent();
     }
   };
 
