@@ -42,7 +42,6 @@ jobs:
         title: ${{ env.PULL_REQUEST_TITLE }}
         body: ${{ env.PULL_REQUEST_BODY }}
         branch: generator-update
-        branch-suffix: none
 
     - name: Check outputs
       run: |
