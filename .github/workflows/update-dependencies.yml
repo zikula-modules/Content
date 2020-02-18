@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources from master branch
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         ref: master
 
