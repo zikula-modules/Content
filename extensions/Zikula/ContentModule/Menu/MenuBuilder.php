@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Menu;
 
 use Knp\Menu\ItemInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
@@ -24,6 +25,11 @@ use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
  */
 class MenuBuilder extends AbstractMenuBuilder
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
     /**
      * @var boolean
      */
@@ -47,18 +53,18 @@ class MenuBuilder extends AbstractMenuBuilder
             return $menu;
         }
 
-        $searchTitle = 'Details';//$this->trans('Details');
-        $reuseTitle = 'Reuse';//$this->trans('Reuse');
+        $searchLabel = $this->translator->trans('Details');
+        $reuseLabel = $this->translator->trans('Reuse', [], 'page');
         if ($hasEditPermissions) {
-            $searchTitle = $reuseTitle;
+            $searchLabel = $reuseLabel;
         }
         $searchFound = false;
         $reappendChildren = [];
         foreach ($menu->getChildren() as $item) {
             if (!$searchFound) {
-                if ($searchTitle === $item->getName()) {
+                if ($searchLabel === $item->getName()) {
                     $searchFound = true;
-                    if ($searchTitle === $reuseTitle) {
+                    if ($searchLabel === $reuseLabel) {
                         $menu->removeChild($item);
                     }
                 }
@@ -125,8 +131,11 @@ class MenuBuilder extends AbstractMenuBuilder
     /**
      * @required
      */
-    public function setMultilingual(VariableApiInterface $variableApi): void
-    {
+    public function setAdditionalDependencies(
+        TranslatorInterface $translator,
+        VariableApiInterface $variableApi
+    ): void {
+        $this->translator = $translator;
         $this->multilingual = $variableApi->getSystemVar('multilingual', true);
     }
 }

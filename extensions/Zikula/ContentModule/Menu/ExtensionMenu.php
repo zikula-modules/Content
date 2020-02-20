@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Menu;
 
 use Knp\Menu\ItemInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\ContentModule\Menu\Base\AbstractExtensionMenu;
 
 /**
@@ -22,6 +23,11 @@ use Zikula\ContentModule\Menu\Base\AbstractExtensionMenu;
  */
 class ExtensionMenu extends AbstractExtensionMenu
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
     public function get(string $type = self::TYPE_ADMIN): ?ItemInterface
     {
         $menu = parent::get($type);
@@ -30,7 +36,8 @@ class ExtensionMenu extends AbstractExtensionMenu
         $routeArea = self::TYPE_ADMIN === $type ? 'admin' : '';
 
         if (self::TYPE_ACCOUNT === $type) {
-            $myPagesLink = $menu->getChild('My pages');
+            $myPagesLabel = $this->translator->trans('My pages', [], 'page');
+            $myPagesLink = $menu->getChild($myPagesLabel);
             if (null !== $myPagesLink) {
                 $myPagesLink->setAttribute('icon', 'fas fa-book');
             }
@@ -43,7 +50,7 @@ class ExtensionMenu extends AbstractExtensionMenu
 
                 if ($this->permissionHelper->hasPermission(ACCESS_ADMIN)) {
                     // remove and backend link and readd it after the "add a new page" link
-                    $backendLabel = 'Content Backend';
+                    $backendLabel = $this->translator->trans('Content Backend');
                     $backendLink = $menu->getChild($backendLabel);
                     if (null !== $backendLink) {
                         $menu->removeChild($backendLabel);
@@ -59,7 +66,8 @@ class ExtensionMenu extends AbstractExtensionMenu
             return 0 === $menu->count() ? null : $menu;
         }
 
-        $pagesLink = $menu->getChild('Pages');
+        $pagesLabel = $this->translator->trans('Pages', [], 'page');
+        $pagesLink = $menu->getChild($pagesLabel);
         $pagesLink->setAttribute('icon', 'fas fa-book');
         if (in_array($type, [self::TYPE_ADMIN, self::TYPE_USER], true)) {
             $pagesLink->setAttribute('dropdown', true);
@@ -129,5 +137,13 @@ class ExtensionMenu extends AbstractExtensionMenu
         }
 
         return 0 === $menu->count() ? null : $menu;
+    }
+
+    /**
+     * @required
+     */
+    public function setAdditionalDependencies(TranslatorInterface $translator): void
+    {
+        $this->translator = $translator;
     }
 }
