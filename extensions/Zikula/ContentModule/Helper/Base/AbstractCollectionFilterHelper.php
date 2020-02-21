@@ -135,6 +135,9 @@ abstract class AbstractCollectionFilterHelper
         $parameters['catId'] = $request->query->get('catId', '');
         $parameters['catIdList'] = $this->categoryHelper->retrieveCategoriesFromRequest('page', 'GET');
         $parameters['contentItems'] = $request->query->get('contentItems', 0);
+        if (is_object($parameters['contentItems'])) {
+            $parameters['contentItems'] = $parameters['contentItems']->getId();
+        }
         $parameters['workflowState'] = $request->query->get('workflowState', '');
         $parameters['scope'] = $request->query->get('scope', '');
         $parameters['q'] = $request->query->get('q', '');
@@ -158,6 +161,9 @@ abstract class AbstractCollectionFilterHelper
         }
     
         $parameters['page'] = $request->query->get('page', 0);
+        if (is_object($parameters['page'])) {
+            $parameters['page'] = $parameters['page']->getId();
+        }
         $parameters['workflowState'] = $request->query->get('workflowState', '');
         $parameters['scope'] = $request->query->get('scope', '');
         $parameters['q'] = $request->query->get('q', '');
@@ -230,6 +236,7 @@ abstract class AbstractCollectionFilterHelper
     
             // field filter
             if ((!is_numeric($v) && '' !== $v) || (is_numeric($v) && 0 < $v)) {
+                $v = (string)$v;
                 if ('workflowState' === $k && 0 === strpos($v, '!')) {
                     $qb->andWhere('tbl.' . $k . ' != :' . $k)
                        ->setParameter($k, substr($v, 1));
@@ -292,6 +299,7 @@ abstract class AbstractCollectionFilterHelper
     
             // field filter
             if ((!is_numeric($v) && '' !== $v) || (is_numeric($v) && 0 < $v)) {
+                $v = (string)$v;
                 if ('workflowState' === $k && 0 === strpos($v, '!')) {
                     $qb->andWhere('tbl.' . $k . ' != :' . $k)
                        ->setParameter($k, substr($v, 1));
