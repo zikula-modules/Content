@@ -33,13 +33,13 @@
             "displayname": "Content",
             "url": "content",
             "oldnames": ["Content"],
+            "icon": "fas fa-file-contract",
             "capabilities": {
+                "admin": {
+                    "route": "zikulacontentmodule_page_adminindex"
+                },
                 "user": {
                     "route": "zikulacontentmodule_page_index"
-                },
-                "admin": {
-                    "route": "zikulacontentmodule_page_adminindex",
-                    "icon": "fas fa-file-contract"
                 },
                 "categorizable": {
                     "entities": [
