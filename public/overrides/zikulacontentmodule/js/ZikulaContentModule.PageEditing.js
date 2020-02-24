@@ -239,9 +239,11 @@ function contentPageInitSectionActions() {
                 contentPageDeleteWidget(jQuery(this));
             });
         }
-        var grid = gridsPerSection[gridSection];
+
+        var grid = gridsPerSection[sectionId];
         grid.destroy();
         gridSection.remove();
+        gridsPerSection[sectionId] = null;
 
         contentPageSave();
     });
@@ -1083,7 +1085,7 @@ function contentPageUnhighlightGrids() {
  */
 jQuery(document).ready(function () {
     jQuery('.add-section').click(function () {
-        var sectionNumber = jQuery('#widgets .grid-section').length + 1;
+        var sectionNumber = parseInt(jQuery('#widgets .grid-section').last().attr('id').replace('section', '')) + 1;
         contentPageAddSection('section' + sectionNumber, sectionNumber, '', true);
         contentPageInitSectionActions();
         contentPageInitSectionGrid('section' + sectionNumber, gridOptions);
