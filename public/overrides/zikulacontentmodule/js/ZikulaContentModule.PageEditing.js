@@ -3,6 +3,7 @@
 var nodeDataAttribute = '_gridstack_node';
 var suspendAutoSave = false;
 var loadedDynamicAssets = { css: [], js: [] };
+var gridsPerSection = {};
 
 /**
  * Loads a script file synchronously and caches it.
@@ -105,10 +106,10 @@ function contentPageInitPalette() {
         jQuery('#palette #paletteTabs > li > a, #palette .grid-stack-item').popover('hide');
     });
     jQuery('#palette .grid-stack-item').click(function (event) {
-        var gridSection, newId, widget;
+        var sectionId, newId, widget;
 
         jQuery('#paletteModal').modal('hide');
-        gridSection = jQuery('#section' + jQuery('#paletteModal').data('section-number'));
+        sectionId = 'section' + jQuery('#paletteModal').data('section-number');
 
         newId = contentPageTempGetRandomInt(1000, 9000);
         widget = jQuery(this).clone();
@@ -119,8 +120,8 @@ function contentPageInitPalette() {
         contentPageApplyDimensionConstraints(widget);
         contentPagePreparePaletteEntryForAddition(widget, newId);
 
-        var grid = gridSection.find('.grid-stack').first().data('gridstack');
-        grid.addWidget(widget, {
+        var grid = gridsPerSection[sectionId];
+        grid.addWidget(widget.get(0), {
             x: 0,
             y: 0,
             width: widget.attr('data-gs-width'),
@@ -218,11 +219,11 @@ function contentPageInitSectionActions() {
         });
     });
     jQuery('#widgets h4 .delete-section').unbind('click').click(function (event) {
-        var gridSection;
-        var hasWidgets;
+        var sectionId, gridSection, hasWidgets;
 
         event.preventDefault();
         gridSection = jQuery(this).parents('.grid-section').first();
+        sectionId = gridSection.attr('id');
         hasWidgets = gridSection.find('.grid-stack').first().find('.grid-stack-item').length > 0;
         if (
             !confirm(
@@ -238,7 +239,7 @@ function contentPageInitSectionActions() {
                 contentPageDeleteWidget(jQuery(this));
             });
         }
-        var grid = gridSection.find('.grid-stack').first().data('gridstack');
+        var grid = gridsPerSection[gridSection];
         grid.destroy();
         gridSection.remove();
 
@@ -264,25 +265,27 @@ function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollT
 /**
  * Initialises the gridstack for a given section selector.
  */
-function contentPageInitSectionGrid(selector, gridOptions) {
-    jQuery(selector).gridstack(gridOptions);
+function contentPageInitSectionGrid(containerId, gridOptions) {
+    var selector = '#' + containerId + ' .grid-stack';
+    var grid = GridStack.init(gridOptions, selector);
+    gridsPerSection[containerId] = grid;
 
-    jQuery(selector).on('change', contentPageSave);
+    grid.on('change', contentPageSave);
 
-    jQuery(selector).on('resizestart', function (event, ui) {
+    grid.on('resizestart', function (event, ui) {
         contentPageHighlightGrids();
     });
-    jQuery(selector).on('resizestop', function (event, ui) {
+    grid.on('resizestop', function (event, ui) {
         contentPageUnhighlightGrids();
     });
-    jQuery(selector).on('dragstart', function (event, ui) {
+    grid.on('dragstart', function (event, ui) {
         contentPageHighlightGrids();
     });
     jQuery('body').on('dragstop', function (event, ui) {
         contentPageUnhighlightGrids();
     });
 
-    jQuery(selector).on('dropped', function (event, previousWidget, newWidget) {
+    grid.on('dropped', function (event, previousWidget, newWidget) {
         contentPageUnhighlightGrids();
 
         return;
@@ -466,8 +469,10 @@ function contentPageInitWidgetEditing(widget, isCreation) {
  * Removes a specific widget.
  */
 function contentPageRemoveWidget(widget) {
-    var grid = widget.parents('.grid-stack').first().data('gridstack');
+    var sectionId = widget.parents('.grid-section').first().attr('id');
+    var grid = gridsPerSection[sectionId];
     grid.removeWidget(widget);
+    gridsPerSection[sectionId] = null;
 }
 
 /**
@@ -686,8 +691,8 @@ function contentPageInitWidgetActions() {
             jQuery('#widgetUpdateDoneAlert').remove();
             contentPageShowNotification(Translator.trans('Success'), data.message, 'widgetUpdateDoneAlert', 'success');
 
-            var grid = widget.parents('.grid-stack').first().data('gridstack');
-            grid.addWidget(newWidget, {
+            var grid = gridsPerSection[widget.parents('.grid-section').first().attr('id')];
+            grid.addWidget(newWidget.get(0), {
                 x: 0,
                 y: 0,
                 width: widget.attr('data-gs-width'),
@@ -722,7 +727,7 @@ function contentPageInitWidgetActions() {
 function contentPageClear() {
     jQuery('.grid-section').each(function (index) {
         var gridSection = jQuery(this);
-        var grid = gridSection.find('.grid-stack').first().data('gridstack');
+        var grid = gridsPerSection[gridSection.attr('id')];
         grid.destroy();
         gridSection.remove();
     });
@@ -823,7 +828,7 @@ function contentPageUpdateAllGridAttributes() {
     }
     jQuery.each(widgetData, function (index, section) {
         var lastNode = null;
-        var widgets = GridStackUI.Utils.sort(section.widgets);
+        var widgets = GridStack.Utils.sort(section.widgets);
         jQuery.each(widgets, function (index, node) {
             var widget = jQuery('#widget' + node.id);
             var colOffset = 0;
@@ -857,19 +862,19 @@ function contentPageUpdateGridAttributes(widget, colOffset) {
  * Loads widget data from serialisation.
  */
 function contentPageUnserialiseWidgets(containerId, widgetList) {
-    contentPageInitSectionGrid('#' + containerId + ' .grid-stack', gridOptions);
+    contentPageInitSectionGrid(containerId, gridOptions);
     if ('undefined' == typeof widgetList) {
         return;
     }
-    var grid = jQuery('#' + containerId + ' .grid-stack').data('gridstack');
+    var grid = gridsPerSection[containerId];
     var lastNode = null;
-    var widgets = GridStackUI.Utils.sort(widgetList);
+    var widgets = GridStack.Utils.sort(widgetList);
     jQuery.each(widgets, function (index, node) {
         var widget;
 
         widget = contentPageCreateNewWidget(node.id);
         var minWidth = 'undefined' != typeof node.minWidth ? node.minWidth : jQuery('#widgetDimensions').data('minwidth');
-        grid.addWidget(widget, {
+        grid.addWidget(widget.get(0), {
             x: node.x,
             y: node.y,
             width: node.width,
@@ -908,7 +913,7 @@ function contentPageLoad() {
         sectionNumber++;
         contentPageAddSection('section' + sectionNumber, sectionNumber, '', false);
         contentPageInitSectionActions();
-        contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
+        contentPageInitSectionGrid('section' + sectionNumber, gridOptions);
         jQuery.each(orphanData, function (index, contentItemId) {
             var newWidget;
             var grid;
@@ -916,7 +921,7 @@ function contentPageLoad() {
             newWidget = contentPageCreateNewWidget(contentItemId);
             grid = jQuery('#section' + sectionNumber + ' .grid-stack').first().data('gridstack');
 
-            grid.addWidget(newWidget, {
+            grid.addWidget(newWidget.get(0), {
                 x: 0,
                 y: 0,
                 width: jQuery('#widgetDimensions').data('width'),
@@ -1081,7 +1086,7 @@ jQuery(document).ready(function () {
         var sectionNumber = jQuery('#widgets .grid-section').length + 1;
         contentPageAddSection('section' + sectionNumber, sectionNumber, '', true);
         contentPageInitSectionActions();
-        contentPageInitSectionGrid('#section' + sectionNumber + ' .grid-stack', gridOptions);
+        contentPageInitSectionGrid('section' + sectionNumber, gridOptions);
         contentPageSave();
     });
     jQuery('.exit-page').click(function (event) {
