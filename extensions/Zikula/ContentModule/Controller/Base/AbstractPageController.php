@@ -455,6 +455,11 @@ abstract class AbstractPageController extends AbstractController
             );
         }
         
+        $permLevel = $isAdmin ? ACCESS_ADMIN : ACCESS_EDIT;
+        if (!$permissionHelper->hasEntityPermission($page, $permLevel)) {
+            throw new AccessDeniedException();
+        }
+        
         $preview = $request->query->getInt('preview');
         if (1 === $preview) {
             return $this->displayInternal(
