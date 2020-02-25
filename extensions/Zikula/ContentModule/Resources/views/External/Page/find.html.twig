@@ -41,7 +41,7 @@
                                     <a href="#" data-itemid="{{ itemId }}">
                                         {{ page|zikulacontentmodule_formattedTitle }}
                                     </a>
-                                    {% set displayParameters = {'slug': page.slug}|merge({'_locale': language|default(app.locale)}) %}
+                                    {% set displayParameters = {'slug': page.slug}|merge({'_locale': language|default(app.request.locale)}) %}
                                     <input type="hidden" id="path{{ itemId }}" value="{{ path('zikulacontentmodule_page_display', displayParameters) }}" />
                                     <input type="hidden" id="url{{ itemId }}" value="{{ url('zikulacontentmodule_page_display', displayParameters) }}" />
                                     <input type="hidden" id="title{{ itemId }}" value="{{ page|zikulacontentmodule_formattedTitle|e('html_attr') }}" />
