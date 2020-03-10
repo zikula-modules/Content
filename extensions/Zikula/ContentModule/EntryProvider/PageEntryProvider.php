@@ -127,6 +127,9 @@ class PageEntryProvider implements EntryProviderInterface
 
         $routeName = 'zikulacontentmodule_page_display';
         foreach ($entities as $entity) {
+            if (1 === $entity['id']) {
+                continue;
+            }
             $displayUrl = $this->router->generate(
                 $routeName,
                 ['slug' => $entity['slug']],
