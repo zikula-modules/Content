@@ -17,7 +17,7 @@
         {% form_theme finderForm with [
             '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
-        ] %}
+        ] only %}
         {{ form_start(finderForm, {attr: {id: 'zikulaContentModuleSelectorForm'}}) }}
         {{ form_errors(finderForm) }}
         <fieldset>
