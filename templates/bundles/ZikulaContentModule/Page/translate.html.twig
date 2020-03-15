@@ -11,7 +11,7 @@
         {% form_theme form with [
             '@ZikulaContentModule/Form/bootstrap_4.html.twig',
             '@ZikulaFormExtension/Form/form_div_layout.html.twig'
-        ] %}
+        ] only %}
         {{ form_start(form, {attr: {id: 'pageTranslateForm', class: 'zikulacontent-translate-form'}}) }}
         {{ form_errors(form) }}
         {% set pageFields = ['title', 'metaDescription', 'optionalString1', 'optionalString2', 'optionalText', 'slug'] %}
