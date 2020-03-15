@@ -14,7 +14,7 @@
 {% if permissionHelper.mayUseQuickNav('page') %}
     {% form_theme quickNavForm with [
         'bootstrap_4_layout.html.twig'
-    ] %}
+    ] only %}
     {{ form_start(quickNavForm, {attr: {id: 'zikulaContentModulePageQuickNavForm', class: 'zikulacontentmodule-quicknav form-inline', role: 'navigation'}}) }}
     {{ form_errors(quickNavForm) }}
     <a href="#collapsePageQuickNav" role="button" data-toggle="collapse" class="btn btn-secondary" aria-expanded="false" aria-controls="collapsePageQuickNav">
