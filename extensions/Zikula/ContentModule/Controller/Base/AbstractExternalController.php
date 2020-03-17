@@ -207,7 +207,7 @@ abstract class AbstractExternalController extends AbstractController
         if ('' !== $searchTerm) {
             $qb = $this->$collectionFilterHelper->addSearchFilter($objectType, $qb, $searchTerm);
         }
-        $query = $repository->getQueryFromBuilder($qb);
+        $query = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
         
         list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
         
