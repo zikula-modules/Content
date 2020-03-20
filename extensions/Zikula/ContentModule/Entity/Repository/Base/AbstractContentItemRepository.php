@@ -537,7 +537,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
         if (true !== $useJoins) {
             $orderByField = $orderBy;
             if (false !== mb_strpos($orderByField, ' ')) {
-                [$orderByField, $direction] = explode(' ', $orderByField, 2);
+                list($orderByField, $direction) = explode(' ', $orderByField, 2);
             }
             if (
                 in_array($orderByField, ['page'], true)
@@ -615,7 +615,7 @@ abstract class AbstractContentItemRepository extends EntityRepository
     protected function resolveOrderByForRelation(string $orderBy): string
     {
         if (false !== mb_strpos($orderBy, ' ')) {
-            [$orderBy, $direction] = explode(' ', $orderBy, 2);
+            list($orderBy, $direction) = explode(' ', $orderBy, 2);
         } else {
             $direction = 'ASC';
         }
