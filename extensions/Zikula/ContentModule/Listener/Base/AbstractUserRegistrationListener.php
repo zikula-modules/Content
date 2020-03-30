@@ -16,6 +16,7 @@ namespace Zikula\ContentModule\Listener\Base;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zikula\Bundle\CoreBundle\Event\GenericEvent;
+use Zikula\UsersModule\Event\DeletedRegistrationEvent;
 use Zikula\UsersModule\RegistrationEvents;
 
 /**
@@ -32,7 +33,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
             RegistrationEvents::REGISTRATION_FAILED         => ['failed', 5],
             RegistrationEvents::CREATE_REGISTRATION         => ['create', 5],
             RegistrationEvents::UPDATE_REGISTRATION         => ['update', 5],
-            RegistrationEvents::DELETE_REGISTRATION         => ['delete', 5],
+            DeletedRegistrationEvent::class                 => ['delete', 5],
             RegistrationEvents::FORCE_REGISTRATION_APPROVAL => ['forceApproval', 5]
         ];
     }
@@ -221,7 +222,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     }
     
     /**
-     * Listener for the `user.registration.delete` event.
+     * Listener for the `Zikula\UsersModule\Event\DeletedRegistrationEvent` event.
      *
      * Occurs after a registration record is deleted. This could occur as a result of the administrator deleting
      * the record through the approval/denial process, or it could happen because the registration request expired.
@@ -234,8 +235,13 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
+     *
+     * You can also access the user and date in the event.
+     *
+     * The user:
+     *     `echo 'UID: ' . $event->getUser()->getUid();`
      */
-    public function delete(GenericEvent $event): void
+    public function delete(DeletedRegistrationEvent $event): void
     {
     }
     
