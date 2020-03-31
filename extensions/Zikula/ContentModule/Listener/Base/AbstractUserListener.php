@@ -20,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Bundle\CoreBundle\Event\GenericEvent;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Constant as UsersConstant;
+use Zikula\UsersModule\Event\ActiveUserPostCreatedEvent;
 use Zikula\UsersModule\UserEvents;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 
@@ -63,14 +64,14 @@ abstract class AbstractUserListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            UserEvents::CREATE_ACCOUNT => ['create', 5],
+            ActiveUserPostCreatedEvent::class => ['create', 5],
             UserEvents::UPDATE_ACCOUNT => ['update', 5],
             UserEvents::DELETE_ACCOUNT => ['delete', 5]
         ];
     }
     
     /**
-     * Listener for the `user.account.create` event.
+     * Listener for the `Zikula\UsersModule\Event\ActiveUserPostCreatedEvent` event.
      *
      * Occurs after a user account is created. All handlers are notified.
      * It does not apply to creation of a pending registration.
@@ -83,8 +84,13 @@ abstract class AbstractUserListener implements EventSubscriberInterface
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
+     *
+     * You can also access the user and date in the event.
+     *
+     * The user:
+     *     `echo 'UID: ' . $event->getUser()->getUid();`
      */
-    public function create(GenericEvent $event): void
+    public function create(ActiveUserPostCreatedEvent $event): void
     {
     }
     
