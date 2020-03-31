@@ -16,6 +16,7 @@ namespace Zikula\ContentModule\Listener\Base;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zikula\Bundle\CoreBundle\Event\GenericEvent;
+use Zikula\UsersModule\Event\CreateActiveUserEvent;
 use Zikula\UsersModule\Event\DeletedRegistrationEvent;
 use Zikula\UsersModule\RegistrationEvents;
 
@@ -28,7 +29,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     {
         return [
             RegistrationEvents::REGISTRATION_STARTED        => ['started', 5],
-            RegistrationEvents::FULL_USER_CREATE_VETO       => ['createVeto', 5],
+            CreateActiveUserEvent::class                    => ['createVeto', 5],
             RegistrationEvents::REGISTRATION_SUCCEEDED      => ['succeeded', 5],
             RegistrationEvents::REGISTRATION_FAILED         => ['failed', 5],
             RegistrationEvents::CREATE_REGISTRATION         => ['create', 5],
@@ -54,11 +55,10 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     }
     
     /**
-     * Listener for the `full.user.create.veto` event.
+     * Listener for the `Zikula\UsersModule\Event\CreateActiveUserEvent` event.
      *
      * Occurs when the Registration process is determining whether to create a 'registration' or a 'full user'.
      *
-     * The subject of the event is the UserEntity. There are no arguments or data.
      * If the User hasn't been persisted, then there will be no Uid.
      *
      * A handler that needs to veto a registration should call `stopPropagation()`. This will prevent other handlers
@@ -79,8 +79,13 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The event name:
      *     `echo 'Event: ' . $event->getName();`
      *
+     *
+     * You can also access the user and date in the event.
+     *
+     * The user:
+     *     `echo 'UID: ' . $event->getUser()->getUid();`
      */
-    public function createVeto(GenericEvent $event): void
+    public function createVeto(CreateActiveUserEvent $event): void
     {
     }
     
