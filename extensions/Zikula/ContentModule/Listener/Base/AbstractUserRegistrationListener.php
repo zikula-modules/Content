@@ -16,8 +16,9 @@ namespace Zikula\ContentModule\Listener\Base;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zikula\Bundle\CoreBundle\Event\GenericEvent;
-use Zikula\UsersModule\Event\CreateActiveUserEvent;
-use Zikula\UsersModule\Event\DeletedRegistrationEvent;
+use Zikula\UsersModule\Event\ActiveUserPreCreatedEvent;
+use Zikula\UsersModule\Event\RegistrationPostCreatedEvent;
+use Zikula\UsersModule\Event\RegistrationPostDeletedEvent;
 use Zikula\UsersModule\RegistrationEvents;
 
 /**
@@ -29,12 +30,12 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     {
         return [
             RegistrationEvents::REGISTRATION_STARTED        => ['started', 5],
-            CreateActiveUserEvent::class                    => ['createVeto', 5],
+            ActiveUserPreCreatedEvent::class                => ['createVeto', 5],
             RegistrationEvents::REGISTRATION_SUCCEEDED      => ['succeeded', 5],
             RegistrationEvents::REGISTRATION_FAILED         => ['failed', 5],
-            RegistrationEvents::CREATE_REGISTRATION         => ['create', 5],
+            RegistrationPostCreatedEvent::class             => ['create', 5],
             RegistrationEvents::UPDATE_REGISTRATION         => ['update', 5],
-            DeletedRegistrationEvent::class                 => ['delete', 5],
+            RegistrationPostDeletedEvent::class             => ['delete', 5],
             RegistrationEvents::FORCE_REGISTRATION_APPROVAL => ['forceApproval', 5]
         ];
     }
@@ -55,7 +56,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     }
     
     /**
-     * Listener for the `Zikula\UsersModule\Event\CreateActiveUserEvent` event.
+     * Listener for the `Zikula\UsersModule\Event\ActiveUserPreCreatedEvent` event.
      *
      * Occurs when the Registration process is determining whether to create a 'registration' or a 'full user'.
      *
@@ -85,7 +86,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The user:
      *     `echo 'UID: ' . $event->getUser()->getUid();`
      */
-    public function createVeto(CreateActiveUserEvent $event): void
+    public function createVeto(ActiveUserPreCreatedEvent $event): void
     {
     }
     
@@ -93,7 +94,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * Listener for the `module.users.ui.registration.succeeded` event.
      *
      * Occurs after a user has successfully registered a new account in the system. It will follow either
-     * a `user.registration.create` event, or a `user.account.create` event, depending on the result of the
+     * a `Zikula\UsersModule\Event\RegistrationPostCreatedEvent` event, or a `user.account.create` event, depending on the result of the
      * registration process, the information provided by the user, and several configuration options set in
      * the Users module. The resultant record might be a fully activated user record, or it might be a
      * registration record pending approval, e-mail verification, or both.
@@ -189,7 +190,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     }
     
     /**
-     * Listener for the `user.registration.create` event.
+     * Listener for the `Zikula\UsersModule\Event\RegistrationPostCreatedEvent` event.
      *
      * Occurs after a registration record is created, either through the normal user registration process,
      * or through the administration panel for the Users module. This event will not fire if the result of the
@@ -227,7 +228,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     }
     
     /**
-     * Listener for the `Zikula\UsersModule\Event\DeletedRegistrationEvent` event.
+     * Listener for the `Zikula\UsersModule\Event\RegistrationPostDeletedEvent` event.
      *
      * Occurs after a registration record is deleted. This could occur as a result of the administrator deleting
      * the record through the approval/denial process, or it could happen because the registration request expired.
@@ -246,7 +247,7 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * The user:
      *     `echo 'UID: ' . $event->getUser()->getUid();`
      */
-    public function delete(DeletedRegistrationEvent $event): void
+    public function delete(RegistrationPostDeletedEvent $event): void
     {
     }
     
