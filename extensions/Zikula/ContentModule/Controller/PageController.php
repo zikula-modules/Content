@@ -86,9 +86,9 @@ class PageController extends AbstractPageController
     /**
      * @inheritDoc
      *
-     * @Route("/admin/pages/view/{sort}/{sortdir}/{pos}/{num}.{_format}",
-     *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "pos" = "\d+", "num" = "\d+", "_format" = "html|csv|rss|atom|xml|json|pdf"},
-     *        defaults = {"sort" = "", "sortdir" = "asc", "pos" = 1, "num" = 10, "_format" = "html"},
+     * @Route("/admin/pages/view/{sort}/{sortdir}/{page}/{num}.{_format}",
+     *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "page" = "\d+", "num" = "\d+", "_format" = "html|csv|rss|atom|xml|json|pdf"},
+     *        defaults = {"sort" = "", "sortdir" = "asc", "page" = 1, "num" = 10, "_format" = "html"},
      *        methods = {"GET"}
      * )
      * @Theme("admin")
@@ -102,10 +102,10 @@ class PageController extends AbstractPageController
         LoggableHelper $loggableHelper,
         string $sort,
         string $sortdir,
-        int $pos,
+        int $page,
         int $num
     ): Response {
-        return $this->viewInternal($request, $router, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $pos, $num, true);
+        return $this->viewInternal($request, $router, $permissionHelper, $controllerHelper, $viewHelper, $loggableHelper, $sort, $sortdir, $page, $num, true);
     }
     
     /**
