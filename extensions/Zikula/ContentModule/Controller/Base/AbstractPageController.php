@@ -86,7 +86,7 @@ abstract class AbstractPageController extends AbstractController
         LoggableHelper $loggableHelper,
         string $sort,
         string $sortdir,
-        int $pos,
+        int $page,
         int $num,
         bool $isAdmin = false
     ): Response {
@@ -114,7 +114,7 @@ abstract class AbstractPageController extends AbstractController
         
         $request->query->set('sort', $sort);
         $request->query->set('sortdir', $sortdir);
-        $request->query->set('pos', $pos);
+        $request->query->set('page', $page);
         
         $routeName = 'zikulacontentmodule_page_' . ($isAdmin ? 'admin' : '') . 'view';
         $sortableColumns = new SortableColumns($router, $routeName, 'sort', 'sortdir');

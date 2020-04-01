@@ -83,13 +83,13 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         if (!$this->hasPermission('ZikulaContentModule:ItemListBlock:', $properties['title'] . '::', ACCESS_OVERVIEW)) {
             return '';
         }
-    
+        
         $this->categorisableObjectTypes = ['page'];
-    
+        
         // set default values for all params which are not properly set
         $defaults = $this->getDefaults();
         $properties = array_merge($defaults, $properties);
-    
+        
         $contextArgs = ['name' => 'list'];
         $allowedObjectTypes = $this->controllerHelper->getObjectTypes('block', $contextArgs);
         if (
@@ -98,9 +98,9 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         ) {
             $properties['objectType'] = $this->controllerHelper->getDefaultObjectType('block', $contextArgs);
         }
-    
+        
         $objectType = $properties['objectType'];
-    
+        
         $hasCategories = in_array($objectType, $this->categorisableObjectTypes, true)
             && $this->featureActivationHelper->isEnabled(
                 FeatureActivationHelper::CATEGORIES,
@@ -110,41 +110,36 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         if ($hasCategories) {
             $categoryProperties = $this->resolveCategoryIds($properties);
         }
-    
+        
         $repository = $this->entityFactory->getRepository($objectType);
-    
+        
         // create query
         $orderBy = $this->modelHelper->resolveSortParameter($objectType, $properties['sorting']);
         $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy);
-    
+        
         if ($hasCategories) {
             // apply category filters
             if (is_array($properties['categories']) && count($properties['categories']) > 0) {
                 $qb = $this->categoryHelper->buildFilterClauses($qb, $objectType, $properties['categories']);
             }
         }
-    
+        
         // get objects from database
         $currentPage = 1;
         $resultsPerPage = $properties['amount'];
-        $query = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
-        try {
-            list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
-        } catch (Exception $exception) {
-            $entities = [];
-            $objectCount = 0;
-        }
-    
+        $paginator = $repository->retrieveCollectionResult($qb, true, $currentPage, $resultsPerPage);
+        $entities = $paginator->getResults();
+        
         // filter by permissions
         $entities = $this->permissionHelper->filterCollection($objectType, $entities, ACCESS_READ);
-    
+        
         // set a block title
         if (empty($properties['title'])) {
             $properties['title'] = $this->trans('Content list');
         }
-    
+        
         $template = $this->getDisplayTemplate($properties);
-    
+        
         $templateParameters = [
             'vars' => $properties,
             'objectType' => $objectType,
@@ -153,13 +148,13 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         if ($hasCategories) {
             $templateParameters['properties'] = $categoryProperties;
         }
-    
+        
         $templateParameters = $this->controllerHelper->addTemplateParameters(
             $properties['objectType'],
             $templateParameters,
             'block'
         );
-    
+        
         return $this->renderView($template, $templateParameters);
     }
     

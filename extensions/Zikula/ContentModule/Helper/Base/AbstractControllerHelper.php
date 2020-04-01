@@ -161,7 +161,7 @@ abstract class AbstractControllerHelper
         );
         $showOnlyOwnEntriesSetting = $showOnlyOwnEntriesSetting ? 1 : 0;
         $routeName = $request->get('_route');
-        $isAdminArea = false !== strpos($routeName, 'zikulacontentmodule_' . strtolower($objectType) . '_admin');
+        $isAdminArea = 'admin' === $templateParameters['routeArea'];
         if (!$isAdminArea && in_array($objectType, ['page'], true)) {
             $showOnlyOwnEntries = (bool)$this->variableApi->get('ZikulaContentModule', $objectType . 'PrivateMode', false);
             if (true === $showOnlyOwnEntries) {
@@ -248,22 +248,21 @@ abstract class AbstractControllerHelper
             $entities = $repository->selectWhere($where, $sort . ' ' . $sortdir, $useJoins);
         } else {
             // the current offset which is used to calculate the pagination
-            $currentPage = $request->query->getInt('pos', 1);
+            $currentPage = $request->query->getInt('page', 1);
     
             // retrieve item list with pagination
-            list($entities, $objectCount) = $repository->selectWherePaginated(
+            $paginator = $repository->selectWherePaginated(
                 $where,
                 $sort . ' ' . $sortdir,
                 $currentPage,
                 $resultsPerPage,
                 $useJoins
             );
+            $paginator->setRoute('zikulacontentmodule_' . strtolower($objectType) . '_' . $templateParameters['routeArea'] . 'view');
+            $paginator->setRouteParameters($urlParameters);
     
-            $templateParameters['currentPage'] = $currentPage;
-            $templateParameters['pager'] = [
-                'amountOfItems' => $objectCount,
-                'itemsPerPage' => $resultsPerPage
-            ];
+            $templateParameters['paginator'] = $paginator;
+            $entities = $paginator->getResults();
         }
     
         $templateParameters['sort'] = $sort;
