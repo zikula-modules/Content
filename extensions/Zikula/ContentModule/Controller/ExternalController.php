@@ -66,9 +66,9 @@ class ExternalController extends AbstractExternalController
     }
 
     /**
-     * @Route("/finder/{objectType}/{editor}/{sort}/{sortdir}/{pos}/{num}",
-     *        requirements = {"editor" = "ckeditor|quill|summernote|tinymce", "sortdir" = "asc|desc", "pos" = "\d+", "num" = "\d+"},
-     *        defaults = {"sort" = "dummy", "sortdir" = "asc", "pos" = 1, "num" = 0},
+     * @Route("/finder/{objectType}/{editor}/{sort}/{sortdir}/{page}/{num}",
+     *        requirements = {"editor" = "ckeditor|quill|summernote|tinymce", "sortdir" = "asc|desc", "page" = "\d+", "num" = "\d+"},
+     *        defaults = {"sort" = "dummy", "sortdir" = "asc", "page" = 1, "num" = 0},
      *        methods = {"GET"},
      *        options={"expose"=true}
      * )
@@ -87,7 +87,7 @@ class ExternalController extends AbstractExternalController
         string $editor,
         string $sort,
         string $sortdir,
-        int $pos = 1,
+        int $page = 1,
         int $num = 0
     ): Response {
         return parent::finderAction(
@@ -104,7 +104,7 @@ class ExternalController extends AbstractExternalController
             $editor,
             $sort,
             $sortdir,
-            $pos,
+            $page,
             $num
         );
     }

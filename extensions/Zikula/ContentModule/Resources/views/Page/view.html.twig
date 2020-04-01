@@ -147,8 +147,8 @@
             </table>
             </div>
             
-            {% if all != 1 and pager|default %}
-                {{ pager({rowcount: pager.amountOfItems, limit: pager.itemsPerPage, display: 'page', route: 'zikulacontentmodule_page_' ~ routeArea ~ 'view'}) }}
+            {% if all != 1 %}
+                {{ include(paginator.template) }}
             {% endif %}
         {% if routeArea == 'admin' %}
                 <fieldset class="my-3 pt-3">

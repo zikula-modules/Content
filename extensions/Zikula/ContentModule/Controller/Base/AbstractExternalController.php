@@ -114,7 +114,7 @@ abstract class AbstractExternalController extends AbstractController
         string $editor,
         string $sort,
         string $sortdir,
-        int $pos = 1,
+        int $page = 1,
         int $num = 0
     ): Response {
         $activatedObjectTypes = $listEntriesHelper->extractMultiList($this->getVar('enabledFinderTypes', ''));
@@ -159,9 +159,6 @@ abstract class AbstractExternalController extends AbstractController
             $sdir = 'asc';
         }
         
-        // the current offset which is used to calculate the pagination
-        $currentPage = $pos;
-        
         // the number of items displayed on a page for pagination
         $resultsPerPage = $num;
         if (0 === $resultsPerPage) {
@@ -173,7 +170,7 @@ abstract class AbstractExternalController extends AbstractController
             'objectType' => $objectType,
             'sort' => $sort,
             'sortdir' => $sdir,
-            'currentPage' => $currentPage,
+            'currentPage' => $page,
             'language' => isset($formData['language']) ? $formData['language'] : $request->getLocale()
         ];
         $searchTerm = '';
@@ -192,7 +189,7 @@ abstract class AbstractExternalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $formData = $form->getData();
             $templateParameters = array_merge($templateParameters, $formData);
-            $currentPage = $formData['currentPage'];
+            $page = $formData['currentPage'];
             $resultsPerPage = $formData['num'];
             $sort = $formData['sort'];
             $sdir = $formData['sortdir'];
@@ -207,9 +204,13 @@ abstract class AbstractExternalController extends AbstractController
         if ('' !== $searchTerm) {
             $qb = $this->$collectionFilterHelper->addSearchFilter($objectType, $qb, $searchTerm);
         }
-        $query = $repository->getSelectWherePaginatedQuery($qb, $currentPage, $resultsPerPage);
         
-        list($entities, $objectCount) = $repository->retrieveCollectionResult($query, true);
+        $paginator = $repository->retrieveCollectionResult($qb, true, $page, $resultsPerPage);
+        $paginator->setRoute('zikulacontentmodule_external_finder');
+        $paginator->setRouteParameters($formData);
+        
+        $templateParameters['paginator'] = $paginator;
+        $entities = $paginator->getResults();
         
         // filter by permissions
         $entities = $permissionHelper->filterCollection($objectType, $entities, ACCESS_READ);
@@ -226,12 +227,6 @@ abstract class AbstractExternalController extends AbstractController
         );
         
         $templateParameters['activatedObjectTypes'] = $activatedObjectTypes;
-        
-        $templateParameters['pager'] = [
-            'numitems' => $objectCount,
-            'itemsperpage' => $resultsPerPage
-        ];
-        
         $request->query->set('raw', true);
         
         return $viewHelper->processTemplate('external', ucfirst($objectType) . '/find', $templateParameters);
