@@ -21,7 +21,7 @@ jobs:
 
     # see https://github.com/Guite/generator-action/
     - name: Call standalone generator
-      uses: guite/generator-action@master
+      uses: docker://guite/generator-action:latest
       with:
         model_name: 'Content.mostapp'
         module_name: 'Zikula/ContentModule'
