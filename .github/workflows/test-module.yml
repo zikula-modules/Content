@@ -22,13 +22,7 @@ jobs:
     - name: Build and test
       uses: docker://guite/zikula-action:latest
       with:
-        vendor_name: Zikula
-        module_name: Content
-        module_version: '5.2.0'
-        core_version: ZK3DEV
-        database_host: mysql
-        database_port: 3306
-        create_artifacts: true
+        args: Zikula Content 5.2.0 ZK3DEV "" true
 
     # see https://github.com/actions/upload-artifact
     - name: Upload release folder as artifact
