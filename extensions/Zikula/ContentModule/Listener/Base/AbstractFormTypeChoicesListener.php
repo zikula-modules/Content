@@ -25,7 +25,7 @@ abstract class AbstractFormTypeChoicesListener implements EventSubscriberInterfa
     public static function getSubscribedEvents()
     {
         return [
-            FormTypeChoiceEvent::NAME => ['formTypeChoices']
+            FormTypeChoiceEvent::class => ['formTypeChoices']
         ];
     }
     
