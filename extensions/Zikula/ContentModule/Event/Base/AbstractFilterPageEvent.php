@@ -14,13 +14,12 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Event\Base;
 
-use Symfony\Contracts\EventDispatcher\Event;
 use Zikula\ContentModule\Entity\PageEntity;
 
 /**
  * Event base class for filtering page processing.
  */
-class AbstractFilterPageEvent extends Event
+class AbstractFilterPageEvent
 {
     /**
      * @var PageEntity Reference to treated entity instance.

@@ -14,13 +14,12 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Event\Base;
 
-use Symfony\Contracts\EventDispatcher\Event;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 
 /**
  * Event base class for filtering content item processing.
  */
-class AbstractFilterContentItemEvent extends Event
+class AbstractFilterContentItemEvent
 {
     /**
      * @var ContentItemEntity Reference to treated entity instance.

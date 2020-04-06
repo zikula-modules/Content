@@ -17,7 +17,6 @@ namespace Zikula\ContentModule\Listener\Base;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zikula\ThemeModule\Bridge\Event\TwigPostRenderEvent;
 use Zikula\ThemeModule\Bridge\Event\TwigPreRenderEvent;
-use Zikula\ThemeModule\ThemeEvents;
 
 /**
  * Event handler base class for theme-related events.
@@ -27,38 +26,24 @@ abstract class AbstractThemeListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ThemeEvents::PRE_RENDER  => ['preRender', 5],
-            ThemeEvents::POST_RENDER => ['postRender', 5]
+            TwigPreRenderEvent::class  => ['preRender', 5],
+            TwigPostRenderEvent::class => ['postRender', 5]
         ];
     }
     
     /**
-     * Listener for the `theme.pre_render` event.
+     * Listener for the `TwigPreRenderEvent`.
      *
      * Occurs immediately before twig theme engine renders a template.
-     *
-     * You can access general data available in the event.
-     *
-     * The event name:
-     *     `echo 'Event: ' . $event->getName();`
-     *
      */
     public function preRender(TwigPreRenderEvent $event): void
     {
     }
     
     /**
-     * Listener for the `theme.post_render` event.
+     * Listener for the `TwigPostRenderEvent`.
      *
      * Occurs immediately after twig theme engine renders a template.
-     *
-     * An example for implementing this event is \Zikula\ThemeModule\EventListener\TemplateNameExposeListener.
-     *
-     * You can access general data available in the event.
-     *
-     * The event name:
-     *     `echo 'Event: ' . $event->getName();`
-     *
      */
     public function postRender(TwigPostRenderEvent $event): void
     {

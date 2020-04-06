@@ -21,7 +21,6 @@ use Zikula\UsersModule\Event\RegistrationPostCreatedEvent;
 use Zikula\UsersModule\Event\RegistrationPostDeletedEvent;
 use Zikula\UsersModule\Event\RegistrationPostSuccessEvent;
 use Zikula\UsersModule\Event\RegistrationPostUpdatedEvent;
-use Zikula\UsersModule\Event\RegistrationPreCreatedEvent;
 
 /**
  * Event handler base class for user registration events.
@@ -31,7 +30,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
     public static function getSubscribedEvents()
     {
         return [
-            RegistrationPreCreatedEvent::class   => ['started', 5],
             ActiveUserPreCreatedEvent::class     => ['createVeto', 5],
             RegistrationPostSuccessEvent::class  => ['succeeded', 5],
             RegistrationPostCreatedEvent::class  => ['create', 5],
@@ -39,23 +37,6 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
             RegistrationPostDeletedEvent::class  => ['delete', 5],
             RegistrationPostApprovedEvent::class => ['forceApproval', 5]
         ];
-    }
-    
-    /**
-     * Listener for the `RegistrationPreCreatedEvent`.
-     *
-     * Occurs at the beginning of the registration process, before the registration form is displayed to the user.
-     *
-     * You can access general data available in the event.
-     *
-     * The event name:
-     *     `echo 'Event: ' . $event->getName();`
-     *
-     *
-     * There is no content to the event. It is simply an alert.
-     */
-    public function started(RegistrationPreCreatedEvent $event): void
-    {
     }
     
     /**
@@ -100,8 +81,8 @@ abstract class AbstractUserRegistrationListener implements EventSubscriberInterf
      * If the registration record is a fully activated user, and the Users module is configured for automatic log-in,
      * then the system's next step (without any interaction from the user) will be the log-in process. All the customary
      * events that might fire during the log-in process could be fired at this point, including (but not limited to)
-     * `user.login.veto` (which might result in the user having to perform some action in order to proceed with the
-     * log-in process), `user.login.succeeded`, and/or `user.login.failed`.
+     * `Zikula\UsersModule\Event\UserPreLoginSuccessEvent` (which might result in the user having to perform some action
+     * in order to proceed with the log-in process), `user.login.succeeded`, and/or `user.login.failed`.
      *
      * The `redirectUrl` property controls where the user will be directed at the end of the registration process.
      * Initially, it will be blank, indicating that the default action should be taken. The default action depends on two
