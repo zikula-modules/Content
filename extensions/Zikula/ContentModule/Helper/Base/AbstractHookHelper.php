@@ -100,7 +100,7 @@ abstract class AbstractHookHelper
     /**
      * Dispatch hooks.
      */
-    public function dispatchHooks(string $eventName, Hook $hook): Event
+    public function dispatchHooks(string $eventName, Hook $hook)
     {
         return $this->hookDispatcher->dispatch($eventName, $hook);
     }
