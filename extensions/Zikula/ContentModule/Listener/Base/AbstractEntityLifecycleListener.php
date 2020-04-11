@@ -27,7 +27,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Symfony\Contracts\EventDispatcher\Event;
 use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\ExtensionsModule\Api\VariableApi;
 use Zikula\UsersModule\Api\CurrentUserApi;
