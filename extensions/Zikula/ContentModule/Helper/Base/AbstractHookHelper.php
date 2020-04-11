@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Helper\Base;
 
 use Symfony\Component\Form\FormInterface;
-use Symfony\Contracts\EventDispatcher\Event;
 use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\Bundle\CoreBundle\UrlInterface;
 use Zikula\Bundle\HookBundle\Dispatcher\HookDispatcherInterface;
