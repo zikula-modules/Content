@@ -17,7 +17,7 @@
         {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Backlink.Integration.js')) }}
         {{ pageAddAsset('stylesheet', zasset('@ZikulaContentModule:css/custom.css'), 120) }}
         {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
-        {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js')) }}
+        {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js'), constant('Zikula\\ThemeModule\\Engine\\AssetBag::WEIGHT_JQUERY_UI')) }}
         {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.js')) }}
         {% if useFinder|default != true %}
             {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.RawPage.js')) }}
