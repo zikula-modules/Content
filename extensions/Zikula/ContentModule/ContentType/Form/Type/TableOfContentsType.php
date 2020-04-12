@@ -25,7 +25,7 @@ use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Form\DataTransformer\PageTransformer;
 use Zikula\ContentModule\Form\Type\Field\EntityTreeType;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * Table of contents form type class.

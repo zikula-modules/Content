@@ -17,7 +17,7 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * HTML form type class.

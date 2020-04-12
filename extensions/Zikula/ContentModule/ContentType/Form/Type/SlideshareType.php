@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * Slideshare form type class.

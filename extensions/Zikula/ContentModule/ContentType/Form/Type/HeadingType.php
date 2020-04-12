@@ -20,8 +20,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
 use Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * Heading form type class.

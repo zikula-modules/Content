@@ -19,7 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zikula\ContentModule\ContentType\Form\DataTransformer\AuthorTransformer;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 

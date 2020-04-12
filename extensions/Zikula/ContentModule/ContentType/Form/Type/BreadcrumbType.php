@@ -17,7 +17,7 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * Breadcrumb form type class.

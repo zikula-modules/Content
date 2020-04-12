@@ -17,8 +17,7 @@ namespace Zikula\ContentModule\ContentType\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zikula\Bundle\FormExtensionBundle\Form\Type\ControllerType as ControllerFormType;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
-use Zikula\SettingsModule\Validator\Constraints\ValidController;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * Controller form type class.

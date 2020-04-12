@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Zikula\BlocksModule\Entity\BlockEntity;
 use Zikula\BlocksModule\Entity\RepositoryInterface\BlockRepositoryInterface;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * Block form type class.

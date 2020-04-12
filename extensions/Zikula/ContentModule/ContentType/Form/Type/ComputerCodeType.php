@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\ExtensionsModule\ModuleInterface\Content\AbstractContentFormType;
+use Zikula\ExtensionsModule\ModuleInterface\Content\Form\Type\AbstractContentFormType;
 
 /**
  * Computer code form type class.
