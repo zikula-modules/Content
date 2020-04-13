@@ -111,7 +111,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                 ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
             );
     
-            return false;
+            throw $exception;
         }
     
         // set up all our vars with initial values
@@ -201,7 +201,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                         ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
                     );
     
-                    return false;
+                    throw $exception;
                 }
         }
     */
@@ -221,7 +221,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
                 ['app' => 'ZikulaContentModule', 'errorMessage' => $exception->getMessage()]
             );
     
-            return false;
+            throw $exception;
         }
     
         // remove all module vars
