@@ -24,8 +24,10 @@ use Zikula\UsersModule\Constant as UsersConstant;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Entity\ContentItemEntity;
 use Zikula\ContentModule\ContentEvents;
-use Zikula\ContentModule\Event\ConfigureItemActionsMenuEvent;
-use Zikula\ContentModule\Event\ConfigureViewActionsMenuEvent;
+use Zikula\ContentModule\Event\ItemActionsMenuPostConfigurationEvent;
+use Zikula\ContentModule\Event\ItemActionsMenuPreConfigurationEvent;
+use Zikula\ContentModule\Event\ViewActionsMenuPostConfigurationEvent;
+use Zikula\ContentModule\Event\ViewActionsMenuPreConfigurationEvent;
 use Zikula\ContentModule\Helper\EntityDisplayHelper;
 use Zikula\ContentModule\Helper\LoggableHelper;
 use Zikula\ContentModule\Helper\ModelHelper;
@@ -125,8 +127,7 @@ class AbstractMenuBuilder
         $menu->setChildrenAttribute('class', 'nav item-actions');
     
         $this->eventDispatcher->dispatch(
-            new ConfigureItemActionsMenuEvent($this->factory, $menu, $options),
-            ContentEvents::MENU_ITEMACTIONS_PRE_CONFIGURE
+            new ItemActionsMenuPreConfigurationEvent($this->factory, $menu, $options)
         );
     
         $currentUserId = $this->currentUserApi->isLoggedIn()
@@ -247,8 +248,7 @@ class AbstractMenuBuilder
         }
     
         $this->eventDispatcher->dispatch(
-            new ConfigureItemActionsMenuEvent($this->factory, $menu, $options),
-            ContentEvents::MENU_ITEMACTIONS_POST_CONFIGURE
+            new ItemActionsMenuPostConfigurationEvent($this->factory, $menu, $options)
         );
     
         return $menu;
@@ -269,8 +269,7 @@ class AbstractMenuBuilder
         $menu->setChildrenAttribute('class', 'nav view-actions');
     
         $this->eventDispatcher->dispatch(
-            new ConfigureViewActionsMenuEvent($this->factory, $menu, $options),
-            ContentEvents::MENU_VIEWACTIONS_PRE_CONFIGURE
+            new ViewActionsMenuPreConfigurationEvent($this->factory, $menu, $options)
         );
     
         $query = $this->requestStack->getMasterRequest()->query;
@@ -374,8 +373,7 @@ class AbstractMenuBuilder
         }
     
         $this->eventDispatcher->dispatch(
-            new ConfigureViewActionsMenuEvent($this->factory, $menu, $options),
-            ContentEvents::MENU_VIEWACTIONS_POST_CONFIGURE
+            new ViewActionsMenuPostConfigurationEvent($this->factory, $menu, $options)
         );
     
         return $menu;
