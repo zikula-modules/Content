@@ -72,7 +72,7 @@ class MenuModuleListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ConfigureMenuEvent::POST_CONFIGURE => ['extendMenu']
+            ConfigureMenuEvent::class => ['extendMenu']
         ];
     }
     
