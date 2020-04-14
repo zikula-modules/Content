@@ -18,6 +18,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\MenuModule\ExtensionMenu\ExtensionMenuInterface;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\ContentModule\Helper\ControllerHelper;
 use Zikula\ContentModule\Helper\PermissionHelper;
 
@@ -37,6 +38,10 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
     protected $variableApi;
 
     /**
+     * @var CurrentUserApiInterface
+     */
+    protected $currentUserApi;
+    /**
      * @var ControllerHelper
      */
     protected $controllerHelper;
@@ -49,11 +54,13 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
     public function __construct(
         FactoryInterface $factory,
         VariableApiInterface $variableApi,
+        CurrentUserApiInterface $currentUserApi,
         ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper
     ) {
         $this->factory = $factory;
         $this->variableApi = $variableApi;
+        $this->currentUserApi = $currentUserApi;
         $this->controllerHelper = $controllerHelper;
         $this->permissionHelper = $permissionHelper;
     }
@@ -68,6 +75,9 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
         $menu = $this->factory->createItem('zikulacontentmodule' . ucfirst($type) . 'Menu');
 
         if (self::TYPE_ACCOUNT === $type) {
+            if (!$this->currentUserApi->isLoggedIn()) {
+                return null;
+            }
             if (!$this->permissionHelper->hasPermission(ACCESS_OVERVIEW)) {
                 return null;
             }
