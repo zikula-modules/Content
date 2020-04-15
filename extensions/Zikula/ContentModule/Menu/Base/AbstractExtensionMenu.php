@@ -41,6 +41,7 @@ abstract class AbstractExtensionMenu implements ExtensionMenuInterface
      * @var CurrentUserApiInterface
      */
     protected $currentUserApi;
+
     /**
      * @var ControllerHelper
      */

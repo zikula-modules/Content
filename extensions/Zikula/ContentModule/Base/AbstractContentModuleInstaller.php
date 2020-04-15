@@ -146,7 +146,7 @@ abstract class AbstractContentModuleInstaller extends AbstractExtensionInstaller
     
         // add default entry for category registry (property named Main)
         $categoryHelper = new \Zikula\ContentModule\Helper\CategoryHelper(
-            $this->translator,
+            $this->getTranslator(),
             $this->requestStack,
             $this->logger,
             $this->currentUserApi,
