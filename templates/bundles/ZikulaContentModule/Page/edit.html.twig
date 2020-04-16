@@ -86,13 +86,13 @@
             {% endif %}
             {% if not isCreate %}
                 <div id="furtherPropertiesContent">
-                    {{ form_row(form.showTitle, {label: 'Show title on page'|trans}) }}
-                    {{ form_row(form.skipHookSubscribers, {label: 'Do not process hooks on this page'|trans}) }}
+                    {{ form_row(form.showTitle, {label: 'Show title on page:'|trans}) }}
+                    {{ form_row(form.skipHookSubscribers, {label: 'Do not process hooks on this page:'|trans}) }}
                     {{ form_row(form.active, {help: 'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.'|trans}) }}
                     {{ form_row(form.activeFrom) }}
                     {{ form_row(form.activeTo) }}
                     {{ form_row(form.scope) }}
-                    {{ form_row(form.inMenu, {label: 'Include page in menu'|trans, help: 'You can include/exclude the page in the menu. The page is only shown when it is also active.'|trans}) }}
+                    {{ form_row(form.inMenu, {label: 'Include page in menu:'|trans, help: 'You can include/exclude the page in the menu. The page is only shown when it is also active.'|trans}) }}
                     {{ form_row(form.stylingClasses) }}
                 </div>
             {% endif %}

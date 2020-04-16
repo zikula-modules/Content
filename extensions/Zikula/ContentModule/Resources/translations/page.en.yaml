@@ -182,10 +182,10 @@ History: null
 'The available categories:': null
 plural_n.pages: "{count, plural,\n  =0    {No pages}\n  one   {One page}\n  other {# pages}\n}"
 'No categories found.': null
-'Show title on page': null
-'Do not process hooks on this page': null
+'Show title on page:': null
+'Do not process hooks on this page:': null
 'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.': null
-'Include page in menu': null
+'Include page in menu:': null
 'You can include/exclude the page in the menu. The page is only shown when it is also active.': null
 'Subpages of %page%': null
 'No subpages found.': null
