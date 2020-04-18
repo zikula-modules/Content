@@ -22,7 +22,7 @@ jobs:
     - name: Build and test
       uses: docker://guite/zikula-action:latest
       with:
-        args: Zikula Content 5.2.0 ZK3DEV "" true
+        args: Zikula Content 5.2.0 ZK3DEV "src/" true
 
     # see https://github.com/actions/upload-artifact
     - name: Upload release folder as artifact

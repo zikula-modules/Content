@@ -23,7 +23,7 @@ jobs:
     - name: Call standalone generator
       uses: docker://guite/generator-action:latest
       with:
-        args: Content.mostapp Zikula/ContentModule "" true
+        args: Content.mostapp Zikula/ContentModule "src/" true
 
     - name: Set output variables
       run: |
