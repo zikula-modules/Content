@@ -13,7 +13,7 @@ jobs:
 
     - name: Update dependencies
       run: |
-        cd extensions/Zikula/ContentModule/
+        cd src/extensions/Zikula/ContentModule/
         composer update
 
     # see https://github.com/peter-evans/create-pull-request
