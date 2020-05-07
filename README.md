@@ -43,7 +43,7 @@ The Content module is installed like this:
 
 1. Ensure you have Zikula 2.x with Content 5.1.0 running (download from the [this release](https://github.com/zikula-modules/Content/releases/tag/5.1.0)).
 2. Upgrade Zikula core to 3.x.
-3. Delete the `modules/Content/` directory entirely.
+3. Delete the `modules/Zikula/ContentModule/` directory entirely.
 4. Copy the content of `extensions/` into the `extensions/` directory of your Zikula installation. Afterwards you should a folder named `extensions/Zikula/ContentModule/`.
 5. In `/.env.local` set `APP_DEBUG=1`.
 6. **Create a backup of your database!**
