@@ -39,12 +39,30 @@ The Content module is installed like this:
 
 ## Upgrading
 
-To upgrade Content to version 5.0.0 and later follow these steps:
+### Upgrade to Content 5.2.0 (Zikula 2.x to 3.x)
+
+1. Ensure you have Zikula 2.x with Content 5.1.0 running (download from the [this release](https://github.com/zikula-modules/Content/releases/tag/5.1.0)).
+2. Upgrade Zikula core to 3.x.
+3. Delete the `modules/Content/` directory entirely.
+4. Copy the content of `extensions/` into the `extensions/` directory of your Zikula installation. Afterwards you should a folder named `extensions/Zikula/ContentModule/`.
+5. In `/.env.local` set `APP_DEBUG=1`.
+6. **Create a backup of your database!**
+7. Update ZikulaContentModule in the extensions administration.
+8. In `/.env.local` set `APP_DEBUG=0`.
+
+In case something goes wrong:
+
+1. Restore your database dump.
+2. Report your problem in the issue tracker at <https://github.com/zikula-modules/Content/issues> - in case you got an exception please post the complete stack trace.
+3. Add the patch or follow the advice you got.
+4. Update ZikulaContentModule in the extensions administration again.
+
+### Upgrade to Content 5.0.0 - 5.1.0 (Zikula 1.5.x to 2.x)
 
 1. Ensure you have Zikula 1.5.x with Content 4.2.2 running (download from the [1.3-legacy branch](https://github.com/zikula-modules/Content/tree/1.3-legacy)).
 2. Upgrade Zikula core to 2.x.
 3. Delete the `modules/Content/` directory entirely.
-4. Copy the content of `extensions/` into the `extensions/` directory of your Zikula installation. Afterwards you should a folder named `extensions/Zikula/ContentModule/`.
+4. Copy the content of `modules/` into the `modules/` directory of your Zikula installation. Afterwards you should a folder named `modules/Zikula/ContentModule/`.
 5. In `/app/config/custom_parameters.yml` set `debug: true`.
 6. **Create a backup of your database!**
 7. Update ZikulaContentModule in the extensions administration.
@@ -53,7 +71,7 @@ To upgrade Content to version 5.0.0 and later follow these steps:
 In case something goes wrong:
 
 1. Restore your database dump.
-2. Report your problem in the issue tracker at https://github.com/zikula-modules/Content/issues - in case you got an exception please post the complete stack trace.
+2. Report your problem in the issue tracker at <https://github.com/zikula-modules/Content/issues> - in case you got an exception please post the complete stack trace.
 3. Add the patch or follow the advice you got.
 4. Update ZikulaContentModule in the extensions administration again.
 
