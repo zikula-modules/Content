@@ -392,5 +392,6 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
         ContentDisplayHelper $contentDisplayHelper
     ) {
         $this->userRepository = $userRepository;
+        $this->contentDisplayHelper = $contentDisplayHelper;
     }
 }
