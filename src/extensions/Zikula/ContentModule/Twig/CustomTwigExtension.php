@@ -251,7 +251,8 @@ class CustomTwigExtension extends AbstractExtension
             if (null === $baseCategory) {
                 continue;
             }
-            $registryLabel = $baseCategory['display_name'][$locale] ?? $baseCategory['display_name']['en'];
+            $displayName = $baseCategory->getDisplayName();
+            $registryLabel = $displayName[$locale] ?? $displayName['en'];
 
             $categories = $baseCategory->getChildren();
             $pageCounts = [];
