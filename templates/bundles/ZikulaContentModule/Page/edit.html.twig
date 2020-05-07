@@ -159,12 +159,18 @@
     {{ parent() }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
-    {% set formInitScript %}
-        <script>
-        /* <![CDATA[ */
-            
-            ( function($) {
-                {% if mode != 'create' %}
+    <div id="formEditingDefinition" data-mode="{{ mode|e('html_attr') }}" data-entityid="{% if mode != 'create' %}{{ page.id|e('html_attr') }}{% endif %}"></div>
+    <div class="field-editing-definition" data-field-type="date" data-field-name="zikulacontentmodule_page_activeFrom"></div>
+    <div class="field-editing-definition" data-field-type="date" data-field-name="zikulacontentmodule_page_activeTo"></div>
+    {% if form.moderationSpecificCreator is defined %}
+        <div class="field-editing-definition" data-field-type="user" data-field-name="zikulacontentmodule_page_moderationSpecificCreator"></div>
+    {% endif %}
+    {% if mode != 'create' %}
+        {% set formInitScript %}
+            <script>
+            /* <![CDATA[ */
+                
+                ( function($) {
                     function zikulaContentToggleActiveDates() {
                         var hideDates;
 
@@ -172,18 +178,10 @@
                         $('#zikulacontentmodule_page_activeFrom_date').parents('.form-group').toggleClass('d-none', hideDates);
                         $('#zikulacontentmodule_page_activeTo_date').parents('.form-group').toggleClass('d-none', hideDates);
                     }
-                {% endif %}
-                $(document).ready(function() {
-                    zikulaContentInitEditForm('{{ mode }}', '{% if mode != 'create' %}{{ page.id }}{% endif %}');
-                    zikulaContentInitDateField('zikulacontentmodule_page_activeFrom');
-                    zikulaContentInitDateField('zikulacontentmodule_page_activeTo');
-                    {% if form.moderationSpecificCreator is defined %}
-                        initUserLiveSearch('zikulacontentmodule_page_moderationSpecificCreator');
-                    {% endif %}
-                    {% if mode != 'create' %}
+                    $(document).ready(function() {
                         if ($('#furtherPropertiesSection').length > 0) {
                             $('#furtherPropertiesContent').addClass('d-none');
-                            $('#furtherPropertiesSection legend').addClass('pointer').click(function (event) {
+                            $('#furtherPropertiesSection legend').css({cursor: 'pointer'}).click(function (event) {
                                 if ($('#furtherPropertiesContent').hasClass('d-none')) {
                                     $('#furtherPropertiesContent').removeClass('d-none');
                                     $(this).find('i').removeClass('fa-expand').addClass('fa-compress');
@@ -196,11 +194,11 @@
 
                         $('#zikulacontentmodule_page_active').change(zikulaContentToggleActiveDates);
                         zikulaContentToggleActiveDates();
-                    {% endif %}
-                });
-            })(jQuery);
-        /* ]]> */
-        </script>
-    {% endset %}
-    {{ pageAddAsset('footer', formInitScript) }}
+                    });
+                })(jQuery);
+            /* ]]> */
+            </script>
+        {% endset %}
+        {{ pageAddAsset('footer', formInitScript) }}
+    {% endif %}
 {% endblock %}
