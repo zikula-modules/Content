@@ -34,7 +34,7 @@ For Zikula 2.0.x look at [releases](https://github.com/zikula-modules/Content/re
 The Content module is installed like this:
 
 1. Download the [latest release](https://github.com/zikula-modules/Content/releases/latest).
-2. Copy the content of `modules/` into the `modules/` directory of your Zikula installation. Afterwards you should a folder named `modules/Zikula/ContentModule/`.
+2. Copy the content of `extensions/` into the `extensions/` directory of your Zikula installation. Afterwards you should a folder named `extensions/Zikula/ContentModule/`.
 3. Initialize and activate ZikulaContentModule in the extensions administration.
 
 ## Upgrading
@@ -44,7 +44,7 @@ To upgrade Content to version 5.0.0 and later follow these steps:
 1. Ensure you have Zikula 1.5.x with Content 4.2.2 running (download from the [1.3-legacy branch](https://github.com/zikula-modules/Content/tree/1.3-legacy)).
 2. Upgrade Zikula core to 2.x.
 3. Delete the `modules/Content/` directory entirely.
-4. Copy the content of `modules/` into the `modules/` directory of your Zikula installation. Afterwards you should a folder named `modules/Zikula/ContentModule/`.
+4. Copy the content of `extensions/` into the `extensions/` directory of your Zikula installation. Afterwards you should a folder named `extensions/Zikula/ContentModule/`.
 5. In `/app/config/custom_parameters.yml` set `debug: true`.
 6. **Create a backup of your database!**
 7. Update ZikulaContentModule in the extensions administration.
