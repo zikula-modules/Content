@@ -1,4 +1,4 @@
-// Type definitions for Gridstack 1.1.1
+// Type definitions for Gridstack 1.1.2
 // Project: https://gridstackjs.com/
 // Definitions by: Pascal Senn <https://github.com/PascalSenn>
 //                 Ricky Blankenaufulland <https://github.com/ZoolWay>
@@ -624,9 +624,10 @@ interface GridstackOptions {
   rtl ? : boolean | 'auto';
 
   /**
-   * makes grid static (default?: false). If `true` widgets are not movable/resizable.
-   * You don't even need draggable/resizable. A CSS class
-   * 'grid-stack-static' is also added to the element.
+   * removes drag&drop&resize (default `false`).
+   * If `true` widgets are not movable/resizable by the user, but code can still move and oneColumnMode will still work.
+   * You don't even need jQueryUI draggable/resizable.
+   * A CSS class `grid-stack-static` is also added to the container.
    */
   staticGrid ? : boolean;
 

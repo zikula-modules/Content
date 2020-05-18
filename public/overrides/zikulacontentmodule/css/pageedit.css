@@ -104,6 +104,9 @@ h5.card-title a.float-right {
 #widgets {
     padding: 0;
 }
+#widgets .grid-section {
+    margin-bottom: 30px;
+}
 
 #grid-displayer {
     position: fixed;

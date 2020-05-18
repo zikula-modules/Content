@@ -1,5 +1,5 @@
 /**
- * gridstack.js 1.1.1
+ * gridstack.js 1.1.2
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
@@ -168,7 +168,7 @@
 
       sources.forEach(function(source) {
         for (var prop in source) {
-          if (source.hasOwnProperty(prop) && (!target.hasOwnProperty(prop) || target[prop] === undefined)) {
+          if (Object.prototype.hasOwnProperty.call(source, prop) && (!Object.prototype.hasOwnProperty.call(target, prop) || target[prop] === undefined)) {
             target[prop] = source[prop];
           }
         }
@@ -867,14 +867,12 @@
         self._updateHeightsOnResize();
       }
 
-      if (self.opts.staticGrid) { return; }
-
       if (!self.opts.disableOneColumnMode && (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) <= self.opts.minWidth) {
-        if (self.oneColumnMode) {  return; }
+        if (self.oneColumnMode) { return }
         self.oneColumnMode = true;
         self.column(1);
       } else {
-        if (!self.oneColumnMode) { return; }
+        if (!self.oneColumnMode) { return }
         self.oneColumnMode = false;
         self.column(self._prevColumn);
       }
@@ -1427,8 +1425,8 @@
 
   /** call to write any default attributes back to element */
   GridStack.prototype._writeAttr = function(el, node) {
+    if (!node) { return; }
     el = $(el);
-    node = node || {};
     // Note: passing null removes the attr in jquery
     if (node.x !== undefined) { el.attr('data-gs-x', node.x); }
     if (node.y !== undefined) { el.attr('data-gs-y', node.y); }
@@ -1446,7 +1444,7 @@
     if (node.id !== undefined) { el.attr('data-gs-id', node.id); }
   };
 
-  /** call to write any default attributes back to element */
+  /** call to read any default attributes back to element */
   GridStack.prototype._readAttr = function(el, node) {
     el = $(el);
     node = node || {};
@@ -1490,6 +1488,9 @@
 
     el = $(el);
     if (opt) { // see knockout above
+      // make sure we load any DOM attributes that are not specified in passed in options (which override)
+      domAttr = this._readAttr(el);
+      Utils.defaults(opt, domAttr);
       this.engine._prepareNode(opt);
     }
     this._writeAttr(el, opt);
@@ -1519,6 +1520,7 @@
     if (!node) {
       node = this.engine.getNodeDataByDOMEl(el.get(0));
     }
+    if (!node || node.el.parentElement !== this.el) return; // not our child!
     // remove our DOM data (circular link) and drag&drop permanently
     el.removeData('_gridstack_node');
     this.dd.draggable(el, 'destroy').resizable(el, 'destroy');
@@ -2107,7 +2109,7 @@
     var el = $(elOrString).get(0);
     if (!el) return;
     if (!el.gridstack) {
-      el.gridstack = new GridStack(el, opts);
+      el.gridstack = new GridStack(el, Utils.clone(opts));
     }
     return el.gridstack
   };
