@@ -18,6 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Zikula\Bundle\CoreBundle\Event\GenericEvent;
+use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
 use Zikula\ScribiteModule\Event\EditorHelperEvent;
 
 /**
@@ -25,6 +26,11 @@ use Zikula\ScribiteModule\Event\EditorHelperEvent;
  */
 abstract class AbstractThirdPartyListener implements EventSubscriberInterface
 {
+    /**
+     * @var ZikulaHttpKernelInterface
+     */
+    protected $kernel;
+    
     /**
      * @var Filesystem
      */
@@ -35,8 +41,12 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
      */
     protected $requestStack;
     
-    public function __construct(Filesystem $filesystem, RequestStack $requestStack)
-    {
+    public function __construct(
+        ZikulaHttpKernelInterface $kernel,
+        Filesystem $filesystem,
+        RequestStack $requestStack
+    ) {
+        $this->kernel = $kernel;
         $this->filesystem = $filesystem;
         $this->requestStack = $requestStack;
     }
@@ -44,7 +54,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'module.scribite.editorhelpers'           => ['getEditorHelpers', 5],
+            EditorHelperEvent::class                  => ['getEditorHelpers', 5],
             'moduleplugin.ckeditor.externalplugins'   => ['getCKEditorPlugins', 5],
             'moduleplugin.quill.externalplugins'      => ['getQuillPlugins', 5],
             'moduleplugin.summernote.externalplugins' => ['getSummernotePlugins', 5],
@@ -54,7 +64,7 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     
     
     /**
-     * Listener for the `module.scribite.editorhelpers` event.
+     * Listener for the `EditorHelperEvent`.
      *
      * This occurs when Scribite adds pagevars to the editor page.
      * ZikulaContentModule will use this to add a javascript helper to add custom items.
@@ -68,11 +78,27 @@ abstract class AbstractThirdPartyListener implements EventSubscriberInterface
     public function getEditorHelpers(EditorHelperEvent $event): void
     {
         // install assets for Scribite plugins
-        $targetDir = 'public/modules/zikulacontent';
+        $projectDir = $this->kernel->getProjectDir();
+        $resourcesDir = str_replace('Listener/Base', '', __DIR__) . 'Resources/public/';
+        $targetDir = $projectDir . '/public/modules/zikulacontent/scribite';
+    
         if (!$this->filesystem->exists($targetDir)) {
-            $moduleDirectory = str_replace('Listener/Base', '', __DIR__);
-            if (is_dir($originDir = $moduleDirectory . 'Resources/public')) {
+            $originDir = $resourcesDir . 'scribite';
+            if (is_dir($originDir)) {
                 $this->filesystem->symlink($originDir, $targetDir, true);
+            }
+        }
+    
+        $commonEditorAssets = [
+            'images/admin.png',
+            'js/ZikulaContentModule.Finder.js'
+        ];
+    
+        foreach ($commonEditorAssets as $assetRelativePath) {
+            $assetPath = str_replace('scribite', $assetRelativePath, $targetDir);
+            if (!$this->filesystem->exists($assetPath)) {
+                $origin = $resourcesDir . $assetRelativePath;
+                $this->filesystem->symlink($origin, $assetPath, true);
             }
         }
     
