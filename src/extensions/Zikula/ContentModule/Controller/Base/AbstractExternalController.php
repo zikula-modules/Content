@@ -21,6 +21,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\CoreBundle\Controller\AbstractController;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\ThemeModule\Engine\Asset;
+use Zikula\ThemeModule\Engine\AssetBag;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
 use Zikula\ContentModule\Helper\ControllerHelper;
@@ -109,6 +110,7 @@ abstract class AbstractExternalController extends AbstractController
         CollectionFilterHelper $collectionFilterHelper,
         ListEntriesHelper $listEntriesHelper,
         ViewHelper $viewHelper,
+        AssetBag $cssAssetBag,
         Asset $assetHelper,
         string $objectType,
         string $editor,
@@ -145,7 +147,6 @@ abstract class AbstractExternalController extends AbstractController
             return new Response($this->trans('Error: Invalid editor context given for external controller action.'));
         }
         
-        $cssAssetBag = $this->get('zikula_core.common.theme.assets_css');
         $cssAssetBag->add($assetHelper->resolve('@ZikulaContentModule:css/style.css'));
         $cssAssetBag->add([$assetHelper->resolve('@ZikulaContentModule:css/custom.css') => 120]);
         

@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Zikula\ThemeModule\Engine\Asset;
+use Zikula\ThemeModule\Engine\AssetBag;
 use Zikula\ContentModule\Controller\Base\AbstractExternalController;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\CollectionFilterHelper;
@@ -82,6 +83,7 @@ class ExternalController extends AbstractExternalController
         CollectionFilterHelper $collectionFilterHelper,
         ListEntriesHelper $listEntriesHelper,
         ViewHelper $viewHelper,
+        AssetBag $cssAssetBag,
         Asset $assetHelper,
         string $objectType,
         string $editor,
@@ -99,6 +101,7 @@ class ExternalController extends AbstractExternalController
             $collectionFilterHelper,
             $listEntriesHelper,
             $viewHelper,
+            $cssAssetBag,
             $assetHelper,
             $objectType,
             $editor,
