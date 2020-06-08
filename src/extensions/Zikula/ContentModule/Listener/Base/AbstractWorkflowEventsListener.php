@@ -17,7 +17,9 @@ namespace Zikula\ContentModule\Listener\Base;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
 use Symfony\Component\Workflow\Event\GuardEvent;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
+use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
 use Zikula\ContentModule\Helper\PermissionHelper;
 
@@ -28,6 +30,8 @@ use Zikula\ContentModule\Helper\PermissionHelper;
  */
 abstract class AbstractWorkflowEventsListener implements EventSubscriberInterface
 {
+    use TranslatorTrait;
+    
     /**
      * @var EntityFactory
      */
@@ -39,9 +43,11 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
     protected $permissionHelper;
     
     public function __construct(
+        TranslatorInterface $translator,
         EntityFactory $entityFactory,
         PermissionHelper $permissionHelper
     ) {
+        $this->setTranslator($translator);
         $this->entityFactory = $entityFactory;
         $this->permissionHelper = $permissionHelper;
     }
@@ -129,7 +135,7 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
         
         if (!$this->permissionHelper->hasEntityPermission($entity, $permissionLevel)) {
             // no permission for this transition, so disallow it
-            $event->setBlocked(true, $this->translator->trans('No permission for this action.'));
+            $event->setBlocked(true, $this->trans('No permission for this action.'));
         
             return;
         }
