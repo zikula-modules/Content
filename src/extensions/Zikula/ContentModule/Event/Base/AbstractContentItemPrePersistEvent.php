@@ -19,7 +19,7 @@ use Zikula\ContentModule\Entity\ContentItemEntity;
 /**
  * Event base class for filtering content item processing.
  */
-class AbstractContentItemPrePersistEvent
+abstract class AbstractContentItemPrePersistEvent
 {
     /**
      * @var ContentItemEntity Reference to treated entity instance.
