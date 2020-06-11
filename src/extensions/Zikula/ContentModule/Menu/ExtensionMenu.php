@@ -36,6 +36,9 @@ class ExtensionMenu extends AbstractExtensionMenu
         $routeArea = self::TYPE_ADMIN === $type ? 'admin' : '';
 
         if (self::TYPE_ACCOUNT === $type) {
+            if (!$this->currentUserApi->isLoggedIn()) {
+                return null;
+            }
             $myPagesLabel = $this->translator->trans('My pages', [], 'page');
             $myPagesLink = $menu->getChild($myPagesLabel);
             if (null !== $myPagesLink) {
