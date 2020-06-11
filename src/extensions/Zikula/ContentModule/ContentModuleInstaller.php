@@ -67,8 +67,8 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
             ini_set('max_execution_time', 300); // 300 seconds = 5 minutes
 
             // delete all old data
-            $this->variableApi->delAll('content');
-            $this->variableApi->delAll('Content');
+            $this->getVariableApi()->delAll('content');
+            $this->getVariableApi()->delAll('Content');
 
             // reinstall
             $this->install();
