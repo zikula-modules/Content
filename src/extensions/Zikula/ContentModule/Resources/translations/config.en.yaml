@@ -1,147 +1,147 @@
-'You need to specify a Google Maps API key in the configuration form in order to activate this plugin.': null
-'You need to explicitly enable a checkbox in the configuration form to activate this plugin.': null
-Settings: null
-'General settings': null
-'Custom styles': null
-'Additional fields': null
-Permalinks: null
-'List views': null
-Moderation: null
-Integration: null
-Versioning: null
-Workflows: null
-'Here you can manage all basic settings for this application.': null
-'With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".': null
-'Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.': null
-'Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.': null
-'Here you can configure parameters for list views.': null
-'Here you can define moderation-related settings.': null
-'These options allow you to configure integration aspects.': null
-'Here you can define settings related to version control.': null
-'Here you can inspect and amend the existing workflows.': null
-Pages: null
-'Edit workflow for pages': null
-'Edit pages workflow': null
-'Content items': null
-'Edit workflow for content items': null
-'Edit content items workflow': null
-'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.': null
-'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".': null
-'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.': null
-'Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.': null
-'Whether to inherit permissions from parent to child pages or not.': null
-'Whether page titles should automatically be linked using MultiHook.': null
-'If you need an additional string for each page you can enable an optional field.': null
-'If you need an additional text for each page you can enable an optional field.': null
-'This removes the module name (defaults to "content") from permalinks.': null
-'This removes the primary entity name ("page") from permalinks.': null
-'This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.': null
-'The amount of pages shown per page': null
-'Whether to add a link to pages of the current user on his account page': null
-'Whether users may only see own pages': null
-'Whether only own entries should be shown on view pages by default or not': null
-'Whether to allow moderators choosing a user which will be set as creator.': null
-'Whether to allow moderators choosing a custom creation date.': null
-'Which sections are supported in the Finder component (used by Scribite plug-ins).': null
-'Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.': null
-'Whether to show the version history to editors or not.': null
-'State of new pages:': null
-'Count page views:': null
-'Google maps api key:': null
-'Yandex translate api key:': null
-'Enable raw plugin:': null
-'Inherit permissions:': null
-'Enable automatic page links:': null
-'Page styles:': null
-'Section styles:': null
-'Content styles:': null
-'Enable optional string 1:': null
-'Enable optional string 2:': null
-'Enable optional text:': null
-'Ignore bundle name in routes:': null
-'Ignore entity name in routes:': null
-'Ignore first tree level in routes:': null
-'Permalink suffix:': null
-'Page entries per page:': null
-'Link own pages on account page:': null
-'Page private mode:': null
-'Show only own entries:': null
-'Allow moderation specific creator for page:': null
-'Allow moderation specific creation date for page:': null
-'Enabled finder types:': null
-'Revision handling for page:': null
-'Maximum amount of page revisions:': null
-'Period for page revisions:': null
-'Show page history:': null
-'Update configuration': null
-Reset: null
-Cancel: null
-'Choose an option': null
-'Choose the state of new pages.': null
-'The count page views option': null
-'Enter the google maps api key.': null
-'Enter the yandex translate api key.': null
-'The enable raw plugin option': null
-'The inherit permissions option': null
-'The enable automatic page links option': null
-'Enter the page styles.': null
-'Enter the section styles.': null
-'Enter the content styles.': null
-'The enable optional string 1 option': null
-'The enable optional string 2 option': null
-'The enable optional text option': null
-'The ignore bundle name in routes option': null
-'The ignore entity name in routes option': null
-'The ignore first tree level in routes option': null
-'Choose the permalink suffix.': null
-'Enter the page entries per page. Only digits are allowed.': null
-'The link own pages on account page option': null
-'The page private mode option': null
-'The show only own entries option': null
-'The allow moderation specific creator for page option': null
-'The allow moderation specific creation date for page option': null
-'Choose the enabled finder types.': null
-'Choose the revision handling for page.': null
-'Choose the maximum amount of page revisions.': null
-'Choose the period for page revisions.': null
-'The show page history option': null
-'New pages will be active and available in the menu': null
-'New pages will be inactive and available in the menu': null
-'New pages will be active and not available in the menu': null
-'New pages will be inactive and not available in the menu': null
-'No suffix': null
-Html: null
-Htm: null
-Phtml: null
-Shtml: null
-Page: null
-'Unlimited revisions': null
-'Limited revisions by amount of revisions': null
-'Limited revisions by date interval': null
-1: null
-5: null
-10: null
-25: null
-50: null
-100: null
-250: null
-500: null
-'Done! Configuration updated.': null
-'My pages': null
-'Content Backend': null
-Frontend: null
-Backend: null
-'Switch to user area.': null
-'Switch to administration area.': null
-'Pages list': null
-'Manage settings for this application': null
-'Available plugins': null
-'Get API key': null
-'Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.': null
-Bundle: null
-Plugin: null
-Active: null
-Category: null
-Description: null
-'Yes': null
-'No': null
+'You need to specify a Google Maps API key in the configuration form in order to activate this plugin.': 'You need to specify a Google Maps API key in the configuration form in order to activate this plugin.'
+'You need to explicitly enable a checkbox in the configuration form to activate this plugin.': 'You need to explicitly enable a checkbox in the configuration form to activate this plugin.'
+Settings: Settings
+'General settings': 'General settings'
+'Custom styles': 'Custom styles'
+'Additional fields': 'Additional fields'
+Permalinks: Permalinks
+'List views': 'List views'
+Moderation: Moderation
+Integration: Integration
+Versioning: Versioning
+Workflows: Workflows
+'Here you can manage all basic settings for this application.': 'Here you can manage all basic settings for this application.'
+'With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".': 'With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".'
+'Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.': 'Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.'
+'Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.': 'Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.'
+'Here you can configure parameters for list views.': 'Here you can configure parameters for list views.'
+'Here you can define moderation-related settings.': 'Here you can define moderation-related settings.'
+'These options allow you to configure integration aspects.': 'These options allow you to configure integration aspects.'
+'Here you can define settings related to version control.': 'Here you can define settings related to version control.'
+'Here you can inspect and amend the existing workflows.': 'Here you can inspect and amend the existing workflows.'
+Pages: Pages
+'Edit workflow for pages': 'Edit workflow for pages'
+'Edit pages workflow': 'Edit pages workflow'
+'Content items': 'Content items'
+'Edit workflow for content items': 'Edit workflow for content items'
+'Edit content items workflow': 'Edit content items workflow'
+'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.': 'Page views are only counted when the user has no edit access. Enable if you want to use the block showing most viewed pages.'
+'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".': 'If you want to use Google maps you need an API key for it. You should enable both "Maps JavaScript API" and "Maps Static API".'
+'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.': 'If you want to get translation support by Yandex which can provide suggestions you need an API key for it.'
+'Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.': 'Whether to enable the unfiltered raw text plugin. Use this plugin with caution and if you can trust your editors, since no filtering is being done on the content. To be used for iframes, JavaScript blocks, etc.'
+'Whether to inherit permissions from parent to child pages or not.': 'Whether to inherit permissions from parent to child pages or not.'
+'Whether page titles should automatically be linked using MultiHook.': 'Whether page titles should automatically be linked using MultiHook.'
+'If you need an additional string for each page you can enable an optional field.': 'If you need an additional string for each page you can enable an optional field.'
+'If you need an additional text for each page you can enable an optional field.': 'If you need an additional text for each page you can enable an optional field.'
+'This removes the module name (defaults to "content") from permalinks.': 'This removes the module name (defaults to "content") from permalinks.'
+'This removes the primary entity name ("page") from permalinks.': 'This removes the primary entity name ("page") from permalinks.'
+'This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.': 'This removes the first tree level of pages from permalinks of pages in greater levels. If enabled first level pages act only as dummys while second level pages are the actual main pages. Recommended because it allows working with only one single tree of pages.'
+'The amount of pages shown per page': 'The amount of pages shown per page'
+'Whether to add a link to pages of the current user on his account page': 'Whether to add a link to pages of the current user on his account page'
+'Whether users may only see own pages': 'Whether users may only see own pages'
+'Whether only own entries should be shown on view pages by default or not': 'Whether only own entries should be shown on view pages by default or not'
+'Whether to allow moderators choosing a user which will be set as creator.': 'Whether to allow moderators choosing a user which will be set as creator.'
+'Whether to allow moderators choosing a custom creation date.': 'Whether to allow moderators choosing a custom creation date.'
+'Which sections are supported in the Finder component (used by Scribite plug-ins).': 'Which sections are supported in the Finder component (used by Scribite plug-ins).'
+'Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.': 'Adding a limitation to the revisioning will still keep the possibility to revert pages to an older version. You will loose the possibility to inspect changes done earlier than the oldest stored revision though.'
+'Whether to show the version history to editors or not.': 'Whether to show the version history to editors or not.'
+'State of new pages:': 'State of new pages:'
+'Count page views:': 'Count page views:'
+'Google maps api key:': 'Google maps api key:'
+'Yandex translate api key:': 'Yandex translate api key:'
+'Enable raw plugin:': 'Enable raw plugin:'
+'Inherit permissions:': 'Inherit permissions:'
+'Enable automatic page links:': 'Enable automatic page links:'
+'Page styles:': 'Page styles:'
+'Section styles:': 'Section styles:'
+'Content styles:': 'Content styles:'
+'Enable optional string 1:': 'Enable optional string 1:'
+'Enable optional string 2:': 'Enable optional string 2:'
+'Enable optional text:': 'Enable optional text:'
+'Ignore bundle name in routes:': 'Ignore bundle name in routes:'
+'Ignore entity name in routes:': 'Ignore entity name in routes:'
+'Ignore first tree level in routes:': 'Ignore first tree level in routes:'
+'Permalink suffix:': 'Permalink suffix:'
+'Page entries per page:': 'Page entries per page:'
+'Link own pages on account page:': 'Link own pages on account page:'
+'Page private mode:': 'Page private mode:'
+'Show only own entries:': 'Show only own entries:'
+'Allow moderation specific creator for page:': 'Allow moderation specific creator for page:'
+'Allow moderation specific creation date for page:': 'Allow moderation specific creation date for page:'
+'Enabled finder types:': 'Enabled finder types:'
+'Revision handling for page:': 'Revision handling for page:'
+'Maximum amount of page revisions:': 'Maximum amount of page revisions:'
+'Period for page revisions:': 'Period for page revisions:'
+'Show page history:': 'Show page history:'
+'Update configuration': 'Update configuration'
+Reset: Reset
+Cancel: Cancel
+'Choose an option': 'Choose an option'
+'Choose the state of new pages.': 'Choose the state of new pages.'
+'The count page views option': 'The count page views option'
+'Enter the google maps api key.': 'Enter the google maps api key.'
+'Enter the yandex translate api key.': 'Enter the yandex translate api key.'
+'The enable raw plugin option': 'The enable raw plugin option'
+'The inherit permissions option': 'The inherit permissions option'
+'The enable automatic page links option': 'The enable automatic page links option'
+'Enter the page styles.': 'Enter the page styles.'
+'Enter the section styles.': 'Enter the section styles.'
+'Enter the content styles.': 'Enter the content styles.'
+'The enable optional string 1 option': 'The enable optional string 1 option'
+'The enable optional string 2 option': 'The enable optional string 2 option'
+'The enable optional text option': 'The enable optional text option'
+'The ignore bundle name in routes option': 'The ignore bundle name in routes option'
+'The ignore entity name in routes option': 'The ignore entity name in routes option'
+'The ignore first tree level in routes option': 'The ignore first tree level in routes option'
+'Choose the permalink suffix.': 'Choose the permalink suffix.'
+'Enter the page entries per page. Only digits are allowed.': 'Enter the page entries per page. Only digits are allowed.'
+'The link own pages on account page option': 'The link own pages on account page option'
+'The page private mode option': 'The page private mode option'
+'The show only own entries option': 'The show only own entries option'
+'The allow moderation specific creator for page option': 'The allow moderation specific creator for page option'
+'The allow moderation specific creation date for page option': 'The allow moderation specific creation date for page option'
+'Choose the enabled finder types.': 'Choose the enabled finder types.'
+'Choose the revision handling for page.': 'Choose the revision handling for page.'
+'Choose the maximum amount of page revisions.': 'Choose the maximum amount of page revisions.'
+'Choose the period for page revisions.': 'Choose the period for page revisions.'
+'The show page history option': 'The show page history option'
+'New pages will be active and available in the menu': 'New pages will be active and available in the menu'
+'New pages will be inactive and available in the menu': 'New pages will be inactive and available in the menu'
+'New pages will be active and not available in the menu': 'New pages will be active and not available in the menu'
+'New pages will be inactive and not available in the menu': 'New pages will be inactive and not available in the menu'
+'No suffix': 'No suffix'
+Html: Html
+Htm: Htm
+Phtml: Phtml
+Shtml: Shtml
+Page: Page
+'Unlimited revisions': 'Unlimited revisions'
+'Limited revisions by amount of revisions': 'Limited revisions by amount of revisions'
+'Limited revisions by date interval': 'Limited revisions by date interval'
+1: 1
+5: 5
+10: 10
+25: 25
+50: 50
+100: 100
+250: 250
+500: 500
+'Done! Configuration updated.': 'Done! Configuration updated.'
+'My pages': 'My pages'
+'Content Backend': 'Content Backend'
+Frontend: Frontend
+Backend: Backend
+'Switch to user area.': 'Switch to user area.'
+'Switch to administration area.': 'Switch to administration area.'
+'Pages list': 'Pages list'
+'Manage settings for this application': 'Manage settings for this application'
+'Available plugins': 'Available plugins'
+'Get API key': 'Get API key'
+'Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.': 'Content allows other bundles/modules to provide additional content elements. Moreover some modules introduce extra functions to plugins delivered with Content. The following list shows which plugins are available at your installation.'
+Bundle: Bundle
+Plugin: Plugin
+Active: Active
+Category: Category
+Description: Description
+'Yes': 'Yes'
+'No': 'No'

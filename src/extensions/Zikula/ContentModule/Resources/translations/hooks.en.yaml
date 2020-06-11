@@ -1,6 +1,6 @@
-'Content item form aware subscriber': null
-'Content item filter hooks subscriber': null
-'Page filter hooks subscriber': null
-'Page form aware subscriber': null
-'Page ui hooks subscriber': null
-'Content item ui hooks subscriber': null
+'Content item form aware subscriber': 'Content item form aware subscriber'
+'Content item filter hooks subscriber': 'Content item filter hooks subscriber'
+'Page filter hooks subscriber': 'Page filter hooks subscriber'
+'Page form aware subscriber': 'Page form aware subscriber'
+'Page ui hooks subscriber': 'Page ui hooks subscriber'
+'Content item ui hooks subscriber': 'Content item ui hooks subscriber'

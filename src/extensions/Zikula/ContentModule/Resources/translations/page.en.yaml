@@ -1,199 +1,199 @@
-'Page change history for %entityTitle%': null
-'Pages list': null
-'Page hierarchy': null
-Pages: null
-'Welcome to the page section of the Content application.': null
-'My pages': null
-State: null
-Title: null
-Views: null
-Active: null
-'Active from': null
-'Active to': null
-'In menu': null
-'Current version': null
-'No pages found.': null
-'With selected pages': null
-'Create page': null
-'Edit page': null
-Filter: null
-'Quick navigation': null
-'Back to default view': null
-Reset: null
-Page: null
-'Show title': null
-'Meta description': null
-'Skip hook subscribers': null
-Layout: null
-Scope: null
-'Optional string 1': null
-'Optional string 2': null
-'Optional text': null
-'Related pages': null
-'Deleted pages': null
-'Preview page %id%': null
-'Page %id%': null
-'Undelete page %id%': null
-'Styling classes': null
-'Content data': null
-'Translation data': null
-'Workflow state': null
-'Content items': null
-'Read more': null
-'Search and select page': null
-'Note: this value must not exceed %length% characters.': null
-'Enter one entry per line.': null
-'As soon as at least one selected entry applies for the current user the page becomes visible.': null
-'Parent page': null
-'Title:': null
-'Meta description:': null
-'Optional string 1:': null
-'Optional string 2:': null
-'Optional text:': null
-'Permalink:': null
-'Show title:': null
-'Skip hook subscribers:': null
-'Layout:': null
-'Views:': null
-'Active:': null
-'Active from:': null
-'Active to:': null
-'Scope:': null
-'In menu:': null
-'Styling classes:': null
-'Content data:': null
-'Category:': null
-'Submit and repeat': null
-Cancel: null
-'Choose the parent page.': null
-'Enter the title of the page.': null
-'Enter the meta description of the page.': null
-'Enter the optional string 1 of the page.': null
-'Enter the optional string 2 of the page.': null
-'Enter the optional text of the page.': null
-'show title ?': null
-'skip hook subscribers ?': null
-'Enter the layout of the page.': null
-'Enter the views of the page. Only digits are allowed.': null
-'active ?': null
-'Enter the active from of the page.': null
-'Enter the active to of the page.': null
-'Choose the scope.': null
-'in menu ?': null
-'Enter the styling classes of the page.': null
-'Enter the content data of the page.': null
-'Note: this value must not exceed %amount% characters.': null
-'Additional search text:': null
-Previous: null
-Next: null
-Skip: null
-'Save and quit': null
-contentData: null
-'Relative link to the page': null
-'Absolute url to the page': null
-'ID of page': null
-'Creation date': null
-Creator: null
-'Update date': null
-Updater: null
-Ascending: null
-Descending: null
-'This is an optional filter.': null
-'Change selection': null
-'Language:': null
-'Paste as:': null
-'Sort by:': null
-'Sort direction:': null
-'Page size:': null
-'Search for:': null
-'No': null
-'Yes': null
-OK: null
-Category: null
-Search: null
-'Sort by': null
-'Sort direction': null
-'Page size': null
-All: null
-'Sorry, but you can not create the page yet as other items are required which must be created before!': null
-'Done! Page created.': null
-'Done! Page updated.': null
-'Done! Page deleted.': null
-'Links page titles to corresponding pages.': null
-'Links to the list of pages and specific pages.': null
-'View pages': null
-'Page with id %id% could not be found': null
-'Content created': null
-'Content updated': null
-'Content cloned': null
-'Content deleted': null
-'Layout changed (e.g. content moved or resized)': null
-'Page created': null
-'Page updated': null
-'Page deleted': null
-'Page translation created': null
-'Page translation updated': null
-'Page translation deleted': null
-'Public (all)': null
-'All logged in members': null
-'All not logged in people': null
-'%title%': null
-'No such page found.': null
-'Done! Page undeleted.': null
-'Done! Reverted page to version %version%.': null
-'Error! Reverting page to version %version% failed.': null
-'Manage content': null
-Duplicate: null
-Translate: null
-'Manage content elements of page': null
-'Duplicate this page': null
-'Translate this page': null
-Preview: null
-Details: null
-Edit: null
-Reuse: null
-'Add sub page': null
-History: null
-'Add root node': null
-'Switch to table view': null
-'Back to paginated view': null
-'Show all entries': null
-'Switch to hierarchy view': null
-'Show also entries from other users': null
-'Show only own entries': null
-'View deleted pages': null
-'Open preview page': null
-'Edit this page': null
-'Reuse for new page': null
-'Add a sub page to this page': null
-'Watch version history': null
-'Add another section': null
-'Add section': null
-'Back to last page': null
-'Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.': null
-'Add element': null
-'Complete pages list': null
-'Extended pages list': null
-'Categories list': null
-'Updated date': null
-'only from %date': null
-'only until %date': null
-'View full page': null
-'The available categories:': null
+'Page change history for %entityTitle%': 'Page change history for %entityTitle%'
+'Pages list': 'Pages list'
+'Page hierarchy': 'Page hierarchy'
+Pages: Pages
+'Welcome to the page section of the Content application.': 'Welcome to the page section of the Content application.'
+'My pages': 'My pages'
+State: State
+Title: Title
+Views: Views
+Active: Active
+'Active from': 'Active from'
+'Active to': 'Active to'
+'In menu': 'In menu'
+'Current version': 'Current version'
+'No pages found.': 'No pages found.'
+'With selected pages': 'With selected pages'
+'Create page': 'Create page'
+'Edit page': 'Edit page'
+Filter: Filter
+'Quick navigation': 'Quick navigation'
+'Back to default view': 'Back to default view'
+Reset: Reset
+Page: Page
+'Show title': 'Show title'
+'Meta description': 'Meta description'
+'Skip hook subscribers': 'Skip hook subscribers'
+Layout: Layout
+Scope: Scope
+'Optional string 1': 'Optional string 1'
+'Optional string 2': 'Optional string 2'
+'Optional text': 'Optional text'
+'Related pages': 'Related pages'
+'Deleted pages': 'Deleted pages'
+'Preview page %id%': 'Preview page %id%'
+'Page %id%': 'Page %id%'
+'Undelete page %id%': 'Undelete page %id%'
+'Styling classes': 'Styling classes'
+'Content data': 'Content data'
+'Translation data': 'Translation data'
+'Workflow state': 'Workflow state'
+'Content items': 'Content items'
+'Read more': 'Read more'
+'Search and select page': 'Search and select page'
+'Note: this value must not exceed %length% characters.': 'Note: this value must not exceed %length% characters.'
+'Enter one entry per line.': 'Enter one entry per line.'
+'As soon as at least one selected entry applies for the current user the page becomes visible.': 'As soon as at least one selected entry applies for the current user the page becomes visible.'
+'Parent page': 'Parent page'
+'Title:': 'Title:'
+'Meta description:': 'Meta description:'
+'Optional string 1:': 'Optional string 1:'
+'Optional string 2:': 'Optional string 2:'
+'Optional text:': 'Optional text:'
+'Permalink:': 'Permalink:'
+'Show title:': 'Show title:'
+'Skip hook subscribers:': 'Skip hook subscribers:'
+'Layout:': 'Layout:'
+'Views:': 'Views:'
+'Active:': 'Active:'
+'Active from:': 'Active from:'
+'Active to:': 'Active to:'
+'Scope:': 'Scope:'
+'In menu:': 'In menu:'
+'Styling classes:': 'Styling classes:'
+'Content data:': 'Content data:'
+'Category:': 'Category:'
+'Submit and repeat': 'Submit and repeat'
+Cancel: Cancel
+'Choose the parent page.': 'Choose the parent page.'
+'Enter the title of the page.': 'Enter the title of the page.'
+'Enter the meta description of the page.': 'Enter the meta description of the page.'
+'Enter the optional string 1 of the page.': 'Enter the optional string 1 of the page.'
+'Enter the optional string 2 of the page.': 'Enter the optional string 2 of the page.'
+'Enter the optional text of the page.': 'Enter the optional text of the page.'
+'show title ?': 'show title ?'
+'skip hook subscribers ?': 'skip hook subscribers ?'
+'Enter the layout of the page.': 'Enter the layout of the page.'
+'Enter the views of the page. Only digits are allowed.': 'Enter the views of the page. Only digits are allowed.'
+'active ?': 'active ?'
+'Enter the active from of the page.': 'Enter the active from of the page.'
+'Enter the active to of the page.': 'Enter the active to of the page.'
+'Choose the scope.': 'Choose the scope.'
+'in menu ?': 'in menu ?'
+'Enter the styling classes of the page.': 'Enter the styling classes of the page.'
+'Enter the content data of the page.': 'Enter the content data of the page.'
+'Note: this value must not exceed %amount% characters.': 'Note: this value must not exceed %amount% characters.'
+'Additional search text:': 'Additional search text:'
+Previous: Previous
+Next: Next
+Skip: Skip
+'Save and quit': 'Save and quit'
+contentData: contentData
+'Relative link to the page': 'Relative link to the page'
+'Absolute url to the page': 'Absolute url to the page'
+'ID of page': 'ID of page'
+'Creation date': 'Creation date'
+Creator: Creator
+'Update date': 'Update date'
+Updater: Updater
+Ascending: Ascending
+Descending: Descending
+'This is an optional filter.': 'This is an optional filter.'
+'Change selection': 'Change selection'
+'Language:': 'Language:'
+'Paste as:': 'Paste as:'
+'Sort by:': 'Sort by:'
+'Sort direction:': 'Sort direction:'
+'Page size:': 'Page size:'
+'Search for:': 'Search for:'
+'No': 'No'
+'Yes': 'Yes'
+OK: OK
+Category: Category
+Search: Search
+'Sort by': 'Sort by'
+'Sort direction': 'Sort direction'
+'Page size': 'Page size'
+All: All
+'Sorry, but you can not create the page yet as other items are required which must be created before!': 'Sorry, but you can not create the page yet as other items are required which must be created before!'
+'Done! Page created.': 'Done! Page created.'
+'Done! Page updated.': 'Done! Page updated.'
+'Done! Page deleted.': 'Done! Page deleted.'
+'Links page titles to corresponding pages.': 'Links page titles to corresponding pages.'
+'Links to the list of pages and specific pages.': 'Links to the list of pages and specific pages.'
+'View pages': 'View pages'
+'Page with id %id% could not be found': 'Page with id %id% could not be found'
+'Content created': 'Content created'
+'Content updated': 'Content updated'
+'Content cloned': 'Content cloned'
+'Content deleted': 'Content deleted'
+'Layout changed (e.g. content moved or resized)': 'Layout changed (e.g. content moved or resized)'
+'Page created': 'Page created'
+'Page updated': 'Page updated'
+'Page deleted': 'Page deleted'
+'Page translation created': 'Page translation created'
+'Page translation updated': 'Page translation updated'
+'Page translation deleted': 'Page translation deleted'
+'Public (all)': 'Public (all)'
+'All logged in members': 'All logged in members'
+'All not logged in people': 'All not logged in people'
+'%title%': '%title%'
+'No such page found.': 'No such page found.'
+'Done! Page undeleted.': 'Done! Page undeleted.'
+'Done! Reverted page to version %version%.': 'Done! Reverted page to version %version%.'
+'Error! Reverting page to version %version% failed.': 'Error! Reverting page to version %version% failed.'
+'Manage content': 'Manage content'
+Duplicate: Duplicate
+Translate: Translate
+'Manage content elements of page': 'Manage content elements of page'
+'Duplicate this page': 'Duplicate this page'
+'Translate this page': 'Translate this page'
+Preview: Preview
+Details: Details
+Edit: Edit
+Reuse: Reuse
+'Add sub page': 'Add sub page'
+History: History
+'Add root node': 'Add root node'
+'Switch to table view': 'Switch to table view'
+'Back to paginated view': 'Back to paginated view'
+'Show all entries': 'Show all entries'
+'Switch to hierarchy view': 'Switch to hierarchy view'
+'Show also entries from other users': 'Show also entries from other users'
+'Show only own entries': 'Show only own entries'
+'View deleted pages': 'View deleted pages'
+'Open preview page': 'Open preview page'
+'Edit this page': 'Edit this page'
+'Reuse for new page': 'Reuse for new page'
+'Add a sub page to this page': 'Add a sub page to this page'
+'Watch version history': 'Watch version history'
+'Add another section': 'Add another section'
+'Add section': 'Add section'
+'Back to last page': 'Back to last page'
+'Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.': 'Here you manage the content of this page. You can add/edit/delete content as well as drag the content boxes around to get the layout right. Click on the arrow next to the title for the actions on that content item.'
+'Add element': 'Add element'
+'Complete pages list': 'Complete pages list'
+'Extended pages list': 'Extended pages list'
+'Categories list': 'Categories list'
+'Updated date': 'Updated date'
+'only from %date': 'only from %date'
+'only until %date': 'only until %date'
+'View full page': 'View full page'
+'The available categories:': 'The available categories:'
 plural_n.pages: "{count, plural,\n  =0    {No pages}\n  one   {One page}\n  other {# pages}\n}"
-'No categories found.': null
-'Show title on page:': null
-'Do not process hooks on this page:': null
-'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.': null
-'Include page in menu:': null
-'You can include/exclude the page in the menu. The page is only shown when it is also active.': null
-'Subpages of %page%': null
-'No subpages found.': null
-'General page data': null
-'Switch source language:': null
-'Source content': null
-'Target content': null
-Sitemap: null
-'Welcome to the contents for %sitename%': null
-Overview: null
-'This block will only show the subpages of a Content page when that Content page is being displayed.': null
+'No categories found.': 'No categories found.'
+'Show title on page:': 'Show title on page:'
+'Do not process hooks on this page:': 'Do not process hooks on this page:'
+'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.': 'You can set the page active/inactive as well as supply a publication date interval. A page is only online if it is active and within the publication interval.'
+'Include page in menu:': 'Include page in menu:'
+'You can include/exclude the page in the menu. The page is only shown when it is also active.': 'You can include/exclude the page in the menu. The page is only shown when it is also active.'
+'Subpages of %page%': 'Subpages of %page%'
+'No subpages found.': 'No subpages found.'
+'General page data': 'General page data'
+'Switch source language:': 'Switch source language:'
+'Source content': 'Source content'
+'Target content': 'Target content'
+Sitemap: Sitemap
+'Welcome to the contents for %sitename%': 'Welcome to the contents for %sitename%'
+Overview: Overview
+'This block will only show the subpages of a Content page when that Content page is being displayed.': 'This block will only show the subpages of a Content page when that Content page is being displayed.'

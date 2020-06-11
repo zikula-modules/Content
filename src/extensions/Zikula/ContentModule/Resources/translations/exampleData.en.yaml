@@ -1,18 +1,18 @@
-'This is only a dummy page containing the real pages': null
-'Content introduction page': null
-'A content page consists of various content items in a chosen Bootstrap grid': null
-'Content pages may arrange content items using Bootstrap layout.': null
-'<p>Each created page can arrange their content elements using arbitrary grid layouts. Each page may contains various layout sections. In each section you can place one or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Quotes;</li> <li>Atom or RSS feeds;</li> <li>Computer code;</li> <li>Zikula blocks;</li> <li>the output of another Zikula module or Symfony bundle.</li> </ul> <p>Within these layout sections you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>': null
-'Content pages may contain many different types of content items.': null
-'Zikula allows you to build simple one-page websites to individual web applications.': null
-'https://ziku.la/en/': null
-'Zikula homepage': null
-'Zikula and Content provide powerful tools for creating websites and web applications.': null
-'<p><strong>This is a second HTML text content item in the left column.</strong><br />Content is an extendable module. You can create your own content plugins and other Zikula modules can also offer additional content items. For example a calendar module may provide a Content plugin for a list of the latest events.</p>': null
-'Content can be extended by other modules which can contribute additional content types.': null
-'$this->doAction($var); // just some code': null
-'<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p><p>It also features additional functionality, like translating content and tracking changes between different versions.</p>': null
-'Content also offers functionality for versioning and managing translations.': null
-'An example page for introduction with several content items has been created.': null
-'Warning! Could not create the example page for introduction.': null
-'Exception during example data creation: %message%': null
+'This is only a dummy page containing the real pages': 'This is only a dummy page containing the real pages'
+'Content introduction page': 'Content introduction page'
+'A content page consists of various content items in a chosen Bootstrap grid': 'A content page consists of various content items in a chosen Bootstrap grid'
+'Content pages may arrange content items using Bootstrap layout.': 'Content pages may arrange content items using Bootstrap layout.'
+'<p>Each created page can arrange their content elements using arbitrary grid layouts. Each page may contains various layout sections. In each section you can place one or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Quotes;</li> <li>Atom or RSS feeds;</li> <li>Computer code;</li> <li>Zikula blocks;</li> <li>the output of another Zikula module or Symfony bundle.</li> </ul> <p>Within these layout sections you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>': '<p>Each created page can arrange their content elements using arbitrary grid layouts. Each page may contains various layout sections. In each section you can place one or more content items of various kinds like:</p> <ul> <li>HTML text;</li> <li>YouTube videos;</li> <li>Google maps;</li> <li>Quotes;</li> <li>Atom or RSS feeds;</li> <li>Computer code;</li> <li>Zikula blocks;</li> <li>the output of another Zikula module or Symfony bundle.</li> </ul> <p>Within these layout sections you can sort the content items by means of drag & drop.<br /> You can make an unlimited number of pages and structure them hierarchical. Your page structure can be displayed in a multi level menu in your website.</p>'
+'Content pages may contain many different types of content items.': 'Content pages may contain many different types of content items.'
+'Zikula allows you to build simple one-page websites to individual web applications.': 'Zikula allows you to build simple one-page websites to individual web applications.'
+'https://ziku.la/en/': 'https://ziku.la/en/'
+'Zikula homepage': 'Zikula homepage'
+'Zikula and Content provide powerful tools for creating websites and web applications.': 'Zikula and Content provide powerful tools for creating websites and web applications.'
+'<p><strong>This is a second HTML text content item in the left column.</strong><br />Content is an extendable module. You can create your own content plugins and other Zikula modules can also offer additional content items. For example a calendar module may provide a Content plugin for a list of the latest events.</p>': '<p><strong>This is a second HTML text content item in the left column.</strong><br />Content is an extendable module. You can create your own content plugins and other Zikula modules can also offer additional content items. For example a calendar module may provide a Content plugin for a list of the latest events.</p>'
+'Content can be extended by other modules which can contribute additional content types.': 'Content can be extended by other modules which can contribute additional content types.'
+'$this->doAction($var); // just some code': '$this->doAction($var); // just some code'
+'<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p><p>It also features additional functionality, like translating content and tracking changes between different versions.</p>': '<p>So you see that you can place all kinds of content on the page in your own style and liking. This makes Content a really powerful module.</p><p>It also features additional functionality, like translating content and tracking changes between different versions.</p>'
+'Content also offers functionality for versioning and managing translations.': 'Content also offers functionality for versioning and managing translations.'
+'An example page for introduction with several content items has been created.': 'An example page for introduction with several content items has been created.'
+'Warning! Could not create the example page for introduction.': 'Warning! Could not create the example page for introduction.'
+'Exception during example data creation: %message%': 'Exception during example data creation: %message%'

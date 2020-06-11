@@ -1,26 +1,26 @@
-'Content items': null
-'Welcome to the content item section of the Content application.': null
-'Active:': null
-'Active from:': null
-'Active to:': null
-'Scope:': null
-'Styling classes:': null
-'Additional search text:': null
-contentData: null
-'active ?': null
-'Choose the scope.': null
-'Choose any additional styling classes.': null
-Move: null
-Copy: null
-'Destination page:': null
-'Operation type:': null
-'Public (all)': null
-'All logged in members': null
-'All not logged in people': null
-'%owningType%': null
-'Invalid content type received.': null
-inactive: null
-'only logged in members': null
-'only not logged in people': null
-'specific group': null
-'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.': null
+'Content items': 'Content items'
+'Welcome to the content item section of the Content application.': 'Welcome to the content item section of the Content application.'
+'Active:': 'Active:'
+'Active from:': 'Active from:'
+'Active to:': 'Active to:'
+'Scope:': 'Scope:'
+'Styling classes:': 'Styling classes:'
+'Additional search text:': 'Additional search text:'
+contentData: contentData
+'active ?': 'active ?'
+'Choose the scope.': 'Choose the scope.'
+'Choose any additional styling classes.': 'Choose any additional styling classes.'
+Move: Move
+Copy: Copy
+'Destination page:': 'Destination page:'
+'Operation type:': 'Operation type:'
+'Public (all)': 'Public (all)'
+'All logged in members': 'All logged in members'
+'All not logged in people': 'All not logged in people'
+'%owningType%': '%owningType%'
+'Invalid content type received.': 'Invalid content type received.'
+inactive: inactive
+'only logged in members': 'only logged in members'
+'only not logged in people': 'only not logged in people'
+'specific group': 'specific group'
+'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.': 'You can set the content active/inactive as well as supply a publication date interval. A content element is only online if it is active and within the publication interval.'

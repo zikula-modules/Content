@@ -1,187 +1,187 @@
-'Google map route': null
-'Display a Google map with route planning.': null
-'Author information': null
-'Various information about the author of the page.': null
-'Unknown author': null
-Heading: null
-'Section heading (or page title) for structuring large amounts of text.': null
-Breadcrumb: null
-'Show breadcrumbs for hierarchical pages.': null
-'Vimeo video': null
-'Display a Vimeo video clip.': null
-'Existing content': null
-'Reference and display an already existing content item.': null
-'YouTube video': null
-'Display a YouTube video clip.': null
-'HTML text': null
-'HTML editor for adding markup text to your page.': null
-'Add text here...': null
-'Tab navigation': null
-'Tab navigation with existing Content items.': null
-Controller: null
-'Display controller output from any installed module, theme or bundle.': null
-'Preview controller content': null
-'GET parameters': null
-'POST parameters': null
-'Request attributes': null
-'Maximum number of pages-in-pages reached! You probably included this page in itself.': null
-'Unfiltered raw text': null
-'A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).': null
-'Add unfiltered text here ...': null
-Block: null
-'Display Zikula blocks.': null
-'Preview block content': null
-'Edit this block': null
-'Block is inactive.': null
-pixels: null
-Roadmap: null
-Satellite: null
-Hybrid: null
-Terrain: null
-'A numeral that has a precision to 6 decimal places. For example, 40.714728.': null
-'From 0 for the entire world to 21 for individual buildings.': null
-'Latitude:': null
-'Longitude:': null
-'Zoom level:': null
-'Map type:': null
-'Height of the displayed map:': null
-'The target address:': null
-'Header to be shown above the map:': null
-'Text to be shown below the map:': null
-'Here you can choose a user which will be used as author.': null
-'An empty value or 0 will use the default size.': null
-'Author:': null
-'Display avatar:': null
-'Custom avatar with:': null
-'Display link for messaging:': null
-'Leave empty for no internal anchor link.': null
-'If this setting is enabled the text field above will be ignored and the page title will be displayed instead.': null
-'Heading:': null
-'Heading type:': null
-'Internal anchor link name:': null
-'Display the page title': null
-'Include self as last breadcrumb:': null
-'Include home as first breadcrumb:': null
-'Show video inline': null
-'Show video in modal window': null
-'Something like "https://vimeo.com/7504225".': null
-'URL to the video clip:': null
-'Video description:': null
-'Display mode:': null
-'ID of content item to display:': null
-'Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".': null
-'Extended privacy mode:': null
-'Show related videos:': null
-'Autoplay the video when displayed:': null
-'Text:': null
-Tabs: null
-Pills: null
-'Stacked pills (col-md-3/col-md-9)': null
-'A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.': null
-'Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".': null
-'Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".': null
-'A CSS class name that will be used on the tab navigation.': null
-'Content item IDs:': null
-'Tab titles:': null
-'Link names:': null
-'Navigation type:': null
-'Custom style class:': null
-'If this setting is enabled the text field above will be ignored and iframe parameters will be used.': null
-'the src parameter of the iframe': null
-'the style parameter of the iframe, e.g. <code>border: 0</code>': null
-'the scrolling parameter of the iframe, e.g. "no"': null
-'Unfiltered text:': null
-'Use an iframe instead of the text field:': null
-'iframe src:': null
-'iframe name parameter:': null
-'iframe title parameter:': null
-'iframe style:': null
-'iframe width:': null
-'iframe height:': null
-'iframe border:': null
-'iframe scrolling:': null
-'Allow transparancy on the iframe:': null
-'Block to display:': null
-'No': null
-'Yes, unlimited': null
-'Yes, limited': null
-'if heading items are included and not unlimited; select 0 to include the headings only for the selected page': null
-'if subpages are included and not unlimited': null
-'Page:': null
-'Include self into the table of contents:': null
-'Include start page into the table of contents:': null
-'Include subpages that are not in the menus:': null
-'Include heading items on pages:': null
-'Include heading items up to page level:': null
-'Include subpages:': null
-'Include subpages into table up to level:': null
-'All pages': null
-'Choose the start page.': null
-'Can contain HTML markup. Leave this field empty for disabling the popup window.': null
-'Description to be shown below the map:': null
-'Text to be shown in the popup window of the marker:': null
-'Display a traffic overlay:': null
-'Display a bicycle overlay:': null
-'Display the streetview control:': null
-'Display a link to directions to this location in Google Maps:': null
-'Display directions inline within the map:': null
-'See <a href=''%url%'' target="_blank">this page</a> for examples.': null
-'URL of tile layer to use:': null
-'Attribution for tile layer to use:': null
-'Quote text:': null
-'Source:': null
-'Description:': null
-hours: null
-'URL of RSS or Atom feed:': null
-'Include feed text in addition to the title:': null
-'Refresh time:': null
-'Max. no. of items to display:': null
-'If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.': null
-'Computer code lines:': null
-'Code filter:': null
-'Something like "https://www.slideshare.net/1Marc/jquery-essentials".': null
-'URL to the slide:': null
-'Slide description:': null
-'Slideshare''s embedded player width:': null
-'Slideshare''s embedded player height:': null
-'Page navigation': null
-'Allows to navigate within pages on the same level.': null
-'Table of contents': null
-'A table of contents of headings and subpages (built from the available Content pages).': null
-'Google map': null
-'Display a Google map position.': null
-'Leaflet map': null
-'Display a Leaflet map position.': null
-Quote: null
-'A highlighted quote with source.': null
-'Add quote text here...': null
-'Name of the source': null
-Feed: null
-'Display list of items in an Atom or RSS feed.': null
-'Computer code': null
-'A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.': null
-Slideshare: null
-'Display slides from slideshare.com.': null
-Video: null
-'Play video': null
-Close: null
-'Get directions from start address': null
-'Show directions': null
-'Clear directions': null
-'Get directions to this location': null
-'Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.': null
-'Use this feature carefully! Some extensions do not work when displayed together with other ones. DO NOT create circular references, e.g., adding a Content page that displays itself ...': null
-'Destination address': null
-'Calculate route!': null
-'Street (optional), Location, Country (optional)': null
-'By %user%': null
-'Send private message to %userName%': null
-Home: null
-Basic: null
-'Fundamental elements like text, image, heading, quote': null
-External: null
-'External content, like Vimeo or YouTube videos, Slideshare, etc.': null
-Integration: null
-'Zikula blocks and content from third party modules like appointments, etc.': null
-Expert: null
-'Advanced elements for special and complex purposes': null
+'Google map route': 'Google map route'
+'Display a Google map with route planning.': 'Display a Google map with route planning.'
+'Author information': 'Author information'
+'Various information about the author of the page.': 'Various information about the author of the page.'
+'Unknown author': 'Unknown author'
+Heading: Heading
+'Section heading (or page title) for structuring large amounts of text.': 'Section heading (or page title) for structuring large amounts of text.'
+Breadcrumb: Breadcrumb
+'Show breadcrumbs for hierarchical pages.': 'Show breadcrumbs for hierarchical pages.'
+'Vimeo video': 'Vimeo video'
+'Display a Vimeo video clip.': 'Display a Vimeo video clip.'
+'Existing content': 'Existing content'
+'Reference and display an already existing content item.': 'Reference and display an already existing content item.'
+'YouTube video': 'YouTube video'
+'Display a YouTube video clip.': 'Display a YouTube video clip.'
+'HTML text': 'HTML text'
+'HTML editor for adding markup text to your page.': 'HTML editor for adding markup text to your page.'
+'Add text here...': 'Add text here...'
+'Tab navigation': 'Tab navigation'
+'Tab navigation with existing Content items.': 'Tab navigation with existing Content items.'
+Controller: Controller
+'Display controller output from any installed module, theme or bundle.': 'Display controller output from any installed module, theme or bundle.'
+'Preview controller content': 'Preview controller content'
+'GET parameters': 'GET parameters'
+'POST parameters': 'POST parameters'
+'Request attributes': 'Request attributes'
+'Maximum number of pages-in-pages reached! You probably included this page in itself.': 'Maximum number of pages-in-pages reached! You probably included this page in itself.'
+'Unfiltered raw text': 'Unfiltered raw text'
+'A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).': 'A plugin for unfiltered raw output (iframes, JavaScript, banners, etc).'
+'Add unfiltered text here ...': 'Add unfiltered text here ...'
+Block: Block
+'Display Zikula blocks.': 'Display Zikula blocks.'
+'Preview block content': 'Preview block content'
+'Edit this block': 'Edit this block'
+'Block is inactive.': 'Block is inactive.'
+pixels: pixels
+Roadmap: Roadmap
+Satellite: Satellite
+Hybrid: Hybrid
+Terrain: Terrain
+'A numeral that has a precision to 6 decimal places. For example, 40.714728.': 'A numeral that has a precision to 6 decimal places. For example, 40.714728.'
+'From 0 for the entire world to 21 for individual buildings.': 'From 0 for the entire world to 21 for individual buildings.'
+'Latitude:': 'Latitude:'
+'Longitude:': 'Longitude:'
+'Zoom level:': 'Zoom level:'
+'Map type:': 'Map type:'
+'Height of the displayed map:': 'Height of the displayed map:'
+'The target address:': 'The target address:'
+'Header to be shown above the map:': 'Header to be shown above the map:'
+'Text to be shown below the map:': 'Text to be shown below the map:'
+'Here you can choose a user which will be used as author.': 'Here you can choose a user which will be used as author.'
+'An empty value or 0 will use the default size.': 'An empty value or 0 will use the default size.'
+'Author:': 'Author:'
+'Display avatar:': 'Display avatar:'
+'Custom avatar with:': 'Custom avatar with:'
+'Display link for messaging:': 'Display link for messaging:'
+'Leave empty for no internal anchor link.': 'Leave empty for no internal anchor link.'
+'If this setting is enabled the text field above will be ignored and the page title will be displayed instead.': 'If this setting is enabled the text field above will be ignored and the page title will be displayed instead.'
+'Heading:': 'Heading:'
+'Heading type:': 'Heading type:'
+'Internal anchor link name:': 'Internal anchor link name:'
+'Display the page title': 'Display the page title'
+'Include self as last breadcrumb:': 'Include self as last breadcrumb:'
+'Include home as first breadcrumb:': 'Include home as first breadcrumb:'
+'Show video inline': 'Show video inline'
+'Show video in modal window': 'Show video in modal window'
+'Something like "https://vimeo.com/7504225".': 'Something like "https://vimeo.com/7504225".'
+'URL to the video clip:': 'URL to the video clip:'
+'Video description:': 'Video description:'
+'Display mode:': 'Display mode:'
+'ID of content item to display:': 'ID of content item to display:'
+'Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".': 'Something like "https://www.youtube.com/watch?v=LIwJ0gCPLsg".'
+'Extended privacy mode:': 'Extended privacy mode:'
+'Show related videos:': 'Show related videos:'
+'Autoplay the video when displayed:': 'Autoplay the video when displayed:'
+'Text:': 'Text:'
+Tabs: Tabs
+Pills: Pills
+'Stacked pills (col-md-3/col-md-9)': 'Stacked pills (col-md-3/col-md-9)'
+'A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.': 'A list of Content item IDs semicolon separated, e.g. "3;12". Make sure that the Content item IDs you select already exist. You can disable the individual Content items if you only want to display them in this tab navigation.'
+'Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".': 'Titles for the tabs, semicolon separated, e.g. "Recent News;Calender".'
+'Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".': 'Internal named links for the tabs, semicolon separated and no spaces, e.g. "news;calendar".'
+'A CSS class name that will be used on the tab navigation.': 'A CSS class name that will be used on the tab navigation.'
+'Content item IDs:': 'Content item IDs:'
+'Tab titles:': 'Tab titles:'
+'Link names:': 'Link names:'
+'Navigation type:': 'Navigation type:'
+'Custom style class:': 'Custom style class:'
+'If this setting is enabled the text field above will be ignored and iframe parameters will be used.': 'If this setting is enabled the text field above will be ignored and iframe parameters will be used.'
+'the src parameter of the iframe': 'the src parameter of the iframe'
+'the style parameter of the iframe, e.g. <code>border: 0</code>': 'the style parameter of the iframe, e.g. <code>border: 0</code>'
+'the scrolling parameter of the iframe, e.g. "no"': 'the scrolling parameter of the iframe, e.g. "no"'
+'Unfiltered text:': 'Unfiltered text:'
+'Use an iframe instead of the text field:': 'Use an iframe instead of the text field:'
+'iframe src:': 'iframe src:'
+'iframe name parameter:': 'iframe name parameter:'
+'iframe title parameter:': 'iframe title parameter:'
+'iframe style:': 'iframe style:'
+'iframe width:': 'iframe width:'
+'iframe height:': 'iframe height:'
+'iframe border:': 'iframe border:'
+'iframe scrolling:': 'iframe scrolling:'
+'Allow transparancy on the iframe:': 'Allow transparancy on the iframe:'
+'Block to display:': 'Block to display:'
+'No': 'No'
+'Yes, unlimited': 'Yes, unlimited'
+'Yes, limited': 'Yes, limited'
+'if heading items are included and not unlimited; select 0 to include the headings only for the selected page': 'if heading items are included and not unlimited; select 0 to include the headings only for the selected page'
+'if subpages are included and not unlimited': 'if subpages are included and not unlimited'
+'Page:': 'Page:'
+'Include self into the table of contents:': 'Include self into the table of contents:'
+'Include start page into the table of contents:': 'Include start page into the table of contents:'
+'Include subpages that are not in the menus:': 'Include subpages that are not in the menus:'
+'Include heading items on pages:': 'Include heading items on pages:'
+'Include heading items up to page level:': 'Include heading items up to page level:'
+'Include subpages:': 'Include subpages:'
+'Include subpages into table up to level:': 'Include subpages into table up to level:'
+'All pages': 'All pages'
+'Choose the start page.': 'Choose the start page.'
+'Can contain HTML markup. Leave this field empty for disabling the popup window.': 'Can contain HTML markup. Leave this field empty for disabling the popup window.'
+'Description to be shown below the map:': 'Description to be shown below the map:'
+'Text to be shown in the popup window of the marker:': 'Text to be shown in the popup window of the marker:'
+'Display a traffic overlay:': 'Display a traffic overlay:'
+'Display a bicycle overlay:': 'Display a bicycle overlay:'
+'Display the streetview control:': 'Display the streetview control:'
+'Display a link to directions to this location in Google Maps:': 'Display a link to directions to this location in Google Maps:'
+'Display directions inline within the map:': 'Display directions inline within the map:'
+'See <a href=''%url%'' target="_blank">this page</a> for examples.': 'See <a href=''%url%'' target="_blank">this page</a> for examples.'
+'URL of tile layer to use:': 'URL of tile layer to use:'
+'Attribution for tile layer to use:': 'Attribution for tile layer to use:'
+'Quote text:': 'Quote text:'
+'Source:': 'Source:'
+'Description:': 'Description:'
+hours: hours
+'URL of RSS or Atom feed:': 'URL of RSS or Atom feed:'
+'Include feed text in addition to the title:': 'Include feed text in addition to the title:'
+'Refresh time:': 'Refresh time:'
+'Max. no. of items to display:': 'Max. no. of items to display:'
+'If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.': 'If ZikulaBBCodeModule or PhaidonLuMicuLaModule are available, you can filter your code with them instead of the native filter. There is no need to hook these modules to Content for this functionality.'
+'Computer code lines:': 'Computer code lines:'
+'Code filter:': 'Code filter:'
+'Something like "https://www.slideshare.net/1Marc/jquery-essentials".': 'Something like "https://www.slideshare.net/1Marc/jquery-essentials".'
+'URL to the slide:': 'URL to the slide:'
+'Slide description:': 'Slide description:'
+'Slideshare''s embedded player width:': 'Slideshare''s embedded player width:'
+'Slideshare''s embedded player height:': 'Slideshare''s embedded player height:'
+'Page navigation': 'Page navigation'
+'Allows to navigate within pages on the same level.': 'Allows to navigate within pages on the same level.'
+'Table of contents': 'Table of contents'
+'A table of contents of headings and subpages (built from the available Content pages).': 'A table of contents of headings and subpages (built from the available Content pages).'
+'Google map': 'Google map'
+'Display a Google map position.': 'Display a Google map position.'
+'Leaflet map': 'Leaflet map'
+'Display a Leaflet map position.': 'Display a Leaflet map position.'
+Quote: Quote
+'A highlighted quote with source.': 'A highlighted quote with source.'
+'Add quote text here...': 'Add quote text here...'
+'Name of the source': 'Name of the source'
+Feed: Feed
+'Display list of items in an Atom or RSS feed.': 'Display list of items in an Atom or RSS feed.'
+'Computer code': 'Computer code'
+'A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.': 'A text editor for computer code. Line numbers are added to the text and it is displayed in a monospaced font.'
+Slideshare: Slideshare
+'Display slides from slideshare.com.': 'Display slides from slideshare.com.'
+Video: Video
+'Play video': 'Play video'
+Close: Close
+'Get directions from start address': 'Get directions from start address'
+'Show directions': 'Show directions'
+'Clear directions': 'Clear directions'
+'Get directions to this location': 'Get directions to this location'
+'Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.': 'Select a geographical position either by clicking on the map or writing the position (latitude and longitude) directly. You can drag the map with your mouse, and double-click to zoom and select position.'
+'Use this feature carefully! Some extensions do not work when displayed together with other ones. DO NOT create circular references, e.g., adding a Content page that displays itself ...': 'Use this feature carefully! Some extensions do not work when displayed together with other ones. DO NOT create circular references, e.g., adding a Content page that displays itself ...'
+'Destination address': 'Destination address'
+'Calculate route!': 'Calculate route!'
+'Street (optional), Location, Country (optional)': 'Street (optional), Location, Country (optional)'
+'By %user%': 'By %user%'
+'Send private message to %userName%': 'Send private message to %userName%'
+Home: Home
+Basic: Basic
+'Fundamental elements like text, image, heading, quote': 'Fundamental elements like text, image, heading, quote'
+External: External
+'External content, like Vimeo or YouTube videos, Slideshare, etc.': 'External content, like Vimeo or YouTube videos, Slideshare, etc.'
+Integration: Integration
+'Zikula blocks and content from third party modules like appointments, etc.': 'Zikula blocks and content from third party modules like appointments, etc.'
+Expert: Expert
+'Advanced elements for special and complex purposes': 'Advanced elements for special and complex purposes'
