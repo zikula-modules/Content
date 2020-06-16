@@ -24,6 +24,16 @@ use Gedmo\Translatable\Entity\MappedSuperclass\AbstractTranslation;
  */
 abstract class AbstractPageTranslationEntity extends AbstractTranslation
 {
+    
+    /**
+     * Use a length of 140 instead of 255 to avoid too long keys for the indexes.
+     *
+     * @var string $objectClass
+     *
+     * @ORM\Column(name="object_class", type="string", length=140)
+     */
+    protected $objectClass;
+    
     /**
      * Use integer instead of string for increased performance.
      * @see https://github.com/Atlantic18/DoctrineExtensions/issues/1512
