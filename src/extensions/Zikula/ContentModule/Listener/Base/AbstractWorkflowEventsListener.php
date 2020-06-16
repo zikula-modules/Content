@@ -92,7 +92,7 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
      *     }`
      * Example with providing a reason:
      *     `$event->addTransitionBlocker(
-     *         new TransitionBlocker('You can not this because that.')
+     *         new TransitionBlocker('You can not this because that.', 0)
      *     );`
      */
     public function onGuard(GuardEvent $event): void

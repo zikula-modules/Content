@@ -527,7 +527,7 @@ abstract class AbstractEditHandler
         $templateId = $request->query->getInt('astemplate');
         $entity = null;
     
-        if ($templateId > 0) {
+        if (0 < $templateId) {
             // reuse existing entity
             $entityT = $this->entityFactory->getRepository($this->objectType)->selectById($templateId);
             if (null === $entityT) {
@@ -541,7 +541,7 @@ abstract class AbstractEditHandler
             $entity = $this->entityFactory->$createMethod();
             if (in_array($this->objectType, ['page'], true)) {
                 $parentId = $request->query->getInt('parent');
-                if ($parentId > 0) {
+                if (0 < $parentId) {
                     $parentEntity = $this->entityFactory->getRepository($this->objectType)->selectById($parentId);
                     if (null !== $parentEntity) {
                         $entity->setParent($parentEntity);
