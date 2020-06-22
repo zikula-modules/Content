@@ -213,7 +213,7 @@ class ExampleDataHelper extends AbstractExampleDataHelper
         $adminPageListUrl = $this->router->generate('zikulacontentmodule_page_adminview');
         $adminSettingsUrl = $this->router->generate('zikulacontentmodule_config_config');
         $item->setContentData([
-            'text' => $this->translator->transf(
+            'text' => $this->translator->trans(
                 'This <strong>footer</strong> finishes this introduction page. And now, please enjoy using Content. The <a href="%adminPageListUrl%">Page list</a> interface lets you edit or delete this introduction page. In the <a href="%adminSettingsUrl%">administration settings</a> you can further control the Content module.',
                 [
                     '%adminPageListUrl%' => $adminPageListUrl,
