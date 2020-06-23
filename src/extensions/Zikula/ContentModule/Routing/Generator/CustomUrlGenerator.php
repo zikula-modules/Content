@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Routing\Generator;
 
-use Symfony\Component\Routing\Generator\UrlGenerator as BaseUrlGenerator;
+use Symfony\Component\Routing\Generator\CompiledUrlGenerator;
 
 /**
  * Custom URL generator.
  */
-class CustomUrlGenerator extends BaseUrlGenerator
+class CustomUrlGenerator extends CompiledUrlGenerator
 {
     protected function doGenerate(
         $variables,
