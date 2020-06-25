@@ -30,7 +30,7 @@ abstract class AbstractMailerListener implements EventSubscriberInterface
     }
     
     /**
-     * Listener for the `MessageEvent` event.
+     * Listener for the `MessageEvent`.
      * Allows the transformation of a Message and the Envelope before the email is sent.
      */
     public function onMessageSend(MessageEvent $event): void
