@@ -126,6 +126,16 @@ In content each page consists of several content items. Each content item uses a
 
 ## Changelog
 
+### Version 5.3.0
+
+New features:
+
+- None yet.
+
+Bugfixes:
+
+- Fixed combination of owner permission, private mode and only own flag.
+
 ### Version 5.2.0
 
 Structural changes:
