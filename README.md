@@ -135,6 +135,7 @@ New features:
 Bugfixes:
 
 - Fixed combination of owner permission, private mode and only own flag.
+- Fixed installation error in `ExampleDataHelper` (#571).
 
 ### Version 5.2.0
 
