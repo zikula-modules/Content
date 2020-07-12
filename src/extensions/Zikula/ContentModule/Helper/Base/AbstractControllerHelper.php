@@ -350,11 +350,21 @@ abstract class AbstractControllerHelper
      */
     public function processEditActionParameters(
         string $objectType,
-        array $templateParameters = []
+        array $templateParameters = [],
+        bool $hasHookSubscriber = false
     ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'edit'];
         if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
             throw new Exception($this->trans('Error! Invalid object type received.'));
+        }
+    
+        if (true === $hasHookSubscriber) {
+            // build RouteUrl instance for display hooks
+            $entity = $templateParameters[$objectType];
+            $urlParameters = $entity->createUrlArgs();
+            $urlParameters['_locale'] = $this->requestStack->getCurrentRequest()->getLocale();
+            $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_edit';
+            $templateParameters['currentUrlObject'] = new RouteUrl($routeName, $urlParameters);
         }
     
         return $this->addTemplateParameters($objectType, $templateParameters, 'controllerAction', $contextArgs);
