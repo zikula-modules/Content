@@ -71,6 +71,10 @@ class ExtensionMenu extends AbstractExtensionMenu
 
         $pagesLabel = $this->translator->trans('Pages', [], 'page');
         $pagesLink = $menu->getChild($pagesLabel);
+        if (null === $pagesLink) {
+            return 0 === $menu->count() ? null : $menu;
+        }
+
         $pagesLink->setAttribute('icon', 'fas fa-book');
         if (in_array($type, [self::TYPE_ADMIN, self::TYPE_USER], true)) {
             $pagesLink->setAttribute('dropdown', true);
