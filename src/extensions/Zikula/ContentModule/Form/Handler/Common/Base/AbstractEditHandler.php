@@ -441,7 +441,7 @@ abstract class AbstractEditHandler
         }
     
         if (method_exists($entity, 'supportsHookSubscribers') && $entity->supportsHookSubscribers()) {
-            // Call form aware display hooks
+            // call form aware display hooks
             $formHook = $this->hookHelper->callFormDisplayHooks($this->form, $entity, FormAwareCategory::TYPE_EDIT);
             $this->templateParameters['formHookTemplates'] = $formHook->getTemplates();
         }
