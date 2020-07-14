@@ -74,7 +74,7 @@ abstract class AbstractHookHelper
         $hookAreaPrefix = $entity->getHookAreaPrefix();
         $hookAreaPrefix = str_replace('.ui_hooks.', '.form_aware_hook.', $hookAreaPrefix);
     
-        $hook = new FormAwareHook($form);
+        $hook = new FormAwareHook($form, $entity->getKey());
         $this->dispatchHooks($hookAreaPrefix . '.' . $hookType, $hook);
     
         return $hook;
