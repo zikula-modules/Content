@@ -1,5 +1,5 @@
 /**
- * gridstack.js 1.1.2
+ * gridstack.js 1.2.0
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
@@ -733,6 +733,7 @@
       placeholderText: '',
       handle: '.grid-stack-item-content',
       handleClass: null,
+      styleInHead: false,
       cellHeight: 60,
       verticalMargin: 20,
       auto: true,
@@ -1092,8 +1093,9 @@
       Utils.removeStylesheet(this._stylesId);
     }
     this._stylesId = 'gridstack-style-' + (Math.random() * 100000).toFixed();
-    // insert style to parent (instead of 'head') to support WebComponent
-    this._styles = Utils.createStylesheet(this._stylesId, this.el.parentNode);
+    var styleLocation = this.opts.styleInHead ? undefined : this.el.parentNode
+    // if styleInHead === false insert style to parent to support WebComponent
+    this._styles = Utils.createStylesheet(this._stylesId, styleLocation);
     if (this._styles !== null) {
       this._styles._max = 0;
     }
@@ -1489,7 +1491,7 @@
     el = $(el);
     if (opt) { // see knockout above
       // make sure we load any DOM attributes that are not specified in passed in options (which override)
-      domAttr = this._readAttr(el);
+      var domAttr = this._readAttr(el);
       Utils.defaults(opt, domAttr);
       this.engine._prepareNode(opt);
     }

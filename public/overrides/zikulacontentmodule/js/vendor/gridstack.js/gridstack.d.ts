@@ -1,4 +1,4 @@
-// Type definitions for Gridstack 1.1.2
+// Type definitions for Gridstack 1.2.0
 // Project: https://gridstackjs.com/
 // Definitions by: Pascal Senn <https://github.com/PascalSenn>
 //                 Ricky Blankenaufulland <https://github.com/ZoolWay>
@@ -630,6 +630,9 @@ interface GridstackOptions {
    * A CSS class `grid-stack-static` is also added to the container.
    */
   staticGrid ? : boolean;
+
+  /** if `true` will add style element to `<head>` otherwise will add it to element's parent node (default `false`). */
+  styleInHead?: boolean;
 
   /**
    * vertical gap size (default?: 20). Can be:
