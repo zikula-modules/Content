@@ -87,7 +87,6 @@ abstract class AbstractExampleDataHelper
         $registryRepository = $entityManager->getRepository('ZikulaCategoriesModule:CategoryRegistryEntity');
         $categoryRegistries = $registryRepository->findBy(['modname' => 'ZikulaContentModule']);
     
-    
         $page1 = new PageEntity();
         
         $contentItem1 = new ContentItemEntity();

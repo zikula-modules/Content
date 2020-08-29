@@ -49,10 +49,6 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
             return '';
         }
     
-        // set default values for all params which are not properly set
-        $defaults = $this->getDefaults();
-        $properties = array_merge($defaults, $properties);
-    
         if (null === $properties['id'] || empty($properties['id'])) {
             return '';
         }
@@ -97,20 +93,6 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
     {
         $objectType = 'page';
     
-        $request = $this->requestStack->getCurrentRequest();
-        if (null !== $request && $request->attributes->has('blockEntity')) {
-            $blockEntity = $request->attributes->get('blockEntity');
-            if (is_object($blockEntity) && method_exists($blockEntity, 'getProperties')) {
-                $blockProperties = $blockEntity->getProperties();
-                if (isset($blockProperties['objectType'])) {
-                    $objectType = $blockProperties['objectType'];
-                } else {
-                    // set default options for new block creation
-                    $blockEntity->setProperties($this->getDefaults());
-                }
-            }
-        }
-    
         return [
             'object_type' => $objectType,
         ];
@@ -121,10 +103,7 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
         return '@ZikulaContentModule/Block/item_modify.html.twig';
     }
     
-    /**
-     * Returns default settings for this block.
-     */
-    protected function getDefaults(): array
+    public function getPropertyDefaults(): array
     {
         return [
             'objectType' => 'page',

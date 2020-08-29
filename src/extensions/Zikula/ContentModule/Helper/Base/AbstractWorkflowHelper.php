@@ -256,11 +256,11 @@ abstract class AbstractWorkflowHelper
         $isLoggable = in_array($objectType, ['page']);
         if ($isLoggable && !$entity->get_actionDescriptionForLogEntry()) {
             if ('delete' === $actionId) {
-                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_DELETED');
+                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . mb_strtoupper($objectType) . '_DELETED');
             } elseif ('submit' === $actionId) {
-                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_CREATED');
+                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . mb_strtoupper($objectType) . '_CREATED');
             } else {
-                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . strtoupper($objectType) . '_UPDATED');
+                $entity->set_actionDescriptionForLogEntry('_HISTORY_' . mb_strtoupper($objectType) . '_UPDATED');
             }
         }
     
