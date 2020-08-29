@@ -635,11 +635,11 @@ abstract class AbstractPageController extends AbstractController
             'routeArea' => $routeArea,
             'page' => $page,
             'logEntries' => $logEntries,
-            'isDiffView' => $isDiffView
+            'isDiffView' => $isDiffView,
         ];
         
         if (true === $isDiffView) {
-            list (
+            list(
                 $minVersion,
                 $maxVersion,
                 $diffValues

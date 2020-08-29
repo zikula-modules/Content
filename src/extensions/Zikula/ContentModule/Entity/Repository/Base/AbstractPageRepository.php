@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Entity\Repository\Base;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;

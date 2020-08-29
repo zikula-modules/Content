@@ -201,11 +201,11 @@ abstract class AbstractTwigExtension extends AbstractExtension
     
         $result = [
             'nodes' => '',
-            'actions' => ''
+            'actions' => '',
         ];
         foreach ($tree as $node) {
             if (1 > $node->getLvl() || $rootId === $node->getKey()) {
-                list ($nodes, $actions) = $this->processTreeItemWithChildren(
+                list($nodes, $actions) = $this->processTreeItemWithChildren(
                     $objectType,
                     $node,
                     $routeArea,
@@ -247,7 +247,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
         $liTag = '<li id="' . $idPrefix . '"' . $titleAttribute . $classAttribute . $urlDataAttributes . '>';
         $liContent = $this->entityDisplayHelper->getFormattedTitle($node);
         if ($hasEditAction) {
-            $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_' . $routeArea . 'edit';
+            $routeName = 'zikulacontentmodule_' . mb_strtolower($objectType) . '_' . $routeArea . 'edit';
             $url = $this->router->generate($routeName, $urlArgs);
             $liContent = '<a href="' . $url . '" title="' . str_replace('"', '', $title) . '">' . $liContent . '</a>';
         }
@@ -257,7 +257,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
         $itemActionsMenu = $this->menuBuilder->createItemActionsMenu([
             'entity' => $node,
             'area' => $routeArea,
-            'context' => 'view'
+            'context' => 'view',
         ]);
         $renderer = new ListRenderer(new Matcher());
     
@@ -266,10 +266,10 @@ abstract class AbstractTwigExtension extends AbstractExtension
         $actions = str_replace([' class="first"', ' class="last"'], '', $actions);
         $actions .= '</li>';
     
-        if (count($node->getChildren()) > 0) {
+        if (0 < count($node->getChildren())) {
             $nodeItem .= '<ul>';
             foreach ($node->getChildren() as $childNode) {
-                list ($subNodes, $subActions) = $this->processTreeItemWithChildren(
+                list($subNodes, $subActions) = $this->processTreeItemWithChildren(
                     $objectType,
                     $childNode,
                     $routeArea,
@@ -398,7 +398,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
      * The zikulacontentmodule_logDescription filter returns the translated clear text
      * description for a given log entry.
      * Example:
-     *     {{ logEntry|zikulacontentmodule_logDescription }}
+     *     {{ logEntry|zikulacontentmodule_logDescription }}.
      */
     public function getLogDescription(AbstractLogEntry $logEntry): string
     {

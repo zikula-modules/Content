@@ -316,7 +316,7 @@ abstract class AbstractEditHandler extends EditHandler
                 'app' => 'ZikulaContentModule',
                 'user' => $this->currentUserApi->get('uname'),
                 'entity' => 'page',
-                'id' => $entity->getKey()
+                'id' => $entity->getKey(),
             ];
             $this->logger->error(
                 '{app}: User {user} tried to edit the {entity} with id {id},'

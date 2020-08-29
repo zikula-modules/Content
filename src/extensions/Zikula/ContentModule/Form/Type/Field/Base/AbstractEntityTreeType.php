@@ -133,7 +133,7 @@ abstract class AbstractEntityTreeType extends AbstractType
         // determine current list hierarchy level depending on root node inclusion
         $shownLevel = $choice->getLvl();
         if (!$includeRootNode) {
-            $shownLevel--;
+            --$shownLevel;
         }
         $prefix = str_repeat('- - ', $shownLevel);
 
