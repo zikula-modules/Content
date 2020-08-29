@@ -97,7 +97,7 @@ abstract class AbstractLoggableHelper
                     $diffValues[$field] = [
                         'old' => '',
                         'new' => '',
-                        'changed' => false
+                        'changed' => false,
                     ];
                 }
                 if ($logEntry->getVersion() <= $minVersion) {
@@ -242,7 +242,7 @@ abstract class AbstractLoggableHelper
         }
     
         $entity->set_actionDescriptionForLogEntry(
-            '_HISTORY_' . strtoupper($objectType) . '_RESTORED'
+            '_HISTORY_' . mb_strtoupper($objectType) . '_RESTORED'
             . '|%version%=' . $lastVersionBeforeDeletion
         );
     
