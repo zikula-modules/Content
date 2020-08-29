@@ -146,7 +146,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
         return [
             new TwigTest('zikulacontentmodule_instanceOf', static function ($var, $instance) {
                 return $var instanceof $instance;
-            })
+            }),
         ];
     }
     

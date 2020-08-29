@@ -32,7 +32,7 @@ class DynamicRouteLoader extends Loader
     protected $ignoreBundleNameInRoutes;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $ignoreEntityNameInRoutes;
 

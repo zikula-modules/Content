@@ -48,7 +48,7 @@ class PageTransformer implements DataTransformerInterface
     public function transform($value)
     {
         if (null === $value || '' === $value) {
-            return null;
+            return;
         }
 
         if (is_numeric($value)) {

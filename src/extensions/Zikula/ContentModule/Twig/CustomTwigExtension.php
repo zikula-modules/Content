@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Twig;
 
-use DateTime;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -284,7 +283,7 @@ class CustomTwigExtension extends AbstractExtension
      * Examples:
      *    {% if zikulacontentmodule_hasReadAccess(page) %}.
      *
-     * @param PageEntity|integer $page The given page instance or its identifier
+     * @param PageEntity|int $page The given page instance or its identifier
      */
     public function hasReadAccess($page): bool
     {
