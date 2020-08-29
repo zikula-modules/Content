@@ -58,7 +58,7 @@ class PageEntryProvider implements EntryProviderInterface
     private $name;
 
     /**
-     * Whether automatic page linking is enabled or not
+     * Whether automatic page linking is enabled or not.
      *
      * @var bool
      */

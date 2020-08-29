@@ -47,8 +47,6 @@ use Zikula\ThemeModule\Engine\Annotation\Theme;
 class ContentItemController extends AbstractContentItemController
 {
     /**
-     * @inheritDoc
-     *
      * @Route("/admin/contentItems",
      *        methods = {"GET"}
      * )
@@ -62,8 +60,6 @@ class ContentItemController extends AbstractContentItemController
     }
     
     /**
-     * @inheritDoc
-     *
      * @Route("/contentItems",
      *        methods = {"GET"}
      * )
@@ -88,7 +84,7 @@ class ContentItemController extends AbstractContentItemController
         Request $request,
         PermissionHelper $permissionHelper,
         ContentDisplayHelper $contentDisplayHelper,
-        ContentItemEntity $contentItem = null
+        ?ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -123,7 +119,7 @@ class ContentItemController extends AbstractContentItemController
         ModelHelper $modelHelper,
         LoggableHelper $loggableHelper,
         HookHelper $hookHelper,
-        ContentItemEntity $contentItem = null
+        ?ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -181,7 +177,7 @@ class ContentItemController extends AbstractContentItemController
 
         return $this->json([
             'id' => $newItem->getId(),
-            'message' => $this->trans('Done! Content saved.')
+            'message' => $this->trans('Done! Content saved.'),
         ]);
     }
 
@@ -204,7 +200,7 @@ class ContentItemController extends AbstractContentItemController
         ContentDisplayHelper $contentDisplayHelper,
         TranslatableHelper $translatableHelper,
         HookHelper $hookHelper,
-        ContentItemEntity $contentItem = null
+        ?ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -257,18 +253,18 @@ class ContentItemController extends AbstractContentItemController
 
             if ($isCreation) {
                 $routeArgs = [
-                    'type' => $contentTypeClass
+                    'type' => $contentTypeClass,
                 ];
             } else {
                 $routeArgs = [
-                    'contentItem' => $contentItem->getId()
+                    'contentItem' => $contentItem->getId(),
                 ];
             }
             $route = $router->generate('zikulacontentmodule_contentitem_edit', $routeArgs);
 
             $form = $this->createForm(ContentItemType::class, $contentItem, [
                 'action' => $route,
-                'content_type' => $contentType
+                'content_type' => $contentType,
             ]);
 
             $templateParameters = [
@@ -277,7 +273,7 @@ class ContentItemController extends AbstractContentItemController
                 'form' => $form->createView(),
                 'contentType' => $contentType,
                 'contentFormTemplate' => $contentType->getEditTemplatePath(),
-                'supportsHookSubscribers' => $contentItem->supportsHookSubscribers()
+                'supportsHookSubscribers' => $contentItem->supportsHookSubscribers(),
             ];
 
             if ($contentItem->supportsHookSubscribers()) {
@@ -442,7 +438,7 @@ class ContentItemController extends AbstractContentItemController
         $output = [
             'form' => $this->renderView('@ZikulaContentModule/ContentItem/' . $template, $templateParameters),
             'assets' => $contentType->getAssets(ContentTypeInterface::CONTEXT_EDIT),
-            'jsEntryPoint' => $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_EDIT)
+            'jsEntryPoint' => $contentType->getJsEntrypoint(ContentTypeInterface::CONTEXT_EDIT),
         ];
 
         if (!$isPost) {
@@ -471,7 +467,7 @@ class ContentItemController extends AbstractContentItemController
         ModelHelper $modelHelper,
         LoggableHelper $loggableHelper,
         HookHelper $hookHelper,
-        ContentItemEntity $contentItem = null
+        ?ContentItemEntity $contentItem = null
     ): JsonResponse {
         if (!$request->isXmlHttpRequest()) {
             return $this->json($this->trans('Only ajax access is allowed!'), Response::HTTP_BAD_REQUEST);
@@ -488,7 +484,7 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $routeArgs = [
-            'contentItem' => $contentItem->getId()
+            'contentItem' => $contentItem->getId(),
         ];
         $route = $router->generate('zikulacontentmodule_contentitem_movecopy', $routeArgs);
 
@@ -499,14 +495,14 @@ class ContentItemController extends AbstractContentItemController
         }
 
         $form = $this->createForm(MoveCopyContentItemType::class, [
-            'operationType' => $operationType
+            'operationType' => $operationType,
         ], [
-            'action' => $route
+            'action' => $route,
         ]);
 
         $templateParameters = [
             'contentItem' => $contentItem,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ];
 
         if ($isPost) {
@@ -599,14 +595,14 @@ class ContentItemController extends AbstractContentItemController
                 'id' => $contentItem->getId(),
                 'message' => 'move' === $operationType
                     ? $this->trans('Done! Content moved.')
-                    : $this->trans('Done! Content copied.')
+                    : $this->trans('Done! Content copied.'),
             ]);
         }
 
         $template = (!$isPost ? 'moveCopy' : 'moveCopyFormBody') . '.html.twig';
 
         $output = [
-            'form' => $this->renderView('@ZikulaContentModule/ContentItem/' . $template, $templateParameters)
+            'form' => $this->renderView('@ZikulaContentModule/ContentItem/' . $template, $templateParameters),
         ];
 
         if (!$isPost) {

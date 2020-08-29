@@ -60,8 +60,8 @@ class ListEntriesHelper extends AbstractListEntriesHelper
         $groups = $this->groupRepository->findAll();
         foreach ($groups as $group) {
             $states[] = [
-                'value'  => $group->getGid(),
-                'text'  => $this->trans('Group %group%', ['%group%' => $group->getName()]),
+                'value' => $group->getGid(),
+                'text' => $this->trans('Group %group%', ['%group%' => $group->getName()]),
                 'title' => '',
                 'image' => '',
                 'default' => false,

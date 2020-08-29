@@ -51,8 +51,6 @@ use Zikula\ContentModule\Helper\WorkflowHelper;
 class PageController extends AbstractPageController
 {
     /**
-     * @inheritDoc
-     *
      * @Route("/admin/pages",
      *        methods = {"GET"}
      * )
@@ -66,8 +64,6 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * @inheritDoc
-     *
      * @Route("/pages",
      *        methods = {"GET"}
      * )
@@ -84,8 +80,6 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * @inheritDoc
-     *
      * @Route("/admin/pages/view/{sort}/{sortdir}/{page}/{num}.{_format}",
      *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "page" = "\d+", "num" = "\d+", "_format" = "html|csv|rss|atom|xml|json|pdf"},
      *        defaults = {"sort" = "", "sortdir" = "asc", "page" = 1, "num" = 10, "_format" = "html"},
@@ -109,8 +103,6 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * @inheritDoc
-     *
      * @Route("/pages/view/{sort}/{sortdir}/{page}/{num}.{_format}",
      *        requirements = {"sortdir" = "asc|desc|ASC|DESC", "page" = "\d+", "num" = "\d+", "_format" = "html|csv|rss|atom|xml|json|pdf"},
      *        defaults = {"sort" = "", "sortdir" = "asc", "page" = 1, "num" = 10, "_format" = "html"},
@@ -133,8 +125,6 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * @inheritDoc
-     *
      * @Route("/admin/page/edit/{id}.{_format}",
      *        requirements = {"id" = "\d+", "_format" = "html"},
      *        defaults = {"id" = "0", "_format" = "html"},
@@ -154,8 +144,6 @@ class PageController extends AbstractPageController
     }
     
     /**
-     * @inheritDoc
-     *
      * @Route("/page/edit/{id}.{_format}",
      *        requirements = {"id" = "\d+", "_format" = "html"},
      *        defaults = {"id" = "0", "_format" = "html"},
@@ -359,7 +347,7 @@ class PageController extends AbstractPageController
             'routeArea' => $routeArea,
             'page' => $page,
             'returnUrl' => $returnUrl,
-            'sectionStyles' => $sectionStyleChoices
+            'sectionStyles' => $sectionStyleChoices,
         ];
     }
 
@@ -437,7 +425,7 @@ class PageController extends AbstractPageController
         $rootPages = $entityFactory->getRepository('page')->selectWhere($where, 'tbl.lft');
 
         return $this->render('@ZikulaContentModule/Page/sitemap.' . $request->getRequestFormat() . '.twig', [
-            'pages' => $rootPages
+            'pages' => $rootPages,
         ]);
     }
     
@@ -615,8 +603,11 @@ class PageController extends AbstractPageController
      *        methods = {"GET", "POST"},
      *        options={"expose"=true}
      * )
+     *
      * @Template("@ZikulaContentModule/Page/translate.html.twig")
+     *
      * @Theme("admin")
+     *
      * @return array|RedirectResponse
      */
     public function adminTranslateAction(
@@ -641,7 +632,9 @@ class PageController extends AbstractPageController
      *        methods = {"GET", "POST"},
      *        options={"expose"=true}
      * )
+     *
      * @Template("@ZikulaContentModule/Page/translate.html.twig")
+     *
      * @return array|RedirectResponse
      */
     public function translateAction(
@@ -664,6 +657,7 @@ class PageController extends AbstractPageController
      * Handles page translation.
      *
      * @return array|RedirectResponse
+     *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
@@ -753,7 +747,7 @@ class PageController extends AbstractPageController
                 if ($item->getEntity()->getId() !== $contentItemId) {
                     continue;
                 }
-                $currentStep++;
+                ++$currentStep;
                 break;
             }
 
@@ -855,7 +849,7 @@ class PageController extends AbstractPageController
             'page' => $page,
             'pageSlug' => $pageSlug,
             'contentItem' => $contentItem,
-            'contentType' => $contentType
+            'contentType' => $contentType,
         ];
     }
 
@@ -889,13 +883,11 @@ class PageController extends AbstractPageController
 
         return $viewHelper->processTemplate('page', 'subpages', [
             'page' => $page,
-            'routeArea' => ''
+            'routeArea' => '',
         ]);
     }
     
     /**
-     * @inheritDoc
-     *
      * @Theme("admin")
      */
     public function adminDisplayAction(
@@ -905,7 +897,7 @@ class PageController extends AbstractPageController
         ViewHelper $viewHelper,
         EntityFactory $entityFactory,
         LoggableHelper $loggableHelper,
-        PageEntity $page = null,
+        ?PageEntity $page = null,
         string $slug = ''
     ): Response {
         return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $loggableHelper, $page, $slug, true);
@@ -921,7 +913,7 @@ class PageController extends AbstractPageController
         ViewHelper $viewHelper,
         EntityFactory $entityFactory,
         LoggableHelper $loggableHelper,
-        PageEntity $page = null,
+        ?PageEntity $page = null,
         string $slug = ''
     ): Response {
         $page = null;

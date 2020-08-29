@@ -67,7 +67,7 @@ class ControllerType extends AbstractContentType
                 'query' => '',
                 'request' => '',
                 'attributes' => '',
-            ]
+            ],
         ];
     }
 
