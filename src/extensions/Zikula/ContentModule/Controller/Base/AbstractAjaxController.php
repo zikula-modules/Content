@@ -301,9 +301,9 @@ abstract class AbstractAjaxController extends AbstractController
         }
         
         $returnValue = [
-            'data'    => [],
-            'result'  => 'success',
-            'message' => ''
+            'data' => [],
+            'result' => 'success',
+            'message' => '',
         ];
         
         $op = $request->request->getAlpha('op');
@@ -418,7 +418,7 @@ abstract class AbstractAjaxController extends AbstractController
                     if (!$success) {
                         $returnValue['result'] = 'failure';
                     } elseif (in_array($objectType, ['page'], true)) {
-                        $routeName = 'zikulacontentmodule_' . strtolower($objectType) . '_edit';
+                        $routeName = 'zikulacontentmodule_' . mb_strtolower($objectType) . '_edit';
                         $needsArg = in_array($objectType, ['page'], true);
                         $urlArgs = $needsArg ? $childEntity->createUrlArgs(true) : $childEntity->createUrlArgs();
                         $returnValue['returnUrl'] = $router->generate(
@@ -545,9 +545,9 @@ abstract class AbstractAjaxController extends AbstractController
         $returnValue['message'] = $this->trans('The operation was successful.');
         
         // Renew tree
-        /** postponed, for now we do a page reload
-        $returnValue['data'] = $repository->selectTree($rootId);
-        */
+        /* postponed, for now we do a page reload.
+         * $returnValue['data'] = $repository->selectTree($rootId);
+         */
         
         return $this->json($returnValue);
     }

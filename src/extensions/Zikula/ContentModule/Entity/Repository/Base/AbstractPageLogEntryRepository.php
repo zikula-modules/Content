@@ -32,7 +32,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
     /**
      * Selects all log entries for removals to determine deleted pages.
      */
-    public function selectDeleted(int $limit = null): array
+    public function selectDeleted(?int $limit = null): array
     {
         $objectClass = str_replace('LogEntry', '', $this->_entityName);
     
@@ -95,7 +95,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
             if (!$limitParameter) {
                 $limitParameter = 25;
             }
-            $limitParameter++; // one more for the initial creation entry
+            ++$limitParameter; // one more for the initial creation entry
     
             $qbMatchingObjects = $this->getEntityManager()->createQueryBuilder();
             $qbMatchingObjects->select('log.objectId, COUNT(log.objectId) amountOfRevisions')
@@ -182,7 +182,7 @@ abstract class AbstractPageLogEntryRepository extends LogEntryRepository
             if (0 > $keepPerObject || $counterPerObject < $thresholdForObject) {
                 $lastLogEntry = $logEntry;
             }
-            $counterPerObject++;
+            ++$counterPerObject;
         }
     
         // do not forget to save values for the last objectId
