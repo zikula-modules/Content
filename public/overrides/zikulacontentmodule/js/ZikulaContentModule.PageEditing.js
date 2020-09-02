@@ -1,6 +1,5 @@
 'use strict';
 
-var nodeDataAttribute = '_gridstack_node';
 var suspendAutoSave = false;
 var loadedDynamicAssets = { css: [], js: [] };
 var gridsPerSection = {};
@@ -274,16 +273,10 @@ function contentPageInitSectionGrid(containerId, gridOptions) {
 
     grid.on('change', contentPageSave);
 
-    grid.on('resizestart', function (event, ui) {
+    grid.on('dragstart resizestart', function (event, ui) {
         contentPageHighlightGrids();
     });
-    grid.on('resizestop', function (event, ui) {
-        contentPageUnhighlightGrids();
-    });
-    grid.on('dragstart', function (event, ui) {
-        contentPageHighlightGrids();
-    });
-    jQuery('body').on('dragstop', function (event, ui) {
+    grid.on('dragstop resizestop', function (event, ui) {
         contentPageUnhighlightGrids();
     });
 
@@ -852,7 +845,7 @@ function contentPageUpdateGridAttributes(widget, colOffset) {
     if (jQuery('#debugSavedData').length < 1) {
         return;
     }
-    var node = widget.data(nodeDataAttribute);
+    var node = widget.get(0).gridstackNode;
     var gridAttributes = 'col-md-' + node.width;
     if (colOffset > 0) {
         gridAttributes += ' offset-md-' + colOffset;
@@ -921,7 +914,7 @@ function contentPageLoad() {
             var grid;
 
             newWidget = contentPageCreateNewWidget(contentItemId);
-            grid = jQuery('#section' + sectionNumber + ' .grid-stack').first().data('gridstack');
+            grid = gridsPerSection['section' + sectionNumber];
 
             grid.addWidget(newWidget.get(0), {
                 x: 0,
@@ -944,8 +937,8 @@ function contentPageLoad() {
  */
 function contentPageSortWidgetsForSave(nodes) {
     return nodes.sort(function (a, b) {
-        var aNode = jQuery(a).data(nodeDataAttribute);
-        var bNode = jQuery(b).data(nodeDataAttribute);
+        var aNode = a.gridstackNode;
+        var bNode = b.gridstackNode;
         if (aNode.y !== bNode.y) {
             return (aNode.y < bNode.y ? -1 : ((aNode.y > bNode.y) ? 1 : 0));
         }
@@ -964,7 +957,7 @@ function contentPageSerialiseWidgets(elements) {
     result = [];
     jQuery.each(elements, function (index, element) {
         var widget = jQuery(element);
-        var node = widget.data(nodeDataAttribute);
+        var node = widget.get(0).gridstackNode;
 
         result.push({
             id: contentPageGetWidgetId(widget),

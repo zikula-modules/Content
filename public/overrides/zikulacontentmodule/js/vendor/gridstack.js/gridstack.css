@@ -1,5 +1,5 @@
 /*!
- * required gridstack 1.2.0 CSS for default 12 and 1 columnMode size. Use gridstack-extra.css for others
+ * required gridstack 2.0.0-rc2 CSS for default 12 and 1 columnMode size. Use gridstack-extra.css for others
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
@@ -17,10 +17,6 @@
     border: 1px dashed lightgray;
     margin: 0;
     position: absolute;
-    top: 0;
-    left: 10px;
-    right: 10px;
-    bottom: 0;
     width: auto;
     z-index: 0 !important;
     text-align: center; }
@@ -31,10 +27,6 @@
     .grid-stack > .grid-stack-item > .grid-stack-item-content {
       margin: 0;
       position: absolute;
-      top: 0;
-      left: 10px;
-      right: 10px;
-      bottom: 0;
       width: auto;
       overflow-x: hidden;
       overflow-y: auto; }
@@ -74,7 +66,6 @@
       cursor: nw-resize;
       width: 20px;
       height: 20px;
-      left: 10px;
       top: 0; }
     .grid-stack > .grid-stack-item > .ui-resizable-n {
       cursor: n-resize;
@@ -86,20 +77,16 @@
       cursor: ne-resize;
       width: 20px;
       height: 20px;
-      right: 10px;
       top: 0; }
     .grid-stack > .grid-stack-item > .ui-resizable-e {
       cursor: e-resize;
       width: 10px;
-      right: 10px;
       top: 15px;
       bottom: 15px; }
     .grid-stack > .grid-stack-item > .ui-resizable-se {
       cursor: se-resize;
       width: 20px;
-      height: 20px;
-      right: 10px;
-      bottom: 0; }
+      height: 20px; }
     .grid-stack > .grid-stack-item > .ui-resizable-s {
       cursor: s-resize;
       height: 10px;
@@ -110,12 +97,10 @@
       cursor: sw-resize;
       width: 20px;
       height: 20px;
-      left: 10px;
       bottom: 0; }
     .grid-stack > .grid-stack-item > .ui-resizable-w {
       cursor: w-resize;
       width: 10px;
-      left: 10px;
       top: 15px;
       bottom: 15px; }
     .grid-stack > .grid-stack-item.ui-draggable-dragging > .ui-resizable-handle {
@@ -241,5 +226,3 @@
     -ms-transition: left 0s, top 0s, height 0s, width 0s;
     -o-transition: left 0s, top 0s, height 0s, width 0s;
     transition: left 0s, top 0s, height 0s, width 0s; }
-
-/*# sourceMappingURL=gridstack.css.map */

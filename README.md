@@ -18,7 +18,7 @@
 
 ## Introduction
 
-Content is a hierarchical page editing module for Zikula 2. With it you can insert and edit various content items, such as HTML texts, videos, maps and much more. Also content of other modules and blocks can be shown inside a Content page. 
+Content is a hierarchical page editing module for Zikula 3. With it you can insert and edit various content items, such as HTML texts, videos, maps and much more. Also content of other modules and blocks can be shown inside a Content page. 
 
 Each page can arrange arbitrary content elements using Bootstrap grids.
 
@@ -252,7 +252,7 @@ Deprecations:
 
 ## TODO
 
-- The `ComputerCodeType` needs to be updated for supporting the BBCode and LuMicuLa modules as soon as they have been migrated to Zikula 2. There are @todo markers for that.
+- The `ComputerCodeType` needs to be updated for supporting the BBCode and LuMicuLa modules as soon as they have been migrated to Zikula 3. There are @todo markers for that.
 - The `YouTubeType` could be enhanced to fetch additional data from API. It should use the `CacheHelper` like `SlideshareType` and `VimeoType`. There is a @todo marker for that.
 
 ## Questions, bugs and contributing
