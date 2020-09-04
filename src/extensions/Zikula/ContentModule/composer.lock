@@ -74,16 +74,16 @@
         },
         {
             "name": "drmonty/leaflet",
-            "version": "1.6.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrohnstock/leaflet.git",
-                "reference": "45164225aed66ddff7b079d8a8ab90a9858fa91c"
+                "reference": "49629790f19729ed4abc647cf7418c1dba9edb1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrohnstock/leaflet/zipball/45164225aed66ddff7b079d8a8ab90a9858fa91c",
-                "reference": "45164225aed66ddff7b079d8a8ab90a9858fa91c",
+                "url": "https://api.github.com/repos/mrohnstock/leaflet/zipball/49629790f19729ed4abc647cf7418c1dba9edb1f",
+                "reference": "49629790f19729ed4abc647cf7418c1dba9edb1f",
                 "shasum": ""
             },
             "type": "component",
@@ -107,7 +107,7 @@
                 "gis",
                 "map"
             ],
-            "time": "2019-11-18T06:58:49+00:00"
+            "time": "2020-09-04T06:32:09+00:00"
         },
         {
             "name": "phenx/php-font-lib",
