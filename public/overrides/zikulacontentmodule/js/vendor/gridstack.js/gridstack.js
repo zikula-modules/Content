@@ -1,5 +1,5 @@
 "use strict";
-// gridstack.ts 2.0.0-rc2 @preserve
+// gridstack.ts 2.0.0 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -810,6 +810,7 @@ class GridStack {
      * Removes widget from the grid.
      * @param el  widget or selector to modify
      * @param removeDOM if `false` DOM element won't be removed from the tree (Default? true).
+     * @param triggerEvent if `false` (quiet mode) element will not be added to removed list and no 'removed' callbacks will be called (Default? true).
      */
     removeWidget(els, removeDOM = true, triggerEvent = true) {
         this.getElements(els).forEach(el => {
@@ -1245,9 +1246,12 @@ class GridStack {
                     gridToNotify._gsEventHandler[event.type](event, target);
                 }
                 gridToNotify.engine.removedNodes.push(node);
+                gridToNotify.dd.draggable(el, 'destroy').resizable(el, 'destroy');
+                delete el.gridstackNode; // hint we're removing it next and break circular link
                 gridToNotify._triggerRemoveEvent();
-                delete el.gridstackNode;
-                el.remove();
+                if (el.parentElement) {
+                    el.remove(); // finally remove it
+                }
             }
             else {
                 this._clearRemovingTimeout(el);
