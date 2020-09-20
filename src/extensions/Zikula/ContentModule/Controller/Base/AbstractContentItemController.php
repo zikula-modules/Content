@@ -28,7 +28,6 @@ use Zikula\ContentModule\Helper\PermissionHelper;
  */
 abstract class AbstractContentItemController extends AbstractController
 {
-    
     /**
      * This is the default action handling the index area called without defining arguments.
      *
