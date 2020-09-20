@@ -29,6 +29,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
+use Zikula\Bundle\FormExtensionBundle\Form\DataTransformer\NullToEmptyTransformer;
 use Zikula\ContentModule\Form\Type\Field\MultiListType;
 use Zikula\ContentModule\AppSettings;
 use Zikula\ContentModule\Helper\ListEntriesHelper;
@@ -88,7 +89,7 @@ abstract class AbstractConfigType extends AbstractType
             'multiple' => false,
             'expanded' => false,
         ]);
-        $builder->add('countPageViews', CheckboxType::class, [
+        $builder->add($builder->create('countPageViews', CheckboxType::class, [
             'label' => 'Count page views:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -100,8 +101,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The count page views option',
             ],
             'required' => false,
-        ]);
-        $builder->add('googleMapsApiKey', TextType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('googleMapsApiKey', TextType::class, [
             'label' => 'Google maps api key:',
             'label_attr' => [
                 'class' => 'tooltips',
@@ -115,8 +116,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'Enter the google maps api key.',
             ],
             'required' => false,
-        ]);
-        $builder->add('yandexTranslateApiKey', TextType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('yandexTranslateApiKey', TextType::class, [
             'label' => 'Yandex translate api key:',
             'label_attr' => [
                 'class' => 'tooltips',
@@ -130,8 +131,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'Enter the yandex translate api key.',
             ],
             'required' => false,
-        ]);
-        $builder->add('enableRawPlugin', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('enableRawPlugin', CheckboxType::class, [
             'label' => 'Enable raw plugin:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -143,8 +144,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The enable raw plugin option',
             ],
             'required' => false,
-        ]);
-        $builder->add('inheritPermissions', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('inheritPermissions', CheckboxType::class, [
             'label' => 'Inherit permissions:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -156,8 +157,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The inherit permissions option',
             ],
             'required' => false,
-        ]);
-        $builder->add('enableAutomaticPageLinks', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('enableAutomaticPageLinks', CheckboxType::class, [
             'label' => 'Enable automatic page links:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -169,7 +170,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The enable automatic page links option',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
     }
 
     /**
@@ -244,7 +245,7 @@ abstract class AbstractConfigType extends AbstractType
      */
     public function addAdditionalFieldsFields(FormBuilderInterface $builder, array $options = []): void
     {
-        $builder->add('enableOptionalString1', CheckboxType::class, [
+        $builder->add($builder->create('enableOptionalString1', CheckboxType::class, [
             'label' => 'Enable optional string 1:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -256,8 +257,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The enable optional string 1 option',
             ],
             'required' => false,
-        ]);
-        $builder->add('enableOptionalString2', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('enableOptionalString2', CheckboxType::class, [
             'label' => 'Enable optional string 2:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -269,8 +270,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The enable optional string 2 option',
             ],
             'required' => false,
-        ]);
-        $builder->add('enableOptionalText', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('enableOptionalText', CheckboxType::class, [
             'label' => 'Enable optional text:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -282,7 +283,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The enable optional text option',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
     }
 
     /**
@@ -290,7 +291,7 @@ abstract class AbstractConfigType extends AbstractType
      */
     public function addPermalinksFields(FormBuilderInterface $builder, array $options = []): void
     {
-        $builder->add('ignoreBundleNameInRoutes', CheckboxType::class, [
+        $builder->add($builder->create('ignoreBundleNameInRoutes', CheckboxType::class, [
             'label' => 'Ignore bundle name in routes:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -302,8 +303,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The ignore bundle name in routes option',
             ],
             'required' => false,
-        ]);
-        $builder->add('ignoreEntityNameInRoutes', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('ignoreEntityNameInRoutes', CheckboxType::class, [
             'label' => 'Ignore entity name in routes:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -315,8 +316,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The ignore entity name in routes option',
             ],
             'required' => false,
-        ]);
-        $builder->add('ignoreFirstTreeLevelInRoutes', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('ignoreFirstTreeLevelInRoutes', CheckboxType::class, [
             'label' => 'Ignore first tree level in routes:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -328,7 +329,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The ignore first tree level in routes option',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
         $listEntries = $this->listHelper->getEntries('appSettings', 'permalinkSuffix');
         $choices = [];
         $choiceAttributes = [];
@@ -371,7 +372,7 @@ abstract class AbstractConfigType extends AbstractType
             ],
             'required' => true,
         ]);
-        $builder->add('linkOwnPagesOnAccountPage', CheckboxType::class, [
+        $builder->add($builder->create('linkOwnPagesOnAccountPage', CheckboxType::class, [
             'label' => 'Link own pages on account page:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -383,8 +384,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The link own pages on account page option',
             ],
             'required' => false,
-        ]);
-        $builder->add('pagePrivateMode', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('pagePrivateMode', CheckboxType::class, [
             'label' => 'Page private mode:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -396,8 +397,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The page private mode option',
             ],
             'required' => false,
-        ]);
-        $builder->add('showOnlyOwnEntries', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('showOnlyOwnEntries', CheckboxType::class, [
             'label' => 'Show only own entries:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -409,7 +410,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The show only own entries option',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
     }
 
     /**
@@ -417,7 +418,7 @@ abstract class AbstractConfigType extends AbstractType
      */
     public function addModerationFields(FormBuilderInterface $builder, array $options = []): void
     {
-        $builder->add('allowModerationSpecificCreatorForPage', CheckboxType::class, [
+        $builder->add($builder->create('allowModerationSpecificCreatorForPage', CheckboxType::class, [
             'label' => 'Allow moderation specific creator for page:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -429,8 +430,8 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The allow moderation specific creator for page option',
             ],
             'required' => false,
-        ]);
-        $builder->add('allowModerationSpecificCreationDateForPage', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('allowModerationSpecificCreationDateForPage', CheckboxType::class, [
             'label' => 'Allow moderation specific creation date for page:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -442,7 +443,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The allow moderation specific creation date for page option',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
     }
 
     /**
@@ -457,7 +458,7 @@ abstract class AbstractConfigType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $builder->add('enabledFinderTypes', MultiListType::class, [
+        $builder->add($builder->create('enabledFinderTypes', MultiListType::class, [
             'label' => 'Enabled finder types:',
             'label_attr' => [
                 'class' => 'tooltips',
@@ -475,7 +476,7 @@ abstract class AbstractConfigType extends AbstractType
             'choice_attr' => $choiceAttributes,
             'multiple' => true,
             'expanded' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
     }
 
     /**
@@ -515,7 +516,7 @@ abstract class AbstractConfigType extends AbstractType
             $choices[$entry['text']] = $entry['value'];
             $choiceAttributes[$entry['text']] = ['title' => $entry['title']];
         }
-        $builder->add('maximumAmountOfPageRevisions', ChoiceType::class, [
+        $builder->add($builder->create('maximumAmountOfPageRevisions', ChoiceType::class, [
             'label' => 'Maximum amount of page revisions:',
             'empty_data' => '25',
             'attr' => [
@@ -528,8 +529,8 @@ abstract class AbstractConfigType extends AbstractType
             'choice_attr' => $choiceAttributes,
             'multiple' => false,
             'expanded' => false,
-        ]);
-        $builder->add('periodForPageRevisions', DateIntervalType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('periodForPageRevisions', DateIntervalType::class, [
             'label' => 'Period for page revisions:',
             'empty_data' => 'P1Y0M0DT0H0M0S',
             'attr' => [
@@ -565,8 +566,8 @@ abstract class AbstractConfigType extends AbstractType
             'with_hours' => true,
             'with_minutes' => true,
             'with_seconds' => true,
-        ]);
-        $builder->add('showPageHistory', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('showPageHistory', CheckboxType::class, [
             'label' => 'Show page history:',
             'label_attr' => [
                 'class' => 'tooltips switch-custom',
@@ -578,7 +579,7 @@ abstract class AbstractConfigType extends AbstractType
                 'title' => 'The show page history option',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
     }
 
     /**
