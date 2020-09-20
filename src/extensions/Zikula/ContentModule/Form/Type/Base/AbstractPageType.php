@@ -30,6 +30,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
+use Zikula\Bundle\FormExtensionBundle\Form\DataTransformer\NullToEmptyTransformer;
 use Zikula\CategoriesModule\Form\Type\CategoriesType;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\ContentModule\Entity\Factory\EntityFactory;
@@ -143,7 +144,7 @@ abstract class AbstractPageType extends AbstractType
             ],
             'required' => true,
         ]);
-        $builder->add('metaDescription', TextType::class, [
+        $builder->add($builder->create('metaDescription', TextType::class, [
             'label' => 'Meta description:',
             'empty_data' => '',
             'attr' => [
@@ -152,8 +153,8 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'Enter the meta description of the page.',
             ],
             'required' => false,
-        ]);
-        $builder->add('optionalString1', TextType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('optionalString1', TextType::class, [
             'label' => 'Optional string 1:',
             'empty_data' => '',
             'attr' => [
@@ -162,8 +163,8 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'Enter the optional string 1 of the page.',
             ],
             'required' => false,
-        ]);
-        $builder->add('optionalString2', TextType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('optionalString2', TextType::class, [
             'label' => 'Optional string 2:',
             'empty_data' => '',
             'attr' => [
@@ -172,8 +173,8 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'Enter the optional string 2 of the page.',
             ],
             'required' => false,
-        ]);
-        $builder->add('optionalText', TextareaType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('optionalText', TextareaType::class, [
             'label' => 'Optional text:',
             'help' => 'Note: this value must not exceed %length% characters.',
             'help_translation_parameters' => ['%length%' => 2000],
@@ -184,7 +185,7 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'Enter the optional text of the page.',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
         $helpText = /** @Translate */'You can input a custom permalink for the page or let this field free to create one automatically.';
         if ('create' !== $options['mode']) {
             $helpText = '';
@@ -220,7 +221,7 @@ abstract class AbstractPageType extends AbstractType
                 }
             }
         }
-        $builder->add('showTitle', CheckboxType::class, [
+        $builder->add($builder->create('showTitle', CheckboxType::class, [
             'label' => 'Show title:',
             'label_attr' => [
                 'class' => 'switch-custom',
@@ -230,8 +231,8 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'show title ?',
             ],
             'required' => false,
-        ]);
-        $builder->add('skipHookSubscribers', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('skipHookSubscribers', CheckboxType::class, [
             'label' => 'Skip hook subscribers:',
             'label_attr' => [
                 'class' => 'switch-custom',
@@ -241,8 +242,8 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'skip hook subscribers ?',
             ],
             'required' => false,
-        ]);
-        $builder->add('layout', ArrayType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('layout', ArrayType::class, [
             'label' => 'Layout:',
             'help' => 'Enter one entry per line.',
             'empty_data' => [],
@@ -251,8 +252,8 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'Enter the layout of the page.',
             ],
             'required' => false,
-        ]);
-        $builder->add('views', IntegerType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('views', IntegerType::class, [
             'label' => 'Views:',
             'empty_data' => 0,
             'attr' => [
@@ -261,8 +262,8 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'Enter the views of the page. Only digits are allowed.',
             ],
             'required' => false,
-        ]);
-        $builder->add('active', CheckboxType::class, [
+        ])->addModelTransformer(new NullToEmptyTransformer()));
+        $builder->add($builder->create('active', CheckboxType::class, [
             'label' => 'Active:',
             'label_attr' => [
                 'class' => 'switch-custom',
@@ -272,7 +273,7 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'active ?',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
         $builder->add('activeFrom', DateTimeType::class, [
             'label' => 'Active from:',
             'attr' => [
@@ -322,7 +323,7 @@ abstract class AbstractPageType extends AbstractType
             'multiple' => true,
             'expanded' => true,
         ]);
-        $builder->add('inMenu', CheckboxType::class, [
+        $builder->add($builder->create('inMenu', CheckboxType::class, [
             'label' => 'In menu:',
             'label_attr' => [
                 'class' => 'switch-custom',
@@ -332,7 +333,7 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'in menu ?',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
         $builder->add('stylingClasses', ArrayType::class, [
             'label' => 'Styling classes:',
             'help' => 'Enter one entry per line.',
@@ -343,7 +344,7 @@ abstract class AbstractPageType extends AbstractType
             ],
             'required' => false,
         ]);
-        $builder->add('contentData', ArrayType::class, [
+        $builder->add($builder->create('contentData', ArrayType::class, [
             'label' => 'Content data:',
             'help' => 'Enter one entry per line.',
             'empty_data' => [],
@@ -352,7 +353,7 @@ abstract class AbstractPageType extends AbstractType
                 'title' => 'Enter the content data of the page.',
             ],
             'required' => false,
-        ]);
+        ])->addModelTransformer(new NullToEmptyTransformer()));
     }
 
     /**
