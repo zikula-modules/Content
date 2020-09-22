@@ -39,7 +39,7 @@ abstract class AbstractExternalController extends AbstractController
     /**
      * Displays one item of a certain object type using a separate template for external usages.
      */
-    public function displayAction(
+    public function display(
         Request $request,
         ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
@@ -102,7 +102,7 @@ abstract class AbstractExternalController extends AbstractController
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function finderAction(
+    public function finder(
         Request $request,
         RouterInterface $router,
         ControllerHelper $controllerHelper,
