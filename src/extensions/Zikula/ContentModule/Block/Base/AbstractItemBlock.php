@@ -63,9 +63,11 @@ abstract class AbstractItemBlock extends AbstractBlockHandler
         }
     
         $controllerReference = new ControllerReference(
-            'Zikula\ContentModule\Controller\ExternalController::displayAction',
+            'Zikula\ContentModule\Controller\ExternalController::display',
             $this->getDisplayArguments($properties),
-            ['template' => $properties['customTemplate']]
+            [
+                'template' => $properties['customTemplate']
+            ]
         );
     
         return $this->fragmentHandler->render($controllerReference);
