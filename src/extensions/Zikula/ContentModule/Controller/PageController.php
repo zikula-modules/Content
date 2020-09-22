@@ -58,7 +58,7 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminIndexAction(
+    public function adminIndex(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -70,7 +70,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function indexAction(
+    public function index(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -89,7 +89,7 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminViewAction(
+    public function adminView(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -111,7 +111,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function viewAction(
+    public function view(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -135,7 +135,7 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminEditAction(
+    public function adminEdit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -153,7 +153,7 @@ class PageController extends AbstractPageController
      *        options={"expose"=true}
      * )
      */
-    public function editAction(
+    public function edit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -171,13 +171,13 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminUndeleteAction(
+    public function adminUndelete(
         Request $request,
         LoggableHelper $loggableHelper,
         TranslatableHelper $translatableHelper,
         int $id = 0
     ): Response {
-        return $this->undeleteActionInternal($request, $loggableHelper, $translatableHelper, $id, true);
+        return $this->undeleteInternal($request, $loggableHelper, $translatableHelper, $id, true);
     }
     
     /**
@@ -187,13 +187,13 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function undeleteAction(
+    public function undelete(
         Request $request,
         LoggableHelper $loggableHelper,
         TranslatableHelper $translatableHelper,
         int $id = 0
     ): Response {
-        return $this->undeleteActionInternal($request, $loggableHelper, $translatableHelper, $id, false);
+        return $this->undeleteInternal($request, $loggableHelper, $translatableHelper, $id, false);
     }
     
     /**
@@ -203,7 +203,7 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminLoggableHistoryAction(
+    public function adminLoggableHistory(
         Request $request,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
@@ -212,7 +212,7 @@ class PageController extends AbstractPageController
         WorkflowHelper $workflowHelper,
         string $slug = ''
     ): Response {
-        return $this->loggableHistoryActionInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $slug, true);
+        return $this->loggableHistoryInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $slug, true);
     }
     
     /**
@@ -221,7 +221,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function loggableHistoryAction(
+    public function loggableHistory(
         Request $request,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
@@ -230,7 +230,7 @@ class PageController extends AbstractPageController
         WorkflowHelper $workflowHelper,
         string $slug = ''
     ): Response {
-        return $this->loggableHistoryActionInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $slug, false);
+        return $this->loggableHistoryInternal($request, $permissionHelper, $entityFactory, $loggableHelper, $translatableHelper, $workflowHelper, $slug, false);
     }
     
     /**
@@ -246,7 +246,7 @@ class PageController extends AbstractPageController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function adminManageContentAction(
+    public function adminManageContent(
         Request $request,
         RouterInterface $router,
         ZikulaHttpKernelInterface $kernel,
@@ -270,7 +270,7 @@ class PageController extends AbstractPageController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
      */
-    public function manageContentAction(
+    public function manageContent(
         Request $request,
         RouterInterface $router,
         ZikulaHttpKernelInterface $kernel,
@@ -283,7 +283,7 @@ class PageController extends AbstractPageController
     }
 
     /**
-     * This method includes the common implementation code for adminManageContentAction() and manageContentAction().
+     * This method includes the common implementation code for adminManageContent() and manageContent().
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be managed isn't found
@@ -362,7 +362,7 @@ class PageController extends AbstractPageController
      * @throws NotFoundHttpException Thrown if the page was not found
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function updateLayoutAction(
+    public function updateLayout(
         Request $request,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
@@ -409,7 +409,7 @@ class PageController extends AbstractPageController
      *
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    public function sitemapAction(
+    public function sitemap(
         Request $request,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory
@@ -433,7 +433,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function adminDuplicateAction(
+    public function adminDuplicate(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -452,7 +452,7 @@ class PageController extends AbstractPageController
      *        methods = {"GET"}
      * )
      */
-    public function duplicateAction(
+    public function duplicate(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -608,7 +608,7 @@ class PageController extends AbstractPageController
      *
      * @return array|RedirectResponse
      */
-    public function adminTranslateAction(
+    public function adminTranslate(
         Request $request,
         RouterInterface $router,
         ZikulaHttpKernelInterface $kernel,
@@ -635,7 +635,7 @@ class PageController extends AbstractPageController
      *
      * @return array|RedirectResponse
      */
-    public function translateAction(
+    public function translate(
         Request $request,
         RouterInterface $router,
         ZikulaHttpKernelInterface $kernel,
@@ -863,7 +863,7 @@ class PageController extends AbstractPageController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
-    public function subpagesAction(
+    public function subpages(
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         ViewHelper $viewHelper,
@@ -888,7 +888,7 @@ class PageController extends AbstractPageController
     /**
      * @Theme("admin")
      */
-    public function adminDisplayAction(
+    public function adminDisplay(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -901,7 +901,7 @@ class PageController extends AbstractPageController
         return $this->displayInternal($request, $permissionHelper, $controllerHelper, $viewHelper, $entityFactory, $loggableHelper, $page, $slug, true);
     }
     
-    public function displayAction(
+    public function display(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -928,7 +928,7 @@ class PageController extends AbstractPageController
      * )
      * @Theme("admin")
      */
-    public function adminHandleSelectedEntriesAction(
+    public function adminHandleSelectedEntries(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,
@@ -936,7 +936,7 @@ class PageController extends AbstractPageController
         HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
-        return $this->handleSelectedEntriesActionInternal($request, $logger, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, true);
+        return $this->handleSelectedEntriesInternal($request, $logger, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, true);
     }
     
     /**
@@ -944,13 +944,13 @@ class PageController extends AbstractPageController
      *        methods = {"POST"}
      * )
      */
-    public function handleSelectedEntriesAction(
+    public function handleSelectedEntries(
         Request $request,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
         HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
-        return $this->handleSelectedEntriesActionInternal($request, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, false);
+        return $this->handleSelectedEntriesInternal($request, $entityFactory, $workflowHelper, $hookHelper, $currentUserApi, false);
     }
 }

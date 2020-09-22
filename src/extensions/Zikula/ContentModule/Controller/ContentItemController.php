@@ -54,7 +54,7 @@ class ContentItemController extends AbstractContentItemController
      * )
      * @Theme("admin")
      */
-    public function adminIndexAction(
+    public function adminIndex(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -66,7 +66,7 @@ class ContentItemController extends AbstractContentItemController
      *        methods = {"GET"}
      * )
      */
-    public function indexAction(
+    public function index(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -82,7 +82,7 @@ class ContentItemController extends AbstractContentItemController
      * @throws NotFoundHttpException Thrown if item isn't found
      * @throws RuntimeException Thrown if item type isn't found
      */
-    public function displayEditingAction(
+    public function displayEditing(
         Request $request,
         PermissionHelper $permissionHelper,
         ContentDisplayHelper $contentDisplayHelper,
@@ -113,7 +113,7 @@ class ContentItemController extends AbstractContentItemController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page or content item isn't found
      */
-    public function duplicateAction(
+    public function duplicate(
         Request $request,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
@@ -192,7 +192,7 @@ class ContentItemController extends AbstractContentItemController
      * @throws NotFoundHttpException Thrown if item to be edited isn't found
      * @throws RuntimeException Thrown if item type isn't found
      */
-    public function editAction(
+    public function edit(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -460,7 +460,7 @@ class ContentItemController extends AbstractContentItemController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if item to be moved/copied isn't found
      */
-    public function movecopyAction(
+    public function movecopy(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
