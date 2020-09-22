@@ -285,7 +285,7 @@ abstract class AbstractPageController extends AbstractController
      *
      * @throws RuntimeException Thrown if executing the workflow action fails
      */
-    protected function handleSelectedEntriesActionInternal(
+    protected function handleSelectedEntriesInternal(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,
@@ -434,7 +434,7 @@ abstract class AbstractPageController extends AbstractController
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      * @throws NotFoundHttpException Thrown if page to be displayed isn't found
      */
-    protected function undeleteActionInternal(
+    protected function undeleteInternal(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -514,7 +514,7 @@ abstract class AbstractPageController extends AbstractController
      * @throws NotFoundHttpException Thrown if invalid identifier is given or the page isn't found
      * @throws AccessDeniedException Thrown if the user doesn't have required permissions
      */
-    protected function loggableHistoryActionInternal(
+    protected function loggableHistoryInternal(
         Request $request,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,

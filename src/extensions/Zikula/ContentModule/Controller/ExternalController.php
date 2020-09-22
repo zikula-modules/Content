@@ -44,7 +44,7 @@ class ExternalController extends AbstractExternalController
      *        methods = {"GET"}
      * )
      */
-    public function displayAction(
+    public function display(
         Request $request,
         ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
@@ -55,7 +55,7 @@ class ExternalController extends AbstractExternalController
         string $source,
         string $displayMode
     ): Response {
-        return parent::displayAction(
+        return parent::display(
             $request,
             $controllerHelper,
             $permissionHelper,
@@ -76,7 +76,7 @@ class ExternalController extends AbstractExternalController
      *        options={"expose"=true}
      * )
      */
-    public function finderAction(
+    public function finder(
         Request $request,
         RouterInterface $router,
         ControllerHelper $controllerHelper,
@@ -94,7 +94,7 @@ class ExternalController extends AbstractExternalController
         int $page = 1,
         int $num = 0
     ): Response {
-        return parent::finderAction(
+        return parent::finder(
             $request,
             $router,
             $controllerHelper,
