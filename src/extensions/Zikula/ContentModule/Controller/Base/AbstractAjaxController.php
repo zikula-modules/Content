@@ -82,7 +82,7 @@ abstract class AbstractAjaxController extends AbstractController
         
         $entities = [];
         if ('' !== $searchTerm) {
-            list($entities, $totalAmount) = $repository->selectSearch($searchTerm, [], $sortParam, 1, 50, false);
+            $entities = $repository->selectSearch($searchTerm, [], $sortParam, 1, 50, false);
         } else {
             $entities = $repository->selectWhere($where, $sortParam);
         }
