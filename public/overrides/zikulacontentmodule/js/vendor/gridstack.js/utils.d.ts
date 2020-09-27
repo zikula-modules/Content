@@ -3,13 +3,13 @@
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
 */
-import { GridStackWidget, GridStackNode, GridstackOptions, numberOrString } from './types';
+import { GridStackWidget, GridStackNode, GridStackOptions, numberOrString } from './types';
 /** checks for obsolete method names */
 export declare function obsolete(self: any, f: any, oldName: string, newName: string, rev: string): (...args: any[]) => any;
 /** checks for obsolete grid options (can be used for any fields, but msg is about options) */
-export declare function obsoleteOpts(opts: GridstackOptions, oldName: string, newName: string, rev: string): void;
+export declare function obsoleteOpts(opts: GridStackOptions, oldName: string, newName: string, rev: string): void;
 /** checks for obsolete grid options which are gone */
-export declare function obsoleteOptsDel(opts: GridstackOptions, oldName: string, rev: string, info: string): void;
+export declare function obsoleteOptsDel(opts: GridStackOptions, oldName: string, rev: string, info: string): void;
 /** checks for obsolete Jquery element attributes */
 export declare function obsoleteAttr(el: HTMLElement, oldName: string, newName: string, rev: string): void;
 /**

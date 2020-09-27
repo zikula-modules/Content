@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-engine.ts 2.0.0 @preserve
+// gridstack-engine.ts 2.0.1 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -170,6 +170,7 @@ class GridStackEngine {
      */
     prepareNode(node, resizing) {
         node = node || {};
+        node._id = node._id || GridStackEngine._idSeq++;
         // if we're missing position, have the grid position us automatically (before we set them to 0,0)
         if (node.x === undefined || node.y === undefined || node.x === null || node.y === null) {
             node.autoPosition = true;
@@ -282,7 +283,6 @@ class GridStackEngine {
     }
     addNode(node, triggerAddEvent = false) {
         node = this.prepareNode(node);
-        node._id = node._id || GridStackEngine._idSeq++;
         if (node.autoPosition) {
             this._sortNodes();
             for (let i = 0;; ++i) {

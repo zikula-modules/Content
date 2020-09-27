@@ -7,7 +7,7 @@ import { GridStack, GridStackElement } from './gridstack';
 import { GridItemHTMLElement, DDDragInOpt } from './types';
 /** Drag&Drop drop options */
 export declare type DDDropOpt = {
-    /** function or class type that this grid will accept as dropped items (see GridstackOptions.acceptWidgets) */
+    /** function or class type that this grid will accept as dropped items (see GridStackOptions.acceptWidgets) */
     accept?: (el: GridItemHTMLElement) => boolean;
 };
 /** drag&drop options currently called from the main code, but others can be passed in grid options */

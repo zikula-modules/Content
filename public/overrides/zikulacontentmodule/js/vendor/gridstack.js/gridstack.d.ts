@@ -6,7 +6,7 @@
 import './gridstack-poly.js';
 import { GridStackEngine } from './gridstack-engine';
 import { Utils } from './utils';
-import { GridItemHTMLElement, GridStackWidget, GridStackNode, GridstackOptions, numberOrString } from './types';
+import { GridItemHTMLElement, GridStackWidget, GridStackNode, GridStackOptions, numberOrString } from './types';
 import { GridStackDD } from './gridstack-dd';
 export * from './types';
 export * from './utils';
@@ -53,7 +53,7 @@ export declare class GridStack {
      * Note: the HTMLElement (of type GridHTMLElement) will store a `gridstack: GridStack` value that can be retrieve later
      * let grid = document.querySelector('.grid-stack').gridstack;
      */
-    static init(options?: GridstackOptions, elOrString?: GridStackElement): GridStack;
+    static init(options?: GridStackOptions, elOrString?: GridStackElement): GridStack;
     /**
      * Will initialize a list of elements (given a selector) and return an array of grids.
      * @param options grid options (optional)
@@ -63,7 +63,7 @@ export declare class GridStack {
      * let grids = GridStack.initAll();
      * grids.forEach(...)
      */
-    static initAll(options?: GridstackOptions, selector?: string): GridStack[];
+    static initAll(options?: GridStackOptions, selector?: string): GridStack[];
     /** scoping so users can call GridStack.Utils.sort() for example */
     static Utils: typeof Utils;
     /** scoping so users can call new GridStack.Engine(12) for example */
@@ -73,7 +73,7 @@ export declare class GridStack {
     /** engine used to implement non DOM grid functionality */
     engine: GridStackEngine;
     /** grid options - public for classes to access, but use methods to modify! */
-    opts: GridstackOptions;
+    opts: GridStackOptions;
     /** current drag&drop plugin being used */
     dd: GridStackDD;
     /**
@@ -81,7 +81,7 @@ export declare class GridStack {
      * @param el
      * @param opts
      */
-    constructor(el: GridHTMLElement, opts?: GridstackOptions);
+    constructor(el: GridHTMLElement, opts?: GridStackOptions);
     /**
      * add a new widget and returns it.
      *
@@ -117,9 +117,9 @@ export declare class GridStack {
     /**
      * Gets current cell height.
      */
-    getCellHeight(): number;
+    getCellHeight(forcePixel?: boolean): number;
     /**
-     * Update current cell height - see `GridstackOptions.cellHeight` for format.
+     * Update current cell height - see `GridStackOptions.cellHeight` for format.
      * This method rebuilds an internal CSS style sheet.
      * Note: You can expect performance issues if call this method too often.
      *
@@ -232,7 +232,7 @@ export declare class GridStack {
      * @example
      * let grid = GridStack.init();
      * grid.el.appendChild('<div id="gsi-1" data-gs-width="3"></div>');
-     * grid.makeWidget('gsi-1');
+     * grid.makeWidget('#gsi-1');
      */
     makeWidget(els: GridStackElement): GridItemHTMLElement;
     /**
@@ -339,9 +339,9 @@ export declare class GridStack {
      */
     update(els: GridStackElement, x?: number, y?: number, width?: number, height?: number): GridStack;
     /**
-     * Updates the margins which will set all 4 sides at once - see `GridstackOptions.margin` for format options.
+     * Updates the margins which will set all 4 sides at once - see `GridStackOptions.margin` for format options.
      * @param value new vertical margin value
-     * Note: you can instead use `marginTop | marginBottom | marginLeft | marginRight` GridstackOptions to set the sides separately.
+     * Note: you can instead use `marginTop | marginBottom | marginLeft | marginRight` GridStackOptions to set the sides separately.
      */
     margin(value: numberOrString): GridStack;
     /** returns current vertical margin value */
@@ -364,4 +364,13 @@ export declare class GridStack {
      * }
      */
     willItFit(x: number, y: number, width: number, height: number, autoPosition: boolean): boolean;
+    /** called to resize children nested grids when we/item resizes */
+    private _resizeNestedGrids;
+    /**
+     * called when we are being resized by the window - check if the one Column Mode needs to be turned on/off
+     * and remember the prev columns we used, as well as check for auto cell height (square)
+     */
+    onParentResize(): GridStack;
+    /** add or remove the window size event handler */
+    private _updateWindowResizeEvent;
 }
