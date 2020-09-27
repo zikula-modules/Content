@@ -460,10 +460,6 @@ abstract class AbstractCollectionFilterHelper
                 $filters[] = 'tbl.views = :searchViews';
                 $parameters['searchViews'] = $fragment;
             }
-            $filters[] = 'tbl.activeFrom = :searchActiveFrom';
-            $parameters['searchActiveFrom'] = $fragment;
-            $filters[] = 'tbl.activeTo = :searchActiveTo';
-            $parameters['searchActiveTo'] = $fragment;
             $filters[] = 'tbl.scope = :searchScope';
             $parameters['searchScope'] = $fragment;
             $filters[] = 'tbl.optionalString1 LIKE :searchOptionalString1';
@@ -480,10 +476,6 @@ abstract class AbstractCollectionFilterHelper
         if ('contentItem' === $objectType) {
             $filters[] = 'tbl.owningType LIKE :searchOwningType';
             $parameters['searchOwningType'] = '%' . $fragment . '%';
-            $filters[] = 'tbl.activeFrom = :searchActiveFrom';
-            $parameters['searchActiveFrom'] = $fragment;
-            $filters[] = 'tbl.activeTo = :searchActiveTo';
-            $parameters['searchActiveTo'] = $fragment;
             $filters[] = 'tbl.scope = :searchScope';
             $parameters['searchScope'] = $fragment;
             $filters[] = 'tbl.searchText LIKE :searchSearchText';
