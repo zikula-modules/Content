@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-dd.ts 2.0.1 @preserve
+// gridstack-dd.ts 2.0.2 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Base class for drag'n'drop plugin.

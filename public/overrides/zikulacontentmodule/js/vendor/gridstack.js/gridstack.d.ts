@@ -3,7 +3,6 @@
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
 */
-import './gridstack-poly.js';
 import { GridStackEngine } from './gridstack-engine';
 import { Utils } from './utils';
 import { GridItemHTMLElement, GridStackWidget, GridStackNode, GridStackOptions, numberOrString } from './types';

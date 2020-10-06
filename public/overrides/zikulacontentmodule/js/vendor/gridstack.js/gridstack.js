@@ -1,5 +1,5 @@
 "use strict";
-// gridstack.ts 2.0.1 @preserve
+// gridstack.ts 2.0.2 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
  * gridstack.js may be freely distributed under the MIT license.
 */
-require("./gridstack-poly.js");
 const gridstack_engine_1 = require("./gridstack-engine");
 const utils_1 = require("./utils");
 const gridstack_dd_1 = require("./gridstack-dd");
@@ -79,8 +78,8 @@ class GridStack {
             float: false,
             staticGrid: false,
             _class: 'grid-stack-instance-' + (Math.random() * 10000).toFixed(0),
-            animate: utils_1.Utils.toBool(el.getAttribute('data-gs-animate')) || false,
-            alwaysShowResizeHandle: false,
+            animate: true,
+            alwaysShowResizeHandle: opts.alwaysShowResizeHandle || false,
             resizable: {
                 autoHide: !(opts.alwaysShowResizeHandle || false),
                 handles: 'se'
@@ -110,6 +109,9 @@ class GridStack {
             disableOneColumnMode: false,
             oneColumnModeDomSort: false
         };
+        if (el.getAttribute('data-gs-animate')) {
+            defaults.animate = utils_1.Utils.toBool(el.getAttribute('data-gs-animate'));
+        }
         this.opts = utils_1.Utils.defaults(opts, defaults);
         this.initMargin();
         if (this.opts.ddPlugin === false) {
@@ -141,7 +143,7 @@ class GridStack {
         }
         this.el.classList.add(this.opts._class);
         this._setStaticClass();
-        this._initStyles();
+        this._updateStyles();
         this.engine = new gridstack_engine_1.GridStackEngine(this.opts.column, (cbNodes, removeDOM = true) => {
             let maxHeight = 0;
             this.engine.nodes.forEach(n => { maxHeight = Math.max(maxHeight, n.y + n.height); });
@@ -156,7 +158,7 @@ class GridStack {
                     this._writeAttrs(el, n.x, n.y, n.width, n.height);
                 }
             });
-            this._updateStyles(maxHeight + 10);
+            this._updateStyles(false, maxHeight); // false = don't recreate, just append if need be
         }, this.opts.float, this.opts.maxRow);
         if (this.opts.auto) {
             let elements = [];
@@ -370,7 +372,7 @@ class GridStack {
         this.opts.cellHeightUnit = data.unit;
         this.opts.cellHeight = data.height;
         if (update) {
-            this._updateStyles();
+            this._updateStyles(true); // true = force re-create
         }
         this._resizeNestedGrids(this.el);
         return this;
@@ -469,7 +471,7 @@ class GridStack {
         else {
             this.el.parentNode.removeChild(this.el);
         }
-        utils_1.Utils.removeStylesheet(this._stylesId);
+        this._removeStylesheet();
         delete this.engine;
         return this;
     }
@@ -897,7 +899,7 @@ class GridStack {
                 this.opts.marginLeft =
                     this.opts.marginRight =
                         this.opts.margin = data.height;
-        this._updateStyles();
+        this._updateStyles(true); // true = force re-create
         return this;
     }
     /** returns current vertical margin value */
@@ -968,41 +970,39 @@ class GridStack {
         this.el.dispatchEvent(event);
         return this;
     }
-    /** @internal */
-    _initStyles() {
-        if (this._stylesId) {
-            utils_1.Utils.removeStylesheet(this._stylesId);
-        }
-        this._stylesId = 'gridstack-style-' + (Math.random() * 100000).toFixed();
-        // insert style to parent (instead of 'head' by default) to support WebComponent
-        let styleLocation = this.opts.styleInHead ? undefined : this.el.parentNode;
-        this._styles = utils_1.Utils.createStylesheet(this._stylesId, styleLocation);
-        if (this._styles !== null) {
-            this._styles._max = 0;
+    /** @internal called to delete the current dynamic style sheet used for our layout */
+    _removeStylesheet() {
+        if (this._styles) {
+            utils_1.Utils.removeStylesheet(this._styles._id);
+            delete this._styles;
         }
         return this;
     }
-    /** @internal updated the CSS styles for row based layout and initial margin setting */
-    _updateStyles(maxHeight) {
-        if (!this._styles) {
-            return this;
+    /** @internal updated/create the CSS styles for row based layout and initial margin setting */
+    _updateStyles(forceUpdate = false, maxHeight) {
+        // call to delete existing one if we change cellHeight / margin
+        if (forceUpdate) {
+            this._removeStylesheet();
         }
-        if (maxHeight === undefined) {
-            maxHeight = this._styles._max;
-        }
-        this._initStyles();
         this._updateContainerHeight();
-        if (!this.opts.cellHeight) { // The rest will be handled by CSS
-            return this;
-        }
-        if (this._styles._max !== 0 && maxHeight <= this._styles._max) { // Keep it increasing
+        if (!this.opts.cellHeight) { // The rest will be handled by CSS TODO: I don't understand this usage
             return this;
         }
         let cellHeight = this.opts.cellHeight;
         let cellHeightUnit = this.opts.cellHeightUnit;
         let prefix = `.${this.opts._class} > .${this.opts.itemClass}`;
-        // these are done once only
-        if (this._styles._max === 0) {
+        // create one as needed
+        if (!this._styles) {
+            let id = 'gridstack-style-' + (Math.random() * 100000).toFixed();
+            // insert style to parent (instead of 'head' by default) to support WebComponent
+            let styleLocation = this.opts.styleInHead ? undefined : this.el.parentNode;
+            this._styles = utils_1.Utils.createStylesheet(id, styleLocation);
+            if (!this._styles) {
+                return this;
+            }
+            this._styles._id = id;
+            this._styles._max = 0;
+            // these are done once only
             utils_1.Utils.addCSSRule(this._styles, prefix, `min-height: ${cellHeight}${cellHeightUnit}`);
             // content margins
             let top = this.opts.marginTop + this.opts.marginUnit;
@@ -1021,6 +1021,8 @@ class GridStack {
             utils_1.Utils.addCSSRule(this._styles, `${prefix} > .ui-resizable-w`, `left: ${left}`);
             utils_1.Utils.addCSSRule(this._styles, `${prefix} > .ui-resizable-sw`, `left: ${left}; bottom: ${bottom}`);
         }
+        // now update the height specific fields
+        maxHeight = maxHeight || this._styles._max;
         if (maxHeight > this._styles._max) {
             let getHeight = (rows) => (cellHeight * rows) + cellHeightUnit;
             for (let i = this._styles._max + 1; i <= maxHeight; i++) { // start at 1
@@ -1036,7 +1038,7 @@ class GridStack {
     }
     /** @internal */
     _updateContainerHeight() {
-        if (this.engine.batchMode) {
+        if (!this.engine || this.engine.batchMode) {
             return this;
         }
         let row = this.getRow(); // checks for minRow already

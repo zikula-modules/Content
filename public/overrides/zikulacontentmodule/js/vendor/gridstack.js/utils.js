@@ -1,5 +1,5 @@
 "use strict";
-// utils.ts 2.0.1 @preserve
+// utils.ts 2.0.2 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /** checks for obsolete method names */
 function obsolete(self, f, oldName, newName, rev) {
@@ -134,18 +134,27 @@ class Utils {
         else {
             height = val;
         }
-        return { height: height, unit: heightUnit };
+        return { height, unit: heightUnit };
     }
+    /** copies unset fields in target to use the given default sources values */
     static defaults(target, ...sources) {
-        sources.forEach(function (source) {
-            for (let prop in source) {
-                if (Object.prototype.hasOwnProperty.call(source, prop) && (target[prop] === null || target[prop] === undefined)) {
-                    target[prop] = source[prop];
+        sources.forEach(source => {
+            for (const key in source) {
+                if (!source.hasOwnProperty(key)) {
+                    return;
+                }
+                if (target[key] === null || target[key] === undefined) {
+                    target[key] = source[key];
+                }
+                else if (typeof source[key] === 'object' && typeof target[key] === 'object') {
+                    // property is an object, recursively add it's field over... #1373
+                    this.defaults(target[key], source[key]);
                 }
             }
         });
         return target;
     }
+    /** makes a shallow copy of the passed json struct */
     static clone(target) {
         return Object.assign({}, target); // was $.extend({}, target)
     }
@@ -161,11 +170,11 @@ class Utils {
     /** @internal */
     static throttle(callback, delay) {
         let isWaiting = false;
-        return function (...args) {
+        return (...args) => {
             if (!isWaiting) {
                 callback.apply(this, args);
                 isWaiting = true;
-                setTimeout(function () { isWaiting = false; }, delay);
+                setTimeout(() => isWaiting = false, delay);
             }
         };
     }
