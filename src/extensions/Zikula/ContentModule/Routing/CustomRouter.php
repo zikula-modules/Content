@@ -16,10 +16,11 @@ declare(strict_types=1);
 
 namespace Zikula\ContentModule\Routing;
 
+use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouterInterface;
 
-class CustomRouter implements RouterInterface
+class CustomRouter implements RouterInterface, WarmableInterface
 {
     /**
      * @var RouterInterface
@@ -56,5 +57,10 @@ class CustomRouter implements RouterInterface
     public function match($pathinfo)
     {
         return $this->decoratedRouter->match($pathinfo);
+    }
+
+    public function warmUp(string $cacheDir)
+    {
+        return [];
     }
 }
