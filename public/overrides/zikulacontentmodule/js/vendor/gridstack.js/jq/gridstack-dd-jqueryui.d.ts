@@ -10,7 +10,7 @@ import * as $ from './jquery';
 export { $ };
 export * from './jquery-ui';
 /**
- * Jquery-ui based drag'n'drop plugin.
+ * legacy Jquery-ui based drag'n'drop plugin.
  */
 export declare class GridStackDDJQueryUI extends GridStackDD {
     constructor(grid: GridStack);

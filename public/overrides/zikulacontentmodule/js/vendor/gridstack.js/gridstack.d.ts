@@ -5,7 +5,7 @@
 */
 import { GridStackEngine } from './gridstack-engine';
 import { Utils } from './utils';
-import { GridItemHTMLElement, GridStackWidget, GridStackNode, GridStackOptions, numberOrString } from './types';
+import { GridItemHTMLElement, GridStackWidget, GridStackNode, GridStackOptions, numberOrString, ColumnOptions } from './types';
 import { GridStackDD } from './gridstack-dd';
 export * from './types';
 export * from './utils';
@@ -90,14 +90,15 @@ export declare class GridStack {
      *
      * @example
      * let grid = GridStack.init();
-     * grid.addWidget('<div><div class="grid-stack-item-content">hello</div></div>', {width: 3});
+     * grid.addWidget({width: 3, content: 'hello'});
+     * grid.addWidget('<div class="grid-stack-item"><div class="grid-stack-item-content">hello</div></div>', {width: 3});
      *
-     * @param el html element or string definition to add
-     * @param options widget position/size options (optional) - see GridStackWidget
+     * @param el html element, or string definition, or GridStackWidget (which can have content string as well) to add
+     * @param options widget position/size options (optional, and ignore if first param is already option) - see GridStackWidget
      */
-    addWidget(el: GridStackElement, options?: GridStackWidget): GridItemHTMLElement;
+    addWidget(els?: GridStackWidget | GridStackElement, options?: GridStackWidget): GridItemHTMLElement;
     /** saves the current layout returning a list of widgets for serialization */
-    save(): GridStackWidget[];
+    save(saveContent?: boolean): GridStackWidget[];
     /**
      * load the widgets from a list. This will call update() on each (matching by id) or add/remove widgets that are not there.
      *
@@ -142,12 +143,13 @@ export declare class GridStack {
     /**
      * set the number of columns in the grid. Will update existing widgets to conform to new number of columns,
      * as well as cache the original layout so you can revert back to previous positions without loss.
-     * Requires `gridstack-extra.css` or `gridstack-extra.min.css` for [1-11],
+     * Requires `gridstack-extra.css` or `gridstack-extra.min.css` for [2-11],
      * else you will need to generate correct CSS (see https://github.com/gridstack/gridstack.js#change-grid-columns)
      * @param column - Integer > 0 (default 12).
-     * @param doNotPropagate if true existing widgets will not be updated (optional)
+     * @param layout specify the type of re-layout that will happen (position, size, etc...).
+     * Note: items will never be outside of the current column boundaries. default (moveScale). Ignored for 1 column
      */
-    column(column: number, doNotPropagate?: boolean): GridStack;
+    column(column: number, layout?: ColumnOptions): GridStack;
     /**
      * get the number of columns in the grid (default 12)
      */
@@ -324,10 +326,11 @@ export declare class GridStack {
      */
     setAnimation(doAnimate: boolean): GridStack;
     /**
-     * Toggle the grid static state. Also toggle the grid-stack-static class.
-     * @param staticValue if true the grid become static.
+     * Toggle the grid static state, which permanently removes/add Drag&Drop support, unlike disable()/enable() that just turns it off/on.
+     * Also toggle the grid-stack-static class.
+     * @param val if true the grid become static.
      */
-    setStatic(staticValue: boolean): GridStack;
+    setStatic(val: boolean): GridStack;
     /**
      * Updates widget position/size.
      * @param els  widget or singular selector to modify
@@ -357,7 +360,7 @@ export declare class GridStack {
      *
      * @example
      * if (grid.willItFit(newNode.x, newNode.y, newNode.width, newNode.height, newNode.autoPosition)) {
-     *   grid.addWidget(newNode.el, newNode);
+     *   grid.addWidget(newNode);
      * } else {
      *   alert('Not enough free space to place the widget');
      * }

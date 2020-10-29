@@ -1,20 +1,28 @@
 "use strict";
-// gridstack-dd.ts 2.0.2 @preserve
+// gridstack-dd.ts 2.1.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Base class for drag'n'drop plugin.
  */
 class GridStackDD {
-    constructor(grid) {
-        this.grid = grid;
-    }
     /** call this method to register your plugin instead of the default no-op one */
     static registerPlugin(pluginClass) {
-        GridStackDD.registeredPlugins.push(pluginClass);
+        GridStackDD.registeredPlugins = pluginClass;
     }
     /** get the current registered plugin to use */
     static get() {
-        return GridStackDD.registeredPlugins[0] || GridStackDD;
+        return GridStackDD.registeredPlugins || GridStackDD;
+    }
+    constructor(grid) {
+        this.grid = grid;
+    }
+    /** removes any drag&drop present (called during destroy) */
+    remove(el) {
+        this.draggable(el, 'destroy').resizable(el, 'destroy');
+        if (el.gridstackNode) {
+            delete el.gridstackNode._initDD; // reset our DD init flag
+        }
+        return this;
     }
     resizable(el, opts, key, value) {
         return this;
@@ -41,6 +49,5 @@ class GridStackDD {
         return this;
     }
 }
-GridStackDD.registeredPlugins = [];
 exports.GridStackDD = GridStackDD;
 //# sourceMappingURL=gridstack-dd.js.map

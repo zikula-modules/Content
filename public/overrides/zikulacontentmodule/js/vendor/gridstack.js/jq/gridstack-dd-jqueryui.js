@@ -1,17 +1,17 @@
 "use strict";
-// gridstack-dd-jqueryui.ts 2.0.2 @preserve
+// gridstack-dd-jqueryui.ts 2.1.0 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 const gridstack_dd_1 = require("../gridstack-dd");
-// TODO: TEMPORARY until can remove jquery-ui drag&drop and this class and use HTML5 instead !
-// see https://stackoverflow.com/questions/35345760/importing-jqueryui-with-typescript-and-requirejs
+// export all jq symbols see https://stackoverflow.com/questions/35345760/importing-jqueryui-with-typescript-and-requirejs
+// TODO: let user bring their own jq or jq-ui version
 const $ = require("./jquery");
 exports.$ = $;
 __export(require("./jquery-ui"));
 /**
- * Jquery-ui based drag'n'drop plugin.
+ * legacy Jquery-ui based drag'n'drop plugin.
  */
 class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
     constructor(grid) {
@@ -19,10 +19,10 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
     }
     resizable(el, opts, key, value) {
         let $el = $(el);
-        if (opts === 'disable' || opts === 'enable') {
-            $el.resizable(opts);
+        if (opts === 'enable') {
+            $el.resizable().resizable(opts);
         }
-        else if (opts === 'destroy') {
+        else if (opts === 'disable' || opts === 'destroy') {
             if ($el.data('ui-resizable')) { // error to call destroy if not there
                 $el.resizable(opts);
             }
@@ -42,10 +42,10 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
     }
     draggable(el, opts, key, value) {
         let $el = $(el);
-        if (opts === 'disable' || opts === 'enable') {
-            $el.draggable(opts);
+        if (opts === 'enable') {
+            $el.draggable().draggable('enable');
         }
-        else if (opts === 'destroy') {
+        else if (opts === 'disable' || opts === 'destroy') {
             if ($el.data('ui-draggable')) { // error to call destroy if not there
                 $el.draggable(opts);
             }

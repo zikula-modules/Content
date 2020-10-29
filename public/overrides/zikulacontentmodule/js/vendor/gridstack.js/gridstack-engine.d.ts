@@ -1,4 +1,4 @@
-import { GridStackNode, GridStackWidget } from './types';
+import { GridStackNode } from './types';
 export declare type onChangeCB = (nodes: GridStackNode[], removeDOM?: boolean) => void;
 /**
  * Defines the GridStack engine that does most no DOM grid manipulation.
@@ -42,7 +42,7 @@ export declare class GridStackEngine {
     beginUpdate(node: GridStackNode): GridStackEngine;
     endUpdate(): GridStackEngine;
     /** saves the current layout returning a list of widgets for serialization */
-    save(): GridStackWidget[];
+    save(saveElement?: boolean): GridStackNode[];
     /** called to remove all internal values */
     cleanupNode(node: GridStackNode): void;
 }

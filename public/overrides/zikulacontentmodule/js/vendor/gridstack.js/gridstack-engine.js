@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-engine.ts 2.0.2 @preserve
+// gridstack-engine.ts 2.1.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -460,7 +460,7 @@ class GridStackEngine {
         return this;
     }
     /** saves the current layout returning a list of widgets for serialization */
-    save() {
+    save(saveElement = true) {
         let widgets = [];
         utils_1.Utils.sort(this.nodes);
         this.nodes.forEach(n => {
@@ -470,7 +470,8 @@ class GridStackEngine {
                     w[key] = n[key];
             }
             // delete other internals
-            delete w.el;
+            if (!saveElement)
+                delete w.el;
             delete w.grid;
             // delete default values (will be re-created on read)
             if (!w.autoPosition)
@@ -531,8 +532,10 @@ class GridStackEngine {
      * @param oldColumn previous number of columns
      * @param column  new column number
      * @param nodes different sorted list (ex: DOM order) instead of current list
+     * @param layout specify the type of re-layout that will happen (position, size, etc...).
+     * Note: items will never be outside of the current column boundaries. default (moveScale). Ignored for 1 column
      */
-    updateNodeWidths(oldColumn, column, nodes) {
+    updateNodeWidths(oldColumn, column, nodes, layout = 'moveScale') {
         if (!this.nodes.length || oldColumn === column) {
             return this;
         }
@@ -578,25 +581,34 @@ class GridStackEngine {
         // if we found cache re-use those nodes that are still current
         let newNodes = [];
         cacheNodes.forEach(cacheNode => {
-            let j = nodes.findIndex(n => n && n._id === cacheNode._id);
+            let j = nodes.findIndex(n => n._id === cacheNode._id);
             if (j !== -1) {
                 // still current, use cache info positions
                 nodes[j].x = cacheNode.x;
                 nodes[j].y = cacheNode.y;
                 nodes[j].width = cacheNode.width;
                 newNodes.push(nodes[j]);
-                nodes[j] = null; // erase it so we know what's left
+                nodes.splice(j, 1);
             }
         });
         // ...and add any extra non-cached ones
-        let ratio = column / oldColumn;
-        nodes.forEach(node => {
-            if (!node)
-                return this;
-            node.x = (column === 1 ? 0 : Math.round(node.x * ratio));
-            node.width = ((column === 1 || oldColumn === 1) ? 1 : (Math.round(node.width * ratio) || 1));
-            newNodes.push(node);
-        });
+        if (nodes.length) {
+            if (typeof layout === 'function') {
+                layout(column, oldColumn, newNodes, nodes);
+            }
+            else {
+                let ratio = column / oldColumn;
+                let move = (layout === 'move' || layout === 'moveScale');
+                let scale = (layout === 'scale' || layout === 'moveScale');
+                nodes.forEach(node => {
+                    node.x = (column === 1 ? 0 : (move ? Math.round(node.x * ratio) : Math.min(node.x, column - 1)));
+                    node.width = ((column === 1 || oldColumn === 1) ? 1 :
+                        scale ? (Math.round(node.width * ratio) || 1) : (Math.min(node.width, column)));
+                    newNodes.push(node);
+                });
+                nodes = [];
+            }
+        }
         // finally re-layout them in reverse order (to get correct placement)
         newNodes = utils_1.Utils.sort(newNodes, -1, column);
         this._ignoreLayoutsNodeChange = true;

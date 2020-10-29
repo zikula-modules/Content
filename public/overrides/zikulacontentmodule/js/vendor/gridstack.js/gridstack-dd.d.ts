@@ -21,12 +21,14 @@ export declare type DDCallback = (event: Event, arg2: GridItemHTMLElement, helpe
  */
 export declare class GridStackDD {
     protected grid: GridStack;
-    static registeredPlugins: typeof GridStackDD[];
+    static registeredPlugins: typeof GridStackDD;
     /** call this method to register your plugin instead of the default no-op one */
     static registerPlugin(pluginClass: typeof GridStackDD): void;
     /** get the current registered plugin to use */
     static get(): typeof GridStackDD;
     constructor(grid: GridStack);
+    /** removes any drag&drop present (called during destroy) */
+    remove(el: GridItemHTMLElement): GridStackDD;
     resizable(el: GridItemHTMLElement, opts: DDOpts, key?: DDKey, value?: DDValue): GridStackDD;
     draggable(el: GridItemHTMLElement, opts: DDOpts, key?: DDKey, value?: DDValue): GridStackDD;
     dragIn(el: GridStackElement, opts: DDDragInOpt): GridStackDD;

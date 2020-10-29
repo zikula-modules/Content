@@ -5,6 +5,11 @@
 */
 import { GridStack } from './gridstack';
 import { GridStackDD } from './gridstack-dd';
+/** different layout options when changing # of columns,
+ * including a custom function that takes new/old column count, and array of new/old positions
+ * Note: new list may be partially already filled if we have a cache of the layout at that size and new items were added later.
+ */
+export declare type ColumnOptions = 'moveScale' | 'move' | 'scale' | 'none' | ((column: number, oldColumn: number, nodes: GridStackNode[], oldNodes: GridStackNode[]) => void);
 export declare type numberOrString = number | string;
 export interface GridItemHTMLElement extends HTMLElement {
     /** pointer to grid node instance */
@@ -155,6 +160,8 @@ export interface GridStackWidget {
     resizeHandles?: string;
     /** value for `data-gs-id` stored on the widget (default?: undefined) */
     id?: numberOrString;
+    /** html to append inside as content */
+    content?: string;
 }
 /** Drag&Drop resize options */
 export interface DDResizeOpt {
