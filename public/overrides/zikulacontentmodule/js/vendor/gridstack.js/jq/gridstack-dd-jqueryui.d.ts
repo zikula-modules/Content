@@ -8,7 +8,7 @@ import { GridStackDD, DDOpts, DDKey, DDDropOpt, DDCallback, DDValue } from '../g
 import { GridItemHTMLElement, DDDragInOpt } from '../types';
 import * as $ from './jquery';
 export { $ };
-export * from './jquery-ui';
+import './jquery-ui';
 /**
  * legacy Jquery-ui based drag'n'drop plugin.
  */

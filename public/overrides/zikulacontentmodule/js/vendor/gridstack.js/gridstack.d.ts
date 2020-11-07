@@ -11,7 +11,6 @@ export * from './types';
 export * from './utils';
 export * from './gridstack-engine';
 export * from './gridstack-dd';
-import './jq/gridstack-dd-jqueryui';
 export * from './jq/gridstack-dd-jqueryui';
 export declare type GridStackElement = string | HTMLElement | GridItemHTMLElement;
 export interface GridHTMLElement extends HTMLElement {
@@ -109,7 +108,7 @@ export declare class GridStack {
      * @example
      * see http://gridstackjs.com/demo/serialization.html
      **/
-    load(layout: GridStackWidget[], addAndRemove?: boolean | ((w: GridStackWidget, add: boolean) => void)): void;
+    load(layout: GridStackWidget[], addAndRemove?: boolean | ((w: GridStackWidget, add: boolean) => void)): GridStack;
     /**
      * Initializes batch updates. You will see no changes until `commit()` method is called.
      */
@@ -341,12 +340,11 @@ export declare class GridStack {
      */
     update(els: GridStackElement, x?: number, y?: number, width?: number, height?: number): GridStack;
     /**
-     * Updates the margins which will set all 4 sides at once - see `GridStackOptions.margin` for format options.
-     * @param value new vertical margin value
-     * Note: you can instead use `marginTop | marginBottom | marginLeft | marginRight` GridStackOptions to set the sides separately.
+     * Updates the margins which will set all 4 sides at once - see `GridStackOptions.margin` for format options (CSS string format of 1,2,4 values or single number).
+     * @param value margin value
      */
     margin(value: numberOrString): GridStack;
-    /** returns current vertical margin value */
+    /** returns current margin number value (undefined if 4 sides don't match) */
     getMargin(): number;
     /**
      * Returns true if the height of the grid will be less the vertical

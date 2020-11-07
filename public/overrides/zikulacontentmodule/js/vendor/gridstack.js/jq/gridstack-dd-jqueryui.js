@@ -1,15 +1,15 @@
 "use strict";
-// gridstack-dd-jqueryui.ts 2.1.0 @preserve
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+// gridstack-dd-jqueryui.ts 2.2.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStackDDJQueryUI = exports.$ = void 0;
 const gridstack_dd_1 = require("../gridstack-dd");
-// export all jq symbols see https://stackoverflow.com/questions/35345760/importing-jqueryui-with-typescript-and-requirejs
+// export jq symbols see
+// https://stackoverflow.com/questions/35345760/importing-jqueryui-with-typescript-and-requirejs
+// https://stackoverflow.com/questions/33998262/jquery-ui-and-webpack-how-to-manage-it-into-module
 // TODO: let user bring their own jq or jq-ui version
-const $ = require("./jquery");
+const $ = require("./jquery"); // compile this in... having issues TS/ES6 app would include instead
 exports.$ = $;
-__export(require("./jquery-ui"));
+require("./jquery-ui");
 /**
  * legacy Jquery-ui based drag'n'drop plugin.
  */
@@ -32,7 +32,7 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
         }
         else {
             let handles = $el.data('gs-resize-handles') ? $el.data('gs-resize-handles') : this.grid.opts.resizable.handles;
-            $el.resizable(Object.assign({}, this.grid.opts.resizable, { handles: handles }, {
+            $el.resizable(Object.assign(Object.assign(Object.assign({}, this.grid.opts.resizable), { handles: handles }), {
                 start: opts.start,
                 stop: opts.stop,
                 resize: opts.resize // || function() {}
@@ -54,7 +54,7 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
             $el.draggable(opts, key, value);
         }
         else {
-            $el.draggable(Object.assign({}, this.grid.opts.draggable, {
+            $el.draggable(Object.assign(Object.assign({}, this.grid.opts.draggable), {
                 containment: (this.grid.opts._isNested && !this.grid.opts.dragOut) ?
                     $(this.grid.el).parent() : (this.grid.opts.draggable.containment || null),
                 start: opts.start,

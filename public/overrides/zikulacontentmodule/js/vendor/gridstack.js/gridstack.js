@@ -1,9 +1,17 @@
 "use strict";
-// gridstack.ts 2.1.0 @preserve
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+// gridstack.ts 2.2.0 @preserve
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStack = void 0;
 /**
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
@@ -12,12 +20,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const gridstack_engine_1 = require("./gridstack-engine");
 const utils_1 = require("./utils");
 const gridstack_dd_1 = require("./gridstack-dd");
-__export(require("./utils"));
-__export(require("./gridstack-engine"));
-__export(require("./gridstack-dd"));
+// export all dependent file as well to make it easier for users to just import the main file
+__exportStar(require("./types"), exports);
+__exportStar(require("./utils"), exports);
+__exportStar(require("./gridstack-engine"), exports);
+__exportStar(require("./gridstack-dd"), exports);
 // TEMPORARY import the jquery-ui drag&drop since we don't have alternative yet and don't expect users to create their own yet
-require("./jq/gridstack-dd-jqueryui");
-__export(require("./jq/gridstack-dd-jqueryui"));
+__exportStar(require("./jq/gridstack-dd-jqueryui"), exports);
 /**
  * Main gridstack class - you will need to call `GridStack.init()` first to initialize your grid.
  * Note: your grid elements MUST have the following classes for the CSS layout to work:
@@ -76,7 +85,7 @@ class GridStack {
             auto: true,
             minWidth: 768,
             float: false,
-            staticGrid: false,
+            staticGrid: utils_1.Utils.toBool(el.getAttribute('data-gs-static-grid')) || false,
             _class: 'grid-stack-instance-' + (Math.random() * 10000).toFixed(0),
             animate: true,
             alwaysShowResizeHandle: opts.alwaysShowResizeHandle || false,
@@ -241,7 +250,6 @@ class GridStack {
         }
         return grids;
     }
-    ;
     /**
      * add a new widget and returns it.
      *
@@ -362,6 +370,7 @@ class GridStack {
         });
         this.engine.removedNodes = removed;
         this.commit();
+        return this;
     }
     /**
      * Initializes batch updates. You will see no changes until `commit()` method is called.
@@ -424,7 +433,6 @@ class GridStack {
         this._triggerChangeEvent();
         return this;
     }
-    ;
     /** re-layout grid items to reclaim any empty space */
     compact() {
         this.engine.compact();
@@ -635,7 +643,7 @@ class GridStack {
                 return;
             node.locked = (val || false);
             if (node.locked) {
-                el.setAttribute('data-gs-locked', 'yes');
+                el.setAttribute('data-gs-locked', 'true');
             }
             else {
                 el.removeAttribute('data-gs-locked');
@@ -907,13 +915,7 @@ class GridStack {
             return this;
         }
         this.opts.staticGrid = val;
-        // either delete Drag&drop or initialize it
-        if (val) {
-            this.getGridItems().forEach(el => this.dd.remove(el));
-        }
-        else {
-            this.engine.nodes.forEach(n => this._prepareDragDropByNode(n));
-        }
+        this.engine.nodes.forEach(n => this._prepareDragDropByNode(n)); // either delete Drag&drop or initialize it
         this._setStaticClass();
         return this;
     }
@@ -936,25 +938,25 @@ class GridStack {
         return this;
     }
     /**
-     * Updates the margins which will set all 4 sides at once - see `GridStackOptions.margin` for format options.
-     * @param value new vertical margin value
-     * Note: you can instead use `marginTop | marginBottom | marginLeft | marginRight` GridStackOptions to set the sides separately.
+     * Updates the margins which will set all 4 sides at once - see `GridStackOptions.margin` for format options (CSS string format of 1,2,4 values or single number).
+     * @param value margin value
      */
     margin(value) {
-        let data = utils_1.Utils.parseHeight(value);
-        if (this.opts.marginUnit === data.unit && this.opts.margin === data.height) {
-            return;
+        let isMultiValue = (typeof value === 'string' && value.split(' ').length > 1);
+        // check if we can skip re-creating our CSS file... won't check if multi values (too much hassle)
+        if (!isMultiValue) {
+            let data = utils_1.Utils.parseHeight(value);
+            if (this.opts.marginUnit === data.unit && this.opts.margin === data.height)
+                return;
         }
-        this.opts.marginUnit = data.unit;
-        this.opts.marginTop =
-            this.opts.marginBottom =
-                this.opts.marginLeft =
-                    this.opts.marginRight =
-                        this.opts.margin = data.height;
+        // re-use existing margin handling
+        this.opts.margin = value;
+        this.opts.marginTop = this.opts.marginBottom = this.opts.marginLeft = this.opts.marginRight = undefined;
+        this.initMargin();
         this._updateStyles(true); // true = force re-create
         return this;
     }
-    /** returns current vertical margin value */
+    /** returns current margin number value (undefined if 4 sides don't match) */
     getMargin() { return this.opts.margin; }
     /**
      * Returns true if the height of the grid will be less the vertical
@@ -1120,7 +1122,7 @@ class GridStack {
         let node = el.gridstackNode;
         if (!node || node._removeTimeout || !this.opts.removable)
             return this;
-        node._removeTimeout = setTimeout(() => {
+        node._removeTimeout = window.setTimeout(() => {
             el.classList.add('grid-stack-item-removing');
             node._isAboutToRemove = true;
         }, this.opts.removeTimeout);
@@ -1139,11 +1141,22 @@ class GridStack {
     }
     /** @internal prepares the element for drag&drop **/
     _prepareDragDropByNode(node) {
+        // check for disabled grid first
+        if (this.opts.staticGrid || node.locked) {
+            if (node._initDD) {
+                this.dd.remove(node.el); // nukes everything instead of just disable, will add some styles back next
+                delete node._initDD;
+            }
+            node.el.classList.add('ui-draggable-disabled', 'ui-resizable-disabled'); // add styles one might depend on #1435
+            return;
+        }
         // check if init already done or not needed (static/disabled)
         if (node._initDD || this.opts.staticGrid ||
             ((node.noMove || this.opts.disableDrag) && (node.noResize || this.opts.disableResize))) {
             return;
         }
+        // remove our style that look like D&D
+        node.el.classList.remove('ui-draggable-disabled', 'ui-resizable-disabled');
         // variables used/cashed between the 3 start/move/end methods, in addition to node passed above
         let cellWidth;
         let cellHeight;
@@ -1214,7 +1227,7 @@ class GridStack {
                 if (x < 0)
                     return;
                 width = Math.round(ui.size.width / cellWidth);
-                height = Math.round((ui.size.height + this.getMargin()) / cellHeight);
+                height = Math.round(ui.size.height / cellHeight);
             }
             // width and height are undefined if not resizing
             let _lastTriedWidth = (width || node._lastTriedWidth);
@@ -1292,10 +1305,11 @@ class GridStack {
             resize: dragOrResize
         });
         node._initDD = true; // we've set DD support now
-        if (node.noMove || this.opts.disableDrag || this.opts.staticGrid) {
+        // finally fine tune drag vs move by disabling any part...
+        if (node.noMove || this.opts.disableDrag) {
             this.dd.draggable(el, 'disable');
         }
-        if (node.noResize || this.opts.disableResize || this.opts.staticGrid) {
+        if (node.noResize || this.opts.disableResize) {
             this.dd.resizable(el, 'disable');
         }
         return this;
@@ -1422,12 +1436,14 @@ class GridStack {
     }
     /** @internal */
     _setStaticClass() {
-        let staticClassName = 'grid-stack-static';
+        let classes = ['grid-stack-static'];
         if (this.opts.staticGrid) {
-            this.el.classList.add(staticClassName);
+            this.el.classList.add(...classes);
+            this.el.setAttribute('data-gs-static-grid', 'true');
         }
         else {
-            this.el.classList.remove(staticClassName);
+            this.el.classList.remove(...classes);
+            this.el.removeAttribute('data-gs-static-grid');
         }
         return this;
     }
@@ -1577,7 +1593,7 @@ class GridStack {
             let width = node.width || Math.round(el.offsetWidth / this.cellWidth()) || 1;
             let height = node.height || Math.round(el.offsetHeight / this.getCellHeight(true)) || 1;
             // copy the node original values (min/max/id/etc...) but override width/height/other flags which are this grid specific
-            let newNode = this.engine.prepareNode(Object.assign({}, node, { width, height, _added: false, _temporary: true }));
+            let newNode = this.engine.prepareNode(Object.assign(Object.assign({}, node), { width, height, _added: false, _temporary: true }));
             newNode._isOutOfGrid = true;
             el.gridstackNode = newNode;
             el._gridstackNodeOrig = node;
@@ -1656,12 +1672,26 @@ class GridStack {
     /** @internal convert a potential selector into actual element */
     static getElement(els = '.grid-stack-item') {
         if (typeof els === 'string') {
+            if (!els.length) {
+                return null;
+            }
+            if (els[0] === '#') {
+                return document.getElementById(els.substring(1));
+            }
+            if (els[0] === '.') {
+                return document.querySelector(els);
+            }
+            // if we start with a digit, assume it's an id (error calling querySelector('#1')) as class are not valid CSS
+            if (!isNaN(+els[0])) { // start with digit
+                return document.getElementById(els);
+            }
+            // finally try string, then id then class
             let el = document.querySelector(els);
-            if (!el && els[0] !== '.' && els[0] !== '#') {
-                el = document.querySelector('#' + els);
-                if (!el) {
-                    el = document.querySelector('.' + els);
-                }
+            if (!el) {
+                el = document.getElementById(els);
+            }
+            if (!el) {
+                el = document.querySelector('.' + els);
             }
             return el;
         }
@@ -1691,9 +1721,28 @@ class GridStack {
     }
     /** @internal initialize margin top/bottom/left/right and units */
     initMargin() {
-        let data = utils_1.Utils.parseHeight(this.opts.margin);
-        this.opts.marginUnit = data.unit;
-        let margin = this.opts.margin = data.height;
+        let data;
+        let margin = 0;
+        // support passing multiple values like CSS (ex: '5px 10px 0 20px')
+        let margins = [];
+        if (typeof this.opts.margin === 'string') {
+            margins = this.opts.margin.split(' ');
+        }
+        if (margins.length === 2) { // top/bot, left/right like CSS
+            this.opts.marginTop = this.opts.marginBottom = margins[0];
+            this.opts.marginLeft = this.opts.marginRight = margins[1];
+        }
+        else if (margins.length === 4) { // Clockwise like CSS
+            this.opts.marginTop = margins[0];
+            this.opts.marginRight = margins[1];
+            this.opts.marginBottom = margins[2];
+            this.opts.marginLeft = margins[3];
+        }
+        else {
+            data = utils_1.Utils.parseHeight(this.opts.margin);
+            this.opts.marginUnit = data.unit;
+            margin = this.opts.margin = data.height;
+        }
         // see if top/bottom/left/right need to be set as well
         if (this.opts.marginTop === undefined) {
             this.opts.marginTop = margin;
@@ -1728,6 +1777,9 @@ class GridStack {
             delete this.opts.margin;
         }
         this.opts.marginUnit = data.unit; // in case side were spelled out, use those units instead...
+        if (this.opts.marginTop === this.opts.marginBottom && this.opts.marginLeft === this.opts.marginRight && this.opts.marginTop === this.opts.marginRight) {
+            this.opts.margin = this.opts.marginTop; // makes it easier to check for no-ops in setMargin()
+        }
         return this;
     }
     /** @internal called to update an element(s) attributes and node values */
@@ -1746,9 +1798,9 @@ class GridStack {
         return this;
     }
 }
+exports.GridStack = GridStack;
 /** scoping so users can call GridStack.Utils.sort() for example */
 GridStack.Utils = utils_1.Utils;
 /** scoping so users can call new GridStack.Engine(12) for example */
 GridStack.Engine = gridstack_engine_1.GridStackEngine;
-exports.GridStack = GridStack;
 //# sourceMappingURL=gridstack.js.map

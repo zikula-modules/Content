@@ -1,6 +1,7 @@
 "use strict";
-// gridstack-engine.ts 2.1.0 @preserve
+// gridstack-engine.ts 2.2.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStackEngine = void 0;
 /**
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
@@ -639,9 +640,10 @@ class GridStackEngine {
             if (prop[0] === '_')
                 delete node[prop];
         }
+        return this;
     }
 }
+exports.GridStackEngine = GridStackEngine;
 /** @internal */
 GridStackEngine._idSeq = 1;
-exports.GridStackEngine = GridStackEngine;
 //# sourceMappingURL=gridstack-engine.js.map

@@ -1,7 +1,9 @@
 "use strict";
-// utils.ts 2.1.0 @preserve
+// utils.ts 2.2.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Utils = exports.obsoleteAttr = exports.obsoleteOptsDel = exports.obsoleteOpts = exports.obsolete = void 0;
 /** checks for obsolete method names */
+// eslint-disable-next-line
 function obsolete(self, f, oldName, newName, rev) {
     let wrapper = (...args) => {
         console.warn('gridstack.js: Function `' + oldName + '` is deprecated in ' + rev + ' and has been replaced ' +
@@ -122,21 +124,22 @@ class Utils {
     }
     static parseHeight(val) {
         let height;
-        let heightUnit = 'px';
+        let unit = 'px';
         if (typeof val === 'string') {
             let match = val.match(/^(-[0-9]+\.[0-9]+|[0-9]*\.[0-9]+|-[0-9]+|[0-9]+)(px|em|rem|vh|vw|%)?$/);
             if (!match) {
                 throw new Error('Invalid height');
             }
-            heightUnit = match[2] || 'px';
+            unit = match[2] || 'px';
             height = parseFloat(match[1]);
         }
         else {
             height = val;
         }
-        return { height, unit: heightUnit };
+        return { height, unit };
     }
     /** copies unset fields in target to use the given default sources values */
+    // eslint-disable-next-line
     static defaults(target, ...sources) {
         sources.forEach(source => {
             for (const key in source) {
@@ -155,8 +158,9 @@ class Utils {
         return target;
     }
     /** makes a shallow copy of the passed json struct */
+    // eslint-disable-next-line
     static clone(target) {
-        return Object.assign({}, target); // was $.extend({}, target)
+        return Object.assign({}, target);
     }
     /** return the closest parent matching the given class */
     static closestByClass(el, name) {

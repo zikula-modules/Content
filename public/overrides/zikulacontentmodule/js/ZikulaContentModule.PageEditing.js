@@ -267,7 +267,7 @@ function contentPageAddSection(sectionId, sectionNumber, stylingClasses, scrollT
  * Initialises the gridstack for a given section selector.
  */
 function contentPageInitSectionGrid(containerId, gridOptions) {
-    var selector = '#' + containerId + ' .grid-stack';
+    var selector = jQuery('#' + containerId + ' .grid-stack').get(0);
     var grid = GridStack.init(gridOptions, selector);
     gridsPerSection[containerId] = grid;
 

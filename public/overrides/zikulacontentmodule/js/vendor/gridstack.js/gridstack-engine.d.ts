@@ -21,8 +21,9 @@ export declare class GridStackEngine {
     /** re-layout grid items to reclaim any empty space */
     compact(): GridStackEngine;
     /** enable/disable floating widgets (default: `false`) See [example](http://gridstackjs.com/demo/float.html) */
+    set float(val: boolean);
     /** float getter method */
-    float: boolean;
+    get float(): boolean;
     /**
      * given a random node, makes sure it's coordinates/values are valid in the current grid
      * @param node to adjust
@@ -44,5 +45,5 @@ export declare class GridStackEngine {
     /** saves the current layout returning a list of widgets for serialization */
     save(saveElement?: boolean): GridStackNode[];
     /** called to remove all internal values */
-    cleanupNode(node: GridStackNode): void;
+    cleanupNode(node: GridStackNode): GridStackEngine;
 }

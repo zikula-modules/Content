@@ -40,7 +40,7 @@ export declare class Utils {
     static removeStylesheet(id: string): void;
     /** inserts a CSS rule */
     static addCSSRule(sheet: CSSStyleSheet, selector: string, rules: string): void;
-    static toBool(v: any): boolean;
+    static toBool(v: unknown): boolean;
     static toNumber(value: null | string): number | null;
     static parseHeight(val: numberOrString): HeightData;
     /** copies unset fields in target to use the given default sources values */
