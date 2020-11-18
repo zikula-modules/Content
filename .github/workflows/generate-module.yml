@@ -26,21 +26,24 @@ jobs:
         args: Content.mostapp Zikula/ContentModule "src/" true
 
     - name: Set output variables
+      id: vars
       run: |
-        echo ::set-env name=PULL_REQUEST_TITLE::"Generator update $(date +%d-%m-%Y)"
-        echo ::set-env name=PULL_REQUEST_BODY::"This PR was auto-generated on $(date +%d-%m-%Y) \
+        echo ::set-output name=pr_title::"Generator update $(date +%d-%m-%Y)"
+        echo ::set-output name=pr_body::"This PR was auto-generated on $(date +%d-%m-%Y) \
           with latest generator using [generator-action](https://github.com/Guite/generator-action/) :tada:"
 
     # see https://github.com/peter-evans/create-pull-request
     - name: Commit changes and create/update pull request
+      id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: 'update generated code :rocket:'
-        title: ${{ env.PULL_REQUEST_TITLE }}
-        body: ${{ env.PULL_REQUEST_BODY }}
+        title: ${{ steps.vars.outputs.pr_title }}
+        body: ${{ steps.vars.outputs.pr_body }}
         branch: generator-update
 
     - name: Check outputs
       run: |
-        echo "Created pull request number: ${{ env.PULL_REQUEST_NUMBER }}"
+        echo "Pull request number: ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
