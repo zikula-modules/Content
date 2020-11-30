@@ -1,0 +1,31 @@
+// dd-base-impl.ts 3.0.0 @preserve
+
+// dd-draggable.ts 3.0.0 @preserve
+
+// dd-droppable.ts 3.0.0 @preserve
+
+// dd-elements.ts 3.0.0 @preserve
+
+// dd-manager.ts 3.0.0 @preserve
+
+// dd-resizable-handle.ts 3.0.0 @preserve
+
+// dd-resizable.ts 3.0.0 @preserve
+
+// dd-utils.ts 3.0.0 @preserve
+
+// gridstack-GridStackDD.get().ts 3.0.0 @preserve
+
+// gridstack-dd-native.ts 3.0.0 @preserve
+
+// gridstack-ddi.ts 3.0.0 @preserve
+
+// gridstack-engine.ts 3.0.0 @preserve
+
+// gridstack.ts 3.0.0 @preserve
+
+// index.html5.ts 3.0.0 - everything you need for a Grid that uses HTML5 native drag&drop (work in progress) @preserve
+
+// types.ts 3.0.0 @preserve
+
+// utils.ts 3.0.0 @preserve

@@ -17,7 +17,7 @@ export declare class GridStackEngine {
     constructor(column?: number, onchange?: onChangeCB, float?: boolean, maxRow?: number, nodes?: GridStackNode[]);
     batchUpdate(): GridStackEngine;
     commit(): GridStackEngine;
-    isAreaEmpty(x: number, y: number, width: number, height: number): boolean;
+    isAreaEmpty(x: number, y: number, w: number, h: number): boolean;
     /** re-layout grid items to reclaim any empty space */
     compact(): GridStackEngine;
     /** enable/disable floating widgets (default: `false`) See [example](http://gridstackjs.com/demo/float.html) */
@@ -35,15 +35,22 @@ export declare class GridStackEngine {
     addNode(node: GridStackNode, triggerAddEvent?: boolean): GridStackNode;
     removeNode(node: GridStackNode, removeDOM?: boolean, triggerEvent?: boolean): GridStackEngine;
     removeAll(removeDOM?: boolean): GridStackEngine;
-    canMoveNode(node: GridStackNode, x: number, y: number, width?: number, height?: number): boolean;
+    canMoveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number): boolean;
     canBePlacedWithRespectToHeight(node: GridStackNode): boolean;
-    isNodeChangedPosition(node: GridStackNode, x: number, y: number, width: number, height: number): boolean;
-    moveNode(node: GridStackNode, x: number, y: number, width?: number, height?: number, noPack?: boolean): GridStackNode;
+    isNodeChangedPosition(node: GridStackNode, x: number, y: number, w: number, h: number): boolean;
+    moveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number, noPack?: boolean): GridStackNode;
     getRow(): number;
     beginUpdate(node: GridStackNode): GridStackEngine;
     endUpdate(): GridStackEngine;
     /** saves the current layout returning a list of widgets for serialization */
     save(saveElement?: boolean): GridStackNode[];
+    /**
+     * call to cache the given layout internally to the given location so we can restore back when column changes size
+     * @param nodes list of nodes
+     * @param column corresponding column index to save it under
+     * @param clear if true, will force other caches to be removed (default false)
+     */
+    cacheLayout(nodes: GridStackNode[], column: number, clear?: boolean): GridStackEngine;
     /** called to remove all internal values */
     cleanupNode(node: GridStackNode): GridStackEngine;
 }

@@ -1,5 +1,5 @@
 "use strict";
-// utils.ts 2.2.0 @preserve
+// utils.ts 3.0.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Utils = exports.obsoleteAttr = exports.obsoleteOptsDel = exports.obsoleteOpts = exports.obsolete = void 0;
 /** checks for obsolete method names */
@@ -44,9 +44,51 @@ exports.obsoleteAttr = obsoleteAttr;
  * Utility methods
  */
 class Utils {
+    /** convert a potential selector into actual list of html elements */
+    static getElements(els) {
+        if (typeof els === 'string') {
+            let list = document.querySelectorAll(els);
+            if (!list.length && els[0] !== '.' && els[0] !== '#') {
+                list = document.querySelectorAll('.' + els);
+                if (!list.length) {
+                    list = document.querySelectorAll('#' + els);
+                }
+            }
+            return Array.from(list);
+        }
+        return [els];
+    }
+    /** convert a potential selector into actual single element */
+    static getElement(els) {
+        if (typeof els === 'string') {
+            if (!els.length) {
+                return null;
+            }
+            if (els[0] === '#') {
+                return document.getElementById(els.substring(1));
+            }
+            if (els[0] === '.' || els[0] === '[') {
+                return document.querySelector(els);
+            }
+            // if we start with a digit, assume it's an id (error calling querySelector('#1')) as class are not valid CSS
+            if (!isNaN(+els[0])) { // start with digit
+                return document.getElementById(els);
+            }
+            // finally try string, then id then class
+            let el = document.querySelector(els);
+            if (!el) {
+                el = document.getElementById(els);
+            }
+            if (!el) {
+                el = document.querySelector('.' + els);
+            }
+            return el;
+        }
+        return els;
+    }
     /** returns true if a and b overlap */
     static isIntercepted(a, b) {
-        return !(a.x + a.width <= b.x || b.x + b.width <= a.x || a.y + a.height <= b.y || b.y + b.height <= a.y);
+        return !(a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y);
     }
     /**
      * Sorts array of nodes
@@ -56,7 +98,7 @@ class Utils {
      **/
     static sort(nodes, dir, column) {
         if (!column) {
-            let widths = nodes.map(n => n.x + n.width);
+            let widths = nodes.map(n => n.x + n.w);
             column = Math.max(...widths);
         }
         if (dir === -1)
@@ -66,14 +108,14 @@ class Utils {
     }
     /**
      * creates a style sheet with style id under given parent
-     * @param id will set the 'data-gs-style-id' attribute to that id
+     * @param id will set the 'gs-style-id' attribute to that id
      * @param parent to insert the stylesheet as first child,
      * if none supplied it will be appended to the document head instead.
      */
     static createStylesheet(id, parent) {
         let style = document.createElement('style');
         style.setAttribute('type', 'text/css');
-        style.setAttribute('data-gs-style-id', id);
+        style.setAttribute('gs-style-id', id);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (style.styleSheet) { // TODO: only CSSImportRule have that and different beast ??
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,7 +136,7 @@ class Utils {
     }
     /** removed the given stylesheet id */
     static removeStylesheet(id) {
-        let el = document.querySelector('STYLE[data-gs-style-id=' + id + ']');
+        let el = document.querySelector('STYLE[gs-style-id=' + id + ']');
         if (!el || !el.parentNode)
             return;
         el.parentNode.removeChild(el);
@@ -120,10 +162,10 @@ class Utils {
         return Boolean(v);
     }
     static toNumber(value) {
-        return (value === null || value.length === 0) ? null : Number(value);
+        return (value === null || value.length === 0) ? undefined : Number(value);
     }
     static parseHeight(val) {
-        let height;
+        let h;
         let unit = 'px';
         if (typeof val === 'string') {
             let match = val.match(/^(-[0-9]+\.[0-9]+|[0-9]*\.[0-9]+|-[0-9]+|[0-9]+)(px|em|rem|vh|vw|%)?$/);
@@ -131,12 +173,12 @@ class Utils {
                 throw new Error('Invalid height');
             }
             unit = match[2] || 'px';
-            height = parseFloat(match[1]);
+            h = parseFloat(match[1]);
         }
         else {
-            height = val;
+            h = val;
         }
-        return { height, unit };
+        return { h, unit };
     }
     /** copies unset fields in target to use the given default sources values */
     // eslint-disable-next-line
@@ -157,6 +199,25 @@ class Utils {
         });
         return target;
     }
+    /** given 2 objects return true if they have the same values. Checks for Object {} having same fields and values (just 1 level down) */
+    static same(a, b) {
+        if (typeof a !== 'object') {
+            return a == b;
+        }
+        if (typeof a !== typeof b) {
+            return false;
+        }
+        // else we have object, check just 1 level deep for being same things...
+        if (Object.keys(a).length !== Object.keys(b).length) {
+            return false;
+        }
+        for (const key in a) {
+            if (a[key] !== b[key]) {
+                return false;
+            }
+        }
+        return true;
+    }
     /** makes a shallow copy of the passed json struct */
     // eslint-disable-next-line
     static clone(target) {
@@ -171,7 +232,7 @@ class Utils {
             return el;
         return Utils.closestByClass(el, name);
     }
-    /** @internal */
+    /** delay calling the given function by certain amount of time */
     static throttle(callback, delay) {
         let isWaiting = false;
         return (...args) => {

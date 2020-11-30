@@ -1,5 +1,15 @@
 "use strict";
-// gridstack-dd-jqueryui.ts 2.2.0 @preserve
+// gridstack-dd-jqueryui.ts 3.0.0 @preserve
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridStackDDJQueryUI = exports.$ = void 0;
 const gridstack_dd_1 = require("../gridstack-dd");
@@ -10,13 +20,12 @@ const gridstack_dd_1 = require("../gridstack-dd");
 const $ = require("./jquery"); // compile this in... having issues TS/ES6 app would include instead
 exports.$ = $;
 require("./jquery-ui");
+// export our base class (what user should use) and all associated types
+__exportStar(require("../gridstack-dd"), exports);
 /**
  * legacy Jquery-ui based drag'n'drop plugin.
  */
 class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
-    constructor(grid) {
-        super(grid);
-    }
     resizable(el, opts, key, value) {
         let $el = $(el);
         if (opts === 'enable') {
@@ -31,8 +40,9 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
             $el.resizable(opts, key, value);
         }
         else {
-            let handles = $el.data('gs-resize-handles') ? $el.data('gs-resize-handles') : this.grid.opts.resizable.handles;
-            $el.resizable(Object.assign(Object.assign(Object.assign({}, this.grid.opts.resizable), { handles: handles }), {
+            const grid = el.gridstackNode.grid;
+            let handles = $el.data('gs-resize-handles') ? $el.data('gs-resize-handles') : grid.opts.resizable.handles;
+            $el.resizable(Object.assign(Object.assign(Object.assign({}, grid.opts.resizable), { handles: handles }), {
                 start: opts.start,
                 stop: opts.stop,
                 resize: opts.resize // || function() {}
@@ -54,9 +64,10 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
             $el.draggable(opts, key, value);
         }
         else {
-            $el.draggable(Object.assign(Object.assign({}, this.grid.opts.draggable), {
-                containment: (this.grid.opts._isNested && !this.grid.opts.dragOut) ?
-                    $(this.grid.el).parent() : (this.grid.opts.draggable.containment || null),
+            const grid = el.gridstackNode.grid;
+            $el.draggable(Object.assign(Object.assign({}, grid.opts.draggable), {
+                containment: (grid.opts._isNested && !grid.opts.dragOut) ?
+                    $(grid.el).parent() : (grid.opts.draggable.containment || null),
                 start: opts.start,
                 stop: opts.stop,
                 drag: opts.drag // || function() {}
@@ -84,8 +95,12 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
         return Boolean($el.data('ui-droppable'));
     }
     isDraggable(el) {
-        let $el = $(el); // workaround Type 'string' is not assignable to type 'PlainObject<any>' - see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/29312
+        let $el = $(el);
         return Boolean($el.data('ui-draggable'));
+    }
+    isResizable(el) {
+        let $el = $(el);
+        return Boolean($el.data('ui-resizable'));
     }
     on(el, name, callback) {
         let $el = $(el);

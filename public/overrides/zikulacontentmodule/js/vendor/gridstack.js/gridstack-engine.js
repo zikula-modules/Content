@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-engine.ts 2.2.0 @preserve
+// gridstack-engine.ts 3.0.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridStackEngine = void 0;
 /**
@@ -50,7 +50,7 @@ class GridStackEngine {
         let nn = node;
         let hasLocked = Boolean(this.nodes.find(n => n.locked));
         if (!this.float && !hasLocked) {
-            nn = { x: 0, y: node.y, width: this.column, height: node.height };
+            nn = { x: 0, y: node.y, w: this.column, h: node.h };
         }
         while (true) {
             let collisionNode = this.nodes.find(n => n !== node && utils_1.Utils.isIntercepted(n, nn), { node: node, nn: nn });
@@ -60,18 +60,18 @@ class GridStackEngine {
             let moved;
             if (collisionNode.locked) {
                 // if colliding with a locked item, move ourself instead
-                moved = this.moveNode(node, node.x, collisionNode.y + collisionNode.height, node.width, node.height, true);
+                moved = this.moveNode(node, node.x, collisionNode.y + collisionNode.h, node.w, node.h, true);
             }
             else {
-                moved = this.moveNode(collisionNode, collisionNode.x, node.y + node.height, collisionNode.width, collisionNode.height, true);
+                moved = this.moveNode(collisionNode, collisionNode.x, node.y + node.h, collisionNode.w, collisionNode.h, true);
             }
             if (!moved) {
                 return this;
             } // break inf loop if we couldn't move after all (ex: maxRow, fixed)
         }
     }
-    isAreaEmpty(x, y, width, height) {
-        let nn = { x: x || 0, y: y || 0, width: width || 1, height: height || 1 };
+    isAreaEmpty(x, y, w, h) {
+        let nn = { x: x || 0, y: y || 0, w: w || 1, h: h || 1 };
         let collisionNode = this.nodes.find(n => {
             return utils_1.Utils.isIntercepted(n, nn);
         });
@@ -124,7 +124,7 @@ class GridStackEngine {
                 }
                 let newY = n.y;
                 while (newY >= n._packY) {
-                    let box = { x: n.x, y: newY, width: n.width, height: n.height };
+                    let box = { x: n.x, y: newY, w: n.w, h: n.h };
                     let collisionNode = this.nodes
                         .slice(0, i)
                         .find(bn => utils_1.Utils.isIntercepted(box, bn), { n: n, newY: newY });
@@ -144,7 +144,7 @@ class GridStackEngine {
                 while (n.y > 0) {
                     let newY = n.y - 1;
                     let canBeMoved = i === 0;
-                    let box = { x: n.x, y: newY, width: n.width, height: n.height };
+                    let box = { x: n.x, y: newY, w: n.w, h: n.h };
                     if (i > 0) {
                         let collisionNode = this.nodes
                             .slice(0, i)
@@ -177,49 +177,67 @@ class GridStackEngine {
             node.autoPosition = true;
         }
         // assign defaults for missing required fields
-        let defaults = { width: 1, height: 1, x: 0, y: 0 };
-        node = utils_1.Utils.defaults(node, defaults);
-        node.autoPosition = node.autoPosition || false;
-        node.noResize = node.noResize || false;
-        node.noMove = node.noMove || false;
+        let defaults = { x: 0, y: 0, w: 1, h: 1 };
+        utils_1.Utils.defaults(node, defaults);
+        if (!node.autoPosition) {
+            delete node.autoPosition;
+        }
+        if (!node.noResize) {
+            delete node.noResize;
+        }
+        if (!node.noMove) {
+            delete node.noMove;
+        }
         // check for NaN (in case messed up strings were passed. can't do parseInt() || defaults.x above as 0 is valid #)
-        if (Number.isNaN(node.x)) {
+        if (typeof node.x == 'string') {
+            node.x = Number(node.x);
+        }
+        if (typeof node.y == 'string') {
+            node.y = Number(node.y);
+        }
+        if (typeof node.w == 'string') {
+            node.w = Number(node.w);
+        }
+        if (typeof node.h == 'string') {
+            node.h = Number(node.h);
+        }
+        if (isNaN(node.x)) {
             node.x = defaults.x;
             node.autoPosition = true;
         }
-        if (Number.isNaN(node.y)) {
+        if (isNaN(node.y)) {
             node.y = defaults.y;
             node.autoPosition = true;
         }
-        if (Number.isNaN(node.width)) {
-            node.width = defaults.width;
+        if (isNaN(node.w)) {
+            node.w = defaults.w;
         }
-        if (Number.isNaN(node.height)) {
-            node.height = defaults.height;
+        if (isNaN(node.h)) {
+            node.h = defaults.h;
         }
-        if (node.maxWidth) {
-            node.width = Math.min(node.width, node.maxWidth);
+        if (node.maxW) {
+            node.w = Math.min(node.w, node.maxW);
         }
-        if (node.maxHeight) {
-            node.height = Math.min(node.height, node.maxHeight);
+        if (node.maxH) {
+            node.h = Math.min(node.h, node.maxH);
         }
-        if (node.minWidth) {
-            node.width = Math.max(node.width, node.minWidth);
+        if (node.minW) {
+            node.w = Math.max(node.w, node.minW);
         }
-        if (node.minHeight) {
-            node.height = Math.max(node.height, node.minHeight);
+        if (node.minH) {
+            node.h = Math.max(node.h, node.minH);
         }
-        if (node.width > this.column) {
-            node.width = this.column;
+        if (node.w > this.column) {
+            node.w = this.column;
         }
-        else if (node.width < 1) {
-            node.width = 1;
+        else if (node.w < 1) {
+            node.w = 1;
         }
-        if (this.maxRow && node.height > this.maxRow) {
-            node.height = this.maxRow;
+        if (this.maxRow && node.h > this.maxRow) {
+            node.h = this.maxRow;
         }
-        else if (node.height < 1) {
-            node.height = 1;
+        else if (node.h < 1) {
+            node.h = 1;
         }
         if (node.x < 0) {
             node.x = 0;
@@ -227,20 +245,20 @@ class GridStackEngine {
         if (node.y < 0) {
             node.y = 0;
         }
-        if (node.x + node.width > this.column) {
+        if (node.x + node.w > this.column) {
             if (resizing) {
-                node.width = this.column - node.x;
+                node.w = this.column - node.x;
             }
             else {
-                node.x = this.column - node.width;
+                node.x = this.column - node.w;
             }
         }
-        if (this.maxRow && node.y + node.height > this.maxRow) {
+        if (this.maxRow && node.y + node.h > this.maxRow) {
             if (resizing) {
-                node.height = this.maxRow - node.y;
+                node.h = this.maxRow - node.y;
             }
             else {
-                node.y = this.maxRow - node.height;
+                node.y = this.maxRow - node.h;
             }
         }
         return node;
@@ -251,7 +269,7 @@ class GridStackEngine {
             let dirtNodes = [];
             this.nodes.forEach(n => {
                 if (n._dirty) {
-                    if (n.y === n._origY && n.x === n._origX && n.width === n._origW && n.height === n._origH) {
+                    if (n.y === n._origY && n.x === n._origX && n.w === n._origW && n.h === n._origH) {
                         delete n._dirty;
                     }
                     else {
@@ -289,11 +307,11 @@ class GridStackEngine {
             for (let i = 0;; ++i) {
                 let x = i % this.column;
                 let y = Math.floor(i / this.column);
-                if (x + node.width > this.column) {
+                if (x + node.w > this.column) {
                     continue;
                 }
-                let box = { x: x, y: y, width: node.width, height: node.height };
-                if (!this.nodes.find(n => utils_1.Utils.isIntercepted(box, n), { x: x, y: y, node: node })) {
+                let box = { x, y, w: node.w, h: node.h };
+                if (!this.nodes.find(n => utils_1.Utils.isIntercepted(box, n), { x, y, node })) {
                     node.x = x;
                     node.y = y;
                     delete node.autoPosition; // found our slot
@@ -337,8 +355,8 @@ class GridStackEngine {
         this._notify(this.removedNodes, removeDOM);
         return this;
     }
-    canMoveNode(node, x, y, width, height) {
-        if (!this.isNodeChangedPosition(node, x, y, width, height)) {
+    canMoveNode(node, x, y, w, h) {
+        if (!this.isNodeChangedPosition(node, x, y, w, h)) {
             return false;
         }
         let hasLocked = Boolean(this.nodes.find(n => n.locked));
@@ -356,7 +374,7 @@ class GridStackEngine {
         if (!clonedNode) {
             return true;
         }
-        clone.moveNode(clonedNode, x, y, width, height);
+        clone.moveNode(clonedNode, x, y, w, h);
         let canMove = true;
         if (hasLocked) {
             canMove = canMove && !Boolean(clone.nodes.find(n => {
@@ -376,37 +394,37 @@ class GridStackEngine {
         clone.addNode(node);
         return clone.getRow() <= this.maxRow;
     }
-    isNodeChangedPosition(node, x, y, width, height) {
+    isNodeChangedPosition(node, x, y, w, h) {
         if (typeof x !== 'number') {
             x = node.x;
         }
         if (typeof y !== 'number') {
             y = node.y;
         }
-        if (typeof width !== 'number') {
-            width = node.width;
+        if (typeof w !== 'number') {
+            w = node.w;
         }
-        if (typeof height !== 'number') {
-            height = node.height;
+        if (typeof h !== 'number') {
+            h = node.h;
         }
-        if (node.maxWidth) {
-            width = Math.min(width, node.maxWidth);
+        if (node.maxW) {
+            w = Math.min(w, node.maxW);
         }
-        if (node.maxHeight) {
-            height = Math.min(height, node.maxHeight);
+        if (node.maxH) {
+            h = Math.min(h, node.maxH);
         }
-        if (node.minWidth) {
-            width = Math.max(width, node.minWidth);
+        if (node.minW) {
+            w = Math.max(w, node.minW);
         }
-        if (node.minHeight) {
-            height = Math.max(height, node.minHeight);
+        if (node.minH) {
+            h = Math.max(h, node.minH);
         }
-        if (node.x === x && node.y === y && node.width === width && node.height === height) {
+        if (node.x === x && node.y === y && node.w === w && node.h === h) {
             return false;
         }
         return true;
     }
-    moveNode(node, x, y, width, height, noPack) {
+    moveNode(node, x, y, w, h, noPack) {
         if (node.locked) {
             return null;
         }
@@ -416,25 +434,24 @@ class GridStackEngine {
         if (typeof y !== 'number') {
             y = node.y;
         }
-        if (typeof width !== 'number') {
-            width = node.width;
+        if (typeof w !== 'number') {
+            w = node.w;
         }
-        if (typeof height !== 'number') {
-            height = node.height;
+        if (typeof h !== 'number') {
+            h = node.h;
         }
         // constrain the passed in values and check if we're still changing our node
-        let resizing = (node.width !== width || node.height !== height);
-        let nn = { x, y, width, height,
-            maxWidth: node.maxWidth, maxHeight: node.maxHeight, minWidth: node.minWidth, minHeight: node.minHeight };
+        let resizing = (node.w !== w || node.h !== h);
+        let nn = { x, y, w, h, maxW: node.maxW, maxH: node.maxH, minW: node.minW, minH: node.minH };
         nn = this.prepareNode(nn, resizing);
-        if (node.x === nn.x && node.y === nn.y && node.width === nn.width && node.height === nn.height) {
+        if (node.x === nn.x && node.y === nn.y && node.w === nn.w && node.h === nn.h) {
             return null;
         }
         node._dirty = true;
         node.x = node._lastTriedX = nn.x;
         node.y = node._lastTriedY = nn.y;
-        node.width = node._lastTriedWidth = nn.width;
-        node.height = node._lastTriedHeight = nn.height;
+        node.w = node._lastTriedW = nn.w;
+        node.h = node._lastTriedH = nn.h;
         this._fixCollisions(node);
         if (!noPack) {
             this._packNodes();
@@ -443,7 +460,7 @@ class GridStackEngine {
         return node;
     }
     getRow() {
-        return this.nodes.reduce((memo, n) => Math.max(memo, n.y + n.height), 0);
+        return this.nodes.reduce((memo, n) => Math.max(memo, n.y + n.h), 0);
     }
     beginUpdate(node) {
         if (node._updating)
@@ -516,8 +533,8 @@ class GridStackEngine {
                         n.x = Math.round(node.x * ratio);
                     }
                     // width changed, scale from new width
-                    if (node.width !== node._origW) {
-                        n.width = Math.round(node.width * ratio);
+                    if (node.w !== node._origW) {
+                        n.w = Math.round(node.w * ratio);
                     }
                     // ...height always carries over from cache
                 });
@@ -541,18 +558,15 @@ class GridStackEngine {
             return this;
         }
         // cache the current layout in case they want to go back (like 12 -> 1 -> 12) as it requires original data
-        let copy = [];
-        this.nodes.forEach((n, i) => { copy[i] = { x: n.x, y: n.y, width: n.width, _id: n._id }; }); // only thing we change is x,y,w and id to find it back
-        this._layouts = this._layouts || []; // use array to find larger quick
-        this._layouts[oldColumn] = copy;
+        this.cacheLayout(this.nodes, oldColumn);
         // if we're going to 1 column and using DOM order rather than default sorting, then generate that layout
         if (column === 1 && nodes && nodes.length) {
             let top = 0;
             nodes.forEach(n => {
                 n.x = 0;
-                n.width = 1;
+                n.w = 1;
                 n.y = Math.max(n.y, top);
-                top = n.y + n.height;
+                top = n.y + n.h;
             });
         }
         else {
@@ -573,7 +587,7 @@ class GridStackEngine {
                         // still current, use cache info positions
                         nodes[j].x = cacheNode.x;
                         nodes[j].y = cacheNode.y;
-                        nodes[j].width = cacheNode.width;
+                        nodes[j].w = cacheNode.w;
                     }
                 });
                 cacheNodes = []; // we still don't have new column cached data... will generate from larger one.
@@ -587,7 +601,7 @@ class GridStackEngine {
                 // still current, use cache info positions
                 nodes[j].x = cacheNode.x;
                 nodes[j].y = cacheNode.y;
-                nodes[j].width = cacheNode.width;
+                nodes[j].w = cacheNode.w;
                 newNodes.push(nodes[j]);
                 nodes.splice(j, 1);
             }
@@ -603,8 +617,8 @@ class GridStackEngine {
                 let scale = (layout === 'scale' || layout === 'moveScale');
                 nodes.forEach(node => {
                     node.x = (column === 1 ? 0 : (move ? Math.round(node.x * ratio) : Math.min(node.x, column - 1)));
-                    node.width = ((column === 1 || oldColumn === 1) ? 1 :
-                        scale ? (Math.round(node.width * ratio) || 1) : (Math.min(node.width, column)));
+                    node.w = ((column === 1 || oldColumn === 1) ? 1 :
+                        scale ? (Math.round(node.w * ratio) || 1) : (Math.min(node.w, column)));
                     newNodes.push(node);
                 });
                 nodes = [];
@@ -628,10 +642,26 @@ class GridStackEngine {
         this.nodes.forEach(n => {
             n._origX = n.x;
             n._origY = n.y;
-            n._origW = n.width;
-            n._origH = n.height;
+            n._origW = n.w;
+            n._origH = n.h;
             delete n._dirty;
         });
+        return this;
+    }
+    /**
+     * call to cache the given layout internally to the given location so we can restore back when column changes size
+     * @param nodes list of nodes
+     * @param column corresponding column index to save it under
+     * @param clear if true, will force other caches to be removed (default false)
+     */
+    cacheLayout(nodes, column, clear = false) {
+        let copy = [];
+        nodes.forEach((n, i) => {
+            n._id = n._id || GridStackEngine._idSeq++; // make sure we have an id in case this is new layout, else re-use id already set
+            copy[i] = { x: n.x, y: n.y, w: n.w, _id: n._id }; // only thing we change is x,y,w and id to find it back
+        });
+        this._layouts = clear ? [] : this._layouts || []; // use array to find larger quick
+        this._layouts[column] = copy;
         return this;
     }
     /** called to remove all internal values */

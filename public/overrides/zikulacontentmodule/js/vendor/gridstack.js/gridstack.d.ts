@@ -5,14 +5,11 @@
 */
 import { GridStackEngine } from './gridstack-engine';
 import { Utils } from './utils';
-import { GridItemHTMLElement, GridStackWidget, GridStackNode, GridStackOptions, numberOrString, ColumnOptions } from './types';
-import { GridStackDD } from './gridstack-dd';
+import { GridStackElement, GridItemHTMLElement, GridStackWidget, GridStackNode, GridStackOptions, numberOrString, ColumnOptions } from './types';
 export * from './types';
 export * from './utils';
 export * from './gridstack-engine';
-export * from './gridstack-dd';
-export * from './jq/gridstack-dd-jqueryui';
-export declare type GridStackElement = string | HTMLElement | GridItemHTMLElement;
+export * from './gridstack-ddi';
 export interface GridHTMLElement extends HTMLElement {
     gridstack?: GridStack;
 }
@@ -72,8 +69,6 @@ export declare class GridStack {
     engine: GridStackEngine;
     /** grid options - public for classes to access, but use methods to modify! */
     opts: GridStackOptions;
-    /** current drag&drop plugin being used */
-    dd: GridStackDD;
     /**
      * Construct a grid item from the given element and options
      * @param el
@@ -89,10 +84,10 @@ export declare class GridStack {
      *
      * @example
      * let grid = GridStack.init();
-     * grid.addWidget({width: 3, content: 'hello'});
-     * grid.addWidget('<div class="grid-stack-item"><div class="grid-stack-item-content">hello</div></div>', {width: 3});
+     * grid.addWidget({w: 3, content: 'hello'});
+     * grid.addWidget('<div class="grid-stack-item"><div class="grid-stack-item-content">hello</div></div>', {w: 3});
      *
-     * @param el html element, or string definition, or GridStackWidget (which can have content string as well) to add
+     * @param el  GridStackWidget (which can have content string as well), html element, or string definition to add
      * @param options widget position/size options (optional, and ignore if first param is already option) - see GridStackWidget
      */
     addWidget(els?: GridStackWidget | GridStackElement, options?: GridStackWidget): GridItemHTMLElement;
@@ -213,16 +208,10 @@ export declare class GridStack {
      * Checks if specified area is empty.
      * @param x the position x.
      * @param y the position y.
-     * @param width the width of to check
-     * @param height the height of to check
+     * @param w the width of to check
+     * @param h the height of to check
      */
-    isAreaEmpty(x: number, y: number, width: number, height: number): boolean;
-    /**
-     * Locks/unlocks widget.
-     * @param el element or selector to modify.
-     * @param val if true widget will be locked.
-     */
-    locked(els: GridStackElement, val: boolean): GridStack;
+    isAreaEmpty(x: number, y: number, w: number, h: number): boolean;
     /**
      * If you add elements to your grid by hand, you have to tell gridstack afterwards to make them widgets.
      * If you want gridstack to add the elements for you, use `addWidget()` instead.
@@ -231,47 +220,10 @@ export declare class GridStack {
      *
      * @example
      * let grid = GridStack.init();
-     * grid.el.appendChild('<div id="gsi-1" data-gs-width="3"></div>');
+     * grid.el.appendChild('<div id="gsi-1" gs-w="3"></div>');
      * grid.makeWidget('#gsi-1');
      */
     makeWidget(els: GridStackElement): GridItemHTMLElement;
-    /**
-     * Set the maxWidth for a widget.
-     * @param els widget or selector to modify.
-     * @param val A numeric value of the number of columns
-     */
-    maxWidth(els: GridStackElement, val: number): GridStack;
-    /**
-     * Set the minWidth for a widget.
-     * @param els widget or selector to modify.
-     * @param val A numeric value of the number of columns
-     */
-    minWidth(els: GridStackElement, val: number): GridStack;
-    /**
-     * Set the maxHeight for a widget.
-     * @param els widget or selector to modify.
-     * @param val A numeric value of the number of rows
-     */
-    maxHeight(els: GridStackElement, val: number): GridStack;
-    /**
-     * Set the minHeight for a widget.
-     * @param els widget or selector to modify.
-     * @param val A numeric value of the number of rows
-     */
-    minHeight(els: GridStackElement, val: number): GridStack;
-    /**
-     * Enables/Disables moving.
-     * @param els widget or selector to modify.
-     * @param val if true widget will be draggable.
-     */
-    movable(els: GridStackElement, val: boolean): GridStack;
-    /**
-     * Changes widget position
-     * @param els  widget or singular selector to modify
-     * @param x new position x. If value is null or undefined it will be ignored.
-     * @param y new position y. If value is null or undefined it will be ignored.
-     */
-    move(els: GridStackElement, x?: number, y?: number): GridStack;
     /**
      * Event handler that extracts our CustomEvent data out automatically for receiving custom
      * notifications (see doc for supported events)
@@ -307,19 +259,6 @@ export declare class GridStack {
      */
     removeAll(removeDOM?: boolean): GridStack;
     /**
-     * Changes widget size
-     * @param els  widget or singular selector to modify
-     * @param width new dimensions width. If value is null or undefined it will be ignored.
-     * @param height  new dimensions height. If value is null or undefined it will be ignored.
-     */
-    resize(els: GridStackElement, width?: number, height?: number): GridStack;
-    /**
-     * Enables/Disables resizing.
-     * @param els  widget or selector to modify
-     * @param val  if true widget will be resizable.
-     */
-    resizable(els: GridStackElement, val: boolean): GridStack;
-    /**
      * Toggle the grid animation state.  Toggles the `grid-stack-animate` class.
      * @param doAnimate if true the grid will animate.
      */
@@ -331,14 +270,11 @@ export declare class GridStack {
      */
     setStatic(val: boolean): GridStack;
     /**
-     * Updates widget position/size.
-     * @param els  widget or singular selector to modify
-     * @param x new position x. If value is null or undefined it will be ignored.
-     * @param y new position y. If value is null or undefined it will be ignored.
-     * @param width new dimensions width. If value is null or undefined it will be ignored.
-     * @param height  new dimensions height. If value is null or undefined it will be ignored.
+     * Updates widget position/size and other info. Note: if you need to call this on all nodes, use load() instead which will update what changed.
+     * @param els  widget or selector of objects to modify (note: setting the same x,y for multiple items will be indeterministic and likely unwanted)
+     * @param opt new widget options (x,y,w,h, etc..). Only those set will be updated.
      */
-    update(els: GridStackElement, x?: number, y?: number, width?: number, height?: number): GridStack;
+    update(els: GridStackElement, opt: GridStackWidget): GridStack;
     /**
      * Updates the margins which will set all 4 sides at once - see `GridStackOptions.margin` for format options (CSS string format of 1,2,4 values or single number).
      * @param value margin value
@@ -351,19 +287,19 @@ export declare class GridStack {
      * constraint. Always returns true if grid doesn't have height constraint.
      * @param x new position x. If value is null or undefined it will be ignored.
      * @param y new position y. If value is null or undefined it will be ignored.
-     * @param width new dimensions width. If value is null or undefined it will be ignored.
-     * @param height new dimensions height. If value is null or undefined it will be ignored.
+     * @param w new dimensions width. If value is null or undefined it will be ignored.
+     * @param h new dimensions height. If value is null or undefined it will be ignored.
      * @param autoPosition if true then x, y parameters will be ignored and widget
      * will be places on the first available position
      *
      * @example
-     * if (grid.willItFit(newNode.x, newNode.y, newNode.width, newNode.height, newNode.autoPosition)) {
+     * if (grid.willItFit(newNode.x, newNode.y, newNode.w, newNode.h, newNode.autoPosition)) {
      *   grid.addWidget(newNode);
      * } else {
      *   alert('Not enough free space to place the widget');
      * }
      */
-    willItFit(x: number, y: number, width: number, height: number, autoPosition: boolean): boolean;
+    willItFit(x: number, y: number, w: number, h: number, autoPosition: boolean): boolean;
     /** called to resize children nested grids when we/item resizes */
     private _resizeNestedGrids;
     /**
@@ -373,4 +309,16 @@ export declare class GridStack {
     onParentResize(): GridStack;
     /** add or remove the window size event handler */
     private _updateWindowResizeEvent;
+    /**
+     * Enables/Disables moving.
+     * @param els widget or selector to modify.
+     * @param val if true widget will be draggable.
+     */
+    movable(els: GridStackElement, val: boolean): GridStack;
+    /**
+     * Enables/Disables resizing.
+     * @param els  widget or selector to modify
+     * @param val  if true widget will be resizable.
+     */
+    resizable(els: GridStackElement, val: boolean): GridStack;
 }
