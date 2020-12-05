@@ -1,17 +1,9 @@
 "use strict";
-// gridstack-dd-native.ts 3.0.0 @preserve
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
+// gridstack-dd-native.ts 3.1.0 @preserve
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GridStackDDNative = void 0;
 /**
  * https://gridstackjs.com/
  * (c) 2020 rhlin, Alain Dumesny
@@ -22,7 +14,7 @@ const dd_element_1 = require("./dd-element");
 const gridstack_dd_1 = require("../gridstack-dd");
 const utils_1 = require("../utils");
 // export our base class (what user should use) and all associated types
-__exportStar(require("../gridstack-dd"), exports);
+__export(require("../gridstack-dd"));
 /**
  * HTML 5 Native DragDrop based drag'n'drop plugin.
  */
@@ -30,12 +22,10 @@ class GridStackDDNative extends gridstack_dd_1.GridStackDD {
     resizable(el, opts, key, value) {
         this._getDDElements(el).forEach(dEl => {
             if (opts === 'disable' || opts === 'enable') {
-                dEl.ddResizable[opts]();
+                dEl.ddResizable && dEl.ddResizable[opts](); // can't create DD as it requires options for setupResizable()
             }
             else if (opts === 'destroy') {
-                if (dEl.ddResizable) {
-                    dEl.cleanResizable();
-                }
+                dEl.ddResizable && dEl.cleanResizable();
             }
             else if (opts === 'option') {
                 dEl.setupResizable({ [key]: value });
@@ -55,12 +45,10 @@ class GridStackDDNative extends gridstack_dd_1.GridStackDD {
     draggable(el, opts, key, value) {
         this._getDDElements(el).forEach(dEl => {
             if (opts === 'disable' || opts === 'enable') {
-                dEl.ddDraggable && dEl.ddDraggable[opts]();
+                dEl.ddDraggable && dEl.ddDraggable[opts](); // can't create DD as it requires options for setupDraggable()
             }
             else if (opts === 'destroy') {
-                if (dEl.ddDraggable) { // error to call destroy if not there
-                    dEl.cleanDraggable();
-                }
+                dEl.ddDraggable && dEl.cleanDraggable();
             }
             else if (opts === 'option') {
                 dEl.setupDraggable({ [key]: value });

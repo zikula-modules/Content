@@ -38,7 +38,7 @@ export declare class GridStack {
     /**
      * initializing the HTML element, or selector string, into a grid will return the grid. Calling it again will
      * simply return the existing instance (ignore any passed options). There is also an initAll() version that support
-     * multiple grids initialization at once.
+     * multiple grids initialization at once. Or you can use addGrid() to create the entire grid from JSON.
      * @param options grid options (optional)
      * @param elOrString element or CSS selector (first one used) to convert to a grid (default to '.grid-stack' class selector)
      *
@@ -59,6 +59,14 @@ export declare class GridStack {
      * grids.forEach(...)
      */
     static initAll(options?: GridStackOptions, selector?: string): GridStack[];
+    /**
+     * call to create a grid with the given options, including loading any children from JSON structure. This will call GridStack.init(), then
+     * grid.load() on any passed children (recursively). Great alternative to calling init() if you want entire grid to come from
+     * JSON serialized data, including options.
+     * @param parent HTML element parent to the grid
+     * @param opt grids options used to initialize the grid, and list of children
+     */
+    static addGrid(parent: HTMLElement, opt?: GridStackOptions): GridStack;
     /** scoping so users can call GridStack.Utils.sort() for example */
     static Utils: typeof Utils;
     /** scoping so users can call new GridStack.Engine(12) for example */
@@ -91,8 +99,12 @@ export declare class GridStack {
      * @param options widget position/size options (optional, and ignore if first param is already option) - see GridStackWidget
      */
     addWidget(els?: GridStackWidget | GridStackElement, options?: GridStackWidget): GridItemHTMLElement;
-    /** saves the current layout returning a list of widgets for serialization */
-    save(saveContent?: boolean): GridStackWidget[];
+    /**
+     * saves the current layout returning a list of widgets for serialization (with default to save content), which might include any nested grids.
+     * Optionally you can also save the grid with options itself, so you can call the new GridStack.addGrid()
+     * to recreate everything from scratch. GridStackOptions.children would then contain the widget list.
+     */
+    save(saveContent?: boolean, saveGridOpt?: boolean): GridStackWidget[] | GridStackOptions;
     /**
      * load the widgets from a list. This will call update() on each (matching by id) or add/remove widgets that are not there.
      *
@@ -103,7 +115,7 @@ export declare class GridStack {
      * @example
      * see http://gridstackjs.com/demo/serialization.html
      **/
-    load(layout: GridStackWidget[], addAndRemove?: boolean | ((w: GridStackWidget, add: boolean) => void)): GridStack;
+    load(layout: GridStackWidget[], addAndRemove?: boolean | ((g: GridStack, w: GridStackWidget, add: boolean) => GridItemHTMLElement)): GridStack;
     /**
      * Initializes batch updates. You will see no changes until `commit()` method is called.
      */
@@ -151,26 +163,31 @@ export declare class GridStack {
     /** returns an array of grid HTML elements (no placeholder) - used to iterate through our children */
     getGridItems(): GridItemHTMLElement[];
     /**
-     * Destroys a grid instance.
-     * @param removeDOM if `false` grid and items elements will not be removed from the DOM (Optional. Default `true`).
+     * Destroys a grid instance. DO NOT CALL any methods or access any vars after this as it will free up members.
+     * @param removeDOM if `false` grid and items HTML elements will not be removed from the DOM (Optional. Default `true`).
      */
     destroy(removeDOM?: boolean): GridStack;
     /**
-     * Disables widgets moving/resizing. This is a shortcut for:
+     * Temporarily disables widgets moving/resizing.
+     * If you want a more permanent way (which freezes up resources) use `setStatic(true)` instead.
+     * Note: no-op for static grid
+     * This is a shortcut for:
      * @example
      *  grid.enableMove(false);
      *  grid.enableResize(false);
      */
     disable(): GridStack;
     /**
-     * Enables widgets moving/resizing. This is a shortcut for:
+     * Re-enables widgets moving/resizing - see disable().
+     * Note: no-op for static grid.
+     * This is a shortcut for:
      * @example
      *  grid.enableMove(true);
      *  grid.enableResize(true);
      */
     enable(): GridStack;
     /**
-     * Enables/disables widget moving.
+     * Enables/disables widget moving. No-op for static grids.
      *
      * @param doEnable
      * @param includeNewWidgets will force new widgets to be draggable as per
@@ -178,7 +195,7 @@ export declare class GridStack {
      */
     enableMove(doEnable: boolean, includeNewWidgets?: boolean): GridStack;
     /**
-     * Enables/disables widget resizing
+     * Enables/disables widget resizing. No-op for static grids.
      * @param doEnable
      * @param includeNewWidgets will force new widgets to be draggable as per
      * doEnable`s value by changing the disableResize grid option (default: true).
@@ -310,13 +327,13 @@ export declare class GridStack {
     /** add or remove the window size event handler */
     private _updateWindowResizeEvent;
     /**
-     * Enables/Disables moving.
+     * Enables/Disables moving. No-op for static grids.
      * @param els widget or selector to modify.
      * @param val if true widget will be draggable.
      */
     movable(els: GridStackElement, val: boolean): GridStack;
     /**
-     * Enables/Disables resizing.
+     * Enables/Disables resizing. No-op for static grids.
      * @param els  widget or selector to modify
      * @param val  if true widget will be resizable.
      */

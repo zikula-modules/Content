@@ -6,7 +6,7 @@
 export declare type EventCallback = (event: Event) => boolean | void;
 export declare abstract class DDBaseImplement {
     /** returns the enable state, but you have to call enable()/disable() to change (as other things need to happen) */
-    get disabled(): boolean;
+    readonly disabled: boolean;
     on(event: string, callback: EventCallback): void;
     off(event: string): void;
     enable(): void;

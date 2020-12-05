@@ -1,7 +1,6 @@
 "use strict";
-// gridstack-GridStackDD.get().ts 3.0.0 @preserve
+// gridstack-GridStackDD.get().ts 3.1.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GridStackDD = void 0;
 /**
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
@@ -440,12 +439,12 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
  * @param val if true widget will be draggable.
  */
 gridstack_1.GridStack.prototype.movable = function (els, val) {
-    if (val && this.opts.staticGrid) {
+    if (this.opts.staticGrid) {
         return this;
     } // can't move a static grid!
     gridstack_1.GridStack.getElements(els).forEach(el => {
         let node = el.gridstackNode;
-        if (!node) {
+        if (!node || node.locked) {
             return;
         }
         node.noMove = !(val || false);
@@ -467,12 +466,12 @@ gridstack_1.GridStack.prototype.movable = function (els, val) {
  * @param val  if true widget will be resizable.
  */
 gridstack_1.GridStack.prototype.resizable = function (els, val) {
-    if (val && this.opts.staticGrid) {
+    if (this.opts.staticGrid) {
         return this;
     } // can't resize a static grid!
     gridstack_1.GridStack.getElements(els).forEach(el => {
         let node = el.gridstackNode;
-        if (!node) {
+        if (!node || node.locked) {
             return;
         }
         node.noResize = !(val || false);

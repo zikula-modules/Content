@@ -1,7 +1,6 @@
 "use strict";
-// dd-base-impl.ts 3.0.0 @preserve
+// dd-base-impl.ts 3.1.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DDBaseImplement = void 0;
 class DDBaseImplement {
     constructor() {
         /** @internal */

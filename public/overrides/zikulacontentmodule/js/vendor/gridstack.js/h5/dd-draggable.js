@@ -1,7 +1,6 @@
 "use strict";
-// dd-draggable.ts 3.0.0 @preserve
+// dd-draggable.ts 3.1.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DDDraggable = void 0;
 /**
  * https://gridstackjs.com/
  * (c) 2020 rhlin, Alain Dumesny
@@ -195,9 +194,9 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _removeHelperStyle() {
-        var _a, _b;
         // don't bother restoring styles if we're gonna remove anyway...
-        if (!((_b = (_a = this.helper) === null || _a === void 0 ? void 0 : _a.gridstackNode) === null || _b === void 0 ? void 0 : _b._isAboutToRemove)) {
+        let node = this.helper ? this.helper.gridstackNode : undefined;
+        if (!node || !node._isAboutToRemove) {
             DDDraggable.originStyleProp.forEach(prop => {
                 this.helper.style[prop] = this.dragElementOriginStyle[prop] || null;
             });

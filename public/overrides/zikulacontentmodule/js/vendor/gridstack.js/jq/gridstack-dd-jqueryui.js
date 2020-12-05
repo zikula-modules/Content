@@ -1,17 +1,9 @@
 "use strict";
-// gridstack-dd-jqueryui.ts 3.0.0 @preserve
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
+// gridstack-dd-jqueryui.ts 3.1.0 @preserve
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GridStackDDJQueryUI = exports.$ = void 0;
 const gridstack_dd_1 = require("../gridstack-dd");
 // export jq symbols see
 // https://stackoverflow.com/questions/35345760/importing-jqueryui-with-typescript-and-requirejs
@@ -21,7 +13,7 @@ const $ = require("./jquery"); // compile this in... having issues TS/ES6 app wo
 exports.$ = $;
 require("./jquery-ui");
 // export our base class (what user should use) and all associated types
-__exportStar(require("../gridstack-dd"), exports);
+__export(require("../gridstack-dd"));
 /**
  * legacy Jquery-ui based drag'n'drop plugin.
  */

@@ -1,7 +1,6 @@
 "use strict";
-// dd-droppable.ts 3.0.0 @preserve
+// dd-droppable.ts 3.1.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DDDroppable = void 0;
 const dd_manager_1 = require("./dd-manager");
 const dd_base_impl_1 = require("./dd-base-impl");
 const dd_utils_1 = require("./dd-utils");

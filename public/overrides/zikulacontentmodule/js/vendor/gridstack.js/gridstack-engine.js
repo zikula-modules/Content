@@ -1,7 +1,6 @@
 "use strict";
-// gridstack-engine.ts 3.0.0 @preserve
+// gridstack-engine.ts 3.1.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GridStackEngine = void 0;
 /**
  * https://gridstackjs.com/
  * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
@@ -366,10 +365,10 @@ class GridStackEngine {
         let clonedNode;
         let clone = new GridStackEngine(this.column, null, this.float, 0, this.nodes.map(n => {
             if (n === node) {
-                clonedNode = utils_1.Utils.clone(n);
+                clonedNode = Object.assign({}, n);
                 return clonedNode;
             }
-            return utils_1.Utils.clone(n);
+            return Object.assign({}, n);
         }));
         if (!clonedNode) {
             return true;
@@ -390,7 +389,7 @@ class GridStackEngine {
         if (!this.maxRow) {
             return true;
         }
-        let clone = new GridStackEngine(this.column, null, this.float, 0, this.nodes.map(n => utils_1.Utils.clone(n)));
+        let clone = new GridStackEngine(this.column, null, this.float, 0, this.nodes.map(n => { return Object.assign({}, n); }));
         clone.addNode(node);
         return clone.getRow() <= this.maxRow;
     }
