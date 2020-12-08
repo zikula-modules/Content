@@ -1,5 +1,5 @@
 "use strict";
-// gridstack.ts 3.1.0 @preserve
+// gridstack.ts 3.1.2 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -134,23 +134,27 @@ class GridStack {
         }
         this.el.classList.add(this.opts._styleSheetClass);
         this._setStaticClass();
-        this._updateStyles();
-        this.engine = new gridstack_engine_1.GridStackEngine(this.opts.column, (cbNodes, removeDOM = true) => {
-            let maxH = 0;
-            this.engine.nodes.forEach(n => { maxH = Math.max(maxH, n.y + n.h); });
-            cbNodes.forEach(n => {
-                let el = n.el;
-                if (removeDOM && n._id === null) {
-                    if (el && el.parentNode) {
-                        el.parentNode.removeChild(el);
+        this.engine = new gridstack_engine_1.GridStackEngine({
+            column: this.opts.column,
+            float: this.opts.float,
+            maxRow: this.opts.maxRow,
+            onChange: (cbNodes, removeDOM = true) => {
+                let maxH = 0;
+                this.engine.nodes.forEach(n => { maxH = Math.max(maxH, n.y + n.h); });
+                cbNodes.forEach(n => {
+                    let el = n.el;
+                    if (removeDOM && n._id === null) {
+                        if (el && el.parentNode) {
+                            el.parentNode.removeChild(el);
+                        }
                     }
-                }
-                else {
-                    this._writeAttrs(el, n.x, n.y, n.w, n.h);
-                }
-            });
-            this._updateStyles(false, maxH); // false = don't recreate, just append if need be
-        }, this.opts.float, this.opts.maxRow);
+                    else {
+                        this._writeAttrs(el, n.x, n.y, n.w, n.h);
+                    }
+                });
+                this._updateStyles(false, maxH); // false = don't recreate, just append if need be
+            }
+        });
         if (this.opts.auto) {
             let elements = [];
             this.getGridItems().forEach(el => {
@@ -172,7 +176,7 @@ class GridStack {
         this.placeholder = document.createElement('div');
         this.placeholder.classList.add(this.opts.placeholderClass, defaults.itemClass, this.opts.itemClass);
         this.placeholder.appendChild(placeholderChild);
-        this._updateContainerHeight();
+        this._updateStyles();
         this._setupDragIn();
         this._setupRemoveDrop();
         this._setupAcceptWidget();
@@ -258,7 +262,7 @@ class GridStack {
      * add a new widget and returns it.
      *
      * Widget will be always placed even if result height is more than actual grid height.
-     * You need to use willItFit method before calling addWidget for additional check.
+     * You need to use `willItFit()` before calling addWidget for additional check.
      * See also `makeWidget()`.
      *
      * @example
@@ -305,7 +309,12 @@ class GridStack {
         utils_1.Utils.defaults(options, domAttr);
         this.engine.prepareNode(options);
         this._writeAttr(el, options);
-        this.el.appendChild(el);
+        if (this._insertNotAppend) {
+            this.el.prepend(el);
+        }
+        else {
+            this.el.appendChild(el);
+        }
         // similar to makeWidget() that doesn't read attr again and worse re-create a new node and loose any _id
         this._prepareElement(el, true, options);
         this._updateContainerHeight();
@@ -374,6 +383,7 @@ class GridStack {
      **/
     load(layout, addAndRemove = true) {
         let items = GridStack.Utils.sort(layout, -1, this._prevColumn || this.opts.column);
+        this._insertNotAppend = true; // since create in reverse order...
         // if we're loading a layout into 1 column (_prevColumn is set only when going to 1) and items don't fit, make sure to save
         // the original wanted layout so we can scale back up correctly #1471
         if (this._prevColumn && this._prevColumn !== this.opts.column && items.some(n => (n.x + n.w) > this.opts.column)) {
@@ -407,6 +417,7 @@ class GridStack {
                     let sub = item.el.querySelector('.grid-stack');
                     if (sub && sub.gridstack) {
                         sub.gridstack.load(w.subGrid.children); // TODO: support updating grid options ?
+                        this._insertNotAppend = true; // got reset by above call
                     }
                 }
             }
@@ -427,6 +438,7 @@ class GridStack {
         this.commit();
         // after commit, clear that flag
         delete this._ignoreLayoutsNodeChange;
+        delete this._insertNotAppend;
         return this;
     }
     /**
@@ -478,7 +490,8 @@ class GridStack {
      * Gets current cell width.
      */
     cellWidth() {
-        return this.el.offsetWidth / this.opts.column;
+        // use parent width if we're 0 (no size yet)
+        return (this.el.offsetWidth || this.el.parentElement.offsetWidth || window.innerWidth) / this.opts.column;
     }
     /**
      * Finishes batch updates. Updates DOM nodes. You must call it after batchUpdate.
@@ -957,24 +970,26 @@ class GridStack {
     /** returns current margin number value (undefined if 4 sides don't match) */
     getMargin() { return this.opts.margin; }
     /**
-     * Returns true if the height of the grid will be less the vertical
+     * Returns true if the height of the grid will be less than the vertical
      * constraint. Always returns true if grid doesn't have height constraint.
-     * @param x new position x. If value is null or undefined it will be ignored.
-     * @param y new position y. If value is null or undefined it will be ignored.
-     * @param w new dimensions width. If value is null or undefined it will be ignored.
-     * @param h new dimensions height. If value is null or undefined it will be ignored.
-     * @param autoPosition if true then x, y parameters will be ignored and widget
-     * will be places on the first available position
+     * @param node contains x,y,w,h,auto-position options
      *
      * @example
-     * if (grid.willItFit(newNode.x, newNode.y, newNode.w, newNode.h, newNode.autoPosition)) {
-     *   grid.addWidget(newNode);
+     * if (grid.willItFit(newWidget)) {
+     *   grid.addWidget(newWidget);
      * } else {
      *   alert('Not enough free space to place the widget');
      * }
      */
-    willItFit(x, y, w, h, autoPosition) {
-        return this.engine.canBePlacedWithRespectToHeight({ x, y, w, h, autoPosition });
+    willItFit(node) {
+        // support legacy call for now
+        if (arguments.length > 1) {
+            console.warn('gridstack.ts: `willItFit(x,y,w,h,autoPosition)` is deprecated. Use `willItFit({x, y,...})`. It will be removed soon');
+            // eslint-disable-next-line prefer-rest-params
+            let a = arguments, i = 0, w = { x: a[i++], y: a[i++], w: a[i++], h: a[i++], autoPosition: a[i++] };
+            return this.willItFit(w);
+        }
+        return this.engine.willItFit(node);
     }
     /** @internal */
     _triggerChangeEvent() {
@@ -1039,7 +1054,8 @@ class GridStack {
             this._removeStylesheet();
         }
         this._updateContainerHeight();
-        if (!this.opts.cellHeight) { // The rest will be handled by CSS TODO: I don't understand this usage
+        // if user is telling us they will handle the CSS themselves by setting heights to 0. Do we need this opts really ??
+        if (this.opts.cellHeight === 0) {
             return this;
         }
         let cellHeight = this.opts.cellHeight;
@@ -1165,7 +1181,7 @@ class GridStack {
         if (!node)
             return this;
         this._writeAttrs(el, node.x, node.y, node.w, node.h);
-        let attrs /*: GridStackWidget*/ = {
+        let attrs /*: like GridStackWidget but strings */ = {
             autoPosition: 'gs-auto-position',
             minW: 'gs-min-w',
             minH: 'gs-min-h',
@@ -1188,7 +1204,8 @@ class GridStack {
         return this;
     }
     /** @internal call to read any default attributes from element */
-    _readAttr(el, node = {}) {
+    _readAttr(el) {
+        let node = {};
         node.x = utils_1.Utils.toNumber(el.getAttribute('gs-x'));
         node.y = utils_1.Utils.toNumber(el.getAttribute('gs-y'));
         node.w = utils_1.Utils.toNumber(el.getAttribute('gs-w'));
@@ -1232,9 +1249,8 @@ class GridStack {
      * and remember the prev columns we used, as well as check for auto cell height (square)
      */
     onParentResize() {
-        if (!this.el) {
-            return;
-        } // return if we're gone
+        if (!this.el || !this.el.clientWidth)
+            return; // return if we're gone or no size yet (will get called again)
         // make the cells content (minus margin) square again
         if (this._isAutoCellHeight) {
             utils_1.Utils.throttle(() => {

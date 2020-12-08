@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-GridStackDD.get().ts 3.1.0 @preserve
+// gridstack-GridStackDD.get().ts 3.1.2 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -31,6 +31,9 @@ exports.GridStackDD = GridStackDD;
 /********************************************************************************
  * GridStack code that is doing drag&drop extracted here so main class is smaller
  * for static grid that don't do any of this work anyway. Saves about 10k.
+ * TODO: no code hint in code below as this is <any> so look at alternatives ?
+ * https://www.typescriptlang.org/docs/handbook/declaration-merging.html
+ * https://www.typescriptlang.org/docs/handbook/mixins.html
  ********************************************************************************/
 /** @internal called to add drag over support to support widgets */
 gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
@@ -42,11 +45,17 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         let x = Math.max(0, pos.x);
         let y = Math.max(0, pos.y);
         if (!node._added) {
-            node._added = true;
-            node.el = el;
             node.x = x;
             node.y = y;
             delete node.autoPosition;
+            // don't accept *initial* location if doesn't fit #1419 (locked drop region, or can't grow), but maybe try if it will go somewhere
+            if (!this.engine.willItFit(node)) {
+                node.autoPosition = true; // ignore x,y and try for any slot...
+                if (!this.engine.willItFit(node))
+                    return; // full grid or can't grow
+            }
+            node._added = true;
+            node.el = el;
             this.engine.cleanNodes();
             this.engine.beginUpdate(node);
             this.engine.addNode(node);
@@ -78,21 +87,14 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
     })
         .on(this.el, 'dropover', (event, el) => {
         // ignore drop enter on ourself, and prevent parent from receiving event
-        let node = el.gridstackNode || {};
-        if (node.grid === this) {
+        let node = el.gridstackNode;
+        if (node && node.grid === this) {
             delete node._added; // reset this to track placeholder again in case we were over other grid #1484 (dropout doesn't always clear)
             return false;
         }
-        // see if we already have a node with widget/height and check for attributes
-        if (el.getAttribute && (!node.w || !node.h)) {
-            let w = parseInt(el.getAttribute('gs-w'));
-            if (w > 0) {
-                node.w = w;
-            }
-            let h = parseInt(el.getAttribute('gs-h'));
-            if (h > 0) {
-                node.h = h;
-            }
+        // load any element attributes if we don't have a node
+        if (!node) {
+            node = this._readAttr(el);
         }
         // if the item came from another grid, let it know it was added here to removed duplicate shadow #393
         if (node.grid && node.grid !== this) {
@@ -133,6 +135,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
     })
         .on(this.el, 'drop', (event, el, helper) => {
         let node = el.gridstackNode;
+        let wasAdded = !!this.placeholder.parentElement; // skip items not actually added to us because of constrains, but do cleanup #1419
         // ignore drop on ourself from ourself - dragend will handle the simple move instead
         if (node && node.grid === this) {
             return false;
@@ -141,33 +144,39 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         // notify previous grid of removal
         let origNode = el._gridstackNodeOrig;
         delete el._gridstackNodeOrig;
-        if (origNode && origNode.grid && origNode.grid !== this) {
+        if (wasAdded && origNode && origNode.grid && origNode.grid !== this) {
             let oGrid = origNode.grid;
             oGrid.placeholder.remove();
             origNode.el = el; // was using placeholder, have it point to node we've moved instead
             oGrid.engine.removedNodes.push(origNode);
             oGrid._triggerRemoveEvent();
         }
-        // use existing placeholder node as it's already in our list with drop location
         if (!node) {
             return false;
         }
-        const _id = node._id;
-        this.engine.cleanupNode(node); // removes all internal _xyz values (including the _id so add that back)
-        node._id = _id;
-        node.grid = this;
+        // use existing placeholder node as it's already in our list with drop location
+        if (wasAdded) {
+            const _id = node._id;
+            this.engine.cleanupNode(node); // removes all internal _xyz values (including the _id so add that back)
+            node._id = _id;
+            node.grid = this;
+        }
         GridStackDD.get().off(el, 'drag');
         // if we made a copy ('helper' which is temp) of the original node then insert a copy, else we move the original node (#1102)
         // as the helper will be nuked by jqueryui otherwise
         if (helper !== el) {
             helper.remove();
             el.gridstackNode = origNode; // original item (left behind) is re-stored to pre dragging as the node now has drop info
-            el = el.cloneNode(true);
+            if (wasAdded) {
+                el = el.cloneNode(true);
+            }
         }
         else {
             el.remove(); // reduce flicker as we change depth here, and size further down
             GridStackDD.get().remove(el);
         }
+        if (!wasAdded)
+            return false;
         el.gridstackNode = node;
         node.el = el;
         utils_1.Utils.removePositioningStyles(el);
@@ -302,6 +311,13 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
         node._prevYPix = ui.position.top;
         GridStackDD.get().resizable(el, 'option', 'minWidth', cellWidth * (node.minW || 1));
         GridStackDD.get().resizable(el, 'option', 'minHeight', cellHeight * (node.minH || 1));
+        // also set max if set #1330
+        if (node.maxW) {
+            GridStackDD.get().resizable(el, 'option', 'maxWidth', cellWidth * node.maxW);
+        }
+        if (node.maxH) {
+            GridStackDD.get().resizable(el, 'option', 'maxHeight', cellHeight * node.maxH);
+        }
     };
     /** called when item is being dragged/resized */
     let dragOrResize = (event, ui) => {
@@ -315,9 +331,8 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
             utils_1.Utils.updateScrollPosition(el, ui.position, distance);
             // if inTrash, outside of the bounds or added to another grid (#393) temporarily remove it from us
             if (el.dataset.inTrashZone || x < 0 || x >= this.engine.column || y < 0 || (!this.engine.float && y > this.engine.getRow()) || node._added) {
-                if (node._temporaryRemoved) {
+                if (node._temporaryRemoved)
                     return;
-                }
                 if (this.opts.removable === true) {
                     this._setupRemovingTimeout(el);
                 }
@@ -341,21 +356,19 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
                     delete node._temporaryRemoved;
                 }
             }
+            if (node._lastTriedX === x && node._lastTriedY === y)
+                return;
         }
         else if (event.type === 'resize') {
             if (x < 0)
                 return;
             w = Math.round(ui.size.width / cellWidth);
             h = Math.round(ui.size.height / cellHeight);
+            if (w === node.w && h === node.h)
+                return;
         }
-        // width and height are undefined if not resizing
-        let _lastTriedW = (w || node._lastTriedW);
-        let _lastTriedH = (h || node._lastTriedH);
-        if (!this.engine.canMoveNode(node, x, y, w, h) ||
-            (node._lastTriedX === x && node._lastTriedY === y &&
-                node._lastTriedW === _lastTriedW && node._lastTriedH === _lastTriedH)) {
+        if (!this.engine.canMoveNode(node, x, y, w, h))
             return;
-        }
         node._lastTriedX = x;
         node._lastTriedY = y;
         node._lastTriedW = w;

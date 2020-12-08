@@ -1,5 +1,13 @@
 import { GridStackNode } from './types';
 export declare type onChangeCB = (nodes: GridStackNode[], removeDOM?: boolean) => void;
+/** options used for creations - similar to GridStackOptions */
+export interface GridStackEngineOptions {
+    column?: number;
+    maxRow?: number;
+    float?: boolean;
+    nodes?: GridStackNode[];
+    onChange?: onChangeCB;
+}
 /**
  * Defines the GridStack engine that does most no DOM grid manipulation.
  * See GridStack methods and vars for descriptions.
@@ -10,11 +18,11 @@ export declare class GridStackEngine {
     column: number;
     maxRow: number;
     nodes: GridStackNode[];
-    onchange: onChangeCB;
+    onChange: onChangeCB;
     addedNodes: GridStackNode[];
     removedNodes: GridStackNode[];
     batchMode: boolean;
-    constructor(column?: number, onchange?: onChangeCB, float?: boolean, maxRow?: number, nodes?: GridStackNode[]);
+    constructor(opts?: GridStackEngineOptions);
     batchUpdate(): GridStackEngine;
     commit(): GridStackEngine;
     isAreaEmpty(x: number, y: number, w: number, h: number): boolean;
@@ -35,8 +43,9 @@ export declare class GridStackEngine {
     removeNode(node: GridStackNode, removeDOM?: boolean, triggerEvent?: boolean): GridStackEngine;
     removeAll(removeDOM?: boolean): GridStackEngine;
     canMoveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number): boolean;
-    canBePlacedWithRespectToHeight(node: GridStackNode): boolean;
-    isNodeChangedPosition(node: GridStackNode, x: number, y: number, w: number, h: number): boolean;
+    /** return true if can fit in grid height constrain only (always true if no maxRow) */
+    willItFit(node: GridStackNode): boolean;
+    isNodeChangedPosition(node: GridStackNode, x: number, y: number, w?: number, h?: number): boolean;
     moveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number, noPack?: boolean): GridStackNode;
     getRow(): number;
     beginUpdate(node: GridStackNode): GridStackEngine;

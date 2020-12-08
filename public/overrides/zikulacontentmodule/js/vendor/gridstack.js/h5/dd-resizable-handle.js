@@ -1,5 +1,5 @@
 "use strict";
-// dd-resizable-handle.ts 3.1.0 @preserve
+// dd-resizable-handle.ts 3.1.2 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 class DDResizableHandle {
     constructor(host, direction, option) {

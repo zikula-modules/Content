@@ -1,5 +1,5 @@
 "use strict";
-// dd-utils.ts 3.1.0 @preserve
+// dd-utils.ts 3.1.2 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/

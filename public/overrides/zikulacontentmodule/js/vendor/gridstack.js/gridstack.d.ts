@@ -87,7 +87,7 @@ export declare class GridStack {
      * add a new widget and returns it.
      *
      * Widget will be always placed even if result height is more than actual grid height.
-     * You need to use willItFit method before calling addWidget for additional check.
+     * You need to use `willItFit()` before calling addWidget for additional check.
      * See also `makeWidget()`.
      *
      * @example
@@ -300,23 +300,18 @@ export declare class GridStack {
     /** returns current margin number value (undefined if 4 sides don't match) */
     getMargin(): number;
     /**
-     * Returns true if the height of the grid will be less the vertical
+     * Returns true if the height of the grid will be less than the vertical
      * constraint. Always returns true if grid doesn't have height constraint.
-     * @param x new position x. If value is null or undefined it will be ignored.
-     * @param y new position y. If value is null or undefined it will be ignored.
-     * @param w new dimensions width. If value is null or undefined it will be ignored.
-     * @param h new dimensions height. If value is null or undefined it will be ignored.
-     * @param autoPosition if true then x, y parameters will be ignored and widget
-     * will be places on the first available position
+     * @param node contains x,y,w,h,auto-position options
      *
      * @example
-     * if (grid.willItFit(newNode.x, newNode.y, newNode.w, newNode.h, newNode.autoPosition)) {
-     *   grid.addWidget(newNode);
+     * if (grid.willItFit(newWidget)) {
+     *   grid.addWidget(newWidget);
      * } else {
      *   alert('Not enough free space to place the widget');
      * }
      */
-    willItFit(x: number, y: number, w: number, h: number, autoPosition: boolean): boolean;
+    willItFit(node: GridStackWidget): boolean;
     /** called to resize children nested grids when we/item resizes */
     private _resizeNestedGrids;
     /**

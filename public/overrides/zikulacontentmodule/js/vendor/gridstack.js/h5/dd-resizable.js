@@ -1,5 +1,5 @@
 "use strict";
-// dd-resizable.ts 3.1.0 @preserve
+// dd-resizable.ts 3.1.2 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -173,7 +173,7 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _setupHelper() {
-        this.elOriginStyle = DDResizable._originStyleProp.map(prop => this.el.style[prop]);
+        this.elOriginStyleVal = DDResizable._originStyleProp.map(prop => this.el.style[prop]);
         this.parentOriginStylePosition = this.el.parentElement.style.position;
         if (window.getComputedStyle(this.el.parentElement).position.match(/static/)) {
             this.el.parentElement.style.position = 'relative';
@@ -185,8 +185,8 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _cleanHelper() {
-        DDResizable._originStyleProp.forEach(prop => {
-            this.el.style[prop] = this.elOriginStyle[prop] || null;
+        DDResizable._originStyleProp.forEach((prop, i) => {
+            this.el.style[prop] = this.elOriginStyleVal[i] || null;
         });
         this.el.parentElement.style.position = this.parentOriginStylePosition || null;
         return this;
@@ -219,13 +219,13 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         const reshape = this._getReShapeSize(newRect.width, newRect.height);
         if (newRect.width !== reshape.width) {
             if (dir.indexOf('w') > -1) {
-                newRect.left += reshape.width - newRect.width;
+                newRect.left += newRect.width - reshape.width;
             }
             newRect.width = reshape.width;
         }
         if (newRect.height !== reshape.height) {
             if (dir.indexOf('n') > -1) {
-                newRect.top += reshape.height - newRect.height;
+                newRect.top += newRect.height - reshape.height;
             }
             newRect.height = reshape.height;
         }
@@ -249,7 +249,9 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
             const { left, top } = containmentEl.getBoundingClientRect();
             containmentRect = { left, top, width: 0, height: 0 };
         }
-        Object.keys(this.temporalRect || this.originalRect).forEach(key => {
+        if (!this.temporalRect)
+            return this;
+        Object.keys(this.temporalRect).forEach(key => {
             const value = this.temporalRect[key];
             this.el.style[key] = value - containmentRect[key] + 'px';
         });

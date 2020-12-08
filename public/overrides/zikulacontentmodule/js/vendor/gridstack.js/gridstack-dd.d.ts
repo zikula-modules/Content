@@ -12,7 +12,7 @@ export declare type DDDropOpt = {
 };
 /** drag&drop options currently called from the main code, but others can be passed in grid options */
 export declare type DDOpts = 'enable' | 'disable' | 'destroy' | 'option' | string | any;
-export declare type DDKey = 'minWidth' | 'minHeight';
+export declare type DDKey = 'minWidth' | 'minHeight' | 'maxWidth' | 'maxHeight';
 export declare type DDValue = number | string;
 /** drag&drop events callbacks */
 export declare type DDCallback = (event: Event, arg2: GridItemHTMLElement, helper?: GridItemHTMLElement) => void;

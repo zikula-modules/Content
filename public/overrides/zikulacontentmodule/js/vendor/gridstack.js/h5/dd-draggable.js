@@ -1,5 +1,5 @@
 "use strict";
-// dd-draggable.ts 3.1.0 @preserve
+// dd-draggable.ts 3.1.2 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -79,14 +79,19 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         Object.keys(opts).forEach(key => this.option[key] = opts[key]);
         return this;
     }
-    /** @internal */
+    /** @internal call when mouse goes down before a dragstart happens */
     _mouseDown(event) {
-        this.mouseDownElement = event.target;
+        // make sure we are clicking on a drag handle or child of it...
+        let className = this.option.handle.substring(1);
+        let el = event.target;
+        while (el && !el.classList.contains(className)) {
+            el = el.parentElement;
+        }
+        this.mouseDownElement = el;
     }
     /** @internal */
     _dragStart(event) {
-        if (this.option.handle && !(this.mouseDownElement
-            && this.mouseDownElement.matches(`${this.option.handle}, ${this.option.handle} > *`))) {
+        if (!this.mouseDownElement) {
             event.preventDefault();
             return;
         }
