@@ -66,7 +66,7 @@ class ContentModuleInstaller extends AbstractContentModuleInstaller
     {
         if (version_compare($oldVersion, '5.0.0', '<')) {
             ini_set('memory_limit', '2048M');
-            ini_set('max_execution_time', 300); // 300 seconds = 5 minutes
+            ini_set('max_execution_time', '300'); // 300 seconds = 5 minutes
 
             // delete all old data
             $this->getVariableApi()->delAll('content');
