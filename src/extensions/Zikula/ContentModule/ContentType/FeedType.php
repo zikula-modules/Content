@@ -100,7 +100,7 @@ class FeedType extends AbstractContentType
 
         $this->data['feed'] = [
             'title' => $this->decode($feed->get_title(), $feedEncoding),
-            'description' => strip_tags(html_entity_decode($this->decode($feed->get_description(), $feedEncoding))),
+            'description' => strip_tags(html_entity_decode($this->decode($feed->get_description() ?? '', $feedEncoding))),
             'permalink' => $feed->get_permalink(),
             'items' => $items,
         ];
