@@ -20,7 +20,7 @@ export declare class DDDraggable extends DDBaseImplement implements HTMLElementE
     on(event: 'drag' | 'dragstart' | 'dragstop', callback: (event: DragEvent) => void): void;
     off(event: 'drag' | 'dragstart' | 'dragstop'): void;
     enable(): void;
-    disable(): void;
+    disable(forDestroy?: boolean): void;
     destroy(): void;
     updateOption(opts: DDDraggableOpt): DDDraggable;
 }

@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-engine.ts 3.1.2 @preserve
+// gridstack-engine.ts 3.1.3 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/

@@ -1,5 +1,5 @@
 "use strict";
-// dd-resizable.ts 3.1.2 @preserve
+// dd-resizable.ts 3.1.3 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dd_resizable_handle_1 = require("./dd-resizable-handle");
 const dd_base_impl_1 = require("./dd-base-impl");
 const dd_utils_1 = require("./dd-utils");
+const utils_1 = require("../utils");
 class DDResizable extends dd_base_impl_1.DDBaseImplement {
     constructor(el, opts = {}) {
         super();
@@ -24,7 +25,13 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         this._ui = () => {
             const containmentEl = this.el.parentElement;
             const containmentRect = containmentEl.getBoundingClientRect();
-            const rect = this.temporalRect || this.originalRect;
+            const newRect = {
+                width: this.originalRect.width,
+                height: this.originalRect.height + this.scrolled,
+                left: this.originalRect.left,
+                top: this.originalRect.top - this.scrolled
+            };
+            const rect = this.temporalRect || newRect;
             return {
                 position: {
                     left: rect.left - containmentRect.left,
@@ -51,7 +58,7 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         };
         this.el = el;
         this.option = opts;
-        this.el.classList.add('ui-resizable');
+        this.enable();
         this._setupAutoHide();
         this._setupHandlers();
     }
@@ -62,16 +69,14 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         super.off(event);
     }
     enable() {
-        if (this.disabled) {
-            super.enable();
-            this.el.classList.remove('ui-resizable-disabled');
-        }
+        super.enable();
+        this.el.classList.add('ui-resizable');
+        this.el.classList.remove('ui-resizable-disabled');
     }
     disable() {
-        if (!this.disabled) {
-            super.disable();
-            this.el.classList.add('ui-resizable-disabled');
-        }
+        super.disable();
+        this.el.classList.add('ui-resizable-disabled');
+        this.el.classList.remove('ui-resizable');
     }
     destroy() {
         this._removeHandlers();
@@ -100,7 +105,7 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
     _setupAutoHide() {
         if (this.option.autoHide) {
             this.el.classList.add('ui-resizable-autohide');
-            // use mouseover/mouseout instead of mouseenter mouseleave to get better performance;
+            // use mouseover/mouseout instead of mouseenter/mouseleave to get better performance;
             this.el.addEventListener('mouseover', this._showHandlers);
             this.el.addEventListener('mouseout', this._hideHandlers);
         }
@@ -135,6 +140,8 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
     /** @internal */
     _resizeStart(event) {
         this.originalRect = this.el.getBoundingClientRect();
+        this.scrollEl = utils_1.Utils.getScrollParent(this.el);
+        this.scrollY = this.scrollEl.scrollTop;
         this.startEvent = event;
         this._setupHelper();
         this._applyChange();
@@ -148,6 +155,7 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _resizing(event, dir) {
+        this.scrolled = this.scrollEl.scrollTop - this.scrollY;
         this.temporalRect = this._getChange(event, dir);
         this._applyChange();
         const ev = dd_utils_1.DDUtils.initEvent(event, { type: 'resize', target: this.el });
@@ -169,6 +177,8 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         delete this.startEvent;
         delete this.originalRect;
         delete this.temporalRect;
+        delete this.scrollY;
+        delete this.scrolled;
         return this;
     }
     /** @internal */
@@ -196,9 +206,9 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         const oEvent = this.startEvent;
         const newRect = {
             width: this.originalRect.width,
-            height: this.originalRect.height,
+            height: this.originalRect.height + this.scrolled,
             left: this.originalRect.left,
-            top: this.originalRect.top
+            top: this.originalRect.top - this.scrolled
         };
         const offsetH = event.clientX - oEvent.clientX;
         const offsetV = event.clientY - oEvent.clientY;

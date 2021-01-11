@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-dd-jqueryui.ts 3.1.2 @preserve
+// gridstack-dd-jqueryui.ts 3.1.3 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }

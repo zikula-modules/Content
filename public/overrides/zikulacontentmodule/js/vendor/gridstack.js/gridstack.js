@@ -1,5 +1,5 @@
 "use strict";
-// gridstack.ts 3.1.2 @preserve
+// gridstack.ts 3.1.3 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -149,13 +149,14 @@ class GridStack {
                         }
                     }
                     else {
-                        this._writeAttrs(el, n.x, n.y, n.w, n.h);
+                        this._writePosAttr(el, n.x, n.y, n.w, n.h);
                     }
                 });
                 this._updateStyles(false, maxH); // false = don't recreate, just append if need be
             }
         });
         if (this.opts.auto) {
+            this.batchUpdate(); // prevent in between re-layout #1535 TODO: this only set float=true, need to prevent collision check...
             let elements = [];
             this.getGridItems().forEach(el => {
                 let x = parseInt(el.getAttribute('gs-x'));
@@ -166,7 +167,8 @@ class GridStack {
                     i: (Number.isNaN(x) ? 1000 : x) + (Number.isNaN(y) ? 1000 : y) * this.opts.column
                 });
             });
-            elements.sort(e => e.i).forEach(item => { this._prepareElement(item.el); });
+            elements.sort(e => e.i).forEach(e => this._prepareElement(e.el));
+            this.commit();
         }
         this.engine.saveInitial(); // initial start of items
         this.setAnimation(this.opts.animate);
@@ -1161,7 +1163,7 @@ class GridStack {
         return this;
     }
     /** @internal call to write x,y,w,h attributes back to element */
-    _writeAttrs(el, x, y, w, h) {
+    _writePosAttr(el, x, y, w, h) {
         if (x !== undefined && x !== null) {
             el.setAttribute('gs-x', String(x));
         }
@@ -1180,8 +1182,8 @@ class GridStack {
     _writeAttr(el, node) {
         if (!node)
             return this;
-        this._writeAttrs(el, node.x, node.y, node.w, node.h);
-        let attrs /*: like GridStackWidget but strings */ = {
+        this._writePosAttr(el, node.x, node.y, node.w, node.h);
+        let attrs /*: GridStackWidget but strings */ = {
             autoPosition: 'gs-auto-position',
             minW: 'gs-min-w',
             minH: 'gs-min-h',
@@ -1194,7 +1196,7 @@ class GridStack {
             resizeHandles: 'gs-resize-handles'
         };
         for (const key in attrs) {
-            if (node[key]) { // 0 is valid for x,y only but done above already and not in list
+            if (node[key]) { // 0 is valid for x,y only but done above already and not in list anyway
                 el.setAttribute(attrs[key], String(node[key]));
             }
             else {

@@ -1,5 +1,5 @@
 "use strict";
-// dd-utils.ts 3.1.2 @preserve
+// dd-utils.ts 3.1.3 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -47,8 +47,6 @@ class DDUtils {
         }
     }
     static initEvent(e, info) {
-        const kbdProps = 'altKey,ctrlKey,metaKey,shiftKey'.split(',');
-        const ptProps = 'pageX,pageY,clientX,clientY,screenX,screenY'.split(',');
         const evt = { type: info.type };
         const obj = {
             button: 0,
@@ -56,23 +54,15 @@ class DDUtils {
             buttons: 1,
             bubbles: true,
             cancelable: true,
-            originEvent: e,
             target: info.target ? info.target : e.target
         };
-        if (e instanceof DragEvent) {
-            Object.assign(obj, { dataTransfer: e.dataTransfer });
+        // don't check for `instanceof DragEvent` as Safari use MouseEvent #1540
+        if (e.dataTransfer) {
+            evt['dataTransfer'] = e.dataTransfer; // workaround 'readonly' field.
         }
-        DDUtils._copyProps(evt, e, kbdProps);
-        DDUtils._copyProps(evt, e, ptProps);
-        DDUtils._copyProps(evt, obj, Object.keys(obj));
-        return evt;
-    }
-    /** @internal */
-    static _copyProps(dst, src, props) {
-        for (let i = 0; i < props.length; i++) {
-            const p = props[i];
-            dst[p] = src[p];
-        }
+        ['altKey', 'ctrlKey', 'metaKey', 'shiftKey'].forEach(p => evt[p] = e[p]); // keys
+        ['pageX', 'pageY', 'clientX', 'clientY', 'screenX', 'screenY'].forEach(p => evt[p] = e[p]); // point info
+        return Object.assign(Object.assign({}, evt), obj);
     }
 }
 exports.DDUtils = DDUtils;

@@ -1,5 +1,5 @@
 "use strict";
-// dd-draggable.ts 3.1.2 @preserve
+// dd-draggable.ts 3.1.3 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -38,10 +38,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         this._drag = this._drag.bind(this);
         this._dragEnd = this._dragEnd.bind(this);
         this._dragFollow = this._dragFollow.bind(this);
-        this.el.draggable = true;
-        this.el.classList.add('ui-draggable');
-        this.el.addEventListener('mousedown', this._mouseDown);
-        this.el.addEventListener('dragstart', this._dragStart);
+        this.enable();
     }
     on(event, callback) {
         super.on(event, callback);
@@ -53,11 +50,18 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         super.enable();
         this.el.draggable = true;
         this.el.classList.remove('ui-draggable-disabled');
+        this.el.classList.add('ui-draggable');
+        this.el.addEventListener('mousedown', this._mouseDown);
+        this.el.addEventListener('dragstart', this._dragStart);
     }
-    disable() {
+    disable(forDestroy = false) {
         super.disable();
-        this.el.draggable = false;
-        this.el.classList.add('ui-draggable-disabled');
+        this.el.removeAttribute('draggable');
+        this.el.classList.remove('ui-draggable');
+        if (!forDestroy)
+            this.el.classList.add('ui-draggable-disabled');
+        this.el.removeEventListener('mousedown', this._mouseDown);
+        this.el.removeEventListener('dragstart', this._dragStart);
     }
     destroy() {
         if (this.dragging) {
@@ -66,10 +70,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
             // destroyed.
             this._dragEnd({});
         }
-        this.el.draggable = false;
-        this.el.classList.remove('ui-draggable');
-        this.el.removeEventListener('mousedown', this._mouseDown);
-        this.el.removeEventListener('dragstart', this._dragStart);
+        this.disable(true);
         delete this.el;
         delete this.helper;
         delete this.option;
@@ -87,11 +88,11 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         while (el && !el.classList.contains(className)) {
             el = el.parentElement;
         }
-        this.mouseDownElement = el;
+        this.dragEl = el;
     }
     /** @internal */
     _dragStart(event) {
-        if (!this.mouseDownElement) {
+        if (!this.dragEl) {
             event.preventDefault();
             return;
         }
@@ -163,18 +164,19 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         this.triggerEvent('dragstop', ev);
         delete dd_manager_1.DDManager.dragElement;
         delete this.helper;
-        delete this.mouseDownElement;
+        delete this.dragEl;
     }
-    /** @internal */
+    /** @internal create a clone copy (or user defined method) of the original drag item if set */
     _createHelper(event) {
-        const helperIsFunction = (typeof this.option.helper) === 'function';
-        const helper = (helperIsFunction
-            ? this.option.helper.apply(this.el, [event])
-            : (this.option.helper === "clone" ? dd_utils_1.DDUtils.clone(this.el) : this.el));
+        let helper = this.el;
+        if (typeof this.option.helper === 'function') {
+            helper = this.option.helper.apply(this.el, event);
+        }
+        else if (this.option.helper === 'clone') {
+            helper = dd_utils_1.DDUtils.clone(this.el);
+        }
         if (!document.body.contains(helper)) {
-            dd_utils_1.DDUtils.appendTo(helper, (this.option.appendTo === "parent"
-                ? this.el.parentNode
-                : this.option.appendTo));
+            dd_utils_1.DDUtils.appendTo(helper, this.option.appendTo === 'parent' ? this.el.parentNode : this.option.appendTo);
         }
         if (helper === this.el) {
             this.dragElementOriginStyle = DDDraggable.originStyleProp.map(prop => this.el.style[prop]);
@@ -186,7 +188,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         this.helper.style.pointerEvents = 'none';
         this.helper.style.width = this.dragOffset.width + 'px';
         this.helper.style.height = this.dragOffset.height + 'px';
-        this.helper.style['willChange'] = 'left, top';
+        this.helper.style.willChange = 'left, top';
         this.helper.style.transition = 'none'; // show up instantly
         this.helper.style.position = this.option.basePosition || DDDraggable.basePosition;
         this.helper.style.zIndex = '1000';
@@ -237,24 +239,25 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         }
         return this;
     }
-    /** @internal */
+    /** @internal prevent the default gost image to be created (which has wrongas we move the helper/element instead
+     * (legacy jquery UI code updates the top/left of the item).
+     * TODO: maybe use mouse event instead of HTML5 drag as we have to work around it anyway, or change code to not update
+     * the actual grid-item but move the gost image around (and special case jq version) ?
+     **/
     _cancelDragGhost(e) {
-        if (e.dataTransfer != null) {
-            e.dataTransfer.setData('text', '');
-        }
-        e.dataTransfer.effectAllowed = 'move';
-        if ('function' === typeof DataTransfer.prototype.setDragImage) {
-            e.dataTransfer.setDragImage(new Image(), 0, 0);
-        }
-        else {
-            // ie
-            e.target.style.display = 'none';
-            setTimeout(() => {
-                e.target.style.display = '';
-            });
-            e.stopPropagation();
-            return;
-        }
+        /* doesn't seem to do anything...
+        let t = e.dataTransfer;
+        t.effectAllowed = 'none';
+        t.dropEffect = 'none';
+        t.setData('text', '');
+        */
+        // NOTE: according to spec (and required by Safari see #1540) the image has to be visible in the browser (in dom and not hidden) so make it a 1px div
+        let img = document.createElement('div');
+        img.style.width = '1px';
+        img.style.height = '1px';
+        document.body.appendChild(img);
+        e.dataTransfer.setDragImage(img, 0, 0);
+        setTimeout(() => document.body.removeChild(img)); // nuke once drag had a chance to grab this 'image'
         e.stopPropagation();
         return this;
     }

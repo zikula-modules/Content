@@ -1,12 +1,10 @@
 "use strict";
-// dd-resizable-handle.ts 3.1.2 @preserve
+// dd-resizable-handle.ts 3.1.3 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 class DDResizableHandle {
     constructor(host, direction, option) {
-        /** @internal */
-        this.mouseMoving = false;
-        /** @internal */
-        this.started = false;
+        /** @internal true after we've moved enough pixels to start a resize */
+        this.moving = false;
         this.host = host;
         this.dir = direction;
         this.option = option;
@@ -14,9 +12,10 @@ class DDResizableHandle {
         this._mouseDown = this._mouseDown.bind(this);
         this._mouseMove = this._mouseMove.bind(this);
         this._mouseUp = this._mouseUp.bind(this);
-        this.init();
+        this._init();
     }
-    init() {
+    /** @internal */
+    _init() {
         const el = document.createElement('div');
         el.classList.add('ui-resizable-handle');
         el.classList.add(`${DDResizableHandle.prefix}${this.dir}`);
@@ -27,61 +26,48 @@ class DDResizableHandle {
         this.el.addEventListener('mousedown', this._mouseDown);
         return this;
     }
+    /** call this when resize handle needs to be removed and cleaned up */
     destroy() {
+        if (this.moving)
+            this._mouseUp(this.mouseDownEvent);
+        this.el.removeEventListener('mousedown', this._mouseDown);
         this.host.removeChild(this.el);
+        delete this.el;
+        delete this.host;
         return this;
     }
-    /** @internal */
-    _mouseDown(event) {
-        this.mouseDownEvent = event;
-        setTimeout(() => {
-            document.addEventListener('mousemove', this._mouseMove, true);
-            document.addEventListener('mouseup', this._mouseUp);
-            setTimeout(() => {
-                if (!this.mouseMoving) {
-                    document.removeEventListener('mousemove', this._mouseMove, true);
-                    document.removeEventListener('mouseup', this._mouseUp);
-                    delete this.mouseDownEvent;
-                }
-            }, 300);
-        }, 100);
+    /** @internal called on mouse down on us: capture move on the entire document (mouse might not stay on us) until we release the mouse */
+    _mouseDown(e) {
+        this.mouseDownEvent = e;
+        document.addEventListener('mousemove', this._mouseMove, true); // capture, not bubble
+        document.addEventListener('mouseup', this._mouseUp);
     }
     /** @internal */
-    _mouseMove(event) {
-        if (!this.started && !this.mouseMoving) {
-            if (this._hasMoved(event, this.mouseDownEvent)) {
-                this.mouseMoving = true;
-                this._triggerEvent('start', this.mouseDownEvent);
-                this.started = true;
-            }
+    _mouseMove(e) {
+        let s = this.mouseDownEvent;
+        // don't start unless we've moved at least 3 pixels
+        if (!this.moving && Math.abs(e.x - s.x) + Math.abs(e.y - s.y) > 2) {
+            this.moving = true;
+            this._triggerEvent('start', this.mouseDownEvent);
         }
-        if (this.started) {
-            this._triggerEvent('move', event);
+        else if (this.moving) {
+            this._triggerEvent('move', e);
         }
     }
     /** @internal */
-    _mouseUp(event) {
-        if (this.mouseMoving) {
-            this._triggerEvent('stop', event);
+    _mouseUp(e) {
+        if (this.moving) {
+            this._triggerEvent('stop', e);
         }
         document.removeEventListener('mousemove', this._mouseMove, true);
         document.removeEventListener('mouseup', this._mouseUp);
-        this.mouseMoving = false;
-        this.started = false;
+        delete this.moving;
         delete this.mouseDownEvent;
     }
     /** @internal */
-    _hasMoved(event, oEvent) {
-        const { clientX, clientY } = event;
-        const { clientX: oClientX, clientY: oClientY } = oEvent;
-        return (Math.abs(clientX - oClientX) > 1
-            || Math.abs(clientY - oClientY) > 1);
-    }
-    /** @internal */
     _triggerEvent(name, event) {
-        if (this.option[name]) {
+        if (this.option[name])
             this.option[name](event);
-        }
         return this;
     }
 }

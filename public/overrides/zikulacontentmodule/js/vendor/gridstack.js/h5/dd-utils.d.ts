@@ -7,7 +7,7 @@ export declare class DDUtils {
     static isEventSupportPassiveOption: boolean;
     static clone(el: HTMLElement): HTMLElement;
     static appendTo(el: HTMLElement, parent: string | HTMLElement | Node): void;
-    static setPositionRelative(el: any): void;
+    static setPositionRelative(el: HTMLElement): void;
     static addElStyles(el: HTMLElement, styles: {
         [prop: string]: string | string[];
     }): void;

@@ -10,7 +10,7 @@ import { GridItemHTMLElement } from './types';
 export declare class GridStackDDI {
     protected static ddi: GridStackDDI;
     /** call this method to register your plugin instead of the default no-op one */
-    static registerPlugin(pluginClass: typeof GridStackDDI): void;
+    static registerPlugin(pluginClass: typeof GridStackDDI): GridStackDDI;
     /** get the current registered plugin to use */
     static get(): GridStackDDI;
     /** removes any drag&drop present (called during destroy) */

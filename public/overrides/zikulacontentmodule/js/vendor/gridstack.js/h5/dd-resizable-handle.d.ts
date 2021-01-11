@@ -10,6 +10,6 @@ export interface DDResizableHandleOpt {
 }
 export declare class DDResizableHandle {
     constructor(host: HTMLElement, direction: string, option: DDResizableHandleOpt);
-    init(): DDResizableHandle;
+    /** call this when resize handle needs to be removed and cleaned up */
     destroy(): DDResizableHandle;
 }

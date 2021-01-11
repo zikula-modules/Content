@@ -1,5 +1,5 @@
 "use strict";
-// utils.ts 3.1.2 @preserve
+// utils.ts 3.1.3 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /** checks for obsolete method names */
 // eslint-disable-next-line
@@ -277,17 +277,16 @@ class Utils {
     }
     /** @internal */
     static getScrollParent(el) {
-        let returnEl;
-        if (el === null) {
-            returnEl = null;
-        }
-        else if (el.scrollHeight > el.clientHeight) {
-            returnEl = el;
+        if (el === null)
+            return document.documentElement;
+        const style = getComputedStyle(el);
+        const overflowRegex = /(auto|scroll)/;
+        if (overflowRegex.test(style.overflow + style.overflowY)) {
+            return el;
         }
         else {
-            returnEl = this.getScrollParent(el.parentElement);
+            return this.getScrollParent(el.parentElement);
         }
-        return returnEl;
     }
     /** @internal */
     static updateScrollPosition(el, position, distance) {
@@ -325,6 +324,27 @@ class Utils {
                 // move widget y by amount scrolled
                 position.top += scrollEl.scrollTop - prevScroll;
             }
+        }
+    }
+    /**
+     * @internal Function used to scroll the page.
+     *
+     * @param event `MouseEvent` that triggers the resize
+     * @param el `HTMLElement` that's being resized
+     * @param distance Distance from the V edges to start scrolling
+     */
+    static updateScrollResize(event, el, distance) {
+        const scrollEl = this.getScrollParent(el);
+        const height = scrollEl.clientHeight;
+        const top = event.clientY < distance;
+        const bottom = event.clientY > height - distance;
+        if (top) {
+            // This also can be done with a timeout to keep scrolling while the mouse is
+            // in the scrolling zone. (will have smoother behavior)
+            scrollEl.scrollBy({ behavior: 'smooth', top: event.clientY - distance });
+        }
+        else if (bottom) {
+            scrollEl.scrollBy({ behavior: 'smooth', top: distance - (height - event.clientY) });
         }
     }
 }
