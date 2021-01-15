@@ -1,5 +1,5 @@
 "use strict";
-// dd-draggable.ts 3.1.3 @preserve
+// dd-draggable.ts 3.1.4 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -127,6 +127,9 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _drag(event) {
+        // Safari: prevent default to allow drop to happen instead of reverting back (with animation) and delaying dragend #1541
+        // https://stackoverflow.com/questions/61760755/how-to-fire-dragend-event-immediately
+        event.preventDefault();
         this._dragFollow(event);
         const ev = dd_utils_1.DDUtils.initEvent(event, { target: this.el, type: 'drag' });
         if (this.option.drag) {
@@ -298,8 +301,8 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
 exports.DDDraggable = DDDraggable;
 /** @internal */
 DDDraggable.basePosition = 'absolute';
-/** @internal */
-DDDraggable.dragEventListenerOption = dd_utils_1.DDUtils.isEventSupportPassiveOption ? { capture: true, passive: true } : true;
+/** @internal #1541 can't have {passive: true} on Safari as otherwise it reverts animate back to old location on drop */
+DDDraggable.dragEventListenerOption = true; // DDUtils.isEventSupportPassiveOption ? { capture: true, passive: true } : true;
 /** @internal */
 DDDraggable.originStyleProp = ['transition', 'pointerEvents', 'position',
     'left', 'top', 'opacity', 'zIndex', 'width', 'height', 'willChange'];

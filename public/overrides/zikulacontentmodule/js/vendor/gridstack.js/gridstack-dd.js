@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-GridStackDD.get().ts 3.1.3 @preserve
+// gridstack-GridStackDD.get().ts 3.1.4 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -37,8 +37,16 @@ exports.GridStackDD = GridStackDD;
  ********************************************************************************/
 /** @internal called to add drag over support to support widgets */
 gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
-    if (this.opts.staticGrid || !this.opts.acceptWidgets)
+    if (this.opts.staticGrid)
         return this;
+    // if we don't accept external widgets (default) we still need to accept dragging within our
+    // list of items (else we get a no-drop icon on windows)
+    if (!this.opts.acceptWidgets) {
+        GridStackDD.get().droppable(this.el, {
+            accept: (el) => el.gridstackNode && el.gridstackNode.grid === this
+        });
+        return this;
+    }
     let onDrag = (event, el) => {
         let node = el.gridstackNode;
         let pos = this.getCellFromPixel({ left: event.pageX, top: event.pageY }, true);

@@ -1,5 +1,5 @@
 "use strict";
-// gridstack.ts 3.1.3 @preserve
+// gridstack.ts 3.1.4 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -335,7 +335,7 @@ class GridStack {
         // check for HTML content as well
         if (saveContent) {
             list.forEach(n => {
-                if (n.el) {
+                if (n.el && !n.subGrid) { // sub-grid are saved differently, not plain content
                     let sub = n.el.querySelector('.grid-stack-item-content');
                     n.content = sub ? sub.innerHTML : undefined;
                     if (!n.content)
@@ -349,7 +349,7 @@ class GridStack {
             // check for nested grid
             list.forEach(n => {
                 if (n.subGrid) {
-                    n.subGrid = n.subGrid.save(saveContent, true);
+                    n.subGrid = n.subGrid.save(saveContent, saveGridOpt);
                 }
             });
             let o = Object.assign({}, this.opts);
