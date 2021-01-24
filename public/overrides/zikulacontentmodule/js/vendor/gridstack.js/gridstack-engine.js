@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-engine.ts 3.1.4 @preserve
+// gridstack-engine.ts 3.1.5 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -52,10 +52,9 @@ class GridStackEngine {
             nn = { x: 0, y: node.y, w: this.column, h: node.h };
         }
         while (true) {
-            let collisionNode = this.nodes.find(n => n !== node && utils_1.Utils.isIntercepted(n, nn), { node: node, nn: nn });
-            if (!collisionNode) {
+            let collisionNode = this.collide(node, nn);
+            if (!collisionNode)
                 return this;
-            }
             let moved;
             if (collisionNode.locked) {
                 // if colliding with a locked item, move ourself instead
@@ -64,23 +63,22 @@ class GridStackEngine {
             else {
                 moved = this.moveNode(collisionNode, collisionNode.x, node.y + node.h, collisionNode.w, collisionNode.h, true);
             }
-            if (!moved) {
-                return this;
-            } // break inf loop if we couldn't move after all (ex: maxRow, fixed)
+            if (!moved)
+                return this; // break inf loop if we couldn't move after all (ex: maxRow, fixed)
         }
+    }
+    /** return any intercepted node with the given area, skipping the passed in node (usually self) */
+    collide(node, area = node) {
+        return this.nodes.find(n => n !== node && utils_1.Utils.isIntercepted(n, area));
     }
     isAreaEmpty(x, y, w, h) {
         let nn = { x: x || 0, y: y || 0, w: w || 1, h: h || 1 };
-        let collisionNode = this.nodes.find(n => {
-            return utils_1.Utils.isIntercepted(n, nn);
-        });
-        return !collisionNode;
+        return !this.collide(nn);
     }
     /** re-layout grid items to reclaim any empty space */
     compact() {
-        if (this.nodes.length === 0) {
+        if (this.nodes.length === 0)
             return this;
-        }
         this.batchUpdate();
         this._sortNodes();
         let copyNodes = this.nodes;
@@ -97,9 +95,8 @@ class GridStackEngine {
     }
     /** enable/disable floating widgets (default: `false`) See [example](http://gridstackjs.com/demo/float.html) */
     set float(val) {
-        if (this._float === val) {
+        if (this._float === val)
             return;
-        }
         this._float = val || false;
         if (!val) {
             this._packNodes();
@@ -124,9 +121,7 @@ class GridStackEngine {
                 let newY = n.y;
                 while (newY >= n._packY) {
                     let box = { x: n.x, y: newY, w: n.w, h: n.h };
-                    let collisionNode = this.nodes
-                        .slice(0, i)
-                        .find(bn => utils_1.Utils.isIntercepted(box, bn), { n: n, newY: newY });
+                    let collisionNode = this.nodes.slice(0, i).find(bn => utils_1.Utils.isIntercepted(box, bn));
                     if (!collisionNode) {
                         n._dirty = true;
                         n.y = newY;
@@ -137,18 +132,15 @@ class GridStackEngine {
         }
         else {
             this.nodes.forEach((n, i) => {
-                if (n.locked) {
+                if (n.locked)
                     return this;
-                }
                 while (n.y > 0) {
                     let newY = n.y - 1;
                     let canBeMoved = i === 0;
                     let box = { x: n.x, y: newY, w: n.w, h: n.h };
                     if (i > 0) {
-                        let collisionNode = this.nodes
-                            .slice(0, i)
-                            .find(bn => utils_1.Utils.isIntercepted(box, bn), { n: n, newY: newY });
-                        canBeMoved = collisionNode === undefined;
+                        let collisionNode = this.nodes.slice(0, i).find(bn => utils_1.Utils.isIntercepted(box, bn));
+                        canBeMoved = !collisionNode;
                     }
                     if (!canBeMoved) {
                         break;
@@ -282,9 +274,8 @@ class GridStackEngine {
     }
     /** @internal */
     _notify(nodes, removeDOM = true) {
-        if (this.batchMode) {
+        if (this.batchMode)
             return this;
-        }
         nodes = (nodes === undefined ? [] : (Array.isArray(nodes) ? nodes : [nodes]));
         let dirtyNodes = nodes.concat(this.getDirtyNodes());
         if (this.onChange) {
@@ -293,9 +284,8 @@ class GridStackEngine {
         return this;
     }
     cleanNodes() {
-        if (this.batchMode) {
+        if (this.batchMode)
             return this;
-        }
         this.nodes.forEach(n => { delete n._dirty; });
         return this;
     }
@@ -310,7 +300,7 @@ class GridStackEngine {
                     continue;
                 }
                 let box = { x, y, w: node.w, h: node.h };
-                if (!this.nodes.find(n => utils_1.Utils.isIntercepted(box, n), { x, y, node })) {
+                if (!this.nodes.find(n => utils_1.Utils.isIntercepted(box, n))) {
                     node.x = x;
                     node.y = y;
                     delete node.autoPosition; // found our slot
@@ -342,9 +332,8 @@ class GridStackEngine {
     }
     removeAll(removeDOM = true) {
         delete this._layouts;
-        if (this.nodes.length === 0) {
+        if (this.nodes.length === 0)
             return this;
-        }
         if (removeDOM) {
             this.nodes.forEach(n => { n._id = null; }); // hint that node is being removed
         }
@@ -397,6 +386,34 @@ class GridStackEngine {
         clone.addNode(node);
         return clone.getRow() <= this.maxRow;
     }
+    /** return true if the passed in node (x,y) is being dragged outside of the grid, and not added to bottom */
+    isOutside(x, y, node) {
+        // simple outside boundaries
+        if (x < 0 || x >= this.column || y < 0)
+            return true;
+        if (this.maxRow)
+            return (y >= this.maxRow);
+        else if (this.float)
+            return false; // infinite grow with no maxRow
+        // see if dragging PAST bottom (row+1)
+        let row = this.getRow();
+        if (y < row || y === 0)
+            return false;
+        if (y > row)
+            return true;
+        // else check to see if we can add that item to the bottom... (y == row)
+        if (!node._temporaryRemoved) {
+            let clone = new GridStackEngine({
+                column: this.column,
+                float: this.float,
+                nodes: this.nodes.filter(n => n !== node).map(n => { return Object.assign({}, n); })
+            });
+            let nn = Object.assign(Object.assign({}, node), { x, y });
+            clone.addNode(nn);
+            return nn.y === node.y && nn.x === node.x; // didn't actually move, so last row was a drag out and not a new place...
+        }
+        return node._temporaryRemoved; // if still outside so we don't flicker back & forth
+    }
     isNodeChangedPosition(node, x, y, w, h) {
         if (typeof x !== 'number') {
             x = node.x;
@@ -428,9 +445,8 @@ class GridStackEngine {
         return true;
     }
     moveNode(node, x, y, w, h, noPack) {
-        if (node.locked) {
+        if (node.locked)
             return null;
-        }
         if (typeof x !== 'number') {
             x = node.x;
         }
@@ -557,9 +573,8 @@ class GridStackEngine {
      * Note: items will never be outside of the current column boundaries. default (moveScale). Ignored for 1 column
      */
     updateNodeWidths(oldColumn, column, nodes, layout = 'moveScale') {
-        if (!this.nodes.length || oldColumn === column) {
+        if (!this.nodes.length || oldColumn === column)
             return this;
-        }
         // cache the current layout in case they want to go back (like 12 -> 1 -> 12) as it requires original data
         this.cacheLayout(this.nodes, oldColumn);
         // if we're going to 1 column and using DOM order rather than default sorting, then generate that layout

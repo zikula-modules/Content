@@ -25,6 +25,8 @@ export declare class GridStackEngine {
     constructor(opts?: GridStackEngineOptions);
     batchUpdate(): GridStackEngine;
     commit(): GridStackEngine;
+    /** return any intercepted node with the given area, skipping the passed in node (usually self) */
+    collide(node: GridStackNode, area?: GridStackNode): GridStackNode;
     isAreaEmpty(x: number, y: number, w: number, h: number): boolean;
     /** re-layout grid items to reclaim any empty space */
     compact(): GridStackEngine;
@@ -45,6 +47,8 @@ export declare class GridStackEngine {
     canMoveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number): boolean;
     /** return true if can fit in grid height constrain only (always true if no maxRow) */
     willItFit(node: GridStackNode): boolean;
+    /** return true if the passed in node (x,y) is being dragged outside of the grid, and not added to bottom */
+    isOutside(x: number, y: number, node: GridStackNode): boolean;
     isNodeChangedPosition(node: GridStackNode, x: number, y: number, w?: number, h?: number): boolean;
     moveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number, noPack?: boolean): GridStackNode;
     getRow(): number;

@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-dd-native.ts 3.1.4 @preserve
+// gridstack-dd-native.ts 3.1.5 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -119,9 +119,8 @@ class GridStackDDNative extends gridstack_dd_1.GridStackDD {
     /** @internal returns a list of DD elements, creating them on the fly by default */
     _getDDElements(els, create = true) {
         let hosts = utils_1.Utils.getElements(els);
-        if (!hosts.length) {
+        if (!hosts.length)
             return [];
-        }
         let list = hosts.map(e => e.ddElement || (create ? dd_element_1.DDElement.init(e) : null));
         if (!create) {
             list.filter(d => d);

@@ -1,5 +1,5 @@
 "use strict";
-// utils.ts 3.1.4 @preserve
+// utils.ts 3.1.5 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /** checks for obsolete method names */
 // eslint-disable-next-line
@@ -60,9 +60,8 @@ class Utils {
     /** convert a potential selector into actual single element */
     static getElement(els) {
         if (typeof els === 'string') {
-            if (!els.length) {
+            if (!els.length)
                 return null;
-            }
             if (els[0] === '#') {
                 return document.getElementById(els.substring(1));
             }
@@ -136,9 +135,8 @@ class Utils {
     /** removed the given stylesheet id */
     static removeStylesheet(id) {
         let el = document.querySelector('STYLE[gs-style-id=' + id + ']');
-        if (!el || !el.parentNode)
-            return;
-        el.parentNode.removeChild(el);
+        if (el && el.parentNode)
+            el.remove();
     }
     /** inserts a CSS rule */
     static addCSSRule(sheet, selector, rules) {
@@ -184,9 +182,8 @@ class Utils {
     static defaults(target, ...sources) {
         sources.forEach(source => {
             for (const key in source) {
-                if (!source.hasOwnProperty(key)) {
+                if (!source.hasOwnProperty(key))
                     return;
-                }
                 if (target[key] === null || target[key] === undefined) {
                     target[key] = source[key];
                 }
@@ -200,20 +197,16 @@ class Utils {
     }
     /** given 2 objects return true if they have the same values. Checks for Object {} having same fields and values (just 1 level down) */
     static same(a, b) {
-        if (typeof a !== 'object') {
+        if (typeof a !== 'object')
             return a == b;
-        }
-        if (typeof a !== typeof b) {
+        if (typeof a !== typeof b)
             return false;
-        }
         // else we have object, check just 1 level deep for being same things...
-        if (Object.keys(a).length !== Object.keys(b).length) {
+        if (Object.keys(a).length !== Object.keys(b).length)
             return false;
-        }
         for (const key in a) {
-            if (a[key] !== b[key]) {
+            if (a[key] !== b[key])
                 return false;
-            }
         }
         return true;
     }

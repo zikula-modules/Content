@@ -13,7 +13,7 @@ export declare class DDDroppable extends DDBaseImplement implements HTMLElementE
     on(event: 'drop' | 'dropover' | 'dropout', callback: (event: DragEvent) => void): void;
     off(event: 'drop' | 'dropover' | 'dropout'): void;
     enable(): void;
-    disable(): void;
+    disable(forDestroy?: boolean): void;
     destroy(): void;
     updateOption(opts: DDDroppableOpt): DDDroppable;
 }

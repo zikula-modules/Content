@@ -1,5 +1,5 @@
 "use strict";
-// dd-droppable.ts 3.1.4 @preserve
+// dd-droppable.ts 3.1.5 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 const dd_manager_1 = require("./dd-manager");
 const dd_base_impl_1 = require("./dd-base-impl");
@@ -7,8 +7,6 @@ const dd_utils_1 = require("./dd-utils");
 class DDDroppable extends dd_base_impl_1.DDBaseImplement {
     constructor(el, opts = {}) {
         super();
-        /** @internal */
-        this.acceptable = null;
         this.el = el;
         this.option = opts;
         // create var event binding so we can easily remove and still look like TS methods (unlike anonymous functions)
@@ -27,30 +25,28 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
         super.off(event);
     }
     enable() {
-        if (!this.disabled) {
+        if (!this.disabled)
             return;
-        }
         super.enable();
         this.el.classList.remove('ui-droppable-disabled');
         this.el.addEventListener('dragenter', this._dragEnter);
     }
-    disable() {
-        if (this.disabled) {
+    disable(forDestroy = false) {
+        if (this.disabled)
             return;
-        }
         super.disable();
-        this.el.classList.add('ui-droppable-disabled');
+        if (!forDestroy)
+            this.el.classList.add('ui-droppable-disabled');
         this.el.removeEventListener('dragenter', this._dragEnter);
     }
     destroy() {
-        this.el.classList.remove('ui-droppable');
-        if (this.disabled) {
-            this.el.classList.remove('ui-droppable-disabled');
-            this.el.removeEventListener('dragenter', this._dragEnter);
-            this.el.removeEventListener('dragover', this._dragOver);
-            this.el.removeEventListener('drop', this._drop);
-            this.el.removeEventListener('dragleave', this._dragLeave);
+        if (this.moving) {
+            this._removeLeaveCallbacks();
         }
+        this.disable(true);
+        this.el.classList.remove('ui-droppable');
+        this.el.classList.remove('ui-droppable-disabled');
+        delete this.moving;
         super.destroy();
     }
     updateOption(opts) {
@@ -60,33 +56,31 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal called when the cursor enters our area - prepare for a possible drop and track leaving */
     _dragEnter(event) {
-        this.el.removeEventListener('dragenter', this._dragEnter);
-        this.acceptable = this._canDrop();
-        if (this.acceptable) {
-            event.preventDefault();
-            const ev = dd_utils_1.DDUtils.initEvent(event, { target: this.el, type: 'dropover' });
-            if (this.option.over) {
-                this.option.over(ev, this._ui(dd_manager_1.DDManager.dragElement));
-            }
-            this.triggerEvent('dropover', ev);
-            this.el.addEventListener('dragover', this._dragOver);
-            this.el.addEventListener('drop', this._drop);
+        if (!this._canDrop())
+            return;
+        this.moving = true;
+        event.preventDefault();
+        const ev = dd_utils_1.DDUtils.initEvent(event, { target: this.el, type: 'dropover' });
+        if (this.option.over) {
+            this.option.over(ev, this._ui(dd_manager_1.DDManager.dragElement));
         }
-        this.el.classList.add('ui-droppable-over');
+        this.triggerEvent('dropover', ev);
+        this.el.addEventListener('dragover', this._dragOver);
+        this.el.addEventListener('drop', this._drop);
         this.el.addEventListener('dragleave', this._dragLeave);
+        this.el.classList.add('ui-droppable-over');
     }
-    /** @internal called when an acceptable to drop item is being dragged over - do nothing but eat the event */
+    /** @internal called when an moving to drop item is being dragged over - do nothing but eat the event */
     _dragOver(event) {
         event.preventDefault();
         event.stopPropagation();
     }
-    /** @internal called when the item is leaving our area, stop tracking if we had acceptable item */
+    /** @internal called when the item is leaving our area, stop tracking if we had moving item */
     _dragLeave(event) {
-        if (this.el.contains(event.relatedTarget)) {
+        if (this.el.contains(event.relatedTarget))
             return;
-        }
         this._removeLeaveCallbacks();
-        if (this.acceptable) {
+        if (this.moving) {
             event.preventDefault();
             const ev = dd_utils_1.DDUtils.initEvent(event, { target: this.el, type: 'dropout' });
             if (this.option.out) {
@@ -97,9 +91,8 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal item is being dropped on us - call the client drop event */
     _drop(event) {
-        if (!this.acceptable) {
-            return;
-        } // should not have received event...
+        if (!this.moving)
+            return; // should not have received event...
         event.preventDefault();
         const ev = dd_utils_1.DDUtils.initEvent(event, { target: this.el, type: 'drop' });
         if (this.option.drop) {
@@ -112,11 +105,10 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
     _removeLeaveCallbacks() {
         this.el.removeEventListener('dragleave', this._dragLeave);
         this.el.classList.remove('ui-droppable-over');
-        if (this.acceptable) {
+        if (this.moving) {
             this.el.removeEventListener('dragover', this._dragOver);
             this.el.removeEventListener('drop', this._drop);
         }
-        this.el.addEventListener('dragenter', this._dragEnter);
     }
     /** @internal */
     _canDrop() {

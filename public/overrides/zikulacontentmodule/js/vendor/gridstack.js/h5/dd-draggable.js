@@ -1,5 +1,5 @@
 "use strict";
-// dd-draggable.ts 3.1.4 @preserve
+// dd-draggable.ts 3.1.5 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -32,8 +32,10 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         };
         this.el = el;
         this.option = option;
+        // get the element that is actually supposed to be dragged by
+        let className = option.handle.substring(1);
+        this.dragEl = el.classList.contains(className) ? el : el.querySelector(option.handle) || el;
         // create var event binding so we can easily remove and still look like TS methods (unlike anonymous functions)
-        this._mouseDown = this._mouseDown.bind(this);
         this._dragStart = this._dragStart.bind(this);
         this._drag = this._drag.bind(this);
         this._dragEnd = this._dragEnd.bind(this);
@@ -48,20 +50,18 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     }
     enable() {
         super.enable();
-        this.el.draggable = true;
+        this.dragEl.draggable = true;
+        this.dragEl.addEventListener('dragstart', this._dragStart);
         this.el.classList.remove('ui-draggable-disabled');
         this.el.classList.add('ui-draggable');
-        this.el.addEventListener('mousedown', this._mouseDown);
-        this.el.addEventListener('dragstart', this._dragStart);
     }
     disable(forDestroy = false) {
         super.disable();
-        this.el.removeAttribute('draggable');
+        this.dragEl.removeAttribute('draggable');
+        this.dragEl.removeEventListener('dragstart', this._dragStart);
         this.el.classList.remove('ui-draggable');
         if (!forDestroy)
             this.el.classList.add('ui-draggable-disabled');
-        this.el.removeEventListener('mousedown', this._mouseDown);
-        this.el.removeEventListener('dragstart', this._dragStart);
     }
     destroy() {
         if (this.dragging) {
@@ -80,22 +80,8 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         Object.keys(opts).forEach(key => this.option[key] = opts[key]);
         return this;
     }
-    /** @internal call when mouse goes down before a dragstart happens */
-    _mouseDown(event) {
-        // make sure we are clicking on a drag handle or child of it...
-        let className = this.option.handle.substring(1);
-        let el = event.target;
-        while (el && !el.classList.contains(className)) {
-            el = el.parentElement;
-        }
-        this.dragEl = el;
-    }
     /** @internal */
     _dragStart(event) {
-        if (!this.dragEl) {
-            event.preventDefault();
-            return;
-        }
         dd_manager_1.DDManager.dragElement = this;
         this.helper = this._createHelper(event);
         this._setupHelperContainmentStyle();
@@ -116,7 +102,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     _setupDragFollowNodeNotifyStart(ev) {
         this._setupHelperStyle();
         document.addEventListener('dragover', this._drag, DDDraggable.dragEventListenerOption);
-        this.el.addEventListener('dragend', this._dragEnd);
+        this.dragEl.addEventListener('dragend', this._dragEnd);
         if (this.option.start) {
             this.option.start(ev, this.ui());
         }
@@ -149,7 +135,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
                 cancelAnimationFrame(this.paintTimer);
             }
             document.removeEventListener('dragover', this._drag, DDDraggable.dragEventListenerOption);
-            this.el.removeEventListener('dragend', this._dragEnd);
+            this.dragEl.removeEventListener('dragend', this._dragEnd);
         }
         this.dragging = false;
         this.helper.classList.remove('ui-draggable-dragging');
@@ -167,7 +153,6 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         this.triggerEvent('dragstop', ev);
         delete dd_manager_1.DDManager.dragElement;
         delete this.helper;
-        delete this.dragEl;
     }
     /** @internal create a clone copy (or user defined method) of the original drag item if set */
     _createHelper(event) {

@@ -1,5 +1,5 @@
 "use strict";
-// gridstack.ts 3.1.4 @preserve
+// gridstack.ts 3.1.5 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -179,6 +179,9 @@ class GridStack {
         this.placeholder.classList.add(this.opts.placeholderClass, defaults.itemClass, this.opts.itemClass);
         this.placeholder.appendChild(placeholderChild);
         this._updateStyles();
+        if (this.opts.column != 12) {
+            this.el.classList.add('grid-stack-' + this.opts.column);
+        }
         this._setupDragIn();
         this._setupRemoveDrop();
         this._setupAcceptWidget();
@@ -245,9 +248,8 @@ class GridStack {
      * @param opt grids options used to initialize the grid, and list of children
      */
     static addGrid(parent, opt = {}) {
-        if (!parent) {
+        if (!parent)
             return null;
-        }
         // create the grid element
         let doc = document.implementation.createHTMLDocument();
         doc.body.innerHTML = `<div class="grid-stack ${opt.class || ''}"></div>`;
@@ -483,7 +485,7 @@ class GridStack {
         this.opts.cellHeightUnit = data.unit;
         this.opts.cellHeight = data.h;
         if (update) {
-            this._updateStyles(true); // true = force re-create
+            this._updateStyles(true, this.getRow()); // true = force re-create, for that # of rows
         }
         this._resizeNestedGrids(this.el);
         return this;
@@ -521,9 +523,8 @@ class GridStack {
      * Note: items will never be outside of the current column boundaries. default (moveScale). Ignored for 1 column
      */
     column(column, layout = 'moveScale') {
-        if (this.opts.column === column) {
+        if (this.opts.column === column)
             return this;
-        }
         let oldColumn = this.opts.column;
         // if we go into 1 column mode (which happens if we're sized less than minW unless disableOneColumnMode is on)
         // then remember the original columns so we can restore.
@@ -572,9 +573,8 @@ class GridStack {
      * @param removeDOM if `false` grid and items HTML elements will not be removed from the DOM (Optional. Default `true`).
      */
     destroy(removeDOM = true) {
-        if (!this.el) {
-            return;
-        } // prevent multiple calls
+        if (!this.el)
+            return; // prevent multiple calls
         this._updateWindowResizeEvent(true);
         this.setStatic(true); // permanently removes DD
         if (!removeDOM) {
@@ -603,9 +603,8 @@ class GridStack {
      *  grid.enableResize(false);
      */
     disable() {
-        if (this.opts.staticGrid) {
+        if (this.opts.staticGrid)
             return;
-        }
         this.enableMove(false);
         this.enableResize(false);
         this._triggerEvent('disable');
@@ -620,9 +619,8 @@ class GridStack {
      *  grid.enableResize(true);
      */
     enable() {
-        if (this.opts.staticGrid) {
+        if (this.opts.staticGrid)
             return;
-        }
         this.enableMove(true);
         this.enableResize(true);
         this._triggerEvent('enable');
@@ -636,9 +634,8 @@ class GridStack {
      * doEnable`s value by changing the disableDrag grid option (default: true).
      */
     enableMove(doEnable, includeNewWidgets = true) {
-        if (this.opts.staticGrid) {
-            return this;
-        } // can't move a static grid!
+        if (this.opts.staticGrid)
+            return this; // can't move a static grid!
         this.getGridItems().forEach(el => this.movable(el, doEnable));
         if (includeNewWidgets) {
             this.opts.disableDrag = !doEnable;
@@ -652,9 +649,8 @@ class GridStack {
      * doEnable`s value by changing the disableResize grid option (default: true).
      */
     enableResize(doEnable, includeNewWidgets = true) {
-        if (this.opts.staticGrid) {
-            return this;
-        } // can't size a static grid!
+        if (this.opts.staticGrid)
+            return this; // can't size a static grid!
         this.getGridItems().forEach(el => this.resizable(el, doEnable));
         if (includeNewWidgets) {
             this.opts.disableResize = !doEnable;
@@ -871,9 +867,8 @@ class GridStack {
      * @param val if true the grid become static.
      */
     setStatic(val) {
-        if (this.opts.staticGrid === val) {
+        if (this.opts.staticGrid === val)
             return this;
-        }
         this.opts.staticGrid = val;
         this.engine.nodes.forEach(n => this._prepareDragDropByNode(n)); // either delete Drag&drop or initialize it
         this._setStaticClass();
@@ -894,9 +889,8 @@ class GridStack {
             return this.update(els, opt);
         }
         GridStack.getElements(els).forEach(el => {
-            if (!el || !el.gridstackNode) {
+            if (!el || !el.gridstackNode)
                 return;
-            }
             let n = el.gridstackNode;
             let w = Object.assign({}, opt); // make a copy we can modify in case they re-use it or multiple items
             delete w.autoPosition;
@@ -995,9 +989,8 @@ class GridStack {
     }
     /** @internal */
     _triggerChangeEvent() {
-        if (this.engine.batchMode) {
+        if (this.engine.batchMode)
             return this;
-        }
         let elements = this.engine.getDirtyNodes(true); // verify they really changed
         if (elements && elements.length) {
             if (!this._ignoreLayoutsNodeChange) {
@@ -1010,9 +1003,8 @@ class GridStack {
     }
     /** @internal */
     _triggerAddEvent() {
-        if (this.engine.batchMode) {
+        if (this.engine.batchMode)
             return this;
-        }
         if (this.engine.addedNodes && this.engine.addedNodes.length > 0) {
             if (!this._ignoreLayoutsNodeChange) {
                 this.engine.layoutsNodesChange(this.engine.addedNodes);
@@ -1026,9 +1018,8 @@ class GridStack {
     }
     /** @internal */
     _triggerRemoveEvent() {
-        if (this.engine.batchMode) {
+        if (this.engine.batchMode)
             return this;
-        }
         if (this.engine.removedNodes && this.engine.removedNodes.length > 0) {
             this._triggerEvent('removed', this.engine.removedNodes);
             this.engine.removedNodes = [];
@@ -1069,9 +1060,8 @@ class GridStack {
             // insert style to parent (instead of 'head' by default) to support WebComponent
             let styleLocation = this.opts.styleInHead ? undefined : this.el.parentNode;
             this._styles = utils_1.Utils.createStylesheet(id, styleLocation);
-            if (!this._styles) {
+            if (!this._styles)
                 return this;
-            }
             this._styles._id = id;
             this._styles._max = 0;
             // these are done once only
@@ -1110,9 +1100,8 @@ class GridStack {
     }
     /** @internal */
     _updateContainerHeight() {
-        if (!this.engine || this.engine.batchMode) {
+        if (!this.engine || this.engine.batchMode)
             return this;
-        }
         let row = this.getRow(); // checks for minRow already
         // check for css min height
         let cssMinHeight = parseInt(getComputedStyle(this.el)['min-height']);
@@ -1129,9 +1118,8 @@ class GridStack {
         }
         let cellHeight = this.opts.cellHeight;
         let unit = this.opts.cellHeightUnit;
-        if (!cellHeight) {
+        if (!cellHeight)
             return this;
-        }
         this.el.style.height = row * cellHeight + unit;
         return this;
     }
@@ -1224,9 +1212,8 @@ class GridStack {
         node.id = el.getAttribute('gs-id');
         // remove any key not found (null or false which is default)
         for (const key in node) {
-            if (!node.hasOwnProperty(key)) {
+            if (!node.hasOwnProperty(key))
                 return;
-            }
             if (!node[key] && node[key] !== 0) { // 0 can be valid value (x,y only really)
                 delete node[key];
             }
@@ -1262,17 +1249,15 @@ class GridStack {
             }, 100);
         }
         if (!this.opts.disableOneColumnMode && this.el.clientWidth <= this.opts.minWidth) {
-            if (this._oneColumnMode) {
+            if (this._oneColumnMode)
                 return this;
-            }
             this._oneColumnMode = true;
             this.column(1);
             this._resizeNestedGrids(this.el);
         }
         else {
-            if (!this._oneColumnMode) {
+            if (!this._oneColumnMode)
                 return this;
-            }
             delete this._oneColumnMode;
             this.column(this._prevColumn);
             this._resizeNestedGrids(this.el);

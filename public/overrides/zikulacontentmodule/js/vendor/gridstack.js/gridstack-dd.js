@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-GridStackDD.get().ts 3.1.4 @preserve
+// gridstack-GridStackDD.get().ts 3.1.5 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -83,14 +83,24 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         .droppable(this.el, {
         accept: (el) => {
             let node = el.gridstackNode;
-            if (node && node.grid === this) {
-                return true; // set accept drop to true on ourself (which we ignore) so we don't get "can't drop" icon in HTML5 mode while moving
-            }
+            // set accept drop to true on ourself (which we ignore) so we don't get "can't drop" icon in HTML5 mode while moving
+            if (node && node.grid === this)
+                return true;
+            // check for accept method or class matching
+            let canAccept = true;
             if (typeof this.opts.acceptWidgets === 'function') {
-                return this.opts.acceptWidgets(el);
+                canAccept = this.opts.acceptWidgets(el);
             }
-            let selector = (this.opts.acceptWidgets === true ? '.grid-stack-item' : this.opts.acceptWidgets);
-            return el.matches(selector);
+            else {
+                let selector = (this.opts.acceptWidgets === true ? '.grid-stack-item' : this.opts.acceptWidgets);
+                canAccept = el.matches(selector);
+            }
+            // finally check to make sure we actually have space left #1571
+            if (canAccept && node && this.opts.maxRow) {
+                let n = { w: node.w, h: node.h, minW: node.minW, minH: node.minH }; // only width/height matters
+                canAccept = this.engine.willItFit(n);
+            }
+            return canAccept;
         }
     })
         .on(this.el, 'dropover', (event, el) => {
@@ -121,9 +131,8 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
     })
         .on(this.el, 'dropout', (event, el) => {
         let node = el.gridstackNode;
-        if (!node) {
+        if (!node)
             return;
-        }
         // clear any added flag now that we are leaving #1484
         delete node._added;
         // jquery-ui bug. Must verify widget is being dropped out
@@ -145,9 +154,8 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         let node = el.gridstackNode;
         let wasAdded = !!this.placeholder.parentElement; // skip items not actually added to us because of constrains, but do cleanup #1419
         // ignore drop on ourself from ourself - dragend will handle the simple move instead
-        if (node && node.grid === this) {
+        if (node && node.grid === this)
             return false;
-        }
         this.placeholder.remove();
         // notify previous grid of removal
         let origNode = el._gridstackNodeOrig;
@@ -159,9 +167,8 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
             oGrid.engine.removedNodes.push(origNode);
             oGrid._triggerRemoveEvent();
         }
-        if (!node) {
+        if (!node)
             return false;
-        }
         // use existing placeholder node as it's already in our list with drop location
         if (wasAdded) {
             const _id = node._id;
@@ -327,7 +334,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
     /** called when item is being dragged/resized */
     let dragOrResize = (event, ui) => {
         let x = Math.round(ui.position.left / cellWidth);
-        let y = Math.floor((ui.position.top + cellHeight / 2) / cellHeight);
+        let y = Math.round(ui.position.top / cellHeight);
         let w;
         let h;
         if (event.type === 'drag') {
@@ -335,7 +342,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
             node._prevYPix = ui.position.top;
             utils_1.Utils.updateScrollPosition(el, ui.position, distance);
             // if inTrash, outside of the bounds or added to another grid (#393) temporarily remove it from us
-            if (el.dataset.inTrashZone || x < 0 || x >= this.engine.column || y < 0 || (!this.engine.float && y > this.engine.getRow()) || node._added) {
+            if (el.dataset.inTrashZone || node._added || this.engine.isOutside(x, y, node)) {
                 if (node._temporaryRemoved)
                     return;
                 if (this.opts.removable === true) {
@@ -459,14 +466,12 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
  * @param val if true widget will be draggable.
  */
 gridstack_1.GridStack.prototype.movable = function (els, val) {
-    if (this.opts.staticGrid) {
-        return this;
-    } // can't move a static grid!
+    if (this.opts.staticGrid)
+        return this; // can't move a static grid!
     gridstack_1.GridStack.getElements(els).forEach(el => {
         let node = el.gridstackNode;
-        if (!node || node.locked) {
+        if (!node || node.locked)
             return;
-        }
         node.noMove = !(val || false);
         if (node.noMove) {
             GridStackDD.get().draggable(el, 'disable');
@@ -486,14 +491,12 @@ gridstack_1.GridStack.prototype.movable = function (els, val) {
  * @param val  if true widget will be resizable.
  */
 gridstack_1.GridStack.prototype.resizable = function (els, val) {
-    if (this.opts.staticGrid) {
-        return this;
-    } // can't resize a static grid!
+    if (this.opts.staticGrid)
+        return this; // can't resize a static grid!
     gridstack_1.GridStack.getElements(els).forEach(el => {
         let node = el.gridstackNode;
-        if (!node || node.locked) {
+        if (!node || node.locked)
             return;
-        }
         node.noResize = !(val || false);
         if (node.noResize) {
             GridStackDD.get().resizable(el, 'disable');
