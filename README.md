@@ -26,8 +26,8 @@ It also features additional functionality, like translating content and tracking
 
 ## Requirements
 
-The `master` branch of this module is intended for being used with Zikula 3.0.
-For Zikula 2.0.x look at [releases](https://github.com/zikula-modules/Content/releases/).
+The `main` branch of this module is intended for being used with Zikula 3.1.
+For Zikula 3.0.x and 2.0.x look at [releases](https://github.com/zikula-modules/Content/releases/).
 
 ## Installation
 

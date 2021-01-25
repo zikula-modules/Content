@@ -6,10 +6,10 @@ jobs:
   update-deps:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout sources from master branch
+    - name: Checkout sources from main branch
       uses: actions/checkout@v2
       with:
-        ref: master
+        ref: main
 
     - name: Update dependencies
       run: |
