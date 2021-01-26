@@ -1,5 +1,5 @@
 "use strict";
-// gridstack.ts 3.1.5 @preserve
+// gridstack.ts 3.2.0 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -172,12 +172,6 @@ class GridStack {
         }
         this.engine.saveInitial(); // initial start of items
         this.setAnimation(this.opts.animate);
-        let placeholderChild = document.createElement('div');
-        placeholderChild.className = 'placeholder-content';
-        placeholderChild.innerHTML = this.opts.placeholderText;
-        this.placeholder = document.createElement('div');
-        this.placeholder.classList.add(this.opts.placeholderClass, defaults.itemClass, this.opts.itemClass);
-        this.placeholder.appendChild(placeholderChild);
         this._updateStyles();
         if (this.opts.column != 12) {
             this.el.classList.add('grid-stack-' + this.opts.column);
@@ -261,6 +255,20 @@ class GridStack {
             grid.load(opt.children);
         }
         return grid;
+    }
+    /** @internal create placeholder DIV as needed */
+    get placeholder() {
+        if (!this._placeholder) {
+            let placeholderChild = document.createElement('div'); // child so padding match item-content
+            placeholderChild.className = 'placeholder-content';
+            if (this.opts.placeholderText) {
+                placeholderChild.innerHTML = this.opts.placeholderText;
+            }
+            this._placeholder = document.createElement('div');
+            this._placeholder.classList.add(this.opts.placeholderClass, GridDefaults.itemClass, this.opts.itemClass);
+            this.placeholder.appendChild(placeholderChild);
+        }
+        return this._placeholder;
     }
     /**
      * add a new widget and returns it.
@@ -587,87 +595,16 @@ class GridStack {
         this._removeStylesheet();
         delete this.opts._isNested;
         delete this.opts;
-        delete this.placeholder;
+        delete this._placeholder;
         delete this.engine;
         delete this.el.gridstack; // remove circular dependency that would prevent a freeing
         delete this.el;
         return this;
     }
     /**
-     * Temporarily disables widgets moving/resizing.
-     * If you want a more permanent way (which freezes up resources) use `setStatic(true)` instead.
-     * Note: no-op for static grid
-     * This is a shortcut for:
-     * @example
-     *  grid.enableMove(false);
-     *  grid.enableResize(false);
-     */
-    disable() {
-        if (this.opts.staticGrid)
-            return;
-        this.enableMove(false);
-        this.enableResize(false);
-        this._triggerEvent('disable');
-        return this;
-    }
-    /**
-     * Re-enables widgets moving/resizing - see disable().
-     * Note: no-op for static grid.
-     * This is a shortcut for:
-     * @example
-     *  grid.enableMove(true);
-     *  grid.enableResize(true);
-     */
-    enable() {
-        if (this.opts.staticGrid)
-            return;
-        this.enableMove(true);
-        this.enableResize(true);
-        this._triggerEvent('enable');
-        return this;
-    }
-    /**
-     * Enables/disables widget moving. No-op for static grids.
-     *
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableDrag grid option (default: true).
-     */
-    enableMove(doEnable, includeNewWidgets = true) {
-        if (this.opts.staticGrid)
-            return this; // can't move a static grid!
-        this.getGridItems().forEach(el => this.movable(el, doEnable));
-        if (includeNewWidgets) {
-            this.opts.disableDrag = !doEnable;
-        }
-        return this;
-    }
-    /**
-     * Enables/disables widget resizing. No-op for static grids.
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableResize grid option (default: true).
-     */
-    enableResize(doEnable, includeNewWidgets = true) {
-        if (this.opts.staticGrid)
-            return this; // can't size a static grid!
-        this.getGridItems().forEach(el => this.resizable(el, doEnable));
-        if (includeNewWidgets) {
-            this.opts.disableResize = !doEnable;
-        }
-        return this;
-    }
-    /**
      * enable/disable floating widgets (default: `false`) See [example](http://gridstackjs.com/demo/float.html)
      */
     float(val) {
-        /*
-        if (val === undefined) {
-          // TODO: should we support and/or change signature ? figure this soon...
-          console.warn('gridstack.ts: getter `float()` is deprecated in 2.x and has been replaced by `getFloat()`. It will be **completely** removed soon');
-          return this.getFloat();
-        }
-        */
         this.engine.float = val;
         this._triggerChangeEvent();
         return this;
@@ -1355,7 +1292,7 @@ class GridStack {
      * so we don't incur the load unless needed.
      * NOTE: had to make those methods public in order to define them else as
      *   GridStack.prototype._setupAcceptWidget = function()
-     * maybe there is a better way....
+     * maybe there is a better way ????
      */
     /* eslint-disable @typescript-eslint/no-unused-vars */
     /**
@@ -1370,6 +1307,40 @@ class GridStack {
      * @param val  if true widget will be resizable.
      */
     resizable(els, val) { return this; }
+    /**
+     * Temporarily disables widgets moving/resizing.
+     * If you want a more permanent way (which freezes up resources) use `setStatic(true)` instead.
+     * Note: no-op for static grid
+     * This is a shortcut for:
+     * @example
+     *  grid.enableMove(false);
+     *  grid.enableResize(false);
+     */
+    disable() { return this; }
+    /**
+     * Re-enables widgets moving/resizing - see disable().
+     * Note: no-op for static grid.
+     * This is a shortcut for:
+     * @example
+     *  grid.enableMove(true);
+     *  grid.enableResize(true);
+     */
+    enable() { return this; }
+    /**
+     * Enables/disables widget moving. No-op for static grids.
+     *
+     * @param doEnable
+     * @param includeNewWidgets will force new widgets to be draggable as per
+     * doEnable`s value by changing the disableDrag grid option (default: true).
+     */
+    enableMove(doEnable, includeNewWidgets = true) { return this; }
+    /**
+     * Enables/disables widget resizing. No-op for static grids.
+     * @param doEnable
+     * @param includeNewWidgets will force new widgets to be draggable as per
+     * doEnable`s value by changing the disableResize grid option (default: true).
+     */
+    enableResize(doEnable, includeNewWidgets = true) { return this; }
     /** @internal called to add drag over support to support widgets */
     _setupAcceptWidget() { return this; }
     /** @internal called to setup a trash drop zone if the user specifies it */

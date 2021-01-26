@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-GridStackDD.get().ts 3.1.5 @preserve
+// gridstack-GridStackDD.get().ts 3.2.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -506,6 +506,70 @@ gridstack_1.GridStack.prototype.resizable = function (els, val) {
             GridStackDD.get().resizable(el, 'enable');
         }
     });
+    return this;
+};
+/**
+  * Temporarily disables widgets moving/resizing.
+  * If you want a more permanent way (which freezes up resources) use `setStatic(true)` instead.
+  * Note: no-op for static grid
+  * This is a shortcut for:
+  * @example
+  *  grid.enableMove(false);
+  *  grid.enableResize(false);
+  */
+gridstack_1.GridStack.prototype.disable = function () {
+    if (this.opts.staticGrid)
+        return;
+    this.enableMove(false);
+    this.enableResize(false);
+    this._triggerEvent('disable');
+    return this;
+};
+/**
+  * Re-enables widgets moving/resizing - see disable().
+  * Note: no-op for static grid.
+  * This is a shortcut for:
+  * @example
+  *  grid.enableMove(true);
+  *  grid.enableResize(true);
+  */
+gridstack_1.GridStack.prototype.enable = function () {
+    if (this.opts.staticGrid)
+        return;
+    this.enableMove(true);
+    this.enableResize(true);
+    this._triggerEvent('enable');
+    return this;
+};
+/**
+  * Enables/disables widget moving. No-op for static grids.
+  *
+  * @param doEnable
+  * @param includeNewWidgets will force new widgets to be draggable as per
+  * doEnable`s value by changing the disableDrag grid option (default: true).
+  */
+gridstack_1.GridStack.prototype.enableMove = function (doEnable, includeNewWidgets = true) {
+    if (this.opts.staticGrid)
+        return this; // can't move a static grid!
+    this.getGridItems().forEach(el => this.movable(el, doEnable));
+    if (includeNewWidgets) {
+        this.opts.disableDrag = !doEnable;
+    }
+    return this;
+};
+/**
+  * Enables/disables widget resizing. No-op for static grids.
+  * @param doEnable
+  * @param includeNewWidgets will force new widgets to be draggable as per
+  * doEnable`s value by changing the disableResize grid option (default: true).
+  */
+gridstack_1.GridStack.prototype.enableResize = function (doEnable, includeNewWidgets = true) {
+    if (this.opts.staticGrid)
+        return this; // can't size a static grid!
+    this.getGridItems().forEach(el => this.resizable(el, doEnable));
+    if (includeNewWidgets) {
+        this.opts.disableResize = !doEnable;
+    }
     return this;
 };
 //# sourceMappingURL=gridstack-dd.js.map

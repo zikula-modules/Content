@@ -12,6 +12,7 @@ const gridstack_dd_1 = require("../gridstack-dd");
 const $ = require("./jquery"); // compile this in... having issues TS/ES6 app would include instead
 exports.$ = $;
 require("./jquery-ui");
+require("./jquery.ui.touch-punch"); // include for touch mobile devices
 // export our base class (what user should use) and all associated types
 __export(require("../gridstack-dd"));
 /**

@@ -168,40 +168,6 @@ export declare class GridStack {
      */
     destroy(removeDOM?: boolean): GridStack;
     /**
-     * Temporarily disables widgets moving/resizing.
-     * If you want a more permanent way (which freezes up resources) use `setStatic(true)` instead.
-     * Note: no-op for static grid
-     * This is a shortcut for:
-     * @example
-     *  grid.enableMove(false);
-     *  grid.enableResize(false);
-     */
-    disable(): GridStack;
-    /**
-     * Re-enables widgets moving/resizing - see disable().
-     * Note: no-op for static grid.
-     * This is a shortcut for:
-     * @example
-     *  grid.enableMove(true);
-     *  grid.enableResize(true);
-     */
-    enable(): GridStack;
-    /**
-     * Enables/disables widget moving. No-op for static grids.
-     *
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableDrag grid option (default: true).
-     */
-    enableMove(doEnable: boolean, includeNewWidgets?: boolean): GridStack;
-    /**
-     * Enables/disables widget resizing. No-op for static grids.
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableResize grid option (default: true).
-     */
-    enableResize(doEnable: boolean, includeNewWidgets?: boolean): GridStack;
-    /**
      * enable/disable floating widgets (default: `false`) See [example](http://gridstackjs.com/demo/float.html)
      */
     float(val: boolean): GridStack;
@@ -333,4 +299,38 @@ export declare class GridStack {
      * @param val  if true widget will be resizable.
      */
     resizable(els: GridStackElement, val: boolean): GridStack;
+    /**
+     * Temporarily disables widgets moving/resizing.
+     * If you want a more permanent way (which freezes up resources) use `setStatic(true)` instead.
+     * Note: no-op for static grid
+     * This is a shortcut for:
+     * @example
+     *  grid.enableMove(false);
+     *  grid.enableResize(false);
+     */
+    disable(): GridStack;
+    /**
+     * Re-enables widgets moving/resizing - see disable().
+     * Note: no-op for static grid.
+     * This is a shortcut for:
+     * @example
+     *  grid.enableMove(true);
+     *  grid.enableResize(true);
+     */
+    enable(): GridStack;
+    /**
+     * Enables/disables widget moving. No-op for static grids.
+     *
+     * @param doEnable
+     * @param includeNewWidgets will force new widgets to be draggable as per
+     * doEnable`s value by changing the disableDrag grid option (default: true).
+     */
+    enableMove(doEnable: boolean, includeNewWidgets?: boolean): GridStack;
+    /**
+     * Enables/disables widget resizing. No-op for static grids.
+     * @param doEnable
+     * @param includeNewWidgets will force new widgets to be draggable as per
+     * doEnable`s value by changing the disableResize grid option (default: true).
+     */
+    enableResize(doEnable: boolean, includeNewWidgets?: boolean): GridStack;
 }

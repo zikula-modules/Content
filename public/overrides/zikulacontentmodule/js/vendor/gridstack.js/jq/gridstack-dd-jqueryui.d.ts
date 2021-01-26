@@ -9,6 +9,7 @@ import { GridItemHTMLElement, DDDragInOpt } from '../types';
 import * as $ from './jquery';
 export { $ };
 import './jquery-ui';
+import './jquery.ui.touch-punch';
 export * from '../gridstack-dd';
 /**
  * legacy Jquery-ui based drag'n'drop plugin.

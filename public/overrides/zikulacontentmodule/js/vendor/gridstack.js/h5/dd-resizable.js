@@ -1,5 +1,5 @@
 "use strict";
-// dd-resizable.ts 3.1.5 @preserve
+// dd-resizable.ts 3.2.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
