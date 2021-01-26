@@ -44,7 +44,7 @@ class GoogleRouteType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'compass';
+        return 'fas fa-compass';
     }
 
     public function getTitle(): string

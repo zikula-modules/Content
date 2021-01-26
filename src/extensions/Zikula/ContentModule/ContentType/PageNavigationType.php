@@ -31,7 +31,7 @@ class PageNavigationType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'map-signs';
+        return 'fas fa-map-signs';
     }
 
     public function getTitle(): string

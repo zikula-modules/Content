@@ -51,7 +51,7 @@ class TabNavigationType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'columns';
+        return 'fas fa-columns';
     }
 
     public function getTitle(): string

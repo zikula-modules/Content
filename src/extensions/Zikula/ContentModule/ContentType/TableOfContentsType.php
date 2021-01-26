@@ -57,7 +57,7 @@ class TableOfContentsType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'book';
+        return 'fas fa-book';
     }
 
     public function getTitle(): string

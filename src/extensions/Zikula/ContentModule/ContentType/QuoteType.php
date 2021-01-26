@@ -32,7 +32,7 @@ class QuoteType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'quote-right';
+        return 'fas fa-quote-right';
     }
 
     public function getTitle(): string

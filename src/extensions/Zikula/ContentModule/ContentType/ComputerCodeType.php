@@ -38,7 +38,7 @@ class ComputerCodeType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'code';
+        return 'fas fa-code';
     }
 
     public function getTitle(): string

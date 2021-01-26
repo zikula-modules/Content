@@ -38,7 +38,7 @@ class BreadcrumbType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'sitemap';
+        return 'fas fa-sitemap';
     }
 
     public function getTitle(): string

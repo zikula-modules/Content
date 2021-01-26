@@ -40,7 +40,7 @@ class AuthorType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'id-card';
+        return 'fas fa-id-card';
     }
 
     public function getTitle(): string

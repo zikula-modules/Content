@@ -148,7 +148,7 @@ class ContentDisplayHelper implements ContainerAwareInterface
      */
     public function getWidgetTitle(ContentItemEntity $item, ContentTypeInterface $contentType): string
     {
-        $icon = '<i class="fas fa-' . $contentType->getIcon() . '"></i>';
+        $icon = '<i class="' . $contentType->getIcon() . '"></i>';
         $title = $contentType->getTitle();
         $titleSuffix = '';
 

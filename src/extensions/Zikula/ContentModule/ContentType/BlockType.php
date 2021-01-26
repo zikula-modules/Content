@@ -58,7 +58,7 @@ class BlockType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'cubes';
+        return 'fas fa-cubes';
     }
 
     public function getTitle(): string

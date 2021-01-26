@@ -32,7 +32,7 @@ class HtmlType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'font';
+        return 'fas fa-font';
     }
 
     public function getTitle(): string

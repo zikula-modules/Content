@@ -46,7 +46,7 @@ class ControllerType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'cog';
+        return 'fas fa-cog';
     }
 
     public function getTitle(): string

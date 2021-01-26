@@ -39,7 +39,7 @@ class FeedType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'rss-square';
+        return 'fas fa-rss-square';
     }
 
     public function getTitle(): string

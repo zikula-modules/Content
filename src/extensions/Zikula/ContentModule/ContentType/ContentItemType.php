@@ -45,7 +45,7 @@ class ContentItemType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'link';
+        return 'fas fa-link';
     }
 
     public function getTitle(): string

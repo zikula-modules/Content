@@ -198,7 +198,7 @@
                                     <tr>
                                         <td headers="h{{ contentType.name }} hBundle">{{ contentType.bundleName }}</td>
                                         <th id="h{{ contentType.name }}" scope="row" headers="hPlugin" class="nowrap">
-                                            <i class="fa-fw {% if 'fa-' not in contentType.icon %}fas fa-{% endif %}{{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}
+                                            <i class="fa-fw {{ contentType.icon|e('html_attr') }}"></i> {{ contentType.title }}
                                         </th>
                                         <td headers="h{{ contentType.name }} hActive" class="text-center text-{% if contentType.active %}success{% else %}danger{% endif %}">
                                             {% if contentType.active %}

@@ -40,7 +40,7 @@
     <div class="tab-content">
         {% for category in categories %}
             <div role="tabpanel" class="tab-pane fade{% if loop.first %} show active{% endif %}" id="tabCategory{{ loop.index }}" aria-labelledby="category{{ loop.index }}Tab">
-                <h3><i class="fas fa-fw fa-{{ category.icon|e('html_attr') }}"></i> {{ category.title }}</h3>
+                <h3><i class="fa-fw {{ category.icon|e('html_attr') }}"></i> {{ category.title }}</h3>
                 <div class="container-fluid">
                     <div class="row">
                     {% for contentType in activeContentTypes|filter(c => c.category == category.name) %}

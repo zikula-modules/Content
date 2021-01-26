@@ -44,7 +44,7 @@ class GoogleMapType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'map-marker';
+        return 'fas fa-map-marker';
     }
 
     public function getTitle(): string

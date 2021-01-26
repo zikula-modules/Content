@@ -38,7 +38,7 @@ class UnfilteredType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'user-secret';
+        return 'fas fa-user-secret';
     }
 
     public function getTitle(): string

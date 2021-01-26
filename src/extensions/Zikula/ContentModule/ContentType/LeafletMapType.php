@@ -44,7 +44,7 @@ class LeafletMapType extends AbstractContentType
 
     public function getIcon(): string
     {
-        return 'leaf';
+        return 'fas fa-leaf';
     }
 
     public function getTitle(): string
