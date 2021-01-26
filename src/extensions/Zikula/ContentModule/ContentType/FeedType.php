@@ -64,7 +64,7 @@ class FeedType extends AbstractContentType
 
     public function getSearchableText(): string
     {
-        return html_entity_decode(strip_tags($this->data['url']));
+        return html_entity_decode(strip_tags($this->data['url'] ?? ''));
     }
 
     public function displayView(): string

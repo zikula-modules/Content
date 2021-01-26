@@ -71,7 +71,7 @@ class YouTubeType extends AbstractContentType
 
     public function getSearchableText(): string
     {
-        return html_entity_decode(strip_tags($this->data['text']));
+        return html_entity_decode(strip_tags($this->data['text'] ?? ''));
     }
 
     public function displayView(): string

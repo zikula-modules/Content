@@ -92,7 +92,7 @@ class AuthorType extends AbstractContentType
     {
         /*$data = */$this->getData();
 
-        return html_entity_decode(strip_tags($this->data['authorName']));
+        return html_entity_decode(strip_tags($this->data['authorName'] ?? ''));
     }
 
     public function getEditFormClass(): string

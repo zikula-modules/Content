@@ -91,7 +91,7 @@ class GoogleRouteType extends AbstractContentType
     {
         return html_entity_decode(
             strip_tags(
-                $this->data['addressText'] . $this->data['topText'] . $this->data['bottomText']
+                ($this->data['addressText'] ?? '') . ($this->data['topText'] ?? '') . ($this->data['bottomText'] ?? '')
             )
         );
     }
