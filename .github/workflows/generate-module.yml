@@ -28,7 +28,7 @@ jobs:
     - name: Set output variables
       id: vars
       run: |
-        echo ::set-output name=pr_title::"Generator update $(date +%d-%m-%Y)"
+        echo ::set-output name=pr_title::"⬆️ generator update $(date +%d-%m-%Y)"
         echo ::set-output name=pr_body::"This PR was auto-generated on $(date +%d-%m-%Y) \
           with latest generator using [generator-action](https://github.com/Guite/generator-action/) :tada:"
 
@@ -38,7 +38,7 @@ jobs:
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: 'update generated code :rocket:'
+        commit-message: '⬆️ update generated code'
         title: ${{ steps.vars.outputs.pr_title }}
         body: ${{ steps.vars.outputs.pr_body }}
         branch: generator-update
