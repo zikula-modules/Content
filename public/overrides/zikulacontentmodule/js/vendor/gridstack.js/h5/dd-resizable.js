@@ -1,5 +1,5 @@
 "use strict";
-// dd-resizable.ts 3.2.0 @preserve
+// dd-resizable.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -210,8 +210,8 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
             left: this.originalRect.left,
             top: this.originalRect.top - this.scrolled
         };
-        const offsetH = event.clientX - oEvent.clientX;
-        const offsetV = event.clientY - oEvent.clientY;
+        const offsetX = event.clientX - oEvent.clientX;
+        const offsetY = event.clientY - oEvent.clientY;
         if (dir.indexOf('e') > -1) {
             newRect.width += event.clientX - oEvent.clientX;
         }
@@ -219,12 +219,12 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
             newRect.height += event.clientY - oEvent.clientY;
         }
         if (dir.indexOf('w') > -1) {
-            newRect.width -= offsetH;
-            newRect.left += offsetH;
+            newRect.width -= offsetX;
+            newRect.left += offsetX;
         }
         if (dir.indexOf('n') > -1) {
-            newRect.height -= offsetV;
-            newRect.top += offsetV;
+            newRect.height -= offsetY;
+            newRect.top += offsetY;
         }
         const reshape = this._getReShapeSize(newRect.width, newRect.height);
         if (newRect.width !== reshape.width) {
@@ -243,9 +243,9 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _getReShapeSize(oWidth, oHeight) {
-        const maxWidth = this.option.maxWidth || oWidth;
+        const maxWidth = this.option.maxWidth || Number.MAX_SAFE_INTEGER;
         const minWidth = this.option.minWidth || oWidth;
-        const maxHeight = this.option.maxHeight || oHeight;
+        const maxHeight = this.option.maxHeight || Number.MAX_SAFE_INTEGER;
         const minHeight = this.option.minHeight || oHeight;
         const width = Math.min(maxWidth, Math.max(minWidth, oWidth));
         const height = Math.min(maxHeight, Math.max(minHeight, oHeight));

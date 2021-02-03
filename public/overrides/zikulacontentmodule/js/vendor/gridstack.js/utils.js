@@ -1,5 +1,5 @@
 "use strict";
-// utils.ts 3.2.0 @preserve
+// utils.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /** checks for obsolete method names */
 // eslint-disable-next-line
@@ -239,14 +239,13 @@ class Utils {
         }
         return null;
     }
-    /** delay calling the given function by certain amount of time */
-    static throttle(callback, delay) {
+    /** delay calling the given function for given delay, preventing new calls from happening while waiting */
+    static throttle(func, delay) {
         let isWaiting = false;
         return (...args) => {
             if (!isWaiting) {
-                callback.apply(this, args);
                 isWaiting = true;
-                setTimeout(() => isWaiting = false, delay);
+                setTimeout(() => { func(...args); isWaiting = false; }, delay);
             }
         };
     }

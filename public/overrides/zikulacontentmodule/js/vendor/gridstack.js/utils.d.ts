@@ -55,7 +55,7 @@ export declare class Utils {
     static removeInternalAndSame(a: unknown, b: unknown): void;
     /** return the closest parent matching the given class */
     static closestByClass(el: HTMLElement, name: string): HTMLElement;
-    /** delay calling the given function by certain amount of time */
-    static throttle(callback: () => void, delay: number): () => void;
+    /** delay calling the given function for given delay, preventing new calls from happening while waiting */
+    static throttle(func: () => void, delay: number): () => void;
     static removePositioningStyles(el: HTMLElement): void;
 }

@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-GridStackDD.get().ts 3.2.0 @preserve
+// gridstack-GridStackDD.get().ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * https://gridstackjs.com/
@@ -337,6 +337,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
         let y = Math.round(ui.position.top / cellHeight);
         let w;
         let h;
+        let resizing;
         if (event.type === 'drag') {
             let distance = ui.position.top - node._prevYPix;
             node._prevYPix = ui.position.top;
@@ -380,6 +381,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
             h = Math.round(ui.size.height / cellHeight);
             if (w === node.w && h === node.h)
                 return;
+            resizing = true;
         }
         if (!this.engine.canMoveNode(node, x, y, w, h))
             return;
@@ -388,6 +390,9 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
         node._lastTriedW = w;
         node._lastTriedH = h;
         this.engine.moveNode(node, x, y, w, h);
+        if (resizing && node.subGrid) {
+            node.subGrid.onParentResize();
+        }
         this._updateContainerHeight();
     };
     /** called when the item stops moving/resizing */
@@ -434,10 +439,12 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
         this._updateContainerHeight();
         this._triggerChangeEvent();
         this.engine.endUpdate();
+        /* doing it on live resize instead
         // if we re-sized a nested grid item, let the children resize as well
         if (event.type === 'resizestop') {
-            this._resizeNestedGrids(target);
+          if (target.gridstackNode.subGrid) {(target.gridstackNode.subGrid as GridStack).onParentResize()}
         }
+        */
     };
     GridStackDD.get()
         .draggable(el, {

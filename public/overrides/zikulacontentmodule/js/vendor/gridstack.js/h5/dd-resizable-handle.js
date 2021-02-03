@@ -1,5 +1,5 @@
 "use strict";
-// dd-resizable-handle.ts 3.2.0 @preserve
+// dd-resizable-handle.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 class DDResizableHandle {
     constructor(host, direction, option) {
@@ -38,6 +38,7 @@ class DDResizableHandle {
     }
     /** @internal called on mouse down on us: capture move on the entire document (mouse might not stay on us) until we release the mouse */
     _mouseDown(e) {
+        e.preventDefault();
         this.mouseDownEvent = e;
         document.addEventListener('mousemove', this._mouseMove, true); // capture, not bubble
         document.addEventListener('mouseup', this._mouseUp);

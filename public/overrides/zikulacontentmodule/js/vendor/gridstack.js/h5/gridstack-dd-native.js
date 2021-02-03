@@ -1,5 +1,5 @@
 "use strict";
-// gridstack-dd-native.ts 3.2.0 @preserve
+// gridstack-dd-native.ts 3.3.0 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
