@@ -85,7 +85,7 @@ class TranslatableHelper extends AbstractTranslatableHelper
                 }
                 foreach ($section['widgets'] as $widgetKey => $widget) {
                     foreach ($pageContentItems as $item) {
-                        if ($widget['id'] !== $item->getId()) {
+                        if ((int) $widget['id'] !== $item->getId()) {
                             continue;
                         }
                         $pageContentItemsOrdered[] = $item;
