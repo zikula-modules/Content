@@ -39,7 +39,13 @@ The Content module is installed like this:
 
 ## Upgrading
 
+<details>
+<summary>
+
 ### Upgrade to Content 5.2.0 (Zikula 2.x to 3.x)
+
+</summary>
+<div>
 
 1. Ensure you have Zikula 2.x with Content 5.1.0 running (download from the [this release](https://github.com/zikula-modules/Content/releases/tag/5.1.0)).
 2. Upgrade Zikula core to 3.x.
@@ -57,7 +63,15 @@ In case something goes wrong:
 3. Add the patch or follow the advice you got.
 4. Update ZikulaContentModule in the extensions administration again.
 
+</div>
+</details>
+<details>
+<summary>
+
 ### Upgrade to Content 5.0.0 - 5.1.0 (Zikula 1.5.x to 2.x)
+
+</summary>
+<div>
 
 1. Ensure you have Zikula 1.5.x with Content 4.2.2 running (download from the [1.3-legacy branch](https://github.com/zikula-modules/Content/tree/1.3-legacy)).
 2. Upgrade Zikula core to 2.x.
@@ -96,6 +110,9 @@ Work to do after upgrade:
 2. Review and update manual/static links to your pages.
 3. Upgrade 3rd party modules providing additional content types you need.
 
+</div>
+</details>
+
 ## How to link pages
 
 When you statically refer to pages in some templates you will see one problem: linking to the details of a page requires the slug which may be different per language and could be changed later which will break your link. For this a Twig function is provided to get the slug from the page id. For example:
@@ -126,7 +143,13 @@ In content each page consists of several content items. Each content item uses a
 
 ## Changelog
 
+<details>
+<summary>
+
 ### Version 5.3.0
+
+</summary>
+<div>
 
 New features:
 
@@ -137,7 +160,15 @@ Bugfixes:
 - Fixed combination of owner permission, private mode and only own flag.
 - Fixed installation error in `ExampleDataHelper` (#571).
 
+</div>
+</details>
+<details>
+<summary>
+
 ### Version 5.2.0
+
+</summary>
+<div>
 
 Structural changes:
 
@@ -155,7 +186,15 @@ Bugfixes:
 - Fixed wrong combination of translatable tree slugs (#309).
 - Fixed tree selection form type with duplicate labels.
 
+</div>
+</details>
+<details>
+<summary>
+
 ### Version 5.1.0
+
+</summary>
+<div>
 
 New features:
 
@@ -172,7 +211,15 @@ Bugfixes:
 
 - Minor fixes for external display (#332).
 
+</div>
+</details>
+<details>
+<summary>
+
 ### Version 5.0.3
+
+</summary>
+<div>
 
 New features:
 
@@ -190,7 +237,15 @@ Bugfixes:
 - More solid revertion to old revisions.
 - Several minor fixes from generator.
 
+</div>
+</details>
+<details>
+<summary>
+
 ### Version 5.0.2
+
+</summary>
+<div>
 
 New features:
 
@@ -202,13 +257,29 @@ Bugfixes:
 - Addition of (minor) safety check for Slideshare, Vimeo and YouTube content types.
 - Provide full tree slug during first page translation step for proper step jumps.
 
+</div>
+</details>
+<details>
+<summary>
+
 ### Version 5.0.1
+
+</summary>
+<div>
 
 Bugfixes:
 
 - Fixed hardcoded specific directory structure for Scribite integration (#300).
 
+</div>
+</details>
+<details>
+<summary>
+
 ### Version 5.0.0
+
+</summary>
+<div>
 
 Structural changes:
 
@@ -249,6 +320,9 @@ Deprecations:
 - The Camtasia content type has been removed.
 - The Flickr content type has been removed. A better choice is the Flickr media type in the media module which is going to provide a generic media content type soon (see https://github.com/cmfcmf/MediaModule/issues/2 for reference).
 - The FlashMovie content type has been removed. This is better handled by a media module, too.
+
+</div>
+</details>
 
 ## TODO
 
