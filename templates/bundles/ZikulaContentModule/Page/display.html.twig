@@ -19,6 +19,10 @@
     {% if page.metaDescription is not empty %}
         {{ pageSetVar('meta.description', page.metaDescription|striptags) }}
     {% endif %}
+    {% set canonicalTag %}
+        <link rel="canonical" href="{{ url('zikulacontentmodule_page_' ~ routeArea ~ 'display', {slug: page.slug}) }}" />
+    {% endset %}
+    {{ pageAddAsset('header', canonicalTag) }}
 {% endblock %}
 {% block titleArea %}
     {% if page.showTitle and inList is not defined %}
