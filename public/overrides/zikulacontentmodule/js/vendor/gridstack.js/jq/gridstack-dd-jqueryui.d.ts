@@ -1,8 +1,3 @@
-/** JQuery UI Drag&Drop plugin
- * https://gridstackjs.com/
- * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
- * gridstack.js may be freely distributed under the MIT license.
-*/
 import { GridStackElement } from '../gridstack';
 import { GridStackDD, DDOpts, DDKey, DDDropOpt, DDCallback, DDValue } from '../gridstack-dd';
 import { GridItemHTMLElement, DDDragInOpt } from '../types';

@@ -1,8 +1,3 @@
-/**
- * https://gridstackjs.com/
- * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
- * gridstack.js may be freely distributed under the MIT license.
-*/
 import { GridStack } from './gridstack';
 /** different layout options when changing # of columns,
  * including a custom function that takes new/old column count, and array of new/old positions
@@ -15,6 +10,7 @@ export interface GridItemHTMLElement extends HTMLElement {
     gridstackNode?: GridStackNode;
 }
 export declare type GridStackElement = string | HTMLElement | GridItemHTMLElement;
+export declare type GridStackEventHandlerCallback = (event: Event, arg2?: GridItemHTMLElement | GridStackNode | GridStackNode[], newNode?: GridStackNode) => void;
 /**
  * Defines the options for a Grid
  */
@@ -120,10 +116,8 @@ export interface GridStackOptions {
      * See example (http://gridstack.github.io/gridstack.js/demo/two.html)
      */
     removable?: boolean | string;
-    /** allows to override UI removable options. (default?: { accept: '.' + opts.itemClass }) */
+    /** allows to override UI removable options. (default?: { accept: '.grid-stack-item' }) */
     removableOptions?: DDRemoveOpt;
-    /** time in milliseconds before widget is being removed while dragging outside of the grid. (default?: 2000) */
-    removeTimeout?: number;
     /** fix grid number of rows. This is a shortcut of writing `minRow:N, maxRow:N`. (default `0` no constrain) */
     row?: number;
     /**
@@ -140,10 +134,24 @@ export interface GridStackOptions {
     /** if `true` will add style element to `<head>` otherwise will add it to element's parent node (default `false`). */
     styleInHead?: boolean;
 }
-/**
- * GridStack Widget creation options
- */
-export interface GridStackWidget {
+/** options used during GridStackEngine.moveNode() */
+export interface GridStackMoveOpts extends GridStackPosition {
+    /** node to skip collision */
+    skip?: GridStackNode;
+    /** do we pack (default true) */
+    pack?: boolean;
+    /** true if we are calling this recursively to prevent simple swap or coverage collision - default false*/
+    nested?: boolean;
+    cellWidth?: number;
+    cellHeight?: number;
+    marginTop?: number;
+    marginBottom?: number;
+    marginLeft?: number;
+    marginRight?: number;
+    /** position in pixels of the currently dragged items (for overlap check) */
+    rect?: GridStackPosition;
+}
+export interface GridStackPosition {
     /** widget position x (default?: 0) */
     x?: number;
     /** widget position y (default?: 0) */
@@ -152,6 +160,11 @@ export interface GridStackWidget {
     w?: number;
     /** widget dimension height (default?: 1) */
     h?: number;
+}
+/**
+ * GridStack Widget creation options
+ */
+export interface GridStackWidget extends GridStackPosition {
     /** if true then x, y parameters will be ignored and widget will be places on the first available position (default?: false) */
     autoPosition?: boolean;
     /** minimum width allowed during resize/creation (default?: undefined = un-constrained) */

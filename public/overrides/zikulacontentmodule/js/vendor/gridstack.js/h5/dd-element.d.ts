@@ -1,8 +1,3 @@
-/**
- * https://gridstackjs.com/
- * (c) 2020 rhlin, Alain Dumesny
- * gridstack.js may be freely distributed under the MIT license.
-*/
 import { DDResizable, DDResizableOpt } from './dd-resizable';
 import { GridItemHTMLElement } from './../types';
 import { DDDraggable, DDDraggableOpt } from './dd-draggable';

@@ -1,8 +1,3 @@
-/**
- * https://gridstackjs.com/
- * (c) 2020 rhlin, Alain Dumesny
- * gridstack.js may be freely distributed under the MIT license.
-*/
 export declare type EventCallback = (event: Event) => boolean | void;
 export declare abstract class DDBaseImplement {
     /** returns the enable state, but you have to call enable()/disable() to change (as other things need to happen) */

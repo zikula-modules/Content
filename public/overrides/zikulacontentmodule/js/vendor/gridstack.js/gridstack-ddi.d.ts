@@ -1,8 +1,3 @@
-/**
- * https://gridstackjs.com/
- * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
- * gridstack.js may be freely distributed under the MIT license.
-*/
 import { GridItemHTMLElement } from './types';
 /**
  * Abstract Partial Interface API for drag'n'drop plugin - look at GridStackDD and HTML5 / Jquery implementation versions

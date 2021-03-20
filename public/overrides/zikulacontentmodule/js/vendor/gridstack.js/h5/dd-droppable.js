@@ -1,5 +1,4 @@
 "use strict";
-// dd-droppable.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 const dd_manager_1 = require("./dd-manager");
 const dd_base_impl_1 = require("./dd-base-impl");
@@ -58,8 +57,10 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
     _dragEnter(event) {
         if (!this._canDrop())
             return;
-        this.moving = true;
         event.preventDefault();
+        if (this.moving)
+            return; // ignore multiple 'dragenter' as we go over existing items
+        this.moving = true;
         const ev = dd_utils_1.DDUtils.initEvent(event, { target: this.el, type: 'dropover' });
         if (this.option.over) {
             this.option.over(ev, this._ui(dd_manager_1.DDManager.dragElement));
@@ -88,6 +89,7 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
             }
             this.triggerEvent('dropout', ev);
         }
+        delete this.moving;
     }
     /** @internal item is being dropped on us - call the client drop event */
     _drop(event) {
@@ -100,6 +102,7 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
         }
         this.triggerEvent('drop', ev);
         this._removeLeaveCallbacks();
+        delete this.moving;
     }
     /** @internal called to remove callbacks when leaving or dropping */
     _removeLeaveCallbacks() {
@@ -109,6 +112,7 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
             this.el.removeEventListener('dragover', this._dragOver);
             this.el.removeEventListener('drop', this._drop);
         }
+        // Note: this.moving is reset by callee of this routine to control the flow
     }
     /** @internal */
     _canDrop() {

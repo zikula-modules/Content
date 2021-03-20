@@ -1,11 +1,9 @@
-/**
- * https://gridstackjs.com/
- * (c) 2014-2020 Alain Dumesny, Dylan Weiss, Pavel Reznikov
- * gridstack.js may be freely distributed under the MIT license.
-*/
+/*!
+ * (c) 2021 Alain Dumesny - see root license
+ */
 import { GridStackEngine } from './gridstack-engine';
 import { Utils } from './utils';
-import { GridStackElement, GridItemHTMLElement, GridStackWidget, GridStackNode, GridStackOptions, numberOrString, ColumnOptions } from './types';
+import { ColumnOptions, GridItemHTMLElement, GridStackElement, GridStackEventHandlerCallback, GridStackOptions, GridStackWidget, numberOrString, DDDragInOpt } from './types';
 export * from './types';
 export * from './utils';
 export * from './gridstack-engine';
@@ -13,7 +11,7 @@ export * from './gridstack-ddi';
 export interface GridHTMLElement extends HTMLElement {
     gridstack?: GridStack;
 }
-export declare type GridStackEvent = 'added' | 'change' | 'disable' | 'dragstart' | 'dragstop' | 'dropped' | 'enable' | 'removed' | 'resizestart' | 'resizestop';
+export declare type GridStackEvent = 'added' | 'change' | 'disable' | 'drag' | 'dragstart' | 'dragstop' | 'dropped' | 'enable' | 'removed' | 'resize' | 'resizestart' | 'resizestop';
 /** Defines the coordinates of an object */
 export interface MousePosition {
     top: number;
@@ -226,7 +224,7 @@ export declare class GridStack {
      * grid.el.addEventListener('added', function(event) { log('added ', event.detail)} );
      *
      */
-    on(name: GridStackEvent, callback: (event: Event, arg2?: GridItemHTMLElement | GridStackNode[]) => void): GridStack;
+    on(name: GridStackEvent, callback: GridStackEventHandlerCallback): GridStack;
     /**
      * unsubscribe from the 'on' event below
      * @param name of the event (see possible values)
@@ -288,6 +286,14 @@ export declare class GridStack {
     onParentResize(): GridStack;
     /** add or remove the window size event handler */
     private _updateWindowResizeEvent;
+    /**
+     * call to setup dragging in from the outside (say toolbar), by specifying the class selection and options.
+     * Called during GridStack.init() as options, but can also be called directly (last param are cached) in case the toolbar
+     * is dynamically create and needs to change later.
+     * @param dragIn string selector (ex: '.sidebar .grid-stack-item')
+     * @param dragInOptions options - see DDDragInOpt. (default: {revert: 'invalid', handle: '.grid-stack-item-content', scroll: false, appendTo: 'body'}
+     **/
+    static setupDragIn(dragIn?: string, dragInOptions?: DDDragInOpt): void;
     /**
      * Enables/Disables moving. No-op for static grids.
      * @param els widget or selector to modify.

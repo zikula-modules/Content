@@ -1,5 +1,6 @@
 "use strict";
-// utils.ts 3.3.0 @preserve
+// utils.ts 4.0.0
+// (c) 2021 Alain Dumesny - see root license
 Object.defineProperty(exports, "__esModule", { value: true });
 /** checks for obsolete method names */
 // eslint-disable-next-line
@@ -86,7 +87,11 @@ class Utils {
     }
     /** returns true if a and b overlap */
     static isIntercepted(a, b) {
-        return !(a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y);
+        return !(a.y >= b.y + b.h || a.y + a.h <= b.y || a.x + a.w <= b.x || a.x >= b.x + b.w);
+    }
+    /** returns true if a and b touch edges or corners */
+    static isTouching(a, b) {
+        return Utils.isIntercepted(a, { x: b.x - 0.5, y: b.y - 0.5, w: b.w + 1, h: b.h + 1 });
     }
     /**
      * Sorts array of nodes
@@ -95,10 +100,7 @@ class Utils {
      * @param width width of the grid. If undefined the width will be calculated automatically (optional).
      **/
     static sort(nodes, dir, column) {
-        if (!column) {
-            let widths = nodes.map(n => n.x + n.w);
-            column = Math.max(...widths);
-        }
+        column = column || nodes.reduce((col, n) => Math.max(n.x + n.w, col), 0) || 12;
         if (dir === -1)
             return nodes.sort((a, b) => (b.x + b.y * column) - (a.x + a.y * column));
         else
@@ -209,6 +211,18 @@ class Utils {
                 return false;
         }
         return true;
+    }
+    /* copies over b size & position */
+    static copyPos(a, b) {
+        a.x = b.x;
+        a.y = b.y;
+        a.w = b.w;
+        a.h = b.h;
+        return a;
+    }
+    /* true if a and b has same size & position */
+    static samePos(a, b) {
+        return a && b && a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h;
     }
     /** removes field from the first object if same as the second objects (like diffing) and internal '_' for saving */
     static removeInternalAndSame(a, b) {

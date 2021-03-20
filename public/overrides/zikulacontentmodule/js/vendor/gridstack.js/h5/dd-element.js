@@ -1,11 +1,7 @@
 "use strict";
-// dd-elements.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * https://gridstackjs.com/
- * (c) 2020 rhlin, Alain Dumesny
- * gridstack.js may be freely distributed under the MIT license.
-*/
+// dd-elements.ts 4.0.0
+// (c) 2021 Alain Dumesny - see root license
 const dd_resizable_1 = require("./dd-resizable");
 const dd_draggable_1 = require("./dd-draggable");
 const dd_droppable_1 = require("./dd-droppable");

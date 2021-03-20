@@ -1,14 +1,10 @@
 "use strict";
-// gridstack-dd-native.ts 3.3.0 @preserve
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * https://gridstackjs.com/
- * (c) 2020 rhlin, Alain Dumesny
- * gridstack.js may be freely distributed under the MIT license.
-*/
+// gridstack-dd-native.ts 4.0.0
+// (c) 2021 Alain Dumesny - see root license
 const dd_manager_1 = require("./dd-manager");
 const dd_element_1 = require("./dd-element");
 const gridstack_dd_1 = require("../gridstack-dd");

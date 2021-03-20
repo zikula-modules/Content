@@ -1,11 +1,7 @@
 "use strict";
-// dd-resizable.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * https://gridstackjs.com/
- * (c) 2020 rhlin, Alain Dumesny
- * gridstack.js may be freely distributed under the MIT license.
-*/
+// dd-resizable.ts 4.0.0
+// (c) 2021 Alain Dumesny - see root license
 const dd_resizable_handle_1 = require("./dd-resizable-handle");
 const dd_base_impl_1 = require("./dd-base-impl");
 const dd_utils_1 = require("./dd-utils");

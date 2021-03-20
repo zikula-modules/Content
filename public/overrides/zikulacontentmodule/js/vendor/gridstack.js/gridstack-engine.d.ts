@@ -1,4 +1,4 @@
-import { GridStackNode } from './types';
+import { GridStackNode, GridStackPosition, GridStackMoveOpts } from './types';
 export declare type onChangeCB = (nodes: GridStackNode[], removeDOM?: boolean) => void;
 /** options used for creations - similar to GridStackOptions */
 export interface GridStackEngineOptions {
@@ -25,8 +25,16 @@ export declare class GridStackEngine {
     constructor(opts?: GridStackEngineOptions);
     batchUpdate(): GridStackEngine;
     commit(): GridStackEngine;
-    /** return any intercepted node with the given area, skipping the passed in node (usually self) */
-    collide(node: GridStackNode, area?: GridStackNode): GridStackNode;
+    private _useEntireRowArea;
+    /** return the nodes that intercept the given node. Optionally a different area can be used, as well as a second node to skip */
+    collide(skip: GridStackNode, area?: GridStackNode, skip2?: GridStackNode): GridStackNode;
+    collideAll(skip: GridStackNode, area?: GridStackNode, skip2?: GridStackNode): GridStackNode[];
+    /** does a pixel coverage collision, returning the node that has the most coverage that is >50% mid line */
+    collideCoverage(node: GridStackNode, o: GridStackMoveOpts, collides: GridStackNode[]): GridStackNode;
+    /** called to cache the nodes pixel rectangles used for collision detection during drag */
+    cacheRects(w: number, h: number, top: number, right: number, bottom: number, left: number): GridStackEngine;
+    /** called to possibly swap between 2 nodes (same size or column, not locked, touching), returning true if successful */
+    swap(a: GridStackNode, b: GridStackNode): boolean;
     isAreaEmpty(x: number, y: number, w: number, h: number): boolean;
     /** re-layout grid items to reclaim any empty space */
     compact(): GridStackEngine;
@@ -39,18 +47,25 @@ export declare class GridStackEngine {
      * @param resizing if out of bound, resize down or move into the grid to fit ?
      */
     prepareNode(node: GridStackNode, resizing?: boolean): GridStackNode;
+    /** part2 of preparing a node to fit inside our grid - checks  for x,y from grid dimensions */
+    nodeBoundFix(node: GridStackNode, resizing?: boolean): GridStackNode;
     getDirtyNodes(verify?: boolean): GridStackNode[];
-    cleanNodes(): GridStackEngine;
+    /** call to add the given node to our list, fixing collision and re-packing */
     addNode(node: GridStackNode, triggerAddEvent?: boolean): GridStackNode;
     removeNode(node: GridStackNode, removeDOM?: boolean, triggerEvent?: boolean): GridStackEngine;
     removeAll(removeDOM?: boolean): GridStackEngine;
-    canMoveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number): boolean;
+    /** checks if item can be moved (layout constrain) vs moveNode(), returning true if was able to move.
+     * In more complicated cases (maxRow) it will attempt at moving the item and fixing
+     * others in a clone first, then apply those changes if still within specs. */
+    moveNodeCheck(node: GridStackNode, o: GridStackMoveOpts): boolean;
     /** return true if can fit in grid height constrain only (always true if no maxRow) */
     willItFit(node: GridStackNode): boolean;
     /** return true if the passed in node (x,y) is being dragged outside of the grid, and not added to bottom */
     isOutside(x: number, y: number, node: GridStackNode): boolean;
-    isNodeChangedPosition(node: GridStackNode, x: number, y: number, w?: number, h?: number): boolean;
-    moveNode(node: GridStackNode, x: number, y: number, w?: number, h?: number, noPack?: boolean): GridStackNode;
+    /** true if x,y or w,h are different after clamping to min/max */
+    changedPosConstrain(node: GridStackNode, p: GridStackPosition): boolean;
+    /** return true if the passed in node was actually moved (checks for no-op and locked) */
+    moveNode(node: GridStackNode, o: GridStackMoveOpts): boolean;
     getRow(): number;
     beginUpdate(node: GridStackNode): GridStackEngine;
     endUpdate(): GridStackEngine;
@@ -63,6 +78,6 @@ export declare class GridStackEngine {
      * @param clear if true, will force other caches to be removed (default false)
      */
     cacheLayout(nodes: GridStackNode[], column: number, clear?: boolean): GridStackEngine;
-    /** called to remove all internal values */
+    /** called to remove all internal values but the _id */
     cleanupNode(node: GridStackNode): GridStackEngine;
 }

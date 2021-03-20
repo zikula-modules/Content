@@ -1,11 +1,7 @@
 "use strict";
-// dd-draggable.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * https://gridstackjs.com/
- * (c) 2020 rhlin, Alain Dumesny
- * gridstack.js may be freely distributed under the MIT license.
-*/
+// dd-draggable.ts 4.0.0
+// (c) 2021 Alain Dumesny - see root license
 const dd_manager_1 = require("./dd-manager");
 const dd_utils_1 = require("./dd-utils");
 const dd_base_impl_1 = require("./dd-base-impl");
@@ -39,7 +35,6 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         this._dragStart = this._dragStart.bind(this);
         this._drag = this._drag.bind(this);
         this._dragEnd = this._dragEnd.bind(this);
-        this._dragFollow = this._dragFollow.bind(this);
         this.enable();
     }
     on(event, callback) {

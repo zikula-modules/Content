@@ -1,8 +1,3 @@
-/**
- * https://gridstackjs.com/
- * (c) 2020 rhlin, Alain Dumesny
- * gridstack.js may be freely distributed under the MIT license.
-*/
 export declare class DDUtils {
     static isEventSupportPassiveOption: boolean;
     static clone(el: HTMLElement): HTMLElement;

@@ -1,5 +1,4 @@
 "use strict";
-// dd-base-impl.ts 3.3.0 @preserve
 Object.defineProperty(exports, "__esModule", { value: true });
 class DDBaseImplement {
     constructor() {
@@ -26,14 +25,8 @@ class DDBaseImplement {
         delete this._eventRegister;
     }
     triggerEvent(eventName, event) {
-        if (this.disabled)
-            return;
-        if (!this._eventRegister) {
-            return;
-        } // used when destroy before triggerEvent fire
-        if (this._eventRegister[eventName]) {
+        if (!this.disabled && this._eventRegister && this._eventRegister[eventName])
             return this._eventRegister[eventName](event);
-        }
     }
 }
 exports.DDBaseImplement = DDBaseImplement;
