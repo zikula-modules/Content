@@ -1,7 +1,9 @@
 "use strict";
+/**
+ * dd-resizable.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
-// dd-resizable.ts 4.0.0
-// (c) 2021 Alain Dumesny - see root license
 const dd_resizable_handle_1 = require("./dd-resizable-handle");
 const dd_base_impl_1 = require("./dd-base-impl");
 const dd_utils_1 = require("./dd-utils");

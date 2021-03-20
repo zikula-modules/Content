@@ -1,12 +1,15 @@
 "use strict";
+/*!
+ * GridStack 4.0.1
+ * https://gridstackjs.com/
+ *
+ * Copyright (c) 2021 Alain Dumesny
+ * see root license https://github.com/gridstack/gridstack.js/blob/develop/LICENSE
+ */
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-// gridstack.ts 4.0.0
-/*!
- * (c) 2021 Alain Dumesny - see root license
- */
 const gridstack_engine_1 = require("./gridstack-engine");
 const utils_1 = require("./utils");
 const gridstack_ddi_1 = require("./gridstack-ddi");
@@ -248,8 +251,10 @@ class GridStack {
         parent.appendChild(el);
         // create grid class and load any children
         let grid = GridStack.init(opt, el);
-        if (opt.children) {
-            grid.load(opt.children);
+        if (grid.opts.children) {
+            let children = grid.opts.children;
+            delete grid.opts.children;
+            grid.load(children);
         }
         return grid;
     }
@@ -1376,9 +1381,9 @@ class GridStack {
     /** @internal prepares the element for drag&drop **/
     _prepareDragDropByNode(node) { return this; }
     /** @internal handles actual drag/resize start **/
-    _onStartMoving(event, ui, node, cellWidth, cellHeight) { return; }
+    _onStartMoving(el, event, ui, node, cellWidth, cellHeight) { return; }
     /** @internal handles actual drag/resize **/
-    _dragOrResize(event, ui, node, cellWidth, cellHeight) { return; }
+    _dragOrResize(el, event, ui, node, cellWidth, cellHeight) { return; }
     /** @internal called when a node leaves our area (mouse out or shape outside) **/
     _leave(node, el, helper, dropoutEvent = false) { return; }
 }

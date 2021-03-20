@@ -1,6 +1,8 @@
 "use strict";
-// utils.ts 4.0.0
-// (c) 2021 Alain Dumesny - see root license
+/**
+ * utils.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
 /** checks for obsolete method names */
 // eslint-disable-next-line
@@ -230,7 +232,7 @@ class Utils {
             return;
         for (let key in a) {
             let val = a[key];
-            if (val && typeof val === 'object') {
+            if (val && typeof val === 'object' && b[key] !== undefined) {
                 for (let i in val) {
                     if (val[i] === b[key][i] || i[0] === '_') {
                         delete val[i];

@@ -1,7 +1,9 @@
 "use strict";
+/**
+ * dd-elements.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
-// dd-elements.ts 4.0.0
-// (c) 2021 Alain Dumesny - see root license
 const dd_resizable_1 = require("./dd-resizable");
 const dd_draggable_1 = require("./dd-draggable");
 const dd_droppable_1 = require("./dd-droppable");

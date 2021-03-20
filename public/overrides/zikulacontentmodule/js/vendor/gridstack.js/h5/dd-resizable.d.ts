@@ -1,3 +1,7 @@
+/**
+ * dd-resizable.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 import { DDBaseImplement, HTMLElementExtendOpt } from './dd-base-impl';
 import { DDUIData } from '../types';
 export interface DDResizableOpt {

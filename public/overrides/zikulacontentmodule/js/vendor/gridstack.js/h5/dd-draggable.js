@@ -1,7 +1,9 @@
 "use strict";
+/**
+ * dd-draggable.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
-// dd-draggable.ts 4.0.0
-// (c) 2021 Alain Dumesny - see root license
 const dd_manager_1 = require("./dd-manager");
 const dd_utils_1 = require("./dd-utils");
 const dd_base_impl_1 = require("./dd-base-impl");

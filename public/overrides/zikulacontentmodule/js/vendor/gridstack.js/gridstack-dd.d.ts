@@ -1,3 +1,7 @@
+/**
+ * gridstack-dd.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 import { GridStackDDI } from './gridstack-ddi';
 import { GridItemHTMLElement, GridStackElement, DDDragInOpt } from './types';
 /** Drag&Drop drop options */

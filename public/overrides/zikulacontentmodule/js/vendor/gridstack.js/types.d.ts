@@ -1,3 +1,7 @@
+/**
+ * types.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 import { GridStack } from './gridstack';
 /** different layout options when changing # of columns,
  * including a custom function that takes new/old column count, and array of new/old positions

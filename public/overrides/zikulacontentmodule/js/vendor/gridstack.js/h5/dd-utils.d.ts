@@ -1,3 +1,7 @@
+/**
+ * dd-utils.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 export declare class DDUtils {
     static isEventSupportPassiveOption: boolean;
     static clone(el: HTMLElement): HTMLElement;

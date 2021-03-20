@@ -1,7 +1,9 @@
 "use strict";
+/**
+ * gridstack-dd.ts 4.0.1
+ * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ */
 Object.defineProperty(exports, "__esModule", { value: true });
-// gridstack-GridStackDD.get().ts 4.0.0
-// (c) 2021 Alain Dumesny - see root license
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const gridstack_ddi_1 = require("./gridstack-ddi");
 const gridstack_1 = require("./gridstack");
@@ -71,11 +73,11 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
                 }
             }
             // re-use the existing node dragging method
-            this._onStartMoving(event, ui, node, cellWidth, cellHeight);
+            this._onStartMoving(helper, event, ui, node, cellWidth, cellHeight);
         }
         else {
             // re-use the existing node dragging that does so much of the collision detection
-            this._dragOrResize(event, ui, node, cellWidth, cellHeight);
+            this._dragOrResize(helper, event, ui, node, cellWidth, cellHeight);
         }
     };
     GridStackDD.get()
@@ -336,11 +338,11 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
         }
         cellWidth = this.cellWidth();
         cellHeight = this.getCellHeight(true); // force pixels for calculations
-        this._onStartMoving(event, ui, node, cellWidth, cellHeight);
+        this._onStartMoving(el, event, ui, node, cellWidth, cellHeight);
     };
     /** called when item is being dragged/resized */
     let dragOrResize = (event, ui) => {
-        this._dragOrResize(event, ui, node, cellWidth, cellHeight);
+        this._dragOrResize(el, event, ui, node, cellWidth, cellHeight);
     };
     /** called when the item stops moving/resizing */
     let onEndMoving = (event) => {
@@ -408,7 +410,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
     return this;
 };
 /** @internal called when item is starting a drag/resize */
-gridstack_1.GridStack.prototype._onStartMoving = function (event, ui, node, cellWidth, cellHeight) {
+gridstack_1.GridStack.prototype._onStartMoving = function (el, event, ui, node, cellWidth, cellHeight) {
     this.engine.cleanNodes()
         .beginUpdate(node);
     this._writePosAttr(this.placeholder, node);
@@ -428,7 +430,6 @@ gridstack_1.GridStack.prototype._onStartMoving = function (event, ui, node, cell
     // set the min/max resize info
     this.engine.cacheRects(cellWidth, cellHeight, this.opts.marginTop, this.opts.marginRight, this.opts.marginBottom, this.opts.marginLeft);
     if (event.type === 'resizestart') {
-        let el = node.el;
         let dd = GridStackDD.get()
             .resizable(el, 'option', 'minWidth', cellWidth * (node.minW || 1))
             .resizable(el, 'option', 'minHeight', cellHeight * (node.minH || 1));
@@ -472,8 +473,7 @@ gridstack_1.GridStack.prototype._leave = function (node, el, helper, dropoutEven
     }
 };
 /** @internal called when item is being dragged/resized */
-gridstack_1.GridStack.prototype._dragOrResize = function (event, ui, node, cellWidth, cellHeight) {
-    let el = node.el || event.target;
+gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, cellWidth, cellHeight) {
     // calculate the place where we're landing by offsetting margin so actual edge crosses mid point
     let left = ui.position.left + (ui.position.left > node._lastUiPosition.left ? -this.opts.marginRight : this.opts.marginLeft);
     let top = ui.position.top + (ui.position.top > node._lastUiPosition.top ? -this.opts.marginBottom : this.opts.marginTop);

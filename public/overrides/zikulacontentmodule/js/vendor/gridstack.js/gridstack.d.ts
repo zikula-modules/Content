@@ -1,5 +1,9 @@
 /*!
- * (c) 2021 Alain Dumesny - see root license
+ * GridStack 4.0.1
+ * https://gridstackjs.com/
+ *
+ * Copyright (c) 2021 Alain Dumesny
+ * see root license https://github.com/gridstack/gridstack.js/blob/develop/LICENSE
  */
 import { GridStackEngine } from './gridstack-engine';
 import { Utils } from './utils';
