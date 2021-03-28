@@ -1,10 +1,10 @@
 "use strict";
 /*!
- * GridStack 4.0.1
+ * GridStack 4.0.2
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
- * see root license https://github.com/gridstack/gridstack.js/blob/develop/LICENSE
+ * see root license https://github.com/gridstack/gridstack.js/tree/master/LICENSE
  */
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -244,11 +244,14 @@ class GridStack {
     static addGrid(parent, opt = {}) {
         if (!parent)
             return null;
-        // create the grid element
-        let doc = document.implementation.createHTMLDocument();
-        doc.body.innerHTML = `<div class="grid-stack ${opt.class || ''}"></div>`;
-        let el = doc.body.children[0];
-        parent.appendChild(el);
+        // create the grid element, but check if the passed 'parent' already has grid styling and should be used instead
+        let el = parent;
+        if (!parent.classList.contains('grid-stack')) {
+            let doc = document.implementation.createHTMLDocument();
+            doc.body.innerHTML = `<div class="grid-stack ${opt.class || ''}"></div>`;
+            el = doc.body.children[0];
+            parent.appendChild(el);
+        }
         // create grid class and load any children
         let grid = GridStack.init(opt, el);
         if (grid.opts.children) {
@@ -597,7 +600,7 @@ class GridStack {
     getColumn() {
         return this.opts.column;
     }
-    /** returns an array of grid HTML elements (no placeholder) - used to iterate through our children */
+    /** returns an array of grid HTML elements (no placeholder) - used to iterate through our children in DOM order */
     getGridItems() {
         return Array.from(this.el.children)
             .filter((el) => el.matches('.' + this.opts.itemClass) && !el.matches('.' + this.opts.placeholderClass));
@@ -1329,13 +1332,13 @@ class GridStack {
      **/
     static setupDragIn(dragIn, dragInOptions) { }
     /**
-     * Enables/Disables moving. No-op for static grids.
+     * Enables/Disables moving of specific grid elements. If you want all items, and have it stay, use enableMove() instead. No-op for static grids.
      * @param els widget or selector to modify.
      * @param val if true widget will be draggable.
      */
     movable(els, val) { return this; }
     /**
-     * Enables/Disables resizing. No-op for static grids.
+     * Enables/Disables resizing of specific grid elements. If you want all items, and have it stay, use enableResize() instead. No-op for static grids.
      * @param els  widget or selector to modify
      * @param val  if true widget will be resizable.
      */
@@ -1361,19 +1364,12 @@ class GridStack {
     enable() { return this; }
     /**
      * Enables/disables widget moving. No-op for static grids.
-     *
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableDrag grid option (default: true).
      */
-    enableMove(doEnable, includeNewWidgets = true) { return this; }
+    enableMove(doEnable) { return this; }
     /**
      * Enables/disables widget resizing. No-op for static grids.
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableResize grid option (default: true).
      */
-    enableResize(doEnable, includeNewWidgets = true) { return this; }
+    enableResize(doEnable) { return this; }
     /** @internal called to add drag over support to support widgets */
     _setupAcceptWidget() { return this; }
     /** @internal called to setup a trash drop zone if the user specifies it */

@@ -1,9 +1,9 @@
 /*!
- * GridStack 4.0.1
+ * GridStack 4.0.2
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
- * see root license https://github.com/gridstack/gridstack.js/blob/develop/LICENSE
+ * see root license https://github.com/gridstack/gridstack.js/tree/master/LICENSE
  */
 import { GridStackEngine } from './gridstack-engine';
 import { Utils } from './utils';
@@ -165,7 +165,7 @@ export declare class GridStack {
      * get the number of columns in the grid (default 12)
      */
     getColumn(): number;
-    /** returns an array of grid HTML elements (no placeholder) - used to iterate through our children */
+    /** returns an array of grid HTML elements (no placeholder) - used to iterate through our children in DOM order */
     getGridItems(): GridItemHTMLElement[];
     /**
      * Destroys a grid instance. DO NOT CALL any methods or access any vars after this as it will free up members.
@@ -299,13 +299,13 @@ export declare class GridStack {
      **/
     static setupDragIn(dragIn?: string, dragInOptions?: DDDragInOpt): void;
     /**
-     * Enables/Disables moving. No-op for static grids.
+     * Enables/Disables moving of specific grid elements. If you want all items, and have it stay, use enableMove() instead. No-op for static grids.
      * @param els widget or selector to modify.
      * @param val if true widget will be draggable.
      */
     movable(els: GridStackElement, val: boolean): GridStack;
     /**
-     * Enables/Disables resizing. No-op for static grids.
+     * Enables/Disables resizing of specific grid elements. If you want all items, and have it stay, use enableResize() instead. No-op for static grids.
      * @param els  widget or selector to modify
      * @param val  if true widget will be resizable.
      */
@@ -331,17 +331,10 @@ export declare class GridStack {
     enable(): GridStack;
     /**
      * Enables/disables widget moving. No-op for static grids.
-     *
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableDrag grid option (default: true).
      */
-    enableMove(doEnable: boolean, includeNewWidgets?: boolean): GridStack;
+    enableMove(doEnable: boolean): GridStack;
     /**
      * Enables/disables widget resizing. No-op for static grids.
-     * @param doEnable
-     * @param includeNewWidgets will force new widgets to be draggable as per
-     * doEnable`s value by changing the disableResize grid option (default: true).
      */
-    enableResize(doEnable: boolean, includeNewWidgets?: boolean): GridStack;
+    enableResize(doEnable: boolean): GridStack;
 }

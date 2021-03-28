@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-draggable.ts 4.0.1
+ * dd-draggable.ts 4.0.2
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -155,7 +155,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     _createHelper(event) {
         let helper = this.el;
         if (typeof this.option.helper === 'function') {
-            helper = this.option.helper.apply(this.el, event);
+            helper = this.option.helper(event);
         }
         else if (this.option.helper === 'clone') {
             helper = dd_utils_1.DDUtils.clone(this.el);

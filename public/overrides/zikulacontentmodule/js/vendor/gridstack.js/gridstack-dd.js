@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.0.1
+ * gridstack-dd.ts 4.0.2
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -53,8 +53,6 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         if (!node)
             return;
         helper = helper || el;
-        // let left = event.pageX - gridPos.left;
-        // let top = event.pageY - gridPos.top;
         let rec = helper.getBoundingClientRect();
         let left = rec.left - gridPos.left;
         let top = rec.top - gridPos.top;
@@ -304,108 +302,106 @@ const dragInDefaultOptions = {
 /** @internal prepares the element for drag&drop **/
 gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
     let el = node.el;
+    let dd = GridStackDD.get();
     // check for disabled grid first
     if (this.opts.staticGrid || node.locked ||
         ((node.noMove || this.opts.disableDrag) && (node.noResize || this.opts.disableResize))) {
         if (node._initDD) {
-            GridStackDD.get().remove(node.el); // nukes everything instead of just disable, will add some styles back next
+            dd.remove(el); // nukes everything instead of just disable, will add some styles back next
             delete node._initDD;
         }
-        node.el.classList.add('ui-draggable-disabled', 'ui-resizable-disabled'); // add styles one might depend on #1435
+        el.classList.add('ui-draggable-disabled', 'ui-resizable-disabled'); // add styles one might depend on #1435
         return this;
     }
-    // check if init already done
-    if (node._initDD) {
-        // fine tune drag vs move by disabling any part...
-        if (node.noMove || this.opts.disableDrag) {
-            GridStackDD.get().draggable(el, 'disable');
-        }
-        if (node.noResize || this.opts.disableResize) {
-            GridStackDD.get().resizable(el, 'disable');
-        }
-        return this;
-    }
-    // remove our style that look like D&D
-    node.el.classList.remove('ui-draggable-disabled', 'ui-resizable-disabled');
-    // variables used/cashed between the 3 start/move/end methods, in addition to node passed above
-    let cellWidth;
-    let cellHeight;
-    /** called when item starts moving/resizing */
-    let onStartMoving = (event, ui) => {
-        // trigger any 'dragstart' / 'resizestart' manually
-        if (this._gsEventHandler[event.type]) {
-            this._gsEventHandler[event.type](event, event.target);
-        }
-        cellWidth = this.cellWidth();
-        cellHeight = this.getCellHeight(true); // force pixels for calculations
-        this._onStartMoving(el, event, ui, node, cellWidth, cellHeight);
-    };
-    /** called when item is being dragged/resized */
-    let dragOrResize = (event, ui) => {
-        this._dragOrResize(el, event, ui, node, cellWidth, cellHeight);
-    };
-    /** called when the item stops moving/resizing */
-    let onEndMoving = (event) => {
-        this.placeholder.remove();
-        delete node._moving;
-        delete node._lastTried;
-        // if the item has moved to another grid, we're done here
-        let target = event.target;
-        if (!target.gridstackNode || target.gridstackNode.grid !== this)
-            return;
-        node.el = target;
-        if (node._isAboutToRemove) {
-            let gridToNotify = el.gridstackNode.grid;
-            if (gridToNotify._gsEventHandler[event.type]) {
-                gridToNotify._gsEventHandler[event.type](event, target);
+    if (!node._initDD) {
+        // variables used/cashed between the 3 start/move/end methods, in addition to node passed above
+        let cellWidth;
+        let cellHeight;
+        /** called when item starts moving/resizing */
+        let onStartMoving = (event, ui) => {
+            // trigger any 'dragstart' / 'resizestart' manually
+            if (this._gsEventHandler[event.type]) {
+                this._gsEventHandler[event.type](event, event.target);
             }
-            GridStackDD.get().remove(el);
-            gridToNotify.engine.removedNodes.push(node);
-            gridToNotify._triggerRemoveEvent();
-            // break circular links and remove DOM
-            delete el.gridstackNode;
-            delete node.el;
-            el.remove();
-        }
-        else {
-            if (!node._temporaryRemoved) {
-                // move to new placeholder location
-                utils_1.Utils.removePositioningStyles(target);
-                this._writePosAttr(target, node);
+            cellWidth = this.cellWidth();
+            cellHeight = this.getCellHeight(true); // force pixels for calculations
+            this._onStartMoving(el, event, ui, node, cellWidth, cellHeight);
+        };
+        /** called when item is being dragged/resized */
+        let dragOrResize = (event, ui) => {
+            this._dragOrResize(el, event, ui, node, cellWidth, cellHeight);
+        };
+        /** called when the item stops moving/resizing */
+        let onEndMoving = (event) => {
+            this.placeholder.remove();
+            delete node._moving;
+            delete node._lastTried;
+            // if the item has moved to another grid, we're done here
+            let target = event.target;
+            if (!target.gridstackNode || target.gridstackNode.grid !== this)
+                return;
+            node.el = target;
+            if (node._isAboutToRemove) {
+                let gridToNotify = el.gridstackNode.grid;
+                if (gridToNotify._gsEventHandler[event.type]) {
+                    gridToNotify._gsEventHandler[event.type](event, target);
+                }
+                dd.remove(el);
+                gridToNotify.engine.removedNodes.push(node);
+                gridToNotify._triggerRemoveEvent();
+                // break circular links and remove DOM
+                delete el.gridstackNode;
+                delete node.el;
+                el.remove();
             }
             else {
-                // got removed - restore item back to before dragging position
-                utils_1.Utils.removePositioningStyles(target);
-                utils_1.Utils.copyPos(node, node._orig);
-                this._writePosAttr(target, node);
-                this.engine.addNode(node);
+                if (!node._temporaryRemoved) {
+                    // move to new placeholder location
+                    utils_1.Utils.removePositioningStyles(target);
+                    this._writePosAttr(target, node);
+                }
+                else {
+                    // got removed - restore item back to before dragging position
+                    utils_1.Utils.removePositioningStyles(target);
+                    utils_1.Utils.copyPos(node, node._orig);
+                    this._writePosAttr(target, node);
+                    this.engine.addNode(node);
+                }
+                if (this._gsEventHandler[event.type]) {
+                    this._gsEventHandler[event.type](event, target);
+                }
             }
-            if (this._gsEventHandler[event.type]) {
-                this._gsEventHandler[event.type](event, target);
-            }
-        }
-        this._updateContainerHeight();
-        this._triggerChangeEvent();
-        this.engine.endUpdate();
-    };
-    GridStackDD.get()
-        .draggable(el, {
-        start: onStartMoving,
-        stop: onEndMoving,
-        drag: dragOrResize
-    })
-        .resizable(el, {
-        start: onStartMoving,
-        stop: onEndMoving,
-        resize: dragOrResize
-    });
-    node._initDD = true; // we've set DD support now
-    // finally fine tune drag vs move by disabling any part...
+            this._updateContainerHeight();
+            this._triggerChangeEvent();
+            this.engine.endUpdate();
+        };
+        dd.draggable(el, {
+            start: onStartMoving,
+            stop: onEndMoving,
+            drag: dragOrResize
+        }).resizable(el, {
+            start: onStartMoving,
+            stop: onEndMoving,
+            resize: dragOrResize
+        });
+        node._initDD = true; // we've set DD support now
+    }
+    // finally fine tune move vs resize by disabling any part...
     if (node.noMove || this.opts.disableDrag) {
-        GridStackDD.get().draggable(el, 'disable');
+        dd.draggable(el, 'disable');
+        el.classList.add('ui-draggable-disabled');
+    }
+    else {
+        dd.draggable(el, 'enable');
+        el.classList.remove('ui-draggable-disabled');
     }
     if (node.noResize || this.opts.disableResize) {
-        GridStackDD.get().resizable(el, 'disable');
+        dd.resizable(el, 'disable');
+        el.classList.add('ui-resizable-disabled');
+    }
+    else {
+        dd.resizable(el, 'enable');
+        el.classList.remove('ui-resizable-disabled');
     }
     return this;
 };
@@ -474,13 +470,7 @@ gridstack_1.GridStack.prototype._leave = function (node, el, helper, dropoutEven
 };
 /** @internal called when item is being dragged/resized */
 gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, cellWidth, cellHeight) {
-    // calculate the place where we're landing by offsetting margin so actual edge crosses mid point
-    let left = ui.position.left + (ui.position.left > node._lastUiPosition.left ? -this.opts.marginRight : this.opts.marginLeft);
-    let top = ui.position.top + (ui.position.top > node._lastUiPosition.top ? -this.opts.marginBottom : this.opts.marginTop);
-    let x = Math.round(left / cellWidth);
-    let y = Math.round(top / cellHeight);
-    let w = node.w;
-    let h = node.h;
+    let p = Object.assign({}, node._orig); // could be undefined (_isExternal) which is ok (drag only set x,y and w,h will default to node value)
     let resizing;
     if (event.type === 'drag') {
         if (node._isCursorOutside)
@@ -488,8 +478,13 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
         let distance = ui.position.top - node._prevYPix;
         node._prevYPix = ui.position.top;
         utils_1.Utils.updateScrollPosition(el, ui.position, distance);
+        // get new position taking into account the margin in the direction we are moving! (need to pass mid point by margin)
+        let left = ui.position.left + (ui.position.left > node._lastUiPosition.left ? -this.opts.marginRight : this.opts.marginLeft);
+        let top = ui.position.top + (ui.position.top > node._lastUiPosition.top ? -this.opts.marginBottom : this.opts.marginTop);
+        p.x = Math.round(left / cellWidth);
+        p.y = Math.round(top / cellHeight);
         // if inTrash or outside of the bounds (but not external which is handled by 'dropout' event), temporarily remove it from us
-        if (node._isAboutToRemove || (!node._isExternal && this.engine.isOutside(x, y, node))) {
+        if (node._isAboutToRemove || (!node._isExternal && this.engine.isOutside(p.x, p.y, node))) {
             this._leave(node, event.target);
         }
         else {
@@ -501,32 +496,37 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
                 delete node._temporaryRemoved;
             }
         }
-        if (node.x === x && node.y === y)
+        if (node.x === p.x && node.y === p.y)
             return; // skip same
         // DON'T skip one we tried as we might have failed because of coverage <50% before
         // if (node._lastTried && node._lastTried.x === x && node._lastTried.y === y) return;
     }
     else if (event.type === 'resize') {
-        if (x < 0)
+        if (p.x < 0)
             return;
         // Scrolling page if needed
         utils_1.Utils.updateScrollResize(event, el, cellHeight);
-        w = Math.round(ui.size.width / cellWidth);
-        h = Math.round(ui.size.height / cellHeight);
-        if (node.w === w && node.h === h)
+        // get new size
+        p.w = Math.round((ui.size.width - this.opts.marginLeft) / cellWidth);
+        p.h = Math.round((ui.size.height - this.opts.marginTop) / cellHeight);
+        if (node.w === p.w && node.h === p.h)
             return;
-        if (node._lastTried && node._lastTried.w === w && node._lastTried.h === h)
+        if (node._lastTried && node._lastTried.w === p.w && node._lastTried.h === p.h)
             return; // skip one we tried (but failed)
+        // if we changed sizing on left side, move the item as well. Note: we don't support TOP resizing
+        if (Math.round(ui.position.left) < Math.round(node._orig.x * cellWidth)) { // use round or we can get slightly off compare
+            p.x = node._orig.x + node._orig.w - p.w;
+        }
         resizing = true;
     }
-    node._lastTried = { x, y, w, h }; // set as last tried (will nuke if we go there)
+    node._lastTried = p; // set as last tried (will nuke if we go there)
     let rect = {
         x: ui.position.left + this.opts.marginLeft,
         y: ui.position.top + this.opts.marginTop,
         w: (ui.size ? ui.size.width : node.w * cellWidth) - this.opts.marginLeft - this.opts.marginRight,
         h: (ui.size ? ui.size.height : node.h * cellHeight) - this.opts.marginTop - this.opts.marginBottom
     };
-    if (this.engine.moveNodeCheck(node, { x, y, w, h, cellWidth, cellHeight, rect })) {
+    if (this.engine.moveNodeCheck(node, Object.assign(Object.assign({}, p), { cellWidth, cellHeight, rect }))) {
         node._lastUiPosition = ui.position;
         this.engine.cacheRects(cellWidth, cellHeight, this.opts.marginTop, this.opts.marginRight, this.opts.marginBottom, this.opts.marginLeft);
         delete node._skipDown;
@@ -553,16 +553,11 @@ gridstack_1.GridStack.prototype.movable = function (els, val) {
         let node = el.gridstackNode;
         if (!node || node.locked)
             return;
-        node.noMove = !(val || false);
-        if (node.noMove) {
-            GridStackDD.get().draggable(el, 'disable');
-            el.classList.remove('ui-draggable-handle');
-        }
-        else {
-            this._prepareDragDropByNode(node); // init DD if need be
-            GridStackDD.get().draggable(el, 'enable');
-            el.classList.remove('ui-draggable-handle');
-        }
+        if (val)
+            delete node.noMove;
+        else
+            node.noMove = true;
+        this._prepareDragDropByNode(node); // init DD if need be, and adjust
     });
     return this;
 };
@@ -578,14 +573,11 @@ gridstack_1.GridStack.prototype.resizable = function (els, val) {
         let node = el.gridstackNode;
         if (!node || node.locked)
             return;
-        node.noResize = !(val || false);
-        if (node.noResize) {
-            GridStackDD.get().resizable(el, 'disable');
-        }
-        else {
-            this._prepareDragDropByNode(node); // init DD if need be
-            GridStackDD.get().resizable(el, 'enable');
-        }
+        if (val)
+            delete node.noResize;
+        else
+            node.noResize = true;
+        this._prepareDragDropByNode(node); // init DD if need be, and adjust
     });
     return this;
 };
@@ -622,35 +614,20 @@ gridstack_1.GridStack.prototype.enable = function () {
     this._triggerEvent('enable');
     return this;
 };
-/**
-  * Enables/disables widget moving. No-op for static grids.
-  *
-  * @param doEnable
-  * @param includeNewWidgets will force new widgets to be draggable as per
-  * doEnable`s value by changing the disableDrag grid option (default: true).
-  */
-gridstack_1.GridStack.prototype.enableMove = function (doEnable, includeNewWidgets = true) {
+/** Enables/disables widget moving. No-op for static grids. */
+gridstack_1.GridStack.prototype.enableMove = function (doEnable) {
     if (this.opts.staticGrid)
         return this; // can't move a static grid!
-    this.getGridItems().forEach(el => this.movable(el, doEnable));
-    if (includeNewWidgets) {
-        this.opts.disableDrag = !doEnable;
-    }
+    this.opts.disableDrag = !doEnable; // FIRST before we update children as grid overrides #1658
+    this.engine.nodes.forEach(n => this.movable(n.el, doEnable));
     return this;
 };
-/**
-  * Enables/disables widget resizing. No-op for static grids.
-  * @param doEnable
-  * @param includeNewWidgets will force new widgets to be draggable as per
-  * doEnable`s value by changing the disableResize grid option (default: true).
-  */
-gridstack_1.GridStack.prototype.enableResize = function (doEnable, includeNewWidgets = true) {
+/** Enables/disables widget resizing. No-op for static grids. */
+gridstack_1.GridStack.prototype.enableResize = function (doEnable) {
     if (this.opts.staticGrid)
         return this; // can't size a static grid!
-    this.getGridItems().forEach(el => this.resizable(el, doEnable));
-    if (includeNewWidgets) {
-        this.opts.disableResize = !doEnable;
-    }
+    this.opts.disableResize = !doEnable; // FIRST before we update children as grid overrides #1658
+    this.engine.nodes.forEach(n => this.resizable(n.el, doEnable));
     return this;
 };
 //# sourceMappingURL=gridstack-dd.js.map

@@ -1,5 +1,5 @@
 /**
- * types.ts 4.0.1
+ * types.ts 4.0.2
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStack } from './gridstack';
@@ -68,7 +68,10 @@ export interface GridStackOptions {
     draggable?: DDDragOpt;
     /** allows to drag external items using this selector - see dragInOptions. (default: undefined) */
     dragIn?: string;
-    /** allows to drag external items using these options. (default?: { handle: '.grid-stack-item-content', revert: 'invalid', scroll: false, appendTo: 'body', helper: 'clone' }) */
+    /** allows to drag external items using these options. See `GridStack.setupDragIn()` instead (not per grid really).
+     * (default?: { handle: '.grid-stack-item-content', revert: 'invalid', scroll: false, appendTo: 'body' })
+     * helper can be 'clone' or your own function (set what the drag/dropped item will be instead)
+     */
     dragInOptions?: DDDragInOpt;
     /** let user drag nested grid items out of a parent or not (default false) */
     dragOut?: boolean;

@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd-native.ts 4.0.1
+ * gridstack-dd-native.ts 4.0.2
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 function __export(m) {
@@ -94,15 +94,15 @@ class GridStackDDNative extends gridstack_dd_1.GridStackDD {
     }
     /** true if element is droppable */
     isDroppable(el) {
-        return el && el.ddElement && el.ddElement.ddDroppable && !el.ddElement.ddDroppable.disabled;
+        return !!(el && el.ddElement && el.ddElement.ddDroppable && !el.ddElement.ddDroppable.disabled);
     }
     /** true if element is draggable */
     isDraggable(el) {
-        return el && el.ddElement && el.ddElement.ddDraggable && !el.ddElement.ddDraggable.disabled;
+        return !!(el && el.ddElement && el.ddElement.ddDraggable && !el.ddElement.ddDraggable.disabled);
     }
     /** true if element is draggable */
     isResizable(el) {
-        return el && el.ddElement && el.ddElement.ddResizable && !el.ddElement.ddResizable.disabled;
+        return !!(el && el.ddElement && el.ddElement.ddResizable && !el.ddElement.ddResizable.disabled);
     }
     on(el, name, callback) {
         this._getDDElements(el).forEach(dEl => dEl.on(name, (event) => {
