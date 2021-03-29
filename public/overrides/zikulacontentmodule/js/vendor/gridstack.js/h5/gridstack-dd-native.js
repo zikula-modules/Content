@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd-native.ts 4.0.2
+ * gridstack-dd-native.ts 4.0.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 function __export(m) {

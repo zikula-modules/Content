@@ -1,5 +1,5 @@
 /**
- * gridstack-engine.ts 4.0.2
+ * gridstack-engine.ts 4.0.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackNode, GridStackPosition, GridStackMoveOpts } from './types';
@@ -64,8 +64,6 @@ export declare class GridStackEngine {
     moveNodeCheck(node: GridStackNode, o: GridStackMoveOpts): boolean;
     /** return true if can fit in grid height constrain only (always true if no maxRow) */
     willItFit(node: GridStackNode): boolean;
-    /** return true if the passed in node (x,y) is being dragged outside of the grid, and not added to bottom */
-    isOutside(x: number, y: number, node: GridStackNode): boolean;
     /** true if x,y or w,h are different after clamping to min/max */
     changedPosConstrain(node: GridStackNode, p: GridStackPosition): boolean;
     /** return true if the passed in node was actually moved (checks for no-op and locked) */

@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-base-impl.ts 4.0.2
+ * dd-base-impl.ts 4.0.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });

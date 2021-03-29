@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-ddi.ts 4.0.2
+ * gridstack-ddi.ts 4.0.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -18,6 +18,7 @@ class GridStackDDI {
         return GridStackDDI.ddi || GridStackDDI.registerPlugin(GridStackDDI);
     }
     /** removes any drag&drop present (called during destroy) */
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     remove(el) {
         return this; // no-op for static grids
     }

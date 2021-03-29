@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.0.2
+ * gridstack-engine.ts 4.0.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -27,6 +27,7 @@ class GridStackEngine {
         this.batchMode = true;
         this._prevFloat = this._float;
         this._float = true; // let things go anywhere for now... commit() will restore and possibly reposition
+        this.saveInitial(); // since begin update (which is called multiple times) won't do this
         return this;
     }
     commit() {
@@ -460,8 +461,10 @@ class GridStackEngine {
         return node;
     }
     removeNode(node, removeDOM = true, triggerEvent = false) {
-        if (!this.nodes.find(n => n === node))
-            return; // not in our list
+        if (!this.nodes.find(n => n === node)) {
+            // TEST console.log(`Error: GridStackEngine.removeNode() node._id=${node._id} not found!`)
+            return this;
+        }
         if (triggerEvent) { // we wait until final drop to manually track removed items (rather than during drag)
             this.removedNodes.push(node);
         }
@@ -546,38 +549,9 @@ class GridStackEngine {
             float: this.float,
             nodes: this.nodes.map(n => { return Object.assign({}, n); })
         });
-        clone.addNode(node);
+        let n = utils_1.Utils.copyPos({}, node, true); // clone node so we don't mod any settings on it! #1687
+        clone.addNode(n);
         return clone.getRow() <= this.maxRow;
-    }
-    /** return true if the passed in node (x,y) is being dragged outside of the grid, and not added to bottom */
-    isOutside(x, y, node) {
-        if (node._isCursorOutside)
-            return false; // dragging out is handled by 'dropout' event instead
-        // simple outside boundaries
-        if (x < 0 || x >= this.column || y < 0)
-            return true;
-        if (this.maxRow)
-            return (y >= this.maxRow);
-        else if (this.float)
-            return false; // infinite grow with no maxRow
-        // see if dragging PAST bottom (row+1)
-        let row = this.getRow();
-        if (y < row || y === 0)
-            return false;
-        if (y > row)
-            return true;
-        // else check to see if we can add that item to the bottom... (y == row)
-        if (!node._temporaryRemoved) {
-            let clone = new GridStackEngine({
-                column: this.column,
-                float: this.float,
-                nodes: this.nodes.filter(n => n !== node).map(n => { return Object.assign({}, n); })
-            });
-            let nn = Object.assign(Object.assign({}, node), { x, y });
-            clone.addNode(nn);
-            return nn.y === node.y && nn.x === node.x; // didn't actually move, so last row was a drag out and not a new place...
-        }
-        return node._temporaryRemoved; // if still outside so we don't flicker back & forth
     }
     /** true if x,y or w,h are different after clamping to min/max */
     changedPosConstrain(node, p) {
@@ -621,7 +595,7 @@ class GridStackEngine {
             o.h = node.h;
         }
         let resizing = (node.w !== o.w || node.h !== o.h);
-        let nn = { maxW: node.maxW, maxH: node.maxH, minW: node.minW, minH: node.minH };
+        let nn = utils_1.Utils.copyPos({}, node, true); // get min/max out first, then opt positions next
         utils_1.Utils.copyPos(nn, o);
         nn = this.nodeBoundFix(nn, resizing);
         utils_1.Utils.copyPos(o, nn);
@@ -664,7 +638,8 @@ class GridStackEngine {
         if (!node._updating) {
             node._updating = true;
             delete node._skipDown;
-            this.saveInitial();
+            if (!this.batchMode)
+                this.saveInitial();
         }
         return this;
     }

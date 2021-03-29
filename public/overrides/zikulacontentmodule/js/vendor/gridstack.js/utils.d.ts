@@ -1,8 +1,8 @@
 /**
- * utils.ts 4.0.2
+ * utils.ts 4.0.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
-import { GridStackElement, GridStackNode, GridStackOptions, numberOrString, GridStackPosition } from './types';
+import { GridStackElement, GridStackNode, GridStackOptions, numberOrString, GridStackPosition, GridStackWidget } from './types';
 export interface HeightData {
     h: number;
     unit: string;
@@ -52,7 +52,7 @@ export declare class Utils {
     static defaults(target: any, ...sources: any[]): {};
     /** given 2 objects return true if they have the same values. Checks for Object {} having same fields and values (just 1 level down) */
     static same(a: unknown, b: unknown): boolean;
-    static copyPos(a: GridStackPosition, b: GridStackPosition): GridStackPosition;
+    static copyPos(a: GridStackWidget, b: GridStackWidget, minMax?: boolean): GridStackWidget;
     static samePos(a: GridStackPosition, b: GridStackPosition): boolean;
     /** removes field from the first object if same as the second objects (like diffing) and internal '_' for saving */
     static removeInternalAndSame(a: unknown, b: unknown): void;

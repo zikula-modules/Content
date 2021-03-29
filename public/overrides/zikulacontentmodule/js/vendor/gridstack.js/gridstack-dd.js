@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.0.2
+ * gridstack-dd.ts 4.0.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -37,14 +37,6 @@ exports.GridStackDD = GridStackDD;
 gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
     if (this.opts.staticGrid)
         return this;
-    // if we don't accept external widgets (default) we still need to accept dragging within our
-    // list of items (else we get a no-drop icon on windows)
-    if (!this.opts.acceptWidgets) {
-        GridStackDD.get().droppable(this.el, {
-            accept: (el) => el.gridstackNode && el.gridstackNode.grid === this
-        });
-        return this;
-    }
     // vars shared across all methods
     let gridPos;
     let cellHeight, cellWidth;
@@ -85,6 +77,8 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
             // set accept drop to true on ourself (which we ignore) so we don't get "can't drop" icon in HTML5 mode while moving
             if (node && node.grid === this)
                 return true;
+            if (!this.opts.acceptWidgets)
+                return false;
             // check for accept method or class matching
             let canAccept = true;
             if (typeof this.opts.acceptWidgets === 'function') {
@@ -147,15 +141,13 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
             // restore some internal fields we need after clearing them all
             node._initDD =
                 node._isExternal = // DOM needs to be re-parented on a drop
-                    node._temporaryRemoved = true;
+                    node._temporaryRemoved = true; // so it can be inserted onDrag below
         }
         else {
             node.w = w;
             node.h = h;
             node._temporaryRemoved = true; // so we can insert it
         }
-        // we're entering this grid (even if we left another)
-        delete node._isCursorOutside;
         GridStackDD.get().on(el, 'drag', onDrag);
         // make sure this is called at least once when going fast #1578
         onDrag(event, el, helper);
@@ -278,6 +270,14 @@ gridstack_1.GridStack.prototype._setupRemoveDrop = function () {
  * is dynamically create and needs to change later.
  **/
 gridstack_1.GridStack.setupDragIn = function (_dragIn, _dragInOptions) {
+    let dragIn;
+    let dragInOptions;
+    const dragInDefaultOptions = {
+        revert: 'invalid',
+        handle: '.grid-stack-item-content',
+        scroll: false,
+        appendTo: 'body'
+    };
     // cache in the passed in values (form grid init?) so they don't have to resend them each time
     if (_dragIn) {
         dragIn = _dragIn;
@@ -290,14 +290,6 @@ gridstack_1.GridStack.setupDragIn = function (_dragIn, _dragInOptions) {
         if (!dd.isDraggable(el))
             dd.dragIn(el, dragInOptions);
     });
-};
-let dragIn;
-let dragInOptions;
-const dragInDefaultOptions = {
-    revert: 'invalid',
-    handle: '.grid-stack-item-content',
-    scroll: false,
-    appendTo: 'body'
 };
 /** @internal prepares the element for drag&drop **/
 gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
@@ -417,7 +409,6 @@ gridstack_1.GridStack.prototype._onStartMoving = function (el, event, ui, node, 
     node._prevYPix = ui.position.top;
     node._moving = (event.type === 'dragstart'); // 'dropover' are not initially moving so they can go exactly where they enter (will push stuff out of the way)
     delete node._lastTried;
-    delete node._isCursorOutside;
     if (event.type === 'dropover' && node._temporaryRemoved) {
         // TEST console.log('engine.addNode x=' + node.x);
         this.engine.addNode(node); // will add, fix collisions, update attr and clear _temporaryRemoved
@@ -445,14 +436,13 @@ gridstack_1.GridStack.prototype._leave = function (node, el, helper, dropoutEven
     if (!node)
         return;
     if (dropoutEvent) {
-        node._isCursorOutside = true;
         GridStackDD.get().off(el, 'drag'); // no need to track while being outside
     }
     // this gets called when cursor leaves and shape is outside, so only do this once
     if (node._temporaryRemoved)
         return;
     node._temporaryRemoved = true;
-    this.engine.removeNode(node); // remove placeholder as well
+    this.engine.removeNode(node); // remove placeholder as well, otherwise it's a sign node is not in our list, which is a bigger issue
     node.el = node._isExternal && helper ? helper : el; // point back to real item being dragged
     // finally if item originally came from another grid, but left us, restore things back to prev info
     if (el._gridstackNodeOrig) {
@@ -473,7 +463,7 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
     let p = Object.assign({}, node._orig); // could be undefined (_isExternal) which is ok (drag only set x,y and w,h will default to node value)
     let resizing;
     if (event.type === 'drag') {
-        if (node._isCursorOutside)
+        if (node._temporaryRemoved)
             return; // handled by dropover
         let distance = ui.position.top - node._prevYPix;
         node._prevYPix = ui.position.top;
@@ -483,19 +473,6 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
         let top = ui.position.top + (ui.position.top > node._lastUiPosition.top ? -this.opts.marginBottom : this.opts.marginTop);
         p.x = Math.round(left / cellWidth);
         p.y = Math.round(top / cellHeight);
-        // if inTrash or outside of the bounds (but not external which is handled by 'dropout' event), temporarily remove it from us
-        if (node._isAboutToRemove || (!node._isExternal && this.engine.isOutside(p.x, p.y, node))) {
-            this._leave(node, event.target);
-        }
-        else {
-            if (node._temporaryRemoved) {
-                node.el = this.placeholder;
-                this.engine.addNode(node);
-                this.el.appendChild(this.placeholder);
-                // TEST console.log('drag placeholder');
-                delete node._temporaryRemoved;
-            }
-        }
         if (node.x === p.x && node.y === p.y)
             return; // skip same
         // DON'T skip one we tried as we might have failed because of coverage <50% before
