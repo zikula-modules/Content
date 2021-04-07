@@ -1,6 +1,6 @@
 "use strict";
 /*!
- * GridStack 4.0.3
+ * GridStack 4.1.0
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -76,6 +76,8 @@ class GridStack {
     constructor(el, opts = {}) {
         /** @internal */
         this._gsEventHandler = {};
+        /** @internal extra row added when dragging at the bottom of the grid */
+        this._extraDragRow = 0;
         this.el = el; // exposed HTML element to the user
         opts = opts || {}; // handles null/undefined/0
         // if row property exists, replace minRow and maxRow instead
@@ -1067,7 +1069,7 @@ class GridStack {
     _updateContainerHeight() {
         if (!this.engine || this.engine.batchMode)
             return this;
-        let row = this.getRow(); // checks for minRow already
+        let row = this.getRow() + this._extraDragRow; // checks for minRow already
         // check for css min height
         let cssMinHeight = parseInt(getComputedStyle(this.el)['min-height']);
         if (cssMinHeight > 0) {

@@ -1,10 +1,10 @@
 import { GridStackElement } from '../gridstack';
 import { GridStackDD, DDOpts, DDKey, DDDropOpt, DDCallback, DDValue } from '../gridstack-dd';
 import { GridItemHTMLElement, DDDragInOpt } from '../types';
-import * as $ from './jquery';
+import * as $ from 'jquery';
 export { $ };
-import './jquery-ui';
-import './jquery.ui.touch-punch';
+import 'jquery-ui';
+import 'jquery.ui.touch-punch';
 export * from '../gridstack-dd';
 /**
  * legacy Jquery-ui based drag'n'drop plugin.

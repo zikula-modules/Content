@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.0.3
+ * gridstack-engine.ts 4.1.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -528,7 +528,7 @@ class GridStackEngine {
         if (!canMove)
             return false;
         // if clone was able to move, copy those mods over to us now instead of caller trying to do this all over!
-        // Note: we can't use the list directly as elements and other parts point to actual node struct, so copy content
+        // Note: we can't use the list directly as elements and other parts point to actual node, so copy content
         clone.nodes.filter(n => n._dirty).forEach(c => {
             let n = this.nodes.find(a => a._id === c._id);
             if (!n)
@@ -541,6 +541,7 @@ class GridStackEngine {
     }
     /** return true if can fit in grid height constrain only (always true if no maxRow) */
     willItFit(node) {
+        delete node._willFitPos;
         if (!this.maxRow)
             return true;
         // create a clone with NO maxRow and check if still within size
@@ -549,9 +550,18 @@ class GridStackEngine {
             float: this.float,
             nodes: this.nodes.map(n => { return Object.assign({}, n); })
         });
-        let n = utils_1.Utils.copyPos({}, node, true); // clone node so we don't mod any settings on it! #1687
+        let n = Object.assign({}, node); // clone node so we don't mod any settings on it but have full autoPosition and min/max as well! #1687
+        this.cleanupNode(n);
+        delete n.el;
+        delete n._id;
+        delete n.content;
+        delete n.grid;
         clone.addNode(n);
-        return clone.getRow() <= this.maxRow;
+        if (clone.getRow() <= this.maxRow) {
+            node._willFitPos = utils_1.Utils.copyPos({}, n);
+            return true;
+        }
+        return false;
     }
     /** true if x,y or w,h are different after clamping to min/max */
     changedPosConstrain(node, p) {

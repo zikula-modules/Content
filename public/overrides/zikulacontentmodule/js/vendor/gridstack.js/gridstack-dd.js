@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.0.3
+ * gridstack-dd.ts 4.1.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -61,6 +61,11 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
                     GridStackDD.get().off(el, 'drag'); // stop calling us
                     return; // full grid or can't grow
                 }
+                if (node._willFitPos) {
+                    // use the auto position instead #1687
+                    utils_1.Utils.copyPos(node, node._willFitPos);
+                    delete node._willFitPos;
+                }
             }
             // re-use the existing node dragging method
             this._onStartMoving(helper, event, ui, node, cellWidth, cellHeight);
@@ -90,7 +95,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
             }
             // finally check to make sure we actually have space left #1571
             if (canAccept && node && this.opts.maxRow) {
-                let n = { w: node.w, h: node.h, minW: node.minW, minH: node.minH }; // only width/height matters
+                let n = { w: node.w, h: node.h, minW: node.minW, minH: node.minH }; // only width/height matters and autoPosition
                 canAccept = this.engine.willItFit(n);
             }
             return canAccept;
@@ -363,6 +368,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
                     this._gsEventHandler[event.type](event, target);
                 }
             }
+            this._extraDragRow = 0;
             this._updateContainerHeight();
             this._triggerChangeEvent();
             this.engine.endUpdate();
@@ -473,6 +479,20 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
         let top = ui.position.top + (ui.position.top > node._lastUiPosition.top ? -this.opts.marginBottom : this.opts.marginTop);
         p.x = Math.round(left / cellWidth);
         p.y = Math.round(top / cellHeight);
+        // if we're at the bottom hitting something else, grow the grid so cursor doesn't leave when trying to place below others
+        let prev = this._extraDragRow;
+        if (this.engine.collide(node, p)) {
+            let row = this.getRow();
+            let extra = Math.max(0, (p.y + node.h) - row);
+            if (this.opts.maxRow && row + extra > this.opts.maxRow) {
+                extra = Math.max(0, this.opts.maxRow - row);
+            }
+            this._extraDragRow = extra;
+        }
+        else
+            this._extraDragRow = 0;
+        if (this._extraDragRow !== prev)
+            this._updateContainerHeight();
         if (node.x === p.x && node.y === p.y)
             return; // skip same
         // DON'T skip one we tried as we might have failed because of coverage <50% before
@@ -510,6 +530,7 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
         if (resizing && node.subGrid) {
             node.subGrid.onParentResize();
         }
+        this._extraDragRow = 0;
         this._updateContainerHeight();
         let target = event.target;
         this._writePosAttr(target, node);
