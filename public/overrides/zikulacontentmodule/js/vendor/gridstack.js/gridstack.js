@@ -1,6 +1,6 @@
 "use strict";
 /*!
- * GridStack 4.1.0
+ * GridStack 4.2.0
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -135,12 +135,12 @@ class GridStack {
             column: this.opts.column,
             float: this.opts.float,
             maxRow: this.opts.maxRow,
-            onChange: (cbNodes, removeDOM = true) => {
+            onChange: (cbNodes) => {
                 let maxH = 0;
                 this.engine.nodes.forEach(n => { maxH = Math.max(maxH, n.y + n.h); });
                 cbNodes.forEach(n => {
                     let el = n.el;
-                    if (removeDOM && n._removeDOM) { // TODO: do we need to pass 'removeDOM' ?
+                    if (n._removeDOM) {
                         if (el)
                             el.remove();
                         delete n._removeDOM;
@@ -326,7 +326,7 @@ class GridStack {
         let domAttr = this._readAttr(el);
         options = Object.assign({}, (options || {})); // make a copy before we modify in case caller re-uses it
         utils_1.Utils.defaults(options, domAttr);
-        this.engine.prepareNode(options);
+        let node = this.engine.prepareNode(options);
         this._writeAttr(el, options);
         if (this._insertNotAppend) {
             this.el.prepend(el);
@@ -337,6 +337,11 @@ class GridStack {
         // similar to makeWidget() that doesn't read attr again and worse re-create a new node and loose any _id
         this._prepareElement(el, true, options);
         this._updateContainerHeight();
+        // check if nested grid definition is present
+        if (node.subGrid && !node.subGrid.el) { // see if there is a sub-grid to create too
+            let content = node.el.querySelector('.grid-stack-item-content');
+            node.subGrid = GridStack.addGrid(content, node.subGrid);
+        }
         this._triggerAddEvent();
         this._triggerChangeEvent();
         return el;
@@ -401,7 +406,7 @@ class GridStack {
      * see http://gridstackjs.com/demo/serialization.html
      **/
     load(layout, addAndRemove = true) {
-        let items = GridStack.Utils.sort(layout, -1, this._prevColumn || this.opts.column);
+        let items = GridStack.Utils.sort([...layout], -1, this._prevColumn || this.opts.column); // make copy before we mod/sort
         this._insertNotAppend = true; // since create in reverse order...
         // if we're loading a layout into 1 column (_prevColumn is set only when going to 1) and items don't fit, make sure to save
         // the original wanted layout so we can scale back up correctly #1471
@@ -446,10 +451,6 @@ class GridStack {
                 }
                 else {
                     w = this.addWidget(w).gridstackNode;
-                }
-                if (w.subGrid) { // see if there is a sub-grid to create too
-                    let content = w.el.querySelector('.grid-stack-item-content');
-                    w.subGrid = GridStack.addGrid(content, w.subGrid);
                 }
             }
         });
@@ -1200,8 +1201,7 @@ class GridStack {
             return; // return if we're gone or no size yet (will get called again)
         let oneColumn = !this.opts.disableOneColumnMode && this.el.clientWidth <= this.opts.minWidth;
         let changedOneColumn = false;
-        if (!this._oneColumnMode !== !oneColumn) { // use ! (negate) so we can check undefined == false vs true
-            this._oneColumnMode = oneColumn;
+        if ((this.opts.column === 1) !== oneColumn) {
             changedOneColumn = true;
             if (this.opts.animate) {
                 this.setAnimation(false);

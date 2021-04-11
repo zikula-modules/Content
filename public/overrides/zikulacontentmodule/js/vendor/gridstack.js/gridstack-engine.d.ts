@@ -1,5 +1,5 @@
 /**
- * gridstack-engine.ts 4.1.0
+ * gridstack-engine.ts 4.2.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackNode, GridStackPosition, GridStackMoveOpts } from './types';
@@ -80,6 +80,12 @@ export declare class GridStackEngine {
      * @param clear if true, will force other caches to be removed (default false)
      */
     cacheLayout(nodes: GridStackNode[], column: number, clear?: boolean): GridStackEngine;
+    /**
+     * call to cache the given node layout internally to the given location so we can restore back when column changes size
+     * @param node single node to cache
+     * @param column corresponding column index to save it under
+     */
+    cacheOneLayout(n: GridStackNode, column: number): GridStackEngine;
     /** called to remove all internal values but the _id */
     cleanupNode(node: GridStackNode): GridStackEngine;
 }

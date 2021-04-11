@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.1.0
+ * gridstack-dd.ts 4.2.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -119,7 +119,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         }
         // get grid screen coordinates and cell dimensions
         let box = this.el.getBoundingClientRect();
-        gridPos = { top: box.top + document.documentElement.scrollTop, left: box.left };
+        gridPos = { top: box.top, left: box.left };
         cellWidth = this.cellWidth();
         cellHeight = this.getCellHeight(true);
         // load any element attributes if we don't have a node

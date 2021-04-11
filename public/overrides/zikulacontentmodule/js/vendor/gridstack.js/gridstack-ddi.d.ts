@@ -1,5 +1,5 @@
 /**
- * gridstack-ddi.ts 4.1.0
+ * gridstack-ddi.ts 4.2.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridItemHTMLElement } from './types';
