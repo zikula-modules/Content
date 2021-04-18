@@ -103,7 +103,7 @@ class GridStackDDJQueryUI extends gridstack_dd_1.GridStackDD {
     }
     on(el, name, callback) {
         let $el = $(el);
-        $el.on(name, (event, ui) => { callback(event, ui.draggable ? ui.draggable[0] : event.target, ui.helper ? ui.helper[0] : null); });
+        $el.on(name, (event, ui) => { return callback(event, ui.draggable ? ui.draggable[0] : event.target, ui.helper ? ui.helper[0] : null); });
         return this;
     }
     off(el, name) {

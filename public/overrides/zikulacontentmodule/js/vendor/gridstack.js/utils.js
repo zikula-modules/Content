@@ -1,6 +1,6 @@
 "use strict";
 /**
- * utils.ts 4.2.0
+ * utils.ts 4.2.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -354,15 +354,17 @@ class Utils {
     static updateScrollResize(event, el, distance) {
         const scrollEl = this.getScrollParent(el);
         const height = scrollEl.clientHeight;
-        const top = event.clientY < distance;
-        const bottom = event.clientY > height - distance;
+        const offsetTop = scrollEl.getBoundingClientRect().top;
+        const pointerPosY = event.clientY - offsetTop;
+        const top = pointerPosY < distance;
+        const bottom = pointerPosY > height - distance;
         if (top) {
             // This also can be done with a timeout to keep scrolling while the mouse is
             // in the scrolling zone. (will have smoother behavior)
-            scrollEl.scrollBy({ behavior: 'smooth', top: event.clientY - distance });
+            scrollEl.scrollBy({ behavior: 'smooth', top: pointerPosY - distance });
         }
         else if (bottom) {
-            scrollEl.scrollBy({ behavior: 'smooth', top: distance - (height - event.clientY) });
+            scrollEl.scrollBy({ behavior: 'smooth', top: distance - (height - pointerPosY) });
         }
     }
 }

@@ -1,5 +1,5 @@
 /**
- * types.ts 4.2.0
+ * types.ts 4.2.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStack } from './gridstack';
@@ -188,7 +188,7 @@ export interface GridStackWidget extends GridStackPosition {
     noMove?: boolean;
     /** prevents moving and resizing (default?: undefined = un-constrained) */
     locked?: boolean;
-    /** widgets can have their own resize handles. For example 'e,w' will make the particular widget only resize east and west. */
+    /** widgets can have their own custom resize handles. For example 'e,w' will make that particular widget only resize east and west. See `resizable: {handles: string}` option */
     resizeHandles?: string;
     /** value for `gs-id` stored on the widget (default?: undefined) */
     id?: numberOrString;
