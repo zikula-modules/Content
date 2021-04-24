@@ -1,6 +1,6 @@
 "use strict";
 /**
- * utils.ts 4.2.1
+ * utils.ts 4.2.2
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -296,7 +296,7 @@ class Utils {
     /** @internal */
     static getScrollParent(el) {
         if (el === null)
-            return document.documentElement;
+            return document.scrollingElement;
         const style = getComputedStyle(el);
         const overflowRegex = /(auto|scroll)/;
         if (overflowRegex.test(style.overflow + style.overflowY)) {

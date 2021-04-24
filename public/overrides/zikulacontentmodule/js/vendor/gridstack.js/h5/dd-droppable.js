@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-droppable.ts 4.2.1
+ * dd-droppable.ts 4.2.2
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -82,7 +82,14 @@ class DDDroppable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal called when the item is leaving our area, stop tracking if we had moving item */
     _dragLeave(event) {
-        if (this.el.contains(event.relatedTarget))
+        // ignore leave events on our children (get when starting to drag our items)
+        // Note: Safari Mac has null relatedTarget which causes #1684 so check if DragEvent is inside the grid instead
+        if (!event.relatedTarget) {
+            const { bottom, left, right, top } = this.el.getBoundingClientRect();
+            if (event.x < right && event.x > left && event.y < bottom && event.y > top)
+                return;
+        }
+        else if (this.el.contains(event.relatedTarget))
             return;
         this._removeLeaveCallbacks();
         if (this.moving) {
