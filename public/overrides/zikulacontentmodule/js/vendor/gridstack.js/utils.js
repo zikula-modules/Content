@@ -1,6 +1,6 @@
 "use strict";
 /**
- * utils.ts 4.2.2
+ * utils.ts 4.2.3
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -293,9 +293,9 @@ class Utils {
             style.removeProperty('height');
         }
     }
-    /** @internal */
-    static getScrollParent(el) {
-        if (el === null)
+    /** @internal returns the passed element if scrollable, else the closest parent that will, up to the entire document scrolling element */
+    static getScrollElement(el) {
+        if (!el)
             return document.scrollingElement;
         const style = getComputedStyle(el);
         const overflowRegex = /(auto|scroll)/;
@@ -303,7 +303,7 @@ class Utils {
             return el;
         }
         else {
-            return this.getScrollParent(el.parentElement);
+            return this.getScrollElement(el.parentElement);
         }
     }
     /** @internal */
@@ -318,7 +318,7 @@ class Utils {
             // to get entire widget on screen
             let offsetDiffDown = rect.bottom - innerHeightOrClientHeight;
             let offsetDiffUp = rect.top;
-            let scrollEl = this.getScrollParent(el);
+            let scrollEl = this.getScrollElement(el);
             if (scrollEl !== null) {
                 let prevScroll = scrollEl.scrollTop;
                 if (rect.top < 0 && distance < 0) {
@@ -352,9 +352,13 @@ class Utils {
      * @param distance Distance from the V edges to start scrolling
      */
     static updateScrollResize(event, el, distance) {
-        const scrollEl = this.getScrollParent(el);
+        const scrollEl = this.getScrollElement(el);
         const height = scrollEl.clientHeight;
-        const offsetTop = scrollEl.getBoundingClientRect().top;
+        // #1727 event.clientY is relative to viewport, so must compare this against position of scrollEl getBoundingClientRect().top
+        // #1745 Special situation if scrollEl is document 'html': here browser spec states that
+        // clientHeight is height of viewport, but getBoundingClientRect() is rectangle of html element;
+        // this discrepancy arises because in reality scrollbar is attached to viewport, not html element itself.
+        const offsetTop = (scrollEl === this.getScrollElement()) ? 0 : scrollEl.getBoundingClientRect().top;
         const pointerPosY = event.clientY - offsetTop;
         const top = pointerPosY < distance;
         const bottom = pointerPosY > height - distance;
