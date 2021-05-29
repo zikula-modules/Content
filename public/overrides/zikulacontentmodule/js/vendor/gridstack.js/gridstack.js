@@ -1,6 +1,6 @@
 "use strict";
 /*!
- * GridStack 4.2.3
+ * GridStack 4.2.4
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -616,7 +616,8 @@ class GridStack {
         if (!this.el)
             return; // prevent multiple calls
         this._updateWindowResizeEvent(true);
-        this.setStatic(true); // permanently removes DD
+        this.setStatic(true, false); // permanently removes DD but don't set CSS class (we're going away)
+        this.setAnimation(false);
         if (!removeDOM) {
             this.removeAll(removeDOM);
             this.el.classList.remove(this.opts._styleSheetClass);
@@ -625,6 +626,7 @@ class GridStack {
             this.el.parentNode.removeChild(this.el);
         }
         this._removeStylesheet();
+        this.el.removeAttribute('gs-current-row');
         delete this.opts._isNested;
         delete this.opts;
         delete this._placeholder;
@@ -834,12 +836,16 @@ class GridStack {
      * Also toggle the grid-stack-static class.
      * @param val if true the grid become static.
      */
-    setStatic(val) {
+    setStatic(val, updateClass = true) {
         if (this.opts.staticGrid === val)
             return this;
         this.opts.staticGrid = val;
-        this.engine.nodes.forEach(n => this._prepareDragDropByNode(n)); // either delete Drag&drop or initialize it
-        this._setStaticClass();
+        this._setupRemoveDrop();
+        this._setupAcceptWidget();
+        this.engine.nodes.forEach(n => this._prepareDragDropByNode(n)); // either delete or init Drag&drop
+        if (updateClass) {
+            this._setStaticClass();
+        }
         return this;
     }
     /**
@@ -1384,7 +1390,7 @@ class GridStack {
     /** @internal handles actual drag/resize **/
     _dragOrResize(el, event, ui, node, cellWidth, cellHeight) { return; }
     /** @internal called when a node leaves our area (mouse out or shape outside) **/
-    _leave(node, el, helper, dropoutEvent = false) { return; }
+    _leave(el, helper) { return; }
 }
 exports.GridStack = GridStack;
 /** scoping so users can call GridStack.Utils.sort() for example */

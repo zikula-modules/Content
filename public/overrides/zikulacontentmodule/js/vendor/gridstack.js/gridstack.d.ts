@@ -1,5 +1,5 @@
 /*!
- * GridStack 4.2.3
+ * GridStack 4.2.4
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -256,7 +256,7 @@ export declare class GridStack {
      * Also toggle the grid-stack-static class.
      * @param val if true the grid become static.
      */
-    setStatic(val: boolean): GridStack;
+    setStatic(val: boolean, updateClass?: boolean): GridStack;
     /**
      * Updates widget position/size and other info. Note: if you need to call this on all nodes, use load() instead which will update what changed.
      * @param els  widget or selector of objects to modify (note: setting the same x,y for multiple items will be indeterministic and likely unwanted)

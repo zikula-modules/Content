@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.2.3
+ * gridstack-dd.ts 4.2.4
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -35,8 +35,11 @@ exports.GridStackDD = GridStackDD;
  ********************************************************************************/
 /** @internal called to add drag over to support widgets being added externally */
 gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
-    if (this.opts.staticGrid)
+    // check if we need to disable things
+    if (this.opts.staticGrid || !this.opts.acceptWidgets) {
+        GridStackDD.get().droppable(this.el, 'destroy');
         return this;
+    }
     // vars shared across all methods
     let gridPos;
     let cellHeight, cellWidth;
@@ -115,7 +118,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         if (node && node.grid && node.grid !== this && !node._temporaryRemoved) {
             // TEST console.log('dropover without leave');
             let otherGrid = node.grid;
-            otherGrid._leave(el.gridstackNode, el, helper, true); // MATCH line 222
+            otherGrid._leave(el, helper);
         }
         // get grid screen coordinates and cell dimensions
         let box = this.el.getBoundingClientRect();
@@ -153,6 +156,8 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
             node.h = h;
             node._temporaryRemoved = true; // so we can insert it
         }
+        // clear any marked for complete removal (Note: don't check _isAboutToRemove as that is cleared above - just do it)
+        _itemRemoving(node.el, false);
         GridStackDD.get().on(el, 'drag', onDrag);
         // make sure this is called at least once when going fast #1578
         onDrag(event, el, helper);
@@ -166,7 +171,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         // fix #1578 when dragging fast, we might get leave after other grid gets enter (which calls us to clean)
         // so skip this one if we're not the active grid really..
         if (!node.grid || node.grid === this) {
-            this._leave(node, el, helper, true); // MATCH line 166
+            this._leave(el, helper);
         }
         return false; // prevent parent from receiving msg (which may be grid as well)
     })
@@ -240,6 +245,14 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
     });
     return this;
 };
+/** @internal mark item for removal */
+function _itemRemoving(el, remove) {
+    let node = el ? el.gridstackNode : undefined;
+    if (!node || !node.grid)
+        return;
+    remove ? node._isAboutToRemove = true : delete node._isAboutToRemove;
+    remove ? el.classList.add('grid-stack-item-removing') : el.classList.remove('grid-stack-item-removing');
+}
 /** @internal called to setup a trash drop zone if the user specifies it */
 gridstack_1.GridStack.prototype._setupRemoveDrop = function () {
     if (!this.opts.staticGrid && typeof this.opts.removable === 'string') {
@@ -251,20 +264,8 @@ gridstack_1.GridStack.prototype._setupRemoveDrop = function () {
         // and Native DD only has 1 event CB (having a list and technically a per grid removableOptions complicates things greatly)
         if (!GridStackDD.get().isDroppable(trashEl)) {
             GridStackDD.get().droppable(trashEl, this.opts.removableOptions)
-                .on(trashEl, 'dropover', function (event, el) {
-                let node = el.gridstackNode;
-                if (!node || !node.grid)
-                    return;
-                node._isAboutToRemove = true;
-                el.classList.add('grid-stack-item-removing');
-            })
-                .on(trashEl, 'dropout', function (event, el) {
-                let node = el.gridstackNode;
-                if (!node || !node.grid)
-                    return;
-                delete node._isAboutToRemove;
-                el.classList.remove('grid-stack-item-removing');
-            });
+                .on(trashEl, 'dropover', (event, el) => _itemRemoving(el, true))
+                .on(trashEl, 'dropout', (event, el) => _itemRemoving(el, false));
         }
     }
     return this;
@@ -301,8 +302,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
     let el = node.el;
     let dd = GridStackDD.get();
     // check for disabled grid first
-    if (this.opts.staticGrid || node.locked ||
-        ((node.noMove || this.opts.disableDrag) && (node.noResize || this.opts.disableResize))) {
+    if (this.opts.staticGrid || ((node.noMove || this.opts.disableDrag) && (node.noResize || this.opts.disableResize))) {
         if (node._initDD) {
             dd.remove(el); // nukes everything instead of just disable, will add some styles back next
             delete node._initDD;
@@ -438,18 +438,21 @@ gridstack_1.GridStack.prototype._onStartMoving = function (el, event, ui, node, 
  * or shape is outside our boundaries. remove it from us, and mark temporary if this was
  * our item to start with else restore prev node values from prev grid it came from.
  **/
-gridstack_1.GridStack.prototype._leave = function (node, el, helper, dropoutEvent = false) {
+gridstack_1.GridStack.prototype._leave = function (el, helper) {
+    let node = el.gridstackNode;
     if (!node)
         return;
-    if (dropoutEvent) {
-        GridStackDD.get().off(el, 'drag'); // no need to track while being outside
-    }
+    GridStackDD.get().off(el, 'drag'); // no need to track while being outside
     // this gets called when cursor leaves and shape is outside, so only do this once
     if (node._temporaryRemoved)
         return;
     node._temporaryRemoved = true;
     this.engine.removeNode(node); // remove placeholder as well, otherwise it's a sign node is not in our list, which is a bigger issue
     node.el = node._isExternal && helper ? helper : el; // point back to real item being dragged
+    if (this.opts.removable === true) { // boolean vs a class string
+        // item leaving us and we are supposed to remove on leave (no need to drag onto trash) mark it so
+        _itemRemoving(el, true);
+    }
     // finally if item originally came from another grid, but left us, restore things back to prev info
     if (el._gridstackNodeOrig) {
         // TEST console.log('leave delete _gridstackNodeOrig')
@@ -550,7 +553,7 @@ gridstack_1.GridStack.prototype.movable = function (els, val) {
         return this; // can't move a static grid!
     gridstack_1.GridStack.getElements(els).forEach(el => {
         let node = el.gridstackNode;
-        if (!node || node.locked)
+        if (!node)
             return;
         if (val)
             delete node.noMove;
@@ -570,7 +573,7 @@ gridstack_1.GridStack.prototype.resizable = function (els, val) {
         return this; // can't resize a static grid!
     gridstack_1.GridStack.getElements(els).forEach(el => {
         let node = el.gridstackNode;
-        if (!node || node.locked)
+        if (!node)
             return;
         if (val)
             delete node.noResize;

@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.2.3
+ * gridstack-engine.ts 4.2.4
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -494,8 +494,7 @@ class GridStackEngine {
      * In more complicated cases (maxRow) it will attempt at moving the item and fixing
      * others in a clone first, then apply those changes if still within specs. */
     moveNodeCheck(node, o) {
-        if (node.locked)
-            return false;
+        // if (node.locked) return false;
         if (!this.changedPosConstrain(node, o))
             return false;
         o.pack = true;
@@ -593,7 +592,7 @@ class GridStackEngine {
     }
     /** return true if the passed in node was actually moved (checks for no-op and locked) */
     moveNode(node, o) {
-        if (!node || node.locked || !o)
+        if (!node || /*node.locked ||*/ !o)
             return false;
         if (o.pack === undefined)
             o.pack = true;

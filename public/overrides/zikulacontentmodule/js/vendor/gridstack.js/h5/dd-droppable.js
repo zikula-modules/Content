@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-droppable.ts 4.2.3
+ * dd-droppable.ts 4.2.4
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
