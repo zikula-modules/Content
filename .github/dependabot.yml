@@ -1,0 +1,12 @@
+
+version: 2
+updates:
+  - package-ecosystem: "composer"
+    directory: "/src/extensions/Zikula/ContentModule/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
