@@ -384,7 +384,7 @@ jQuery(document).ready(function () {
         jQuery('#treeAddRoot').click(function (event) {
             event.preventDefault();
             zikulaContentPerformTreeOperation(jQuery(this).data('object-type'), 1, 'addRootNode');
-        }).removeClass('hidden');
+        }).removeClass('d-none');
     }
 
     trees = [];

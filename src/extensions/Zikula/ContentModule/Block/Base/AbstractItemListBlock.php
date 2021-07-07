@@ -112,7 +112,7 @@ abstract class AbstractItemListBlock extends AbstractBlockHandler
         
         // create query
         $orderBy = $this->modelHelper->resolveSortParameter($objectType, $properties['sorting']);
-        $qb = $repository->getListQueryBuilder($properties['filter'], $orderBy);
+        $qb = $repository->getListQueryBuilder($properties['filter'] ?? '', $orderBy);
         
         if ($hasCategories) {
             // apply category filters

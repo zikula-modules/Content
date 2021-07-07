@@ -58,13 +58,27 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans %}Here you can manage all basic settings for this application.{% endtrans %}</p>
                     
-                        {{ form_row(form.stateOfNewPages) }}
-                        {{ form_row(form.countPageViews) }}
-                        {{ form_row(form.googleMapsApiKey) }}
-                        {{ form_row(form.yandexTranslateApiKey) }}
-                        {{ form_row(form.enableRawPlugin) }}
-                        {{ form_row(form.inheritPermissions) }}
-                        {{ form_row(form.enableAutomaticPageLinks) }}
+                        {% if form.stateOfNewPages is defined %}
+                            {{ form_row(form.stateOfNewPages) }}
+                        {% endif %}
+                        {% if form.countPageViews is defined %}
+                            {{ form_row(form.countPageViews) }}
+                        {% endif %}
+                        {% if form.googleMapsApiKey is defined %}
+                            {{ form_row(form.googleMapsApiKey) }}
+                        {% endif %}
+                        {% if form.yandexTranslateApiKey is defined %}
+                            {{ form_row(form.yandexTranslateApiKey) }}
+                        {% endif %}
+                        {% if form.enableRawPlugin is defined %}
+                            {{ form_row(form.enableRawPlugin) }}
+                        {% endif %}
+                        {% if form.inheritPermissions is defined %}
+                            {{ form_row(form.inheritPermissions) }}
+                        {% endif %}
+                        {% if form.enableAutomaticPageLinks is defined %}
+                            {{ form_row(form.enableAutomaticPageLinks) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="vars2Tab">
@@ -73,9 +87,15 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans from 'config' %}With custom styles you can add and reuse your own design to pages, page sections and content elements. Write one class name on each line. Please separate the CSS classes and displaynames with | - eg. "my-class | My class".{% endtrans %}</p>
                         
-                        {{ form_row(form.pageStyles) }}
-                        {{ form_row(form.sectionStyles) }}
-                        {{ form_row(form.contentStyles) }}
+                        {% if form.pageStyles is defined %}
+                            {{ form_row(form.pageStyles) }}
+                        {% endif %}
+                        {% if form.sectionStyles is defined %}
+                            {{ form_row(form.sectionStyles) }}
+                        {% endif %}
+                        {% if form.contentStyles is defined %}
+                            {{ form_row(form.contentStyles) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="vars3Tab">
@@ -84,9 +104,15 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans from 'config' %}Here you can activate additional fields which allow you to add structural properties to your pages which can be used for custom functionality. All of these fields are translatable.{% endtrans %}</p>
                         
-                        {{ form_row(form.enableOptionalString1) }}
-                        {{ form_row(form.enableOptionalString2) }}
-                        {{ form_row(form.enableOptionalText) }}
+                        {% if form.enableOptionalString1 is defined %}
+                            {{ form_row(form.enableOptionalString1) }}
+                        {% endif %}
+                        {% if form.enableOptionalString2 is defined %}
+                            {{ form_row(form.enableOptionalString2) }}
+                        {% endif %}
+                        {% if form.enableOptionalText is defined %}
+                            {{ form_row(form.enableOptionalText) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab4" aria-labelledby="vars4Tab">
@@ -95,10 +121,18 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans from 'config' %}Here you can customise the behaviour of creating permalinks for content pages. Note this affect only the URLs for displaying content pages. Other URLs of the Content module are not changed.{% endtrans %}</p>
                         
-                        {{ form_row(form.ignoreBundleNameInRoutes) }}
-                        {{ form_row(form.ignoreEntityNameInRoutes) }}
-                        {{ form_row(form.ignoreFirstTreeLevelInRoutes) }}
-                        {{ form_row(form.permalinkSuffix) }}
+                        {% if form.ignoreBundleNameInRoutes is defined %}
+                            {{ form_row(form.ignoreBundleNameInRoutes) }}
+                        {% endif %}
+                        {% if form.ignoreEntityNameInRoutes is defined %}
+                            {{ form_row(form.ignoreEntityNameInRoutes) }}
+                        {% endif %}
+                        {% if form.ignoreFirstTreeLevelInRoutes is defined %}
+                            {{ form_row(form.ignoreFirstTreeLevelInRoutes) }}
+                        {% endif %}
+                        {% if form.permalinkSuffix is defined %}
+                            {{ form_row(form.permalinkSuffix) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab5" aria-labelledby="vars5Tab">
@@ -107,10 +141,18 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans from 'config' %}Here you can configure parameters for list views.{% endtrans %}</p>
                         
-                        {{ form_row(form.pageEntriesPerPage) }}
-                        {{ form_row(form.linkOwnPagesOnAccountPage) }}
-                        {{ form_row(form.pagePrivateMode) }}
-                        {{ form_row(form.showOnlyOwnEntries) }}
+                        {% if form.pageEntriesPerPage is defined %}
+                            {{ form_row(form.pageEntriesPerPage) }}
+                        {% endif %}
+                        {% if form.linkOwnPagesOnAccountPage is defined %}
+                            {{ form_row(form.linkOwnPagesOnAccountPage) }}
+                        {% endif %}
+                        {% if form.pagePrivateMode is defined %}
+                            {{ form_row(form.pagePrivateMode) }}
+                        {% endif %}
+                        {% if form.showOnlyOwnEntries is defined %}
+                            {{ form_row(form.showOnlyOwnEntries) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab6" aria-labelledby="vars6Tab">
@@ -119,8 +161,12 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans from 'config' %}Here you can define moderation-related settings.{% endtrans %}</p>
                         
-                        {{ form_row(form.allowModerationSpecificCreatorForPage) }}
-                        {{ form_row(form.allowModerationSpecificCreationDateForPage) }}
+                        {% if form.allowModerationSpecificCreatorForPage is defined %}
+                            {{ form_row(form.allowModerationSpecificCreatorForPage) }}
+                        {% endif %}
+                        {% if form.allowModerationSpecificCreationDateForPage is defined %}
+                            {{ form_row(form.allowModerationSpecificCreationDateForPage) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab7" aria-labelledby="vars7Tab">
@@ -129,7 +175,9 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans from 'config' %}These options allow you to configure integration aspects.{% endtrans %}</p>
                         
-                        {{ form_row(form.enabledFinderTypes) }}
+                        {% if form.enabledFinderTypes is defined %}
+                            {{ form_row(form.enabledFinderTypes) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab8" aria-labelledby="vars8Tab">
@@ -138,10 +186,18 @@
                         <legend>{{ tabTitle }}</legend>
                         <p class="alert alert-info">{% trans from 'config' %}Here you can define settings related to version control.{% endtrans %}</p>
                         
-                        {{ form_row(form.revisionHandlingForPage) }}
-                        {{ form_row(form.maximumAmountOfPageRevisions) }}
-                        {{ form_row(form.periodForPageRevisions) }}
-                        {{ form_row(form.showPageHistory) }}
+                        {% if form.revisionHandlingForPage is defined %}
+                            {{ form_row(form.revisionHandlingForPage) }}
+                        {% endif %}
+                        {% if form.maximumAmountOfPageRevisions is defined %}
+                            {{ form_row(form.maximumAmountOfPageRevisions) }}
+                        {% endif %}
+                        {% if form.periodForPageRevisions is defined %}
+                            {{ form_row(form.periodForPageRevisions) }}
+                        {% endif %}
+                        {% if form.showPageHistory is defined %}
+                            {{ form_row(form.showPageHistory) }}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tabWorkflows" aria-labelledby="workflowsTab">

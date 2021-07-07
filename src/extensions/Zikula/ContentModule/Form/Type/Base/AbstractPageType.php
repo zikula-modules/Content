@@ -194,7 +194,7 @@ abstract class AbstractPageType extends AbstractType
             'label' => 'Permalink:',
             'required' => 'create' !== $options['mode'],
             'attr' => [
-                'maxlength' => 255,
+                'maxlength' => 190,
                 'class' => 'validate-unique',
                 /** @Ignore */
                 'title' => $helpText,
@@ -412,9 +412,6 @@ abstract class AbstractPageType extends AbstractType
             'label' => 'Cancel',
             'validate' => false,
             'icon' => 'fa-times',
-            'attr' => [
-                'formnovalidate' => 'formnovalidate',
-            ],
         ]);
     }
 

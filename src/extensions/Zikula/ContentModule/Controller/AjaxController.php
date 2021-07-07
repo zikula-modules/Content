@@ -41,14 +41,14 @@ class AjaxController extends AbstractAjaxController
     /**
      * @Route("/getItemListFinder", methods = {"GET"}, options={"expose"=true})
      */
-    public function getItemListFinder(
+    public function getItemListFinderAction(
         Request $request,
         ControllerHelper $controllerHelper,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory,
         EntityDisplayHelper $entityDisplayHelper
     ): JsonResponse {
-        return parent::getItemListFinder(
+        return parent::getItemListFinderAction(
             $request,
             $controllerHelper,
             $permissionHelper,
@@ -60,12 +60,12 @@ class AjaxController extends AbstractAjaxController
     /**
      * @Route("/checkForDuplicate", methods = {"GET"}, options={"expose"=true})
      */
-    public function checkForDuplicate(
+    public function checkForDuplicateAction(
         Request $request,
         ControllerHelper $controllerHelper,
         EntityFactory $entityFactory
     ): JsonResponse {
-        return parent::checkForDuplicate(
+        return parent::checkForDuplicateAction(
             $request,
             $controllerHelper,
             $entityFactory
@@ -75,13 +75,13 @@ class AjaxController extends AbstractAjaxController
     /**
      * @Route("/toggleFlag", methods = {"POST"}, options={"expose"=true})
      */
-    public function toggleFlag(
+    public function toggleFlagAction(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi
     ): JsonResponse {
-        return parent::toggleFlag(
+        return parent::toggleFlagAction(
             $request,
             $logger,
             $entityFactory,
@@ -92,7 +92,7 @@ class AjaxController extends AbstractAjaxController
     /**
      * @Route("/handleTreeOperation", methods = {"POST"}, options={"expose"=true})
      */
-    public function handleTreeOperation(
+    public function handleTreeOperationAction(
         Request $request,
         RouterInterface $router,
         LoggerInterface $logger,
@@ -102,7 +102,7 @@ class AjaxController extends AbstractAjaxController
         UserRepositoryInterface $userRepository,
         WorkflowHelper $workflowHelper
     ): JsonResponse {
-        return parent::handleTreeOperation(
+        return parent::handleTreeOperationAction(
             $request,
             $router,
             $logger,

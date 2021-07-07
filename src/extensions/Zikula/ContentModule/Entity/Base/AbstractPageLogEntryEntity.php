@@ -27,6 +27,15 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 abstract class AbstractPageLogEntryEntity extends AbstractLogEntry
 {
     /**
+     * Use integer instead of string for increased performance.
+     *
+     * @var int
+     *
+     * @ORM\Column(name="object_id", type="integer")
+     */
+    protected $objectId;
+    
+    /**
      * Extended description of the executed action which produced this log entry.
      *
      * @var string
@@ -39,10 +48,12 @@ abstract class AbstractPageLogEntryEntity extends AbstractLogEntry
         return $this->actionDescription;
     }
     
-    public function setActionDescription(string $actionDescription): void
+    public function setActionDescription(string $actionDescription): self
     {
         if ($this->actionDescription !== $actionDescription) {
             $this->actionDescription = $actionDescription ?? '';
         }
+    
+        return $this;
     }
 }

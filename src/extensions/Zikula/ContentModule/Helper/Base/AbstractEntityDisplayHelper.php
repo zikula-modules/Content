@@ -51,7 +51,7 @@ abstract class AbstractEntityDisplayHelper
     ) {
         $this->translator = $translator;
         $this->listEntriesHelper = $listEntriesHelper;
-        $locale = null !== $requestStack->getCurrentRequest() ? $requestStack->getCurrentRequest()->getLocale() : null;
+        $locale = null !== $requestStack->getCurrentRequest() ? $requestStack->getCurrentRequest()->getLocale() : 'en';
         $this->dateFormatter = new IntlDateFormatter($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE);
     }
     
@@ -71,7 +71,22 @@ abstract class AbstractEntityDisplayHelper
     }
     
     /**
-     * Returns the formatted title for a given entity.
+     * Returns an additional description for a given entity.
+     */
+    public function getDescription(EntityAccess $entity): string
+    {
+        if ($entity instanceof PageEntity) {
+            return $this->getPageDescription($entity);
+        }
+        if ($entity instanceof ContentItemEntity) {
+            return $this->getContentItemDescription($entity);
+        }
+    
+        return '';
+    }
+    
+    /**
+     * Returns the formatted title for a given page.
      */
     protected function formatPage(PageEntity $entity): string
     {
@@ -85,7 +100,20 @@ abstract class AbstractEntityDisplayHelper
     }
     
     /**
-     * Returns the formatted title for a given entity.
+     * Returns an additional description for a given page.
+     */
+    protected function getPageDescription(PageEntity $entity): string
+    {
+        $descriptionFieldName = $this->getDescriptionFieldName($entity->get_objectType());
+    
+        return isset($entity[$descriptionFieldName]) && !empty($entity[$descriptionFieldName])
+            ? $entity[$descriptionFieldName]
+            : ''
+        ;
+    }
+    
+    /**
+     * Returns the formatted title for a given content item.
      */
     protected function formatContentItem(ContentItemEntity $entity): string
     {
@@ -96,6 +124,19 @@ abstract class AbstractEntityDisplayHelper
             ],
             'contentItem'
         );
+    }
+    
+    /**
+     * Returns an additional description for a given content item.
+     */
+    protected function getContentItemDescription(ContentItemEntity $entity): string
+    {
+        $descriptionFieldName = $this->getDescriptionFieldName($entity->get_objectType());
+    
+        return isset($entity[$descriptionFieldName]) && !empty($entity[$descriptionFieldName])
+            ? $entity[$descriptionFieldName]
+            : ''
+        ;
     }
     
     /**

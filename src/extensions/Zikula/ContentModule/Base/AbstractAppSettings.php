@@ -325,11 +325,13 @@ abstract class AbstractAppSettings
         return $this->stateOfNewPages;
     }
     
-    public function setStateOfNewPages(string $stateOfNewPages): void
+    public function setStateOfNewPages(string $stateOfNewPages): self
     {
         if ($this->stateOfNewPages !== $stateOfNewPages) {
             $this->stateOfNewPages = $stateOfNewPages ?? '';
         }
+    
+        return $this;
     }
     
     public function getCountPageViews(): bool
@@ -337,11 +339,13 @@ abstract class AbstractAppSettings
         return $this->countPageViews;
     }
     
-    public function setCountPageViews(bool $countPageViews): void
+    public function setCountPageViews(bool $countPageViews): self
     {
         if ((bool) $this->countPageViews !== $countPageViews) {
             $this->countPageViews = $countPageViews;
         }
+    
+        return $this;
     }
     
     public function getGoogleMapsApiKey(): string
@@ -349,11 +353,13 @@ abstract class AbstractAppSettings
         return $this->googleMapsApiKey;
     }
     
-    public function setGoogleMapsApiKey(string $googleMapsApiKey): void
+    public function setGoogleMapsApiKey(string $googleMapsApiKey): self
     {
         if ($this->googleMapsApiKey !== $googleMapsApiKey) {
             $this->googleMapsApiKey = $googleMapsApiKey ?? '';
         }
+    
+        return $this;
     }
     
     public function getYandexTranslateApiKey(): string
@@ -361,11 +367,13 @@ abstract class AbstractAppSettings
         return $this->yandexTranslateApiKey;
     }
     
-    public function setYandexTranslateApiKey(string $yandexTranslateApiKey): void
+    public function setYandexTranslateApiKey(string $yandexTranslateApiKey): self
     {
         if ($this->yandexTranslateApiKey !== $yandexTranslateApiKey) {
             $this->yandexTranslateApiKey = $yandexTranslateApiKey ?? '';
         }
+    
+        return $this;
     }
     
     public function getEnableRawPlugin(): bool
@@ -373,11 +381,13 @@ abstract class AbstractAppSettings
         return $this->enableRawPlugin;
     }
     
-    public function setEnableRawPlugin(bool $enableRawPlugin): void
+    public function setEnableRawPlugin(bool $enableRawPlugin): self
     {
         if ((bool) $this->enableRawPlugin !== $enableRawPlugin) {
             $this->enableRawPlugin = $enableRawPlugin;
         }
+    
+        return $this;
     }
     
     public function getInheritPermissions(): bool
@@ -385,11 +395,13 @@ abstract class AbstractAppSettings
         return $this->inheritPermissions;
     }
     
-    public function setInheritPermissions(bool $inheritPermissions): void
+    public function setInheritPermissions(bool $inheritPermissions): self
     {
         if ((bool) $this->inheritPermissions !== $inheritPermissions) {
             $this->inheritPermissions = $inheritPermissions;
         }
+    
+        return $this;
     }
     
     public function getEnableAutomaticPageLinks(): bool
@@ -397,11 +409,13 @@ abstract class AbstractAppSettings
         return $this->enableAutomaticPageLinks;
     }
     
-    public function setEnableAutomaticPageLinks(bool $enableAutomaticPageLinks): void
+    public function setEnableAutomaticPageLinks(bool $enableAutomaticPageLinks): self
     {
         if ((bool) $this->enableAutomaticPageLinks !== $enableAutomaticPageLinks) {
             $this->enableAutomaticPageLinks = $enableAutomaticPageLinks;
         }
+    
+        return $this;
     }
     
     public function getPageStyles(): string
@@ -409,11 +423,13 @@ abstract class AbstractAppSettings
         return $this->pageStyles;
     }
     
-    public function setPageStyles(string $pageStyles): void
+    public function setPageStyles(string $pageStyles): self
     {
         if ($this->pageStyles !== $pageStyles) {
             $this->pageStyles = $pageStyles ?? '';
         }
+    
+        return $this;
     }
     
     public function getSectionStyles(): string
@@ -421,11 +437,13 @@ abstract class AbstractAppSettings
         return $this->sectionStyles;
     }
     
-    public function setSectionStyles(string $sectionStyles): void
+    public function setSectionStyles(string $sectionStyles): self
     {
         if ($this->sectionStyles !== $sectionStyles) {
             $this->sectionStyles = $sectionStyles ?? '';
         }
+    
+        return $this;
     }
     
     public function getContentStyles(): string
@@ -433,11 +451,13 @@ abstract class AbstractAppSettings
         return $this->contentStyles;
     }
     
-    public function setContentStyles(string $contentStyles): void
+    public function setContentStyles(string $contentStyles): self
     {
         if ($this->contentStyles !== $contentStyles) {
             $this->contentStyles = $contentStyles ?? '';
         }
+    
+        return $this;
     }
     
     public function getEnableOptionalString1(): bool
@@ -445,11 +465,13 @@ abstract class AbstractAppSettings
         return $this->enableOptionalString1;
     }
     
-    public function setEnableOptionalString1(bool $enableOptionalString1): void
+    public function setEnableOptionalString1(bool $enableOptionalString1): self
     {
         if ((bool) $this->enableOptionalString1 !== $enableOptionalString1) {
             $this->enableOptionalString1 = $enableOptionalString1;
         }
+    
+        return $this;
     }
     
     public function getEnableOptionalString2(): bool
@@ -457,11 +479,13 @@ abstract class AbstractAppSettings
         return $this->enableOptionalString2;
     }
     
-    public function setEnableOptionalString2(bool $enableOptionalString2): void
+    public function setEnableOptionalString2(bool $enableOptionalString2): self
     {
         if ((bool) $this->enableOptionalString2 !== $enableOptionalString2) {
             $this->enableOptionalString2 = $enableOptionalString2;
         }
+    
+        return $this;
     }
     
     public function getEnableOptionalText(): bool
@@ -469,11 +493,13 @@ abstract class AbstractAppSettings
         return $this->enableOptionalText;
     }
     
-    public function setEnableOptionalText(bool $enableOptionalText): void
+    public function setEnableOptionalText(bool $enableOptionalText): self
     {
         if ((bool) $this->enableOptionalText !== $enableOptionalText) {
             $this->enableOptionalText = $enableOptionalText;
         }
+    
+        return $this;
     }
     
     public function getIgnoreBundleNameInRoutes(): bool
@@ -481,11 +507,13 @@ abstract class AbstractAppSettings
         return $this->ignoreBundleNameInRoutes;
     }
     
-    public function setIgnoreBundleNameInRoutes(bool $ignoreBundleNameInRoutes): void
+    public function setIgnoreBundleNameInRoutes(bool $ignoreBundleNameInRoutes): self
     {
         if ((bool) $this->ignoreBundleNameInRoutes !== $ignoreBundleNameInRoutes) {
             $this->ignoreBundleNameInRoutes = $ignoreBundleNameInRoutes;
         }
+    
+        return $this;
     }
     
     public function getIgnoreEntityNameInRoutes(): bool
@@ -493,11 +521,13 @@ abstract class AbstractAppSettings
         return $this->ignoreEntityNameInRoutes;
     }
     
-    public function setIgnoreEntityNameInRoutes(bool $ignoreEntityNameInRoutes): void
+    public function setIgnoreEntityNameInRoutes(bool $ignoreEntityNameInRoutes): self
     {
         if ((bool) $this->ignoreEntityNameInRoutes !== $ignoreEntityNameInRoutes) {
             $this->ignoreEntityNameInRoutes = $ignoreEntityNameInRoutes;
         }
+    
+        return $this;
     }
     
     public function getIgnoreFirstTreeLevelInRoutes(): bool
@@ -505,11 +535,13 @@ abstract class AbstractAppSettings
         return $this->ignoreFirstTreeLevelInRoutes;
     }
     
-    public function setIgnoreFirstTreeLevelInRoutes(bool $ignoreFirstTreeLevelInRoutes): void
+    public function setIgnoreFirstTreeLevelInRoutes(bool $ignoreFirstTreeLevelInRoutes): self
     {
         if ((bool) $this->ignoreFirstTreeLevelInRoutes !== $ignoreFirstTreeLevelInRoutes) {
             $this->ignoreFirstTreeLevelInRoutes = $ignoreFirstTreeLevelInRoutes;
         }
+    
+        return $this;
     }
     
     public function getPermalinkSuffix(): string
@@ -517,11 +549,13 @@ abstract class AbstractAppSettings
         return $this->permalinkSuffix;
     }
     
-    public function setPermalinkSuffix(string $permalinkSuffix): void
+    public function setPermalinkSuffix(string $permalinkSuffix): self
     {
         if ($this->permalinkSuffix !== $permalinkSuffix) {
             $this->permalinkSuffix = $permalinkSuffix ?? '';
         }
+    
+        return $this;
     }
     
     public function getPageEntriesPerPage(): int
@@ -529,11 +563,13 @@ abstract class AbstractAppSettings
         return $this->pageEntriesPerPage;
     }
     
-    public function setPageEntriesPerPage(int $pageEntriesPerPage): void
+    public function setPageEntriesPerPage(int $pageEntriesPerPage): self
     {
         if ((int) $this->pageEntriesPerPage !== $pageEntriesPerPage) {
             $this->pageEntriesPerPage = $pageEntriesPerPage;
         }
+    
+        return $this;
     }
     
     public function getLinkOwnPagesOnAccountPage(): bool
@@ -541,11 +577,13 @@ abstract class AbstractAppSettings
         return $this->linkOwnPagesOnAccountPage;
     }
     
-    public function setLinkOwnPagesOnAccountPage(bool $linkOwnPagesOnAccountPage): void
+    public function setLinkOwnPagesOnAccountPage(bool $linkOwnPagesOnAccountPage): self
     {
         if ((bool) $this->linkOwnPagesOnAccountPage !== $linkOwnPagesOnAccountPage) {
             $this->linkOwnPagesOnAccountPage = $linkOwnPagesOnAccountPage;
         }
+    
+        return $this;
     }
     
     public function getPagePrivateMode(): bool
@@ -553,11 +591,13 @@ abstract class AbstractAppSettings
         return $this->pagePrivateMode;
     }
     
-    public function setPagePrivateMode(bool $pagePrivateMode): void
+    public function setPagePrivateMode(bool $pagePrivateMode): self
     {
         if ((bool) $this->pagePrivateMode !== $pagePrivateMode) {
             $this->pagePrivateMode = $pagePrivateMode;
         }
+    
+        return $this;
     }
     
     public function getShowOnlyOwnEntries(): bool
@@ -565,11 +605,13 @@ abstract class AbstractAppSettings
         return $this->showOnlyOwnEntries;
     }
     
-    public function setShowOnlyOwnEntries(bool $showOnlyOwnEntries): void
+    public function setShowOnlyOwnEntries(bool $showOnlyOwnEntries): self
     {
         if ((bool) $this->showOnlyOwnEntries !== $showOnlyOwnEntries) {
             $this->showOnlyOwnEntries = $showOnlyOwnEntries;
         }
+    
+        return $this;
     }
     
     public function getAllowModerationSpecificCreatorForPage(): bool
@@ -577,11 +619,13 @@ abstract class AbstractAppSettings
         return $this->allowModerationSpecificCreatorForPage;
     }
     
-    public function setAllowModerationSpecificCreatorForPage(bool $allowModerationSpecificCreatorForPage): void
+    public function setAllowModerationSpecificCreatorForPage(bool $allowModerationSpecificCreatorForPage): self
     {
         if ((bool) $this->allowModerationSpecificCreatorForPage !== $allowModerationSpecificCreatorForPage) {
             $this->allowModerationSpecificCreatorForPage = $allowModerationSpecificCreatorForPage;
         }
+    
+        return $this;
     }
     
     public function getAllowModerationSpecificCreationDateForPage(): bool
@@ -589,11 +633,13 @@ abstract class AbstractAppSettings
         return $this->allowModerationSpecificCreationDateForPage;
     }
     
-    public function setAllowModerationSpecificCreationDateForPage(bool $allowModerationSpecificCreationDateForPage): void
+    public function setAllowModerationSpecificCreationDateForPage(bool $allowModerationSpecificCreationDateForPage): self
     {
         if ((bool) $this->allowModerationSpecificCreationDateForPage !== $allowModerationSpecificCreationDateForPage) {
             $this->allowModerationSpecificCreationDateForPage = $allowModerationSpecificCreationDateForPage;
         }
+    
+        return $this;
     }
     
     public function getEnabledFinderTypes(): string
@@ -601,11 +647,13 @@ abstract class AbstractAppSettings
         return $this->enabledFinderTypes;
     }
     
-    public function setEnabledFinderTypes(string $enabledFinderTypes): void
+    public function setEnabledFinderTypes(string $enabledFinderTypes): self
     {
         if ($this->enabledFinderTypes !== $enabledFinderTypes) {
             $this->enabledFinderTypes = $enabledFinderTypes ?? '';
         }
+    
+        return $this;
     }
     
     public function getRevisionHandlingForPage(): string
@@ -613,11 +661,13 @@ abstract class AbstractAppSettings
         return $this->revisionHandlingForPage;
     }
     
-    public function setRevisionHandlingForPage(string $revisionHandlingForPage): void
+    public function setRevisionHandlingForPage(string $revisionHandlingForPage): self
     {
         if ($this->revisionHandlingForPage !== $revisionHandlingForPage) {
             $this->revisionHandlingForPage = $revisionHandlingForPage ?? '';
         }
+    
+        return $this;
     }
     
     public function getMaximumAmountOfPageRevisions(): string
@@ -625,11 +675,13 @@ abstract class AbstractAppSettings
         return $this->maximumAmountOfPageRevisions;
     }
     
-    public function setMaximumAmountOfPageRevisions(string $maximumAmountOfPageRevisions): void
+    public function setMaximumAmountOfPageRevisions(string $maximumAmountOfPageRevisions): self
     {
         if ($this->maximumAmountOfPageRevisions !== $maximumAmountOfPageRevisions) {
             $this->maximumAmountOfPageRevisions = $maximumAmountOfPageRevisions ?? '';
         }
+    
+        return $this;
     }
     
     public function getPeriodForPageRevisions(): string
@@ -637,11 +689,13 @@ abstract class AbstractAppSettings
         return $this->periodForPageRevisions;
     }
     
-    public function setPeriodForPageRevisions(string $periodForPageRevisions): void
+    public function setPeriodForPageRevisions(string $periodForPageRevisions): self
     {
         if ($this->periodForPageRevisions !== $periodForPageRevisions) {
             $this->periodForPageRevisions = $periodForPageRevisions ?? '';
         }
+    
+        return $this;
     }
     
     public function getShowPageHistory(): bool
@@ -649,11 +703,13 @@ abstract class AbstractAppSettings
         return $this->showPageHistory;
     }
     
-    public function setShowPageHistory(bool $showPageHistory): void
+    public function setShowPageHistory(bool $showPageHistory): self
     {
         if ((bool) $this->showPageHistory !== $showPageHistory) {
             $this->showPageHistory = $showPageHistory;
         }
+    
+        return $this;
     }
     
     /**

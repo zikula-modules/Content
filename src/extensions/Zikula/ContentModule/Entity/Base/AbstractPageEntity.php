@@ -112,7 +112,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      * @Assert\NotNull
      * @Assert\Type(type="array")
      *
@@ -234,7 +234,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      * @Assert\NotNull
      * @Assert\Type(type="array")
      *
@@ -244,7 +244,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
     
     /**
      * @Gedmo\Versioned
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json")
      * @Assert\NotNull
      * @Assert\Type(type="array")
      *
@@ -268,8 +268,8 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
      *         @Gedmo\SlugHandlerOption(name="separator", value="/")
      *     })
      * })
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Length(min="1", max="255")
+     * @ORM\Column(type="string", length=190, unique=true)
+     * @Assert\Length(min="1", max="190")
      *
      * @var string
      */
@@ -384,11 +384,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->_objectType;
     }
     
-    public function set_objectType(string $_objectType): void
+    public function set_objectType(string $_objectType): self
     {
         if ($this->_objectType !== $_objectType) {
             $this->_objectType = $_objectType ?? '';
         }
+    
+        return $this;
     }
     
     public function getId(): ?int
@@ -396,11 +398,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->id;
     }
     
-    public function setId(?int $id = null): void
+    public function setId(?int $id = null): self
     {
         if ((int) $this->id !== $id) {
             $this->id = $id;
         }
+    
+        return $this;
     }
     
     public function getWorkflowState(): string
@@ -408,11 +412,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->workflowState;
     }
     
-    public function setWorkflowState(string $workflowState): void
+    public function setWorkflowState(string $workflowState): self
     {
         if ($this->workflowState !== $workflowState) {
             $this->workflowState = $workflowState ?? '';
         }
+    
+        return $this;
     }
     
     public function getTitle(): string
@@ -420,11 +426,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->title;
     }
     
-    public function setTitle(string $title): void
+    public function setTitle(string $title): self
     {
         if ($this->title !== $title) {
             $this->title = $title ?? '';
         }
+    
+        return $this;
     }
     
     public function getShowTitle(): bool
@@ -432,11 +440,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->showTitle;
     }
     
-    public function setShowTitle(bool $showTitle): void
+    public function setShowTitle(bool $showTitle): self
     {
         if ((bool) $this->showTitle !== $showTitle) {
             $this->showTitle = $showTitle;
         }
+    
+        return $this;
     }
     
     public function getMetaDescription(): string
@@ -444,11 +454,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->metaDescription;
     }
     
-    public function setMetaDescription(string $metaDescription): void
+    public function setMetaDescription(string $metaDescription): self
     {
         if ($this->metaDescription !== $metaDescription) {
             $this->metaDescription = $metaDescription ?? '';
         }
+    
+        return $this;
     }
     
     public function getSkipHookSubscribers(): bool
@@ -456,11 +468,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->skipHookSubscribers;
     }
     
-    public function setSkipHookSubscribers(bool $skipHookSubscribers): void
+    public function setSkipHookSubscribers(bool $skipHookSubscribers): self
     {
         if ((bool) $this->skipHookSubscribers !== $skipHookSubscribers) {
             $this->skipHookSubscribers = $skipHookSubscribers;
         }
+    
+        return $this;
     }
     
     public function getLayout(): array
@@ -468,11 +482,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->layout;
     }
     
-    public function setLayout(array $layout): void
+    public function setLayout(array $layout): self
     {
         if ($this->layout !== $layout) {
             $this->layout = $layout ?? [];
         }
+    
+        return $this;
     }
     
     public function getViews(): int
@@ -480,11 +496,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->views;
     }
     
-    public function setViews(int $views): void
+    public function setViews(int $views): self
     {
         if ((int) $this->views !== $views) {
             $this->views = $views;
         }
+    
+        return $this;
     }
     
     public function getActive(): bool
@@ -492,11 +510,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->active;
     }
     
-    public function setActive(bool $active): void
+    public function setActive(bool $active): self
     {
         if ((bool) $this->active !== $active) {
             $this->active = $active;
         }
+    
+        return $this;
     }
     
     public function getActiveFrom(): ?\DateTimeInterface
@@ -504,7 +524,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->activeFrom;
     }
     
-    public function setActiveFrom(?\DateTimeInterface $activeFrom = null): void
+    public function setActiveFrom(?\DateTimeInterface $activeFrom = null): self
     {
         if ($this->activeFrom !== $activeFrom) {
             if (
@@ -518,6 +538,8 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
                 $this->activeFrom = $activeFrom;
             }
         }
+    
+        return $this;
     }
     
     public function getActiveTo(): ?\DateTimeInterface
@@ -525,7 +547,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->activeTo;
     }
     
-    public function setActiveTo(?\DateTimeInterface $activeTo = null): void
+    public function setActiveTo(?\DateTimeInterface $activeTo = null): self
     {
         if ($this->activeTo !== $activeTo) {
             if (
@@ -539,6 +561,8 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
                 $this->activeTo = $activeTo;
             }
         }
+    
+        return $this;
     }
     
     public function getScope(): string
@@ -546,11 +570,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->scope;
     }
     
-    public function setScope(string $scope): void
+    public function setScope(string $scope): self
     {
         if ($this->scope !== $scope) {
             $this->scope = $scope ?? '';
         }
+    
+        return $this;
     }
     
     public function getInMenu(): bool
@@ -558,11 +584,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->inMenu;
     }
     
-    public function setInMenu(bool $inMenu): void
+    public function setInMenu(bool $inMenu): self
     {
         if ((bool) $this->inMenu !== $inMenu) {
             $this->inMenu = $inMenu;
         }
+    
+        return $this;
     }
     
     public function getOptionalString1(): string
@@ -570,11 +598,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->optionalString1;
     }
     
-    public function setOptionalString1(string $optionalString1): void
+    public function setOptionalString1(string $optionalString1): self
     {
         if ($this->optionalString1 !== $optionalString1) {
             $this->optionalString1 = $optionalString1 ?? '';
         }
+    
+        return $this;
     }
     
     public function getOptionalString2(): string
@@ -582,11 +612,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->optionalString2;
     }
     
-    public function setOptionalString2(string $optionalString2): void
+    public function setOptionalString2(string $optionalString2): self
     {
         if ($this->optionalString2 !== $optionalString2) {
             $this->optionalString2 = $optionalString2 ?? '';
         }
+    
+        return $this;
     }
     
     public function getOptionalText(): string
@@ -594,11 +626,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->optionalText;
     }
     
-    public function setOptionalText(string $optionalText): void
+    public function setOptionalText(string $optionalText): self
     {
         if ($this->optionalText !== $optionalText) {
             $this->optionalText = $optionalText ?? '';
         }
+    
+        return $this;
     }
     
     public function getStylingClasses(): ?array
@@ -606,11 +640,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->stylingClasses;
     }
     
-    public function setStylingClasses(?array $stylingClasses = null): void
+    public function setStylingClasses(?array $stylingClasses = null): self
     {
         if ($this->stylingClasses !== $stylingClasses) {
             $this->stylingClasses = $stylingClasses;
         }
+    
+        return $this;
     }
     
     public function getCurrentVersion(): int
@@ -618,11 +654,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->currentVersion;
     }
     
-    public function setCurrentVersion(int $currentVersion): void
+    public function setCurrentVersion(int $currentVersion): self
     {
         if ((int) $this->currentVersion !== $currentVersion) {
             $this->currentVersion = $currentVersion;
         }
+    
+        return $this;
     }
     
     public function getContentData(): array
@@ -630,11 +668,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->contentData;
     }
     
-    public function setContentData(array $contentData): void
+    public function setContentData(array $contentData): self
     {
         if ($this->contentData !== $contentData) {
             $this->contentData = $contentData ?? [];
         }
+    
+        return $this;
     }
     
     public function getTranslationData(): array
@@ -642,11 +682,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->translationData;
     }
     
-    public function setTranslationData(array $translationData): void
+    public function setTranslationData(array $translationData): self
     {
         if ($this->translationData !== $translationData) {
             $this->translationData = $translationData ?? [];
         }
+    
+        return $this;
     }
     
     public function get_actionDescriptionForLogEntry(): string
@@ -654,11 +696,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->_actionDescriptionForLogEntry;
     }
     
-    public function set_actionDescriptionForLogEntry(string $_actionDescriptionForLogEntry): void
+    public function set_actionDescriptionForLogEntry(string $_actionDescriptionForLogEntry): self
     {
         if ($this->_actionDescriptionForLogEntry !== $_actionDescriptionForLogEntry) {
             $this->_actionDescriptionForLogEntry = $_actionDescriptionForLogEntry ?? '';
         }
+    
+        return $this;
     }
     
     public function getSlug(): ?string
@@ -666,11 +710,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->slug;
     }
     
-    public function setSlug(?string $slug = null): void
+    public function setSlug(?string $slug = null): self
     {
         if ($this->slug !== $slug) {
             $this->slug = $slug;
         }
+    
+        return $this;
     }
     
     public function getLocale()
@@ -678,11 +724,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->locale;
     }
     
-    public function setLocale($locale = null): void
+    public function setLocale($locale = null): self
     {
         if ($this->locale !== $locale) {
             $this->locale = $locale;
         }
+    
+        return $this;
     }
     
     public function getLft(): ?int
@@ -690,11 +738,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->lft;
     }
     
-    public function setLft(?int $lft = null): void
+    public function setLft(?int $lft = null): self
     {
         if ($this->lft !== $lft) {
             $this->lft = $lft;
         }
+    
+        return $this;
     }
     
     public function getLvl(): ?int
@@ -702,11 +752,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->lvl;
     }
     
-    public function setLvl(?int $lvl = null): void
+    public function setLvl(?int $lvl = null): self
     {
         if ($this->lvl !== $lvl) {
             $this->lvl = $lvl;
         }
+    
+        return $this;
     }
     
     public function getRgt(): ?int
@@ -714,11 +766,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->rgt;
     }
     
-    public function setRgt(?int $rgt = null): void
+    public function setRgt(?int $rgt = null): self
     {
         if ($this->rgt !== $rgt) {
             $this->rgt = $rgt;
         }
+    
+        return $this;
     }
     
     public function getRoot(): ?int
@@ -726,11 +780,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->root;
     }
     
-    public function setRoot(?int $root = null): void
+    public function setRoot(?int $root = null): self
     {
         if ($this->root !== $root) {
             $this->root = $root;
         }
+    
+        return $this;
     }
     
     public function getParent(): ?self
@@ -738,11 +794,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->parent;
     }
     
-    public function setParent(?self $parent = null): void
+    public function setParent(?self $parent = null): self
     {
         if ($this->parent !== $parent) {
             $this->parent = $parent;
         }
+    
+        return $this;
     }
     
     public function getChildren(): ?Collection
@@ -750,11 +808,13 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->children;
     }
     
-    public function setChildren(?Collection $children = null): void
+    public function setChildren(?Collection $children = null): self
     {
         if ($this->children !== $children) {
             $this->children = $children;
         }
+    
+        return $this;
     }
     
     public function getCategories(): ?Collection
@@ -801,7 +861,7 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         return $this->contentItems;
     }
     
-    public function setContentItems($contentItems = null): void
+    public function setContentItems($contentItems = null): self
     {
         foreach ($this->contentItems as $contentItemSingle) {
             $this->removeContentItems($contentItemSingle);
@@ -809,24 +869,36 @@ abstract class AbstractPageEntity extends EntityAccess implements Translatable
         foreach ($contentItems as $contentItemSingle) {
             $this->addContentItems($contentItemSingle);
         }
+    
+        return $this;
     }
     
     /**
      * Adds an instance of \Zikula\ContentModule\Entity\ContentItemEntity to the list of content items.
      */
-    public function addContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem): void
+    public function addContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem): self
     {
-        $this->contentItems->add($contentItem);
-        $contentItem->setPage($this);
+        if (!$this->contentItems->contains($contentItem)) {
+            $this->contentItems->add($contentItem);
+            $contentItem->setPage($this);
+        }
+    
+        return $this;
     }
     
     /**
      * Removes an instance of \Zikula\ContentModule\Entity\ContentItemEntity from the list of content items.
      */
-    public function removeContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem): void
+    public function removeContentItems(\Zikula\ContentModule\Entity\ContentItemEntity $contentItem): self
     {
-        $this->contentItems->removeElement($contentItem);
-        $contentItem->setPage(null);
+        if ($this->contentItems->contains($contentItem)) {
+            $this->contentItems->removeElement($contentItem);
+            if ($contentItem->getPage() === $this) {
+                $contentItem->setPage(null);
+            }
+        }
+    
+        return $this;
     }
     
     /**

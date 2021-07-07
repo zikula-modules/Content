@@ -642,7 +642,9 @@ abstract class AbstractEditHandler
         $action = $args['commandName'];
         $isRegularAction = 'delete' !== $action;
     
-        $this->fetchInputData();
+        if (false === $this->fetchInputData()) {
+            return false;
+        }
     
         if ($isRegularAction && true === $this->hasTranslatableFields) {
             if ($this->featureActivationHelper->isEnabled(FeatureActivationHelper::TRANSLATIONS, $this->objectType)) {

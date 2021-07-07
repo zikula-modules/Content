@@ -22,13 +22,15 @@
         {{ form_errors(finderForm) }}
         <fieldset>
             <legend>{% trans %}Search and select page{% endtrans %}</legend>
-            {% if getModVar('ZConfig', 'multilingual') %}
+            {% if finderForm.language is defined and getModVar('ZConfig', 'multilingual') %}
                 {{ form_row(finderForm.language) }}
             {% endif %}
-            {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
+            {% if finderForm.categories is defined and featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
                 {{ form_row(finderForm.categories) }}
             {% endif %}
-            {{ form_row(finderForm.pasteAs) }}
+            {% if finderForm.pasteAs is defined %}
+                {{ form_row(finderForm.pasteAs) }}
+            {% endif %}
             <br />
             <div class="form-group row">
                 <label class="col-md-3 col-form-label">{% trans %}Page{% endtrans %}:</label>
@@ -56,10 +58,20 @@
                 </div>
             </div>
 
-            {{ form_row(finderForm.sort) }}
-            {{ form_row(finderForm.sortdir) }}
-            {{ form_row(finderForm.num) }}
-            {{ form_row(finderForm.q) }}
+            {% if finderForm.sort is defined %}
+                {{ form_row(finderForm.sort) }}
+            {% endif %}
+            {% if finderForm.sortdir is defined %}
+                {{ form_row(finderForm.sortdir) }}
+            {% endif %}
+            {% if finderForm.num is defined %}
+                {{ form_row(finderForm.num) }}
+            {% endif %}
+            <div id="searchTermRow">
+                {% if finderForm.q is defined %}
+                    {{ form_row(finderForm.q) }}
+                {% endif %}
+            </div>
             <div>
                 {{ include(paginator.template) }}
             </div>
