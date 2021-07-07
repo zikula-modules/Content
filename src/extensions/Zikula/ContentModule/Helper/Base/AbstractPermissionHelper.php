@@ -109,9 +109,7 @@ abstract class AbstractPermissionHelper
     {
         $objectType = $entity->get_objectType();
     
-        return $this->mayEdit($entity, $userId)
-            && $this->variableApi->get('ZikulaContentModule', 'show' . ucfirst($objectType) . 'History', true)
-        ;
+        return $this->mayEdit($entity, $userId) && $this->mayUseHistory($objectType, $userId);
     }
     
     /**
@@ -184,6 +182,14 @@ abstract class AbstractPermissionHelper
     public function mayUseQuickNav(string $objectType, ?int $userId = null): bool
     {
         return $this->hasComponentPermission($objectType, ACCESS_READ, $userId);
+    }
+    
+    /**
+     * Checks if the history for a given object type may be used or not.
+     */
+    public function mayUseHistory(string $objectType, ?int $userId = null): bool
+    {
+        return $this->variableApi->get('ZikulaContentModule', 'show' . ucfirst($objectType) . 'History', true);
     }
     
     /**

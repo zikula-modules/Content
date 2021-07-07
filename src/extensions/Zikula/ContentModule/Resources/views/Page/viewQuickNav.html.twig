@@ -1,7 +1,7 @@
 {# purpose of this template: pages view filter form #}
 {% trans_default_domain 'page' %}
 {% macro renderQuickNavEntry(quickNavForm, fieldName, isVisible) %}
-    {% if attribute(quickNavForm, fieldName) is defined and attribute(quickNavForm, fieldName) is not null %}
+    {% if attribute(quickNavForm, fieldName) is defined %}
         {% if not isVisible %}
             <div class="d-none">
         {% endif %}

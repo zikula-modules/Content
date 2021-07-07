@@ -33,11 +33,21 @@
                             <fieldset>
                                 <legend>{{ language|language_name }}</legend>
                                 {% if language == app.request.locale %}
-                                    {{ form_row(form.title) }}
-                                    {{ form_row(form.metaDescription) }}
-                                    {{ form_row(form.optionalString1) }}
-                                    {{ form_row(form.optionalString2) }}
-                                    {{ form_row(form.optionalText) }}
+                                    {% if form.title is defined %}
+                                        {{ form_row(form.title) }}
+                                    {% endif %}
+                                    {% if form.metaDescription is defined %}
+                                        {{ form_row(form.metaDescription) }}
+                                    {% endif %}
+                                    {% if form.optionalString1 is defined %}
+                                        {{ form_row(form.optionalString1) }}
+                                    {% endif %}
+                                    {% if form.optionalString2 is defined %}
+                                        {{ form_row(form.optionalString2) }}
+                                    {% endif %}
+                                    {% if form.optionalText is defined %}
+                                        {{ form_row(form.optionalText) }}
+                                    {% endif %}
                                     {{ form_row(form.slug) }}
                                 {% else %}
                                     {{ form_row(attribute(form, 'translations' ~ language)) }}
@@ -51,11 +61,21 @@
             {% set language = app.request.locale %}
             <fieldset>
                 <legend>{{ language|language_name }}</legend>
-                {{ form_row(form.title) }}
-                {{ form_row(form.metaDescription) }}
-                {{ form_row(form.optionalString1) }}
-                {{ form_row(form.optionalString2) }}
-                {{ form_row(form.optionalText) }}
+                {% if form.title is defined %}
+                    {{ form_row(form.title) }}
+                {% endif %}
+                {% if form.metaDescription is defined %}
+                    {{ form_row(form.metaDescription) }}
+                {% endif %}
+                {% if form.optionalString1 is defined %}
+                    {{ form_row(form.optionalString1) }}
+                {% endif %}
+                {% if form.optionalString2 is defined %}
+                    {{ form_row(form.optionalString2) }}
+                {% endif %}
+                {% if form.optionalText is defined %}
+                    {{ form_row(form.optionalText) }}
+                {% endif %}
                 {{ form_row(form.slug) }}
             </fieldset>
         {% endif %}
@@ -64,23 +84,45 @@
             {% if mode == 'create' and form.parent is defined %}
                 {{ form_row(form.parent) }}
             {% endif %}
-            {{ form_row(form.showTitle) }}
-            {{ form_row(form.skipHookSubscribers) }}
-            <div class="d-none">
-                {{ form_row(form.layout) }}
-            </div>
-            <div class="d-none">
-                {{ form_row(form.views) }}
-            </div>
-            {{ form_row(form.active) }}
-            {{ form_row(form.activeFrom) }}
-            {{ form_row(form.activeTo) }}
-            {{ form_row(form.scope) }}
-            {{ form_row(form.inMenu) }}
-            {{ form_row(form.stylingClasses) }}
-            <div class="d-none">
-                {{ form_row(form.contentData) }}
-            </div>
+            {% if form.showTitle is defined %}
+                {{ form_row(form.showTitle) }}
+            {% endif %}
+            {% if form.skipHookSubscribers is defined %}
+                {{ form_row(form.skipHookSubscribers) }}
+            {% endif %}
+            {% if form.layout is defined %}
+                <div class="d-none">
+                    {{ form_row(form.layout) }}
+                </div>
+            {% endif %}
+            {% if form.views is defined %}
+                <div class="d-none">
+                    {{ form_row(form.views) }}
+                </div>
+            {% endif %}
+            {% if form.active is defined %}
+                {{ form_row(form.active) }}
+            {% endif %}
+            {% if form.activeFrom is defined %}
+                {{ form_row(form.activeFrom) }}
+            {% endif %}
+            {% if form.activeTo is defined %}
+                {{ form_row(form.activeTo) }}
+            {% endif %}
+            {% if form.scope is defined %}
+                {{ form_row(form.scope) }}
+            {% endif %}
+            {% if form.inMenu is defined %}
+                {{ form_row(form.inMenu) }}
+            {% endif %}
+            {% if form.stylingClasses is defined %}
+                {{ form_row(form.stylingClasses) }}
+            {% endif %}
+            {% if form.contentData is defined %}
+                <div class="d-none">
+                    {{ form_row(form.contentData) }}
+                </div>
+            {% endif %}
         </fieldset>
         
         {% if featureActivationHelper.isEnabled(constant('Zikula\\ContentModule\\Helper\\FeatureActivationHelper::CATEGORIES'), 'page') %}
@@ -143,8 +185,12 @@
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.Validation.js'), 98) }}
     {{ pageAddAsset('javascript', zasset('@ZikulaContentModule:js/ZikulaContentModule.EditFunctions.js'), 99) }}
     <div id="formEditingDefinition" data-mode="{{ mode|e('html_attr') }}" data-entityid="{% if mode != 'create' %}{{ page.id|e('html_attr') }}{% endif %}"></div>
-    <div class="field-editing-definition" data-field-type="date" data-field-name="zikulacontentmodule_page_activeFrom"></div>
-    <div class="field-editing-definition" data-field-type="date" data-field-name="zikulacontentmodule_page_activeTo"></div>
+    {% if form.activeFrom is defined %}
+        <div class="field-editing-definition" data-field-type="date" data-field-name="zikulacontentmodule_page_activeFrom"></div>
+    {% endif %}
+    {% if form.activeTo is defined %}
+        <div class="field-editing-definition" data-field-type="date" data-field-name="zikulacontentmodule_page_activeTo"></div>
+    {% endif %}
     {% if form.moderationSpecificCreator is defined %}
         <div class="field-editing-definition" data-field-type="user" data-field-name="zikulacontentmodule_page_moderationSpecificCreator"></div>
     {% endif %}

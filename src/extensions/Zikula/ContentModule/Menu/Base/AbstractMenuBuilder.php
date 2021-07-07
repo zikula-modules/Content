@@ -120,8 +120,13 @@ class AbstractMenuBuilder
         $routeArea = $options['area'];
         $context = $options['context'];
     
+        if (\is_callable([$this->requestStack, 'getMainRequest'])) {
+            $mainRequest = $this->requestStack->getMainRequest(); // symfony 5.3+
+        } else {
+            $mainRequest = $this->requestStack->getMasterRequest();
+        }
         // return empty menu for preview of deleted items
-        $routeName = $this->requestStack->getMasterRequest()->get('_route');
+        $routeName = $mainRequest->get('_route');
         if (false !== mb_stripos($routeName, 'displaydeleted')) {
             return $menu;
         }
@@ -273,7 +278,12 @@ class AbstractMenuBuilder
             new ViewActionsMenuPreConfigurationEvent($this->factory, $menu, $options)
         );
     
-        $query = $this->requestStack->getMasterRequest()->query;
+        if (\is_callable([$this->requestStack, 'getMainRequest'])) {
+            $mainRequest = $this->requestStack->getMainRequest(); // symfony 5.3+
+        } else {
+            $mainRequest = $this->requestStack->getMasterRequest();
+        }
+        $query = $mainRequest->query;
         $currentTemplate = $query->getAlnum('tpl', '');
         if ('page' === $objectType) {
             $routePrefix = 'zikulacontentmodule_page_';
@@ -339,7 +349,7 @@ class AbstractMenuBuilder
                 if (!$showOnlyOwn && $this->permissionHelper->hasComponentPermission($objectType, ACCESS_EDIT)) {
                     $routeParameters = $query->all();
                     if (1 === $query->getInt('own')) {
-                        unset($routeParameters['own']);
+                        $routeParameters['own'] = 0;
                         $menu->addChild('Show also entries from other users', [
                             'route' => $routePrefix . $routeArea . 'view',
                             'routeParameters' => $routeParameters,
@@ -356,19 +366,21 @@ class AbstractMenuBuilder
                         ;
                     }
                 }
-                // check if there exist any deleted pages
-                $hasDeletedEntities = false;
-                if ($this->permissionHelper->hasPermission(ACCESS_EDIT)) {
-                    $hasDeletedEntities = $this->loggableHelper->hasDeletedEntities($objectType);
-                }
-                if ($hasDeletedEntities) {
-                    $menu->addChild('View deleted pages', [
-                        'route' => $routePrefix . $routeArea . 'view',
-                        'routeParameters' => ['deleted' => 1],
-                    ])
-                        ->setAttribute('icon', 'fas fa-trash-alt')
-                        ->setExtra('translation_domain', 'page')
-                    ;
+                if ($this->permissionHelper->mayUseHistory($objectType)) {
+                    // check if there exist any deleted pages
+                    $hasDeletedEntities = false;
+                    if ($this->permissionHelper->hasPermission(ACCESS_EDIT)) {
+                        $hasDeletedEntities = $this->loggableHelper->hasDeletedEntities($objectType);
+                    }
+                    if ($hasDeletedEntities) {
+                        $menu->addChild('View deleted pages', [
+                            'route' => $routePrefix . $routeArea . 'view',
+                            'routeParameters' => ['deleted' => 1],
+                        ])
+                            ->setAttribute('icon', 'fas fa-trash-alt')
+                            ->setExtra('translation_domain', 'page')
+                        ;
+                    }
                 }
             }
         }

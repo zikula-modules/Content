@@ -188,11 +188,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->_objectType;
     }
     
-    public function set_objectType(string $_objectType): void
+    public function set_objectType(string $_objectType): self
     {
         if ($this->_objectType !== $_objectType) {
             $this->_objectType = $_objectType ?? '';
         }
+    
+        return $this;
     }
     
     public function getId(): ?int
@@ -200,11 +202,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->id;
     }
     
-    public function setId(?int $id = null): void
+    public function setId(?int $id = null): self
     {
         if ((int) $this->id !== $id) {
             $this->id = $id;
         }
+    
+        return $this;
     }
     
     public function getWorkflowState(): string
@@ -212,11 +216,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->workflowState;
     }
     
-    public function setWorkflowState(string $workflowState): void
+    public function setWorkflowState(string $workflowState): self
     {
         if ($this->workflowState !== $workflowState) {
             $this->workflowState = $workflowState ?? '';
         }
+    
+        return $this;
     }
     
     public function getOwningType(): string
@@ -224,11 +230,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->owningType;
     }
     
-    public function setOwningType(string $owningType): void
+    public function setOwningType(string $owningType): self
     {
         if ($this->owningType !== $owningType) {
             $this->owningType = $owningType ?? '';
         }
+    
+        return $this;
     }
     
     public function getContentData(): array
@@ -236,11 +244,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->contentData;
     }
     
-    public function setContentData(array $contentData): void
+    public function setContentData(array $contentData): self
     {
         if ($this->contentData !== $contentData) {
             $this->contentData = $contentData ?? [];
         }
+    
+        return $this;
     }
     
     public function getActive(): bool
@@ -248,11 +258,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->active;
     }
     
-    public function setActive(bool $active): void
+    public function setActive(bool $active): self
     {
         if ((bool) $this->active !== $active) {
             $this->active = $active;
         }
+    
+        return $this;
     }
     
     public function getActiveFrom(): ?\DateTimeInterface
@@ -260,7 +272,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->activeFrom;
     }
     
-    public function setActiveFrom(?\DateTimeInterface $activeFrom = null): void
+    public function setActiveFrom(?\DateTimeInterface $activeFrom = null): self
     {
         if ($this->activeFrom !== $activeFrom) {
             if (
@@ -274,6 +286,8 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
                 $this->activeFrom = $activeFrom;
             }
         }
+    
+        return $this;
     }
     
     public function getActiveTo(): ?\DateTimeInterface
@@ -281,7 +295,7 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->activeTo;
     }
     
-    public function setActiveTo(?\DateTimeInterface $activeTo = null): void
+    public function setActiveTo(?\DateTimeInterface $activeTo = null): self
     {
         if ($this->activeTo !== $activeTo) {
             if (
@@ -295,6 +309,8 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
                 $this->activeTo = $activeTo;
             }
         }
+    
+        return $this;
     }
     
     public function getScope(): string
@@ -302,11 +318,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->scope;
     }
     
-    public function setScope(string $scope): void
+    public function setScope(string $scope): self
     {
         if ($this->scope !== $scope) {
             $this->scope = $scope ?? '';
         }
+    
+        return $this;
     }
     
     public function getStylingClasses(): ?array
@@ -314,11 +332,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->stylingClasses;
     }
     
-    public function setStylingClasses(?array $stylingClasses = null): void
+    public function setStylingClasses(?array $stylingClasses = null): self
     {
         if ($this->stylingClasses !== $stylingClasses) {
             $this->stylingClasses = $stylingClasses;
         }
+    
+        return $this;
     }
     
     public function getSearchText(): string
@@ -326,11 +346,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->searchText;
     }
     
-    public function setSearchText(string $searchText): void
+    public function setSearchText(string $searchText): self
     {
         if ($this->searchText !== $searchText) {
             $this->searchText = $searchText ?? '';
         }
+    
+        return $this;
     }
     
     public function getAdditionalSearchText(): string
@@ -338,11 +360,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->additionalSearchText;
     }
     
-    public function setAdditionalSearchText(string $additionalSearchText): void
+    public function setAdditionalSearchText(string $additionalSearchText): self
     {
         if ($this->additionalSearchText !== $additionalSearchText) {
             $this->additionalSearchText = $additionalSearchText ?? '';
         }
+    
+        return $this;
     }
     
     public function getLocale()
@@ -350,11 +374,13 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->locale;
     }
     
-    public function setLocale($locale = null): void
+    public function setLocale($locale = null): self
     {
         if ($this->locale !== $locale) {
             $this->locale = $locale;
         }
+    
+        return $this;
     }
     
     public function getPage(): ?\Zikula\ContentModule\Entity\PageEntity
@@ -362,9 +388,11 @@ abstract class AbstractContentItemEntity extends EntityAccess implements Transla
         return $this->page;
     }
     
-    public function setPage(?\Zikula\ContentModule\Entity\PageEntity $page = null): void
+    public function setPage(?\Zikula\ContentModule\Entity\PageEntity $page = null): self
     {
         $this->page = $page;
+    
+        return $this;
     }
     
     /**

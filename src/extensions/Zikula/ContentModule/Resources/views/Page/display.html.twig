@@ -145,12 +145,14 @@
 {% endblock %}
 {% block related_items %}
     {% set isQuickView = app.request.query.getBoolean('raw', false) %}
+    {% set sectionTitle %}
+        {% trans from 'contentItem' %}Content items{% endtrans %}
+    {% endset %}
     {% if routeArea == 'admin' %}
-        <h4>{% trans from 'contentItem' %}Content items{% endtrans %}</h4>
+        <h4>{{ sectionTitle }}</h4>
     {% else %}
-        <h3>{% trans from 'contentItem' %}Content items{% endtrans %}</h3>
+        <h3>{{ sectionTitle }}</h3>
     {% endif %}
-    
     {% if page.contentItems|default %}
         {{ include(
             '@ZikulaContentModule/ContentItem/includeDisplayItemListMany.html.twig',

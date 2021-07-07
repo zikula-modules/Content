@@ -332,17 +332,21 @@ abstract class AbstractCollectionFilterHelper
             return $qb;
         }
     
-        $showOnlyOwnEntries = (bool) $request->query->getInt('own', (int) $this->showOnlyOwnEntries);
-        $privateMode = (bool) $this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
-        if ($privateMode) {
-            $showOnlyOwnEntries = true;
+        $routeName = $request->get('_route', '');
+        $isAdminArea = false !== mb_strpos($routeName, 'zikulacontentmodule_page_admin');
+    
+        $showOnlyOwnDefault = $isAdminArea ? false : $this->showOnlyOwnEntries;
+        $showOnlyOwnEntries = (bool) $request->query->getInt('own', (int) $showOnlyOwnDefault);
+        if (!$isAdminArea) {
+            $privateMode = (bool) $this->variableApi->get('ZikulaContentModule', 'pagePrivateMode', false);
+            if ($privateMode) {
+                $showOnlyOwnEntries = true;
+            }
         }
         if ($showOnlyOwnEntries) {
             $qb = $this->addCreatorFilter($qb);
         }
     
-        $routeName = $request->get('_route', '');
-        $isAdminArea = false !== mb_strpos($routeName, 'zikulacontentmodule_page_admin');
         if ($isAdminArea) {
             return $qb;
         }
@@ -377,13 +381,15 @@ abstract class AbstractCollectionFilterHelper
             return $qb;
         }
     
-        $showOnlyOwnEntries = (bool) $request->query->getInt('own', (int) $this->showOnlyOwnEntries);
+        $routeName = $request->get('_route', '');
+        $isAdminArea = false !== mb_strpos($routeName, 'zikulacontentmodule_contentitem_admin');
+    
+        $showOnlyOwnDefault = $isAdminArea ? false : $this->showOnlyOwnEntries;
+        $showOnlyOwnEntries = (bool) $request->query->getInt('own', (int) $showOnlyOwnDefault);
         if ($showOnlyOwnEntries) {
             $qb = $this->addCreatorFilter($qb);
         }
     
-        $routeName = $request->get('_route', '');
-        $isAdminArea = false !== mb_strpos($routeName, 'zikulacontentmodule_contentitem_admin');
         if ($isAdminArea) {
             return $qb;
         }
