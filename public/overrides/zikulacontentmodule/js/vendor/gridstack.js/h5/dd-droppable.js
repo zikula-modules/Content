@@ -1,9 +1,10 @@
 "use strict";
 /**
- * dd-droppable.ts 4.2.5
+ * dd-droppable.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DDDroppable = void 0;
 const dd_manager_1 = require("./dd-manager");
 const dd_base_impl_1 = require("./dd-base-impl");
 const dd_utils_1 = require("./dd-utils");

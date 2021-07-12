@@ -1,9 +1,10 @@
 "use strict";
 /**
- * gridstack-ddi.ts 4.2.5
+ * gridstack-ddi.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStackDDI = void 0;
 /**
  * Abstract Partial Interface API for drag'n'drop plugin - look at GridStackDD and HTML5 / Jquery implementation versions
  */

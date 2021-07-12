@@ -1,9 +1,10 @@
 "use strict";
 /**
- * utils.ts 4.2.5
+ * utils.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Utils = exports.obsoleteAttr = exports.obsoleteOptsDel = exports.obsoleteOpts = exports.obsolete = void 0;
 /** checks for obsolete method names */
 // eslint-disable-next-line
 function obsolete(self, f, oldName, newName, rev) {
@@ -242,7 +243,10 @@ class Utils {
             return;
         for (let key in a) {
             let val = a[key];
-            if (val && typeof val === 'object' && b[key] !== undefined) {
+            if (key[0] === '_' || val === b[key]) {
+                delete a[key];
+            }
+            else if (val && typeof val === 'object' && b[key] !== undefined) {
                 for (let i in val) {
                     if (val[i] === b[key][i] || i[0] === '_') {
                         delete val[i];
@@ -251,9 +255,6 @@ class Utils {
                 if (!Object.keys(val).length) {
                     delete a[key];
                 }
-            }
-            else if (val === b[key] || key[0] === '_') {
-                delete a[key];
             }
         }
     }
@@ -370,6 +371,33 @@ class Utils {
         else if (bottom) {
             scrollEl.scrollBy({ behavior: 'smooth', top: distance - (height - pointerPosY) });
         }
+    }
+    /** single level clone, returning a new object with same top fields. This will share sub objects and arrays */
+    static clone(obj) {
+        if (obj === null || obj === undefined || typeof (obj) !== 'object') {
+            return obj;
+        }
+        // return Object.assign({}, obj);
+        if (obj instanceof Array) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return [...obj];
+        }
+        return Object.assign({}, obj);
+    }
+    /**
+     * Recursive clone version that returns a full copy, checking for nested objects and arrays ONLY.
+     * Note: this will use as-is any key starting with double __ (and not copy inside) some lib have circular dependencies.
+     */
+    static cloneDeep(obj) {
+        // return JSON.parse(JSON.stringify(obj)); // doesn't work with date format ?
+        const ret = Utils.clone(obj);
+        for (const key in ret) {
+            // NOTE: we don't support function/circular dependencies so skip those properties for now...
+            if (ret.hasOwnProperty(key) && typeof (ret[key]) === 'object' && key.substring(0, 2) !== '__') {
+                ret[key] = Utils.cloneDeep(obj[key]);
+            }
+        }
+        return ret;
     }
 }
 exports.Utils = Utils;

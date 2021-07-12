@@ -1,18 +1,26 @@
 "use strict";
 /**
- * gridstack-dd-native.ts 4.2.5
+ * gridstack-dd-native.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStackDDNative = void 0;
 const dd_manager_1 = require("./dd-manager");
 const dd_element_1 = require("./dd-element");
 const gridstack_dd_1 = require("../gridstack-dd");
 const utils_1 = require("../utils");
 // export our base class (what user should use) and all associated types
-__export(require("../gridstack-dd"));
+__exportStar(require("../gridstack-dd"), exports);
 /**
  * HTML 5 Native DragDrop based drag'n'drop plugin.
  */

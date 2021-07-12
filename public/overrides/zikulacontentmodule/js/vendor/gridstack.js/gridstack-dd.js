@@ -1,9 +1,10 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.2.5
+ * gridstack-dd.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStackDD = void 0;
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const gridstack_ddi_1 = require("./gridstack-ddi");
 const gridstack_1 = require("./gridstack");
@@ -36,7 +37,7 @@ exports.GridStackDD = GridStackDD;
 /** @internal called to add drag over to support widgets being added externally */
 gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
     // check if we need to disable things
-    if (this.opts.staticGrid || !this.opts.acceptWidgets) {
+    if (this.opts.staticGrid || (!this.opts.acceptWidgets && !this.opts.removable)) {
         GridStackDD.get().droppable(this.el, 'destroy');
         return this;
     }
@@ -126,7 +127,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         cellWidth = this.cellWidth();
         cellHeight = this.getCellHeight(true);
         // load any element attributes if we don't have a node
-        if (!node) {
+        if (!node) { // @ts-ignore
             node = this._readAttr(el);
         }
         if (!node.grid) {
@@ -219,13 +220,14 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
             return false;
         el.gridstackNode = node;
         node.el = el;
+        // @ts-ignore
         utils_1.Utils.copyPos(node, this._readAttr(this.placeholder)); // placeholder values as moving VERY fast can throw things off #1578
-        utils_1.Utils.removePositioningStyles(el);
+        utils_1.Utils.removePositioningStyles(el); // @ts-ignore
         this._writeAttr(el, node);
-        this.el.appendChild(el);
+        this.el.appendChild(el); // @ts-ignore
         this._updateContainerHeight();
-        this.engine.addedNodes.push(node);
-        this._triggerAddEvent();
+        this.engine.addedNodes.push(node); // @ts-ignore
+        this._triggerAddEvent(); // @ts-ignore
         this._triggerChangeEvent();
         this.engine.endUpdate();
         if (this._gsEventHandler['dropped']) {
@@ -354,13 +356,13 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
             else {
                 if (!node._temporaryRemoved) {
                     // move to new placeholder location
-                    utils_1.Utils.removePositioningStyles(target);
+                    utils_1.Utils.removePositioningStyles(target); // @ts-ignore
                     this._writePosAttr(target, node);
                 }
                 else {
                     // got removed - restore item back to before dragging position
                     utils_1.Utils.removePositioningStyles(target);
-                    utils_1.Utils.copyPos(node, node._orig);
+                    utils_1.Utils.copyPos(node, node._orig); // @ts-ignore
                     this._writePosAttr(target, node);
                     this.engine.addNode(node);
                 }
@@ -368,8 +370,9 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
                     this._gsEventHandler[event.type](event, target);
                 }
             }
-            this._extraDragRow = 0;
-            this._updateContainerHeight();
+            // @ts-ignore
+            this._extraDragRow = 0; // @ts-ignore
+            this._updateContainerHeight(); // @ts-ignore
             this._triggerChangeEvent();
             this.engine.endUpdate();
         };
@@ -407,6 +410,7 @@ gridstack_1.GridStack.prototype._prepareDragDropByNode = function (node) {
 gridstack_1.GridStack.prototype._onStartMoving = function (el, event, ui, node, cellWidth, cellHeight) {
     this.engine.cleanNodes()
         .beginUpdate(node);
+    // @ts-ignore
     this._writePosAttr(this.placeholder, node);
     this.el.appendChild(this.placeholder);
     // TEST console.log('_onStartMoving placeholder')
@@ -471,6 +475,7 @@ gridstack_1.GridStack.prototype._leave = function (el, helper) {
 gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, cellWidth, cellHeight) {
     let p = Object.assign({}, node._orig); // could be undefined (_isExternal) which is ok (drag only set x,y and w,h will default to node value)
     let resizing;
+    const mLeft = this.opts.marginLeft, mRight = this.opts.marginRight, mTop = this.opts.marginTop, mBottom = this.opts.marginBottom;
     if (event.type === 'drag') {
         if (node._temporaryRemoved)
             return; // handled by dropover
@@ -478,22 +483,22 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
         node._prevYPix = ui.position.top;
         utils_1.Utils.updateScrollPosition(el, ui.position, distance);
         // get new position taking into account the margin in the direction we are moving! (need to pass mid point by margin)
-        let left = ui.position.left + (ui.position.left > node._lastUiPosition.left ? -this.opts.marginRight : this.opts.marginLeft);
-        let top = ui.position.top + (ui.position.top > node._lastUiPosition.top ? -this.opts.marginBottom : this.opts.marginTop);
+        let left = ui.position.left + (ui.position.left > node._lastUiPosition.left ? -mRight : mLeft);
+        let top = ui.position.top + (ui.position.top > node._lastUiPosition.top ? -mBottom : mTop);
         p.x = Math.round(left / cellWidth);
         p.y = Math.round(top / cellHeight);
-        // if we're at the bottom hitting something else, grow the grid so cursor doesn't leave when trying to place below others
+        // @ts-ignore// if we're at the bottom hitting something else, grow the grid so cursor doesn't leave when trying to place below others
         let prev = this._extraDragRow;
         if (this.engine.collide(node, p)) {
             let row = this.getRow();
             let extra = Math.max(0, (p.y + node.h) - row);
             if (this.opts.maxRow && row + extra > this.opts.maxRow) {
                 extra = Math.max(0, this.opts.maxRow - row);
-            }
-            this._extraDragRow = extra;
+            } // @ts-ignore
+            this._extraDragRow = extra; // @ts-ignore
         }
         else
-            this._extraDragRow = 0;
+            this._extraDragRow = 0; // @ts-ignore
         if (this._extraDragRow !== prev)
             this._updateContainerHeight();
         if (node.x === p.x && node.y === p.y)
@@ -507,36 +512,36 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
         // Scrolling page if needed
         utils_1.Utils.updateScrollResize(event, el, cellHeight);
         // get new size
-        p.w = Math.round((ui.size.width - this.opts.marginLeft) / cellWidth);
-        p.h = Math.round((ui.size.height - this.opts.marginTop) / cellHeight);
+        p.w = Math.round((ui.size.width - mLeft) / cellWidth);
+        p.h = Math.round((ui.size.height - mTop) / cellHeight);
         if (node.w === p.w && node.h === p.h)
             return;
         if (node._lastTried && node._lastTried.w === p.w && node._lastTried.h === p.h)
             return; // skip one we tried (but failed)
         // if we size on left/top side this might move us, so get possible new position as well
-        let left = ui.position.left + this.opts.marginLeft;
-        let top = ui.position.top + this.opts.marginTop;
+        let left = ui.position.left + mLeft;
+        let top = ui.position.top + mTop;
         p.x = Math.round(left / cellWidth);
         p.y = Math.round(top / cellHeight);
         resizing = true;
     }
     node._lastTried = p; // set as last tried (will nuke if we go there)
     let rect = {
-        x: ui.position.left + this.opts.marginLeft,
-        y: ui.position.top + this.opts.marginTop,
-        w: (ui.size ? ui.size.width : node.w * cellWidth) - this.opts.marginLeft - this.opts.marginRight,
-        h: (ui.size ? ui.size.height : node.h * cellHeight) - this.opts.marginTop - this.opts.marginBottom
+        x: ui.position.left + mLeft,
+        y: ui.position.top + mTop,
+        w: (ui.size ? ui.size.width : node.w * cellWidth) - mLeft - mRight,
+        h: (ui.size ? ui.size.height : node.h * cellHeight) - mTop - mBottom
     };
     if (this.engine.moveNodeCheck(node, Object.assign(Object.assign({}, p), { cellWidth, cellHeight, rect }))) {
         node._lastUiPosition = ui.position;
-        this.engine.cacheRects(cellWidth, cellHeight, this.opts.marginTop, this.opts.marginRight, this.opts.marginBottom, this.opts.marginLeft);
+        this.engine.cacheRects(cellWidth, cellHeight, mTop, mRight, mBottom, mLeft);
         delete node._skipDown;
         if (resizing && node.subGrid) {
             node.subGrid.onParentResize();
-        }
-        this._extraDragRow = 0;
+        } // @ts-ignore
+        this._extraDragRow = 0; // @ts-ignore
         this._updateContainerHeight();
-        let target = event.target;
+        let target = event.target; // @ts-ignore
         this._writePosAttr(target, node);
         if (this._gsEventHandler[event.type]) {
             this._gsEventHandler[event.type](event, target);
@@ -596,7 +601,7 @@ gridstack_1.GridStack.prototype.disable = function () {
     if (this.opts.staticGrid)
         return;
     this.enableMove(false);
-    this.enableResize(false);
+    this.enableResize(false); // @ts-ignore
     this._triggerEvent('disable');
     return this;
 };
@@ -612,7 +617,7 @@ gridstack_1.GridStack.prototype.enable = function () {
     if (this.opts.staticGrid)
         return;
     this.enableMove(true);
-    this.enableResize(true);
+    this.enableResize(true); // @ts-ignore
     this._triggerEvent('enable');
     return this;
 };

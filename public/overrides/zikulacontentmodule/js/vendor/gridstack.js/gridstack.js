@@ -1,21 +1,31 @@
 "use strict";
 /*!
- * GridStack 4.2.5
+ * GridStack 4.2.6
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
  * see root license https://github.com/gridstack/gridstack.js/tree/master/LICENSE
  */
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStack = void 0;
 const gridstack_engine_1 = require("./gridstack-engine");
 const utils_1 = require("./utils");
 const gridstack_ddi_1 = require("./gridstack-ddi");
-__export(require("./utils"));
-__export(require("./gridstack-engine"));
-__export(require("./gridstack-ddi"));
+// export all dependent file as well to make it easier for users to just import the main file
+__exportStar(require("./types"), exports);
+__exportStar(require("./utils"), exports);
+__exportStar(require("./gridstack-engine"), exports);
+__exportStar(require("./gridstack-ddi"), exports);
 // default values for grid options - used during init and when saving out
 const GridDefaults = {
     column: 12,
@@ -87,7 +97,7 @@ class GridStack {
         }
         let rowAttr = utils_1.Utils.toNumber(el.getAttribute('gs-row'));
         // elements attributes override any passed options (like CSS style) - merge the two together
-        let defaults = Object.assign(Object.assign({}, GridDefaults), { column: utils_1.Utils.toNumber(el.getAttribute('gs-column')) || 12, minRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-min-row')) || 0, maxRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-max-row')) || 0, staticGrid: utils_1.Utils.toBool(el.getAttribute('gs-static')) || false, _styleSheetClass: 'grid-stack-instance-' + (Math.random() * 10000).toFixed(0), alwaysShowResizeHandle: opts.alwaysShowResizeHandle || false, resizable: {
+        let defaults = Object.assign(Object.assign({}, utils_1.Utils.cloneDeep(GridDefaults)), { column: utils_1.Utils.toNumber(el.getAttribute('gs-column')) || 12, minRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-min-row')) || 0, maxRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-max-row')) || 0, staticGrid: utils_1.Utils.toBool(el.getAttribute('gs-static')) || false, _styleSheetClass: 'grid-stack-instance-' + (Math.random() * 10000).toFixed(0), alwaysShowResizeHandle: opts.alwaysShowResizeHandle || false, resizable: {
                 autoHide: !(opts.alwaysShowResizeHandle || false),
                 handles: 'se'
             }, draggable: {
@@ -207,7 +217,7 @@ class GridStack {
             return null;
         }
         if (!el.gridstack) {
-            el.gridstack = new GridStack(el, Object.assign({}, options));
+            el.gridstack = new GridStack(el, utils_1.Utils.cloneDeep(options));
         }
         return el.gridstack;
     }
@@ -224,7 +234,7 @@ class GridStack {
         let grids = [];
         GridStack.getGridElements(selector).forEach(el => {
             if (!el.gridstack) {
-                el.gridstack = new GridStack(el, Object.assign({}, options));
+                el.gridstack = new GridStack(el, utils_1.Utils.cloneDeep(options));
                 delete options.dragIn;
                 delete options.dragInOptions; // only need to be done once (really a static global thing, not per grid)
             }
@@ -324,7 +334,7 @@ class GridStack {
         // as the actual value are filled in when _prepareElement() calls el.getAttribute('gs-xyz) before adding the node.
         // So make sure we load any DOM attributes that are not specified in passed in options (which override)
         let domAttr = this._readAttr(el);
-        options = Object.assign({}, (options || {})); // make a copy before we modify in case caller re-uses it
+        options = utils_1.Utils.cloneDeep(options) || {}; // make a copy before we modify in case caller re-uses it
         utils_1.Utils.defaults(options, domAttr);
         let node = this.engine.prepareNode(options);
         this._writeAttr(el, options);
@@ -347,34 +357,39 @@ class GridStack {
         return el;
     }
     /**
-     * saves the current layout returning a list of widgets for serialization (with default to save content), which might include any nested grids.
-     * Optionally you can also save the grid with options itself, so you can call the new GridStack.addGrid()
-     * to recreate everything from scratch. GridStackOptions.children would then contain the widget list.
+    /**
+     * saves the current layout returning a list of widgets for serialization which might include any nested grids.
+     * @param saveContent if true (default) the latest html inside .grid-stack-content will be saved to GridStackWidget.content field, else it will
+     * be removed.
+     * @param saveGridOpt if true (default false), save the grid options itself, so you can call the new GridStack.addGrid()
+     * to recreate everything from scratch. GridStackOptions.children would then contain the widget list instead.
+     * @returns list of widgets or full grid option, including .children list of widgets
      */
     save(saveContent = true, saveGridOpt = false) {
         // return copied nodes we can modify at will...
         let list = this.engine.save(saveContent);
-        // check for HTML content as well
-        if (saveContent) {
-            list.forEach(n => {
-                if (n.el && !n.subGrid) { // sub-grid are saved differently, not plain content
-                    let sub = n.el.querySelector('.grid-stack-item-content');
-                    n.content = sub ? sub.innerHTML : undefined;
-                    if (!n.content)
-                        delete n.content;
-                    delete n.el;
+        // check for HTML content and nested grids
+        list.forEach(n => {
+            if (saveContent && n.el && !n.subGrid) { // sub-grid are saved differently, not plain content
+                let sub = n.el.querySelector('.grid-stack-item-content');
+                n.content = sub ? sub.innerHTML : undefined;
+                if (!n.content)
+                    delete n.content;
+            }
+            else {
+                if (!saveContent) {
+                    delete n.content;
                 }
-            });
-        }
+                // check for nested grid
+                if (n.subGrid) {
+                    n.subGrid = n.subGrid.save(saveContent, true);
+                }
+            }
+            delete n.el;
+        });
         // check if save entire grid options (needed for recursive) + children...
         if (saveGridOpt) {
-            // check for nested grid
-            list.forEach(n => {
-                if (n.subGrid) {
-                    n.subGrid = n.subGrid.save(saveContent, saveGridOpt);
-                }
-            });
-            let o = Object.assign({}, this.opts);
+            let o = utils_1.Utils.cloneDeep(this.opts);
             // delete default values that will be recreated on launch
             if (o.marginBottom === o.marginTop && o.marginRight === o.marginLeft && o.marginTop === o.marginRight) {
                 o.margin = o.marginTop;
@@ -866,7 +881,7 @@ class GridStack {
             if (!el || !el.gridstackNode)
                 return;
             let n = el.gridstackNode;
-            let w = Object.assign({}, opt); // make a copy we can modify in case they re-use it or multiple items
+            let w = utils_1.Utils.cloneDeep(opt); // make a copy we can modify in case they re-use it or multiple items
             delete w.autoPosition;
             // move/resize widget if anything changed
             let keys = ['x', 'y', 'w', 'h'];

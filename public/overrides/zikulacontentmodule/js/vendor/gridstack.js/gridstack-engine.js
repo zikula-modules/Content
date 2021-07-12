@@ -1,9 +1,10 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.2.5
+ * gridstack-engine.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStackEngine = void 0;
 const utils_1 = require("./utils");
 /**
  * Defines the GridStack engine that does most no DOM grid manipulation.
@@ -666,9 +667,9 @@ class GridStackEngine {
         }
         return this;
     }
-    /** saves the current layout returning a list of widgets for serialization */
+    /** saves a copy of the current layout returning a list of widgets for serialization */
     save(saveElement = true) {
-        let widgets = [];
+        let list = [];
         this._sortNodes();
         this.nodes.forEach(n => {
             let w = {};
@@ -677,9 +678,9 @@ class GridStackEngine {
                     w[key] = n[key];
             }
             // delete other internals
+            delete w.grid;
             if (!saveElement)
                 delete w.el;
-            delete w.grid;
             // delete default values (will be re-created on read)
             if (!w.autoPosition)
                 delete w.autoPosition;
@@ -689,9 +690,9 @@ class GridStackEngine {
                 delete w.noMove;
             if (!w.locked)
                 delete w.locked;
-            widgets.push(w);
+            list.push(w);
         });
-        return widgets;
+        return list;
     }
     /** @internal called whenever a node is added or moved - updates the cached layouts */
     layoutsNodesChange(nodes) {

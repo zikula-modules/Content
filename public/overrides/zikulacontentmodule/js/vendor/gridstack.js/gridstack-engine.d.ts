@@ -1,5 +1,5 @@
 /**
- * gridstack-engine.ts 4.2.5
+ * gridstack-engine.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackNode, GridStackPosition, GridStackMoveOpts } from './types';
@@ -43,8 +43,9 @@ export declare class GridStackEngine {
     /** re-layout grid items to reclaim any empty space */
     compact(): GridStackEngine;
     /** enable/disable floating widgets (default: `false`) See [example](http://gridstackjs.com/demo/float.html) */
+    set float(val: boolean);
     /** float getter method */
-    float: boolean;
+    get float(): boolean;
     /**
      * given a random node, makes sure it's coordinates/values are valid in the current grid
      * @param node to adjust
@@ -71,7 +72,7 @@ export declare class GridStackEngine {
     getRow(): number;
     beginUpdate(node: GridStackNode): GridStackEngine;
     endUpdate(): GridStackEngine;
-    /** saves the current layout returning a list of widgets for serialization */
+    /** saves a copy of the current layout returning a list of widgets for serialization */
     save(saveElement?: boolean): GridStackNode[];
     /**
      * call to cache the given layout internally to the given location so we can restore back when column changes size

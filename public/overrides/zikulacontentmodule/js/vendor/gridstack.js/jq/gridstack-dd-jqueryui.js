@@ -1,8 +1,16 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GridStackDDJQueryUI = exports.$ = void 0;
 const gridstack_dd_1 = require("../gridstack-dd");
 // export jq symbols see
 // https://stackoverflow.com/questions/35345760/importing-jqueryui-with-typescript-and-requirejs
@@ -20,7 +28,7 @@ exports.$ = $;
 require("jquery-ui");
 require("jquery.ui.touch-punch"); // include for touch mobile devices
 // export our base class (what user should use) and all associated types
-__export(require("../gridstack-dd"));
+__exportStar(require("../gridstack-dd"), exports);
 /**
  * legacy Jquery-ui based drag'n'drop plugin.
  */

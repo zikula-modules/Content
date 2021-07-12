@@ -1,5 +1,5 @@
 /*!
- * GridStack 4.2.5
+ * GridStack 4.2.6
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -15,7 +15,8 @@ export * from './gridstack-ddi';
 export interface GridHTMLElement extends HTMLElement {
     gridstack?: GridStack;
 }
-export declare type GridStackEvent = 'added' | 'change' | 'disable' | 'drag' | 'dragstart' | 'dragstop' | 'dropped' | 'enable' | 'removed' | 'resize' | 'resizestart' | 'resizestop';
+/** list of possible events, or space separated list of them */
+export declare type GridStackEvent = 'added' | 'change' | 'disable' | 'drag' | 'dragstart' | 'dragstop' | 'dropped' | 'enable' | 'removed' | 'resize' | 'resizestart' | 'resizestop' | string;
 /** Defines the coordinates of an object */
 export interface MousePosition {
     top: number;
@@ -102,9 +103,13 @@ export declare class GridStack {
      */
     addWidget(els?: GridStackWidget | GridStackElement, options?: GridStackWidget): GridItemHTMLElement;
     /**
-     * saves the current layout returning a list of widgets for serialization (with default to save content), which might include any nested grids.
-     * Optionally you can also save the grid with options itself, so you can call the new GridStack.addGrid()
-     * to recreate everything from scratch. GridStackOptions.children would then contain the widget list.
+    /**
+     * saves the current layout returning a list of widgets for serialization which might include any nested grids.
+     * @param saveContent if true (default) the latest html inside .grid-stack-content will be saved to GridStackWidget.content field, else it will
+     * be removed.
+     * @param saveGridOpt if true (default false), save the grid options itself, so you can call the new GridStack.addGrid()
+     * to recreate everything from scratch. GridStackOptions.children would then contain the widget list instead.
+     * @returns list of widgets or full grid option, including .children list of widgets
      */
     save(saveContent?: boolean, saveGridOpt?: boolean): GridStackWidget[] | GridStackOptions;
     /**

@@ -1,9 +1,10 @@
 "use strict";
 /**
- * dd-draggable.ts 4.2.5
+ * dd-draggable.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DDDraggable = void 0;
 const dd_manager_1 = require("./dd-manager");
 const dd_utils_1 = require("./dd-utils");
 const dd_base_impl_1 = require("./dd-base-impl");
@@ -86,6 +87,8 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         const ev = dd_utils_1.DDUtils.initEvent(event, { target: this.el, type: 'dragstart' });
         if (this.helper !== this.el) {
             this._setupDragFollowNodeNotifyStart(ev);
+            // immediately set external helper initial position to avoid flickering behavior and unnecessary looping in `_packNodes()`
+            this._dragFollow(event);
         }
         else {
             this.dragFollowTimer = window.setTimeout(() => {
@@ -240,6 +243,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         let img = document.createElement('div');
         img.style.width = '1px';
         img.style.height = '1px';
+        img.style.position = 'fixed'; // prevent unwanted scrollbar
         document.body.appendChild(img);
         e.dataTransfer.setDragImage(img, 0, 0);
         setTimeout(() => document.body.removeChild(img)); // nuke once drag had a chance to grab this 'image'

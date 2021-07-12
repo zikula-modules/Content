@@ -1,5 +1,5 @@
 /**
- * utils.ts 4.2.5
+ * utils.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackElement, GridStackNode, GridStackOptions, numberOrString, GridStackPosition, GridStackWidget } from './types';
@@ -61,4 +61,11 @@ export declare class Utils {
     /** delay calling the given function for given delay, preventing new calls from happening while waiting */
     static throttle(func: () => void, delay: number): () => void;
     static removePositioningStyles(el: HTMLElement): void;
+    /** single level clone, returning a new object with same top fields. This will share sub objects and arrays */
+    static clone<T>(obj: T): T;
+    /**
+     * Recursive clone version that returns a full copy, checking for nested objects and arrays ONLY.
+     * Note: this will use as-is any key starting with double __ (and not copy inside) some lib have circular dependencies.
+     */
+    static cloneDeep<T>(obj: T): T;
 }

@@ -1,9 +1,10 @@
 "use strict";
 /**
- * dd-resizable-handle.ts 4.2.5
+ * dd-resizable-handle.ts 4.2.6
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DDResizableHandle = void 0;
 class DDResizableHandle {
     constructor(host, direction, option) {
         /** @internal true after we've moved enough pixels to start a resize */
