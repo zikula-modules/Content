@@ -155,7 +155,7 @@ class CustomTwigExtension extends AbstractExtension
 
         $output = '<ol class="breadcrumb">';
         foreach ($pages as $aPage) {
-            $content = $aPage['title'];
+            $content = htmlspecialchars($aPage['title']);
             if (true === $linkPages) {
                 $link = $this->router->generate('zikulacontentmodule_page_display', ['slug' => $aPage['slug']]);
                 $titleAttribute = ' title="' . str_replace('"', '', $content) . '"';
