@@ -1,6 +1,6 @@
 "use strict";
 /*!
- * GridStack 4.2.6
+ * GridStack 4.2.7
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -137,6 +137,11 @@ class GridStack {
             this.cellHeight(undefined, false);
         }
         else {
+            // append unit if any are set
+            if (typeof this.opts.cellHeight == 'number' && this.opts.cellHeightUnit && this.opts.cellHeightUnit !== GridDefaults.cellHeightUnit) {
+                this.opts.cellHeight = this.opts.cellHeight + this.opts.cellHeightUnit;
+                delete this.opts.cellHeightUnit;
+            }
             this.cellHeight(this.opts.cellHeight, false);
         }
         this.el.classList.add(this.opts._styleSheetClass);
@@ -871,7 +876,7 @@ class GridStack {
     update(els, opt) {
         // support legacy call for now ?
         if (arguments.length > 2) {
-            console.warn('gridstack.ts: `update(el, x, y, w, h)` is deprecated. Use `update({x, w, content, ...})`. It will be removed soon');
+            console.warn('gridstack.ts: `update(el, x, y, w, h)` is deprecated. Use `update(el, {x, w, content, ...})`. It will be removed soon');
             // eslint-disable-next-line prefer-rest-params
             let a = arguments, i = 1;
             opt = { x: a[i++], y: a[i++], w: a[i++], h: a[i++] };

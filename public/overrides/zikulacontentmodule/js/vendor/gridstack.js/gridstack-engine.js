@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.2.6
+ * gridstack-engine.ts 4.2.7
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -339,7 +339,7 @@ class GridStackEngine {
         if (node.maxH) {
             node.h = Math.min(node.h, node.maxH);
         }
-        if (node.minW) {
+        if (node.minW && node.minW <= this.column) {
             node.w = Math.max(node.w, node.minW);
         }
         if (node.minH) {

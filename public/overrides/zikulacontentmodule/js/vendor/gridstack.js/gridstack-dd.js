@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.2.6
+ * gridstack-dd.ts 4.2.7
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -231,7 +231,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         this._triggerChangeEvent();
         this.engine.endUpdate();
         if (this._gsEventHandler['dropped']) {
-            this._gsEventHandler['dropped']({ type: 'dropped' }, origNode && origNode.grid ? origNode : undefined, node);
+            this._gsEventHandler['dropped'](Object.assign(Object.assign({}, event), { type: 'dropped' }), origNode && origNode.grid ? origNode : undefined, node);
         }
         // wait till we return out of the drag callback to set the new drag&resize handler or they may get messed up
         window.setTimeout(() => {
