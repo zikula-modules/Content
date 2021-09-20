@@ -90,6 +90,9 @@ class FeedType extends AbstractContentType
             if (count($items) >= $this->data['maxNoOfItems']) {
                 break;
             }
+            if ('http' !== mb_substr($item->get_permalink(), 0, 4)) {
+                continue;
+            }
 
             $items[] = [
                 'title' => $this->decode($item->get_title(), $feedEncoding),
@@ -101,7 +104,7 @@ class FeedType extends AbstractContentType
         $this->data['feed'] = [
             'title' => $this->decode($feed->get_title(), $feedEncoding),
             'description' => strip_tags(html_entity_decode($this->decode($feed->get_description() ?? '', $feedEncoding))),
-            'permalink' => $feed->get_permalink(),
+            'permalink' => 'http' === mb_substr($feed->get_permalink(), 0, 4) ? $feed->get_permalink() : '',
             'items' => $items,
         ];
 
