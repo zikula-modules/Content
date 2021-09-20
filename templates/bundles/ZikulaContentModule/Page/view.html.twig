@@ -101,7 +101,7 @@
                         {{ page.workflowState|zikulacontentmodule_objectState }}
                     </td>
                     {% endif %}<td headers="hTitle" class="text-left">
-                        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ 'View detail page'|trans({}, 'messages')|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml }}</a>
+                        <a href="{{ path('zikulacontentmodule_page_' ~ routeArea ~ 'display', {'slug': page.slug}) }}" title="{{ 'View detail page'|trans({}, 'messages')|e('html_attr') }}">{{ page.title|notifyFilters('zikulacontentmodule.filterhook.pages')|safeHtml|e }}</a>
                     </td>
                     {% if countPageViews %}
                         <td headers="hViews" class="text-right">

@@ -78,7 +78,7 @@ abstract class AbstractEntityDisplayHelper
         return $this->translator->trans(
             '%title%',
             [
-                '%title%' => $entity->getTitle(),
+                '%title%' => htmlspecialchars($entity->getTitle()),
             ],
             'page'
         );
@@ -92,7 +92,7 @@ abstract class AbstractEntityDisplayHelper
         return $this->translator->trans(
             '%owningType%',
             [
-                '%owningType%' => $entity->getOwningType(),
+                '%owningType%' => htmlspecialchars($entity->getOwningType()),
             ],
             'contentItem'
         );
