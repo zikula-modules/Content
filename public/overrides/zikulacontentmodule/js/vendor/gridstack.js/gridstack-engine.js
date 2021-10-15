@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.2.7
+ * gridstack-engine.ts 4.3.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -173,6 +173,10 @@ class GridStackEngine {
                 a.x = x;
                 a.y = b.y + b.h; // a -> goes after b
             }
+            else if (a.w != b.w) {
+                a.x = b.x + b.w;
+                a.y = y; // a -> goes after b
+            }
             else {
                 a.x = x;
                 a.y = y; // a -> old b position
@@ -185,9 +189,9 @@ class GridStackEngine {
         if (a.w === b.w && a.h === b.h && (a.x === b.x || a.y === b.y) && (touching = utils_1.Utils.isTouching(a, b)))
             return _doSwap();
         if (touching === false)
-            return; // ran test and fail, bail out
+            return; // IFF ran test and fail, bail out
         // check for taking same columns (but different height) and touching
-        if (a.w === b.w && a.x === b.x && (touching || utils_1.Utils.isTouching(a, b))) {
+        if (a.w === b.w && a.x === b.x && (touching || (touching = utils_1.Utils.isTouching(a, b)))) {
             if (b.y < a.y) {
                 let t = a;
                 a = b;
@@ -195,11 +199,17 @@ class GridStackEngine {
             } // swap a <-> b vars so a is first
             return _doSwap();
         }
-        /* different X will be weird (expect vertical swap) and different height overlap, so too complex. user regular layout instead
-        // else check if swapping would not collide with anything else (requiring a re-layout)
-        if (!this.collide(a, {x: a.x, y: a.y, w: b.w, h: b.h}, b) &&
-            !this.collide(a, {x: b.x, y: b.y, w: a.w, h: a.h}, b))
-          return _doSwap(); */
+        if (touching === false)
+            return;
+        // check if taking same row (but different width) and touching
+        if (a.h === b.h && a.y === b.y && (touching || (touching = utils_1.Utils.isTouching(a, b)))) {
+            if (b.x < a.x) {
+                let t = a;
+                a = b;
+                b = t;
+            } // swap a <-> b vars so a is first
+            return _doSwap();
+        }
         return false;
     }
     isAreaEmpty(x, y, w, h) {

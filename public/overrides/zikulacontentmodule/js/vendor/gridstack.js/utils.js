@@ -1,6 +1,6 @@
 "use strict";
 /**
- * utils.ts 4.2.7
+ * utils.ts 4.3.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -393,7 +393,7 @@ class Utils {
         const ret = Utils.clone(obj);
         for (const key in ret) {
             // NOTE: we don't support function/circular dependencies so skip those properties for now...
-            if (ret.hasOwnProperty(key) && typeof (ret[key]) === 'object' && key.substring(0, 2) !== '__') {
+            if (ret.hasOwnProperty(key) && typeof (ret[key]) === 'object' && key.substring(0, 2) !== '__' && !skipFields.find(k => k === key)) {
                 ret[key] = Utils.cloneDeep(obj[key]);
             }
         }
@@ -401,4 +401,6 @@ class Utils {
     }
 }
 exports.Utils = Utils;
+// list of fields we will skip during cloneDeep (nested objects, other internal)
+const skipFields = ['_isNested', 'el', 'grid', 'subGrid', 'engine'];
 //# sourceMappingURL=utils.js.map
