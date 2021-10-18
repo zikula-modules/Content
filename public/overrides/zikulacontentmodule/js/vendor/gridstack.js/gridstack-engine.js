@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.3.0
+ * gridstack-engine.ts 4.3.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -532,8 +532,8 @@ class GridStackEngine {
         // if maxRow make sure we are still valid size
         if (this.maxRow && canMove) {
             canMove = (clone.getRow() <= this.maxRow);
-            // turns out we can't grow, then see if we can swap instead (ex: full grid)
-            if (!canMove) {
+            // turns out we can't grow, then see if we can swap instead (ex: full grid) if we're not resizing
+            if (!canMove && !o.resizing) {
                 let collide = this.collide(node, o);
                 if (collide && this.swap(node, collide)) {
                     this._notify();
@@ -677,17 +677,29 @@ class GridStackEngine {
         }
         return this;
     }
-    /** saves a copy of the current layout returning a list of widgets for serialization */
+    /** saves a copy of the largest column layout (eg 12 even when rendering oneColumnMode, so we don't loose orig layout),
+     * returning a list of widgets for serialization */
     save(saveElement = true) {
+        var _a;
+        // use the highest layout for any saved info so we can have full detail on reload #1849
+        let len = (_a = this._layouts) === null || _a === void 0 ? void 0 : _a.length;
+        let layout = len && this.column !== (len - 1) ? this._layouts[len - 1] : null;
         let list = [];
         this._sortNodes();
         this.nodes.forEach(n => {
-            let w = {};
-            for (let key in n) {
-                if (key[0] !== '_' && n[key] !== null && n[key] !== undefined)
-                    w[key] = n[key];
+            let wl = layout === null || layout === void 0 ? void 0 : layout.find(l => l._id === n._id);
+            let w = Object.assign({}, n);
+            // use layout info instead if set
+            if (wl) {
+                w.x = wl.x;
+                w.y = wl.y;
+                w.w = wl.w;
             }
-            // delete other internals
+            // delete internals
+            for (let key in w) {
+                if (key[0] === '_' || w[key] === null || w[key] === undefined)
+                    delete w[key];
+            }
             delete w.grid;
             if (!saveElement)
                 delete w.el;

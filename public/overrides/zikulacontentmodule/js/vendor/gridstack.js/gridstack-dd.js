@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.3.0
+ * gridstack-dd.ts 4.3.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -475,7 +475,13 @@ gridstack_1.GridStack.prototype._leave = function (el, helper) {
 gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, cellWidth, cellHeight) {
     let p = Object.assign({}, node._orig); // could be undefined (_isExternal) which is ok (drag only set x,y and w,h will default to node value)
     let resizing;
-    const mLeft = this.opts.marginLeft, mRight = this.opts.marginRight, mTop = this.opts.marginTop, mBottom = this.opts.marginBottom;
+    let mLeft = this.opts.marginLeft, mRight = this.opts.marginRight, mTop = this.opts.marginTop, mBottom = this.opts.marginBottom;
+    // if margins (which are used to pass mid point by) are large relative to cell height/width, reduce them down #1855
+    let mHeight = Math.round(cellHeight * 0.1), mWidth = Math.round(cellWidth * 0.1);
+    mLeft = Math.min(mLeft, mWidth);
+    mRight = Math.min(mRight, mWidth);
+    mTop = Math.min(mTop, mHeight);
+    mBottom = Math.min(mBottom, mHeight);
     if (event.type === 'drag') {
         if (node._temporaryRemoved)
             return; // handled by dropover
@@ -532,7 +538,7 @@ gridstack_1.GridStack.prototype._dragOrResize = function (el, event, ui, node, c
         w: (ui.size ? ui.size.width : node.w * cellWidth) - mLeft - mRight,
         h: (ui.size ? ui.size.height : node.h * cellHeight) - mTop - mBottom
     };
-    if (this.engine.moveNodeCheck(node, Object.assign(Object.assign({}, p), { cellWidth, cellHeight, rect }))) {
+    if (this.engine.moveNodeCheck(node, Object.assign(Object.assign({}, p), { cellWidth, cellHeight, rect, resizing }))) {
         node._lastUiPosition = ui.position;
         this.engine.cacheRects(cellWidth, cellHeight, mTop, mRight, mBottom, mLeft);
         delete node._skipDown;

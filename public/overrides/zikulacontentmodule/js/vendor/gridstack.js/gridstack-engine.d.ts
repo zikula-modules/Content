@@ -1,5 +1,5 @@
 /**
- * gridstack-engine.ts 4.3.0
+ * gridstack-engine.ts 4.3.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackNode, GridStackPosition, GridStackMoveOpts } from './types';
@@ -72,7 +72,8 @@ export declare class GridStackEngine {
     getRow(): number;
     beginUpdate(node: GridStackNode): GridStackEngine;
     endUpdate(): GridStackEngine;
-    /** saves a copy of the current layout returning a list of widgets for serialization */
+    /** saves a copy of the largest column layout (eg 12 even when rendering oneColumnMode, so we don't loose orig layout),
+     * returning a list of widgets for serialization */
     save(saveElement?: boolean): GridStackNode[];
     /**
      * call to cache the given layout internally to the given location so we can restore back when column changes size

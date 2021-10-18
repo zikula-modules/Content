@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-resizable.ts 4.3.0
+ * dd-resizable.ts 4.3.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -141,6 +141,7 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         this.originalRect = this.el.getBoundingClientRect();
         this.scrollEl = utils_1.Utils.getScrollElement(this.el);
         this.scrollY = this.scrollEl.scrollTop;
+        this.scrolled = 0;
         this.startEvent = event;
         this._setupHelper();
         this._applyChange();

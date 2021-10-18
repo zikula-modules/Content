@@ -1,5 +1,5 @@
 /**
- * types.ts 4.3.0
+ * types.ts 4.3.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStack } from './gridstack';
@@ -157,6 +157,8 @@ export interface GridStackMoveOpts extends GridStackPosition {
     marginRight?: number;
     /** position in pixels of the currently dragged items (for overlap check) */
     rect?: GridStackPosition;
+    /** true if we're live resizing */
+    resizing?: boolean;
 }
 export interface GridStackPosition {
     /** widget position x (default?: 0) */

@@ -1,5 +1,5 @@
 /**
- * gridstack-dd.ts 4.3.0
+ * gridstack-dd.ts 4.3.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackDDI } from './gridstack-ddi';
