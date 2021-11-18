@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "dompdf/dompdf",
-            "version": "v1.0.2",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "8768448244967a46d6e67b891d30878e0e15d25c"
+                "reference": "aa594c1cdbcdab04977fdd0fff669a017fb50ef4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/8768448244967a46d6e67b891d30878e0e15d25c",
-                "reference": "8768448244967a46d6e67b891d30878e0e15d25c",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/aa594c1cdbcdab04977fdd0fff669a017fb50ef4",
+                "reference": "aa594c1cdbcdab04977fdd0fff669a017fb50ef4",
                 "shasum": ""
             },
             "require": {
@@ -39,11 +39,6 @@
                 "ext-zlib": "Needed for pdf stream compression"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.7-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Dompdf\\": "src/"
@@ -74,9 +69,9 @@
             "homepage": "https://github.com/dompdf/dompdf",
             "support": {
                 "issues": "https://github.com/dompdf/dompdf/issues",
-                "source": "https://github.com/dompdf/dompdf/tree/v1.0.2"
+                "source": "https://github.com/dompdf/dompdf/tree/v1.1.0"
             },
-            "time": "2021-01-08T14:18:52+00:00"
+            "time": "2021-11-16T18:39:01+00:00"
         },
         {
             "name": "drmonty/leaflet",
