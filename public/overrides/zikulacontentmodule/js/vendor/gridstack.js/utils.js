@@ -1,6 +1,6 @@
 "use strict";
 /**
- * utils.ts 4.3.1
+ * utils.ts 4.4.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -215,7 +215,7 @@ class Utils {
         }
         return true;
     }
-    /* copies over b size & position (GridStackPosition), and possibly min/max as well */
+    /** copies over b size & position (GridStackPosition), and possibly min/max as well */
     static copyPos(a, b, minMax = false) {
         a.x = b.x;
         a.y = b.y;
@@ -233,7 +233,7 @@ class Utils {
             a.maxH = b.maxH;
         return a;
     }
-    /* true if a and b has same size & position */
+    /** true if a and b has same size & position */
     static samePos(a, b) {
         return a && b && a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h;
     }
@@ -297,7 +297,7 @@ class Utils {
     /** @internal returns the passed element if scrollable, else the closest parent that will, up to the entire document scrolling element */
     static getScrollElement(el) {
         if (!el)
-            return document.scrollingElement;
+            return document.scrollingElement || document.documentElement; // IE support
         const style = getComputedStyle(el);
         const overflowRegex = /(auto|scroll)/;
         if (overflowRegex.test(style.overflow + style.overflowY)) {

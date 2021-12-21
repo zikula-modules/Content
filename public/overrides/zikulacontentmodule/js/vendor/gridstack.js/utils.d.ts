@@ -1,5 +1,5 @@
 /**
- * utils.ts 4.3.1
+ * utils.ts 4.4.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackElement, GridStackNode, GridStackOptions, numberOrString, GridStackPosition, GridStackWidget } from './types';
@@ -52,7 +52,9 @@ export declare class Utils {
     static defaults(target: any, ...sources: any[]): {};
     /** given 2 objects return true if they have the same values. Checks for Object {} having same fields and values (just 1 level down) */
     static same(a: unknown, b: unknown): boolean;
+    /** copies over b size & position (GridStackPosition), and possibly min/max as well */
     static copyPos(a: GridStackWidget, b: GridStackWidget, minMax?: boolean): GridStackWidget;
+    /** true if a and b has same size & position */
     static samePos(a: GridStackPosition, b: GridStackPosition): boolean;
     /** removes field from the first object if same as the second objects (like diffing) and internal '_' for saving */
     static removeInternalAndSame(a: unknown, b: unknown): void;

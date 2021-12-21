@@ -1,11 +1,4 @@
 "use strict";
-/*!
- * GridStack 4.3.1
- * https://gridstackjs.com/
- *
- * Copyright (c) 2021 Alain Dumesny
- * see root license https://github.com/gridstack/gridstack.js/tree/master/LICENSE
- */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
@@ -18,6 +11,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridStack = void 0;
+/*!
+ * GridStack 4.4.0
+ * https://gridstackjs.com/
+ *
+ * Copyright (c) 2021 Alain Dumesny
+ * see root license https://github.com/gridstack/gridstack.js/tree/master/LICENSE
+ */
 const gridstack_engine_1 = require("./gridstack-engine");
 const utils_1 = require("./utils");
 const gridstack_ddi_1 = require("./gridstack-ddi");
@@ -155,6 +155,8 @@ class GridStack {
                 this.engine.nodes.forEach(n => { maxH = Math.max(maxH, n.y + n.h); });
                 cbNodes.forEach(n => {
                     let el = n.el;
+                    if (!el)
+                        return;
                     if (n._removeDOM) {
                         if (el)
                             el.remove();
@@ -264,7 +266,7 @@ class GridStack {
         // create the grid element, but check if the passed 'parent' already has grid styling and should be used instead
         let el = parent;
         if (!parent.classList.contains('grid-stack')) {
-            let doc = document.implementation.createHTMLDocument();
+            let doc = document.implementation.createHTMLDocument(''); // IE needs a param
             doc.body.innerHTML = `<div class="grid-stack ${opt.class || ''}"></div>`;
             el = doc.body.children[0];
             parent.appendChild(el);
@@ -321,14 +323,14 @@ class GridStack {
         }
         let el;
         if (typeof els === 'string') {
-            let doc = document.implementation.createHTMLDocument();
+            let doc = document.implementation.createHTMLDocument(''); // IE needs a param
             doc.body.innerHTML = els;
             el = doc.body.children[0];
         }
         else if (arguments.length === 0 || arguments.length === 1 && isGridStackWidget(els)) {
             let content = els ? els.content || '' : '';
             options = els;
-            let doc = document.implementation.createHTMLDocument();
+            let doc = document.implementation.createHTMLDocument(''); // IE needs a param
             doc.body.innerHTML = `<div class="grid-stack-item ${this.opts.itemClass || ''}"><div class="grid-stack-item-content">${content}</div></div>`;
             el = doc.body.children[0];
         }
@@ -581,7 +583,7 @@ class GridStack {
      * Note: items will never be outside of the current column boundaries. default (moveScale). Ignored for 1 column
      */
     column(column, layout = 'moveScale') {
-        if (this.opts.column === column)
+        if (column < 1 || this.opts.column === column)
             return this;
         let oldColumn = this.opts.column;
         // if we go into 1 column mode (which happens if we're sized less than minW unless disableOneColumnMode is on)
