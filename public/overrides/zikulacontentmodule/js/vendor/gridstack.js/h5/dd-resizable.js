@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-resizable.ts 4.4.0
+ * dd-resizable.ts 4.4.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });

@@ -1,5 +1,5 @@
 /**
- * utils.ts 4.4.0
+ * utils.ts 4.4.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackElement, GridStackNode, GridStackOptions, numberOrString, GridStackPosition, GridStackWidget } from './types';

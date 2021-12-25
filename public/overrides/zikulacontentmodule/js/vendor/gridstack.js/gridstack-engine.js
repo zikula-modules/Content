@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-engine.ts 4.4.0
+ * gridstack-engine.ts 4.4.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -252,7 +252,7 @@ class GridStackEngine {
     /** @internal called to top gravity pack the items back OR revert back to original Y positions when floating */
     _packNodes() {
         if (this.batchMode) {
-            return;
+            return this;
         }
         this._sortNodes(); // first to last
         if (this.float) {

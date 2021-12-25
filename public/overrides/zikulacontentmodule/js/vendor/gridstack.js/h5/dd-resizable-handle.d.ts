@@ -1,5 +1,5 @@
 /**
- * dd-resizable-handle.ts 4.4.0
+ * dd-resizable-handle.ts 4.4.1
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 export interface DDResizableHandleOpt {
