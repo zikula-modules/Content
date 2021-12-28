@@ -443,6 +443,10 @@ class PageController extends AbstractPageController
         HookHelper $hookHelper,
         string $slug = ''
     ): RedirectResponse {
+        if (!$this->isCsrfTokenValid('duplicate-page', $request->query->get('token'))) {
+            throw new AccessDeniedException();
+        }
+
         return $this->duplicateInternal($request, $router, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, true);
     }
 
@@ -462,6 +466,10 @@ class PageController extends AbstractPageController
         HookHelper $hookHelper,
         string $slug = ''
     ): RedirectResponse {
+        if (!$this->isCsrfTokenValid('duplicate-page', $request->query->get('token'))) {
+            throw new AccessDeniedException();
+        }
+
         return $this->duplicateInternal($request, $router, $permissionHelper, $entityFactory, $workflowHelper, $modelHelper, $hookHelper, $slug, false);
     }
 

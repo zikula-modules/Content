@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Zikula\ContentModule\Menu;
 
 use Knp\Menu\ItemInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\ContentModule\Entity\PageEntity;
 use Zikula\ContentModule\Menu\Base\AbstractMenuBuilder;
@@ -31,6 +32,11 @@ class MenuBuilder extends AbstractMenuBuilder
      * @var TranslatorInterface
      */
     private $translator;
+
+    /**
+     * @var CsrfTokenManagerInterface
+     */
+    private $csrfTokenManager;
 
     /**
      * @var bool
@@ -95,9 +101,11 @@ class MenuBuilder extends AbstractMenuBuilder
             ;
         }
         if ($hasEditPermissions) {
+            $routeParameters = $entity->createUrlArgs();
+            $routeParameters['token'] = $this->getCsrfToken('duplicate-page');
             $menu->addChild('Duplicate', [
                 'route' => $routePrefix . $routeArea . 'duplicate',
-                'routeParameters' => $entity->createUrlArgs(),
+                'routeParameters' => $routeParameters,
             ])
                 ->setLinkAttribute(
                     'title',
@@ -135,9 +143,16 @@ class MenuBuilder extends AbstractMenuBuilder
      */
     public function setAdditionalDependencies(
         TranslatorInterface $translator,
-        VariableApiInterface $variableApi
+        CsrfTokenManagerInterface $csrfTokenManager,
+        VariableApiInterface $variableApi,
     ): void {
         $this->translator = $translator;
+        $this->csrfTokenManager = $csrfTokenManager;
         $this->multilingual = $variableApi->getSystemVar('multilingual', true);
+    }
+
+    private function getCsrfToken(string $tokenId): string
+    {
+        return $this->csrfTokenManager->getToken($tokenId)->getValue();
     }
 }
