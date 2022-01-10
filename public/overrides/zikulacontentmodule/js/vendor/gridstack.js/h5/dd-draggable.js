@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-draggable.ts 4.4.1
+ * dd-draggable.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -173,16 +173,21 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _setupHelperStyle() {
-        this.helper.style.pointerEvents = 'none';
-        this.helper.style.width = this.dragOffset.width + 'px';
-        this.helper.style.height = this.dragOffset.height + 'px';
-        this.helper.style.willChange = 'left, top';
-        this.helper.style.transition = 'none'; // show up instantly
-        this.helper.style.position = this.option.basePosition || DDDraggable.basePosition;
-        this.helper.style.zIndex = '1000';
+        // TODO: set all at once with style.cssText += ... ? https://stackoverflow.com/questions/3968593
+        const rec = this.helper.getBoundingClientRect();
+        const style = this.helper.style;
+        style.pointerEvents = 'none';
+        style['min-width'] = 0; // since we no longer relative to our parent and we don't resize anyway (normally 100/#column %)
+        style.width = this.dragOffset.width + 'px';
+        style.height = this.dragOffset.height + 'px';
+        style.willChange = 'left, top';
+        style.position = 'fixed'; // let us drag between grids by not clipping as parent .grid-stack is position: 'relative'
+        style.left = rec.left + 'px';
+        style.top = rec.top + 'px';
+        style.transition = 'none'; // show up instantly
         setTimeout(() => {
             if (this.helper) {
-                this.helper.style.transition = null; // recover animation
+                style.transition = null; // recover animation
             }
         }, 0);
         return this;
@@ -191,10 +196,17 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     _removeHelperStyle() {
         // don't bother restoring styles if we're gonna remove anyway...
         let node = this.helper ? this.helper.gridstackNode : undefined;
-        if (!node || !node._isAboutToRemove) {
+        if (this.dragElementOriginStyle && (!node || !node._isAboutToRemove)) {
             DDDraggable.originStyleProp.forEach(prop => {
                 this.helper.style[prop] = this.dragElementOriginStyle[prop] || null;
             });
+            // show up instantly otherwise we animate to off the grid when switching back to 'absolute' from 'fixed'
+            this.helper.style.transition = 'none';
+            setTimeout(() => {
+                if (this.helper) {
+                    this.helper.style.transition = this.dragElementOriginStyle['transition']; // recover animation
+                }
+            }, 0);
         }
         delete this.dragElementOriginStyle;
         return this;
@@ -219,7 +231,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     /** @internal */
     _setupHelperContainmentStyle() {
         this.helperContainment = this.helper.parentElement;
-        if (this.option.basePosition !== 'fixed') {
+        if (this.helper.style.position !== 'fixed') {
             this.parentOriginStylePosition = this.helperContainment.style.position;
             if (window.getComputedStyle(this.helperContainment).position.match(/static/)) {
                 this.helperContainment.style.position = 'relative';
@@ -227,10 +239,10 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
         }
         return this;
     }
-    /** @internal prevent the default gost image to be created (which has wrongas we move the helper/element instead
+    /** @internal prevent the default ghost image to be created (which has wrong as we move the helper/element instead
      * (legacy jquery UI code updates the top/left of the item).
      * TODO: maybe use mouse event instead of HTML5 drag as we have to work around it anyway, or change code to not update
-     * the actual grid-item but move the gost image around (and special case jq version) ?
+     * the actual grid-item but move the ghost image around (and special case jq version) ?
      **/
     _cancelDragGhost(e) {
         /* doesn't seem to do anything...
@@ -285,11 +297,9 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     }
 }
 exports.DDDraggable = DDDraggable;
-/** @internal */
-DDDraggable.basePosition = 'absolute';
 /** @internal #1541 can't have {passive: true} on Safari as otherwise it reverts animate back to old location on drop */
 DDDraggable.dragEventListenerOption = true; // DDUtils.isEventSupportPassiveOption ? { capture: true, passive: true } : true;
 /** @internal */
 DDDraggable.originStyleProp = ['transition', 'pointerEvents', 'position',
-    'left', 'top', 'opacity', 'zIndex', 'width', 'height', 'willChange'];
+    'left', 'top', 'opacity', 'zIndex', 'width', 'height', 'willChange', 'min-width'];
 //# sourceMappingURL=dd-draggable.js.map

@@ -1,5 +1,5 @@
 /**
- * dd-resizable.ts 4.4.1
+ * dd-resizable.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { DDBaseImplement, HTMLElementExtendOpt } from './dd-base-impl';
@@ -11,7 +11,6 @@ export interface DDResizableOpt {
     maxWidth?: number;
     minHeight?: number;
     minWidth?: number;
-    basePosition?: 'fixed' | 'absolute';
     start?: (event: Event, ui: DDUIData) => void;
     stop?: (event: Event) => void;
     resize?: (event: Event, ui: DDUIData) => void;

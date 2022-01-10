@@ -1,6 +1,6 @@
 "use strict";
 /**
- * dd-resizable.ts 4.4.1
+ * dd-resizable.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -188,9 +188,8 @@ class DDResizable extends dd_base_impl_1.DDBaseImplement {
         if (window.getComputedStyle(this.el.parentElement).position.match(/static/)) {
             this.el.parentElement.style.position = 'relative';
         }
-        this.el.style.position = this.option.basePosition || 'absolute'; // or 'fixed'
+        this.el.style.position = 'absolute';
         this.el.style.opacity = '0.8';
-        this.el.style.zIndex = '1000';
         return this;
     }
     /** @internal */

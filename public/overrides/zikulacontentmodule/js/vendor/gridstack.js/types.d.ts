@@ -1,5 +1,5 @@
 /**
- * types.ts 4.4.1
+ * types.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStack } from './gridstack';
@@ -53,8 +53,11 @@ export interface GridStackOptions {
     cellHeightUnit?: string;
     /** list of children item to create when calling load() or addGrid() */
     children?: GridStackWidget[];
-    /** number of columns (default?: 12). Note: IF you change this, CSS also have to change. See https://github.com/gridstack/gridstack.js#change-grid-columns */
-    column?: number;
+    /** number of columns (default?: 12). Note: IF you change this, CSS also have to change. See https://github.com/gridstack/gridstack.js#change-grid-columns.
+     * Note: for nested grids, it is recommended to use 'auto' which will always match the container grid-item current width (in column) to keep inside and outside
+     * items always to same. flag is ignored for non nested grids.
+     */
+    column?: number | 'auto';
     /** additional class on top of '.grid-stack' (which is required for our CSS) to differentiate this instance.
     Note: only used by addGrid(), else your element should have the needed class */
     class?: string;
@@ -81,6 +84,8 @@ export interface GridStackOptions {
     handle?: string;
     /** draggable handle class (e.g. 'grid-stack-item-content'). If set 'handle' is ignored (default?: null) */
     handleClass?: string;
+    /** id used to debug grid instance, not currently stored in DOM attributes */
+    id?: numberOrString;
     /** additional widget class (default?: 'grid-stack-item') */
     itemClass?: string;
     /**

@@ -1,6 +1,6 @@
 "use strict";
 /**
- * gridstack-dd.ts 4.4.1
+ * gridstack-dd.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -9,6 +9,7 @@ exports.GridStackDD = void 0;
 const gridstack_ddi_1 = require("./gridstack-ddi");
 const gridstack_1 = require("./gridstack");
 const utils_1 = require("./utils");
+// TEST let count = 0;
 /**
  * Base class implementing common Grid drag'n'drop functionality, with domain specific subclass (h5 vs jq subclasses)
  */
@@ -30,7 +31,6 @@ exports.GridStackDD = GridStackDD;
 /********************************************************************************
  * GridStack code that is doing drag&drop extracted here so main class is smaller
  * for static grid that don't do any of this work anyway. Saves about 10k.
- * TODO: no code hint in code below as this is <any> so look at alternatives ?
  * https://www.typescriptlang.org/docs/handbook/declaration-merging.html
  * https://www.typescriptlang.org/docs/handbook/mixins.html
  ********************************************************************************/
@@ -42,16 +42,16 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
         return this;
     }
     // vars shared across all methods
-    let gridPos;
     let cellHeight, cellWidth;
     let onDrag = (event, el, helper) => {
         let node = el.gridstackNode;
         if (!node)
             return;
         helper = helper || el;
-        let rec = helper.getBoundingClientRect();
-        let left = rec.left - gridPos.left;
-        let top = rec.top - gridPos.top;
+        let parent = this.el.getBoundingClientRect();
+        let { top, left } = helper.getBoundingClientRect();
+        left -= parent.left;
+        top -= parent.top;
         let ui = { position: { top, left } };
         if (node._temporaryRemoved) {
             node.x = Math.max(0, Math.round(left / cellWidth));
@@ -88,6 +88,9 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
                 return true;
             if (!this.opts.acceptWidgets)
                 return false;
+            // prevent deeper nesting until rest of 992 can be fixed
+            if (node === null || node === void 0 ? void 0 : node.subGrid)
+                return false;
             // check for accept method or class matching
             let canAccept = true;
             if (typeof this.opts.acceptWidgets === 'function') {
@@ -109,6 +112,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
          * entering our grid area
          */
         .on(this.el, 'dropover', (event, el, helper) => {
+        // TEST console.log(`over ${this.el.gridstack.opts.id} ${count++}`);
         let node = el.gridstackNode;
         // ignore drop enter on ourself (unless we temporarily removed) which happens on a simple drag of our item
         if ((node === null || node === void 0 ? void 0 : node.grid) === this && !node._temporaryRemoved) {
@@ -121,13 +125,11 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
             let otherGrid = node.grid;
             otherGrid._leave(el, helper);
         }
-        // get grid screen coordinates and cell dimensions
-        let box = this.el.getBoundingClientRect();
-        gridPos = { top: box.top, left: box.left };
+        // cache cell dimensions (which don't change), position can animate if we removed an item in otherGrid that affects us...
         cellWidth = this.cellWidth();
         cellHeight = this.getCellHeight(true);
         // load any element attributes if we don't have a node
-        if (!node) { // @ts-ignore
+        if (!node) { // @ts-ignore private read only on ourself
             node = this._readAttr(el);
         }
         if (!node.grid) {
@@ -168,6 +170,7 @@ gridstack_1.GridStack.prototype._setupAcceptWidget = function () {
          * Leaving our grid area...
          */
         .on(this.el, 'dropout', (event, el, helper) => {
+        // TEST console.log(`out ${this.el.gridstack.opts.id} ${count++}`);
         let node = el.gridstackNode;
         if (!node)
             return false;

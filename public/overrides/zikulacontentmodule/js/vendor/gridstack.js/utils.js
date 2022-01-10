@@ -1,6 +1,6 @@
 "use strict";
 /**
- * utils.ts 4.4.1
+ * utils.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -258,11 +258,12 @@ class Utils {
             }
         }
     }
-    /** return the closest parent matching the given class */
+    /** return the closest parent (or itself) matching the given class */
     static closestByClass(el, name) {
-        while (el = el.parentElement) {
+        while (el) {
             if (el.classList.contains(name))
                 return el;
+            el = el.parentElement;
         }
         return null;
     }

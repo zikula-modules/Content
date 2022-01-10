@@ -12,7 +12,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridStack = void 0;
 /*!
- * GridStack 4.4.1
+ * GridStack 5.0
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -96,6 +96,10 @@ class GridStack {
             delete opts.row;
         }
         let rowAttr = utils_1.Utils.toNumber(el.getAttribute('gs-row'));
+        // flag only valid in sub-grids (handled by parent, not here)
+        if (opts.column === 'auto') {
+            delete opts.column;
+        }
         // elements attributes override any passed options (like CSS style) - merge the two together
         let defaults = Object.assign(Object.assign({}, utils_1.Utils.cloneDeep(GridDefaults)), { column: utils_1.Utils.toNumber(el.getAttribute('gs-column')) || 12, minRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-min-row')) || 0, maxRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-max-row')) || 0, staticGrid: utils_1.Utils.toBool(el.getAttribute('gs-static')) || false, _styleSheetClass: 'grid-stack-instance-' + (Math.random() * 10000).toFixed(0), alwaysShowResizeHandle: opts.alwaysShowResizeHandle || false, resizable: {
                 autoHide: !(opts.alwaysShowResizeHandle || false),
@@ -115,7 +119,7 @@ class GridStack {
         this.initMargin(); // part of settings defaults...
         // Now check if we're loading into 1 column mode FIRST so we don't do un-necessary work (like cellHeight = width / 12 then go 1 column)
         if (this.opts.column !== 1 && !this.opts.disableOneColumnMode && this._widthOrContainer() <= this.opts.minWidth) {
-            this._prevColumn = this.opts.column;
+            this._prevColumn = this.getColumn();
             this.opts.column = 1;
         }
         if (this.opts.rtl === 'auto') {
@@ -129,6 +133,7 @@ class GridStack {
         if (parentGridItemEl && parentGridItemEl.gridstackNode) {
             this.opts._isNested = parentGridItemEl.gridstackNode;
             this.opts._isNested.subGrid = this;
+            parentGridItemEl.classList.add('grid-stack-nested');
             this.el.classList.add('grid-stack-nested');
         }
         this._isAutoCellHeight = (this.opts.cellHeight === 'auto');
@@ -147,7 +152,7 @@ class GridStack {
         this.el.classList.add(this.opts._styleSheetClass);
         this._setStaticClass();
         this.engine = new gridstack_engine_1.GridStackEngine({
-            column: this.opts.column,
+            column: this.getColumn(),
             float: this.opts.float,
             maxRow: this.opts.maxRow,
             onChange: (cbNodes) => {
@@ -178,7 +183,7 @@ class GridStack {
                 elements.push({
                     el,
                     // if x,y are missing (autoPosition) add them to end of list - but keep their respective DOM order
-                    i: (Number.isNaN(x) ? 1000 : x) + (Number.isNaN(y) ? 1000 : y) * this.opts.column
+                    i: (Number.isNaN(x) ? 1000 : x) + (Number.isNaN(y) ? 1000 : y) * this.getColumn()
                 });
             });
             elements.sort((a, b) => a.i - b.i).forEach(e => this._prepareElement(e.el));
@@ -356,8 +361,19 @@ class GridStack {
         this._updateContainerHeight();
         // check if nested grid definition is present
         if (node.subGrid && !node.subGrid.el) { // see if there is a sub-grid to create too
+            // if column special case it set, remember that flag and set default
+            let autoColumn;
+            let ops = node.subGrid;
+            if (ops.column === 'auto') {
+                ops.column = node.w;
+                ops.disableOneColumnMode = true; // driven by parent
+                autoColumn = true;
+            }
             let content = node.el.querySelector('.grid-stack-item-content');
             node.subGrid = GridStack.addGrid(content, node.subGrid);
+            if (autoColumn) {
+                node.subGrid._autoColumn = true;
+            }
         }
         this._triggerAddEvent();
         this._triggerChangeEvent();
@@ -411,6 +427,10 @@ class GridStack {
             if (this._isAutoCellHeight) {
                 o.cellHeight = 'auto';
             }
+            if (this._autoColumn) {
+                o.column = 'auto';
+                delete o.disableOneColumnMode;
+            }
             utils_1.Utils.removeInternalAndSame(o, GridDefaults);
             o.children = list;
             return o;
@@ -428,7 +448,7 @@ class GridStack {
      * see http://gridstackjs.com/demo/serialization.html
      **/
     load(layout, addAndRemove = true) {
-        let items = GridStack.Utils.sort([...layout], -1, this._prevColumn || this.opts.column); // make copy before we mod/sort
+        let items = GridStack.Utils.sort([...layout], -1, this._prevColumn || this.getColumn()); // make copy before we mod/sort
         this._insertNotAppend = true; // since create in reverse order...
         // if we're loading a layout into 1 column (_prevColumn is set only when going to 1) and items don't fit, make sure to save
         // the original wanted layout so we can scale back up correctly #1471
@@ -498,12 +518,15 @@ class GridStack {
             (!forcePixel || !this.opts.cellHeightUnit || this.opts.cellHeightUnit === 'px')) {
             return this.opts.cellHeight;
         }
-        // else do entire grid and # of rows
-        // or get first cell height ?
-        // let el = this.el.querySelector('.' + this.opts.itemClass) as HTMLElement;
-        // let height = Utils.toNumber(el.getAttribute('gs-h'));
-        // return Math.round(el.offsetHeight / height);
-        return Math.round(this.el.getBoundingClientRect().height) / parseInt(this.el.getAttribute('gs-current-row'));
+        // else get first cell height
+        let el = this.el.querySelector('.' + this.opts.itemClass);
+        if (el) {
+            let height = utils_1.Utils.toNumber(el.getAttribute('gs-h'));
+            return Math.round(el.offsetHeight / height);
+        }
+        // else do entire grid and # of rows (but doesn't work if min-height is the actual constrain)
+        let rows = parseInt(this.el.getAttribute('gs-current-row'));
+        return rows ? Math.round(this.el.getBoundingClientRect().height / rows) : this.opts.cellHeight;
     }
     /**
      * Update current cell height - see `GridStackOptions.cellHeight` for format.
@@ -549,7 +572,7 @@ class GridStack {
     }
     /** Gets current cell width. */
     cellWidth() {
-        return this._widthOrContainer() / this.opts.column;
+        return this._widthOrContainer() / this.getColumn();
     }
     /** return our expected width (or parent) for 1 column check */
     _widthOrContainer() {
@@ -585,7 +608,7 @@ class GridStack {
     column(column, layout = 'moveScale') {
         if (column < 1 || this.opts.column === column)
             return this;
-        let oldColumn = this.opts.column;
+        let oldColumn = this.getColumn();
         // if we go into 1 column mode (which happens if we're sized less than minW unless disableOneColumnMode is on)
         // then remember the original columns so we can restore.
         if (column === 1) {
@@ -694,7 +717,7 @@ class GridStack {
         }
         let relativeLeft = position.left - containerPos.left;
         let relativeTop = position.top - containerPos.top;
-        let columnWidth = (box.width / this.opts.column);
+        let columnWidth = (box.width / this.getColumn());
         let rowHeight = (box.height / parseInt(this.el.getAttribute('gs-current-row')));
         return { x: Math.floor(relativeLeft / columnWidth), y: Math.floor(relativeTop / rowHeight) };
     }
@@ -1100,13 +1123,15 @@ class GridStack {
             return this;
         let row = this.getRow() + this._extraDragRow; // checks for minRow already
         // check for css min height
-        let cssMinHeight = parseInt(getComputedStyle(this.el)['min-height']);
-        if (cssMinHeight > 0) {
-            let minRow = Math.round(cssMinHeight / this.getCellHeight(true));
-            if (row < minRow) {
-                row = minRow;
-            }
-        }
+        // Note: we don't handle %,rem correctly so comment out, beside we don't need need to create un-necessary
+        // rows as the CSS will make us bigger than our set height if needed... not sure why we had this.
+        // let cssMinHeight = parseInt(getComputedStyle(this.el)['min-height']);
+        // if (cssMinHeight > 0) {
+        //   let minRow = Math.round(cssMinHeight / this.getCellHeight(true));
+        //   if (row < minRow) {
+        //     row = minRow;
+        //   }
+        // }
         this.el.setAttribute('gs-current-row', String(row));
         if (row === 0) {
             this.el.style.removeProperty('height');
@@ -1222,33 +1247,43 @@ class GridStack {
     }
     /**
      * called when we are being resized by the window - check if the one Column Mode needs to be turned on/off
-     * and remember the prev columns we used, as well as check for auto cell height (square)
+     * and remember the prev columns we used, or get our count from parent, as well as check for auto cell height (square)
      */
     onParentResize() {
         if (!this.el || !this.el.clientWidth)
             return; // return if we're gone or no size yet (will get called again)
-        let oneColumn = !this.opts.disableOneColumnMode && this.el.clientWidth <= this.opts.minWidth;
-        let changedOneColumn = false;
-        if ((this.opts.column === 1) !== oneColumn) {
-            changedOneColumn = true;
-            if (this.opts.animate) {
-                this.setAnimation(false);
-            } // 1 <-> 12 is too radical, turn off animation
-            this.column(oneColumn ? 1 : this._prevColumn);
-            if (this.opts.animate) {
-                this.setAnimation(true);
+        let changedColumn = false;
+        // see if we're nested and take our column count from our parent....
+        if (this._autoColumn && this.opts._isNested) {
+            if (this.opts.column !== this.opts._isNested.w) {
+                changedColumn = true;
+                this.column(this.opts._isNested.w, 'none');
+            }
+        }
+        else {
+            // else check for 1 column in/out behavior
+            let oneColumn = !this.opts.disableOneColumnMode && this.el.clientWidth <= this.opts.minWidth;
+            if ((this.opts.column === 1) !== oneColumn) {
+                changedColumn = true;
+                if (this.opts.animate) {
+                    this.setAnimation(false);
+                } // 1 <-> 12 is too radical, turn off animation
+                this.column(oneColumn ? 1 : this._prevColumn);
+                if (this.opts.animate) {
+                    this.setAnimation(true);
+                }
             }
         }
         // make the cells content square again
         if (this._isAutoCellHeight) {
-            if (!changedOneColumn && this.opts.cellHeightThrottle) {
+            if (!changedColumn && this.opts.cellHeightThrottle) {
                 if (!this._cellHeightThrottle) {
                     this._cellHeightThrottle = utils_1.Utils.throttle(() => this.cellHeight(), this.opts.cellHeightThrottle);
                 }
                 this._cellHeightThrottle();
             }
             else {
-                // immediate update if we've changed to/from oneColumn or have no threshold
+                // immediate update if we've changed column count or have no threshold
                 this.cellHeight();
             }
         }

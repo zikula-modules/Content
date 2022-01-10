@@ -1,5 +1,5 @@
 /**
- * dd-droppable.ts 4.4.1
+ * dd-droppable.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { DDBaseImplement, HTMLElementExtendOpt } from './dd-base-impl';
@@ -13,6 +13,7 @@ export declare class DDDroppable extends DDBaseImplement implements HTMLElementE
     accept: (el: HTMLElement) => boolean;
     el: HTMLElement;
     option: DDDroppableOpt;
+    private static lastActive;
     constructor(el: HTMLElement, opts?: DDDroppableOpt);
     on(event: 'drop' | 'dropover' | 'dropout', callback: (event: DragEvent) => void): void;
     off(event: 'drop' | 'dropover' | 'dropout'): void;

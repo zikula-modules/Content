@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DDUtils = void 0;
 /**
- * dd-utils.ts 4.4.1
+ * dd-utils.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 class DDUtils {
@@ -62,6 +62,18 @@ class DDUtils {
         ['altKey', 'ctrlKey', 'metaKey', 'shiftKey'].forEach(p => evt[p] = e[p]); // keys
         ['pageX', 'pageY', 'clientX', 'clientY', 'screenX', 'screenY'].forEach(p => evt[p] = e[p]); // point info
         return Object.assign(Object.assign({}, evt), obj);
+    }
+    /** returns true if event is inside the given element rectangle */
+    // Note: Safari Mac has null event.relatedTarget which causes #1684 so check if DragEvent is inside the coordinates instead
+    //    this.el.contains(event.relatedTarget as HTMLElement)
+    static inside(e, el) {
+        // srcElement, toElement, target: all set to placeholder when leaving simple grid, so we can't use that (Chrome)
+        let target = e.relatedTarget || e.fromElement;
+        if (!target) {
+            const { bottom, left, right, top } = el.getBoundingClientRect();
+            return (e.x < right && e.x > left && e.y < bottom && e.y > top);
+        }
+        return el.contains(target);
     }
 }
 exports.DDUtils = DDUtils;

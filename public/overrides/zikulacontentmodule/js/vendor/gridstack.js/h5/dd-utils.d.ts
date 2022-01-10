@@ -1,5 +1,5 @@
 /**
- * dd-utils.ts 4.4.1
+ * dd-utils.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 export declare class DDUtils {
@@ -14,4 +14,6 @@ export declare class DDUtils {
         type: string;
         target?: EventTarget;
     }): T;
+    /** returns true if event is inside the given element rectangle */
+    static inside(e: MouseEvent, el: HTMLElement): boolean;
 }

@@ -1,5 +1,5 @@
 /*!
- * GridStack 4.4.1
+ * GridStack 5.0
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021 Alain Dumesny
@@ -290,7 +290,7 @@ export declare class GridStack {
     willItFit(node: GridStackWidget): boolean;
     /**
      * called when we are being resized by the window - check if the one Column Mode needs to be turned on/off
-     * and remember the prev columns we used, as well as check for auto cell height (square)
+     * and remember the prev columns we used, or get our count from parent, as well as check for auto cell height (square)
      */
     onParentResize(): GridStack;
     /** add or remove the window size event handler */

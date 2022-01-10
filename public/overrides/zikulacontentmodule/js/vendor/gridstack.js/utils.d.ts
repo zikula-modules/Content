@@ -1,5 +1,5 @@
 /**
- * utils.ts 4.4.1
+ * utils.ts 5.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStackElement, GridStackNode, GridStackOptions, numberOrString, GridStackPosition, GridStackWidget } from './types';
@@ -58,7 +58,7 @@ export declare class Utils {
     static samePos(a: GridStackPosition, b: GridStackPosition): boolean;
     /** removes field from the first object if same as the second objects (like diffing) and internal '_' for saving */
     static removeInternalAndSame(a: unknown, b: unknown): void;
-    /** return the closest parent matching the given class */
+    /** return the closest parent (or itself) matching the given class */
     static closestByClass(el: HTMLElement, name: string): HTMLElement;
     /** delay calling the given function for given delay, preventing new calls from happening while waiting */
     static throttle(func: () => void, delay: number): () => void;
