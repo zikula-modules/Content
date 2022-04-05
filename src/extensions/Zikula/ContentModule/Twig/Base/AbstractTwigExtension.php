@@ -296,7 +296,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
         EntityAccess $node,
         string $target,
         bool $skipRootNode = true
-    ): array {
+    ): ?array {
         $repository = $this->entityFactory->getRepository($objectType);
         $titleFieldName = $this->entityDisplayHelper->getTitleFieldName($objectType);
     
