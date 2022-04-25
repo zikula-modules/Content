@@ -75,16 +75,16 @@
         },
         {
             "name": "drmonty/leaflet",
-            "version": "1.7.1",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrohnstock/leaflet.git",
-                "reference": "49629790f19729ed4abc647cf7418c1dba9edb1f"
+                "reference": "4d359b445f1a2e2153f7cefcabf0637f5a456208"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrohnstock/leaflet/zipball/49629790f19729ed4abc647cf7418c1dba9edb1f",
-                "reference": "49629790f19729ed4abc647cf7418c1dba9edb1f",
+                "url": "https://api.github.com/repos/mrohnstock/leaflet/zipball/4d359b445f1a2e2153f7cefcabf0637f5a456208",
+                "reference": "4d359b445f1a2e2153f7cefcabf0637f5a456208",
                 "shasum": ""
             },
             "type": "component",
@@ -110,9 +110,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mrohnstock/leaflet/issues",
-                "source": "https://github.com/mrohnstock/leaflet/tree/1.7.1"
+                "source": "https://github.com/mrohnstock/leaflet/tree/1.8.0"
             },
-            "time": "2020-09-04T06:32:09+00:00"
+            "time": "2022-04-25T06:46:38+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -345,5 +345,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
