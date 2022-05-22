@@ -1,16 +1,17 @@
 /**
- * gridstack-engine.ts 5.0
- * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ * gridstack-engine.ts 5.1.0
+ * Copyright (c) 2021-2022 Alain Dumesny - see GridStack root license
  */
 import { GridStackNode, GridStackPosition, GridStackMoveOpts } from './types';
-export declare type onChangeCB = (nodes: GridStackNode[], removeDOM?: boolean) => void;
-/** options used for creations - similar to GridStackOptions */
+/** callback to update the DOM attributes since this class is generic (no HTML or other info) for items that changed - see _notify() */
+declare type OnChangeCB = (nodes: GridStackNode[]) => void;
+/** options used during creation - similar to GridStackOptions */
 export interface GridStackEngineOptions {
     column?: number;
     maxRow?: number;
     float?: boolean;
     nodes?: GridStackNode[];
-    onChange?: onChangeCB;
+    onChange?: OnChangeCB;
 }
 /**
  * Defines the GridStack engine that does most no DOM grid manipulation.
@@ -22,14 +23,13 @@ export declare class GridStackEngine {
     column: number;
     maxRow: number;
     nodes: GridStackNode[];
-    onChange: onChangeCB;
     addedNodes: GridStackNode[];
     removedNodes: GridStackNode[];
     batchMode: boolean;
     constructor(opts?: GridStackEngineOptions);
     batchUpdate(): GridStackEngine;
     commit(): GridStackEngine;
-    private _useEntireRowArea;
+    protected _useEntireRowArea(node: GridStackNode, nn: GridStackPosition): boolean;
     /** return the nodes that intercept the given node. Optionally a different area can be used, as well as a second node to skip */
     collide(skip: GridStackNode, area?: GridStackNode, skip2?: GridStackNode): GridStackNode;
     collideAll(skip: GridStackNode, area?: GridStackNode, skip2?: GridStackNode): GridStackNode[];
@@ -46,6 +46,8 @@ export declare class GridStackEngine {
     set float(val: boolean);
     /** float getter method */
     get float(): boolean;
+    /** sort the nodes array from first to last, or reverse. Called during collision/placement to force an order */
+    sortNodes(dir?: -1 | 1): GridStackEngine;
     /**
      * given a random node, makes sure it's coordinates/values are valid in the current grid
      * @param node to adjust
@@ -54,6 +56,7 @@ export declare class GridStackEngine {
     prepareNode(node: GridStackNode, resizing?: boolean): GridStackNode;
     /** part2 of preparing a node to fit inside our grid - checks  for x,y from grid dimensions */
     nodeBoundFix(node: GridStackNode, resizing?: boolean): GridStackNode;
+    /** returns a list of modified nodes from their original values */
     getDirtyNodes(verify?: boolean): GridStackNode[];
     /** call to add the given node to our list, fixing collision and re-packing */
     addNode(node: GridStackNode, triggerAddEvent?: boolean): GridStackNode;
@@ -91,3 +94,4 @@ export declare class GridStackEngine {
     /** called to remove all internal values but the _id */
     cleanupNode(node: GridStackNode): GridStackEngine;
 }
+export {};

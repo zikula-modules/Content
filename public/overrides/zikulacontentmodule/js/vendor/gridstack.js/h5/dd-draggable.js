@@ -1,7 +1,7 @@
 "use strict";
 /**
- * dd-draggable.ts 5.0
- * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ * dd-draggable.ts 5.1.0
+ * Copyright (c) 2021-2022 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DDDraggable = void 0;
@@ -194,19 +194,16 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
     }
     /** @internal */
     _removeHelperStyle() {
+        var _a;
+        let node = (_a = this.helper) === null || _a === void 0 ? void 0 : _a.gridstackNode;
         // don't bother restoring styles if we're gonna remove anyway...
-        let node = this.helper ? this.helper.gridstackNode : undefined;
         if (this.dragElementOriginStyle && (!node || !node._isAboutToRemove)) {
-            DDDraggable.originStyleProp.forEach(prop => {
-                this.helper.style[prop] = this.dragElementOriginStyle[prop] || null;
-            });
+            let helper = this.helper;
+            DDDraggable.originStyleProp.forEach(prop => helper.style[prop] = this.dragElementOriginStyle[prop] || null);
             // show up instantly otherwise we animate to off the grid when switching back to 'absolute' from 'fixed'
-            this.helper.style.transition = 'none';
-            setTimeout(() => {
-                if (this.helper) {
-                    this.helper.style.transition = this.dragElementOriginStyle['transition']; // recover animation
-                }
-            }, 0);
+            helper.style.transition = 'none';
+            let transition = this.dragElementOriginStyle['transition'] || null;
+            setTimeout(() => helper.style.transition = transition, 0); // recover animation from saved vars
         }
         delete this.dragElementOriginStyle;
         return this;
@@ -299,7 +296,7 @@ class DDDraggable extends dd_base_impl_1.DDBaseImplement {
 exports.DDDraggable = DDDraggable;
 /** @internal #1541 can't have {passive: true} on Safari as otherwise it reverts animate back to old location on drop */
 DDDraggable.dragEventListenerOption = true; // DDUtils.isEventSupportPassiveOption ? { capture: true, passive: true } : true;
-/** @internal */
+/** @internal properties we change during dragging, and restore back */
 DDDraggable.originStyleProp = ['transition', 'pointerEvents', 'position',
     'left', 'top', 'opacity', 'zIndex', 'width', 'height', 'willChange', 'min-width'];
 //# sourceMappingURL=dd-draggable.js.map

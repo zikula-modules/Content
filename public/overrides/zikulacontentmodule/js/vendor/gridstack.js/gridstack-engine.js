@@ -1,7 +1,7 @@
 "use strict";
 /**
- * gridstack-engine.ts 5.0
- * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ * gridstack-engine.ts 5.1.0
+ * Copyright (c) 2021-2022 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridStackEngine = void 0;
@@ -17,10 +17,10 @@ class GridStackEngine {
         this.addedNodes = [];
         this.removedNodes = [];
         this.column = opts.column || 12;
-        this.onChange = opts.onChange;
-        this._float = opts.float;
         this.maxRow = opts.maxRow;
+        this._float = opts.float;
         this.nodes = opts.nodes || [];
+        this.onChange = opts.onChange;
     }
     batchUpdate() {
         if (this.batchMode)
@@ -28,8 +28,7 @@ class GridStackEngine {
         this.batchMode = true;
         this._prevFloat = this._float;
         this._float = true; // let things go anywhere for now... commit() will restore and possibly reposition
-        this.saveInitial(); // since begin update (which is called multiple times) won't do this
-        return this;
+        return this.saveInitial(); // since begin update (which is called multiple times) won't do this
     }
     commit() {
         if (!this.batchMode)
@@ -47,7 +46,7 @@ class GridStackEngine {
     /** @internal fix collision on given 'node', going to given new location 'nn', with optional 'collide' node already found.
      * return true if we moved. */
     _fixCollisions(node, nn = node, collide, opt = {}) {
-        this._sortNodes(-1); // from last to first, so recursive collision move items in the right order
+        this.sortNodes(-1); // from last to first, so recursive collision move items in the right order
         collide = collide || this.collide(node, nn); // REAL area collide for swap and skip if none...
         if (!collide)
             return false;
@@ -221,7 +220,7 @@ class GridStackEngine {
         if (this.nodes.length === 0)
             return this;
         this.batchUpdate()
-            ._sortNodes();
+            .sortNodes();
         let copyNodes = this.nodes;
         this.nodes = []; // pretend we have no nodes to conflict layout to start with...
         copyNodes.forEach(node => {
@@ -244,8 +243,8 @@ class GridStackEngine {
     }
     /** float getter method */
     get float() { return this._float || false; }
-    /** @internal */
-    _sortNodes(dir) {
+    /** sort the nodes array from first to last, or reverse. Called during collision/placement to force an order */
+    sortNodes(dir) {
         this.nodes = utils_1.Utils.sort(this.nodes, dir, this.column);
         return this;
     }
@@ -254,7 +253,7 @@ class GridStackEngine {
         if (this.batchMode) {
             return this;
         }
-        this._sortNodes(); // first to last
+        this.sortNodes(); // first to last
         if (this.float) {
             // restore original Y pos
             this.nodes.forEach(n => {
@@ -405,6 +404,7 @@ class GridStackEngine {
         }
         return node;
     }
+    /** returns a list of modified nodes from their original values */
     getDirtyNodes(verify) {
         // compare original x,y,w,h instead as _dirty can be a temporary state
         if (verify) {
@@ -412,13 +412,12 @@ class GridStackEngine {
         }
         return this.nodes.filter(n => n._dirty);
     }
-    /** @internal call this to call onChange CB with dirty nodes */
-    _notify(nodes, removeDOM = true) {
-        if (this.batchMode)
+    /** @internal call this to call onChange callback with dirty nodes so DOM can be updated */
+    _notify(removedNodes) {
+        if (this.batchMode || !this.onChange)
             return this;
-        nodes = (nodes === undefined ? [] : (Array.isArray(nodes) ? nodes : [nodes]));
-        let dirtyNodes = nodes.concat(this.getDirtyNodes());
-        this.onChange && this.onChange(dirtyNodes, removeDOM);
+        let dirtyNodes = (removedNodes || []).concat(this.getDirtyNodes());
+        this.onChange(dirtyNodes);
         return this;
     }
     /** @internal remove dirty and last tried info */
@@ -463,7 +462,7 @@ class GridStackEngine {
         delete node._temporaryRemoved;
         delete node._removeDOM;
         if (node.autoPosition) {
-            this._sortNodes();
+            this.sortNodes();
             for (let i = 0;; ++i) {
                 let x = i % this.column;
                 let y = Math.floor(i / this.column);
@@ -502,7 +501,7 @@ class GridStackEngine {
         // don't use 'faster' .splice(findIndex(),1) in case node isn't in our list, or in multiple times.
         this.nodes = this.nodes.filter(n => n !== node);
         return this._packNodes()
-            ._notify(node);
+            ._notify([node]);
     }
     removeAll(removeDOM = true) {
         delete this._layouts;
@@ -522,7 +521,7 @@ class GridStackEngine {
             return false;
         o.pack = true;
         // simpler case: move item directly...
-        if (!this.maxRow /* && !this._hasLocked*/) {
+        if (!this.maxRow) {
             return this.moveNode(node, o);
         }
         // complex case: create a clone with NO maxRow (will check for out of bounds at the end)
@@ -540,17 +539,14 @@ class GridStackEngine {
         });
         if (!clonedNode)
             return false;
-        let canMove = clone.moveNode(clonedNode, o);
-        // if maxRow make sure we are still valid size
-        if (this.maxRow && canMove) {
-            canMove = (clone.getRow() <= this.maxRow);
-            // turns out we can't grow, then see if we can swap instead (ex: full grid) if we're not resizing
-            if (!canMove && !o.resizing) {
-                let collide = this.collide(node, o);
-                if (collide && this.swap(node, collide)) {
-                    this._notify();
-                    return true;
-                }
+        // make sure we are still valid size
+        let canMove = clone.moveNode(clonedNode, o) && clone.getRow() <= this.maxRow;
+        // turns out we can't grow, then see if we can swap instead (ex: full grid) if we're not resizing
+        if (!canMove && !o.resizing) {
+            let collide = this.collide(node, o);
+            if (collide && this.swap(node, collide)) {
+                this._notify();
+                return true;
             }
         }
         if (!canMove)
@@ -593,7 +589,7 @@ class GridStackEngine {
     }
     /** true if x,y or w,h are different after clamping to min/max */
     changedPosConstrain(node, p) {
-        // make sure w,h are set
+        // first make sure w,h are set for caller
         p.w = p.w || node.w;
         p.h = p.h || node.h;
         if (node.x !== p.x || node.y !== p.y)
@@ -640,13 +636,8 @@ class GridStackEngine {
         if (utils_1.Utils.samePos(node, o))
             return false;
         let prevPos = utils_1.Utils.copyPos({}, node);
-        // during while() collisions make sure to check entire row so larger items don't leap frog small ones (push them all down)
-        let area = nn;
-        // if (this._useEntireRowArea(node, nn)) {
-        //   area = {x: 0, w: this.column, y: nn.y, h: nn.h};
-        // }
         // check if we will need to fix collision at our new location
-        let collides = this.collideAll(node, area, o.skip);
+        let collides = this.collideAll(node, nn, o.skip);
         let needToMove = true;
         if (collides.length) {
             // now check to make sure we actually collided over 50% surface area while dragging
@@ -697,7 +688,7 @@ class GridStackEngine {
         let len = (_a = this._layouts) === null || _a === void 0 ? void 0 : _a.length;
         let layout = len && this.column !== (len - 1) ? this._layouts[len - 1] : null;
         let list = [];
-        this._sortNodes();
+        this.sortNodes();
         this.nodes.forEach(n => {
             let wl = layout === null || layout === void 0 ? void 0 : layout.find(l => l._id === n._id);
             let w = Object.assign({}, n);

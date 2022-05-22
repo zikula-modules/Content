@@ -1,6 +1,6 @@
 "use strict";
 /**
- * utils.ts 5.0
+ * utils.ts 5.1.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -216,21 +216,21 @@ class Utils {
         return true;
     }
     /** copies over b size & position (GridStackPosition), and possibly min/max as well */
-    static copyPos(a, b, minMax = false) {
+    static copyPos(a, b, doMinMax = false) {
         a.x = b.x;
         a.y = b.y;
         a.w = b.w;
         a.h = b.h;
-        if (!minMax)
-            return a;
-        if (b.minW)
-            a.minW = b.minW;
-        if (b.minH)
-            a.minH = b.minH;
-        if (b.maxW)
-            a.maxW = b.maxW;
-        if (b.maxH)
-            a.maxH = b.maxH;
+        if (doMinMax) {
+            if (b.minW)
+                a.minW = b.minW;
+            if (b.minH)
+                a.minH = b.minH;
+            if (b.maxW)
+                a.maxW = b.maxW;
+            if (b.maxH)
+                a.maxH = b.maxH;
+        }
         return a;
     }
     /** true if a and b has same size & position */

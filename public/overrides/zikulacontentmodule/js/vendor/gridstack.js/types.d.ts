@@ -1,8 +1,9 @@
 /**
- * types.ts 5.0
+ * types.ts 5.1.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 import { GridStack } from './gridstack';
+import { GridStackEngine } from './gridstack-engine';
 /** different layout options when changing # of columns,
  * including a custom function that takes new/old column count, and array of new/old positions
  * Note: new list may be partially already filled if we have a cache of the layout at that size and new items were added later.
@@ -55,7 +56,7 @@ export interface GridStackOptions {
     children?: GridStackWidget[];
     /** number of columns (default?: 12). Note: IF you change this, CSS also have to change. See https://github.com/gridstack/gridstack.js#change-grid-columns.
      * Note: for nested grids, it is recommended to use 'auto' which will always match the container grid-item current width (in column) to keep inside and outside
-     * items always to same. flag is ignored for non nested grids.
+     * items always to same. flag is not supported for regular non-nested grids.
      */
     column?: number | 'auto';
     /** additional class on top of '.grid-stack' (which is required for our CSS) to differentiate this instance.
@@ -63,7 +64,7 @@ export interface GridStackOptions {
     class?: string;
     /** disallows dragging of widgets (default?: false) */
     disableDrag?: boolean;
-    /** disables the onColumnMode when the grid width is less than minWidth (default?: false) */
+    /** disables the onColumnMode when the grid width is less than oneColumnSize (default?: false) */
     disableOneColumnMode?: boolean;
     /** disallows resizing of widgets (default?: false). */
     disableResize?: boolean;
@@ -78,6 +79,8 @@ export interface GridStackOptions {
     dragInOptions?: DDDragInOpt;
     /** let user drag nested grid items out of a parent or not (default false) */
     dragOut?: boolean;
+    /** the type of engine to create (so you can subclass) default to GridStackEngine */
+    engineClass?: typeof GridStackEngine;
     /** enable floating widgets (default?: false) See example (http://gridstack.github.io/gridstack.js/demo/float.html) */
     float?: boolean;
     /** draggable handle selector (default?: '.grid-stack-item-content') */
@@ -109,8 +112,8 @@ export interface GridStackOptions {
      * on the grid div in pixels, which will round to the closest row.
      */
     minRow?: number;
-    /** minimal width. If grid width is less, grid will be shown in one column mode (default?: 768) */
-    minWidth?: number;
+    /** minimal width before grid will be shown in one column mode (default?: 768) */
+    oneColumnSize?: number;
     /**
      * set to true if you want oneColumnMode to use the DOM order and ignore x,y from normal multi column
      * layouts during sorting. This enables you to have custom 1 column layout that differ from the rest. (default?: false)

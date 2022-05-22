@@ -1,6 +1,6 @@
 /**
- * dd-base-impl.ts 5.0
- * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ * dd-base-impl.ts 5.1.0
+ * Copyright (c) 2021-2022 Alain Dumesny - see GridStack root license
  */
 export declare type EventCallback = (event: Event) => boolean | void;
 export declare abstract class DDBaseImplement {

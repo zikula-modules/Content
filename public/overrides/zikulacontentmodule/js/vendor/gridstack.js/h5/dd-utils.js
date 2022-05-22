@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DDUtils = void 0;
 /**
- * dd-utils.ts 5.0
+ * dd-utils.ts 5.1.0
  * Copyright (c) 2021 Alain Dumesny - see GridStack root license
  */
 class DDUtils {

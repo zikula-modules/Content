@@ -1,7 +1,7 @@
 "use strict";
 /**
- * gridstack-dd-native.ts 5.0
- * Copyright (c) 2021 Alain Dumesny - see GridStack root license
+ * gridstack-dd-native.ts 5.1.0
+ * Copyright (c) 2021-2022 Alain Dumesny - see GridStack root license
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;

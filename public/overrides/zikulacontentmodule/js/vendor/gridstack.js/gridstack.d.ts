@@ -1,8 +1,8 @@
 /*!
- * GridStack 5.0
+ * GridStack 5.1.0
  * https://gridstackjs.com/
  *
- * Copyright (c) 2021 Alain Dumesny
+ * Copyright (c) 2021-2022 Alain Dumesny
  * see root license https://github.com/gridstack/gridstack.js/tree/master/LICENSE
  */
 import { GridStackEngine } from './gridstack-engine';
@@ -70,6 +70,11 @@ export declare class GridStack {
      * @param opt grids options used to initialize the grid, and list of children
      */
     static addGrid(parent: HTMLElement, opt?: GridStackOptions): GridStack;
+    /** call this method to register your engine instead of the default one.
+     * See instead `GridStackOptions.engineClass` if you only need to
+     * replace just one instance.
+     */
+    static registerEngine(engineClass: typeof GridStackEngine): void;
     /** scoping so users can call GridStack.Utils.sort() for example */
     static Utils: typeof Utils;
     /** scoping so users can call new GridStack.Engine(12) for example */
@@ -80,6 +85,7 @@ export declare class GridStack {
     engine: GridStackEngine;
     /** grid options - public for classes to access, but use methods to modify! */
     opts: GridStackOptions;
+    protected static engineClass: typeof GridStackEngine;
     /**
      * Construct a grid item from the given element and options
      * @param el
@@ -149,7 +155,7 @@ export declare class GridStack {
     /** Gets current cell width. */
     cellWidth(): number;
     /** return our expected width (or parent) for 1 column check */
-    private _widthOrContainer;
+    protected _widthOrContainer(): number;
     /**
      * Finishes batch updates. Updates DOM nodes. You must call it after batchUpdate.
      */
@@ -294,7 +300,7 @@ export declare class GridStack {
      */
     onParentResize(): GridStack;
     /** add or remove the window size event handler */
-    private _updateWindowResizeEvent;
+    protected _updateWindowResizeEvent(forceRemove?: boolean): GridStack;
     /**
      * call to setup dragging in from the outside (say toolbar), by specifying the class selection and options.
      * Called during GridStack.init() as options, but can also be called directly (last param are cached) in case the toolbar

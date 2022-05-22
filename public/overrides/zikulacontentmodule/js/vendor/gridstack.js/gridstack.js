@@ -12,10 +12,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridStack = void 0;
 /*!
- * GridStack 5.0
+ * GridStack 5.1.0
  * https://gridstackjs.com/
  *
- * Copyright (c) 2021 Alain Dumesny
+ * Copyright (c) 2021-2022 Alain Dumesny
  * see root license https://github.com/gridstack/gridstack.js/tree/master/LICENSE
  */
 const gridstack_engine_1 = require("./gridstack-engine");
@@ -41,7 +41,7 @@ const GridDefaults = {
     cellHeightThrottle: 100,
     margin: 10,
     auto: true,
-    minWidth: 768,
+    oneColumnSize: 768,
     float: false,
     staticGrid: false,
     animate: true,
@@ -100,6 +100,13 @@ class GridStack {
         if (opts.column === 'auto') {
             delete opts.column;
         }
+        // 'minWidth' legacy support in 5.1
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        let anyOpts = opts;
+        if (anyOpts.minWidth !== undefined) {
+            opts.oneColumnSize = opts.oneColumnSize || anyOpts.minWidth;
+            delete anyOpts.minWidth;
+        }
         // elements attributes override any passed options (like CSS style) - merge the two together
         let defaults = Object.assign(Object.assign({}, utils_1.Utils.cloneDeep(GridDefaults)), { column: utils_1.Utils.toNumber(el.getAttribute('gs-column')) || 12, minRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-min-row')) || 0, maxRow: rowAttr ? rowAttr : utils_1.Utils.toNumber(el.getAttribute('gs-max-row')) || 0, staticGrid: utils_1.Utils.toBool(el.getAttribute('gs-static')) || false, _styleSheetClass: 'grid-stack-instance-' + (Math.random() * 10000).toFixed(0), alwaysShowResizeHandle: opts.alwaysShowResizeHandle || false, resizable: {
                 autoHide: !(opts.alwaysShowResizeHandle || false),
@@ -116,9 +123,9 @@ class GridStack {
         }
         this.opts = utils_1.Utils.defaults(opts, defaults);
         opts = null; // make sure we use this.opts instead
-        this.initMargin(); // part of settings defaults...
+        this._initMargin(); // part of settings defaults...
         // Now check if we're loading into 1 column mode FIRST so we don't do un-necessary work (like cellHeight = width / 12 then go 1 column)
-        if (this.opts.column !== 1 && !this.opts.disableOneColumnMode && this._widthOrContainer() <= this.opts.minWidth) {
+        if (this.opts.column !== 1 && !this.opts.disableOneColumnMode && this._widthOrContainer() <= this.opts.oneColumnSize) {
             this._prevColumn = this.getColumn();
             this.opts.column = 1;
         }
@@ -151,7 +158,8 @@ class GridStack {
         }
         this.el.classList.add(this.opts._styleSheetClass);
         this._setStaticClass();
-        this.engine = new gridstack_engine_1.GridStackEngine({
+        let engineClass = this.opts.engineClass || GridStack.engineClass || gridstack_engine_1.GridStackEngine;
+        this.engine = new engineClass({
             column: this.getColumn(),
             float: this.opts.float,
             maxRow: this.opts.maxRow,
@@ -284,6 +292,13 @@ class GridStack {
             grid.load(children);
         }
         return grid;
+    }
+    /** call this method to register your engine instead of the default one.
+     * See instead `GridStackOptions.engineClass` if you only need to
+     * replace just one instance.
+     */
+    static registerEngine(engineClass) {
+        GridStack.engineClass = engineClass;
     }
     /** @internal create placeholder DIV as needed */
     get placeholder() {
@@ -978,7 +993,7 @@ class GridStack {
         // re-use existing margin handling
         this.opts.margin = value;
         this.opts.marginTop = this.opts.marginBottom = this.opts.marginLeft = this.opts.marginRight = undefined;
-        this.initMargin();
+        this._initMargin();
         this._updateStyles(true); // true = force re-create
         return this;
     }
@@ -1262,7 +1277,7 @@ class GridStack {
         }
         else {
             // else check for 1 column in/out behavior
-            let oneColumn = !this.opts.disableOneColumnMode && this.el.clientWidth <= this.opts.minWidth;
+            let oneColumn = !this.opts.disableOneColumnMode && this.el.clientWidth <= this.opts.oneColumnSize;
             if ((this.opts.column === 1) !== oneColumn) {
                 changedColumn = true;
                 if (this.opts.animate) {
@@ -1318,7 +1333,7 @@ class GridStack {
     /** @internal */
     static getGridElements(els) { return utils_1.Utils.getElements(els); }
     /** @internal initialize margin top/bottom/left/right and units */
-    initMargin() {
+    _initMargin() {
         let data;
         let margin = 0;
         // support passing multiple values like CSS (ex: '5px 10px 0 20px')
