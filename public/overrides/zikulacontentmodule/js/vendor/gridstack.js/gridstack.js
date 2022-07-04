@@ -12,7 +12,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridStack = void 0;
 /*!
- * GridStack 5.1.0
+ * GridStack 5.1.1
  * https://gridstackjs.com/
  *
  * Copyright (c) 2021-2022 Alain Dumesny

@@ -1,5 +1,5 @@
 /**
- * dd-draggable.ts 5.1.0
+ * dd-draggable.ts 5.1.1
  * Copyright (c) 2021-2022 Alain Dumesny - see GridStack root license
  */
 import { DDBaseImplement, HTMLElementExtendOpt } from './dd-base-impl';
