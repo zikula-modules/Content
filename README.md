@@ -1,3 +1,7 @@
+# Deprecated
+
+This module has been deprecated as part of [Zikula 4 slimming diet](https://github.com/zikula/core/blob/main/ZIKULA-4.0.md).
+
 # Content module for the Zikula Application Framework
 
 [![](https://github.com/zikula-modules/Content/workflows/Generate%20module/badge.svg)](https://github.com/zikula-modules/Content/actions?query=workflow%3A"Generate+module")
